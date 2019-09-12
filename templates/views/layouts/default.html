@@ -1,0 +1,130 @@
+{% import "mixins/flash-messages.html" as FM %}
+
+<!doctype html>
+<html lang="en" class="h-100">
+	<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<title>{{ title|default("Safe Water Optimization Tool") }}</title>
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <script src="//code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous">
+    </script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  
+		{# Customise the stylesheet for your site by editing /public/styles/site.sass #}
+		<link href="/styles/site.css" rel="stylesheet">
+
+		{# This file provides the default styling for the KeystoneJS Content Editor #}
+		{% if user and user.canAccessKeystone %}
+			<link href="/keystone/styles/content/editor.min.css" rel="stylesheet">
+		{% endif %}
+
+		{# HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
+		   Safely remove this block if you are not targeting IE8 #}
+		<!--[if lt IE 9]>
+			<script src="//cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.js"></script>
+			<script src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+		{# Include template-specific stylesheets by extending the css block #}
+		{% block css %}{% endblock %}
+
+		{# Add any other template-specific HEAD tags by extending the head block #}
+		{% block head %}{% endblock %}
+	</head>
+	<body class="d-flex flex-column h-100">
+
+		{# HEADER #}
+      <nav class="navbar navbar-expand-lg bg-swot-dark-blue shadow-sm" id="top-scroll">
+        <div class="container w-100">
+          <a href="/"><img class="main-logo" src="/assets/SWOT_LOGO.png" alt="swot logo"></a>
+          <button class="navbar-toggler collapsed first-button" type="button" data-toggle="collapse"
+            data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <div class="animated-icon1"><span></span><span></span><span></span></div>
+          </button>
+          <div class="navbar-collapse collapse" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto">
+              {% for link in navLinks %}
+								<li class="{{ 'nav-item active' if link.key == section else 'nav-item' }}">
+									<a class="nav-link link" href="{{ link.href }}">{{ link.label }}</a>
+								</li>
+							{% endfor %}
+            </ul>
+            <div class="form-inline mt-2 mt-md-0">
+              {% if user %}
+								{% if user.canAccessKeystone %}
+                <a href="/keystone" class="btn btn-lg btn-outline-primary my-2 my-sm-0" type="button">Admin</a>
+								{% endif %}
+                <a href="/keystone/signout" class="btn btn-lg btn-outline-primary my-2 my-sm-0" type="button">LOG OUT</a>
+              {% else %}
+              <button class="btn btn-lg btn-outline-primary my-2 my-sm-0" type="button" data-toggle="modal"
+                data-target="#LoginModal">LOGIN</button>
+							{% endif %}
+
+            </div>
+          </div>
+        </div>
+      </nav>
+
+		{# BODY #}
+		<div id="body">
+			{# NOTE:
+			   There is no .container wrapping class around body blocks to allow more flexibility in design.
+			   Remember to include it in your templates when you override the intro and content blocks! #}
+
+			{# The Intro block appears above flash messages (used for temporary information display) #}
+			{% block intro %}{% endblock %}
+
+			{# Flash messages allow you to display once-off status messages to users, e.g. form
+			   validation errors, success messages, etc. #}
+			{{ FM.flashMessages(messages) }}
+
+			{# The content block should contain the body of your template"s content #}
+			{% block content %}{% endblock %}
+		</div>
+
+
+		{# FOOTER #}
+
+    <footer class="mt-auto">
+        <div class="container">
+          <ul class="footer-links">
+            <li><a href="/contactus.html">Contact Us</a></li>
+            <li><a href="/howitworks.html">How it Works</a></li>
+            <li><a href="/termsofuse.html">Terms of Use</a></li>
+            <li><a href="/privacypolicies.html">Privacy Policies</a></li>
+          </ul>
+          <p class="text-right mt-1 mb-0"><small>Copyright © 2019</small></p>
+        </div>
+      </footer>
+
+
+		{# JAVASCRIPT #}
+
+  <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+
+		{# The KeystoneJS Content Editor provides support for ks-editable data attributes,
+			which generate links to edit content for users who can access Keystone #}
+		{% if user and user.canAccessKeystone %}
+			<script src="/keystone/js/content/editor.js"></script>
+		{% endif %}
+
+		{# Add scripts that are globally required by your site here. #}
+
+		{# Include template-specific javascript files by extending the js block #}
+		{% block js %}{% endblock %}
+	</body>
+</html>

@@ -1,0 +1,171 @@
+{% extends "layouts/default.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="//unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.css">
+{% endblock %}
+
+{% block head %}
+<script src="//unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
+<script src="//unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+<script src="//unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
+<script src="//unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table-locale-all.min.js"></script>
+<script src="//unpkg.com/bootstrap-table@1.15.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+<script src="//kit.fontawesome.com/3a16ab57e5.js"></script>
+{% endblock %}
+
+
+{% block content %}
+<main role="main" class="flex-shrink-0">
+
+    <div class="container">
+      <div class=" pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Find life-saving information in routine water quality data.</h1>
+      </div>
+    </div>
+
+    <div class="container mb-4">
+      <div class="select">
+        <select class="form-control" id="locale">
+          <option value="en-US" selected>CAMP 001</option>
+          <option value="fr-FR">CAMP 002</option>
+          <option value="de-DE">CAMP 003</option>
+        </select>
+      </div>
+
+      <div id="toolbar">
+        <button id="remove" class="btn btn-danger" disabled>
+          <i class="glyphicon glyphicon-remove"></i> Delete
+        </button>
+      </div>
+
+      <table id="table" data-toolbar="#toolbar" data-search="false" data-show-refresh="true" data-show-toggle="true"
+        data-show-fullscreen="false" data-show-columns="true" data-detail-view="false" data-show-export="true"
+        data-click-to-select="true" data-detail-formatter="detailFormatter" data-minimum-count-columns="2"
+        data-show-pagination-switch="false" data-pagination="true" data-id-field="id" data-page-size="10"
+        data-page-list="[10, 25, 50, 100, all]" data-show-footer="false" data-side-pagination="local"
+        data-url="/assets/examledata.json" data-response-handler="responseHandler">
+      </table>
+
+    </div>
+
+    <script>
+        var $table = $('#table')
+        var $remove = $('#remove')
+        var selections = []
+    
+        function getIdSelections() {
+          return $.map($table.bootstrapTable('getSelections'), function (row) {
+            return row.id
+          })
+        }
+    
+        function responseHandler(res) {
+          $.each(res.rows, function (i, row) {
+            row.state = $.inArray(row.id, selections) !== -1
+          })
+          return res
+        }
+    
+        function detailFormatter(index, row) {
+          var html = []
+          $.each(row, function (key, value) {
+            html.push('<p><b>' + key + ':</b> ' + value + '</p>')
+          })
+          return html.join('')
+        }
+    
+        window.operateEvents = {
+          'click .like': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row))
+          },
+          'click .remove': function (e, value, row, index) {
+            $table.bootstrapTable('remove', {
+              field: 'id',
+              values: [row.id]
+            })
+          }
+        }
+    
+        function totalTextFormatter(data) {
+          return 'Total'
+        }
+    
+        function totalNameFormatter(data) {
+          return data.length
+        }
+    
+        function initTable() {
+          $table.bootstrapTable('destroy').bootstrapTable({
+            locale: $('#locale').val(),
+            columns: [
+              [{
+                field: 'state',
+                checkbox: true,
+                rowspan: 2,
+                align: 'center',
+                valign: 'middle'
+              }, {
+                title: 'ARCHIVED REPORT TABLE',
+                colspan: 4,
+                align: 'center'
+              }],
+              [{
+                field: 'name',
+                title: 'FILE NAME',
+                sortable: true,
+                footerFormatter: totalNameFormatter,
+                align: 'center'
+              }, {
+                field: 'uploadDate',
+                title: 'DATE UPLOADED',
+                sortable: true,
+                align: 'center',
+                footerFormatter: totalNameFormatter,
+                align: 'center'
+              }, {
+                field: 'location',
+                title: 'CAMP',
+                sortable: true,
+                align: 'center',
+                footerFormatter: totalNameFormatter,
+                align: 'center'
+              }, {
+                field: 'status',
+                title: 'STATUS',
+                sortable: true,
+                align: 'center',
+                footerFormatter: totalNameFormatter,
+                align: 'center'
+              }]
+            ]
+          })
+          $table.on('check.bs.table uncheck.bs.table ' +
+            'check-all.bs.table uncheck-all.bs.table',
+            function () {
+              $remove.prop('disabled', !$table.bootstrapTable('getSelections').length)
+    
+              // save your data, here just save the current page
+              selections = getIdSelections()
+              // push or splice the selections if you want to save all data selections
+            })
+          $table.on('all.bs.table', function (e, name, args) {
+            console.log(name, args)
+          })
+          $remove.click(function () {
+            var ids = getIdSelections()
+            $table.bootstrapTable('remove', {
+              field: 'id',
+              values: ids
+            })
+            $remove.prop('disabled', true)
+          })
+        }
+    
+        $(function () {
+          initTable()
+          $('#locale').change(initTable)
+        })
+      </script>
+
+  </main>
+{% endblock %}

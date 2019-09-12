@@ -1,0 +1,38 @@
+{% extends "layouts/default.html" %}
+
+{% block content %}
+<main role="main" class="flex-shrink-0">
+
+    <div class="container">
+      <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Before uploading the data, did you ?</h1>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-body">
+            <p class=" mt-3 mb-4 lead">
+              Include in your file name: camp, date and time.
+            </p>
+            <p class=" mt-3 mb-4 lead">
+              Check your rows and column to match the original.
+            </p>
+            <p class=" mt-3 mb-4 lead">
+              Verify there is no missing data.
+            </p>
+            <p class=" mt-3 mb-4 lead">
+              Save your data as a .csv file.
+            </p>
+          </div>
+          <div class="card-footer">
+            <button type="button" class="btn btn-lg btn-block btn-primary" data-toggle="modal"
+              data-target="#UploadModal">Upload</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+{% endblock %}

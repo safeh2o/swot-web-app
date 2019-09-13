@@ -21,14 +21,18 @@ keystone.init({
 	'views': 'templates/views',
 	'view engine': '.html',
 	'custom engine': cons.nunjucks,
-
+  'signin logo': '/assets/SWOT_LOGO_bg.png',
   'mongo': process.env.MONGO_DB_CONNECTION_STRING || 'mongodb://localhost/my-project',
 
 	'emails': 'templates/emails',
 
 	'auto update': true,
 	'session': true,
-	'auth': true,
+  'auth': true,
+  'signin redirect': '/',
+  'signout redirect': '/',
+  'admin path': "admin",
+  'session store': 'mongo',
 	'user model': 'User',
 });
 

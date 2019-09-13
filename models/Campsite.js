@@ -8,7 +8,7 @@ var Types = keystone.Field.Types;
 var Campsite = new keystone.List('Campsite');
 
 Campsite.add({
-	name: { type: Types.Name, required: true, index: true },
+	name: { type: Types.Text, required: true, index: true },
 });
 
 /**

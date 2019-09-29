@@ -4,12 +4,15 @@
   "private": true,
   "dependencies": {
     "async": "2.1.4",
+    "azure-storage": "^2.10.3",
     "connect-mongo": "^3.0.0",
     "consolidate": "0.14.5",
     "dotenv": "4.0.0",
     "keystone": "4.0.0-beta.5",
     "keystone-email": "1.0.5",
+    "keystone-storage-adapter-azure": "^1.1.0",
     "lodash": "^4.13.1",
+    "mailgun-js": "^0.22.0",
     "node-sass": "4.5.0",
     "node-sass-middleware": "^0.11.0",
     "nunjucks": "3.0.0"
@@ -24,6 +27,5 @@
     "lint": "eslint .",
     "start": "node keystone.js",
     "watch": "nodemon -e js,html keystone.js"
-
   }
 }

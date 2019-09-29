@@ -28,21 +28,28 @@ keystone.pre('render', middleware.flashMessages);
 
 // Import Route Controllers
 var routes = {
-	views: importRoutes('./views'),
+  views: importRoutes('./views'),
+  api: importRoutes('./api')
 };
 
 // Setup Route Bindings
 exports = module.exports = function (app) {
 	// Views
   app.get('/', routes.views.index);
-  app.get('/dashboard', routes.views.dashboard);
-  app.get('/download', routes.views.download);
-  app.get('/upload', routes.views.upload);
-  app.get('/results', routes.views.results);
-  app.get('/archived', routes.views.archived);
+  app.get('/dashboard', middleware.requireUser, routes.views.dashboard);
+  app.get('/download', middleware.requireUser, routes.views.download);
+  app.get('/upload', middleware.requireUser, routes.views.upload);
+  app.get('/results', middleware.requireUser, routes.views.results);
+  app.get('/archived', middleware.requireUser, routes.views.archived);
 	app.get('/blog/:category?', routes.views.blog);
 	app.get('/blog/post/:post', routes.views.post);
 	app.all('/contact', routes.views.contact);
+
+  // File Upload
+  app.all('/api/upload/:id/update', keystone.middleware.api, routes.api.upload.update);
+  app.all('/api/upload/create', keystone.middleware.api, routes.api.upload.create);
+  app.get('/api/results/all', keystone.middleware.api, routes.api.results.all);
+  app.get('/api/results/archived', keystone.middleware.api, routes.api.results.archived);
 
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);

@@ -56,6 +56,7 @@ keystone.set('routes', require('./routes'));
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set('nav', {
   users: 'users',
+  areas: ['countries', 'projects'],
   fieldsites: 'fieldsites',
   datasets: 'datasets',
   posts: ['posts', 'post-categories'],

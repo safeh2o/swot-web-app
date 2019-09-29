@@ -11,7 +11,8 @@ User.add({
 	name: { type: Types.Name, required: true, index: true },
 	email: { type: Types.Email, initial: true, required: true, unique: true, index: true },
   password: { type: Types.Password, initial: true, required: true },
-  fieldsite: { type: Types.Relationship, ref: 'Fieldsite', index: true }
+  //datasets: { type: Types.Relationship, ref: 'Dataset', many: true },
+  //projects: { type: Types.Relationship, ref: 'Project', many: true }
 }, 'Permissions', {
   isAdmin: { type: Boolean, label: 'Can access Keystone', index: true },
 });
@@ -25,10 +26,9 @@ User.schema.virtual('canAccessKeystone').get(function () {
 /**
  * Relationships
  */
+User.relationship({ ref: 'Dataset', path: 'dataset', refPath: 'user' });
+User.relationship({ ref: 'Project', path: 'projects', refPath: 'users' });
 User.relationship({ ref: 'Post', path: 'posts', refPath: 'author' });
-User.relationship({ ref: 'Dataset', path: 'datasets', refPath: 'user' });
-
-
 /**
  * Registration
  */

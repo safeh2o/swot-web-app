@@ -9,30 +9,268 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="upload container">
       <div class="card-deck mb-3 text-center">
         <div class="card mb-4 shadow-sm">
           <div class="card-body">
-            <p class=" mt-3 mb-4 lead">
-              Include in your file name: camp, date and time.
-            </p>
-            <p class=" mt-3 mb-4 lead">
-              Check your rows and column to match the original.
-            </p>
-            <p class=" mt-3 mb-4 lead">
-              Verify there is no missing data.
-            </p>
-            <p class=" mt-3 mb-4 lead">
-              Save your data as a .csv file.
-            </p>
+            <ul class="no_bullet">
+              <li class="check">Download the data template from <a href="download.html">here</a>.</li>
+              <li class="check">Read the instructions in the downloaded file.</li>
+              <li class="check">Include in your file name: fieldsite, date and time.</li>
+              <li class="check">Verify there is no missing data.</li>
+              <li class="check">Save your data in the Excel file.</li>
+            </ul>
           </div>
           <div class="card-footer">
-            <button type="button" class="btn btn-lg btn-block btn-primary" data-toggle="modal"
-              data-target="#UploadModal">Upload</button>
+            <div class="upload-box" id="dropbox">
+              <img class="upload_logo mt-3" src="assets/upload.svg" alt="upload icon" />
+
+              <input type="file" id="fileElem" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" onchange="handleFiles(this.files)">
+
+              <button type="button" id="fileSelect" class="btn btn-lg btn-block btn-primary">Choose files to upload</button>
+
+              <div class="water-container hide">
+                <div class="glass">
+                  <div class="water"></div>
+                </div>
+              </div>
+              <p>or drag and drop them here</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
+    <script type="text/javascript">
+
+      const fileSelect = document.getElementById("fileSelect"),
+        fileElem = document.getElementById("fileElem");
+
+      fileSelect.addEventListener("click", function (e) {
+        if (fileElem) {
+          fileElem.click();
+        }
+      }, false);
+
+
+      function setupDropbox() {
+        let dropbox;
+
+        dropbox = document.getElementById("dropbox");
+        dropbox.addEventListener("dragenter", dragenter, false);
+        dropbox.addEventListener("dragover", dragover, false);
+        dropbox.addEventListener("drop", drop, false);
+      }
+
+      function dragenter(e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+
+      function dragover(e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+
+      function drop(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        const dt = e.dataTransfer;
+        const files = dt.files;
+
+        handleFiles(files);
+      }
+
+      function animateWaves() {
+        setTimeout(() => {$('.glass').toggleClass("up");}, 250); 
+        setTimeout(() => {animateWaves()}, 3500); 
+      }
+
+      function toggleWaterAnimation() {
+        $('.upload-box').children().not('.water-container').toggleClass("hide");
+        $(".water-container").toggleClass("hide");
+      }
+
+      function handleFiles(files) {
+        if (!files || !files.length || !files[0].name) {
+          return;
+        }
+        var isExcel = files[0].name.endsWith(".csv")  || files[0].name.endsWith(".xls") || files[0].name.endsWith(".xlsx");
+        
+        if (!isExcel) {
+          return;
+        }
+
+        toggleWaterAnimation();
+        animateWaves();
+        uploadFile(files[0]);
+      }
+
+      function uploadFile(file){
+        var newFile = new FormData();
+        newFile.append('file_upload', file);
+
+        var opts = {
+          url: '/api/upload/create',
+          data: newFile,
+          cache: false,
+          contentType: false,
+          processData: false,
+          type: 'POST',
+
+          success: function(data){
+            console.log('File upload succeeded, name: ' + data.uploadedFile.file.name);
+            setupFormSubmit(data);
+            $("#id").val(data.uploadedFile._id);
+            showDetailsModal(data.fieldsites);
+          },
+
+          //This error function is called if the POST fails for submitting the file itself.
+          error: function(error) {
+            logError(error);
+          }
+        };
+
+        //Execute the AJAX call.
+        $.ajax(opts);
+      }
+
+      function showDetailsModal(userFieldsites) {
+        $.each(userFieldsites, function(index, fieldsite) {   
+            $('#fieldsite')
+                .append($("<option></option>")
+                            .attr("value", fieldsite._id)
+                            .text(fieldsite.name)); 
+        });
+
+        document.getElementById('dateOfReading').valueAsDate = new Date();
+
+        $('#FileUploadDetailsModal').on('hidden.bs.modal', function () {
+          toggleWaterAnimation();
+        });
+        $('#FileUploadDetailsModal').modal({ backdrop: 'static', keyboard: false, focus: true});
+      }
+
+      function setupFormSubmit(data) {
+        $("#formUpload").submit(function(event) {
+          event.preventDefault();
+          var uploadForm = $("#formUpload").serialize();
+          uploadForm += "&fieldsite=" + $('#fieldsite').val();
+          //Update the file with the information above.
+          $.get('/api/upload/'+data.uploadedFile._id+'/update', uploadForm, function(data) {
+            toggleWaterAnimation();
+            console.log('File information updated: ', data);
+            $('#FileUploadDetailsModal').modal('hide');
+            if (data.file) {
+              showConfirmModal("Your file was submitted for processing. You will receive results in an e-mail shortly.");
+            } else {
+              showConfirmModal("An error occurred while uploading your file. Please contact system administrator");
+            }
+          })
+
+          //If the metadata update fails:
+          .fail(function(error) {
+            toggleWaterAnimation();
+            logError(error);
+          });
+        });
+      }
+
+      function showConfirmModal(message){
+        $("#confirmMsg").text(message);
+        $('#ConfirmModal').modal({ backdrop: true, keyboard: true, focus: true});
+        $('#ConfirmModal').on('hidden.bs.modal', function () {
+          toggleWaterAnimation();
+        })
+      }
+
+      function logError(error) {
+        console.error('The file was not uploaded to the server. Here is the error message from the server:');
+        console.error('Server error: '+ error );
+        console.error('Server status: '+ error && error.status ? error.status : "");
+        const message = error && error.responseJSON && error.responseJSON.error ? error.responseJSON.error : null;
+        console.error('Server message: '+  message);
+        showConfirmModal("An error occurred during file upload. Details: " + (message ? message : "Unknown Error"));
+        toggleWaterAnimation();
+      }
+
+      setupDropbox();
+
+    </script>
+
+  <!-- The Upload Modal -->
+  <div class="modal fade" id="FileUploadDetailsModal">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+  
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">ADD FILE INFORMATION</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+  
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="form" role="form" autocomplete="off" id="formUpload">
+              <div class="form-group">
+                <label for="name">Dataset Name</label>
+                <input type="hidden" name="id" id="id">
+                <input type="text" class="form-control form-control-lg" name="name" id="name" required="">
+                <div class="invalid-feedback">Oops, you missed this one.</div>
+              </div>
+  
+              <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" class="form-control form-control-lg" name="description" id="description" required="">
+                <div class="invalid-feedback">Oops, you missed this one.</div>
+              </div>
+  
+              <div class="form-group">
+                <label for="dateOfReading">Date of Reading</label>
+                <input type="date" class="form-control form-control-lg" name="dateOfReading" id="dateOfReading" required="">
+                <div class="invalid-feedback">Oops, you missed this one.</div>
+              </div>
+  
+              <div class="form-group">
+                <label for="fieldsite">Site</label>
+                <select id="fieldsite" class="form-control" required="">
+                </select>
+              </div>
+  
+              <div class="form-group pt-4">
+                <button class="btn btn-danger btn-lg" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                <button type="submit" class="btn btn-primary btn-lg float-right" id="btnSave">Save</button>
+              </div>
+            </form>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+
+  <!-- The Upload Modal -->
+  <div class="modal fade" id="ConfirmModal">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+  
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">FILE UPLOAD</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+  
+          <!-- Modal body -->
+          <div class="modal-body">
+            <p id="confirmMsg">
+
+            </p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 {% endblock %}

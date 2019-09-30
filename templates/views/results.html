@@ -8,7 +8,6 @@
 <script src="//unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
 <script src="//unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
 <script src="//unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
-<script src="//unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table-locale-all.min.js"></script>
 <script src="//unpkg.com/bootstrap-table@1.15.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
 <script src="//kit.fontawesome.com/3a16ab57e5.js"></script>
 {% endblock %}
@@ -18,19 +17,24 @@
 <main role="main" class="flex-shrink-0">
 
     <div class="container">
-      <div class=" pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+      <div class="  px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
         <h1 class="display-4">Find life-saving information in routine water quality data.</h1>
       </div>
     </div>
 
     <div class="container mb-4">
       <div class="select">
-        <select class="form-control" id="locale">
-          <option value="en-US" selected>CAMP 001</option>
-          <option value="fr-FR">CAMP 002</option>
-          <option value="de-DE">CAMP 003</option>
+        <select class="form-control" id="sites">
         </select>
       </div>
+
+      <table id="resultsTable" data-toolbar="#toolbar" data-search="false" data-show-refresh="true" data-show-toggle="false"
+        data-show-fullscreen="false" data-show-columns="false" data-detail-view="false" data-show-export="false"
+        data-click-to-select="true" data-detail-formatter="detailFormatter" data-minimum-count-columns="2"
+        data-show-pagination-switch="false" data-pagination="true" data-id-field="id" data-page-size="10"
+        data-page-list="[10, 25, 50, 100, all]" data-show-footer="false" data-side-pagination="local"
+        data-response-handler="responseHandler">
+      </table>
 
       <div id="toolbar">
         <button id="remove" class="btn btn-danger" disabled>
@@ -38,23 +42,47 @@
         </button>
       </div>
 
-      <table id="table" data-toolbar="#toolbar" data-search="false" data-show-refresh="true" data-show-toggle="true"
-        data-show-fullscreen="false" data-show-columns="true" data-detail-view="false" data-show-export="true"
-        data-click-to-select="true" data-detail-formatter="detailFormatter" data-minimum-count-columns="2"
-        data-show-pagination-switch="false" data-pagination="true" data-id-field="id" data-page-size="10"
-        data-page-list="[10, 25, 50, 100, all]" data-show-footer="false" data-side-pagination="local"
-        data-url="/assets/examledata.json" data-response-handler="responseHandler">
-      </table>
-
     </div>
 
   </main>
 
   <script>
-      var $table = $('#table')
-      var $remove = $('#remove')
-      var selections = []
-  
+      const $table = $('#resultsTable')
+      const $remove = $('#remove')
+      let selections = []
+      let tableData = [];
+
+      function loadDataIntoTable() {
+        $.get('/api/results/processed', null, function(data) {
+          tableData = data;
+          const sites = loadSites(data);
+          loadTableBySelectedSite();
+        });
+        
+      }
+
+      function loadTableBySelectedSite() {
+        const selectedSiteId = $( "#sites option:selected" ).val();
+        if (selectedSiteId) {
+            const dataByFirstSite = tableData.filter((d) => { return d.fieldsiteId == selectedSiteId});
+            $table.bootstrapTable('load', dataByFirstSite)
+          }
+      }
+
+      function loadSites(data) {
+        const sitesMapped = data.map((d) => {return {country: d.countryName, project: d.projectName, name: d.fieldsiteName, id: d.fieldsiteId }});
+        const sites = sitesMapped.filter((elem, index) => { return index === sitesMapped.findIndex(obj => {return JSON.stringify(obj) === JSON.stringify(elem)})});
+        $("#sites").empty();
+        $.each(sites, function(index, fieldsite) {   
+            $('#sites')
+                .append($("<option></option>")
+                            .attr("value", fieldsite.id)
+                            .attr("selected", index === 0)
+                            .text(`${fieldsite.country} > ${fieldsite.project} > ${fieldsite.name}`)); 
+        });
+        return sites;
+      }
+
       function getIdSelections() {
         return $.map($table.bootstrapTable('getSelections'), function (row) {
           return row.id
@@ -88,57 +116,68 @@
         }
       }
   
-      function totalTextFormatter(data) {
-        return 'Total'
-      }
-  
-      function totalNameFormatter(data) {
-        return data.length
+      function statusFormatter(value, row) {
+        if (row.datasetArtifacts && row.datasetArtifacts.length) {
+          return `<a href='/api/results/download?datasetId=${row.datasetId}'>Download</a>`
+        } else {
+          return "<label>Processing</label>";
+        }
       }
   
       function initTable() {
         $table.bootstrapTable('destroy').bootstrapTable({
-          locale: $('#locale').val(),
+          locale: 'en-US',
           columns: [
-            [{
+            [
+            {
               field: 'state',
               checkbox: true,
               rowspan: 2,
               align: 'center',
               valign: 'middle'
             }, {
-              title: 'ARCHIVED REPORT TABLE',
-              colspan: 4,
+              title: 'ANALYSIS RESULTS',
+              colspan: 5,
               align: 'center'
             }],
             [{
-              field: 'name',
-              title: 'FILE NAME',
+              field: 'datasetId',
+              visible: false
+            },
+              {
+              field: 'datasetName',
+              title: 'File name',
               sortable: true,
-              footerFormatter: totalNameFormatter,
               align: 'center'
             }, {
-              field: 'uploadDate',
-              title: 'DATE UPLOADED',
+              field: 'datasetDate',
+              title: 'Date Uploaded',
               sortable: true,
               align: 'center',
-              footerFormatter: totalNameFormatter,
               align: 'center'
             }, {
-              field: 'location',
-              title: 'CAMP',
+              field: 'fieldsiteName',
+              title: 'Site',
               sortable: true,
               align: 'center',
-              footerFormatter: totalNameFormatter,
               align: 'center'
             }, {
               field: 'status',
-              title: 'STATUS',
+              title: 'Status',
               sortable: true,
               align: 'center',
-              footerFormatter: totalNameFormatter,
+              formatter: statusFormatter,
               align: 'center'
-            }]
+            },
+            {
+              field: 'datasetArtifacts',
+              visible: false
+            },
+            {
+              field: 'datasetDesc',
+              visible: false
+            },
+          ]
           ]
         })
         $table.on('check.bs.table uncheck.bs.table ' +
@@ -153,6 +192,12 @@
         $table.on('all.bs.table', function (e, name, args) {
           console.log(name, args)
         })
+
+        $table.on('refresh.bs.table', function(data) {
+          loadDataIntoTable();
+        })
+
+
         $remove.click(function () {
           var ids = getIdSelections()
           $table.bootstrapTable('remove', {
@@ -163,9 +208,16 @@
         })
       }
   
-      $(function () {
-        initTable()
-        $('#locale').change(initTable)
+      function initSiteSelector() {
+        $('#sites').on('change', function() {
+          loadTableBySelectedSite();
+        });
+      }
+
+      $(document).ready(function() {
+        initSiteSelector();
+        initTable();
+        loadDataIntoTable();
       })
     </script>
 {% endblock %}

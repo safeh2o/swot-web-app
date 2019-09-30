@@ -31,3 +31,10 @@ exports.getIdentifier = function(dataItem) {
   }
   return `${dataItem.name.replace(/[^0-9a-z]/gi, '').toLowerCase()}-${dataItem._id}`;
 }
+
+exports.getIdentifierKeyValue = function(name, id) {
+  if (!name || !id) {
+    throw 'Incorrect dataitem passed - can not produce name/id of ' + name + ' ' + id;
+  }
+  return `${name.replace(/[^0-9a-z]/gi, '').toLowerCase()}-${id}`;
+}

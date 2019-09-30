@@ -4,7 +4,7 @@
 <main role="main" class="flex-shrink-0">
 
     <div class="container">
-      <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+      <div class=" px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
         <h1 class="display-4">Before uploading the data, did you ?</h1>
       </div>
     </div>
@@ -137,6 +137,7 @@
       }
 
       function showDetailsModal(userFieldsites) {
+        $("#fieldsite").empty();
         $.each(userFieldsites, function(index, fieldsite) {   
             $('#fieldsite')
                 .append($("<option></option>")

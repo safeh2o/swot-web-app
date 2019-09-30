@@ -6,8 +6,9 @@ const Dataset = keystone.list('Dataset');
 const dataService = require('../../utils/data.service');
 const Country = keystone.list('Country');
 const azure = require('azure-storage');
+const archiver = require('archiver');
 
-exports.all = async function(req, res) {
+exports.processed = async function(req, res) {
   await sendDatasets(false, req, res);
 }
 
@@ -15,15 +16,61 @@ exports.archived = async function(req, res) {
   await sendDatasets(true, req, res);
 }
 
+exports.download = async function(req, res) {
+  if (!req.query.datasetId) {
+    res.status(400).send('Invalid dataset id');
+  }
+  const processedDatasetArray = await fetchDatasets(false, req);
+  const datasetToDownload = processedDatasetArray.filter(d => d.datasetId == req.query.datasetId);
+  if (datasetToDownload.length == 0) {
+    res.status(400).send('Unable to find dataset');
+  }
+
+  const archive = archiver('zip');
+
+  archive.on('error', function(err) {
+    console.log(`Error during download operation`, err);
+    res.send('Error occurred during download operation');
+  });
+
+  res.header('Content-Type', 'application/zip');
+  const date = new Date(datasetToDownload[0].datasetDate);
+  const fileDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+  res.header('Content-Disposition', `attachment; filename="${dataService.getIdentifierKeyValue(datasetToDownload[0].datasetName, fileDate)}.zip"`);
+
+  archive.pipe(res);
+
+  datasetToDownload[0].datasetArtifacts.forEach((artifactLink) => {
+    //console.log('Processing ' + JSON.stringify(datasetToDownload[0]));
+    const filename = artifactLink.substring(artifactLink.lastIndexOf('/') + 1);
+    const containerName = `${dataService.getIdentifierKeyValue(datasetToDownload[0].countryName, datasetToDownload[0].countryId)}`;
+    archive.append(getBlobReadStream(containerName, artifactLink), { name: filename });
+  });
+
+  archive.finalize(function(err, bytes) {
+    if (err) {
+      throw err;
+    }
+  
+    console.log(bytes + ' total bytes');
+  });
+  
+}
+
 async function sendDatasets(archived, req, res) {
+  const userDatasets = await fetchDatasets(archived, req);
+  res.json(userDatasets)
+}
+
+async function fetchDatasets(archived, req) {
   const processedDatasetArray = await getUserDatasets(req.user.id, archived);
   //console.log('Datasets', JSON.stringify(processedDatasetArray));
   if (processedDatasetArray && processedDatasetArray.length) {
     const processedDatasetArrayWithBlobs = await getAnalysisResultsFromBlobStorage(processedDatasetArray);
     //console.log('Blob Datasets', JSON.stringify(processedDatasetArrayWithBlobs));
-    res.json(processedDatasetArrayWithBlobs);
+    return processedDatasetArrayWithBlobs;
   } else {
-    res.json([]);
+    return [];
   }
 }
 
@@ -69,10 +116,43 @@ async function getUserDatasets(userId, archived) {
   });
 }
 
+function getBlobReadStream(containerName, blobName) {
+  const blobService = azure.createBlobService();
+  return blobService.createReadStream(containerName, blobName);
+}
+
+async function searchAzureStorage(containerName, prefix, processedDatasetItem, dataset) {
+  const blobService = azure.createBlobService();
+  return new Promise((resolve, reject) => {
+    blobService.listBlobsSegmentedWithPrefix(containerName, prefix, null, { delimiter: "" }, (err, data) => {
+      if (err) {
+        console.log(`Error occurred while reading blobs from Azure, container name is ${containerName}, prefix is ${prefix} and error is ${err}`);
+        reject(err);
+      }
+      const viewModel = new ProcessedDatasetViewModel(
+        processedDatasetItem.country.name,
+        processedDatasetItem.country._id,
+        processedDatasetItem.fieldsite.name,
+        processedDatasetItem.fieldsite._id,
+        processedDatasetItem.project.name,
+        processedDatasetItem.project._id,
+        dataset.name,
+        dataset._id,
+        dataset.description,
+        dataset.dateOfReading, [], dataset.archived
+      );
+
+      if (data && data.entries && data.entries.length) {
+        viewModel.datasetArtifacts = data.entries.map(e => e.name);
+      }
+      resolve(viewModel);
+    });
+  });
+}
+
 async function getAnalysisResultsFromBlobStorage(processedDatasetArray) {
   return new Promise(async (resolve, reject) => {
     const result = [];
-    const blobService = azure.createBlobService();
     for (let outerIndex = 0; outerIndex < processedDatasetArray.length; outerIndex++) {
       const processedDatasetItem = processedDatasetArray[outerIndex];
 
@@ -82,38 +162,22 @@ async function getAnalysisResultsFromBlobStorage(processedDatasetArray) {
           const dataset = processedDatasetItem.datasets[innerIndex];
           const containerName = `${dataService.getIdentifier(processedDatasetItem.country)}`;
           const prefix = `${dataService.getIdentifier(processedDatasetItem.project)}/${dataService.getIdentifier(processedDatasetItem.fieldsite)}/${dataset._id}`;
-          console.log(`Container name is ${containerName} and prefix is ${prefix}`);
-          blobService.listBlobsSegmentedWithPrefix(containerName, prefix, null, { delimiter: "" }, (err, data) => {
-              if (err) {
-                console.log(`Error occurred while reading blobs from Azure, container name is ${containerName}, prefix is ${prefix} and error is ${err}`);
-              }
-              const viewModel = new ProcessedDatasetViewModel(
-                processedDatasetItem.country.name,
-                processedDatasetItem.country._id,
-                processedDatasetItem.fieldsite.name,
-                processedDatasetItem.fieldsite._id,
-                processedDatasetItem.project.name,
-                processedDatasetItem.project._id,
-                dataset.name,
-                dataset._id,
-                dataset.description,
-                dataset.dateOfReading, [], dataset.archived
-              );
+          console.log(`Searching Azure with container name  ${containerName} and prefix ${prefix}`);
 
-              if (data && data.entries && data.entries.length) {
-                viewModel.datasetArtifacts = data.entries.map(e => e.name);
-              }
-              result.push(viewModel);
-              if ((outerIndex === processedDatasetArray.length -1) && (innerIndex === processedDatasetItem.datasets.length -1)) {
-                resolve(result);
-              }
-            });
+          const azureBlob = await searchAzureStorage(containerName, prefix, processedDatasetItem, dataset);
+          if (azureBlob.datasetId) {
+            result.push(azureBlob);
+          } else {
+            reject(azureBlob);
+          }
         }
 
       } else {
         console.log('Warning: This project does not seem to have a country or fieldset assignment: ', processedDatasetItem);
       }
     }
+    result.sort((a,b) => {return a.datasetDate - b.datasetDate});
+    resolve(result);
   });
 }
 

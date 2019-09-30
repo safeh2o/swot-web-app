@@ -48,9 +48,9 @@ exports = module.exports = function (app) {
   // File Upload
   app.all('/api/upload/:id/update', keystone.middleware.api, routes.api.upload.update);
   app.all('/api/upload/create', keystone.middleware.api, routes.api.upload.create);
-  app.get('/api/results/all', keystone.middleware.api, routes.api.results.all);
+  app.get('/api/results/processed', keystone.middleware.api, routes.api.results.processed);
   app.get('/api/results/archived', keystone.middleware.api, routes.api.results.archived);
-
+  app.get('/api/results/download', keystone.middleware.api, routes.api.results.download);
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);
 

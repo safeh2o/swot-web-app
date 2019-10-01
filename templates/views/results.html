@@ -16,11 +16,11 @@
 
 <main role="main" class="flex-shrink-0">
 
-    <div class="container">
-      <div class="  px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">Find life-saving information in routine water quality data.</h1>
-      </div>
+  <div class="container">
+    <div class=" px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+      <h1 class="display-4" id="headerText">Analysis Results</h1>
     </div>
+  </div>
 
     <div class="container mb-4">
       <div class="select">
@@ -38,7 +38,7 @@
 
       <div id="toolbar">
         <button id="remove" class="btn btn-danger" disabled>
-          <i class="glyphicon glyphicon-remove"></i> Archive
+          <i class="glyphicon glyphicon-remove"></i> Archive Selected
         </button>
       </div>
 
@@ -53,7 +53,8 @@
       let tableData = [];
 
       function loadDataIntoTable() {
-        $.get('/api/results/processed', null, function(data) {
+        $.get(getEndpoint(), null, function(data) {
+          $table.bootstrapTable('load', []);
           tableData = data;
           const sites = loadSites(data);
           loadTableBySelectedSite();
@@ -85,13 +86,13 @@
 
       function getIdSelections() {
         return $.map($table.bootstrapTable('getSelections'), function (row) {
-          return row.id
+          return row.datasetId
         })
       }
   
       function responseHandler(res) {
         $.each(res.rows, function (i, row) {
-          row.state = $.inArray(row.id, selections) !== -1
+          row.state = $.inArray(row.datasetId, selections) !== -1
         })
         return res
       }
@@ -104,21 +105,21 @@
         return html.join('')
       }
   
-      window.operateEvents = {
-        'click .like': function (e, value, row, index) {
-          alert('You click like action, row: ' + JSON.stringify(row))
-        },
-        'click .remove': function (e, value, row, index) {
-          $table.bootstrapTable('remove', {
-            field: 'id',
-            values: [row.id]
-          })
-        }
-      }
+      // window.operateEvents = {
+      //   'click .like': function (e, value, row, index) {
+      //     alert('You click like action, row: ' + JSON.stringify(row))
+      //   },
+      //   'click .remove': function (e, value, row, index) {
+      //     $table.bootstrapTable('remove', {
+      //       field: 'id',
+      //       values: [row.id]
+      //     })
+      //   }
+      // }
   
       function statusFormatter(value, row) {
         if (row.datasetArtifacts && row.datasetArtifacts.length) {
-          return `<a href='/api/results/download?datasetId=${row.datasetId}'>Download</a>`
+          return `<a href='/api/results/download?datasetId=${row.datasetId}&archived=${isArchivedPage() ? 'true' : 'false'}'>Download</a>`
         } else {
           return "<label>Processing</label>";
         }
@@ -135,11 +136,13 @@
               rowspan: 2,
               align: 'center',
               valign: 'middle'
-            }, {
+            },
+             {
               title: 'ANALYSIS RESULTS',
               colspan: 5,
               align: 'center'
-            }],
+            }
+          ],
             [{
               field: 'datasetId',
               visible: false
@@ -199,12 +202,18 @@
 
 
         $remove.click(function () {
-          var ids = getIdSelections()
-          $table.bootstrapTable('remove', {
-            field: 'id',
-            values: ids
-          })
-          $remove.prop('disabled', true)
+          var ids = getIdSelections();
+          $remove.prop('disabled', true);
+          $.get(`/api/results/archive?datasetIds=${JSON.stringify(ids)}`, null, function(data) {
+            
+            $table.bootstrapTable('remove', {
+              field: 'id',
+              values: ids
+            });
+
+            loadDataIntoTable();
+            
+          });
         })
       }
   
@@ -214,7 +223,19 @@
         });
       }
 
+      function getEndpoint() {
+        return isArchivedPage() ? '/api/results/archived' : '/api/results/processed';
+      }
+
+      function isArchivedPage() {
+        return window.location.href.endsWith("archived");
+      }
+
       $(document).ready(function() {
+        if (isArchivedPage()) {
+          $remove.hide();
+          $("#headerText").text("Archived Results");
+        }
         initSiteSelector();
         initTable();
         loadDataIntoTable();

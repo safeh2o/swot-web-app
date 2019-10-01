@@ -7,7 +7,7 @@ exports = module.exports = function (req, res) {
 
 	// locals.section is used to set the currently selected
 	// item in the header navigation.
-	locals.section = 'results';
+	locals.section = req.url.endsWith('archived') ? 'archived' : 'results';
 
 	// Render the view
 	view.render('results');

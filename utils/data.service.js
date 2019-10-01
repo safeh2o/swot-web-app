@@ -3,6 +3,7 @@ const Country = keystone.list('Country');
 const Project = keystone.list('Project');
 const Fieldsite = keystone.list('Fieldsite');
 const mongoose = require('mongoose');
+const Dataset = keystone.list('Dataset');
 
 /**
  * Retrieves a fieldsite record by it's id
@@ -37,4 +38,11 @@ exports.getIdentifierKeyValue = function(name, id) {
     throw 'Incorrect dataitem passed - can not produce name/id of ' + name + ' ' + id;
   }
   return `${name.replace(/[^0-9a-z]/gi, '').toLowerCase()}-${id}`;
+}
+
+exports.archiveDatasets = async function(datasetIds) {
+  await datasetIds.forEach(async (datasetId) =>  {
+    console.log(`Archiving dataset ${datasetId}`);
+    await Dataset.model.findOneAndUpdate({_id: datasetId}, { $set: {archived: true }}).exec();
+  })
 }

@@ -20,7 +20,7 @@ exports.download = async function(req, res) {
   if (!req.query.datasetId) {
     res.status(400).send('Invalid dataset id');
   }
-  const processedDatasetArray = await fetchDatasets(false, req);
+  const processedDatasetArray = await fetchDatasets(req.query.archived, req);
   const datasetToDownload = processedDatasetArray.filter(d => d.datasetId == req.query.datasetId);
   if (datasetToDownload.length == 0) {
     res.status(400).send('Unable to find dataset');
@@ -51,11 +51,35 @@ exports.download = async function(req, res) {
     if (err) {
       throw err;
     }
-  
-    console.log(bytes + ' total bytes');
+
+    console.log(`Prepared zip file for download in size of ${bytes} total bytes`);
   });
   
 }
+
+exports.archive = async function(req, res) {
+  if (!req.query.datasetIds) {
+    res.status(400).send('No dataset id given');
+  }
+  let datasetIds = [];
+  try {
+    datasetIds = JSON.parse(req.query.datasetIds).map(d => d.toString());
+  } catch (e) {
+    res.status(400).send('Invalid dataset id');
+  }
+
+  const processedDatasets = await fetchDatasets(false, req);
+  const processedDatasetIds = processedDatasets.map(d => d.datasetId);
+  const datasetToArchive = processedDatasetIds.filter(d => datasetIds.indexOf(d.toString()) !== -1);
+
+  if (datasetToArchive.length == 0) {
+    res.status(400).send('Unable to find datasets');
+  } else {
+    await dataService.archiveDatasets(datasetToArchive);
+    res.json(datasetToArchive);
+  }
+}
+
 
 async function sendDatasets(archived, req, res) {
   const userDatasets = await fetchDatasets(archived, req);
@@ -97,7 +121,7 @@ async function getUserDatasets(userId, archived) {
       //get country since it's the container name
       const country = await dataService.getCountryByProject(project._id); 
       _.each(project.fieldsites, async (fieldsite, innerIndex) => {
-        const filter = {fieldsite: fieldsite._id};
+        const filter = {fieldsite: fieldsite._id, archived: false};
         if (archived) {
           filter.archived = true;
         }

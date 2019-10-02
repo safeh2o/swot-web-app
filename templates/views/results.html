@@ -22,7 +22,18 @@
     </div>
   </div>
 
-    <div class="container mb-4">
+  <div class="container hidden" id="noDataContainer">
+    <div class="jumbotron shadow-sm">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 align-middle">
+          <h2>No data available</h2>
+          <p class=" lead">You don't seem to have any data results available yet. Upload your dataset to start analysis. Analysis results may be delayed up to 5 minutes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="container mb-4" id="resultsContainer">
       <div class="select">
         <select class="form-control" id="sites">
         </select>
@@ -54,6 +65,13 @@
 
       function loadDataIntoTable() {
         $.get(getEndpoint(), null, function(data) {
+          if (!data || !data.length) {
+            $("#noDataContainer").removeClass("hidden");
+            $("#resultsContainer").addClass("hidden");
+          } else {
+            $("#noDataContainer").addClass("hidden");
+            $("#resultsContainer").removeClass("hidden");
+          }
           $table.bootstrapTable('load', []);
           tableData = data;
           const sites = loadSites(data);
@@ -135,7 +153,8 @@
               checkbox: true,
               rowspan: 2,
               align: 'center',
-              valign: 'middle'
+              valign: 'middle',
+              visible: !isArchivedPage()
             },
              {
               title: 'ANALYSIS RESULTS',

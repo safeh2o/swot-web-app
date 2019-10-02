@@ -63,14 +63,14 @@
 							{% endfor %}
             </ul>
             {% endif %}
-            <div class="form-inline mt-2 mt-md-0">
+            <div class="form-inline mt-2 mt-md-0 justify-center">
               {% if user %}
                 {% if user.canAccessKeystone %}
                 <a class="panel-link" href="/admin" tabindex="-1" title="SWOT Admin Panel"><img src="/assets/settings_w.svg" alt="Admin Panel" /></a>
 								{% endif %}
-                <button onclick="location.href='/admin/signout'" class="btn btn-lg btn-outline-primary my-2 my-sm-0" type="button">LOG OUT</button>
+                <button onclick="location.href='/admin/signout'" class="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap" type="button">LOG OUT</button>
               {% else %}
-              <button onclick="location.href='/admin/signin'" class="btn btn-lg btn-outline-primary my-2 my-sm-0" type="button">LOGIN</button>
+              <button onclick="location.href='/admin/signin'" class="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap" type="button">LOGIN</button>
 							{% endif %}
 
             </div>

@@ -19,11 +19,13 @@ exports.archived = async function(req, res) {
 exports.download = async function(req, res) {
   if (!req.query.datasetId) {
     res.status(400).send('Invalid dataset id');
+    return;
   }
   const processedDatasetArray = await fetchDatasets(req.query.archived, req);
   const datasetToDownload = processedDatasetArray.filter(d => d.datasetId == req.query.datasetId);
   if (datasetToDownload.length == 0) {
     res.status(400).send('Unable to find dataset');
+    return;
   }
 
   const archive = archiver('zip');
@@ -31,6 +33,7 @@ exports.download = async function(req, res) {
   archive.on('error', function(err) {
     console.log(`Error during download operation`, err);
     res.send('Error occurred during download operation');
+    return;
   });
 
   res.header('Content-Type', 'application/zip');
@@ -60,12 +63,14 @@ exports.download = async function(req, res) {
 exports.archive = async function(req, res) {
   if (!req.query.datasetIds) {
     res.status(400).send('No dataset id given');
+    return;
   }
   let datasetIds = [];
   try {
     datasetIds = JSON.parse(req.query.datasetIds).map(d => d.toString());
   } catch (e) {
     res.status(400).send('Invalid dataset id');
+    return;
   }
 
   const processedDatasets = await fetchDatasets(false, req);
@@ -74,6 +79,7 @@ exports.archive = async function(req, res) {
 
   if (datasetToArchive.length == 0) {
     res.status(400).send('Unable to find datasets');
+    return;
   } else {
     await dataService.archiveDatasets(datasetToArchive);
     res.json(datasetToArchive);

@@ -6,10 +6,16 @@ require('dotenv').config();
 var keystone = require('keystone');
 var cons = require('consolidate');
 var nunjucks = require('nunjucks');
+var mongoose = require('mongoose');
 
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
 // and documentation.
+
+mongoose.set('server', {
+  socketOptions: {
+      keepAlive: 1
+  }});
 
 keystone.init({
 	'name': 'swot-web',
@@ -48,6 +54,8 @@ keystone.set('locals', {
 	utils: keystone.utils,
 	editable: keystone.content.editable,
 });
+
+keystone.set('mongoose', mongoose);
 
 // Load your project's Routes
 keystone.set('routes', require('./routes'));

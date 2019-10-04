@@ -28,12 +28,7 @@
               <input type="file" id="fileElem" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" onchange="handleFiles(this.files)">
 
               <button type="button" id="fileSelect" class="btn btn-lg btn-block btn-primary">Choose files to upload</button>
-
-              <div class="water-container hide">
-                <div class="glass">
-                  <div class="water"></div>
-                </div>
-              </div>
+              
               <p>or drag and drop them here</p>
             </div>
           </div>
@@ -82,14 +77,9 @@
         handleFiles(files);
       }
 
-      function animateWaves() {
-        setTimeout(() => {$('.glass').toggleClass("up");}, 250); 
-        setTimeout(() => {animateWaves()}, 3500); 
-      }
 
       function toggleWaterAnimation() {
-        $('.upload-box').children().not('.water-container').toggleClass("hide");
-        $(".water-container").toggleClass("hide");
+        toggleSpinner();
       }
 
       function handleFiles(files) {
@@ -102,8 +92,7 @@
           return;
         }
 
-        toggleWaterAnimation();
-        animateWaves();
+        showSpinner();
         uploadFile(files[0]);
       }
 
@@ -120,7 +109,8 @@
           type: 'POST',
 
           success: function(data){
-            console.log('File upload succeeded, name: ' + data.uploadedFile.file.name);
+            hideSpinner();
+            console.log('File upload succeeded, name: ' + data.uploadedFile.file.filename);
             setupFormSubmit(data);
             $("#id").val(data.uploadedFile._id);
             showDetailsModal(data.fieldsites);
@@ -148,7 +138,7 @@
         document.getElementById('dateOfReading').valueAsDate = new Date();
 
         $('#FileUploadDetailsModal').on('hidden.bs.modal', function () {
-          toggleWaterAnimation();
+          hideSpinner();
         });
         $('#FileUploadDetailsModal').modal({ backdrop: 'static', keyboard: false, focus: true});
       }
@@ -159,8 +149,9 @@
           var uploadForm = $("#formUpload").serialize();
           uploadForm += "&fieldsite=" + $('#fieldsite').val();
           //Update the file with the information above.
+          showSpinner();
           $.get('/api/upload/'+data.uploadedFile._id+'/update', uploadForm, function(data) {
-            toggleWaterAnimation();
+            hideSpinner();
             console.log('File information updated: ', data);
             $('#FileUploadDetailsModal').modal('hide');
             if (data.file) {
@@ -172,19 +163,12 @@
 
           //If the metadata update fails:
           .fail(function(error) {
-            toggleWaterAnimation();
+            hideSpinner();
             logError(error);
           });
         });
       }
 
-      function showConfirmModal(message){
-        $("#confirmMsg").text(message);
-        $('#ConfirmModal').modal({ backdrop: true, keyboard: true, focus: true});
-        $('#ConfirmModal').on('hidden.bs.modal', function () {
-          toggleWaterAnimation();
-        })
-      }
 
       function logError(error) {
         console.error('The file was not uploaded to the server. Here is the error message from the server:');
@@ -193,7 +177,7 @@
         const message = error && error.responseJSON && error.responseJSON.error ? error.responseJSON.error : null;
         console.error('Server message: '+  message);
         showConfirmModal("An error occurred during file upload. Details: " + (message ? message : "Unknown Error"));
-        toggleWaterAnimation();
+        hideSpinner();
       }
 
       setupDropbox();
@@ -250,28 +234,5 @@
       </div>
     </div>
 
-  <!-- The Upload Modal -->
-  <div class="modal fade" id="ConfirmModal">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-  
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">FILE UPLOAD</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-  
-          <!-- Modal body -->
-          <div class="modal-body">
-            <p id="confirmMsg">
-
-            </p>
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-          </div>
-        </div>
-      </div>
-    </div>
   </main>
 {% endblock %}

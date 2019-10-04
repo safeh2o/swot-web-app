@@ -17,6 +17,11 @@ mongoose.set('server', {
       keepAlive: 1
   }});
 
+mongoose.connection.on('error', function(err){
+    console.log(error(`Mongoose default connection has occured ${err} error`));
+    mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING);
+});
+
 keystone.init({
 	'name': 'swot-web',
 	'brand': 'swot-web',

@@ -65,10 +65,11 @@
             {% endif %}
             <div class="form-inline mt-2 mt-md-0 justify-center">
               {% if user %}
+              <a class="panel-link" href="#" id="accountDetails" tabindex="-1" title="Account Details" onclick="$('#UserDetailsModal').modal({ backdrop: 'static', keyboard: false, focus: true})"><img src="/assets/user.svg" alt="Account Details" /></a>
                 {% if user.canAccessKeystone %}
                 <a class="panel-link" href="/admin" tabindex="-1" title="SWOT Admin Panel"><img src="/assets/settings_w.svg" alt="Admin Panel" /></a>
-								{% endif %}
-                <button onclick="location.href='/admin/signout'" class="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap" type="button">LOG OUT</button>
+                {% endif %}
+                <a class="panel-link" href="/admin/signout" id="accountDetails" tabindex="-1" title="Log Out"><img src="/assets/logout.svg" alt="Log Out" /></a>
               {% else %}
               <button onclick="location.href='/admin/signin'" class="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap" type="button">LOGIN</button>
 							{% endif %}
@@ -80,6 +81,11 @@
 
 		{# BODY #}
 		<div id="body">
+        <div class="water-container hide">
+            <div class="glass">
+              <div class="water"></div>
+            </div>
+        </div>
 			{# NOTE:
 			   There is no .container wrapping class around body blocks to allow more flexibility in design.
 			   Remember to include it in your templates when you override the intro and content blocks! #}
@@ -92,7 +98,84 @@
 			{{ FM.flashMessages(messages) }}
 
 			{# The content block should contain the body of your template"s content #}
-			{% block content %}{% endblock %}
+      {% block content %}{% endblock %}
+      
+      {% if user %}
+        <!-- The Upload Modal -->
+        <div class="modal fade" id="UserDetailsModal">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">USER DETAILS</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form class="form" role="form" autocomplete="off" id="formUser">
+                  <div class="form-group">
+                    <label for="name">First Name</label>
+                    <input type="text" class="form-control form-control-lg" name="firstName" id="firstName" required="" value="{{ user.name.first }}">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="name">Last Name</label>
+                    <input type="text" class="form-control form-control-lg" name="lastName" id="lastName"  value="{{ user.name.last }}" required="">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="description">Email</label>
+                    <input type="text" class="form-control form-control-lg" name="email" id="email" value="{{ user.email }}" required="">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="name">Password</label>
+                    <input type="password" autocomplete="new-password" class="form-control form-control-lg" name="password1" id="password1" minlength="6">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="name">Confirm Password</label>
+                    <input type="password" autocomplete="new-password" class="form-control form-control-lg" name="password2" id="password2" minlength="6">
+                  </div>
+
+                  <div class="form-group pt-4">
+                    <button class="btn btn-danger btn-lg" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-lg float-right" id="btnSaveUserDetails">Save</button>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+          <!-- Confirm Modal -->
+      <div class="modal fade" id="ConfirmModal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+    
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Status</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+    
+            <!-- Modal body -->
+            <div class="modal-body">
+              <p id="confirmMsg">
+
+              </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
 		</div>
 
 
@@ -129,6 +212,68 @@
     {% block js %}{% endblock %}
     <script>
         $.ajaxSetup({timeout: 250000});
+
+        function showSpinner() {
+          $(".water-container").removeClass("hide");
+          animateWaves();
+        }
+
+        function hideSpinner() {
+          $(".water-container").addClass("hide");
+        }
+
+        function toggleSpinner() {
+          $(".water-container").toggleClass("hide");
+          animateWaves();
+        }
+
+        function animateWaves() {
+          setTimeout(() => {$('.glass').toggleClass("up");}, 250); 
+          setTimeout(() => {animateWaves()}, 3500); 
+        }
+
+        function setupUserFormSubmit() {
+          $('#UserDetailsModal').on('shown.bs.modal', function () {
+            $("#password1").val('');
+            $("#password2").val('')
+          });
+
+          $("#formUser").submit(function(event) {
+            toggleSpinner();
+          event.preventDefault();
+          const formData = {
+            firstName: $("#firstName").val(),
+            lastName: $("#lastName").val(),
+            password1: $("#password1").val(),
+            password2: $("#password2").val(),
+            email: $("#email").val(),
+          }
+          //Update the file with the information above.
+          $.post('/api/user/update', formData, function(data) {
+            $('#UserDetailsModal').modal('hide');
+            $(".water-container").addClass("hide");
+            if (data.status) {
+              showConfirmModal("Profile updated successfully.");
+            } else {
+              showConfirmModal("An error occurred while uploading your profile. Please contact system administrator. Additional info: " + data);
+            }
+          })
+
+          //If the metadata update fails:
+          .fail(function(error) {
+            $(".water-container").addClass("hide");
+            showConfirmModal("An error occurred while uploading your profile: " + error.responseText);
+            console.log(error);
+          });
+        });
+      }
+
+      function showConfirmModal(message){
+        $("#confirmMsg").text(message);
+        $('#ConfirmModal').modal({ backdrop: true, keyboard: true, focus: true});
+      }
+
+      setupUserFormSubmit();
     </script>
 	</body>
 </html>

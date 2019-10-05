@@ -9,6 +9,7 @@ exports = module.exports = function (req, res) {
 	// item in the header navigation.
 	locals.section = req.url.endsWith('archived') ? 'archived' : 'results';
 
+  locals.isArchived = req.url.endsWith('archived') ? true : false;
 	// Render the view
 	view.render('results');
 };

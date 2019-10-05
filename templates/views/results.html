@@ -27,7 +27,11 @@
       <div class="row">
         <div class="col-sm-12 col-md-12 align-middle">
           <h2>No data available</h2>
+          {% if isArchived %}
+          <p class=" lead">You don't have any archived results.</p>
+          {% else %}
           <p class=" lead">You don't seem to have any data results available yet. Upload your dataset to start analysis. Analysis results may be delayed up to 5 minutes.</p>
+          {% endif %}
         </div>
       </div>
     </div>

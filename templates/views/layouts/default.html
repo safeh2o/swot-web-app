@@ -63,7 +63,7 @@
 							{% endfor %}
             </ul>
             {% endif %}
-            <div class="form-inline mt-2 mt-md-0 justify-center">
+            <div class="form-inline mt-2 mt-md-0 justify-center flex-no-wrap">
               {% if user %}
               <a class="panel-link" href="#" id="accountDetails" tabindex="-1" title="Account Details" onclick="$('#UserDetailsModal').modal({ backdrop: 'static', keyboard: false, focus: true})"><img src="/assets/user.svg" alt="Account Details" /></a>
                 {% if user.canAccessKeystone %}

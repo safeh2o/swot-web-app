@@ -21,10 +21,17 @@ exports.download = async function(req, res) {
     res.status(400).send('Invalid dataset id');
     return;
   }
-  const processedDatasetArray = await fetchDatasets(req.query.archived === "true", req);
+  
+  let retryCount = 0;
+  let processedDatasetArray = await fetchDatasets(req.query.archived === "true", req);
+  while (retryCount <= 5 && processedDatasetArray.length == 0) {
+    retryCount++;
+    processedDatasetArray = await fetchDatasets(archived, req);
+  }
+
   const datasetToDownload = processedDatasetArray.filter(d => d.datasetId == req.query.datasetId);
   if (datasetToDownload.length == 0) {
-    res.status(400).send('Unable to find dataset');
+    res.status(400).send('Unable to find dataset, please try again later.');
     return;
   }
 
@@ -88,7 +95,13 @@ exports.archive = async function(req, res) {
 
 
 async function sendDatasets(archived, req, res) {
-  const userDatasets = await fetchDatasets(archived, req);
+  let retryCount = 0;
+  let userDatasets = await fetchDatasets(archived, req);
+  // retry a few times since Azure blob storage sometimes returns empty results
+  while (retryCount <= 5 && userDatasets.length == 0) {
+    retryCount++;
+    userDatasets = await fetchDatasets(archived, req);
+  }
   res.json(userDatasets)
 }
 
@@ -147,14 +160,17 @@ async function getUserDatasets(userId, archived) {
 }
 
 function getBlobReadStream(containerName, blobName) {
-  const blobService = azure.createBlobService();
+  const retryOperations = new azure.LinearRetryPolicyFilter();
+  const blobService = azure.createBlobService().withFilter(retryOperations);
   return blobService.createReadStream(containerName, blobName);
 }
 
 async function searchAzureStorage(containerName, prefix, processedDatasetItem, dataset) {
-  const blobService = azure.createBlobService();
+  const retryOperations = new azure.LinearRetryPolicyFilter();
+  const blobService = azure.createBlobService().withFilter(retryOperations);
   return new Promise((resolve, reject) => {
-    blobService.listBlobsSegmentedWithPrefix(containerName, prefix, null, { delimiter: "" }, (err, data) => {
+    blobService.listBlobsSegmentedWithPrefix(containerName, prefix, null, { delimiter: "", useNagleAlgorithm: true, maximumExecutionTimeInMs: 12000, clientRequestTimeoutInMs: 12000, timeoutIntervalInMs: 12000 },
+     (err, data) => {
       if (err) {
         console.log(`Error occurred while reading blobs from Azure, container name is ${containerName}, prefix is ${prefix} and error is ${err}`);
         reject(err);

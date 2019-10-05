@@ -21,7 +21,7 @@ exports.download = async function(req, res) {
     res.status(400).send('Invalid dataset id');
     return;
   }
-  const processedDatasetArray = await fetchDatasets(req.query.archived, req);
+  const processedDatasetArray = await fetchDatasets(req.query.archived === "true", req);
   const datasetToDownload = processedDatasetArray.filter(d => d.datasetId == req.query.datasetId);
   if (datasetToDownload.length == 0) {
     res.status(400).send('Unable to find dataset');
@@ -194,7 +194,13 @@ async function getAnalysisResultsFromBlobStorage(processedDatasetArray) {
           const prefix = `${dataService.getIdentifier(processedDatasetItem.project)}/${dataService.getIdentifier(processedDatasetItem.fieldsite)}/${dataset._id}`;
           console.log(`Searching Azure with container name  ${containerName} and prefix ${prefix}`);
 
-          const azureBlob = await searchAzureStorage(containerName, prefix, processedDatasetItem, dataset);
+          let azureBlob;
+          try {
+             azureBlob = await searchAzureStorage(containerName, prefix, processedDatasetItem, dataset);
+          } catch(e) {
+            console.log('Unable to read container from Azure', e);
+            continue;
+          }
           if (azureBlob.datasetId) {
             result.push(azureBlob);
           } else {

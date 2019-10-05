@@ -64,7 +64,9 @@
       let tableData = [];
 
       function loadDataIntoTable() {
+        showSpinner();
         $.get(getEndpoint(), null, function(data) {
+          hideSpinner();
           if (!data || !data.length) {
             $("#noDataContainer").removeClass("hidden");
             $("#resultsContainer").addClass("hidden");
@@ -137,7 +139,7 @@
   
       function statusFormatter(value, row) {
         if (row.datasetArtifacts && row.datasetArtifacts.length) {
-          return `<a href='/api/results/download?datasetId=${row.datasetId}&archived=${isArchivedPage() ? 'true' : 'false'}'>Download</a>`
+          return `<a target='_blank' href='/api/results/download?datasetId=${row.datasetId}&archived=${isArchivedPage() ? 'true' : 'false'}'>Download</a>`
         } else {
           return "<label>Processing</label>";
         }

@@ -509,4 +509,6 @@ tbody tr:nth-child(odd) {
   justify-content: center;
 }
 
-
+.flex-no-wrap {
+  flex-wrap: nowrap;
+}

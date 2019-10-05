@@ -212,24 +212,30 @@
     {% block js %}{% endblock %}
     <script>
         $.ajaxSetup({timeout: 250000});
+        var animationInProgress = false;
 
         function showSpinner() {
+          animationInProgress = true;
           $(".water-container").removeClass("hide");
           animateWaves();
         }
 
         function hideSpinner() {
+          animationInProgress = false;
           $(".water-container").addClass("hide");
         }
 
         function toggleSpinner() {
           $(".water-container").toggleClass("hide");
+          animationInProgress =  $(".water-container").hasClass("hide");
           animateWaves();
         }
 
         function animateWaves() {
-          setTimeout(() => {$('.glass').toggleClass("up");}, 250); 
-          setTimeout(() => {animateWaves()}, 3500); 
+          if (animationInProgress) {
+            setTimeout(() => {$('.glass').toggleClass("up");}, 50); 
+            setTimeout(() => {animateWaves()}, 3100); 
+          }
         }
 
         function setupUserFormSubmit() {

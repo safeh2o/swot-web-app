@@ -11,6 +11,10 @@ exports.emailAdmin = function(message) {
   };
 
   mailgun.messages().send(data, (error, body) => {
-    console.log('Sent email:', body);
+    if (error) {
+      console.error("WARNING: ACTION NEEDED: Unable to send mail through Mailgun!", error, body);
+    } else {
+      console.log('Sent email:', body);
+    }
   });
 }

@@ -73,6 +73,7 @@ keystone.set('nav', {
   sites: 'fieldsites',
   datasets: 'datasets',
   posts: ['posts', 'post-categories'],
+  pages: 'pages',
 	enquiries: 'enquiries',
 });
 

@@ -35,7 +35,7 @@ var routes = {
 // Setup Route Bindings
 exports = module.exports = function (app) {
 	// Views
-  app.get('/', routes.views.index);
+  app.get('/', routes.views.dashboard);
   app.get('/dashboard', middleware.requireUser, routes.views.dashboard);
   app.get('/download', middleware.requireUser, routes.views.download);
   app.get('/upload', middleware.requireUser, routes.views.upload);
@@ -44,7 +44,8 @@ exports = module.exports = function (app) {
 	app.get('/blog/:category?', routes.views.blog);
 	app.get('/blog/post/:post', routes.views.post);
 	app.all('/contact', routes.views.contact);
-
+  app.get('/pages/:page', routes.views.page);
+  
   // REST endpoints
   app.all('/api/upload/:id/update', keystone.middleware.api, routes.api.upload.update);
   app.all('/api/upload/create', keystone.middleware.api, routes.api.upload.create);

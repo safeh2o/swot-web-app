@@ -425,6 +425,12 @@ tbody tr:nth-child(odd) {
 .justify-center {
   justify-content: center; }
 
+.flex-no-wrap {
+  flex-wrap: nowrap; }
+
+.contact-us input, .contact-us select, .contact-us textarea {
+  width: 400px; }
+
 .upload ul.no_bullet {
   list-style-type: none;
   padding: 0;

@@ -9,7 +9,9 @@
 
 exports.create = {
 	User: [
-		{ 'name.first': 'Admin', 'name.last': 'User', 'email': 'bora@fullstackdev.ca', 'password': 'admin', 'isAdmin': true },
+    { 'name.first': 'Bora', 'name.last': 'Bilgin', 'email': 'bora@fullstackdev.ca', 'password': 'admin', 'isAdmin': true },
+    { 'name.first': 'Syed Imran', 'name.last': 'Ali', 'email': 'siali@yorku.ca', 'password': 'admin', 'isAdmin': true },
+    { 'name.first': 'Mike', 'name.last': 'Spendlove', 'email': 'mike.spendlove@gmail.com', 'password': 'admin', 'isAdmin': true },
 	],
 };
 

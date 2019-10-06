@@ -512,3 +512,9 @@ tbody tr:nth-child(odd) {
 .flex-no-wrap {
   flex-wrap: nowrap;
 }
+
+.contact-us {
+  & input, select, textarea {
+    width: 400px;
+  }
+}

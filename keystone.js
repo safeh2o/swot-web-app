@@ -44,7 +44,10 @@ keystone.init({
   'signout redirect': '/',
   'admin path': "admin",
   'session store': 'mongo',
-	'user model': 'User',
+  'user model': 'User',
+  
+  'compress': true,
+  'env': process.env.NODE_ENV || 'development'
 });
 
 // Load your project's Models

@@ -1,3 +1,4 @@
+var filenameUtils = require('../utils/filename');
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
@@ -10,7 +11,7 @@ var Dataset = new keystone.List('Dataset');
 var azureStorage = new keystone.Storage({
   adapter: require('keystone-storage-adapter-azure'),
   azure: {
-    generateFilename: keystone.Storage.randomFilename, // default
+    generateFilename: filenameUtils.swotAnalysisFilenameGenerator, 
   },
   schema: {
     container: true, // optional; store the referenced container in the database

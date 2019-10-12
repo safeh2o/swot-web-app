@@ -7,6 +7,7 @@ const dataService = require('../../utils/data.service');
 const Country = keystone.list('Country');
 const azure = require('azure-storage');
 const archiver = require('archiver');
+const std = require('../../utils/standardize');
 
 exports.processed = async function(req, res) {
   await sendDatasets(false, req, res);
@@ -54,7 +55,7 @@ exports.download = async function(req, res) {
     //console.log('Processing ' + JSON.stringify(datasetToDownload[0]));
     const filename = artifactLink.substring(artifactLink.lastIndexOf('/') + 1);
     const containerName = `${dataService.getIdentifierKeyValue(datasetToDownload[0].countryName, datasetToDownload[0].countryId)}`;
-    archive.append(getBlobReadStream(containerName, artifactLink), { name: filename });
+    archive.append(std.getBlobReadStream(containerName, artifactLink), { name: filename });
   });
 
   archive.finalize(function(err, bytes) {
@@ -157,12 +158,6 @@ async function getUserDatasets(userId, archived) {
       });      
     });
   });
-}
-
-function getBlobReadStream(containerName, blobName) {
-  const retryOperations = new azure.LinearRetryPolicyFilter();
-  const blobService = azure.createBlobService().withFilter(retryOperations);
-  return blobService.createReadStream(containerName, blobName);
 }
 
 async function searchAzureStorage(containerName, prefix, processedDatasetItem, dataset) {

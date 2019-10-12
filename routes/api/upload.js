@@ -8,7 +8,7 @@ const _ = require('lodash');
 const mailer = require('../../utils/emailer');
 const analyzer = require('../../utils/analyzer');
 const dataService = require('../../utils/data.service');
-
+const std = require('../../utils/standardize');
 /**
  * Upload a new Dataset file
  */
@@ -25,14 +25,20 @@ exports.create = async function(req, res) {
 
     const userFieldsites = await getUserFieldsites(req.user._id);
 
-    if (userFieldsites) {
-      res.apiResponse({
-        uploadedFile: dataset,
-        fieldsites: userFieldsites
-      });
+    const canStandardize = await std.standardize(dataset.file.filename);
+
+    if (canStandardize) {
+      res.apiError('Standardization error: ' + canStandardize);
     } else {
-      mailer.emailAdmin(`User ${req.user.first} ${req.user.last} is not assigned to a fieldsite yet, and tried to upload a dataset.`);
-      res.apiError('User is not assigned to a fieldsite.');
+      if (userFieldsites) {
+        res.apiResponse({
+          uploadedFile: dataset,
+          fieldsites: userFieldsites
+        });
+      } else {
+        mailer.emailAdmin(`User ${req.user.first} ${req.user.last} is not assigned to a fieldsite yet, and tried to upload a dataset.`);
+        res.apiError('User is not assigned to a fieldsite.');
+      }
     }
   });
 }
@@ -63,7 +69,8 @@ exports.update = async function(req, res) {
       const country = await dataService.getCountryByProject(project._id);      
       const fieldsite = await dataService.getFieldsiteById(data.fieldsite);
       await updateDatasetWithBlobPrefix(data._id, country.name, `${dataService.getIdentifier(project)}/${dataService.getIdentifier(fieldsite)}`)
-      await analyzer.notifyFileUpload(dataItem.file.filename, req.user.email, country, project, fieldsite, req.user, dataItem);
+      const csvFilename = dataItem.file.filename.substr(0, dataItem.file.filename.lastIndexOf(".")) + ".csv";
+      await analyzer.notifyFileUpload(csvFilename, req.user.email, country, project, fieldsite, req.user, dataItem);
 
       res.apiResponse({
         file: dataItem

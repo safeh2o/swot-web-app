@@ -8,6 +8,12 @@ var cons = require('consolidate');
 var nunjucks = require('nunjucks');
 var mongoose = require('mongoose');
 
+function checkConfigKey(configKeyName, configKeyValue) {
+  if (!configKeyValue) {
+    console.log(`ERROR: Missing configuration ${configKeyName} in .env file, exiting`);
+    process.exit(1);
+  }
+}
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
 // and documentation.
@@ -80,25 +86,14 @@ keystone.set('nav', {
 	enquiries: 'enquiries',
 });
 
+
+checkConfigKey("MAILGUN_API_KEY", process.env.MAILGUN_API_KEY);
+checkConfigKey("MAILGUN_DOMAIN", process.env.MAILGUN_DOMAIN);
+checkConfigKey("MONGO_DB_CONNECTION_STRING", process.env.MONGO_DB_CONNECTION_STRING);
+checkConfigKey("FILE_REQUIRED_COLUMNS", process.env.FILE_REQUIRED_COLUMNS);
+checkConfigKey("ANALYZER_URL", process.env.ANALYZER_URL);
+checkConfigKey("AZURE_STORAGE_ACCESS_KEY", process.env.AZURE_STORAGE_ACCESS_KEY);
+checkConfigKey("AZURE_STORAGE_CONTAINER_STD", process.env.AZURE_STORAGE_CONTAINER_STD);
+
 // Start Keystone to connect to your database and initialise the web server
-
-
-if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
-	console.log('----------------------------------------'
-	+ '\nWARNING: MISSING MAILGUN CREDENTIALS'
-	+ '\n----------------------------------------'
-	+ '\nYou have opted into email sending but have not provided'
-	+ '\nmailgun credentials. Attempts to send will fail.'
-	+ '\n\nCreate a mailgun account and add the credentials to the .env file to'
-	+ '\nset up your mailgun integration');
-}
-
-if (!process.env.MONGO_DB_CONNECTION_STRING) {
-  console.log('----------------------------------------'
-	+ '\nERROR: MISSING MONGODB CREDENTIALS'
-	+ '\n----------------------------------------'
-	+ '\nPlease enter MONGO_DB_CONNECTION_STRING key in .env file');
-  return;
-}
-
 keystone.start();

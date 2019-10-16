@@ -6,7 +6,7 @@ var Types = keystone.Field.Types;
  * User Model
  * ==========
  */
-var Dataset = new keystone.List('Dataset');
+var Dataset = new keystone.List('Dataset', { strict: false });
 
 var azureStorage = new keystone.Storage({
   adapter: require('keystone-storage-adapter-azure'),
@@ -28,7 +28,7 @@ Dataset.add({
   user: { type: Types.Relationship, ref: 'User', initial: true, index: true },
   file: { type: Types.File, storage: azureStorage },
   createdTimeStamp: { type: Date, default: Date.now },
-  archived: {type: Types.Boolean, index: true, default: false}
+  archived: {type: Types.Boolean, index: true, default: false},
 });
 
 /**

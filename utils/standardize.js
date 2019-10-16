@@ -1,9 +1,14 @@
-var streams = require('memory-streams');
 const azure = require('azure-storage');
 const XlsxStreamReader = require('xlsx-stream-reader');
 const csv = require('fast-csv');
+const keystone = require('keystone');
+const Dataset = keystone.list('Dataset');
 
-exports.standardize = async function(filename) {
+exports.standardize = async function(datasetId, filename) {
+
+  if (process.env.STANDARDIZE_DATASET != 1) {
+    return;
+  }
 
   console.log(`Standardizing file ${filename}`);
 
@@ -32,7 +37,7 @@ exports.standardize = async function(filename) {
     dataRows = await getExcelDataRows(filestream);
   }
 
-  //console.log(`Data rows is`, dataRows);
+  //console.log(`Data rows is`, dataRows[0]);
 
   // validate first row
   if (!dataRows.length) {
@@ -42,29 +47,86 @@ exports.standardize = async function(filename) {
   let missingColumnErrors = [];
   let requiredColumns = process.env.FILE_REQUIRED_COLUMNS.split(",");
   for (let i = 0; i < requiredColumns.length; i++) {
-    if (Object.keys(dataRows[0]).indexOf(requiredColumns[i]) == -1) {
-      missingColumnErrors.push(requiredColumns[i]);
-    }
+      const requiredColumnRegex = getRequiredColumnRegex(requiredColumns[i]);
+      if (dataRows.length) {
+        const dataRowKeys = Object.keys(dataRows[0]);
+        if (!dataRowKeys.some((rowKey) => {
+          return rowKey.match(requiredColumnRegex);
+        })) {
+          missingColumnErrors.push(getRequiredColumnOutput(requiredColumns[i]));
+        }
+      }    
   }
 
   if (missingColumnErrors.length > 0) {
-    return `Uploaded file is missing the required columns: ${missingColumnErrors.join(',')}`;
+    return `Uploaded file is missing one or more columns that match: ${missingColumnErrors.join(',')}`;
   }
 
   // convert excel to csv
-  let dataToUpload = process.env.FILE_REQUIRED_COLUMNS + "\n";
+  
+  // write header line first
+  let requiredColumnOutputs = [];
+  process.env.FILE_REQUIRED_COLUMNS.split(",").forEach(function(requiredColumn, i) {
+    const requiredColumnOutput = getRequiredColumnOutput(requiredColumn);
+    requiredColumnOutputs.push(requiredColumnOutput);
+  });
+  let dataToUpload = requiredColumnOutputs.join(",") + "\n";
+
+  const skippedDataRows = [];
+  const standardizedDataRows = [];
+  // write data columns
   dataRows.forEach(function(dataRow, rowIndex) {
     let rowStr = "";
-    process.env.FILE_REQUIRED_COLUMNS.split(",").forEach(function(requiredColumn, index) {
-      rowStr += dataRow[requiredColumn] + ",";
+    let rowObj = {};
+    let shouldSkipDataRow = false;
+    process.env.FILE_REQUIRED_COLUMNS.split(",").forEach(function(requiredColumn, i) {
+      const requiredColumnRegex = getRequiredColumnRegex(requiredColumn);
+      const columnShouldBeSkippedOnNull = shouldSkipBlankColumn(requiredColumn);
+      const firstMatchingKey = Object.keys(dataRow).find(k => k.match(requiredColumnRegex));
+      let val = dataRow[firstMatchingKey];
+      if (!val) {
+        val = "";
+        if (columnShouldBeSkippedOnNull) {
+          shouldSkipDataRow = true;
+        }
+      }
+      rowObj[firstMatchingKey] = val;
+      rowStr += val + ",";
     })
     rowStr = rowStr.substring(0, rowStr.length - 1);
-    dataToUpload += rowStr + "\n";
+    if (!shouldSkipDataRow) {
+      dataToUpload += rowStr + "\n";
+      standardizedDataRows.push(rowObj);
+    } else {
+      skippedDataRows.push(dataRow);
+    }
   });
+
+  await saveStandardizedData(datasetId, dataRows, standardizedDataRows, skippedDataRows);
 
   // upload csv
 
   await uploadTextAsFileToStorage(process.env.AZURE_STORAGE_CONTAINER_STD, filename.substr(0, filename.lastIndexOf(".")) + ".csv", dataToUpload);
+}
+
+async function saveStandardizedData(datasetId, rawData, standardizedData, skippedData) {
+  console.log(`Dataset id is ${datasetId}`);
+  return Dataset.model.findOneAndUpdate(
+    {_id: datasetId}, 
+    { $set: {standardizedData: standardizedData, rawData: rawData, skippedRows: skippedData }, },
+    { strict: false }).exec();
+}
+
+function getRequiredColumnRegex(column) {
+  return column.indexOf("|") != -1 ? column.substr(0, column.lastIndexOf("|")) : column;
+}
+
+function getRequiredColumnOutput(column) {
+  return column.indexOf("|") != -1 ? column.substr(column.lastIndexOf("|") + 1).replace("<skipBlanks>", "") : column.replace("<skipBlanks>", "");
+}
+
+function shouldSkipBlankColumn(column) {
+  return column.indexOf("<skipBlanks>") != -1;
 }
 
 async function getCSVDataRows(filestream) {
@@ -91,15 +153,21 @@ async function getExcelDataRows(filestream) {
 
       workSheetReader.on('row', function (row) {
         const isHeader = row.attributes.r == 1;
-        let rowObj = {};
-        row.values.forEach(function(rowVal, colNum){
-            if (isHeader) {
-              headers.push(rowVal);
-            } else {
-              rowObj[headers[colNum]] = rowVal;
+        if (isHeader) {
+          headers = row.values.slice(0);
+        } else {
+          let rowObj = {};          
+          headers.forEach((headerName) => {
+            if (headerName) {
+              rowObj[headerName] = null;
             }
-        });
-        if (!isHeader) {
+          });
+          row.values.forEach((rowVal, colNum) => {
+            const headerName = headers[colNum];
+            if (headerName) {              
+              rowObj[headerName] = rowVal;
+            }
+          });
           dataRows.push(rowObj);
         }
       });

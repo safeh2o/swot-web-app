@@ -25,10 +25,11 @@ exports.create = async function(req, res) {
 
     const userFieldsites = await getUserFieldsites(req.user._id);
 
-    const canStandardize = await std.standardize(dataset.file.filename);
+    const standardizationError = await std.standardize(dataset.id, dataset.file.filename);
 
-    if (canStandardize) {
-      res.apiError('Standardization error: ' + canStandardize);
+    if (standardizationError) {
+      res.apiError('Standardization error: ' + standardizationError);
+      return;
     } else {
       if (userFieldsites) {
         res.apiResponse({
@@ -69,7 +70,8 @@ exports.update = async function(req, res) {
       const country = await dataService.getCountryByProject(project._id);      
       const fieldsite = await dataService.getFieldsiteById(data.fieldsite);
       await updateDatasetWithBlobPrefix(data._id, country.name, `${dataService.getIdentifier(project)}/${dataService.getIdentifier(fieldsite)}`)
-      const csvFilename = dataItem.file.filename.substr(0, dataItem.file.filename.lastIndexOf(".")) + ".csv";
+      // dont forget to replace
+      const csvFilename = dataItem.file.filename + ".csv";
       await analyzer.notifyFileUpload(csvFilename, req.user.email, country, project, fieldsite, req.user, dataItem);
 
       res.apiResponse({

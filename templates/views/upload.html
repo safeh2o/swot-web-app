@@ -109,6 +109,7 @@
           type: 'POST',
 
           success: function(data){
+            $("#fileElem").val('');
             hideSpinner();
             console.log('File upload succeeded, name: ' + data.uploadedFile.file.filename);
             setupFormSubmit(data);
@@ -118,6 +119,7 @@
 
           //This error function is called if the POST fails for submitting the file itself.
           error: function(error) {
+            $("#fileElem").val('');
             logError(error);
           }
         };
@@ -144,7 +146,7 @@
       }
 
       function setupFormSubmit(data) {
-        $("#formUpload").submit(function(event) {
+        $("#formUpload").removeAttr('onsubmit').submit(function(event) {
           event.preventDefault();
           var uploadForm = $("#formUpload").serialize();
           uploadForm += "&fieldsite=" + $('#fieldsite').val();

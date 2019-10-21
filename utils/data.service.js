@@ -30,7 +30,11 @@ exports.getIdentifier = function(dataItem) {
   if (!dataItem || !dataItem.name || !dataItem._id) {
     throw 'Incorrect dataitem passed - can not produce name/id of ' + dataItem;
   }
-  return `${dataItem.name.replace(/[^0-9a-z]/gi, '').toLowerCase()}-${dataItem._id}`;
+  return `${(dataItem.name).replace(/[^0-9a-z]/gi, '').toLowerCase()}-${dataItem._id}`;
+}
+
+exports.sanitizeStr = function(str) {
+  return `${str.replace(/[^0-9a-z]/gi, '')}`;
 }
 
 exports.getIdentifierKeyValue = function(name, id) {

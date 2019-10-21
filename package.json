@@ -30,7 +30,7 @@
   "scripts": {
     "lint": "eslint .",
     "start": "node keystone.js",
-    "start-pm2": "pm2 start keystone.js",
+    "start:prod": "pm2 start keystone.js --name SWOT",
     "watch": "nodemon -e js,html keystone.js"
   }
 }

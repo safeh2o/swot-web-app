@@ -75,7 +75,7 @@ exports.update = async function(req, res) {
       const fieldsite = await dataService.getFieldsiteById(data.fieldsite);
       
       const originalFileExtension = path.extname(dataItem.file.filename);
-      const targetBlobName = `${dataService.sanitizeStr(data.name)}__${dataService.sanitizeStr(fieldsite.name)}__${dataService.sanitizeStr(data.dateOfReading)}`;
+      const targetBlobName = `${dataService.sanitizeStr(data.name)}__${dataService.sanitizeStr(dataItem.file.filename.slice(dataItem.file.filename.length -4))}__${dataService.sanitizeStr(fieldsite.name)}__${dataService.sanitizeStr(data.dateOfReading)}`;
       const stdBlobName = targetBlobName + ".csv";
       const rawBlobName = targetBlobName + originalFileExtension;
 

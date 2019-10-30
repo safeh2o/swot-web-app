@@ -38,7 +38,7 @@ keystone.init({
 	'views': 'templates/views',
 	'view engine': '.html',
 	'custom engine': cons.nunjucks,
-  'signin logo': '/assets/SWOT_LOGO_bg.png',
+  'signin logo': '/assets/swot_logo1.png',
   'mongo': process.env.MONGO_DB_CONNECTION_STRING || 'mongodb://localhost/my-project',
 
 	'emails': 'templates/emails',

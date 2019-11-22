@@ -17,8 +17,8 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    displayName: 'npm install'
     npm install
+  displayName: 'npm install'
 
 - task: DownloadSecureFile@1
   name: 'envVars'
@@ -28,10 +28,13 @@ steps:
 
 - script: |
     echo Installing $(envVars.secureFilePath) to the root app dir...
-    ls -lt $(Agent.BuildDirectory)
     pwd
-    echo $(Agent.BuildDirectory)
+    cp -f $(envVars.secureFilePath) .
+    ls -lt
     cat .env
+    echo $(Agent.BuildDirectory) is the build dir
+    echo $(Build.ArtifactStagingDirectory) the staging dir
+
 
 - task: ArchiveFiles@1
   inputs:

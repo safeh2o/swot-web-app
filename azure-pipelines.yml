@@ -18,13 +18,7 @@ steps:
 - script: |
     npm install
 # npm run build
-  displayName: 'npm install and build'
-
-- task: CmdLine@2
-  inputs:
-    script: |
-      pwd
-      ls -lt
+  displayName: 'npm install'
 
 - task: ArchiveFiles@2
   inputs:
@@ -34,23 +28,8 @@ steps:
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
 
-
-- task: CmdLine@2
-  inputs:
-    script: |
-      pwd
-      ls -lt
-
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'SWOT-web-files'
     publishLocation: 'Container'
-
-
-
-- task: CmdLine@2
-  inputs:
-    script: |
-      pwd
-      ls -lt

@@ -29,6 +29,8 @@ steps:
 - script: |
     echo Installing $(envVars.secureFilePath) to the root app dir...
     ls -lt
+    pwd
+    echo $(Agent.BuildDirectory)
     cat .env
 
 - task: ArchiveFiles@1

@@ -17,9 +17,8 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+    displayName: 'npm install'
     npm install
-# npm run build
-  displayName: 'npm install'
 
 - task: DownloadSecureFile@1
   name: 'envVars'
@@ -32,7 +31,7 @@ steps:
     ls -lt
     cat .env
 
-- task: ArchiveFiles@2
+- task: ArchiveFiles@1
   inputs:
     rootFolderOrFile: '$(Agent.BuildDirectory)'
     includeRootFolder: true

@@ -29,9 +29,10 @@ steps:
 - script: |
     echo Installing $(envVars.secureFilePath) to the root app dir...
     cp -f $(envVars.secureFilePath) .
-    echo $(Agent.BuildDirectory) is the build dir
+    pwd
     echo $(Build.ArtifactStagingDirectory) the staging dir
-    echo $(Build.SourcesDirectory) is the working dir
+    echo $(Build.SourcesDirectory) is the working dir. Files:
+    ls -al $(Build.SourcesDirectory)
 
 
 - task: ArchiveFiles@1
@@ -41,6 +42,7 @@ steps:
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
+    verbose: true
 
 - task: PublishBuildArtifacts@1
   inputs:

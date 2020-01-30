@@ -24,7 +24,7 @@ mongoose.set('server', {
   }});
 
 mongoose.connection.on('error', function(err){
-    console.log(error(`Mongoose default connection has occured ${err} error`));
+    console.error(`Mongoose default connection has occured ${err} error`);
     mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING);
 });
 

@@ -17,5 +17,33 @@ steps:
 
 - script: |
     npm install
-    npm run build
-  displayName: 'npm install and build'
+  displayName: 'npm install'
+
+- task: DownloadSecureFile@1
+  name: 'envVars'
+  displayName: 'Download Env Vars'
+  inputs:
+    secureFile: '.env'
+
+- script: |
+    echo Installing $(envVars.secureFilePath) to the root app dir...
+    cp -f $(envVars.secureFilePath) .
+    pwd
+    echo $(Build.ArtifactStagingDirectory) the staging dir
+    echo $(Build.SourcesDirectory) is the working dir. Files:
+    ls -al $(Build.SourcesDirectory)
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.SourcesDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+    verbose: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'SWOT-web-files'
+    publishLocation: 'Container'

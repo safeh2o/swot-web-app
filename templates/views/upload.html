@@ -151,6 +151,7 @@
       }
 
       function setupFormSubmit(data) {
+        $('#formUpload').unbind('submit');
         $("#formUpload").removeAttr('onsubmit').submit(function(event) {
           event.preventDefault();
           var uploadForm = $("#formUpload").serialize();

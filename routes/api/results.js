@@ -130,7 +130,7 @@ async function getUserDatasets(userId, archived) {
       .populate('fieldsites')
       .exec();
 
-    if (!projectsHavingUser) {
+    if (projectsHavingUser.length == 0) {
       resolve(null);
     }
 

@@ -137,10 +137,6 @@ async function getUserDatasets(userId, archived) {
     const result = [];
     
     const projectsWithFieldsites = _.flatMap(projectsHavingUser, (p) => p);
-    if (projectsWithFieldsites.length == 0) {
-      resolve(null);
-    }
-    
     _.each(projectsWithFieldsites, async (project, outerIndex) => {
       //get country since it's the container name
       const country = await dataService.getCountryByProject(project._id); 

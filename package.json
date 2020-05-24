@@ -31,6 +31,7 @@
     "lint": "eslint .",
     "start": "node keystone.js",
     "start:prod": "pm2 start keystone.js --name SWOT",
-    "watch": "nodemon -e js,html keystone.js"
+    "watch": "nodemon -e js,html keystone.js",
+    "dev": "node --inspect=0.0.0.0:$APPSVC_TUNNEL_PORT keystone.js"
   }
 }

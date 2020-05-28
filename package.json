@@ -6,10 +6,10 @@
     "archiver": "^3.1.1",
     "async": "2.1.4",
     "azure-storage": "^2.10.3",
-    "connect-mongo": "^3.0.0",
+    "connect-mongo": "^3.2.0",
     "consolidate": "0.14.5",
     "dotenv": "4.0.0",
-    "fast-csv": "^3.4.0",
+    "fast-csv": "^3.7.0",
     "keystone": "^4.2.1",
     "keystone-email": "^1.1.0",
     "keystone-storage-adapter-azure": "^1.1.0",
@@ -18,14 +18,14 @@
     "memory-streams": "^0.1.3",
     "node-sass": "4.12.0",
     "node-sass-middleware": "^0.11.0",
-    "nunjucks": "^3.2.0",
+    "nunjucks": "^3.2.1",
     "xlsx-stream-reader": "^1.1.0"
   },
   "devDependencies": {
     "eslint": "4.18.2",
     "eslint-config-keystone": "3.0.0",
     "eslint-plugin-react": "^5.1.1",
-    "nodemon": "^1.19.2"
+    "nodemon": "^1.19.4"
   },
   "scripts": {
     "lint": "eslint .",

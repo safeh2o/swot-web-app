@@ -27,7 +27,7 @@ exports.download = async function(req, res) {
   let processedDatasetArray = await fetchDatasets(req.query.archived === "true", req);
   while (retryCount <= 5 && processedDatasetArray.length == 0) {
     retryCount++;
-    processedDatasetArray = await fetchDatasets(archived, req);
+    processedDatasetArray = await fetchDatasets(req.query.archived === "true", req);
   }
 
   const datasetToDownload = processedDatasetArray.filter(d => d.datasetId == req.query.datasetId);
@@ -130,7 +130,7 @@ async function getUserDatasets(userId, archived) {
       .populate('fieldsites')
       .exec();
 
-    if (!projectsHavingUser) {
+    if (projectsHavingUser.length == 0) {
       resolve(null);
     }
 

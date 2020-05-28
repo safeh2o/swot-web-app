@@ -3,6 +3,16 @@
 <!doctype html>
 <html lang="en" class="h-100">
 	<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151594790-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-151594790-1');
+    </script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
@@ -65,14 +75,17 @@
             {% endif %}
             <div class="form-inline mt-2 mt-md-0 justify-center flex-no-wrap">
               {% if user %}
-              <a class="panel-link" href="#" id="accountDetails" tabindex="-1" title="Account Details" onclick="$('#UserDetailsModal').modal({ backdrop: 'static', keyboard: false, focus: true})"><img src="/assets/user.svg" alt="Account Details" /></a>
+              	<a class="panel-link" href="#" id="accountDetails" tabindex="-1" title="Account Details" onclick="$('#UserDetailsModal').modal({ backdrop: 'static', keyboard: false, focus: true})"><img src="/assets/user.svg" alt="Account Details" /></a>
                 {% if user.canAccessKeystone %}
                 <a class="panel-link" href="/admin" tabindex="-1" title="SWOT Admin Panel"><img src="/assets/settings_w.svg" alt="Admin Panel" /></a>
                 {% endif %}
                 <a class="panel-link" href="/admin/signout" id="accountDetails" tabindex="-1" title="Log Out"><img src="/assets/logout.svg" alt="Log Out" /></a>
               {% else %}
               <button onclick="location.href='/admin/signin'" class="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap" type="button">LOGIN</button>
-							{% endif %}
+              <button onclick="location.href='/contact'" class="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap" type="button">REGISTER</button>
+               	<!-- <a class="panel-link" href="/admin/signin" tabindex="-1" title="Sign in"><img src="/assets/login.svg" alt="Sign in" /></a> -->
+                <!-- <a class="panel-link" href="/contact" tabindex="-1" title="Register"><img src="/assets/register.svg" alt="Register" /></a> -->
+			  {% endif %}
 
             </div>
           </div>

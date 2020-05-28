@@ -552,3 +552,18 @@ tbody tr:nth-child(odd) {
   font-size: 1.3rem;
   margin: 20px
 }
+
+.maxDurationSelect {
+  width: 80px;
+  margin-left: 10px
+}
+
+.confidenceSelect {
+  width: 250px;
+  margin-left: 10px;
+  font-size: 16px
+}
+
+.form-element-inline {
+  display: inline
+}

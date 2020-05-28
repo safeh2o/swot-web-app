@@ -224,7 +224,31 @@
                 <input type="date" class="form-control form-control-lg" name="dateOfReading" id="dateOfReading" required="">
                 <div class="invalid-feedback">Oops, you missed this one.</div>
               </div>
-  
+
+              <div class="form-group">
+                <label for="maxDurationHours" class="form-elemenet-inline">Maximum Duration of Household Storage/Use</label>
+                <select id="maxDurationHours" name="maxDurationHours"  class="form-control form-control-lg form-element-inline maxDurationSelect" >
+                  <option value="6">6</option>
+                  <option value="9">9</option>
+                  <option value="12">12</option>
+                  <option value="15">15</option>
+                  <option value="18">18</option>
+                  <option value="21">21</option>
+                  <option value="24">24</option>
+                </select>
+                <div class="invalid-feedback">Oops, you missed this one.</div>
+              </div>
+
+              <div class="form-group">
+                <label for="confidenceLevel" class="form-element-inline">Prediction Confidence Level</label>
+                <select id="confidenceLevel" name="confidenceLevel"  class="form-control form-control-lg form-element-inline confidenceSelect" >
+                  <option value="minDecay">Minimum Decay Scenario</option>
+                  <option value="optimumDecay">Optimum/Balanced Decay Scenario</option>
+                  <option value="maxDecay">Maximum Decay Scenario</option>
+                </select>
+                <div class="invalid-feedback">Oops, you missed this one.</div>
+              </div>
+
               <div class="form-group">
                 <label for="fieldsite">Site</label>
                 <select id="fieldsite" class="form-control" required="">

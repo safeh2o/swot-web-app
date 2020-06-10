@@ -20,11 +20,20 @@ steps:
     npm install
   displayName: 'npm install'
 
+# If the branch is prod, create two artifacts for dev and live; otherwise, create a sandbox artifact.
 - task: DownloadSecureFile@1
-  name: 'envVars'
-  displayName: 'Download Env Vars'
+  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'prod'))
+  name: 'devEnv'
+  displayName: 'Download Env Vars for Dev'
   inputs:
-    secureFile: '.env'
+    secureFile: 'dev.env'
+
+- task: DownloadSecureFile@1
+  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'prod'))
+  name: 'liveEnv'
+  displayName: 'Download Env Vars for Live'
+  inputs:
+    secureFile: 'live.env'
 
 - script: |
     echo Installing $(envVars.secureFilePath) to the root app dir...

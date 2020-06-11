@@ -24,36 +24,85 @@ steps:
 - task: DownloadSecureFile@1
   condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'prod'))
   name: 'devEnv'
-  displayName: 'Download Env Vars for Dev'
+  displayName: 'Download Env Vars for dev'
   inputs:
     secureFile: 'dev.env'
-
 - task: DownloadSecureFile@1
   condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'prod'))
   name: 'liveEnv'
-  displayName: 'Download Env Vars for Live'
+  displayName: 'Download Env Vars for live'
   inputs:
     secureFile: 'live.env'
 
 - script: |
-    echo Installing $(envVars.secureFilePath) to the root app dir...
-    cp -f $(envVars.secureFilePath) .
-    pwd
-    echo $(Build.ArtifactStagingDirectory) the staging dir
-    echo $(Build.SourcesDirectory) is the working dir. Files:
-    ls -al $(Build.SourcesDirectory)
+    mkdir $(Build.ArtifactStagingDirectory)/zip
+
+    cp -r $(Build.SourcesDirectory) $(Build.ArtifactStagingDirectory)/dev
+    cp -r $(Build.SourcesDirectory) $(Build.ArtifactStagingDirectory)/live
+
+    cp -f $(devEnv.secureFilePath) $(Build.ArtifactStagingDirectory)/dev/.env
+    cp -f $(liveEnv.secureFilePath) $(Build.ArtifactStagingDirectory)/live/.env
+
+  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'prod'))
+  displayName: Set up artifacts for dev and live
 
 - task: ArchiveFiles@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'prod'))
+  displayName: Archive dev artifact
   inputs:
-    rootFolderOrFile: '$(Build.SourcesDirectory)'
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/dev'
     includeRootFolder: false
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/zip/$(Build.BuildId)_dev.zip'
     replaceExistingArchive: true
     verbose: true
 
-- task: PublishBuildArtifacts@1
+- task: ArchiveFiles@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'prod'))
+  displayName: Archive live artifact
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/live'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/zip/$(Build.BuildId)_live.zip'
+    replaceExistingArchive: true
+    verbose: true
+
+# End staging for prod
+
+# If not prod, stage for master
+- task: DownloadSecureFile@1
+  condition: and(succeeded(), ne(variables['Build.SourceBranchName'], 'prod'))
+  name: 'sandboxEnv'
+  displayName: 'Download Env Vars for sandbox'
+  inputs:
+    secureFile: 'sandbox.env'
+
+- script: |
+    mkdir $(Build.ArtifactStagingDirectory)/zip
+
+    cp -r $(Build.SourcesDirectory) $(Build.ArtifactStagingDirectory)/sandbox
+    cp -f $(sandboxEnv.secureFilePath) $(Build.ArtifactStagingDirectory)/sandbox/.env
+
+  condition: and(succeeded(), ne(variables['Build.SourceBranchName'], 'prod'))
+  displayName: Set up artifacts for sandbox
+
+- task: ArchiveFiles@2
+  condition: and(succeeded(), ne(variables['Build.SourceBranchName'], 'prod'))
+  displayName: Archive sandbox artifact
+  inputs:
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/sandbox'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/zip/$(Build.BuildId)_sandbox.zip'
+    replaceExistingArchive: true
+    verbose: true
+
+# End staging for master
+
+- task: PublishBuildArtifacts@1
+  displayName: Publishing artifacts
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/zip'
     ArtifactName: 'SWOT-web-files'
     publishLocation: 'Container'

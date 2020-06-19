@@ -147,7 +147,7 @@ async function getUserDatasets(userId, archived) {
           filter.archived = true;
         }
 
-        datasetsInFieldsite = Dataset.model.find(filter).exec((err, datasets) => {
+        const datasetsInFieldsite = Dataset.model.find(filter).exec((err, datasets) => {
           if (datasets && datasets.length) {
             delete(project.user);
             result.push(new ProcessedDataset(country, project, fieldsite, datasets));

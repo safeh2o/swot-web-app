@@ -135,6 +135,7 @@ async function getUserDatasets(userId, archived) {
     }
 
     const result = [];
+    const promises = []
     
     const projectsWithFieldsites = _.flatMap(projectsHavingUser, (p) => p);
     _.each(projectsWithFieldsites, async (project, outerIndex) => {
@@ -145,18 +146,22 @@ async function getUserDatasets(userId, archived) {
         if (archived) {
           filter.archived = true;
         }
-        const datasets = await Dataset.model.find(filter).exec();
+
+        const datasetsInFieldsite = Dataset.model.find(filter).exec((err, datasets) => {
+          if (datasets && datasets.length) {
+            delete(project.user);
+            result.push(new ProcessedDataset(country, project, fieldsite, datasets));
+          }
+        });
         
-        if (datasets && datasets.length) {
-          delete(project.user);
-          result.push(new ProcessedDataset(country, project, fieldsite, datasets));
-        }
+        promises.push(datasetsInFieldsite);
         
         if ((outerIndex == projectsWithFieldsites.length -1) && (innerIndex == project.fieldsites.length - 1) ) {          
-          resolve(result);
+          Promise.all(promises).then(() => resolve(result));
         }
       });      
     });
+
   });
 }
 

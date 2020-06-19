@@ -1,4 +1,6 @@
 # swot-web-app
+[![Build Status](https://dev.azure.com/dighr-swot/SWOT/_apis/build/status/dighr.swot-web-app?branchName=master)](https://dev.azure.com/dighr-swot/SWOT/_build/latest?definitionId=1&branchName=master)
+
 Safe Water Optimization Tool Web Application
 
 ## Run the application

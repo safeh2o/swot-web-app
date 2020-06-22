@@ -3,6 +3,9 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
+variables:
+  isProd: $[eq(variables['Build.SourceBranchName'], 'prod')]
+
 trigger:
 - master
 - '*'
@@ -22,13 +25,13 @@ steps:
 
 # If the branch is prod, create two artifacts for dev and live; otherwise, create a sandbox artifact.
 - task: DownloadSecureFile@1
-  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'prod'))
+  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, true)))
   name: 'devEnv'
   displayName: 'Download Env Vars for dev'
   inputs:
     secureFile: 'dev.env'
 - task: DownloadSecureFile@1
-  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'prod'))
+  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, true)))
   name: 'liveEnv'
   displayName: 'Download Env Vars for live'
   inputs:
@@ -43,11 +46,11 @@ steps:
     cp -f $(devEnv.secureFilePath) $(Build.ArtifactStagingDirectory)/dev/.env
     cp -f $(liveEnv.secureFilePath) $(Build.ArtifactStagingDirectory)/live/.env
 
-  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'prod'))
+  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, true)))
   displayName: Set up artifacts for dev and live
 
 - task: ArchiveFiles@2
-  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'prod'))
+  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, true)))
   displayName: Archive dev artifact
   inputs:
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/dev'
@@ -58,7 +61,7 @@ steps:
     verbose: true
 
 - task: ArchiveFiles@2
-  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'prod'))
+  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, true)))
   displayName: Archive live artifact
   inputs:
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/live'
@@ -72,7 +75,7 @@ steps:
 
 # If not prod, stage for master
 - task: DownloadSecureFile@1
-  condition: and(succeeded(), ne(variables['Build.SourceBranchName'], 'prod'))
+  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, false)))
   name: 'sandboxEnv'
   displayName: 'Download Env Vars for sandbox'
   inputs:
@@ -84,11 +87,11 @@ steps:
     cp -r $(Build.SourcesDirectory) $(Build.ArtifactStagingDirectory)/sandbox
     cp -f $(sandboxEnv.secureFilePath) $(Build.ArtifactStagingDirectory)/sandbox/.env
 
-  condition: and(succeeded(), ne(variables['Build.SourceBranchName'], 'prod'))
+  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, false)))
   displayName: Set up artifacts for sandbox
 
 - task: ArchiveFiles@2
-  condition: and(succeeded(), ne(variables['Build.SourceBranchName'], 'prod'))
+  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, false)))
   displayName: Archive sandbox artifact
   inputs:
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/sandbox'

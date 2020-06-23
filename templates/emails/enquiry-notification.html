@@ -1,9 +1,9 @@
-<h1>Hi %recipient.firstName%</h1>
-<p class="text-larger">An enquiry was just submitted to {{ brand }}:</p>
+<h1>To {{ brand }} Accounts Admin:</h1>
+<p class="text-larger">A 'Contact Us' form was just submitted to {{ brand }}:</p>
 {% if enquiry.email %}
-	<p class="text-larger">From
+	<p class="text-larger"><strong>From:</strong>
 	{% if enquiry.name.full %}
-		<strong>{{ enquiry.name.full }}</strong>
+		{{ enquiry.name.full }}
 	{% endif %}
 
 	{% if enquiry.email %}
@@ -12,15 +12,15 @@
 	</p>
 
 	{% if enquiry.phone %}
-		<p class="text-larger">Phone: {{ enquiry.phone }}</p>
+		<p class="text-larger"><strong>Phone:</strong> {{ enquiry.phone }}</p>
 	{% endif %}
 
-	{% if enquiry.enquiryType %}
-		<p class="text-larger">{{ enquiry._.enquiryType.format() }}</p>
+	{% if enquiry.reason %}
+		<p class="text-larger"><strong>Reason:</strong> {{ enquiry._.reason.format() }}</p>
 	{% endif %}
 
 	{% if enquiry.message %}
-		{{ enquiry.message.html | safe }}
+		<strong>Message:</strong> {{ enquiry.message.html | safe }}
 	{% endif %}
 
 	<p class="text-muted">Sent {{ enquiry._.createdAt.format() }}</p>

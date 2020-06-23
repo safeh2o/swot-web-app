@@ -1,5 +1,6 @@
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
+const updater = require('../utils/cms_updater');
 
 /**
  * Post Model
@@ -22,6 +23,19 @@ Post.add({
 		extended: { type: Types.Html, wysiwyg: true, height: 400 },
 	},
 	categories: { type: Types.Relationship, ref: 'PostCategory', many: true },
+});
+
+Post.schema.post('save', (blog) => {
+	var MongoClient = require('mongodb').MongoClient;
+	var uri = keystone.get('mongo');
+  
+	MongoClient.connect(uri, {useUnifiedTopology: true}, (err, db) => {
+		if (err) throw err;
+
+		if (db.s.options.dbName === process.env.CMS_SOURCE_DB) {
+			updater.updateOtherBlogs(blog);
+		}
+	});
 });
 
 Post.schema.virtual('content.full').get(function () {

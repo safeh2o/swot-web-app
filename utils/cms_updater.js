@@ -141,7 +141,9 @@ async function updateBlog(client, srcBlog, destBlog, dbname_dest) {
     if (srcBlog.categories && srcBlog.categories.length) {
         const collectionName = 'postcategories';
         const postcategories_dest = dbo_dest.collection(collectionName);
-        srcBlog.categories.forEach(async (category) => {
+
+        for (let i = 0; i < srcBlog.categories.length; i++) {
+            const category = srcBlog.categories[i];
             const translation = await translateModel(client, process.env.CMS_SOURCE_DB, dbname_dest, collectionName, category, 'key');
             if (translation.dest) {
                 destBlog.categories.push(translation.dest._id);
@@ -150,7 +152,7 @@ async function updateBlog(client, srcBlog, destBlog, dbname_dest) {
                 const newCat = await postcategories_dest.insertOne(translation.src);
                 destBlog.categories.push(newCat.insertedId);
             }
-        });
+        }
     }
 
     if (srcBlog.author) {
@@ -159,8 +161,6 @@ async function updateBlog(client, srcBlog, destBlog, dbname_dest) {
             destBlog.author = translation.dest._id;
         }
     }
-
-    
 }
 
 async function translateModel(client, dbname_src, dbname_dest, collectionName, id, keyName) {

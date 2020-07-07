@@ -24,9 +24,9 @@ module.exports = {
 
 		var newEnquiry = new Enquiry.model({
 			name: { first: 'Test', last: 'User' },
-			email: 'contact@swot-web.com',
+			email: process.env.ACCOUNTS_ADMIN_EMAIL,
 			phone: '+61 2 1234 5678',
-			enquiryType: 'message',
+			reason: 'message',
 			message: { md: 'Nice enquiry notification.' },
 		});
 

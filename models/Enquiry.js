@@ -15,7 +15,8 @@ Enquiry.add({
 	name: { type: Types.Name, required: true },
 	email: { type: Types.Email, required: true },
 	phone: { type: String },
-	enquiryType: { type: Types.Select, options: [
+	reason: { type: Types.Select, required: true, options: [
+		{ value: 'register', label: 'I want to sign up' },
 		{ value: 'message', label: 'Just leaving a message' },
 		{ value: 'question', label: 'I\'ve got a question' },
 		{ value: 'other', label: 'Something else...' },
@@ -52,24 +53,21 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 	var enquiry = this;
 	var brand = keystone.get('brand');
 
-	keystone.list('User').model.find().where('isAdmin', true).exec(function (err, admins) {
-		if (err) return callback(err);
-		new keystone.Email({
-			templateName: 'enquiry-notification',
-			transport: 'mailgun',
-		}).send({
-			to: admins,
-			from: {
-				name: 'swot-web',
-				email: 'contact@swot-web.com',
-			},
-			subject: 'New Enquiry for swot-web',
-			enquiry: enquiry,
-			brand: brand,
-		}, callback);
-	});
+	new keystone.Email({
+		templateName: 'enquiry-notification',
+		transport: 'mailgun',
+	}).send({
+		to: process.env.ACCOUNTS_ADMIN_EMAIL || process.env.ADMIN_EMAIL,
+		from: {
+			name: process.env.FROM_ADDRESS,
+			email: process.env.FROM_ADDRESS,
+		},
+		subject: 'Contact Form Submitted for SWOT',
+		enquiry: enquiry,
+		brand: brand,
+	}, callback);
 };
 
 Enquiry.defaultSort = '-createdAt';
-Enquiry.defaultColumns = 'name, email, enquiryType, createdAt';
+Enquiry.defaultColumns = 'name, email, reason, createdAt';
 Enquiry.register();

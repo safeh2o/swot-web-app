@@ -523,3 +523,11 @@ tbody tr:nth-child(odd) {
     width: 400px;
   }
 }
+
+.contact-us .has-error {
+  color: red;
+  font-weight: bolder;
+  & input, textarea, select {
+    border: 1px solid red;
+  }
+}

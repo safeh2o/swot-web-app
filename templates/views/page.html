@@ -16,7 +16,7 @@
     {% else %}
         {% if data.page.image.exists %}
           <div class="image-wrap">
-            <img src="{{ data.page.image.fit(750,450) }}" class="img-responsive">
+            <img src="{{ data.page._.image.fit(750,450) }}" class="img-responsive">
           </div>
         {% endif %}
       {{ data.page.content.extended|safe }}

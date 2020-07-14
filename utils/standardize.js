@@ -66,7 +66,7 @@ exports.standardize = async function(datasetId, filename) {
   
   // write header line first
   let requiredColumnOutputs = [];
-  process.env.FILE_REQUIRED_COLUMNS.split(",").forEach(function(requiredColumn, i) {
+  requiredColumns.forEach(function(requiredColumn, i) {
     const requiredColumnOutput = getRequiredColumnOutput(requiredColumn);
     requiredColumnOutputs.push(requiredColumnOutput);
   });
@@ -79,7 +79,7 @@ exports.standardize = async function(datasetId, filename) {
     let rowStr = "";
     let rowObj = {};
     let shouldSkipDataRow = false;
-    process.env.FILE_REQUIRED_COLUMNS.split(",").forEach(function(requiredColumn, i) {
+    requiredColumns.forEach(function(requiredColumn, i) {
       const requiredColumnRegex = getRequiredColumnRegex(requiredColumn);
       const columnShouldBeSkippedOnNull = shouldSkipBlankColumn(requiredColumn);
       const firstMatchingKey = Object.keys(dataRow).find(k => k.match(requiredColumnRegex));
@@ -90,7 +90,8 @@ exports.standardize = async function(datasetId, filename) {
           shouldSkipDataRow = true;
         }
       }
-      rowObj[firstMatchingKey] = val;
+      const requiredColumnOutput = getRequiredColumnOutput(requiredColumn);
+      rowObj[requiredColumnOutput] = val;
       rowStr += val + ",";
     })
     rowStr = rowStr.substring(0, rowStr.length - 1);
@@ -98,7 +99,7 @@ exports.standardize = async function(datasetId, filename) {
       dataToUpload += rowStr + "\n";
       standardizedDataRows.push(rowObj);
     } else {
-      skippedDataRows.push(dataRow);
+      skippedDataRows.push(rowObj);
     }
   });
 

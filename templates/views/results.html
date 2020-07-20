@@ -182,7 +182,8 @@
               title: 'Date Uploaded',
               sortable: true,
               align: 'center',
-              align: 'center'
+              align: 'center',
+              sorter: dateSorter
             }, {
               field: 'fieldsiteName',
               title: 'Site',
@@ -240,6 +241,10 @@
             
           });
         })
+      }
+
+      function dateSorter(a, b) {
+        return Date.parse(a) - Date.parse(b);
       }
   
       function initSiteSelector() {

@@ -228,7 +228,7 @@ async function getAnalysisResultsFromBlobStorage(processedDatasetArray) {
         console.log('Warning: This project does not seem to have a country or fieldset assignment: ', processedDatasetItem);
       }
     }
-    result.sort((a,b) => {return a.datasetDate - b.datasetDate});
+    result.sort((a,b) => {return Date.parse(a.datasetDate) - Date.parse(b.datasetDate)});
     resolve(result);
   });
 }

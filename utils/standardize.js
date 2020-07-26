@@ -79,27 +79,30 @@ exports.standardize = async function(datasetId, filename) {
     let rowStr = "";
     let rowObj = {};
     let shouldSkipDataRow = false;
+    let blankColumn = '';
     requiredColumns.forEach(function(requiredColumn, i) {
       const requiredColumnRegex = getRequiredColumnRegex(requiredColumn);
       const columnShouldBeSkippedOnNull = shouldSkipBlankColumn(requiredColumn);
       const firstMatchingKey = Object.keys(dataRow).find(k => k.match(requiredColumnRegex));
       let val = dataRow[firstMatchingKey];
+      const requiredColumnOutput = getRequiredColumnOutput(requiredColumn);
+      rowObj[requiredColumnOutput] = val;
+      rowStr += val + ",";
       if (!val) {
         val = "";
         if (columnShouldBeSkippedOnNull) {
           shouldSkipDataRow = true;
+          blankColumn = requiredColumnOutput;
         }
       }
-      const requiredColumnOutput = getRequiredColumnOutput(requiredColumn);
-      rowObj[requiredColumnOutput] = val;
-      rowStr += val + ",";
     })
     rowStr = rowStr.substring(0, rowStr.length - 1);
     if (!shouldSkipDataRow) {
       dataToUpload += rowStr + "\n";
       standardizedDataRows.push(rowObj);
     } else {
-      skippedDataRows.push(rowObj);
+      skippedRowObj = {'reason': blankColumn, ...rowObj};
+      skippedDataRows.push(skippedRowObj);
     }
   });
 

@@ -83,7 +83,8 @@ keystone.set('nav', {
   datasets: 'datasets',
   posts: ['posts', 'post-categories'],
   pages: 'pages',
-	enquiries: 'enquiries',
+  enquiries: 'enquiries',
+  welcomes: 'welcomes'
 });
 
 

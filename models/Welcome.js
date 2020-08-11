@@ -28,6 +28,8 @@ Welcome.schema.post('save', function () {
 		this.populate('user').execPopulate()
 		.then((welcome) => {
 			welcome.sendNotificationEmail();
+			welcome.user.welcome = true;
+			welcome.user.save();
 		});
 	}
 });

@@ -1,0 +1,42 @@
+<html>
+
+<head>
+	<link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<style>
+		h1,
+		p,
+		pre {
+			font-family: 'Roboto', sans-serif;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>{{ welcome.user.name.first }}, welcome to SWOT!</h1>
+
+	<p class="text-larger">
+		Dear {{ welcome.user.name.first }},
+	</p>
+
+	<p>
+An account has been created for you on the Safe Water Optimization Tool, accessible through <a href="{{host}}">{{host}}</a>.
+<br><br>
+Here are your login credentials, it is recommended that you change your <strong>password as soon as possible</strong>:
+<br><br>
+</p>
+
+<p style='text-align: justify; transform: translateX(2rem);'>
+Username: {{welcome.user.email}}
+<br>
+Password: {{welcome.user.email}}
+</span>
+</p>
+
+	<br>
+
+	<p>Please reach out to us at <a href="mailto: {{from}}">{{from}}</a> if you have any questions.</p>
+
+	<p class="text-muted">Sent {{ welcome._.createdAt.format() }}</p>
+</body>
+
+</html>

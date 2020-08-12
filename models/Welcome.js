@@ -72,8 +72,9 @@ Welcome.schema.methods.sendNotificationEmail = function (callback) {
 		welcome: this
 	}
 
-	locals.host = locals.host.includes('http') ? locals.host : 'https://' + locals.host;
-	locals.instructionsUrl = locals.host + (locals.host.endsWith('/') ? '' : '/') + 'pages/instructions';
+	locals.host = locals.host.includes('http') ? locals.host : ('https://' + locals.host);
+	locals.host += locals.host.endsWith('/') ? '' : '/';
+	locals.instructionsUrl = locals.host + 'pages/instructions';
 	
 	new keystone.Email({
 		templateName: 'welcome-notification',

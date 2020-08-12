@@ -8,19 +8,23 @@ var Types = keystone.Field.Types;
  */
 
 var Welcome = new keystone.List('Welcome', {
-	noedit: true,
 });
 
 Welcome.add(
 	{
-		user: { type: Types.Relationship, ref: 'User', required: true, initial: true },
-		createdAt: { type: Date, default: Date.now },
+		user: { type: Types.Relationship, ref: 'User', required: true, initial: true, noedit: true },
+		createdAt: { type: Date, default: Date.now, noedit: true },
+		content: { type: Types.Html, initial: false, required: false, height: 400, wysiwyg: true }
 	}
 );
 
 Welcome.schema.pre('save', function (next) {
 	this.wasNew = this.isNew;
-	next();
+	if (!this.content || this.updatingContent)
+		next();
+	else {
+		throw new Error("Cannot modify email already sent, please refresh the page");
+	}
 });
 
 Welcome.schema.post('save', function () {
@@ -33,6 +37,20 @@ Welcome.schema.post('save', function () {
 		});
 	}
 });
+
+function updateContent(welcome) {
+	return (err, {html, text}) => {
+		if (err) {
+			console.error(err);
+			return;
+		}
+		else {
+			welcome.updatingContent = true;
+			welcome.content = html;
+			welcome.save();
+		}
+	}
+}
 
 Welcome.schema.methods.sendNotificationEmail = function (callback) {
 	if (typeof callback !== 'function') {
@@ -48,16 +66,28 @@ Welcome.schema.methods.sendNotificationEmail = function (callback) {
 		return callback(new Error('could not find mailgun credentials'));
 	}
 
+	let locals = {
+		host: process.env.WEB_URL || 'live.safeh2o.app',
+		support: process.env.SUPPORT_EMAIL || process.env.ADMIN_EMAIL,
+		welcome: this
+	}
+
+	locals.host = locals.host.includes('http') ? locals.host : 'https://' + locals.host;
+	locals.instructionsUrl = locals.host + (locals.host.endsWith('/') ? '' : '/') + 'pages/instructions';
+	
+	new keystone.Email({
+		templateName: 'welcome-notification',
+		transport: 'mailgun',
+	}).render(locals, updateContent(this));
+
 	new keystone.Email({
 		templateName: 'welcome-notification',
 		transport: 'mailgun',
 	}).send({
 		to: this.user.email,
 		from: `SWOT Accounts <${process.env.ACCOUNTS_ADMIN_EMAIL || process.env.ADMIN_EMAIL}>`,
-		support: process.env.SUPPORT_EMAIL || process.env.ADMIN_EMAIL,
 		subject: 'Welcome to SWOT',
-		host: process.env.WEB_URL || 'live.safeh2o.app',
-		welcome: this,
+		...locals
 	}, callback);
 
 

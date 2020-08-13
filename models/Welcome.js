@@ -76,17 +76,17 @@ Welcome.schema.methods.sendNotificationEmail = function (callback) {
 	locals.host += locals.host.endsWith('/') ? '' : '/';
 	locals.instructionsUrl = locals.host + 'pages/instructions';
 	
-	new keystone.Email({
+	const email = new keystone.Email({
 		templateName: 'welcome-notification',
 		transport: 'mailgun',
-	}).render(locals, updateContent(this));
+	});
 
-	new keystone.Email({
-		templateName: 'welcome-notification',
-		transport: 'mailgun',
-	}).send({
+	email.render(locals, updateContent(this));
+
+	email.send({
 		to: this.user.email,
 		from: `SWOT Accounts <${process.env.ACCOUNTS_ADMIN_EMAIL || process.env.ADMIN_EMAIL}>`,
+		'o:tracking': false,
 		subject: 'Welcome to SWOT',
 		...locals
 	}, callback);

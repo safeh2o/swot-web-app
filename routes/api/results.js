@@ -125,7 +125,7 @@ async function getUserDatasets(userId, archived) {
   return new Promise(async (resolve, reject) => {
     
     const projectsHavingUser = await Project.model
-      .find({ users: userId })
+      .find({ users: userId, fieldsites: {$ne: []} })
       .populate('users')
       .populate('fieldsites')
       .exec();
@@ -135,7 +135,7 @@ async function getUserDatasets(userId, archived) {
     }
 
     const result = [];
-    const promises = []
+    const promises = [];
     
     const projectsWithFieldsites = _.flatMap(projectsHavingUser, (p) => p);
     _.each(projectsWithFieldsites, async (project, outerIndex) => {
@@ -228,7 +228,7 @@ async function getAnalysisResultsFromBlobStorage(processedDatasetArray) {
         console.log('Warning: This project does not seem to have a country or fieldset assignment: ', processedDatasetItem);
       }
     }
-    result.sort((a,b) => {return a.datasetDate - b.datasetDate});
+    result.sort((a,b) => {return Date.parse(a.datasetDate) - Date.parse(b.datasetDate)});
     resolve(result);
   });
 }

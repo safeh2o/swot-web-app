@@ -146,6 +146,7 @@
 
         $('#FileUploadDetailsModal').on('hidden.bs.modal', function () {
           hideSpinner();
+          $(this).find('form').trigger('reset');
         });
         $('#FileUploadDetailsModal').modal({ backdrop: 'static', keyboard: false, focus: true});
       }

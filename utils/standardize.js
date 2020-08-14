@@ -66,7 +66,7 @@ exports.standardize = async function(datasetId, filename) {
   
   // write header line first
   let requiredColumnOutputs = [];
-  process.env.FILE_REQUIRED_COLUMNS.split(",").forEach(function(requiredColumn, i) {
+  requiredColumns.forEach(function(requiredColumn, i) {
     const requiredColumnOutput = getRequiredColumnOutput(requiredColumn);
     requiredColumnOutputs.push(requiredColumnOutput);
   });
@@ -79,26 +79,30 @@ exports.standardize = async function(datasetId, filename) {
     let rowStr = "";
     let rowObj = {};
     let shouldSkipDataRow = false;
-    process.env.FILE_REQUIRED_COLUMNS.split(",").forEach(function(requiredColumn, i) {
+    let blankColumn = '';
+    requiredColumns.forEach(function(requiredColumn, i) {
       const requiredColumnRegex = getRequiredColumnRegex(requiredColumn);
       const columnShouldBeSkippedOnNull = shouldSkipBlankColumn(requiredColumn);
       const firstMatchingKey = Object.keys(dataRow).find(k => k.match(requiredColumnRegex));
       let val = dataRow[firstMatchingKey];
+      const requiredColumnOutput = getRequiredColumnOutput(requiredColumn);
+      rowObj[requiredColumnOutput] = val;
+      rowStr += val + ",";
       if (!val) {
         val = "";
         if (columnShouldBeSkippedOnNull) {
           shouldSkipDataRow = true;
+          blankColumn = requiredColumnOutput;
         }
       }
-      rowObj[firstMatchingKey] = val;
-      rowStr += val + ",";
     })
     rowStr = rowStr.substring(0, rowStr.length - 1);
     if (!shouldSkipDataRow) {
       dataToUpload += rowStr + "\n";
       standardizedDataRows.push(rowObj);
     } else {
-      skippedDataRows.push(dataRow);
+      skippedRowObj = {'reason': blankColumn, ...rowObj};
+      skippedDataRows.push(skippedRowObj);
     }
   });
 

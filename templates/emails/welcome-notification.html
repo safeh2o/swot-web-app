@@ -1,0 +1,45 @@
+<html>
+
+<head>
+	<link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<style>
+		h1,
+		p,
+		pre {
+			font-family: 'Roboto', sans-serif;
+		}
+	</style>
+</head>
+
+<body>
+	<img src="{{host}}assets/swot_logo1b_tr.png" height="150px">
+	
+	<p class="text-larger">
+		Dear {{ welcome.user.name.first }},
+	</p>
+
+	<p>
+	An account has been created for you on the Safe Water Optimization Tool, accessible through <a href="{{host}}">{{host}}</a>.
+	<br><br>
+	Here are your login credentials, it is recommended that you change your <strong>password as soon as possible</strong> after logging in:
+	<br><br>
+	</p>
+
+	<p style='text-align: justify; transform: translateX(2rem);'>
+	Username: {{welcome.user.email}}
+	<br>
+	Password: {{welcome.user.email}}
+	</span>
+	</p>
+
+	<p><em>You can change your user details after logging in by clicking the icon at the top right of the page.</em></p>
+	<br>
+	<p>You can also find instructions on how to use this app <a href="{{instructionsUrl}}">here</a>.</p>
+	<br>
+
+	<p>Please reach out to us at <a href="mailto: {{support}}">{{support}}</a> if you have any questions.</p>
+
+	<p class="text-muted">Sent {{ welcome._.createdAt.format() }}</p>
+</body>
+
+</html>

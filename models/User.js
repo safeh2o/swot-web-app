@@ -11,7 +11,8 @@ User.add({
 	name: { type: Types.Name, required: true, index: true },
 	email: { type: Types.Email, initial: true, required: true, unique: true, index: true },
   password: { type: Types.Password, initial: true, required: true },
-  welcome: { type: Types.Boolean, label: 'Send Welcome Email', noedit: true, initial: true }
+  welcome: { type: Types.Boolean, label: 'Send Welcome Email', noedit: true, initial: true },
+  projects: { type: Types.Relationship, label: 'Assigned Projects', ref: 'Project', many: true, initial: true, hidden: true, noedit: true, index: false }
 }, 'Permissions', {
   isAdmin: { type: Types.Boolean, label: 'Can access Keystone', index: true },
 });
@@ -27,10 +28,20 @@ User.schema.pre('save', function (next) {
 });
 
 User.schema.post('save', function () {
-  if (!this.wasNew || !this.welcome) return;
+  if (!this.wasNew) return;
 
-  var Welcome = keystone.list('Welcome');
-  Welcome.model.create({user: this});
+  var Project = keystone.list('Project');
+  Project.model.updateMany({ _id: {$in: this.projects} }, { $push: {'users': this._id} }, (err, res) => {
+    if (err) {
+      console.error(`Error adding user ${this.name.full} to projects during creation.`, err);
+      return;
+    }
+  });
+
+  if (this.welcome) {
+    var Welcome = keystone.list('Welcome');
+    Welcome.model.create({user: this});
+  }
 });
 
 /**

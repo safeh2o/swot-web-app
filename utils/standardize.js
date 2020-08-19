@@ -114,7 +114,7 @@ exports.standardize = async function(datasetId, filename) {
 }
 
 async function saveStandardizedData(datasetId, rawData, standardizedData, skippedData) {
-  console.log(`Dataset id is ${datasetId}`);
+  // console.log(`Dataset id is ${datasetId}`);
   return Dataset.model.findOneAndUpdate(
     {_id: datasetId}, 
     { $set: {standardizedData: standardizedData, rawData: rawData, skippedRows: skippedData }, },

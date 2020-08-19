@@ -161,7 +161,7 @@
           showSpinner();
           $.get('/api/upload/'+data.uploadedFile._id+'/update', uploadForm, function(data) {
             hideSpinner();
-            console.log('File information updated: ', data);
+            // console.log('File information updated: ', data);
             $('#FileUploadDetailsModal').modal('hide');
             if (data.file) {
               showConfirmModal("Your file was submitted for processing. You will receive results in an e-mail shortly.");

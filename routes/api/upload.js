@@ -90,9 +90,10 @@ exports.update = async function(req, res) {
 
       const rawDataURL = await getBlobURL(process.env.AZURE_STORAGE_CONTAINER, rawBlobName);
       const stdDataURL = await getBlobURL(process.env.AZURE_STORAGE_CONTAINER_STD, stdBlobName);
-      await updateDatasetWithNewBlobURLs(data._id, rawDataURL, stdDataURL);
 
-      await updateDatasetWithBlobPrefix(data._id, country.name, `${dataService.getIdentifier(project)}/${dataService.getIdentifier(fieldsite)}`)
+      await updateDatasetBlobInfo(data.id, rawDataURL, stdDataURL, stdBlobName);
+
+      await updateDatasetWithBlobPrefix(data.id, country.name, `${dataService.getIdentifier(project)}/${dataService.getIdentifier(fieldsite)}`)
       
       await analyzer.notifyFileUpload(stdBlobName, req.user.email, country, project, fieldsite, req.user, dataItem);
 
@@ -116,18 +117,31 @@ async function renameBlobFile(sourceURI, targetBlobName, containerName) {
   const retryOperations = new azure.LinearRetryPolicyFilter();
   const blobService = azure.createBlobService().withFilter(retryOperations);
   return new Promise((resolve, reject) => {
-    blobService.startCopyBlob(sourceURI, containerName, targetBlobName, (err, result) => {
+    blobService.startCopyBlob(sourceURI, containerName, targetBlobName, (err, _result) => {
       if (err) {
         console.log(`Error occurred while renaming blobs on Azure, container name is ${containerName}, source is ${sourceURI}, target is ${targetBlobName} and error is ${err}`);
         reject(err);
       }
-      resolve(result);
-    })
+      
+      const srcBlobName = sourceURI.substring(sourceURI.lastIndexOf('/')+1)
+      blobService.deleteBlob(containerName, srcBlobName, (err, response) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(response);
+      })
+      
+    });
   });
 }
 
-async function updateDatasetWithNewBlobURLs(datasetId, rawDataURL, stdDataURL) {
-  return Dataset.model.findOneAndUpdate({_id: datasetId}, { $set: {'file.url': rawDataURL, stdDataURL: stdDataURL }}, { strict: false }).exec();
+async function updateDatasetBlobInfo(datasetId, rawDataURL, stdDataURL, stdBlobName) {
+  const setQuery = {
+    'file.url': rawDataURL,
+    'stdFile.url': stdDataURL,
+    'stdFile.filename': stdBlobName
+  };
+  return Dataset.model.findOneAndUpdate({_id: datasetId}, { $set: setQuery}, { strict: false }).exec();
 }
 
 async function updateDatasetWithBlobPrefix(datasetId, containerName, prefix) {

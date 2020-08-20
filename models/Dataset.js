@@ -51,7 +51,15 @@ Dataset.schema.methods.redoAnalysis = async function(callback) {
   const project = await dataService.getProjectByFieldsite(this.fieldsite.toString());
   const country = await dataService.getCountryByProject(project.id);
   const populated = await this.populate('user fieldsite').execPopulate();
-  analyzer.notifyFileUpload(this.stdFile.filename, populated.user.email, country, project, populated.fieldsite, this.user.toString(), this);
+  let filename;
+  if (!this.stdFile || !this.stdFile.filename) {
+    console.log('This dataset is old, parsing old URL...');
+    filename = this.file.url.substring(this.file.url.lastIndexOf('/')+1);
+    filename = filename.substring(0, filename.lastIndexOf('.')) + '.csv';
+  } else {
+    filename = this.stdFile.filename;
+  }
+  analyzer.notifyFileUpload(filename, populated.user.email, country, project, populated.fieldsite, this.user.toString(), this);
 }
 
 /**

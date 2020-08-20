@@ -118,11 +118,14 @@ exports.analyze = async function(req, res) {
     // console.log(datasetToArchive);
     datasets = await Dataset.model.find( {_id: {$in: datasetToArchive} }).exec();
 
+    const processedDatasetNames = [];
     datasets.forEach(dataset => {
       dataset.redoAnalysis();
+      processedDatasetNames.push(dataset.name);
     });
 
-    res.json(datasetToArchive);
+    res.json(`Resent datasets ${processedDatasetNames.join(', ')} for analysis`);
+    
   }
 }
 

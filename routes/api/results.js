@@ -94,6 +94,38 @@ exports.archive = async function(req, res) {
   }
 }
 
+exports.analyze = async function(req, res) {
+  if (!req.query.datasetIds) {
+    res.status(400).send('No dataset id given');
+    return;
+  }
+  let datasetIds = [];
+  try {
+    datasetIds = JSON.parse(req.query.datasetIds).map(d => d.toString());
+  } catch (e) {
+    res.status(400).send('Invalid dataset id');
+    return;
+  }
+
+  const processedDatasets = await fetchDatasets(false, req);
+  const processedDatasetIds = processedDatasets.map(d => d.datasetId);
+  const datasetToArchive = processedDatasetIds.filter(d => datasetIds.indexOf(d.toString()) !== -1);
+
+  if (datasetToArchive.length == 0) {
+    res.status(400).send('Unable to find datasets');
+    return;
+  } else {
+    // console.log(datasetToArchive);
+    datasets = await Dataset.model.find( {_id: {$in: datasetToArchive} }).exec();
+
+    datasets.forEach(dataset => {
+      dataset.redoAnalysis();
+    });
+
+    res.json(datasetToArchive);
+  }
+}
+
 
 async function sendDatasets(archived, req, res) {
   let retryCount = 0;

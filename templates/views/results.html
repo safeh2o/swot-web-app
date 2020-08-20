@@ -223,8 +223,6 @@
 
         $remove.click(function () {
           var ids = getIdSelections();
-          $analyze.prop('disabled', true);
-          $remove.prop('disabled', true);
           $.get(`/api/results/archive?datasetIds=${JSON.stringify(ids)}`, null, function(data) {
             
             $table.bootstrapTable('remove', {
@@ -232,6 +230,7 @@
               values: ids
             });
 
+            $table.bootstrapTable('uncheckAll');
             loadDataIntoTable();
             
           });
@@ -239,17 +238,10 @@
 
         $analyze.click(function () {
           var ids = getIdSelections();
-          $analyze.prop('disabled', true);
-          $remove.prop('disabled', true);
-          $.get(`/api/results/analyze?datasetIds=${JSON.stringify(ids)}`, null, function(data) {
-            
-            $table.bootstrapTable('analyze', {
-              field: 'id',
-              values: ids
-            });
+          $.get(`/api/results/analyze?datasetIds=${JSON.stringify(ids)}`, null, function(response) {
+            alert(response);
 
-            loadDataIntoTable();
-            
+            $table.bootstrapTable('uncheckAll');
           });
         })
       }

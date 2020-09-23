@@ -237,8 +237,10 @@
         })
 
         $analyze.click(function () {
+          showSpinner();
           var ids = getIdSelections();
           $.get(`/api/results/analyze?datasetIds=${JSON.stringify(ids)}`, null, function(response) {
+            hideSpinner();
             alert(response);
 
             $table.bootstrapTable('uncheckAll');

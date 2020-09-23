@@ -53,11 +53,19 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 	var enquiry = this;
 	var brand = keystone.get('brand');
 
+	var toEmail = [];
+	var emails = [process.env.ACCOUNTS_ADMIN_EMAIL, process.env.SUPPORT_EMAIL];
+	emails.forEach(email => {
+		if (email) {
+			toEmail.push(email);
+		}
+	});
+
 	new keystone.Email({
 		templateName: 'enquiry-notification',
 		transport: 'mailgun',
 	}).send({
-		to: process.env.ACCOUNTS_ADMIN_EMAIL || process.env.ADMIN_EMAIL,
+		to: toEmail.length ? toEmail : process.env.ADMIN_EMAIL,
 		from: {
 			name: process.env.FROM_ADDRESS,
 			email: process.env.FROM_ADDRESS,

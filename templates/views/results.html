@@ -134,11 +134,15 @@
       }
   
       function statusFormatter(value, row) {
-        if (row.datasetArtifacts && row.datasetArtifacts.length) {
+        if (row.datasetArtifacts && row.datasetArtifacts.length && hasPdf(row.datasetArtifacts)) {
           return `<a target='_blank' href='/api/results/download?datasetId=${row.datasetId}&archived=${isArchivedPage() ? 'true' : 'false'}'>Download</a>`
         } else {
           return "<label>Processing</label>";
         }
+      }
+
+      function hasPdf(filenames) {
+        return filenames.some(filename => filename.endsWith('.pdf'));
       }
   
       function initTable() {

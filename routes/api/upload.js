@@ -176,6 +176,18 @@ async function getUserFieldsites(userId) {
     return null;
   }
 
-  const fieldSites = _.flatMap(projectsHavingUser, (p) => p.fieldsites);
-  return _.sortBy(fieldSites, f => f.name);
+  let fieldsites = [];
+
+  for (let i = 0; i < projectsHavingUser.length; i++) {
+    prj = projectsHavingUser[i];
+    const countriesHavingProject = await Country.model
+    .find({ projects:  prj })
+    .exec();
+
+    if (countriesHavingProject.length) {
+      fieldsites = fieldsites.concat(prj.fieldsites);
+    }
+  }
+
+  return _.sortBy(fieldsites, f => f.name);
 }

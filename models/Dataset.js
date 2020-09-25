@@ -32,8 +32,24 @@ Dataset.add({
     createdTimeStamp: { type: Date, default: Date.now },
     archived: {type: Types.Boolean, index: true, default: false},
     }, 'Redo Analysis', {
-    redo: { type: Types.Boolean, initial: false, default: false, label: 'Redo Analysis on Save' }
+    redo: { type: Types.Boolean, initial: false, default: false, label: 'Redo Analysis on Save' },
+    }, 'Download Data', {
+    resultsUrl: { type: Types.Url, initial: false, label: 'Download Results', watch: true, value: getResultsUrl, noedit: true },
+    stdUrl: { type: Types.Url, initial: false, label: 'Download Standardized Data', watch: true, value: getStandardizedUrl, noedit: true },
+    rawUrl: { type: Types.Url, initial: false, label: 'Download Raw Data', watch: true, value: getRawUrl, noedit: true }
 });
+
+function getResultsUrl() {
+  return `${process.env.WEB_URL}/api/results/fetch?datasetId=${this.id}`;
+}
+
+function getStandardizedUrl() {
+  return `${process.env.WEB_URL}/api/data/standardized?datasetId=${this.id}`;
+}
+
+function getRawUrl() {
+  return `${process.env.WEB_URL}/api/data/raw?datasetId=${this.id}`;
+}
 
 Dataset.schema.pre('save', function (next) {
   if (this.redo) {

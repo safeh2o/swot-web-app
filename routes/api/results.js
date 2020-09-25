@@ -68,6 +68,75 @@ exports.download = async function(req, res) {
   
 }
 
+exports.fetch = async function(req, res) {
+  if (!req.query.datasetId) {
+      res.status(400).send('Invalid dataset id');
+      return;
+  }
+  
+  if (!req.user || !req.user.isAdmin) {
+    res.status(403).send('Insufficient Privilleges');
+    return;
+  }
+
+
+  const dataset = await Dataset.model.findById(req.query.datasetId)
+    .populate('fieldsite')
+    .exec();
+  const fieldsite = dataset.fieldsite;
+  const project = await Project.model.findOne({fieldsites: {$in: [fieldsite.id]}}).exec();
+  const country = await Country.model.findOne({projects: {$in: [project.id]}}).exec();
+
+  const containerName = `${dataService.getIdentifier(country)}`;
+  const prefix = `${dataService.getIdentifier(project)}/${dataService.getIdentifier(fieldsite)}/${dataset._id}`;
+
+  let datasetArtifacts;
+
+  const retryOperations = new azure.LinearRetryPolicyFilter();
+  const blobService = azure.createBlobService().withFilter(retryOperations);
+
+  blobService.listBlobsSegmentedWithPrefix(containerName, prefix, null, { delimiter: "", useNagleAlgorithm: true, maximumExecutionTimeInMs: 12000, clientRequestTimeoutInMs: 12000, timeoutIntervalInMs: 12000 },
+    (err, data) => {
+      if (err) {
+        console.log(`Error occurred while reading blobs from Azure, container name is ${containerName}, prefix is ${prefix} and error is ${err}`);
+        reject(err);
+      }
+      
+      datasetArtifacts = data.entries.map(e => e.name);
+
+      const archive = archiver('zip');
+
+      archive.on('error', function (err) {
+        console.log(`Error during download operation`, err);
+        res.send('Error occurred during download operation');
+        return;
+      });
+
+      res.header('Content-Type', 'application/zip');
+      const date = new Date(dataset.dateOfReading);
+      const fileDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+      res.header('Content-Disposition', `attachment; filename="${dataService.getIdentifierKeyValue(dataset.name, fileDate)}.zip"`);
+
+      archive.pipe(res);
+
+      datasetArtifacts.forEach((artifactLink) => {
+        //console.log('Processing ' + JSON.stringify(datasetToDownload[0]));
+        const filename = artifactLink.substring(artifactLink.lastIndexOf('/') + 1);
+        archive.append(std.getBlobReadStream(containerName, artifactLink), { name: filename });
+      });
+
+      archive.finalize(function (err, bytes) {
+        if (err) {
+          throw err;
+        }
+
+        console.log(`Prepared zip file for download in size of ${bytes} total bytes`);
+      });
+      
+    });
+
+}
+
 exports.archive = async function(req, res) {
   if (!req.query.datasetIds) {
     res.status(400).send('No dataset id given');

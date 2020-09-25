@@ -239,32 +239,24 @@ async function getUserDatasets(userId, archived) {
     }
 
     const result = [];
-    const promises = [];
     
     const projectsWithFieldsites = _.flatMap(projectsHavingUser, (p) => p);
-    _.each(projectsWithFieldsites, async (project, outerIndex) => {
-      //get country since it's the container name
-      const country = await dataService.getCountryByProject(project._id); 
-      _.each(project.fieldsites, async (fieldsite, innerIndex) => {
-        const filter = {fieldsite: fieldsite._id, archived: false};
-        if (archived) {
-          filter.archived = true;
-        }
 
-        const datasetsInFieldsite = Dataset.model.find(filter).exec((err, datasets) => {
-          if (datasets && datasets.length) {
-            delete(project.user);
-            result.push(new ProcessedDataset(country, project, fieldsite, datasets));
-          }
-        });
-        
-        promises.push(datasetsInFieldsite);
-        
-        if ((outerIndex == projectsWithFieldsites.length -1) && (innerIndex == project.fieldsites.length - 1) ) {          
-          Promise.all(promises).then(() => resolve(result));
+    for (let i = 0; i < projectsWithFieldsites.length; i++) {
+      const project = projectsWithFieldsites[i];
+      const country = await dataService.getCountryByProject(project._id); 
+      for (let j = 0; j < project.fieldsites.length; j++) {
+        const fieldsite = project.fieldsites[j];
+        const filter = {fieldsite: fieldsite.id, archived: archived};
+        const datasets = await Dataset.model.find(filter).exec();
+        if (datasets && datasets.length) {
+          delete(project.user);
+          result.push(new ProcessedDataset(country, project, fieldsite, datasets));
         }
-      });      
-    });
+      }
+    }
+
+    resolve(result);
 
   });
 }

@@ -206,6 +206,10 @@ async function uploadTextAsFileToStorage(containerName, blobName, text) {
 }
 
 function getBlobReadStream(containerName, blobName) {
+  if (!containerName || !blobName) {
+    throw new Error('Invalid Azure blob details specified');
+  }
+
   const retryOperations = new azure.LinearRetryPolicyFilter();
   const blobService = azure.createBlobService().withFilter(retryOperations);
   return blobService.createReadStream(containerName, blobName);

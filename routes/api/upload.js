@@ -91,7 +91,7 @@ exports.update = async function(req, res) {
       const rawDataURL = await getBlobURL(process.env.AZURE_STORAGE_CONTAINER, rawBlobName);
       const stdDataURL = await getBlobURL(process.env.AZURE_STORAGE_CONTAINER_STD, stdBlobName);
 
-      await updateDatasetBlobInfo(data.id, rawDataURL, stdDataURL, stdBlobName);
+      await updateDatasetBlobInfo(data.id, rawDataURL, rawBlobName, stdDataURL, stdBlobName);
 
       await updateDatasetWithBlobPrefix(data.id, country.name, `${dataService.getIdentifier(project)}/${dataService.getIdentifier(fieldsite)}`)
       
@@ -135,11 +135,13 @@ async function renameBlobFile(sourceURI, targetBlobName, containerName) {
   });
 }
 
-async function updateDatasetBlobInfo(datasetId, rawDataURL, stdDataURL, stdBlobName) {
+async function updateDatasetBlobInfo(datasetId, rawDataURL, rawBlobName, stdDataURL, stdBlobName) {
   const setQuery = {
     'file.url': rawDataURL,
+    'file.filename': rawBlobName,
     'stdFile.url': stdDataURL,
-    'stdFile.filename': stdBlobName
+    'stdFile.filename': stdBlobName,
+    'stdFile.container': process.env.AZURE_STORAGE_CONTAINER_STD
   };
   return Dataset.model.findOneAndUpdate({_id: datasetId}, { $set: setQuery}, { strict: false }).exec();
 }

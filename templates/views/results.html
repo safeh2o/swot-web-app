@@ -231,6 +231,7 @@
 
 
         $remove.click(function () {
+          showSpinner();
           var ids = getIdSelections();
           $.get(`/api/results/archive?datasetIds=${JSON.stringify(ids)}`, null, function(data) {
             

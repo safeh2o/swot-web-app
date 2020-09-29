@@ -349,12 +349,7 @@ class ProcessedDatasetViewModel {
     this.datasetName = datasetName;
     this.datasetId = datasetId;
     this.datasetDesc = datasetDesc;
-    try {
-      const date = new Date(datasetDate);
-      this.datasetDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
-    } catch(e) {
-      this.datasetDate = datasetDate;
-    }
+    this.datasetDate = datasetDate;
     this.datasetArtifacts = datasetArtifacts;
     this.archived = archived;
   }

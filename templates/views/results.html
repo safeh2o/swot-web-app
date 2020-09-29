@@ -70,12 +70,13 @@
       const $analyze = $('#analyze')
       let selections = []
       let tableData = [];
+      let adminView = false;
 
       function loadDataIntoTable() {
         showSpinner();
-        $.get(getEndpoint(), null, function(data) {
+        $.get(getEndpoint(), null, function(res) {
           hideSpinner();
-          if (!data || !data.length) {
+          if (!res || !res.data || !res.data.length) {
             $("#noDataContainer").removeClass("hidden");
             $("#resultsContainer").addClass("hidden");
           } else {
@@ -83,7 +84,9 @@
             $("#resultsContainer").removeClass("hidden");
           }
           $table.bootstrapTable('load', []);
+          const data = res.data;
           tableData = data;
+          adminView = res.adminView;
           const sites = loadSites(data);
           loadTableBySelectedSite();
         });
@@ -133,9 +136,17 @@
         return html.join('')
       }
   
+      function nameFormatter(value, row) {
+        if (adminView) {
+          return `<a target='_blank' href='/admin/datasets/${row.datasetId}' title='View in Admin Panel'>${value}</a>`
+        } else {
+          return value;
+        }
+      }  
+
       function statusFormatter(value, row) {
         if (row.datasetArtifacts && row.datasetArtifacts.length && hasPdf(row.datasetArtifacts)) {
-          return `<a target='_blank' href='/api/results/download?datasetId=${row.datasetId}&archived=${isArchivedPage() ? 'true' : 'false'}'>Download</a>`
+          return `<a target='_blank' href='/api/results/download?datasetId=${row.datasetId}&archived=${isArchivedPage() ? 'true' : 'false'}' title='Download Results'>Download</a>`
         } else {
           return "<label>Processing</label>";
         }
@@ -172,7 +183,8 @@
               field: 'datasetName',
               title: 'File name',
               sortable: true,
-              align: 'center'
+              align: 'center',
+              formatter: nameFormatter,
             }, {
               field: 'datasetDesc',
               title: 'Description',
@@ -183,21 +195,18 @@
               title: 'Date Uploaded',
               sortable: true,
               align: 'center',
-              align: 'center',
               sorter: dateSorter
             }, {
               field: 'fieldsiteName',
               title: 'Site',
               sortable: true,
               align: 'center',
-              align: 'center'
             }, {
               field: 'status',
               title: 'Status',
               sortable: true,
               align: 'center',
               formatter: statusFormatter,
-              align: 'center'
             },
             {
               field: 'datasetArtifacts',

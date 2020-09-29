@@ -207,7 +207,7 @@ async function sendDatasets(archived, req, res) {
     retryCount++;
     userDatasets = await fetchDatasets(archived, req);
   }
-  res.json(userDatasets)
+  res.json({'adminView': req.user.canAccessKeystone, 'data': userDatasets});
 }
 
 async function fetchDatasets(archived, req) {

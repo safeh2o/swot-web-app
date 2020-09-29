@@ -142,7 +142,13 @@
                             .text(fieldsite.name)); 
         });
 
-        document.getElementById('dateOfReading').valueAsDate = new Date();
+        // get current time
+        const currTime = new Date();
+        // round to second
+        currTime.setTime(Math.floor(currTime/60000) * 60000);
+
+        // preset the time in modal to current time
+        document.getElementById('dateOfReading').valueAsNumber = currTime - currTime.getTimezoneOffset()*60000;
 
         $('#FileUploadDetailsModal').on('hidden.bs.modal', function () {
           hideSpinner();
@@ -221,8 +227,8 @@
               </div>
   
               <div class="form-group">
-                <label for="dateOfReading">Date of Reading</label>
-                <input type="date" class="form-control form-control-lg" name="dateOfReading" id="dateOfReading" required="">
+                <label for="dateOfReading">Date</label>
+                <input type="datetime-local" class="form-control form-control-lg" name="dateOfReading" id="dateOfReading" required="">
                 <div class="invalid-feedback">Oops, you missed this one.</div>
               </div>
 

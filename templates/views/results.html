@@ -152,6 +152,21 @@
         }
       }
 
+      function dateFormatter(value, row) {
+        // convert to YYYY-MM-DD HH-MM a
+        const d = new Date(value);
+        const pad = num => num.toString().padStart(2, '0');
+        let hours = d.getHours();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        // if 0 change to 12
+        hours = hours == 0 ? 12 : hours;
+
+        const formattedDate = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${hours}:${pad(d.getMinutes())} ${ampm}`;
+        
+        return formattedDate;
+      }
+
       function hasPdf(filenames) {
         return filenames.some(filename => filename.endsWith('.pdf'));
       }
@@ -195,7 +210,7 @@
               title: 'Date Uploaded',
               sortable: true,
               align: 'center',
-              sorter: dateSorter
+              formatter: dateFormatter,
             }, {
               field: 'fieldsiteName',
               title: 'Site',
@@ -265,10 +280,6 @@
             $table.bootstrapTable('uncheckAll');
           });
         })
-      }
-
-      function dateSorter(a, b) {
-        return Date.parse(a) - Date.parse(b);
       }
   
       function initSiteSelector() {

@@ -24,12 +24,11 @@ var azureStorage = new keystone.Storage({
 Dataset.add({
     name: { type: Types.Text, index: true },
     description: { type: Types.Textarea, initial: true, index: true },
-    dateOfReading: { type: Types.Date, initial: true, index: true },
+    dateOfReading: { type: Types.Datetime, utc: false, initial: true, index: true },
     fieldsite: { type: Types.Relationship, ref: 'Fieldsite', initial: true, index: true },
     user: { type: Types.Relationship, ref: 'User', initial: true, index: true },
     file: { type: Types.File, storage: azureStorage, label: 'Raw Data' },
     stdFile: { type: Types.File, storage: azureStorage, label: 'Standardized Data' },
-    createdTimeStamp: { type: Date, default: Date.now },
     archived: {type: Types.Boolean, index: true, default: false},
     }, 'Redo Analysis', {
     redo: { type: Types.Boolean, initial: false, default: false, label: 'Redo Analysis on Save' },

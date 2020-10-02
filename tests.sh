@@ -33,7 +33,7 @@ echo 'Testing xlsx datasets in ./tests/' && echo
 for f in tests/*.xlsx; do
 	echo "Testing file ${f}..."
 	prefix=$(basename ${f} | cut -d _ -f1)
-	dor=$(date +%Y-%m-%d)
+	dor=$(date -u +%Y-%m-%dT%H:%M:00.000Z)
 	output=$(curl -sL "${HOST}/api/upload/create" \
 			-F "file_upload=@${f}" \
 			-b ${COOKIE_FILENAME} \

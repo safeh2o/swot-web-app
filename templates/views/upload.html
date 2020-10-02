@@ -133,6 +133,8 @@
         $.ajax(opts);
       }
 
+      var offset = 0;
+
       function showDetailsModal(userFieldsites) {
         $("#fieldsite").empty();
         $.each(userFieldsites, function(index, fieldsite) {   
@@ -149,6 +151,7 @@
 
         // preset the time in modal to current time
         document.getElementById('dateOfReading').valueAsNumber = currTime - currTime.getTimezoneOffset()*60000;
+        offset = currTime.getTimezoneOffset()*60000;
 
         $('#FileUploadDetailsModal').on('hidden.bs.modal', function () {
           hideSpinner();
@@ -162,7 +165,14 @@
         $("#formUpload").removeAttr('onsubmit').submit(function(event) {
           event.preventDefault();
           var uploadForm = $("#formUpload").serialize();
-          uploadForm += "&fieldsite=" + $('#fieldsite').val();
+          // get date in UTC to store
+          const query = uploadForm.split('&');
+          const dateIndex = query.findIndex(value => value.indexOf('dateOfReading') >= 0);
+          let dateUploaded = new Date(document.getElementById('dateOfReading').valueAsNumber + offset);
+          console.log(dateUploaded.getTimezoneOffset());
+          query[dateIndex] = `dateOfReading=${dateUploaded.toISOString().replace(/:/g, '%3A')}`;
+          query.push(`fieldsite=${$('#fieldsite').val()}`);
+          uploadForm = query.join('&');
           //Update the file with the information above.
           showSpinner();
           $.get('/api/upload/'+data.uploadedFile._id+'/update', uploadForm, function(data) {

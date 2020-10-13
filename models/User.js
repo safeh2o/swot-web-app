@@ -12,7 +12,8 @@ User.add({
 	email: { type: Types.Email, initial: true, required: true, unique: true, index: true },
   password: { type: Types.Password, initial: true, required: true },
   welcome: { type: Types.Boolean, label: 'Send Welcome Email', noedit: true, initial: true },
-  projects: { type: Types.Relationship, label: 'Assigned Projects', ref: 'Project', many: true, initial: true, hidden: true, noedit: true, index: false }
+  projects: { type: Types.Relationship, label: 'Assigned Projects', ref: 'Project', many: true, initial: true, hidden: true, noedit: true, index: false },
+  resetPasswordKey: { type: Types.Text, hidden: true, initial: false }
 }, 'Permissions', {
   isAdmin: { type: Types.Boolean, label: 'Can access Keystone', index: true },
 });

@@ -45,6 +45,11 @@ exports = module.exports = function (app) {
 	app.get('/blog/post/:post', routes.views.post);
 	app.all('/contact', routes.views.contact);
   app.get('/pages/:page', routes.views.page);
+  app.all('/forgotpassword', routes.views.forgotpassword);
+  app.post('/resetpassword', keystone.security.csrf.middleware.validate, routes.views.resetpassword);
+  app.get('/resetpassword/:key', keystone.security.csrf.middleware.init, routes.views.resetpassword);
+	app.all('/signin', routes.views.signin);
+  
   
   // REST endpoints
   app.all('/api/upload/:id/update', keystone.middleware.api, routes.api.upload.update);

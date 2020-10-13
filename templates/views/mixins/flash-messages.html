@@ -19,6 +19,9 @@
 
 {% macro flashMessage(message, type) %}
 	<div class="alert alert-{{ type }}">
+		{% if message.__proto__ == "" %}
+		<p>{{message}}</p>
+		{% endif %}
 		{% if message %}
 			{% if message.title %}
 				<h5>{{ message.title }}</h5>

@@ -1,6 +1,10 @@
 {% extends "layouts/default.html" %}
 
+
+
 {% block intro %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 <div class="container">
   <div class=" px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h4 class="display-4" id="headerText">To set up an account to use the SWOT or if you have any questions, please contact us:</h4>
@@ -57,6 +61,7 @@
 							</label>
 						</div>
 						<div class="form-actions">
+							<div class="g-recaptcha" data-sitekey="{{grecaptcha}}"></div>
 							<button type="submit" class="btn btn-primary">Send</button>
 						</div>
 					</form>

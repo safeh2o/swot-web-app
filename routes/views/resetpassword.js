@@ -38,7 +38,7 @@ exports = module.exports = function(req, res) {
             userFound.save(function(err) {
                 if (err) return next(err);
                 req.flash('success', 'Your password has been reset, please sign in.');
-                res.redirect('/admin/signin');
+                res.redirect('/signin');
             });
 		});
          

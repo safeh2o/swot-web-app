@@ -58,11 +58,6 @@ async function downloadFromAzure(azureFile, res) {
 }
 
 async function validateRequest(req, res) {
-    if (!req.query.datasetId) {
-        res.status(400).send('Invalid dataset id');
-        return false;
-    }
-
     if (!req.user) {
         res.redirect('/admin/signin', 302);
         return false;
@@ -70,6 +65,11 @@ async function validateRequest(req, res) {
 
     if (!req.user.isAdmin) {
         res.status(403).send('Insufficient Privilleges');
+        return false;
+    }
+
+    if (!req.query.datasetId) {
+        res.status(400).send('Invalid dataset id');
         return false;
     }
 

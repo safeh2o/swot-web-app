@@ -1,5 +1,6 @@
 const keystone = require('keystone');
 const User = keystone.list('User');
+const Enquiry = keystone.list('Enquiry');
 
 /**
  * Update current user profile
@@ -49,5 +50,48 @@ exports.update = async function(req, res) {
       });
     }
   });
+
+}
+
+exports.createFromEnquiry = async function(req, res) {
+  if (!req.user) {
+      res.redirect('/admin/signin', 302);
+      return false;
+  }
+
+  if (!req.user.isAdmin) {
+      res.status(403).send('Insufficient Privilleges');
+      return false;
+  }
+
+  if (!req.query.enquiryId) {
+    res.status(400).send('Invalid enquiry id');
+    return false;
+  }
+
+  const enquiry = await Enquiry.model.findOne({ '_id': req.query.enquiryId }).exec();
+  
+  if (!enquiry) {
+    res.status(404).send();
+    return false;
+  }
+
+  const userExists = await User.model.findOne({'email': enquiry.email}).exec();
+  if (userExists) {
+    res.status(409).send(`User already exists with the email ${enquiry.email}.`);
+    return;
+  }
+
+  // create user from enquiry with first name, last name and email
+  const user = await User.model.create({
+    'name': enquiry.name,
+    'email': enquiry.email,
+    'password': enquiry.email,
+    'isAdmin': false,
+    'welcome': true
+  });
+
+  res.send(`Created new user with email ${user.email}`);
+  return true;
 
 }

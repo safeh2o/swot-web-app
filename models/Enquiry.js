@@ -22,8 +22,14 @@ Enquiry.add({
 		{ value: 'other', label: 'Something else...' },
 	] },
 	message: { type: Types.Markdown, required: true },
-	createdAt: { type: Date, default: Date.now },
+	createdAt: { type: Date, default: Date.now }
+	}, { heading: 'Create and Welcome User', dependsOn: { reason: 'register' } }, {
+	createUser: { type: Types.Url, initial: false, label: 'Create User with this Info', 'note': 'Password defaults to the same as email', dependsOn: { reason: 'register' }, watch: true, value: getUserCreationUrl, noedit: true }
 });
+
+function getUserCreationUrl() {
+	return `${process.env.WEB_URL}/api/user/create?enquiryId=${this.id}`;
+}
 
 Enquiry.schema.pre('save', function (next) {
 	this.wasNew = this.isNew;

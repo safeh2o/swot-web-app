@@ -61,6 +61,7 @@ exports = module.exports = function (app) {
   app.get('/api/results/archive', keystone.middleware.api, routes.api.results.archive);
   app.get('/api/results/analyze', keystone.middleware.api, routes.api.results.analyze);
   app.post('/api/user/update', keystone.middleware.api, routes.api.user.update);
+  app.get('/api/user/create', keystone.middleware.api, routes.api.user.createFromEnquiry);
   app.get('/api/data/raw', keystone.middleware.api, routes.api.data.raw);
   app.get('/api/data/standardized', keystone.middleware.api, routes.api.data.standardized);
 

@@ -23,5 +23,11 @@
 		<strong>Message:</strong> {{ enquiry.message.html | safe }}
 	{% endif %}
 
+	{% if enquiry.reason == 'register' %}
+		<p class="text-larger"><a href="{{ enquiry.createUser }}">Create and Welcome User with this Info</a></p>
+	{% endif %}
+
+	<p class="text-larger"><a href="{{ weburl }}/admin/enquiries/{{ enquiry.id }}">View this Enquiry in the Admin Panel</a></p>
+
 	<p class="text-muted">Sent {{ enquiry._.createdAt.format() }}</p>
 {% endif %}

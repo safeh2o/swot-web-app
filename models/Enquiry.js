@@ -28,7 +28,7 @@ Enquiry.add({
 });
 
 function getUserCreationUrl() {
-	return `${process.env.WEB_URL}/api/user/create?enquiryId=${this.id}`;
+	return `${keystone.get('locals').weburl}api/user/create?enquiryId=${this.id}`;
 }
 
 Enquiry.schema.pre('save', function (next) {
@@ -80,7 +80,7 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 		'o:tracking': false,
 		enquiry: enquiry,
 		brand: brand,
-		weburl: process.env.WEB_URL,
+		weburl: keystone.get('locals').weburl,
 	}, callback);
 };
 

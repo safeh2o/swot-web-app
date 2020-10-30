@@ -77,8 +77,10 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 			email: process.env.FROM_ADDRESS,
 		},
 		subject: 'Contact Form Submitted for SWOT',
+		'o:tracking': false,
 		enquiry: enquiry,
 		brand: brand,
+		weburl: process.env.WEB_URL,
 	}, callback);
 };
 

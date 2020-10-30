@@ -14,9 +14,23 @@ function checkConfigKey(configKeyName, configKeyValue) {
     process.exit(1);
   }
 }
+
+function validateConfig() {
+  checkConfigKey("MAILGUN_API_KEY", process.env.MAILGUN_API_KEY);
+  checkConfigKey("MAILGUN_DOMAIN", process.env.MAILGUN_DOMAIN);
+  checkConfigKey("MONGO_DB_CONNECTION_STRING", process.env.MONGO_DB_CONNECTION_STRING);
+  checkConfigKey("FILE_REQUIRED_COLUMNS", process.env.FILE_REQUIRED_COLUMNS);
+  checkConfigKey("ANALYZER_URL", process.env.ANALYZER_URL);
+  checkConfigKey("AZURE_STORAGE_ACCESS_KEY", process.env.AZURE_STORAGE_ACCESS_KEY);
+  checkConfigKey("AZURE_STORAGE_CONTAINER_STD", process.env.AZURE_STORAGE_CONTAINER_STD);
+  checkConfigKey("WEB_URL", process.env.WEB_URL);
+}
+
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
 // and documentation.
+
+validateConfig();
 
 mongoose.set('server', {
   socketOptions: {
@@ -66,7 +80,8 @@ keystone.set('locals', {
 	_: require('lodash'),
 	env: keystone.get('env'),
 	utils: keystone.utils,
-	editable: keystone.content.editable,
+  editable: keystone.content.editable,
+  weburl: `${process.env.WEB_URL.startsWith('http') ? '' : 'https://'}${process.env.WEB_URL}${process.env.WEB_URL.endsWith('/') ? '' : '/'}`,
 });
 
 keystone.set('mongoose', mongoose);
@@ -88,13 +103,6 @@ keystone.set('nav', {
 });
 
 
-checkConfigKey("MAILGUN_API_KEY", process.env.MAILGUN_API_KEY);
-checkConfigKey("MAILGUN_DOMAIN", process.env.MAILGUN_DOMAIN);
-checkConfigKey("MONGO_DB_CONNECTION_STRING", process.env.MONGO_DB_CONNECTION_STRING);
-checkConfigKey("FILE_REQUIRED_COLUMNS", process.env.FILE_REQUIRED_COLUMNS);
-checkConfigKey("ANALYZER_URL", process.env.ANALYZER_URL);
-checkConfigKey("AZURE_STORAGE_ACCESS_KEY", process.env.AZURE_STORAGE_ACCESS_KEY);
-checkConfigKey("AZURE_STORAGE_CONTAINER_STD", process.env.AZURE_STORAGE_CONTAINER_STD);
 
 // Start Keystone to connect to your database and initialise the web server
 keystone.start();

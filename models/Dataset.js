@@ -39,15 +39,15 @@ Dataset.add({
 });
 
 function getResultsUrl() {
-  return `${process.env.WEB_URL}/api/results/fetch?datasetId=${this.id}`;
+  return `${keystone.get('locals').weburl}api/results/fetch?datasetId=${this.id}`;
 }
 
 function getStandardizedUrl() {
-  return `${process.env.WEB_URL}/api/data/standardized?datasetId=${this.id}`;
+  return `${keystone.get('locals').weburl}api/data/standardized?datasetId=${this.id}`;
 }
 
 function getRawUrl() {
-  return `${process.env.WEB_URL}/api/data/raw?datasetId=${this.id}`;
+  return `${keystone.get('locals').weburl}api/data/raw?datasetId=${this.id}`;
 }
 
 Dataset.schema.pre('save', function (next) {

@@ -1,6 +1,6 @@
 {
   "name": "swot-web",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "archiver": "^3.1.1",
@@ -28,10 +28,6 @@
     "nodemon": "^1.19.4"
   },
   "scripts": {
-    "lint": "eslint .",
-    "start": "node keystone.js",
-    "start:prod": "pm2 start keystone.js --name SWOT",
-    "watch": "nodemon -e js,html keystone.js",
-    "dev": "node --inspect=0.0.0.0:$APPSVC_TUNNEL_PORT keystone.js"
+    "start": "node keystone.js"
   }
 }

@@ -18,13 +18,6 @@ var _ = require('lodash');
 	or replace it with your own templates / logic.
 */
 exports.initLocals = function (req, res, next) {
-	res.locals.navLinks = [
-		{ label: 'Dashboard', key: 'dashboard', href: '/dashboard' },
-		{ label: 'Download', key: 'download', href: '/download' },
-	    { label: 'Upload', key: 'upload', href: '/upload' },
-	    { label: 'Results', key: 'results', href: '/results' },
-	    { label: 'Archived', key: 'archived', href: '/archived' },
-	];
 	res.locals.user = req.user;
 	res.locals.gtag = process.env.GOOGLE_ANALYTICS_GTAG;
 	next();

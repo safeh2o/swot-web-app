@@ -68,11 +68,23 @@
           <div class="navbar-collapse collapse justify-flex-end" id="navbarCollapse">
             {% if user %}
             <ul class="navbar-nav ml-auto">
-          		{% for link in navLinks %}
-					<li class="{{ 'nav-item active' if link.key == section else 'nav-item' }}">
-						<a class="nav-link link" href="{{ link.href }}">{{ link.label }}</a>
-					</li>
-				{% endfor %}
+
+              <li class="{{ 'nav-item active' if 'dashboard' == section else 'nav-item' }}">
+                <a class="nav-link link" href="/dashboard">Dashboard</a>
+              </li>
+              <li class="{{ 'nav-item active' if 'download' == section else 'nav-item' }}">
+                <a class="nav-link link" href="/download">Download</a>
+              </li>
+              <li class="{{ 'nav-item active' if 'upload' == section else 'nav-item' }}">
+                <a class="nav-link link" href="/upload">Upload</a>
+              </li>
+              <li class="{{ 'nav-item active' if 'results' == section else 'nav-item' }}">
+                <a class="nav-link link" href="/results">Results</a>
+              </li>
+              <li class="{{ 'nav-item active' if 'archived' == section else 'nav-item' }}">
+                <a class="nav-link link" href="/archived">Archived</a>
+              </li>
+        
             </ul>
             {% endif %}
             <div class="form-inline mt-2 mt-md-0 justify-center flex-no-wrap">

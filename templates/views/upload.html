@@ -3,282 +3,185 @@
 {% block content %}
 <main role="main" class="flex-shrink-0">
 
-    <div class="container">
-      <div class=" px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">When uploading your dataset:</h1>
-      </div>
+  <div class="container">
+    <div class=" px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+      <h1 class="display-4">When uploading your dataset:</h1>
     </div>
+  </div>
 
-    <div class="upload container">
-      <div class="card-deck mb-3 text-center">
-        <div class="card mb-4 shadow-sm">
-          <div class="card-body">
-            <ul class="no_bullet">
-              <li class="check">Ensure all required columns have data.</li>
-              <li class="check">Save your dataset either as a .csv or .xlsx
-                file.</li>
-              <li class="check">Give the dataset a descriptive name
-                including project site, data, and other relevant
-                details. SWOT outputs will include this dataset
-                name, so please ensure it is descriptive.</li>
-              <li class="check">An additional description can be added.</li>
-              <li class="check">Assign the uploaded dataset to the correct
-                Project Site.</li>
-            </ul>
-          </div>
-          <div class="card-footer">
-            <div class="upload-box" id="dropbox">
-              <img class="upload_logo mt-3" src="assets/upload.svg" alt="upload icon" />
+  <div class="upload container">
+    <div class="card-deck mb-3 text-center">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <ul class="no_bullet">
+            <li class="check">Ensure all required columns have data.</li>
+            <li class="check">Save your dataset either as a .csv or .xlsx
+              file.</li>
+            <li class="check">Assign the uploaded dataset to the correct Fieldsite.</li>
+          </ul>
+        </div>
+        <div class="card-footer">
 
-              <input type="file" id="fileElem" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none" onchange="handleFiles(this.files)">
-
-              <button type="button" id="fileSelect" class="btn btn-lg btn-block btn-primary">Choose files to upload</button>
-              
-              <p>or drag and drop them here</p>
-            </div>
-          </div>
+          <button type="button" id="uploadData" class="btn btn-lg btn-block btn-primary">Choose files to upload</button>
         </div>
       </div>
     </div>
+  </div>
 
-    <script type="text/javascript">
+  <script type="text/javascript">
 
-      const fileSelect = document.getElementById("fileSelect"),
-        fileElem = document.getElementById("fileElem");
-
-      fileSelect.addEventListener("click", function (e) {
-        if (fileElem) {
-          fileElem.click();
-        }
-      }, false);
+    $('#uploadData').on('click', () => {
+      showSpinner();
+      uploadFile();
+    })
 
 
-      function setupDropbox() {
-        let dropbox;
+    function setupDropbox() {
+      let dropbox;
 
-        dropbox = document.getElementById("dropbox");
-        dropbox.addEventListener("dragenter", dragenter, false);
-        dropbox.addEventListener("dragover", dragover, false);
-        dropbox.addEventListener("drop", drop, false);
+      dropbox = $("#dropbox");
+
+      // clear all previously added event handlers
+      dropbox.off();
+
+      // add event handlers
+      dropbox.on("dragenter dragover", drag);
+      dropbox.on("drop", drop);
+      dropbox.on("click", () => {
+        let fileElem = document.getElementById('fileElem');
+        fileElem.click();
+      });
+    }
+
+    function drag(e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+
+    function drop(e) {
+      drag(e);
+
+      const dt = e.originalEvent.dataTransfer;
+      const files = dt.files;
+
+      handleFiles(files);
+    }
+
+    function handleFiles(files) {
+      if (!files || !files.length) {
+        return;
       }
 
-      function dragenter(e) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
+      // showSpinner();
+      const fileCount = $("#fileCount");
 
-      function dragover(e) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
+      fileCount.text(files.length);
 
-      function drop(e) {
-        e.stopPropagation();
-        e.preventDefault();
+      document.getElementById('fileElem').files = files;
+    }
 
-        const dt = e.dataTransfer;
-        const files = dt.files;
+    function uploadFile() {
+      var opts = {
+        url: '/api/user/fieldsites',
+        type: 'GET',
 
-        handleFiles(files);
-      }
-
-
-      function toggleWaterAnimation() {
-        toggleSpinner();
-      }
-
-      function handleFiles(files) {
-        if (!files || !files.length || !files[0].name) {
-          return;
-        }
-        var isExcel = files[0].name.endsWith(".csv")  || files[0].name.endsWith(".xls") || files[0].name.endsWith(".xlsx");
-        
-        if (!isExcel) {
-          return;
-        }
-
-        showSpinner();
-        uploadFile(files[0]);
-      }
-
-      function uploadFile(file){
-        var newFile = new FormData();
-        newFile.append('file_upload', file);
-
-        var opts = {
-          url: '/api/upload/create',
-          data: newFile,
-          cache: false,
-          contentType: false,
-          processData: false,
-          type: 'POST',
-
-          success: function(data){
-            $("#fileElem").val('');
-            hideSpinner();
-            console.log('File upload succeeded, name: ' + data.uploadedFile.file.filename);
-            setupFormSubmit(data);
-            $("#id").val(data.uploadedFile._id);
-            showDetailsModal(data.fieldsites);
-          },
-
-          //This error function is called if the POST fails for submitting the file itself.
-          error: function(error) {
-            $("#fileElem").val('');
-            logError(error);
-          }
-        };
-
-        //Execute the AJAX call.
-        $.ajax(opts);
-      }
-
-      function showDetailsModal(userFieldsites) {
-        $("#fieldsite").empty();
-        $.each(userFieldsites, function(index, fieldsite) {   
-            $('#fieldsite')
-                .append($("<option></option>")
-                            .attr("value", fieldsite._id)
-                            .text(fieldsite.name)); 
-        });
-
-        // get current time
-        const currTime = new Date();
-        // round to second
-        currTime.setTime(Math.floor(currTime/60000) * 60000);
-
-        // preset the time in modal to current time
-        document.getElementById('dateOfReading').valueAsNumber = currTime - currTime.getTimezoneOffset()*60000;
-
-        $('#FileUploadDetailsModal').on('hidden.bs.modal', function () {
+        success: function (res) {
           hideSpinner();
-          $(this).find('form').trigger('reset');
-        });
-        $('#FileUploadDetailsModal').modal({ backdrop: 'static', keyboard: false, focus: true});
-      }
+          showDetailsModal(res.fieldsites);
+        },
 
-      function setupFormSubmit(data) {
-        $('#formUpload').unbind('submit');
-        $("#formUpload").removeAttr('onsubmit').submit(function(event) {
-          event.preventDefault();
-          var uploadForm = $("#formUpload").serialize();
-          // get date in UTC to store
-          const query = uploadForm.split('&');
-          const dateIndex = query.findIndex(value => value.indexOf('dateOfReading') >= 0);
-          let dateUploaded = new Date(document.getElementById('dateOfReading').valueAsNumber);
-          dateUploaded.setTime(dateUploaded.getTime() + dateUploaded.getTimezoneOffset()*60000);
-          query[dateIndex] = `dateOfReading=${dateUploaded.toISOString().replace(/:/g, '%3A')}`;
-          query.push(`fieldsite=${$('#fieldsite').val()}`);
-          uploadForm = query.join('&');
-          //Update the file with the information above.
-          showSpinner();
-          $.get('/api/upload/'+data.uploadedFile._id+'/update', uploadForm, function(data) {
-            hideSpinner();
-            // console.log('File information updated: ', data);
-            $('#FileUploadDetailsModal').modal('hide');
-            if (data.file) {
-              showConfirmModal("Your file was submitted for processing. You will receive results in an e-mail shortly.");
-            } else {
-              showConfirmModal("An error occurred while uploading your file. Please contact system administrator");
-            }
-          })
+        //This error function is called if the request fails for submitting the file itself.
+        error: function (error) {
+          $("#fileElem").val('');
+          logError(error);
+        }
+      };
 
-          //If the metadata update fails:
-          .fail(function(error) {
-            hideSpinner();
-            logError(error);
-          });
-        });
-      }
+      //Execute the AJAX call.
+      $.ajax(opts);
+    }
 
+    function showDetailsModal(userFieldsites) {
+      $("#fieldsite").empty();
+      $.each(userFieldsites, function (index, fieldsite) {
+        $('#fieldsite')
+          .append($("<option></option>")
+            .attr("value", fieldsite._id)
+            .text(fieldsite.name));
+      });
 
-      function logError(error) {
-        console.error('The file was not uploaded to the server. Here is the error message from the server:');
-        console.error('Server error: '+ error );
-        console.error('Server status: '+ error && error.status ? error.status : "");
-        const message = error && error.responseJSON && error.responseJSON.error ? error.responseJSON.error : null;
-        console.error('Server message: '+  message);
-        showConfirmModal("An error occurred during file upload. Details: " + (message ? message : "Unknown Error"));
+      $('#FileUploadDetailsModal').on('hidden.bs.modal', function () {
         hideSpinner();
-      }
-
+        $(this).find('form').trigger('reset');
+      });
+      $('#FileUploadDetailsModal').modal({ backdrop: 'static', keyboard: false, focus: true });
       setupDropbox();
+    }
 
-    </script>
+    function logError(error) {
+      console.error('The file was not uploaded to the server. Here is the error message from the server:');
+      console.error('Server error: ' + error);
+      console.error('Server status: ' + error && error.status ? error.status : "");
+      const message = error && error.responseJSON && error.responseJSON.error ? error.responseJSON.error : null;
+      console.error('Server message: ' + message);
+      showConfirmModal("An error occurred during file upload. Details: " + (message ? message : "Unknown Error"));
+      hideSpinner();
+    }
+
+    setupDropbox();
+
+  </script>
 
   <!-- The Upload Modal -->
   <div class="modal fade" id="FileUploadDetailsModal">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-  
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">ADD FILE INFORMATION</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-  
-          <!-- Modal body -->
-          <div class="modal-body">
-            <form class="form" role="form" autocomplete="off" id="formUpload">
-              <div class="form-group">
-                <label for="name">Dataset Name</label>
-                <input type="hidden" name="id" id="id">
-                <input type="text" class="form-control form-control-lg" name="name" id="name" required="">
-                <div class="invalid-feedback">Oops, you missed this one.</div>
-              </div>
-  
-              <div class="form-group">
-                <label for="description">Description</label>
-                <input type="text" class="form-control form-control-lg" name="description" id="description" required="">
-                <div class="invalid-feedback">Oops, you missed this one.</div>
-              </div>
-  
-              <div class="form-group">
-                <label for="dateOfReading">Date</label>
-                <input type="datetime-local" class="form-control form-control-lg" name="dateOfReading" id="dateOfReading" required="">
-                <div class="invalid-feedback">Oops, you missed this one.</div>
-              </div>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
 
-              <div class="form-group">
-                <label for="maxDurationHours" class="form-elemenet-inline">Maximum Duration of Household Storage/Use</label>
-                <select id="maxDurationHours" name="maxDurationHours"  class="form-control form-control-lg form-element-inline maxDurationSelect" >
-                  <option value="6">6</option>
-                  <option value="9">9</option>
-                  <option value="12">12</option>
-                  <option value="15">15</option>
-                  <option value="18">18</option>
-                  <option value="21">21</option>
-                  <option value="24">24</option>
-                </select>
-                <div class="invalid-feedback">Oops, you missed this one.</div>
-              </div>
-
-              <div class="form-group">
-                <label for="confidenceLevel" class="form-element-inline">Prediction Confidence Level</label>
-                <select id="confidenceLevel" name="confidenceLevel"  class="form-control form-control-lg form-element-inline confidenceSelect" >
-                  <option value="minDecay">Minimum Decay Scenario</option>
-                  <option value="optimumDecay">Optimum/Balanced Decay Scenario</option>
-                  <option value="maxDecay">Maximum Decay Scenario</option>
-                </select>
-                <div class="invalid-feedback">Oops, you missed this one.</div>
-              </div>
-
-              <div class="form-group">
-                <label for="fieldsite">Site</label>
-                <select id="fieldsite" class="form-control" required="">
-                </select>
-              </div>
-  
-              <div class="form-group pt-4">
-                <button class="btn btn-danger btn-lg" data-dismiss="modal" aria-hidden="true">Cancel</button>
-                <button type="submit" class="btn btn-primary btn-lg float-right" id="btnSave">Save</button>
-              </div>
-            </form>
-          </div>
-  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">ADD FILE INFORMATION</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form class="form" role="form" autocomplete="off" id="formUpload" action="/api/upload/append" method="POST"
+            target="_blank" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="fieldsite">Site</label>
+              <select id="fieldsite" class="form-control" required="" name="fieldsite">
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="overwrite">Overwrite Duplicate Entries</label>
+              <input type="checkbox" id="overwrite" name="overwrite" value="1" />
+            </div>
+
+            <div class="upload container text-center">
+              <div class="upload-box" id="dropbox">
+                <input type="file" id="fileElem"
+                  accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                  style="display:none" onchange="handleFiles(this.files)" name="fileElem" multiple />
+
+                <p>Simply Drag Files or Click Here</p>
+
+                <img class="upload_logo mt-3" src="assets/upload.svg" alt="upload icon" />
+                <p><span id="fileCount">0</span> File(s) Uploaded</p>
+              </div>
+            </div>
+
+
+            <div class="form-group pt-4">
+              <button class="btn btn-danger btn-lg" data-dismiss="modal" aria-hidden="true">Cancel</button>
+              <button type="submit" class="btn btn-primary btn-lg float-right" id="btnSave">Save</button>
+            </div>
+          </form>
+        </div>
+
       </div>
     </div>
+  </div>
 
-  </main>
+</main>
 {% endblock %}

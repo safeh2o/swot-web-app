@@ -48,7 +48,7 @@ User.schema.post('save', function () {
 /**
  * Relationships
  */
-User.relationship({ ref: 'Dataset', path: 'dataset', refPath: 'user' });
+User.relationship({ ref: 'Dataset', path: 'datasets', refPath: 'user' });
 User.relationship({ ref: 'Project', path: 'projects', refPath: 'users' });
 User.relationship({ ref: 'Post', path: 'posts', refPath: 'author' });
 /**

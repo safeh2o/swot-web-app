@@ -228,20 +228,14 @@ async function fetchDatasets(archived, req) {
 async function getUserDatasets(userId, archived) {
   return new Promise(async (resolve, reject) => {
     
-    const projectsHavingUser = await Project.model
-      .find({ users: userId, fieldsites: {$ne: []} })
-      .populate('users')
-      .populate('fieldsites')
-      .exec();
+    const projectsWithFieldsites = await dataService.getProjectsWithFieldsites(userId);
 
-    if (projectsHavingUser.length == 0) {
+    if (projectsWithFieldsites.length == 0) {
       resolve(null);
     }
 
     const result = [];
     
-    const projectsWithFieldsites = _.flatMap(projectsHavingUser, (p) => p);
-
     for (let i = 0; i < projectsWithFieldsites.length; i++) {
       const project = projectsWithFieldsites[i];
       const country = await dataService.getCountryByProject(project._id); 

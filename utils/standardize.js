@@ -3,9 +3,9 @@ const XlsxStreamReader = require('xlsx-stream-reader');
 const csv = require('fast-csv');
 const keystone = require('keystone');
 const Dataset = keystone.list('Dataset');
+const Datapoint = keystone.list('Datapoint');
 
 exports.standardize = async function(datasetId, filename) {
-
   if (process.env.STANDARDIZE_DATASET != 1) {
     return;
   }
@@ -28,6 +28,10 @@ exports.standardize = async function(datasetId, filename) {
   // get raw blob to stream
   const filestream = getBlobReadStream(process.env.AZURE_STORAGE_CONTAINER, filename);
 
+  return await standardizeFromStream(datasetId, filestream, mode);
+}
+
+async function standardizeFromStream(datasetId, filestream, mode) {
   // read file
   let dataRows = [];
   if (mode === "csv") {
@@ -100,6 +104,7 @@ exports.standardize = async function(datasetId, filename) {
     if (!shouldSkipDataRow) {
       dataToUpload += rowStr + "\n";
       standardizedDataRows.push(rowObj);
+      // createDatapoint(rowObj, datasetId);
     } else {
       skippedRowObj = {'reason': blankColumn, ...rowObj};
       skippedDataRows.push(skippedRowObj);
@@ -110,8 +115,10 @@ exports.standardize = async function(datasetId, filename) {
 
   // upload csv
 
-  await uploadTextAsFileToStorage(process.env.AZURE_STORAGE_CONTAINER_STD, filename.substr(0, filename.lastIndexOf(".")) + ".csv", dataToUpload);
+  // await uploadTextAsFileToStorage(process.env.AZURE_STORAGE_CONTAINER_STD, filename.substr(0, filename.lastIndexOf(".")) + ".csv", dataToUpload);
 }
+
+
 
 async function saveStandardizedData(datasetId, rawData, standardizedData, skippedData) {
   // console.log(`Dataset id is ${datasetId}`);
@@ -119,6 +126,20 @@ async function saveStandardizedData(datasetId, rawData, standardizedData, skippe
     {_id: datasetId}, 
     { $set: {standardizedData: standardizedData, rawData: rawData, skippedRows: skippedData }, },
     { strict: false }).exec();
+}
+
+async function createDatapoint(rowObj, datasetId) {
+  const fieldsite = await Dataset.model.findOne({_id: datasetId}).populate('fieldsite').exec();
+  const datapoint = Datapoint.model.create({
+    tsDate: rowObj.ts_datetime,
+    hhDatetime: rowObj.hh_datetime,
+    tsFrc: rowObj.ts_frc,
+    hhFrc: rowObj.hh_frc,
+    tsCond: rowObj.ts_cond,
+    tsTemp: rowObj.ts_temp,
+    fieldsite: dataset.fieldsite.id
+  });
+  console.log(datapoint);
 }
 
 function getRequiredColumnRegex(column) {

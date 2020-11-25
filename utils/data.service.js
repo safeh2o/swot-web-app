@@ -4,6 +4,7 @@ const Project = keystone.list('Project');
 const Fieldsite = keystone.list('Fieldsite');
 const mongoose = require('mongoose');
 const Dataset = keystone.list('Dataset');
+const _ = require('lodash');
 
 /**
  * Retrieves a fieldsite record by it's id
@@ -50,3 +51,29 @@ exports.archiveDatasets = async function(datasetIds) {
     await Dataset.model.findOneAndUpdate({_id: datasetId}, { $set: {archived: true }}).exec();
   })
 }
+
+const getProjectsWithFieldsites = async function(userId) {
+  return Project.model
+      .find({ users: userId, fieldsites: {$ne: []} })
+      .populate('users')
+      .populate('fieldsites')
+      .exec();
+}
+
+exports.getUserFieldsites = async function(userId) {
+  return new Promise(async (resolve, reject) => {
+    const projects = await getProjectsWithFieldsites(userId);
+    const fieldsites = _.flatMap(projects, (project) => project.fieldsites);
+
+    if (!fieldsites.length) {
+      reject(null);
+    }
+
+    else {
+      resolve(fieldsites);
+    }
+    
+  });
+}
+
+exports.getProjectsWithFieldsites = getProjectsWithFieldsites;

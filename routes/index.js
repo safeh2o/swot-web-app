@@ -54,14 +54,19 @@ exports = module.exports = function (app) {
   // REST endpoints
   app.all('/api/upload/:id/update', keystone.middleware.api, routes.api.upload.update);
   app.all('/api/upload/create', keystone.middleware.api, routes.api.upload.create);
+  app.all('/api/upload/append', keystone.middleware.api, routes.api.upload.append);
+
   app.get('/api/results/processed', keystone.middleware.api, routes.api.results.processed);
   app.get('/api/results/archived', keystone.middleware.api, routes.api.results.archived);
   app.get('/api/results/download', keystone.middleware.api, routes.api.results.download);
   app.get('/api/results/fetch', keystone.middleware.api, routes.api.results.fetch);
   app.get('/api/results/archive', keystone.middleware.api, routes.api.results.archive);
   app.get('/api/results/analyze', keystone.middleware.api, routes.api.results.analyze);
+
   app.post('/api/user/update', keystone.middleware.api, routes.api.user.update);
   app.get('/api/user/create', keystone.middleware.api, routes.api.user.createFromEnquiry);
+  app.get('/api/user/fieldsites', keystone.middleware.api, routes.api.user.getFieldsites);
+
   app.get('/api/data/raw', keystone.middleware.api, routes.api.data.raw);
   app.get('/api/data/standardized', keystone.middleware.api, routes.api.data.standardized);
 

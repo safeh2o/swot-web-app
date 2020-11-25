@@ -104,6 +104,29 @@ exports.update = async function(req, res) {
   });
 }
 
+exports.append = async function(req, res) {
+  console.log(req);
+
+  const files = Array.from([req.files.fileElem]).flat();
+  // let stream = fs.createReadStream(req.files.fileElem.path);
+
+  res.json({
+    'body': req.body,
+    'files': files
+  })
+  // let output = [];
+  // stream.on('data', (data) => {
+  //   output.push(data);
+  // })
+
+  // stream.on('end', () => {
+  //   res.json({
+  //     'success': true,
+  //     'data': output
+  //   })
+  // });
+}
+
 async function getBlobURL(containerName, blobName) {
   const retryOperations = new azure.LinearRetryPolicyFilter();
   const blobService = azure.createBlobService().withFilter(retryOperations);

@@ -1,6 +1,7 @@
 const keystone = require('keystone');
 const User = keystone.list('User');
 const Enquiry = keystone.list('Enquiry');
+const dataService = require('../../utils/data.service');
 
 /**
  * Update current user profile
@@ -94,4 +95,10 @@ exports.createFromEnquiry = async function(req, res) {
   res.send(`Created new user with email ${user.email}`);
   return true;
 
+}
+
+exports.getFieldsites = async function(req, res) {
+  const fieldsites = await dataService.getUserFieldsites(req.user._id);
+
+  res.json({'fieldsites': fieldsites});
 }

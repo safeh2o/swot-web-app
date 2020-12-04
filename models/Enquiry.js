@@ -22,7 +22,7 @@ Enquiry.add({
 		{ value: 'other', label: 'Something else...' },
 	] },
 	message: { type: Types.Markdown, required: true },
-	createdAt: { type: Date, default: Date.now }
+	createdAt: { type: Types.Datetime, default: Date.now }
 	}, { heading: 'Create and Welcome User', dependsOn: { reason: 'register' } }, {
 	createUser: { type: Types.Url, initial: false, label: 'Create User with this Info', 'note': 'Password defaults to the same as email', dependsOn: { reason: 'register' }, watch: true, value: getUserCreationUrl, noedit: true }
 });

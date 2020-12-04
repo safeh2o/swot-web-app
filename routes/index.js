@@ -39,6 +39,7 @@ exports = module.exports = function (app) {
   app.get('/dashboard', middleware.requireUser, routes.views.dashboard);
   app.get('/download', middleware.requireUser, routes.views.download);
   app.get('/upload', middleware.requireUser, routes.views.upload);
+  app.get('/analyze', middleware.requireUser, routes.views.analyze);
   app.get('/results', middleware.requireUser, routes.views.results);
   app.get('/archived', middleware.requireUser, routes.views.results);
 	app.get('/blog/:category?', routes.views.blog);
@@ -53,8 +54,8 @@ exports = module.exports = function (app) {
   
   // REST endpoints
   app.all('/api/upload/:id/update', keystone.middleware.api, routes.api.upload.update);
-  app.all('/api/upload/create', keystone.middleware.api, routes.api.upload.create);
-  app.all('/api/upload/append', keystone.middleware.api, routes.api.upload.append);
+  app.post('/api/upload/append', keystone.middleware.api, routes.api.upload.append);
+  app.post('/api/upload/analyze', keystone.middleware.api, routes.api.upload.analyze);
 
   app.get('/api/results/processed', keystone.middleware.api, routes.api.results.processed);
   app.get('/api/results/archived', keystone.middleware.api, routes.api.results.archived);

@@ -1,0 +1,227 @@
+{% extends "layouts/default.html" %}
+
+{% block content %}
+<main role="main" class="flex-shrink-0">
+
+  <div class="container">
+    <div class=" px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+      <h1 class="display-4">Request Data Analysis:</h1>
+    </div>
+  </div>
+
+  <div class="upload container">
+    <div class="card-deck mb-3">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <form class="form" role="form" autocomplete="off" id="formAnalyze">
+            <div class="container w-50">
+              <div class="card-header mb-2 text-center">
+                <h4>Dataset Information</h4>
+              </div>
+              <div class="form-group">
+                <label for="fieldsite">Fieldsite:</label>
+                <select class="form-control" id="fieldsite" required="" name="fieldsite">
+                  <option value="none" selected disabled hidden>Loading...</option>
+                </select>
+              </div>
+              <br />
+
+              <div class="form-group">
+                <label for="datasetName">Dataset Name:</label>
+                <input type="text" name="datasetName" id="datasetName" class="form-control" />
+              </div>
+              <br />
+
+              <div class="form-group">
+                <label for="datasetDescription">Dataset Description:</label>
+                <textarea name="datasetDescription" id="datasetDescription" class="form-control"></textarea>
+              </div>
+              <br />
+
+              <div class="card-header mb-2 text-center">
+                <h4>Date Range</h4>
+              </div>
+
+              <div class="form-group">
+                <label for="startDate">From:</label>
+                <input type="date" name="startDate" id="startDate" />
+              </div>
+              <br />
+
+              <div class="form-group">
+                <label for="endDate">To:</label>
+                <input type="date" name="endDate" id="endDate" />
+              </div>
+              <br />
+
+              <div class="card-header mb-2 text-center">
+                <h4>Analysis Parameters</h4>
+              </div>
+
+              <div class="form-group">
+                <label for="maxDurationHours" class="form-elemenet-inline">Maximum Duration of Household
+                  Storage/Use</label>
+                <select id="maxDurationHours" name="maxDurationHours"
+                  class="form-control form-control-lg form-element-inline maxDurationSelect">
+                  <option value="6">6</option>
+                  <option value="9">9</option>
+                  <option value="12">12</option>
+                  <option value="15">15</option>
+                  <option value="18">18</option>
+                  <option value="21">21</option>
+                  <option value="24">24</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="confidenceLevel" class="form-element-inline">Prediction Confidence Level</label>
+                <select id="confidenceLevel" name="confidenceLevel"
+                  class="form-control form-control-lg form-element-inline confidenceSelect">
+                  <option value="minDecay">Minimum Decay Scenario</option>
+                  <option value="optimumDecay">Optimum/Balanced Decay Scenario</option>
+                  <option value="maxDecay">Maximum Decay Scenario</option>
+                </select>
+              </div>
+
+              <div class="form-group pt-4">
+                <button type="reset" class="btn btn-danger btn-lg mx-5 w-25" aria-hidden="true">Reset</button>
+                <button type="submit" class="btn btn-primary btn-lg mx-5 w-25" id="btnSave">Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+
+    $(document).ready(() => {
+      showSpinner();
+      setupFormAction();
+      getFieldsites();
+      populateDates();
+    })
+
+    function setupFormAction() {
+      const formAnalyze = $('#formAnalyze');
+      formAnalyze.off();
+      formAnalyze.submit((e) => {
+        // prevent default behavior of event
+        e.preventDefault();
+
+        new FormData(formAnalyze[0]);
+      });
+
+      formAnalyze.on('formdata', (e) => {
+        let formData = e.originalEvent.formData;
+        const fieldsite = $('#fieldsite option:selected').text();
+        const startDate = formData.get('startDate');
+        const endDate = formData.get('endDate');
+        const formAnalyze = $('#formAnalyze');
+        let err = false;
+
+        const iter = formData.keys();
+        while (fieldKey = iter.next()) {
+          if (fieldKey.done) {
+            break;
+          }
+          let fieldValue = formData.get(fieldKey.value);
+          if (!fieldValue) {
+            fieldError(formAnalyze, fieldKey.value);
+            err = true;
+          }
+        }
+        if (new Date(startDate) > new Date(endDate)) {
+          fieldError(formAnalyze, 'startDate');
+        }
+        if (err) {
+          return;
+        }
+
+        opts = {
+          url: '/api/upload/analyze',
+          type: 'POST',
+          data: formData,
+          cache: false,
+          contentType: false,
+          processData: false,
+
+          success: function (res) {
+            showConfirmModal(`Analyzing ${fieldsite} from ${startDate} to ${endDate}.`);
+            // formAnalyze.trigger('reset');
+          },
+
+          error: function (err) {
+            logError(err);
+          },
+
+          complete: () => {
+            hideSpinner();
+          }
+        }
+
+        showSpinner();
+        $.ajax(opts);
+      });
+    }
+
+    function getFieldsites() {
+      var opts = {
+        url: '/api/user/fieldsites',
+        type: 'GET',
+
+        success: function (res) {
+          hideSpinner();
+          populateFieldsites(res.fieldsites);
+        },
+
+        //This error function is called if the request fails for submitting the file itself.
+        error: function (error) {
+          logError(error);
+        }
+      };
+
+      //Execute the AJAX call.
+      $.ajax(opts);
+    }
+
+    function populateDates() {
+      // get current time
+      const currTime = new Date();
+      // round to second
+      // currTime.setTime(Math.floor(currTime / 60000) * 60000);
+      $("#startDate")[0].valueAsNumber = $('#endDate')[0].valueAsNumber = currTime - currTime.getTimezoneOffset() * 60000;
+
+    }
+
+    function populateFieldsites(userFieldsites) {
+      $("#fieldsite").empty();
+      $.each(userFieldsites, function (index, fieldsite) {
+        $('#fieldsite')
+          .append($("<option></option>")
+            .attr("value", fieldsite._id)
+            .text(fieldsite.name));
+      });
+    }
+
+    function fieldError(formElement, name) {
+      const input = formElement.find(`[name=${name}][id=${name}]`);
+      let label = formElement.find(`label[for=${input.attr('id')}]`);
+      if (!label.length) {
+        label = input.closest('label');
+      }
+
+      shakeElement(input);
+      shakeElement(label);
+
+      input.one('input', () => {
+        label.removeClass('text-danger');
+      });
+      label.addClass('text-danger');
+    }
+
+  </script>
+
+</main>
+{% endblock %}

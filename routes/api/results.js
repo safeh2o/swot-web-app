@@ -189,7 +189,7 @@ exports.analyze = async function(req, res) {
 
     const processedDatasetNames = [];
     datasets.forEach(dataset => {
-      dataset.redoAnalysis();
+      dataset.runAnalysis();
       processedDatasetNames.push(dataset.name);
     });
 

@@ -30,6 +30,8 @@
 
   <script type="text/javascript">
 
+    let uploadedFiles = [];
+
     $('#uploadData').on('click', () => {
       showSpinner();
       uploadFile();
@@ -67,17 +69,69 @@
       handleFiles(files);
     }
 
-    function handleFiles(files) {
-      if (!files || !files.length) {
+    function handleFiles(fileList) {
+      if (!fileList || !fileList.length) {
         return;
       }
 
       // showSpinner();
       const fileCount = $("#fileCount");
 
-      fileCount.text(files.length);
+      fileCount.text(fileList.length);
 
-      document.getElementById('fileElem').files = files;
+      uploadedFiles = fileList;
+      // document.getElementById('fileElem').fileList = fileList;
+    }
+
+    function setupFormUpload() {
+      const formUpload = $('#formUpload');
+      formUpload.off();
+      formUpload.submit((e) => {
+        // prevent default behavior of event
+        e.preventDefault();
+
+        new FormData(formUpload[0]);
+      });
+
+      formUpload.on('formdata', (e) => {
+        let formData = e.originalEvent.formData;
+
+        for (let i = 0; i < uploadedFiles.length; i++) {
+          const file = uploadedFiles[i];
+          formData.append('uploaded_files', file);
+        }
+
+        // if no files were uploaded, flash file text to indicate error
+        if (!uploadedFiles.length) {
+          shakeElement($('#fileInfo'));
+          return
+        }
+
+        opts = {
+          url: '/api/upload/append',
+          type: 'POST',
+          data: formData,
+          cache: false,
+          contentType: false,
+          processData: false,
+
+          success: function (res) {
+            const uploaded_count = res.uploaded_count;
+            showConfirmModal(`Uploaded ${uploaded_count} file(s).`);
+          },
+
+          error: function (err) {
+            logError(err);
+          },
+
+          complete: () => {
+            $('#FileUploadDetailsModal').modal('hide');
+          }
+        }
+        
+        showSpinner();
+        $.ajax(opts);
+      });
     }
 
     function uploadFile() {
@@ -110,22 +164,16 @@
             .text(fieldsite.name));
       });
 
+      $("#fileCount").text('0');
+
       $('#FileUploadDetailsModal').on('hidden.bs.modal', function () {
         hideSpinner();
         $(this).find('form').trigger('reset');
       });
-      $('#FileUploadDetailsModal').modal({ backdrop: 'static', keyboard: false, focus: true });
+      $('#FileUploadDetailsModal').modal({ keyboard: false, focus: true });
       setupDropbox();
-    }
 
-    function logError(error) {
-      console.error('The file was not uploaded to the server. Here is the error message from the server:');
-      console.error('Server error: ' + error);
-      console.error('Server status: ' + error && error.status ? error.status : "");
-      const message = error && error.responseJSON && error.responseJSON.error ? error.responseJSON.error : null;
-      console.error('Server message: ' + message);
-      showConfirmModal("An error occurred during file upload. Details: " + (message ? message : "Unknown Error"));
-      hideSpinner();
+      setupFormUpload();
     }
 
     setupDropbox();
@@ -145,8 +193,7 @@
 
         <!-- Modal body -->
         <div class="modal-body">
-          <form class="form" role="form" autocomplete="off" id="formUpload" action="/api/upload/append" method="POST"
-            target="_blank" enctype="multipart/form-data">
+          <form class="form" role="form" autocomplete="off" id="formUpload">
             <div class="form-group">
               <label for="fieldsite">Site</label>
               <select id="fieldsite" class="form-control" required="" name="fieldsite">
@@ -154,20 +201,21 @@
             </div>
 
             <div class="form-group">
-              <label for="overwrite">Overwrite Duplicate Entries</label>
+              <label for="overwrite">Overwrite Duplicate Entries:</label>
               <input type="checkbox" id="overwrite" name="overwrite" value="1" />
+              <p>Note: duplicates are rows with the same dates and times</p>
             </div>
 
             <div class="upload container text-center">
               <div class="upload-box" id="dropbox">
                 <input type="file" id="fileElem"
                   accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                  style="display:none" onchange="handleFiles(this.files)" name="fileElem" multiple />
+                  style="display:none" onchange="handleFiles(this.files)" multiple />
 
                 <p>Simply Drag Files or Click Here</p>
 
                 <img class="upload_logo mt-3" src="assets/upload.svg" alt="upload icon" />
-                <p><span id="fileCount">0</span> File(s) Uploaded</p>
+                <p id="fileInfo"><span id="fileCount">0</span> File(s) Uploaded</p>
               </div>
             </div>
 

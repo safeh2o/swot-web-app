@@ -99,7 +99,9 @@ keystone.set('nav', {
   posts: ['posts', 'post-categories'],
   pages: 'pages',
   enquiries: 'enquiries',
-  welcomes: 'welcomes'
+  welcomes: 'welcomes',
+  datapoints: 'datapoints',
+  attachments: 'attachments'
 });
 
 

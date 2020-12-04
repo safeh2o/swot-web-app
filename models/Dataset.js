@@ -24,18 +24,18 @@ var azureStorage = new keystone.Storage({
 Dataset.add({
     name: { type: Types.Text, index: true },
     description: { type: Types.Textarea, initial: true, index: true },
-    dateOfReading: { type: Types.Datetime, utc: false, initial: true, index: true },
+    dateOfReading: { type: Types.Datetime, utc: false, initial: true, index: true, label: 'Date Uploaded' },
     fieldsite: { type: Types.Relationship, ref: 'Fieldsite', initial: true, index: true },
     user: { type: Types.Relationship, ref: 'User', initial: true, index: true },
-    file: { type: Types.File, storage: azureStorage, label: 'Raw Data' },
-    stdFile: { type: Types.File, storage: azureStorage, label: 'Standardized Data' },
+    file: { type: Types.File, storage: azureStorage, label: 'Raw Data', hidden: true },
+    stdFile: { type: Types.File, storage: azureStorage, label: 'Standardized Data', hidden: true },
     archived: {type: Types.Boolean, index: true, default: false},
     }, 'Redo Analysis', {
     redo: { type: Types.Boolean, initial: false, default: false, label: 'Redo Analysis on Save' },
-    }, 'Download Data', {
-    resultsUrl: { type: Types.Url, initial: false, label: 'Download Results', watch: true, value: getResultsUrl, noedit: true },
-    stdUrl: { type: Types.Url, initial: false, label: 'Download Standardized Data', watch: true, value: getStandardizedUrl, noedit: true },
-    rawUrl: { type: Types.Url, initial: false, label: 'Download Raw Data', watch: true, value: getRawUrl, noedit: true }
+    }, {heading: 'Download Data', dependsOn: {$any: [{$ne: {'resultsUrl': null}}, {$ne: {'stdUrl': null}}, {$ne: {'rawUrl': null}}]}}, {
+    resultsUrl: { type: Types.Url, initial: false, label: 'Download Results', watch: true, value: getResultsUrl, noedit: true, dependsOn: { $ne: {'resultsUrl': null} } },
+    stdUrl: { type: Types.Url, initial: false, label: 'Download Standardized Data', watch: true, value: getStandardizedUrl, noedit: true, dependsOn: { $ne: {'stdUrl': null} } },
+    rawUrl: { type: Types.Url, initial: false, label: 'Download Raw Data', watch: true, value: getRawUrl, noedit: true, dependsOn: { $ne: {'rawUrl': null} } }
 });
 
 function getResultsUrl() {
@@ -43,22 +43,28 @@ function getResultsUrl() {
 }
 
 function getStandardizedUrl() {
+  if (!this.stdFile.url) {
+    return null;
+  }
   return `${keystone.get('locals').weburl}api/data/standardized?datasetId=${this.id}`;
 }
 
 function getRawUrl() {
+  if (!this.file.url) {
+    return null;
+  }
   return `${keystone.get('locals').weburl}api/data/raw?datasetId=${this.id}`;
 }
 
 Dataset.schema.pre('save', function (next) {
   if (this.redo) {
     this.redo = false;
-    this.redoAnalysis();
+    this.runAnalysis();
   }
   next();
 });
 
-Dataset.schema.methods.redoAnalysis = async function(callback) {
+Dataset.schema.methods.runAnalysis = async function(callback) {
   
   const analyzer = require('../utils/analyzer');
   const dataService = require('../utils/data.service');

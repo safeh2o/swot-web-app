@@ -39,7 +39,7 @@ Welcome.schema.post('save', function () {
 });
 
 function updateContent(welcome) {
-	return (err, {html, text}) => {
+	return (err, {html}) => {
 		if (err) {
 			console.error(err);
 			return;

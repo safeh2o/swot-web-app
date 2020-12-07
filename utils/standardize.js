@@ -7,39 +7,6 @@ const Datapoint = keystone.list("Datapoint");
 const moment = require("moment");
 const DataTypes = require("./enums").DataTypes;
 
-exports.standardizeAndUpload = async function (datasetId, filename) {
-	// get raw blob to stream
-	const filestream = getBlobReadStream(
-		process.env.AZURE_STORAGE_CONTAINER,
-		filename
-	);
-
-	// determine mode
-	let mode;
-	if (filename.toLowerCase().endsWith(".csv")) mode = "csv";
-	if (filename.toLowerCase().endsWith(".xlsx")) mode = "xlsx";
-	if (!mode) {
-		return `Unexpected filename passed to standardize function ${filename}`;
-	}
-
-	//get blob file stream
-	const standardized = await standardize(filestream, mode);
-
-	await saveStandardizedData(
-		datasetId,
-		dataRows,
-		standardized.standardizedDataRows,
-		standardized.skippedDataRows
-	);
-
-	// upload csv
-	await uploadTextAsFileToStorage(
-		process.env.AZURE_STORAGE_CONTAINER_STD,
-		filename.substr(0, filename.lastIndexOf(".")) + ".csv",
-		standardized.standardizedCsv
-	);
-};
-
 exports.standardize = async function standardize(filestream, mode) {
 	if (process.env.STANDARDIZE_DATASET != 1) {
 		return;
@@ -48,7 +15,7 @@ exports.standardize = async function standardize(filestream, mode) {
 	let dataRows = await getDataRows(filestream, mode);
 	let standardized = await standardizeRows(dataRows);
 
-	return { [DataTypes.RAW]: dataRows, ...standardized };
+	return standardized;
 };
 
 async function getDataRows(filestream, mode) {
@@ -144,28 +111,6 @@ async function standardizeRows(dataRows) {
 	};
 }
 
-async function saveStandardizedData(
-	datasetId,
-	rawData,
-	standardizedData,
-	skippedData
-) {
-	// console.log(`Dataset id is ${datasetId}`);
-	return Dataset.model
-		.findOneAndUpdate(
-			{ _id: datasetId },
-			{
-				$set: {
-					standardizedData: standardizedData,
-					rawData: rawData,
-					skippedRows: skippedData,
-				},
-			},
-			{ strict: false }
-		)
-		.exec();
-}
-
 function parseDate(date) {
 	const offset = new Date().getTimezoneOffset() * 60000;
 	// normal date format
@@ -206,7 +151,7 @@ function shouldSkipBlankColumn(column) {
 
 async function getCsvDataRows(filestream) {
 	const dataRows = [];
-	return new Promise(async (resolve, reject) => {
+	return new Promise(async (resolve) => {
 		filestream
 			.pipe(csv.parse({ headers: true }))
 			.on("data", (row) => dataRows.push(row))
@@ -218,7 +163,7 @@ async function getCsvDataRows(filestream) {
 
 async function getExcelDataRows(filestream) {
 	const dataRows = [];
-	return new Promise(async (resolve, reject) => {
+	return new Promise(async (resolve) => {
 		const workBookReader = new XlsxStreamReader({ formatting: false });
 		let headers = [];
 		workBookReader.on("worksheet", function (workSheetReader) {
@@ -257,33 +202,6 @@ async function getExcelDataRows(filestream) {
 		});
 
 		filestream.pipe(workBookReader);
-	});
-}
-
-async function uploadTextAsFileToStorage(containerName, blobName, text) {
-	const retryOperations = new azure.LinearRetryPolicyFilter();
-	const blobService = azure.createBlobService().withFilter(retryOperations);
-	return new Promise((resolve, reject) => {
-		blobService.createContainerIfNotExists(
-			containerName,
-			null,
-			function (error, result, response) {
-				if (!error) {
-					blobService.createBlockBlobFromText(
-						containerName,
-						blobName,
-						text,
-						(err) => {
-							if (err) {
-								reject(err);
-							} else {
-								resolve({});
-							}
-						}
-					);
-				} else reject(error);
-			}
-		);
 	});
 }
 

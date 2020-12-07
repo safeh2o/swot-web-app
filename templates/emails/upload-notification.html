@@ -1,0 +1,53 @@
+<html>
+
+<head>
+	<link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<style>
+		h1,
+		p,
+		pre {
+			font-family: 'Roboto', sans-serif;
+		}
+	</style>
+</head>
+
+<body>
+	<img src="{{host}}assets/swot_logo1b_tr.png" height="150px">
+	
+	<p class="text-larger">
+		Dear {{ user.name.first }},
+	</p>
+
+	<p>
+	You have uploaded new datapoints to the fieldsite "{{ fieldsiteName }}".
+	<br><br>
+	</p>
+
+	<p style='text-align: justify; transform: translateX(2rem);'>
+		Total rows in fieldsite before: {{info.rowsBefore}}
+		<br>
+		Total rows in dataset: {{info.dupRows + info.errRows + info.stdRows}}
+		<br>
+		Total rows successfully added: {{info.stdRows}}
+		<br>
+		Total rows not added: {{info.errRows + info.dupRows}}
+		<br>
+		<p style='text-align: justify; transform: translateX(2rem);'>
+			- Because it was a duplicate: {{info.errRows}}
+			<br>
+			- Because it was erroneous: {{info.dupRows}}
+			<br>
+		</p>
+		Total rows in fieldsite after: {{info.rowsBefore + info.stdRows}}
+		<br>
+	</p>
+	
+	<p>You can also find instructions on how to use this app <a href="{{instructionsUrl}}">here</a>.</p>
+	<br>
+
+	<p>Please reach out to us at <a href="mailto: {{support}}">{{support}}</a> if you have any questions.</p>
+
+	<p class="text-muted">Sent {{ formattedDate }}</p>
+</body>
+
+</html>

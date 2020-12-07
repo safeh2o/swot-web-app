@@ -17,12 +17,12 @@ Datapoint.add({
   hhFrc: { type: Types.Number, required: false, index: false, label: 'Household FRC', initial: true },
   tsCond: { type: Types.Number, required: false, index: false, label: 'Conductivity at Tapstand', initial: true },
   tsTemp: { type: Types.Number, required: false, index: false, label: 'Temperature at Tapstand', initial: true },
-  type: { type: Types.Select, required: true, default: 'standardized', index: true, options: [
+  type: { type: Types.Select, required: true, default: DataTypes.STANDARDIZED, index: true, options: [
     {value: DataTypes.STANDARDIZED, label: 'Standardized Datapoint'},
-    {value: DataTypes.RAW, label: 'Raw Datapoint'},
     {value: DataTypes.ERRONEOUS, label: 'Erroneous Datapoint'}
   ], initial: true },
   active: {type: Types.Boolean, required: false, default: true, index: true, label: 'Included in datasets'},
+  reason: {type: Types.Text, required: false, index: false, label: 'Erroneous field', intiial: false, dependsOn: { type: DataTypes.ERRONEOUS } },
 
   attachment: { type: Types.Relationship, ref: 'Attachment', index: true, initial: true },
   fieldsite: { type: Types.Relationship, ref: 'Fieldsite', index: true, initial: true }

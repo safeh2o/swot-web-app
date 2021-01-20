@@ -50,3 +50,15 @@ exports.archiveDatasets = async function(datasetIds) {
     await Dataset.model.findOneAndUpdate({_id: datasetId}, { $set: {archived: true }}).exec();
   })
 }
+
+exports.createIfNotExists = async function(schemaName, objectName) {
+  const list = keystone.list(schemaName);
+  const query = {'name':objectName};
+  let object = await list.model.findOne(query).exec();
+
+  if (!object) {
+    object = await list.model.create(query);
+  }
+
+  return object;
+}

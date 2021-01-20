@@ -1,6 +1,7 @@
 const keystone = require('keystone');
 const User = keystone.list('User');
 const Enquiry = keystone.list('Enquiry');
+const dataService = require('../../utils/data.service');
 
 /**
  * Update current user profile
@@ -82,16 +83,26 @@ exports.createFromEnquiry = async function(req, res) {
     return;
   }
 
-  // create user from enquiry with first name, last name and email
+  const demoProject = await dataService.createIfNotExists('Project', 'Demo Project');
+  const demoSite = await dataService.createIfNotExists('Fieldsite', 'Demo Site');
+  const demoCountry = await dataService.createIfNotExists('Country', 'Demo Country');
+
+  // ensure demo site is in demo project
+  demoProject.update({$addToSet: {fieldsites: demoSite.id}}).exec();
+  // ensure demo project is in demo country
+  demoCountry.update({$addToSet: {projects: demoProject.id}}).exec();
+
+  // create user from enquiry with first name, last name and email, and add to demo project
   const user = await User.model.create({
     'name': enquiry.name,
     'email': enquiry.email,
     'password': enquiry.email,
     'isAdmin': false,
-    'welcome': true
+    'welcome': true,
+    'projects': [demoProject]
   });
 
-  res.send(`Created new user with email ${user.email}`);
+  res.send(`Created new user with email ${user.email} in project ${demoProject.name}`);
   return true;
 
 }

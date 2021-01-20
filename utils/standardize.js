@@ -88,6 +88,8 @@ exports.standardize = async function(datasetId, filename) {
       const requiredColumnOutput = getRequiredColumnOutput(requiredColumn);
       rowObj[requiredColumnOutput] = val;
       rowStr += val + ",";
+      // remove any unneeded spaces
+      rowStr = rowStr.replace(/T\s/g,'T');
       if (!val) {
         val = "";
         if (columnShouldBeSkippedOnNull) {

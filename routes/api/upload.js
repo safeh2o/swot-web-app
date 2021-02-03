@@ -1,14 +1,14 @@
-const keystone = require("keystone");
-const moment = require("moment");
-const Dataset = keystone.list("Dataset");
-const Datapoint = keystone.list("Datapoint");
-const Fieldsite = keystone.list("Fieldsite");
-const _ = require("lodash");
-const mailer = require("../../utils/emailer");
-const analyzer = require("../../utils/analyzer");
-const dataService = require("../../utils/data.service");
-const path = require("path");
-const { newFunction } = require("./newFunction");
+const keystone = require('keystone');
+const moment = require('moment');
+const Dataset = keystone.list('Dataset');
+const Datapoint = keystone.list('Datapoint');
+const Fieldsite = keystone.list('Fieldsite');
+const _ = require('lodash');
+const mailer = require('../../utils/emailer');
+const analyzer = require('../../utils/analyzer');
+const dataService = require('../../utils/data.service');
+const path = require('path');
+const { newFunction } = require('./newFunction');
 
 /**
  * Update File by ID
@@ -19,18 +19,18 @@ exports.update = async function (req, res) {
 			mailer.emailAdmin(
 				`An invalid dataset id was provided to upload page controller. ID is ${req.params.id} and user is ${req.user.first} ${req.user.last}`
 			);
-			return res.apiError("An unknown database error occurred", err);
+			return res.apiError('An unknown database error occurred', err);
 		}
 
 		if (!dataItem)
-			return res.apiError("Dataset was not uploaded, please try again");
+			return res.apiError('Dataset was not uploaded, please try again');
 
-		const data = req.method == "POST" ? req.body : req.query;
+		const data = req.method == 'POST' ? req.body : req.query;
 
 		dataItem.getUpdateHandler(req).process(data, async function (err) {
 			if (err)
 				return res.apiError(
-					"Dataset was not updated with fieldsite, please try uploading again",
+					'Dataset was not updated with fieldsite, please try uploading again',
 					err
 				);
 
@@ -48,7 +48,7 @@ exports.update = async function (req, res) {
 			const originalFileExtension = path.extname(dataItem.file.filename);
 			const originalFileWithoutExtension = dataItem.file.filename.replace(
 				originalFileExtension,
-				""
+				''
 			);
 			const targetBlobName = `${dataService.sanitizeStr(
 				data.name
@@ -61,7 +61,7 @@ exports.update = async function (req, res) {
 			)}__${dataService.sanitizeStr(
 				data.maxDurationHours
 			)}__${dataService.sanitizeStr(data.confidenceLevel)}`;
-			const stdBlobName = targetBlobName + ".csv";
+			const stdBlobName = targetBlobName + '.csv';
 			const rawBlobName = targetBlobName + originalFileExtension;
 
 			await dataService.renameBlobFile(
@@ -77,7 +77,7 @@ exports.update = async function (req, res) {
 							process.env.AZURE_STORAGE_CONTAINER,
 							process.env.AZURE_STORAGE_CONTAINER_STD
 						)
-						.replace(originalFileExtension, ".csv"),
+						.replace(originalFileExtension, '.csv'),
 					stdBlobName,
 					process.env.AZURE_STORAGE_CONTAINER_STD
 				);
@@ -132,8 +132,12 @@ exports.analyze = async function (req, res) {
 	endDate.setDate(endDate.getDate() + 1);
 	const fieldsiteId = req.body.fieldsite;
 	const datapoints = await Datapoint.model
-		.find({ fieldsite: fieldsiteId, active: true, type: DataTypes.STANDARDIZED })
-		.where("tsDate")
+		.find({
+			fieldsite: fieldsiteId,
+			active: true,
+			type: DataTypes.STANDARDIZED,
+		})
+		.where('tsDate')
 		.gte(startDate)
 		.lt(endDate)
 		.exec();
@@ -142,13 +146,13 @@ exports.analyze = async function (req, res) {
 		// res.status(404).send('Could not find any datapoints in the given date range');
 		res
 			.status(404)
-			.json({ error: "Could not find any datapoints in the given date range" });
+			.json({ error: 'Could not find any datapoints in the given date range' });
 		return;
 	}
 
 	const fieldsite = await Fieldsite.model.findOne({ _id: fieldsiteId }).exec();
 
-	let currDate = moment().format("YYYYMMDD");
+	let currDate = moment().format('YYYYMMDD');
 	const dataset = new Dataset.model({
 		name: req.body.datasetName,
 		description: req.body.datasetDescription,
@@ -172,14 +176,14 @@ exports.analyze = async function (req, res) {
 			blobName
 		);
 	} else {
-		res.status(500).send("Could not retrieve data from storage");
+		res.status(500).send('Could not retrieve data from storage');
 		return;
 	}
 
 	dataset.set({
-		"stdFile.url": blobUrl,
-		"stdFile.filename": blobName,
-		"stdFile.container": process.env.AZURE_STORAGE_CONTAINER_STD,
+		'stdFile.url': blobUrl,
+		'stdFile.filename': blobName,
+		'stdFile.container': process.env.AZURE_STORAGE_CONTAINER_STD,
 	});
 
 	dataset.save();
@@ -211,6 +215,4 @@ exports.append = async function (req, res) {
 	res.json({
 		uploaded_count: files.length,
 	});
-
 };
-

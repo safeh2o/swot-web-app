@@ -23,8 +23,8 @@ Attachment.add(
 			default: Date.now,
 			noedit: true
 		},
-		nDuplicates: {type: Types.Number, index: false, noedit: true, default: 0, label: 'Number of duplicate datapoints skipped'},
-		nBefore: {type: Types.Number, index: false, noedit: true, default: 0, label: 'Number of fieldsite datapoints before'},
+		// nDuplicates: {type: Types.Number, index: false, noedit: true, default: 0, label: 'Number of duplicate datapoints skipped'},
+		// nBefore: {type: Types.Number, index: false, noedit: true, default: 0, label: 'Number of fieldsite datapoints before'},
 		user: { type: Types.Relationship, ref: "User", index: true, noedit: true },
 		content: { type: Types.Html, initial: false, required: false, height: 400, wysiwyg: true },
 		fieldsite: { type: Types.Relationship, ref: "Fieldsite", index: true, noedit: true },
@@ -46,6 +46,7 @@ Attachment.schema.pre("save", function (next) {
 		this.rewindFieldsite();
 	}
 	if (this.isNew) {
+		// TODO get most recent attachment's total rows after
 		this.wasNew = true;
 	}
 	next();
@@ -113,12 +114,13 @@ Attachment.schema.methods.sendNotificationEmail = async function (callback) {
 	}
 	
 	let info = {
-		dupRows: this.nDuplicates,
-		nBefore: this.nBefore
+		// dupRows: this.nDuplicates,
+		// nBefore: this.nBefore
 	}
 	
 	info.stdRows = await Datapoint.model.count({attachment: this.id, type: DataTypes.STANDARDIZED}).exec();
 	info.errRows = await Datapoint.model.count({attachment: this.id, type: DataTypes.ERRONEOUS}).exec();
+	// info.rowsAfter = info.nBefore + info.stdRows
 
 	
 	locals.info = info;

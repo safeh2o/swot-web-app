@@ -24,21 +24,22 @@
 	</p>
 
 	<p style='text-align: justify; transform: translateX(2rem);'>
-		Total rows in fieldsite before: {{info.rowsBefore}}
+		<!-- Total rows in fieldsite before: {{info.nBefore}} -->
 		<br>
-		Total rows in dataset: {{info.dupRows + info.errRows + info.stdRows}}
+		<!-- Total rows in dataset: {{info.dupRows + info.errRows + info.stdRows}} -->
+		Total rows in dataset: {{info.errRows + info.stdRows}}
 		<br>
 		Total rows successfully added: {{info.stdRows}}
 		<br>
 		Total rows not added: {{info.errRows + info.dupRows}}
 		<br>
 		<p style='text-align: justify; transform: translateX(2rem);'>
-			- Because it was a duplicate: {{info.errRows}}
+			- Because it was erroneous: {{info.errRows}}
 			<br>
-			- Because it was erroneous: {{info.dupRows}}
-			<br>
+			<!-- - Because it was a duplicate: {{info.dupRows}} -->
+			<!-- <br> -->
 		</p>
-		Total rows in fieldsite after: {{info.rowsBefore + info.stdRows}}
+		<!-- Total rows in fieldsite after: {{info.rowsAfter}} -->
 		<br>
 	</p>
 	

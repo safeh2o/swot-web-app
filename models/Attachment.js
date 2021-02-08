@@ -125,6 +125,7 @@ Attachment.schema.methods.sendNotificationEmail = async function (callback) {
 	
 	locals.info = info;
 	locals.instructionsUrl = locals.host + 'pages/instructions';
+	locals.firstName = this.user.name.first;
 	
 	const email = new keystone.Email({
 		templateName: 'upload-notification',

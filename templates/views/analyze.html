@@ -42,15 +42,21 @@
                 <h4>Date Range</h4>
               </div>
 
+
+              {% set dateFormat = "YYYY-MM-DD" %}
               <div class="form-group">
                 <label for="startDate">From:</label>
                 <input type="date" name="startDate" id="startDate" />
+                <br>
+                <small>Format: {{dateFormat}}</small>
               </div>
               <br />
 
               <div class="form-group">
                 <label for="endDate">To:</label>
                 <input type="date" name="endDate" id="endDate" />
+                <br>
+                <small>Format: {{dateFormat}}</small>
               </div>
               <br />
 
@@ -59,8 +65,9 @@
               </div>
 
               <div class="form-group">
-                <label for="maxDurationHours" class="form-elemenet-inline">Maximum Duration of Household
-                  Storage/Use</label>
+                <label for="maxDurationHours" class="form-elemenet-inline"
+                  title="Select the number of hours that you want to protect water in the household. This should be the typical maximum length of time people are storing and using water in their households at your site.">Duration
+                  of Household Storage and Use (Hours)</label>
                 <select id="maxDurationHours" name="maxDurationHours"
                   class="form-control form-control-lg form-element-inline maxDurationSelect">
                   <option value="6">6</option>
@@ -74,7 +81,9 @@
               </div>
 
               <div class="form-group">
-                <label for="confidenceLevel" class="form-element-inline">Prediction Confidence Level</label>
+                <label for="confidenceLevel" class="form-element-inline"
+                  title="This has to do with how the SWOT’s analytics handle modelling uncertainty. We recommend selecting 'Optimum/Balanced Decay Scenario' for a balanced recommendation. If you want to be extra cautious, select 'Maximum Decay Scenario' which models the worst-case scenario. We do not recommend using the 'Minimum Decay Scenario'.">Modelling
+                  Confidence Level</label>
                 <select id="confidenceLevel" name="confidenceLevel"
                   class="form-control form-control-lg form-element-inline confidenceSelect">
                   <option value="minDecay">Minimum Decay Scenario</option>

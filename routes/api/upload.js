@@ -214,7 +214,7 @@ exports.append = async function (req, res) {
 		files = [req.files.uploaded_files];
 	}
 
-	createAttachment(userId, fieldsiteId, overwrite, files);
+	await createAttachment(userId, fieldsiteId, overwrite, files);
 
 	res.json({
 		uploaded_count: files.length,

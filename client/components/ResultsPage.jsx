@@ -184,7 +184,8 @@ class ResultsPage extends Component {
 							title: "Dataset Name",
 							sortable: true,
 							align: "center",
-							formatter: this.nameFormatter,
+							formatter: (val, row) =>
+								this.nameFormatter(val, row),
 						},
 						{
 							field: "datasetDesc",
@@ -210,7 +211,8 @@ class ResultsPage extends Component {
 							title: "Status",
 							sortable: true,
 							align: "center",
-							formatter: this.statusFormatter,
+							formatter: (val, row) =>
+								this.statusFormatter(val, row),
 						},
 						{
 							field: "datasetArtifacts",

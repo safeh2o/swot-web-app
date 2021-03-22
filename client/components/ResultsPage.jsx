@@ -117,16 +117,7 @@ class ResultsPage extends Component {
 			row.datasetArtifacts.length &&
 			this.hasPdf(row.datasetArtifacts)
 		) {
-			return (
-				<a
-					target="_blank"
-					href={`/api/results/download?datasetId=${row.datasetId}&archived=false`}
-					title="Download Results"
-				>
-					Download
-				</a>
-			);
-			// return `<a target='_blank' href='/api/results/download?datasetId=${row.datasetId}&archived=false' title='Download Results'>Download</a>`;
+			return `<a target='_blank' href='/api/results/download?datasetId=${row.datasetId}&archived=false' title='Download Results'>Download</a>`;
 		} else {
 			return "<label>Processing</label>";
 		}

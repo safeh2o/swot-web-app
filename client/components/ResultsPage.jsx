@@ -115,7 +115,7 @@ class ResultsPage extends Component {
 		if (
 			row.datasetArtifacts &&
 			row.datasetArtifacts.length &&
-			hasPdf(row.datasetArtifacts)
+			this.hasPdf(row.datasetArtifacts)
 		) {
 			return (
 				<a
@@ -184,8 +184,7 @@ class ResultsPage extends Component {
 							title: "Dataset Name",
 							sortable: true,
 							align: "center",
-							formatter: (val, row) =>
-								this.nameFormatter(val, row),
+							formatter: this.nameFormatter,
 						},
 						{
 							field: "datasetDesc",

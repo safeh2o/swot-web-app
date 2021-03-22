@@ -6,34 +6,33 @@ const Dataset = keystone.list("Dataset");
 const Datapoint = keystone.list("Datapoint");
 const moment = require("moment");
 const DataTypes = require("./enums").DataTypes;
+const fs = require("fs");
 
-exports.standardize = async function standardize(filestream, mode) {
+exports.standardize = async function standardize(filepath, mode) {
 	if (process.env.STANDARDIZE_DATASET != 1) {
 		return;
 	}
 
-	let dataRows = await getDataRows(filestream, mode);
+	let dataRows = await getDataRows(filepath, mode);
 	let standardized = await standardizeRows(dataRows);
 
 	return standardized;
 };
 
-async function getDataRows(filestream, mode) {
+async function getDataRows(filepath, mode) {
 	// read file
 	let dataRows = [];
 	if (mode === "csv") {
-		dataRows = await getCsvDataRows(filestream);
+		dataRows = await getCsvDataRows(filepath);
 	} else {
 		// we're dealing with an excel file
-		dataRows = await getExcelDataRows(filestream);
+		dataRows = await getExcelDataRows(filepath);
 	}
 
 	return dataRows;
 }
 
 async function standardizeRows(dataRows) {
-	//console.log(`Data rows is`, dataRows[0]);
-
 	// validate first row
 	if (!dataRows.length) {
 		return `No data extracted from standardized file, exiting`;
@@ -50,7 +49,9 @@ async function standardizeRows(dataRows) {
 					return rowKey.match(requiredColumnRegex);
 				})
 			) {
-				missingColumnErrors.push(getRequiredColumnOutput(requiredColumns[i]));
+				missingColumnErrors.push(
+					getRequiredColumnOutput(requiredColumns[i])
+				);
 			}
 		}
 	}
@@ -79,11 +80,15 @@ async function standardizeRows(dataRows) {
 		let blankColumn = "";
 		requiredColumns.forEach(function (requiredColumn) {
 			const requiredColumnRegex = getRequiredColumnRegex(requiredColumn);
-			const columnShouldBeSkippedOnNull = shouldSkipBlankColumn(requiredColumn);
+			const columnShouldBeSkippedOnNull = shouldSkipBlankColumn(
+				requiredColumn
+			);
 			const firstMatchingKey = Object.keys(dataRow).find((k) =>
 				k.match(requiredColumnRegex)
 			);
-			const requiredColumnOutput = getRequiredColumnOutput(requiredColumn);
+			const requiredColumnOutput = getRequiredColumnOutput(
+				requiredColumn
+			);
 			let val = dataRow[firstMatchingKey];
 
 			if (!val) {
@@ -149,7 +154,8 @@ function shouldSkipBlankColumn(column) {
 	return column.indexOf("<skipBlanks>") != -1;
 }
 
-async function getCsvDataRows(filestream) {
+async function getCsvDataRows(filepath) {
+	const filestream = fs.createReadStream(filepath);
 	const dataRows = [];
 	return new Promise(async (resolve) => {
 		filestream
@@ -161,7 +167,8 @@ async function getCsvDataRows(filestream) {
 	});
 }
 
-async function getExcelDataRows(filestream) {
+async function getExcelDataRows(filepath) {
+	const filestream = fs.createReadStream(filepath);
 	const dataRows = [];
 	return new Promise(async (resolve) => {
 		const workBookReader = new XlsxStreamReader({ formatting: false });

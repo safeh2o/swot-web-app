@@ -18,61 +18,133 @@
  * http://expressjs.com/api.html#app.VERB
  */
 
-var keystone = require('keystone');
-var middleware = require('./middleware');
+var keystone = require("keystone");
+var middleware = require("./middleware");
 var importRoutes = keystone.importer(__dirname);
 
 // Common Middleware
-keystone.pre('routes', middleware.initLocals);
-keystone.pre('render', middleware.flashMessages);
+keystone.pre("routes", middleware.initLocals);
+keystone.pre("render", middleware.flashMessages);
 
 // Import Route Controllers
 var routes = {
-  views: importRoutes('./views'),
-  api: importRoutes('./api')
+	views: importRoutes("./views"),
+	api: importRoutes("./api"),
 };
 
 // Setup Route Bindings
 exports = module.exports = function (app) {
 	// Views
-  app.get('/', routes.views.dashboard);
-  app.get('/dashboard', middleware.requireUser, routes.views.dashboard);
-  app.get('/download', middleware.requireUser, routes.views.download);
-  app.get('/upload', middleware.requireUser, routes.views.upload);
-  app.get('/analyze', middleware.requireUser, routes.views.analyze);
-  app.get('/results', middleware.requireUser, routes.views.results);
-  app.get('/archived', middleware.requireUser, routes.views.results);
-	app.get('/blog/:category?', routes.views.blog);
-	app.get('/blog/post/:post', routes.views.post);
-	app.all('/contact', routes.views.contact);
-  app.get('/pages/:page', routes.views.page);
-  app.all('/forgotpassword', routes.views.forgotpassword);
-  app.post('/resetpassword', keystone.security.csrf.middleware.validate, routes.views.resetpassword);
-  app.get('/resetpassword/:key', keystone.security.csrf.middleware.init, routes.views.resetpassword);
-	app.all('/signin', routes.views.signin);
-  
-  
-  // REST endpoints
-  app.all('/api/upload/:id/update', keystone.middleware.api, routes.api.upload.update);
-  app.post('/api/upload/append', keystone.middleware.api, routes.api.upload.append);
-  app.post('/api/upload/analyze', keystone.middleware.api, routes.api.upload.analyze);
+	app.get("/", routes.views.index);
+	app.get("/dashboard", routes.views.index);
+	app.get("/download", middleware.requireUser, routes.views.index);
+	app.get("/upload", middleware.requireUser, routes.views.index);
+	app.get("/analyze", middleware.requireUser, routes.views.index);
+	app.get("/manage", middleware.requireUser, routes.views.index);
+	app.get("/results", middleware.requireUser, routes.views.index);
+	app.get("/archived", middleware.requireUser, routes.views.index);
+	app.get("/signin", middleware.requireGuest, routes.views.index);
+	app.get("/contact", routes.views.index);
+	app.post("/contact", keystone.middleware.api, routes.api.forms.contact);
+	app.post("/auth", routes.api.auth);
+	app.get("/blog/:category?", routes.views.blog);
+	app.get("/blog/post/:post", routes.views.post);
+	app.get("/pages/:page", routes.views.index);
+	app.all("/forgotpassword", routes.views.forgotpassword);
+	app.post(
+		"/resetpassword",
+		keystone.security.csrf.middleware.validate,
+		routes.views.resetpassword
+	);
+	app.get(
+		"/resetpassword/:key",
+		keystone.security.csrf.middleware.init,
+		routes.views.resetpassword
+	);
 
-  app.get('/api/results/processed', keystone.middleware.api, routes.api.results.processed);
-  app.get('/api/results/archived', keystone.middleware.api, routes.api.results.archived);
-  app.get('/api/results/download', keystone.middleware.api, routes.api.results.download);
-  app.get('/api/results/fetch', keystone.middleware.api, routes.api.results.fetch);
-  app.get('/api/results/archive', keystone.middleware.api, routes.api.results.archive);
-  app.get('/api/results/analyze', keystone.middleware.api, routes.api.results.analyze);
-
-  app.post('/api/user/update', keystone.middleware.api, routes.api.user.update);
-  app.get('/api/user/create', keystone.middleware.api, routes.api.user.createFromEnquiry);
-  app.get('/api/user/fieldsites', keystone.middleware.api, routes.api.user.getFieldsites);
-
-  app.get('/api/data/raw', keystone.middleware.api, routes.api.data.raw);
-  app.get('/api/data/standardized', keystone.middleware.api, routes.api.data.standardized);
-
+	// REST endpoints
+	app.all(
+		"/api/upload/:id/update",
+		keystone.middleware.api,
+		routes.api.upload.update
+	);
+	app.post(
+		"/api/upload/append",
+		keystone.middleware.api,
+		routes.api.upload.append
+	);
+	app.post(
+		"/api/upload/analyze",
+		keystone.middleware.api,
+		routes.api.upload.analyze
+	);
+	app.get(
+		"/api/results/processed",
+		keystone.middleware.api,
+		routes.api.results.processed
+	);
+	app.get(
+		"/api/results/archived",
+		keystone.middleware.api,
+		routes.api.results.archived
+	);
+	app.get(
+		"/api/results/download",
+		keystone.middleware.api,
+		routes.api.results.download
+	);
+	app.get(
+		"/api/results/fetch",
+		keystone.middleware.api,
+		routes.api.results.fetch
+	);
+	app.get(
+		"/api/results/archive",
+		keystone.middleware.api,
+		routes.api.results.archive
+	);
+	app.get(
+		"/api/results/analyze",
+		keystone.middleware.api,
+		routes.api.results.analyze
+	);
+	app.post(
+		"/api/user/update",
+		keystone.middleware.api,
+		routes.api.user.update
+	);
+	app.get(
+		"/api/user/create",
+		keystone.middleware.api,
+		routes.api.user.createFromEnquiry
+	);
+	app.get(
+		"/api/user/fieldsites",
+		keystone.middleware.api,
+		routes.api.user.getFieldsites
+	);
+	app.get(
+		"/api/contactreasons",
+		keystone.middleware.api,
+		routes.api.forms.getContactReasons
+	);
+	app.get(
+		"/api/user/projects",
+		keystone.middleware.api,
+		routes.api.user.getProjects
+	);
+	app.get("/api/data/raw", keystone.middleware.api, routes.api.data.raw);
+	app.get(
+		"/api/data/standardized",
+		keystone.middleware.api,
+		routes.api.data.standardized
+	);
+	app.get(
+		"/api/cms/pages/:slug",
+		keystone.middleware.api,
+		routes.api.cms.pages
+	);
 
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);
-
 };

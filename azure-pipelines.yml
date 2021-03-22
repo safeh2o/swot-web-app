@@ -4,108 +4,114 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 variables:
-  isProd: $[eq(variables['Build.SourceBranchName'], 'prod')]
+    isProd: $[eq(variables['Build.SourceBranchName'], 'prod')]
+    buildFirst: true
 
 trigger:
-- master
-- prod
+    - master
+    - prod
 
 pool:
-  vmImage: 'ubuntu-latest'
+    vmImage: "ubuntu-latest"
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+    - task: NodeTool@0
+      inputs:
+          versionSpec: "10.x"
+      displayName: "Install Node.js"
 
-- script: |
-    npm install
-  displayName: 'npm install'
+    - script: |
+          npm install
+      displayName: "npm install"
 
-# If the branch is prod, create two artifacts for dev and live; otherwise, create a sandbox artifact.
-- task: DownloadSecureFile@1
-  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, true)))
-  name: 'devEnv'
-  displayName: 'Download Env Vars for dev'
-  inputs:
-    secureFile: 'dev.env'
-- task: DownloadSecureFile@1
-  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, true)))
-  name: 'liveEnv'
-  displayName: 'Download Env Vars for live'
-  inputs:
-    secureFile: 'live.env'
+    - script: |
+          npm run build
+      displayName: "build front-end"
+      condition: and(succeeded(), eq(variables.buildFirst, true))
 
-- script: |
-    mkdir $(Build.ArtifactStagingDirectory)/zip
+    # If the branch is prod, create two artifacts for dev and live; otherwise, create a sandbox artifact.
+    - task: DownloadSecureFile@1
+      condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, true)))
+      name: "devEnv"
+      displayName: "Download Env Vars for dev"
+      inputs:
+          secureFile: "dev.env"
+    - task: DownloadSecureFile@1
+      condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, true)))
+      name: "liveEnv"
+      displayName: "Download Env Vars for live"
+      inputs:
+          secureFile: "live.env"
 
-    cp -r $(Build.SourcesDirectory) $(Build.ArtifactStagingDirectory)/dev
-    cp -r $(Build.SourcesDirectory) $(Build.ArtifactStagingDirectory)/live
+    - script: |
+          mkdir $(Build.ArtifactStagingDirectory)/zip
 
-    cp -f $(devEnv.secureFilePath) $(Build.ArtifactStagingDirectory)/dev/.env
-    cp -f $(liveEnv.secureFilePath) $(Build.ArtifactStagingDirectory)/live/.env
+          cp -r $(Build.SourcesDirectory) $(Build.ArtifactStagingDirectory)/dev
+          cp -r $(Build.SourcesDirectory) $(Build.ArtifactStagingDirectory)/live
 
-  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, true)))
-  displayName: Set up artifacts for dev and live
+          cp -f $(devEnv.secureFilePath) $(Build.ArtifactStagingDirectory)/dev/.env
+          cp -f $(liveEnv.secureFilePath) $(Build.ArtifactStagingDirectory)/live/.env
 
-- task: ArchiveFiles@2
-  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, true)))
-  displayName: Archive dev artifact
-  inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/dev'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/zip/$(Build.BuildId)_dev.zip'
-    replaceExistingArchive: true
-    verbose: true
+      condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, true)))
+      displayName: Set up artifacts for dev and live
 
-- task: ArchiveFiles@2
-  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, true)))
-  displayName: Archive live artifact
-  inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/live'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/zip/$(Build.BuildId)_live.zip'
-    replaceExistingArchive: true
-    verbose: true
+    - task: ArchiveFiles@2
+      condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, true)))
+      displayName: Archive dev artifact
+      inputs:
+          rootFolderOrFile: "$(Build.ArtifactStagingDirectory)/dev"
+          includeRootFolder: false
+          archiveType: "zip"
+          archiveFile: "$(Build.ArtifactStagingDirectory)/zip/$(Build.BuildId)_dev.zip"
+          replaceExistingArchive: true
+          verbose: true
 
-# End staging for prod
+    - task: ArchiveFiles@2
+      condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, true)))
+      displayName: Archive live artifact
+      inputs:
+          rootFolderOrFile: "$(Build.ArtifactStagingDirectory)/live"
+          includeRootFolder: false
+          archiveType: "zip"
+          archiveFile: "$(Build.ArtifactStagingDirectory)/zip/$(Build.BuildId)_live.zip"
+          replaceExistingArchive: true
+          verbose: true
 
-# If not prod, stage for master
-- task: DownloadSecureFile@1
-  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, false)))
-  name: 'sandboxEnv'
-  displayName: 'Download Env Vars for sandbox'
-  inputs:
-    secureFile: 'sandbox.env'
+    # End staging for prod
 
-- script: |
-    mkdir $(Build.ArtifactStagingDirectory)/zip
+    # If not prod, stage for master
+    - task: DownloadSecureFile@1
+      condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, false)))
+      name: "sandboxEnv"
+      displayName: "Download Env Vars for sandbox"
+      inputs:
+          secureFile: "sandbox.env"
 
-    cp -r $(Build.SourcesDirectory) $(Build.ArtifactStagingDirectory)/sandbox
-    cp -f $(sandboxEnv.secureFilePath) $(Build.ArtifactStagingDirectory)/sandbox/.env
+    - script: |
+          mkdir $(Build.ArtifactStagingDirectory)/zip
 
-  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, false)))
-  displayName: Set up artifacts for sandbox
+          cp -r $(Build.SourcesDirectory) $(Build.ArtifactStagingDirectory)/sandbox
+          cp -f $(sandboxEnv.secureFilePath) $(Build.ArtifactStagingDirectory)/sandbox/.env
 
-- task: ArchiveFiles@2
-  condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, false)))
-  displayName: Archive sandbox artifact
-  inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/sandbox'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/zip/$(Build.BuildId)_sandbox.zip'
-    replaceExistingArchive: true
-    verbose: true
+      condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, false)))
+      displayName: Set up artifacts for sandbox
 
-# End staging for master
+    - task: ArchiveFiles@2
+      condition: or(eq(variables.make_all_artifacts, true), and(succeeded(), eq(variables.isProd, false)))
+      displayName: Archive sandbox artifact
+      inputs:
+          rootFolderOrFile: "$(Build.ArtifactStagingDirectory)/sandbox"
+          includeRootFolder: false
+          archiveType: "zip"
+          archiveFile: "$(Build.ArtifactStagingDirectory)/zip/$(Build.BuildId)_sandbox.zip"
+          replaceExistingArchive: true
+          verbose: true
 
-- task: PublishBuildArtifacts@1
-  displayName: Publishing artifacts
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/zip'
-    ArtifactName: 'SWOT-web-files'
-    publishLocation: 'Container'
+    # End staging for master
+
+    - task: PublishBuildArtifacts@1
+      displayName: Publishing artifacts
+      inputs:
+          PathtoPublish: "$(Build.ArtifactStagingDirectory)/zip"
+          ArtifactName: "SWOT-web-files"
+          publishLocation: "Container"

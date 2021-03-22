@@ -46,7 +46,9 @@ exports.update = async function (req, res) {
 
 			user.save(function (saveError) {
 				if (saveError) {
-					res.status(400).send("Error occurred during update: " + err);
+					res.status(400).send(
+						"Error occurred during update: " + err
+					);
 					return;
 				}
 				res.send({ status: "ok" });
@@ -80,11 +82,13 @@ exports.createFromEnquiry = async function (req, res) {
 		return false;
 	}
 
-	const userExists = await User.model.findOne({ email: enquiry.email }).exec();
+	const userExists = await User.model
+		.findOne({ email: enquiry.email })
+		.exec();
 	if (userExists) {
-		res
-			.status(409)
-			.send(`User already exists with the email ${enquiry.email}.`);
+		res.status(409).send(
+			`User already exists with the email ${enquiry.email}.`
+		);
 		return;
 	}
 
@@ -104,5 +108,11 @@ exports.createFromEnquiry = async function (req, res) {
 exports.getFieldsites = async function (req, res) {
 	const fieldsites = await dataService.getUserFieldsites(req.user._id);
 
-	res.json({ fieldsites: fieldsites });
+	res.json({ fieldsites });
+};
+
+exports.getProjects = async function (req, res) {
+	const projects = await dataService.getUserProjects(req.user._id);
+
+	res.json({ projects });
 };

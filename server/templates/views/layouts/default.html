@@ -2,347 +2,316 @@
 
 <!doctype html>
 <html lang="en" class="h-100">
+	<head>
+	{% if gtag %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ gtag }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-<head>
-  {% if gtag %}
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id={{ gtag }}"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
+      gtag('config', "{{ gtag }}");
+    </script>
+	{% endif %}
 
-    gtag('config', "{{ gtag }}");
-  </script>
-  {% endif %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>{{ title|default("Safe Water Optimization Tool") }}</title>
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="//code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous">
+    </script>
 
-  <title>{{ title|default("Safe Water Optimization Tool") }}</title>
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-
-  <script src="//code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous">
-  </script>
-
-  <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
     </script>
 
-  <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  
+		{# Customise the stylesheet for your site by editing /public/styles/site.sass #}
+		<link href="/styles/site.css" rel="stylesheet">
 
-  {# Customise the stylesheet for your site by editing /public/styles/site.sass #}
-  <link href="/styles/site.css" rel="stylesheet">
+		{# This file provides the default styling for the KeystoneJS Content Editor #}
+		{% if user and user.canAccessKeystone %}
+			<link href="/admin/styles/content/editor.min.css" rel="stylesheet">
+		{% endif %}
 
-  {# This file provides the default styling for the KeystoneJS Content Editor #}
-  {% if user and user.canAccessKeystone %}
-  <link href="/admin/styles/content/editor.min.css" rel="stylesheet">
-  {% endif %}
-
-  {# HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
+		{# HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
 		   Safely remove this block if you are not targeting IE8 #}
-  <!--[if lt IE 9]>
+		<!--[if lt IE 9]>
 			<script src="//cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.js"></script>
 			<script src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
-  {# Include template-specific stylesheets by extending the css block #}
-  {% block css %}{% endblock %}
+		{# Include template-specific stylesheets by extending the css block #}
+		{% block css %}{% endblock %}
 
-  {# Add any other template-specific HEAD tags by extending the head block #}
-  {% block head %}{% endblock %}
-</head>
+		{# Add any other template-specific HEAD tags by extending the head block #}
+		{% block head %}{% endblock %}
+	</head>
+	<body class="d-flex flex-column h-100">
 
-<body class="d-flex flex-column h-100">
+		{# HEADER #}
+      <nav class="navbar navbar-expand-lg bg-swot-dark-blue shadow-sm" id="top-scroll">
+        <div class="container w-100">
+          <a href="/"><img class="main-logo" src="/assets/SWOT_LOGO.png" alt="swot logo"></a>
+          <button class="navbar-toggler collapsed first-button" type="button" data-toggle="collapse"
+            data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <div class="animated-icon1"><span></span><span></span><span></span></div>
+          </button>
+          <div class="navbar-collapse collapse justify-flex-end" id="navbarCollapse">
+            {% if user %}
+            <ul class="navbar-nav ml-auto">
 
-  {# HEADER #}
-  <nav class="navbar navbar-expand-lg bg-swot-dark-blue shadow-sm" id="top-scroll">
-    <div class="container w-100">
-      <a href="/"><img class="main-logo" src="/assets/SWOT_LOGO.png" alt="swot logo"></a>
-      <button class="navbar-toggler collapsed first-button" type="button" data-toggle="collapse"
-        data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
-        aria-label="Toggle navigation">
-        <div class="animated-icon1"><span></span><span></span><span></span></div>
-      </button>
-      <div class="navbar-collapse collapse justify-flex-end" id="navbarCollapse">
-        {% if user %}
-        <ul class="navbar-nav ml-auto">
+              <li class="{{ 'nav-item active' if 'dashboard' == section else 'nav-item' }}">
+                <a class="nav-link link" href="/dashboard">Dashboard</a>
+              </li>
+              <li class="{{ 'nav-item active' if 'download' == section else 'nav-item' }}">
+                <a class="nav-link link" href="/download">Download</a>
+              </li>
+              <li class="{{ 'nav-item active' if 'upload' == section else 'nav-item' }}">
+                <a class="nav-link link" href="/upload">Upload</a>
+              </li>
+              <li class="{{ 'nav-item active' if 'results' == section else 'nav-item' }}">
+                <a class="nav-link link" href="/results">Results</a>
+              </li>
+              <li class="{{ 'nav-item active' if 'archived' == section else 'nav-item' }}">
+                <a class="nav-link link" href="/archived">Archived</a>
+              </li>
+        
+            </ul>
+            {% endif %}
+            <div class="form-inline mt-2 mt-md-0 justify-center flex-no-wrap">
+              {% if user %}
+              	<a class="panel-link" href="#" id="accountDetails" tabindex="-1" title="Account Details" onclick="$('#UserDetailsModal').modal({ backdrop: 'static', keyboard: false, focus: true})"><img src="/assets/user.svg" alt="Account Details" /></a>
+                {% if user.canAccessKeystone %}
+                <a class="panel-link" href="/admin" tabindex="-1" title="SWOT Admin Panel"><img src="/assets/settings_w.svg" alt="Admin Panel" /></a>
+                {% endif %}
+                <a class="panel-link" href="/admin/signout" id="accountDetails" tabindex="-1" title="Log Out"><img src="/assets/logout.svg" alt="Log Out" /></a>
+              {% else %}
+              <button onclick="location.href='/signin'" class="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap" type="button">LOGIN</button>
+              <button onclick="location.href='/contact'" class="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap" type="button">REGISTER</button>
+               	<!-- <a class="panel-link" href="/admin/signin" tabindex="-1" title="Sign in"><img src="/assets/login.svg" alt="Sign in" /></a> -->
+                <!-- <a class="panel-link" href="/contact" tabindex="-1" title="Register"><img src="/assets/register.svg" alt="Register" /></a> -->
+			  {% endif %}
 
-          <li class="{{ 'nav-item active' if 'dashboard' == section else 'nav-item' }}">
-            <a class="nav-link link" href="/dashboard">Dashboard</a>
-          </li>
-          <li class="{{ 'nav-item active' if 'download' == section else 'nav-item' }}">
-            <a class="nav-link link" href="/download">Download</a>
-          </li>
-          <li class="{{ 'nav-item active' if 'upload' == section else 'nav-item' }}">
-            <a class="nav-link link" href="/upload">Upload</a>
-          </li>
-          <li class="{{ 'nav-item active' if 'analyze' == section else 'nav-item' }}">
-            <a class="nav-link link" href="/analyze">Analyze</a>
-          </li>
-          <li class="{{ 'nav-item active' if 'results' == section else 'nav-item' }}">
-            <a class="nav-link link" href="/results">Results</a>
-          </li>
-          <li class="{{ 'nav-item active' if 'archived' == section else 'nav-item' }}">
-            <a class="nav-link link" href="/archived">Archived</a>
-          </li>
-
-        </ul>
-        {% endif %}
-        <div class="form-inline mt-2 mt-md-0 justify-center flex-no-wrap">
-          {% if user %}
-          <a class="panel-link" href="#" id="accountDetails" tabindex="-1" title="Account Details"
-            onclick="$('#UserDetailsModal').modal({ backdrop: 'static', keyboard: false, focus: true})"><img
-              src="/assets/user.svg" alt="Account Details" /></a>
-          {% if user.canAccessKeystone %}
-          <a class="panel-link" href="/admin" tabindex="-1" title="SWOT Admin Panel"><img src="/assets/settings_w.svg"
-              alt="Admin Panel" /></a>
-          {% endif %}
-          <a class="panel-link" href="/admin/signout" id="accountDetails" tabindex="-1" title="Log Out"><img
-              src="/assets/logout.svg" alt="Log Out" /></a>
-          {% else %}
-          <button onclick="location.href='/signin'" class="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap"
-            type="button">LOGIN</button>
-          <button onclick="location.href='/contact'" class="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap"
-            type="button">REGISTER</button>
-          <!-- <a class="panel-link" href="/admin/signin" tabindex="-1" title="Sign in"><img src="/assets/login.svg" alt="Sign in" /></a> -->
-          <!-- <a class="panel-link" href="/contact" tabindex="-1" title="Register"><img src="/assets/register.svg" alt="Register" /></a> -->
-          {% endif %}
-
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </nav>
+      </nav>
 
-  {# BODY #}
-  <div id="body">
-    <div class="water-container hide">
-      <div class="glass">
-        <div class="water"></div>
-      </div>
-    </div>
-    {# NOTE:
+		{# BODY #}
+		<div id="body">
+        <div class="water-container hide">
+            <div class="glass">
+              <div class="water"></div>
+            </div>
+        </div>
+			{# NOTE:
 			   There is no .container wrapping class around body blocks to allow more flexibility in design.
 			   Remember to include it in your templates when you override the intro and content blocks! #}
 
-    {# The Intro block appears above flash messages (used for temporary information display) #}
-    {% block intro %}{% endblock %}
+			{# The Intro block appears above flash messages (used for temporary information display) #}
+			{% block intro %}{% endblock %}
 
-    {# Flash messages allow you to display once-off status messages to users, e.g. form
+			{# Flash messages allow you to display once-off status messages to users, e.g. form
 			   validation errors, success messages, etc. #}
-    {{ FM.flashMessages(messages) }}
+			{{ FM.flashMessages(messages) }}
 
-    {# The content block should contain the body of your template"s content #}
-    {% block content %}{% endblock %}
+			{# The content block should contain the body of your template"s content #}
+      {% block content %}{% endblock %}
+      
+      {% if user %}
+        <!-- The Upload Modal -->
+        <div class="modal fade" id="UserDetailsModal">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
 
-    {% if user %}
-    <!-- The Upload Modal -->
-    <div class="modal fade" id="UserDetailsModal">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">USER DETAILS</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
 
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">USER DETAILS</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form class="form" role="form" autocomplete="off" id="formUser">
+                  <div class="form-group">
+                    <label for="name">First Name</label>
+                    <input type="text" class="form-control form-control-lg" name="firstName" id="firstName" required="" value="{{ user.name.first }}">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="name">Last Name</label>
+                    <input type="text" class="form-control form-control-lg" name="lastName" id="lastName"  value="{{ user.name.last }}" required="">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="description">Email</label>
+                    <input type="text" class="form-control form-control-lg" name="email" id="email" value="{{ user.email }}" required="">
+                  </div>
+
+                  <h6>Change Password</h6>
+                  <div class="form-group">
+                    <label for="name">Password</label>
+                    <input type="password" autocomplete="new-password" class="form-control form-control-lg" name="password1" id="password1" minlength="6">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="name">Confirm Password</label>
+                    <input type="password" autocomplete="new-password" class="form-control form-control-lg" name="password2" id="password2" minlength="6">
+                  </div>
+
+                  <div class="form-group pt-4">
+                    <button class="btn btn-danger btn-lg" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-lg float-right" id="btnSaveUserDetails">Save</button>
+                  </div>
+                </form>
+              </div>
+
+            </div>
           </div>
-
-          <!-- Modal body -->
-          <div class="modal-body">
-            <form class="form" role="form" autocomplete="off" id="formUser">
-              <div class="form-group">
-                <label for="name">First Name</label>
-                <input type="text" class="form-control form-control-lg" name="firstName" id="firstName" required=""
-                  value="{{ user.name.first }}">
-              </div>
-
-              <div class="form-group">
-                <label for="name">Last Name</label>
-                <input type="text" class="form-control form-control-lg" name="lastName" id="lastName"
-                  value="{{ user.name.last }}" required="">
-              </div>
-
-              <div class="form-group">
-                <label for="description">Email</label>
-                <input type="text" class="form-control form-control-lg" name="email" id="email" value="{{ user.email }}"
-                  required="">
-              </div>
-
-              <h6>Change Password</h6>
-              <div class="form-group">
-                <label for="name">Password</label>
-                <input type="password" autocomplete="new-password" class="form-control form-control-lg" name="password1"
-                  id="password1" minlength="6">
-              </div>
-
-              <div class="form-group">
-                <label for="name">Confirm Password</label>
-                <input type="password" autocomplete="new-password" class="form-control form-control-lg" name="password2"
-                  id="password2" minlength="6">
-              </div>
-
-              <div class="form-group pt-4">
-                <button class="btn btn-danger btn-lg" data-dismiss="modal" aria-hidden="true">Cancel</button>
-                <button type="submit" class="btn btn-primary btn-lg float-right" id="btnSaveUserDetails">Save</button>
-              </div>
-            </form>
-          </div>
-
         </div>
-      </div>
-    </div>
 
-    <!-- Confirm Modal -->
-    <div class="modal fade" id="ConfirmModal">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+          <!-- Confirm Modal -->
+      <div class="modal fade" id="ConfirmModal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+    
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Status</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+    
+            <!-- Modal body -->
+            <div class="modal-body">
+              <p id="confirmMsg">
 
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">Status</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-
-          <!-- Modal body -->
-          <div class="modal-body">
-            <p id="confirmMsg">
-
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+              </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    {% endif %}
+      {% endif %}
 
-  </div>
+		</div>
 
 
-  {# FOOTER #}
+		{# FOOTER #}
 
-  <footer class="mt-auto">
-    <div class="container">
-      <ul class="footer-links">
-        <li><a href="/contact">Contact Us</a></li>
-        <li><a href="/pages/how-it-works">How it Works</a></li>
-        <li><a href="/pages/terms-of-use">Terms of Use</a></li>
-        <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
-      </ul>
-      <p class="text-right mt-1 mb-0"><small>Copyright ©
-          <script type="text/javascript">
+    <footer class="mt-auto">
+        <div class="container">
+          <ul class="footer-links">
+            <li><a href="/contact">Contact Us</a></li>
+            <li><a href="/pages/how-it-works">How it Works</a></li>
+            <li><a href="/pages/terms-of-use">Terms of Use</a></li>
+            <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
+          </ul>
+          <p class="text-right mt-1 mb-0"><small>Copyright © 
+            <script type="text/javascript">
             document.write(new Date().getFullYear());
           </script>
-        </small></p>
-    </div>
-  </footer>
+          </small></p>
+        </div>
+      </footer>
 
 
-  {# JAVASCRIPT #}
+		{# JAVASCRIPT #}
 
   <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-    </script>
+  </script>
 
-  {# The KeystoneJS Content Editor provides support for ks-editable data attributes,
+		{# The KeystoneJS Content Editor provides support for ks-editable data attributes,
 			which generate links to edit content for users who can access Keystone #}
-  {% if user and user.canAccessKeystone %}
-  <script src="/admin/js/content/editor.js"></script>
-  {% endif %}
+		{% if user and user.canAccessKeystone %}
+			<script src="/admin/js/content/editor.js"></script>
+		{% endif %}
 
-  {# Add scripts that are globally required by your site here. #}
+		{# Add scripts that are globally required by your site here. #}
 
-  {# Include template-specific javascript files by extending the js block #}
-  {% block js %}{% endblock %}
-  <script>
-    $.ajaxSetup({ timeout: 250000 });
-    var animationInProgress = false;
+		{# Include template-specific javascript files by extending the js block #}
+    {% block js %}{% endblock %}
+    <script>
+        $.ajaxSetup({timeout: 250000});
+        var animationInProgress = false;
 
-    function showSpinner() {
-      animationInProgress = true;
-      $(".water-container").removeClass("hide");
-      animateWaves();
-    }
-
-    function shakeElement(elem) {
-      elem.fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-    }
-
-    function logError(error) {
-      console.error('The file was not uploaded to the server. Here is the error message from the server:');
-      console.error('Server error: ' + error);
-      console.error('Server status: ' + error && error.status ? error.status : "");
-      const message = error && error.responseJSON && error.responseJSON.error ? error.responseJSON.error : null;
-      console.error('Server message: ' + message);
-      showConfirmModal("An error occurred during file upload.\nDetails: " + (message ? message : "Unknown Error"));
-      hideSpinner();
-    }
-
-    function hideSpinner() {
-      animationInProgress = false;
-      $(".water-container").addClass("hide");
-    }
-
-    function toggleSpinner() {
-      $(".water-container").toggleClass("hide");
-      animationInProgress = $(".water-container").hasClass("hide");
-      animateWaves();
-    }
-
-    function animateWaves() {
-      if (animationInProgress) {
-        setTimeout(() => { $('.glass').toggleClass("up"); }, 50);
-        setTimeout(() => { animateWaves() }, 3100);
-      }
-    }
-
-    function setupUserFormSubmit() {
-      $('#UserDetailsModal').on('shown.bs.modal', function () {
-        $("#password1").val('');
-        $("#password2").val('')
-      });
-
-      $("#formUser").submit(function (event) {
-        toggleSpinner();
-        event.preventDefault();
-        const formData = {
-          firstName: $("#firstName").val(),
-          lastName: $("#lastName").val(),
-          password1: $("#password1").val(),
-          password2: $("#password2").val(),
-          email: $("#email").val(),
+        function showSpinner() {
+          animationInProgress = true;
+          $(".water-container").removeClass("hide");
+          animateWaves();
         }
-        //Update the file with the information above.
-        $.post('/api/user/update', formData, function (data) {
-          $('#UserDetailsModal').modal('hide');
+
+        function hideSpinner() {
+          animationInProgress = false;
           $(".water-container").addClass("hide");
-          if (data.status) {
-            showConfirmModal("Profile updated successfully.");
-          } else {
-            showConfirmModal("An error occurred while uploading your profile. Please contact system administrator. Additional info: " + data);
+        }
+
+        function toggleSpinner() {
+          $(".water-container").toggleClass("hide");
+          animationInProgress =  $(".water-container").hasClass("hide");
+          animateWaves();
+        }
+
+        function animateWaves() {
+          if (animationInProgress) {
+            setTimeout(() => {$('.glass').toggleClass("up");}, 50); 
+            setTimeout(() => {animateWaves()}, 3100); 
           }
-        })
+        }
+
+        function setupUserFormSubmit() {
+          $('#UserDetailsModal').on('shown.bs.modal', function () {
+            $("#password1").val('');
+            $("#password2").val('')
+          });
+
+          $("#formUser").submit(function(event) {
+            toggleSpinner();
+          event.preventDefault();
+          const formData = {
+            firstName: $("#firstName").val(),
+            lastName: $("#lastName").val(),
+            password1: $("#password1").val(),
+            password2: $("#password2").val(),
+            email: $("#email").val(),
+          }
+          //Update the file with the information above.
+          $.post('/api/user/update', formData, function(data) {
+            $('#UserDetailsModal').modal('hide');
+            $(".water-container").addClass("hide");
+            if (data.status) {
+              showConfirmModal("Profile updated successfully.");
+            } else {
+              showConfirmModal("An error occurred while uploading your profile. Please contact system administrator. Additional info: " + data);
+            }
+          })
 
           //If the metadata update fails:
-          .fail(function (error) {
+          .fail(function(error) {
             $(".water-container").addClass("hide");
             showConfirmModal("An error occurred while uploading your profile: " + error.responseText);
             console.log(error);
           });
-      });
-    }
+        });
+      }
 
-    function showConfirmModal(message) {
-      $("#confirmMsg").html(message.replace(/\n/g,'<br/>'));
-      $('#ConfirmModal').modal({ backdrop: true, keyboard: true, focus: true });
-    }
+      function showConfirmModal(message){
+        $("#confirmMsg").text(message);
+        $('#ConfirmModal').modal({ backdrop: true, keyboard: true, focus: true});
+      }
 
-    setupUserFormSubmit();
-  </script>
-</body>
-
+      setupUserFormSubmit();
+    </script>
+	</body>
 </html>

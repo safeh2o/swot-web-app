@@ -98,6 +98,7 @@ keystone.set("locals", {
 	weburl: `${process.env.WEB_URL.startsWith("http") ? "" : "https://"}${
 		process.env.WEB_URL
 	}${process.env.WEB_URL.endsWith("/") ? "" : "/"}`,
+	grecaptcha: process.env.RECAPTCHA_SITE_KEY,
 });
 
 keystone.set("mongoose", mongoose);
@@ -108,10 +109,11 @@ keystone.set("routes", require("./server/routes"));
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set("nav", {
 	users: "users",
-	areas: ["countries", "projects"],
-	sites: "fieldsites",
+	countries: "countries",
+	projects: "projects",
+	fieldsites: "fieldsites",
 	datasets: "datasets",
-	posts: ["posts", "post-categories"],
+	blog: ["posts", "post-categories"],
 	pages: "pages",
 	enquiries: "enquiries",
 	welcomes: "welcomes",

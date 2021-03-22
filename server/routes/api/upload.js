@@ -38,16 +38,23 @@ exports.update = async function (req, res) {
 					err
 				);
 
-			await dataService.associateDatasetWithUser(req.user._id, dataItem._id);
+			await dataService.associateDatasetWithUser(
+				req.user._id,
+				dataItem._id
+			);
 
 			await dataService.associateDatasetWithFieldsite(
 				data.fieldsite,
 				dataItem._id
 			);
 
-			const project = await dataService.getProjectByFieldsite(data.fieldsite);
+			const project = await dataService.getProjectByFieldsite(
+				data.fieldsite
+			);
 			const country = await dataService.getCountryByProject(project._id);
-			const fieldsite = await dataService.getFieldsiteById(data.fieldsite);
+			const fieldsite = await dataService.getFieldsiteById(
+				data.fieldsite
+			);
 
 			const originalFileExtension = path.extname(dataItem.file.filename);
 			const originalFileWithoutExtension = dataItem.file.filename.replace(
@@ -60,7 +67,9 @@ exports.update = async function (req, res) {
 				originalFileWithoutExtension.slice(
 					originalFileWithoutExtension.length - 4
 				)
-			)}__${dataService.sanitizeStr(fieldsite.name)}__${dataService.sanitizeStr(
+			)}__${dataService.sanitizeStr(
+				fieldsite.name
+			)}__${dataService.sanitizeStr(
 				data.dateOfReading
 			)}__${dataService.sanitizeStr(
 				data.maxDurationHours
@@ -107,9 +116,9 @@ exports.update = async function (req, res) {
 			await dataService.updateDatasetWithBlobPrefix(
 				data.id,
 				country.name,
-				`${dataService.getIdentifier(project)}/${dataService.getIdentifier(
-					fieldsite
-				)}`
+				`${dataService.getIdentifier(
+					project
+				)}/${dataService.getIdentifier(fieldsite)}`
 			);
 
 			await analyzer.notifyFileUpload(
@@ -147,14 +156,15 @@ exports.analyze = async function (req, res) {
 		.exec();
 
 	if (!datapoints.length) {
-		// res.status(404).send('Could not find any datapoints in the given date range');
-		res
-			.status(404)
-			.json({ error: "Could not find any datapoints in the given date range" });
+		res.status(404).json({
+			error: "Could not find any datapoints in the given date range",
+		});
 		return;
 	}
 
-	const fieldsite = await Fieldsite.model.findOne({ _id: fieldsiteId }).exec();
+	const fieldsite = await Fieldsite.model
+		.findOne({ _id: fieldsiteId })
+		.exec();
 
 	let currDate = moment().format("YYYYMMDD");
 	const dataset = new Dataset.model({
@@ -251,19 +261,9 @@ async function createAttachment(userId, fieldsiteId, overwrite, files) {
 		});
 	};
 
-	// for (let i = 0; i < files.length; i++) {
-	// 	const file = files[i];
-	// 	const stream = fs.createReadStream(file.path);
-	// 	const ext = path.extname(file.originalname).substring(1);
-	// 	const data = await std.standardize(stream, ext);
-	// 	Object.values(DataTypes).forEach((dataType) => {
-	// 		appendData(data[dataType], dataType);
-	// 	});
-	// }
 	files.forEach(async (file) => {
-		const stream = fs.createReadStream(file.path);
 		const ext = path.extname(file.originalname).substring(1);
-		std.standardize(stream, ext).then((data) => {
+		std.standardize(file.path, ext).then((data) => {
 			Object.values(DataTypes).forEach((dataType) => {
 				appendData(data[dataType], dataType);
 			});

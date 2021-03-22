@@ -35,7 +35,9 @@ exports.getProjectByFieldsite = async function (fieldSiteId) {
 
 exports.getIdentifier = function (dataItem) {
 	if (!dataItem || !dataItem.name || !dataItem._id) {
-		throw "Incorrect dataitem passed - can not produce name/id of " + dataItem;
+		throw (
+			"Incorrect dataitem passed - can not produce name/id of " + dataItem
+		);
 	}
 	return `${dataItem.name.replace(/[^0-9a-z]/gi, "").toLowerCase()}-${
 		dataItem._id
@@ -104,7 +106,25 @@ exports.getUserFieldsites = async function (userId) {
 		}
 	}
 
-	return _.sortBy(fieldsites, (f) => f.name);
+	return _.uniqBy(
+		_.sortBy(fieldsites, (f) => f.name),
+		"_id"
+	);
+};
+
+/**
+ * Return user's associated projects
+ */
+exports.getUserProjects = async function (userId) {
+	const projectsHavingUser = await Project.model
+		.find({ users: userId })
+		.exec();
+
+	if (!projectsHavingUser) {
+		return null;
+	}
+
+	return _.sortBy(projectsHavingUser, (p) => p.name);
 };
 
 exports.createDatapoint = async function createDatapoint(
@@ -214,13 +234,19 @@ exports.renameBlobFile = async function (
 					reject(err);
 				}
 
-				const srcBlobName = sourceURI.substring(sourceURI.lastIndexOf("/") + 1);
-				blobService.deleteBlob(containerName, srcBlobName, (err, response) => {
-					if (err) {
-						reject(err);
+				const srcBlobName = sourceURI.substring(
+					sourceURI.lastIndexOf("/") + 1
+				);
+				blobService.deleteBlob(
+					containerName,
+					srcBlobName,
+					(err, response) => {
+						if (err) {
+							reject(err);
+						}
+						resolve(response);
 					}
-					resolve(response);
-				});
+				);
 			}
 		);
 	});
@@ -241,7 +267,11 @@ exports.updateDatasetBlobInfo = async function (
 		"stdFile.container": process.env.AZURE_STORAGE_CONTAINER_STD,
 	};
 	return Dataset.model
-		.findOneAndUpdate({ _id: datasetId }, { $set: setQuery }, { strict: false })
+		.findOneAndUpdate(
+			{ _id: datasetId },
+			{ $set: setQuery },
+			{ strict: false }
+		)
 		.exec();
 };
 
@@ -274,19 +304,22 @@ exports.associateDatasetWithUser = async function (userId, datasetId) {
 			{ $set: { user: mongoose.Types.ObjectId(userId) } }
 		)
 		.exec();
-}
+};
 
 /**
  * Update dataset record with selected fieldsite ID
  */
-exports.associateDatasetWithFieldsite = async function (fieldsiteIdStr, datasetId) {
+exports.associateDatasetWithFieldsite = async function (
+	fieldsiteIdStr,
+	datasetId
+) {
 	return Dataset.model
 		.findOneAndUpdate(
 			{ _id: datasetId },
 			{ $set: { fieldsite: mongoose.Types.ObjectId(fieldsiteIdStr) } }
 		)
 		.exec();
-}
+};
 
 async function writeTextToBlob(containerName, blobName, text) {
 	const retryOperations = new azure.LinearRetryPolicyFilter();

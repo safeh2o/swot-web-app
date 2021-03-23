@@ -25,6 +25,7 @@ class FieldsitesDropdown extends Component {
 	});
 
 	updateFieldsites = () => {
+		showSpinner();
 		fetch(
 			"/api/user/fieldsites"
 			// { signal: this.controller.signal }

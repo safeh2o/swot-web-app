@@ -19,6 +19,7 @@ class ResultsPage extends Component {
 	}
 
 	loadDataIntoTable() {
+		showSpinner();
 		fetch("/api/results/processed")
 			.then((res) => res.json())
 			.then((data) => {

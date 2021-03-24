@@ -3,6 +3,11 @@
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 	<head>
+		<meta
+			http-equiv="Content-Security-Policy"
+			content="upgrade-insecure-requests"
+		/>
+
 		{% if gtag %}
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script
@@ -39,7 +44,7 @@
 		{% if user and user.canAccessKeystone %}
 		<link href="/admin/styles/content/editor.min.css" rel="stylesheet" />
 		{% endif %}
-		<script src="/js/jquery/jquery.form.js"></script>
+		<script src="https://malsup.github.com/jquery.form.js"></script>
 		<script src="//unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
 		<script src="/js/fa.min.js"></script>
 		<script src="/js/modals.js"></script>

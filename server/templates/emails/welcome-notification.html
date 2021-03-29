@@ -13,30 +13,40 @@
 
 <body>
 	<img src="{{host}}assets/swot_logo1b_tr.png" height="150px">
-	
+
 	<p class="text-larger">
 		Dear {{ welcome.user.name.first }},
 	</p>
+	<p>
+		Welcome to the Safe Water Optimization Tool!
+	</p>
 
 	<p>
-	An account has been created for you on the Safe Water Optimization Tool, accessible through <a href="{{host}}">{{host}}</a>.
-	<br><br>
-	Here are your login credentials, it is recommended that you change your <strong>password as soon as possible</strong> after logging in:
-	<br><br>
+		A new SWOT user account has been created for you. The login credentials are below. Please login at: <a
+			href="{{host}}">{{host}}</a>.
 	</p>
 
 	<p style='text-align: justify; transform: translateX(2rem);'>
-	Username: {{welcome.user.email}}
-	<br>
-	Password: {{welcome.user.email}}
+		Username: {{welcome.user.email}}
+		<br>
+		Password: {{welcome.user.email}}
+		</span>
 	</p>
 
-	<p><em>You can change your user details after logging in by clicking the icon at the top right of the page.</em></p>
+	<p>We recommend that you <strong>change your password as soon as possible</strong> after logging in. You can change
+		your
+		user details by clicking on the 'person' icon at the top righthand corner of the page.</p>
+	<p>Instructions on how to use the SWOT are available <a href="{{instructionsUrl}}">here</a>. We also have some
+		instructional videos to guide you through the process <a
+			href="https://www.youtube.com/channel/UCAoYWw3iKSpFZspbMGhMq7g/videos">here</a>. Finally, a test dataset
+		(plus instructions) is available <a href="{{host}}/blog/post/take-the-swot-for-a-test-drive">here</a> if you
+		would like to see
+		how the SWOT works.</p>
+	<p>If you have any questions please contact the SWOT Support Desk at: <a href="mailto: {{support}}">{{support}}</a>
+		and we'll get right back to you.</p>
+	<p>We're excited to be able to help you optimize water safety at your project site. Thank you for using the SWOT!
+	</p>
 	<br>
-	<p>You can also find instructions on how to use this app <a href="{{instructionsUrl}}">here</a>.</p>
-	<br>
-
-	<p>Please reach out to us at <a href="mailto: {{support}}">{{support}}</a> if you have any questions.</p>
 
 	<p class="text-muted">Sent {{ welcome._.createdAt.format() }}</p>
 </body>

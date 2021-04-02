@@ -332,3 +332,5 @@ ASALocalRun/
 
 .vscode/
 .env
+server/public/js/bundle.js
+server/public/styles/site.css

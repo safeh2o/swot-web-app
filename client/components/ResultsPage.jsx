@@ -18,6 +18,10 @@ class ResultsPage extends Component {
 		this.loadDataIntoTable();
 	}
 
+	componentWillUnmount() {
+		hideSpinner();
+	}
+
 	loadDataIntoTable() {
 		showSpinner();
 		fetch("/api/results/processed")

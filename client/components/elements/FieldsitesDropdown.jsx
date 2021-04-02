@@ -28,7 +28,7 @@ class FieldsitesDropdown extends Component {
 		showSpinner();
 		fetch(
 			"/api/user/fieldsites"
-			// { signal: this.controller.signal }
+			// , { signal: this.controller.signal }
 		)
 			.then((res) => res.json())
 			.then((data) => {
@@ -50,6 +50,7 @@ class FieldsitesDropdown extends Component {
 
 	componentWillUnmount() {
 		// this.controller.abort();
+		hideSpinner();
 	}
 
 	componentDidUpdate() {

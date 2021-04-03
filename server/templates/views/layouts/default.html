@@ -1,317 +1,470 @@
-{% import "mixins/flash-messages.html" as FM %}
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" class="h-100">
 	<head>
-	{% if gtag %}
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ gtag }}"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+		{% if gtag %}
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script
+			async
+			src="https://www.googletagmanager.com/gtag/js?id={{ gtag }}"
+		></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
 
-      gtag('config', "{{ gtag }}");
-    </script>
-	{% endif %}
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-		<title>{{ title|default("Safe Water Optimization Tool") }}</title>
-		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-
-    <script src="//code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous">
-    </script>
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-    </script>
-
-    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  
-		{# Customise the stylesheet for your site by editing /public/styles/site.sass #}
-		<link href="/styles/site.css" rel="stylesheet">
-
-		{# This file provides the default styling for the KeystoneJS Content Editor #}
-		{% if user and user.canAccessKeystone %}
-			<link href="/admin/styles/content/editor.min.css" rel="stylesheet">
+			gtag("config", "{{ gtag }}");
+		</script>
 		{% endif %}
 
-		{# HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
-		   Safely remove this block if you are not targeting IE8 #}
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+		<title>{{ title|default("Safe Water Optimization Tool") }}</title>
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+
+		<script
+			src="//code.jquery.com/jquery-3.3.1.min.js"
+			crossorigin="anonymous"
+		></script>
+
+		<script
+			src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+			integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+			crossorigin="anonymous"
+		></script>
+
+		<link
+			rel="stylesheet"
+			href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+			crossorigin="anonymous"
+		/>
+
+		{# Customise the stylesheet for your site by editing
+		/public/styles/site.sass #}
+		<link href="/styles/site.css" rel="stylesheet" />
+
+		{# This file provides the default styling for the KeystoneJS Content
+		Editor #} {% if user and user.canAccessKeystone %}
+		<link href="/admin/styles/content/editor.min.css" rel="stylesheet" />
+		{% endif %} {# HTML5 Shim and Respond.js IE8 support of HTML5 elements
+		and media queries Safely remove this block if you are not targeting IE8
+		#}
 		<!--[if lt IE 9]>
 			<script src="//cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.js"></script>
 			<script src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
 		{# Include template-specific stylesheets by extending the css block #}
-		{% block css %}{% endblock %}
-
-		{# Add any other template-specific HEAD tags by extending the head block #}
-		{% block head %}{% endblock %}
+		{% block css %}{% endblock %} {# Add any other template-specific HEAD
+		tags by extending the head block #} {% block head %}{% endblock %}
 	</head>
 	<body class="d-flex flex-column h-100">
-
 		{# HEADER #}
-      <nav class="navbar navbar-expand-lg bg-swot-dark-blue shadow-sm" id="top-scroll">
-        <div class="container w-100">
-          <a href="/"><img class="main-logo" src="/assets/SWOT_LOGO.png" alt="swot logo"></a>
-          <button class="navbar-toggler collapsed first-button" type="button" data-toggle="collapse"
-            data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <div class="animated-icon1"><span></span><span></span><span></span></div>
-          </button>
-          <div class="navbar-collapse collapse justify-flex-end" id="navbarCollapse">
-            {% if user %}
-            <ul class="navbar-nav ml-auto">
-
-              <li class="{{ 'nav-item active' if 'dashboard' == section else 'nav-item' }}">
-                <a class="nav-link link" href="/dashboard">Dashboard</a>
-              </li>
-              <li class="{{ 'nav-item active' if 'download' == section else 'nav-item' }}">
-                <a class="nav-link link" href="/download">Download</a>
-              </li>
-              <li class="{{ 'nav-item active' if 'upload' == section else 'nav-item' }}">
-                <a class="nav-link link" href="/upload">Upload</a>
-              </li>
-              <li class="{{ 'nav-item active' if 'results' == section else 'nav-item' }}">
-                <a class="nav-link link" href="/results">Results</a>
-              </li>
-              <li class="{{ 'nav-item active' if 'archived' == section else 'nav-item' }}">
-                <a class="nav-link link" href="/archived">Archived</a>
-              </li>
-        
-            </ul>
-            {% endif %}
-            <div class="form-inline mt-2 mt-md-0 justify-center flex-no-wrap">
-              {% if user %}
-              	<a class="panel-link" href="#" id="accountDetails" tabindex="-1" title="Account Details" onclick="$('#UserDetailsModal').modal({ backdrop: 'static', keyboard: false, focus: true})"><img src="/assets/user.svg" alt="Account Details" /></a>
-                {% if user.canAccessKeystone %}
-                <a class="panel-link" href="/admin" tabindex="-1" title="SWOT Admin Panel"><img src="/assets/settings_w.svg" alt="Admin Panel" /></a>
-                {% endif %}
-                <a class="panel-link" href="/admin/signout" id="accountDetails" tabindex="-1" title="Log Out"><img src="/assets/logout.svg" alt="Log Out" /></a>
-              {% else %}
-              <button onclick="location.href='/signin'" class="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap" type="button">LOGIN</button>
-              <button onclick="location.href='/contact'" class="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap" type="button">REGISTER</button>
-               	<!-- <a class="panel-link" href="/admin/signin" tabindex="-1" title="Sign in"><img src="/assets/login.svg" alt="Sign in" /></a> -->
-                <!-- <a class="panel-link" href="/contact" tabindex="-1" title="Register"><img src="/assets/register.svg" alt="Register" /></a> -->
-			  {% endif %}
-
-            </div>
-          </div>
-        </div>
-      </nav>
+		<nav
+			class="navbar navbar-expand-lg bg-swot-dark-blue shadow-sm"
+			id="top-scroll"
+		>
+			<div class="container w-100">
+				<a href="/"
+					><img
+						class="main-logo"
+						src="/assets/SWOT_LOGO.png"
+						alt="swot logo"
+				/></a>
+				<button
+					class="navbar-toggler collapsed first-button"
+					type="button"
+					data-toggle="collapse"
+					data-target="#navbarCollapse"
+					aria-controls="navbarCollapse"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
+				>
+					<div class="animated-icon1">
+						<span></span><span></span><span></span>
+					</div>
+				</button>
+				<div
+					class="navbar-collapse collapse justify-flex-end"
+					id="navbarCollapse"
+				>
+					{% if user %}
+					<ul class="navbar-nav ml-auto">
+						<li
+							class="{{ 'nav-item active' if 'dashboard' == section else 'nav-item' }}"
+						>
+							<a class="nav-link link" href="/dashboard"
+								>Dashboard</a
+							>
+						</li>
+						<li
+							class="{{ 'nav-item active' if 'download' == section else 'nav-item' }}"
+						>
+							<a class="nav-link link" href="/download"
+								>Download</a
+							>
+						</li>
+						<li
+							class="{{ 'nav-item active' if 'upload' == section else 'nav-item' }}"
+						>
+							<a class="nav-link link" href="/upload">Upload</a>
+						</li>
+						<li
+							class="{{ 'nav-item active' if 'results' == section else 'nav-item' }}"
+						>
+							<a class="nav-link link" href="/results">Results</a>
+						</li>
+						<li
+							class="{{ 'nav-item active' if 'archived' == section else 'nav-item' }}"
+						>
+							<a class="nav-link link" href="/archived"
+								>Archived</a
+							>
+						</li>
+					</ul>
+					{% endif %}
+					<div
+						class="form-inline mt-2 mt-md-0 justify-center flex-no-wrap"
+					>
+						{% if user %}
+						<a
+							class="panel-link"
+							href="#"
+							id="accountDetails"
+							tabindex="-1"
+							title="Account Details"
+							onclick="$('#UserDetailsModal').modal({ backdrop: 'static', keyboard: false, focus: true})"
+							><img src="/assets/user.svg" alt="Account Details"
+						/></a>
+						{% if user.canAccessKeystone %}
+						<a
+							class="panel-link"
+							href="/admin"
+							tabindex="-1"
+							title="SWOT Admin Panel"
+							><img
+								src="/assets/settings_w.svg"
+								alt="Admin Panel"
+						/></a>
+						{% endif %}
+						<a
+							class="panel-link"
+							href="/admin/signout"
+							id="accountDetails"
+							tabindex="-1"
+							title="Log Out"
+							><img src="/assets/logout.svg" alt="Log Out"
+						/></a>
+						{% else %}
+						<button
+							onclick="location.href='/signin'"
+							class="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap"
+							type="button"
+						>
+							LOGIN
+						</button>
+						<button
+							onclick="location.href='/contact'"
+							class="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap"
+							type="button"
+						>
+							REGISTER
+						</button>
+						<!-- <a class="panel-link" href="/admin/signin" tabindex="-1" title="Sign in"><img src="/assets/login.svg" alt="Sign in" /></a> -->
+						<!-- <a class="panel-link" href="/contact" tabindex="-1" title="Register"><img src="/assets/register.svg" alt="Register" /></a> -->
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</nav>
 
 		{# BODY #}
 		<div id="body">
-        <div class="water-container hide">
-            <div class="glass">
-              <div class="water"></div>
-            </div>
-        </div>
-			{# NOTE:
-			   There is no .container wrapping class around body blocks to allow more flexibility in design.
-			   Remember to include it in your templates when you override the intro and content blocks! #}
+			<div class="water-container hide">
+				<div class="glass">
+					<div class="water"></div>
+				</div>
+			</div>
+			{# NOTE: There is no .container wrapping class around body blocks to
+			allow more flexibility in design. Remember to include it in your
+			templates when you override the intro and content blocks! #} {# The
+			Intro block appears above flash messages (used for temporary
+			information display) #} {% block intro %}{% endblock %} {# Flash
+			messages allow you to display once-off status messages to users,
+			e.g. form validation errors, success messages, etc. #} {{
+			FM.flashMessages(messages) }} {# The content block should contain
+			the body of your template"s content #} {% block content %}{%
+			endblock %} {% if user %}
+			<!-- The Upload Modal -->
+			<div class="modal fade" id="UserDetailsModal">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<!-- Modal Header -->
+						<div class="modal-header">
+							<h4 class="modal-title">USER DETAILS</h4>
+							<button
+								type="button"
+								class="close"
+								data-dismiss="modal"
+							>
+								&times;
+							</button>
+						</div>
 
-			{# The Intro block appears above flash messages (used for temporary information display) #}
-			{% block intro %}{% endblock %}
+						<!-- Modal body -->
+						<div class="modal-body">
+							<form
+								class="form"
+								role="form"
+								autocomplete="off"
+								id="formUser"
+							>
+								<div class="form-group">
+									<label for="name">First Name</label>
+									<input
+										type="text"
+										class="form-control form-control-lg"
+										name="firstName"
+										id="firstName"
+										required=""
+										value="{{ user.name.first }}"
+									/>
+								</div>
 
-			{# Flash messages allow you to display once-off status messages to users, e.g. form
-			   validation errors, success messages, etc. #}
-			{{ FM.flashMessages(messages) }}
+								<div class="form-group">
+									<label for="name">Last Name</label>
+									<input
+										type="text"
+										class="form-control form-control-lg"
+										name="lastName"
+										id="lastName"
+										value="{{ user.name.last }}"
+										required=""
+									/>
+								</div>
 
-			{# The content block should contain the body of your template"s content #}
-      {% block content %}{% endblock %}
-      
-      {% if user %}
-        <!-- The Upload Modal -->
-        <div class="modal fade" id="UserDetailsModal">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+								<div class="form-group">
+									<label for="description">Email</label>
+									<input
+										type="text"
+										class="form-control form-control-lg"
+										name="email"
+										id="email"
+										value="{{ user.email }}"
+										required=""
+									/>
+								</div>
 
-              <!-- Modal Header -->
-              <div class="modal-header">
-                <h4 class="modal-title">USER DETAILS</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-              </div>
+								<h6>Change Password</h6>
+								<div class="form-group">
+									<label for="name">Password</label>
+									<input
+										type="password"
+										autocomplete="new-password"
+										class="form-control form-control-lg"
+										name="password1"
+										id="password1"
+										minlength="6"
+									/>
+								</div>
 
-              <!-- Modal body -->
-              <div class="modal-body">
-                <form class="form" role="form" autocomplete="off" id="formUser">
-                  <div class="form-group">
-                    <label for="name">First Name</label>
-                    <input type="text" class="form-control form-control-lg" name="firstName" id="firstName" required="" value="{{ user.name.first }}">
-                  </div>
+								<div class="form-group">
+									<label for="name">Confirm Password</label>
+									<input
+										type="password"
+										autocomplete="new-password"
+										class="form-control form-control-lg"
+										name="password2"
+										id="password2"
+										minlength="6"
+									/>
+								</div>
 
-                  <div class="form-group">
-                    <label for="name">Last Name</label>
-                    <input type="text" class="form-control form-control-lg" name="lastName" id="lastName"  value="{{ user.name.last }}" required="">
-                  </div>
+								<div class="form-group pt-4">
+									<button
+										class="btn btn-danger btn-lg"
+										data-dismiss="modal"
+										aria-hidden="true"
+									>
+										Cancel
+									</button>
+									<button
+										type="submit"
+										class="btn btn-primary btn-lg float-right"
+										id="btnSaveUserDetails"
+									>
+										Save
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 
-                  <div class="form-group">
-                    <label for="description">Email</label>
-                    <input type="text" class="form-control form-control-lg" name="email" id="email" value="{{ user.email }}" required="">
-                  </div>
+			<!-- Confirm Modal -->
+			<div class="modal fade" id="ConfirmModal">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<!-- Modal Header -->
+						<div class="modal-header">
+							<h4 class="modal-title">Status</h4>
+							<button
+								type="button"
+								class="close"
+								data-dismiss="modal"
+							>
+								&times;
+							</button>
+						</div>
 
-                  <h6>Change Password</h6>
-                  <div class="form-group">
-                    <label for="name">Password</label>
-                    <input type="password" autocomplete="new-password" class="form-control form-control-lg" name="password1" id="password1" minlength="6">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="name">Confirm Password</label>
-                    <input type="password" autocomplete="new-password" class="form-control form-control-lg" name="password2" id="password2" minlength="6">
-                  </div>
-
-                  <div class="form-group pt-4">
-                    <button class="btn btn-danger btn-lg" data-dismiss="modal" aria-hidden="true">Cancel</button>
-                    <button type="submit" class="btn btn-primary btn-lg float-right" id="btnSaveUserDetails">Save</button>
-                  </div>
-                </form>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-          <!-- Confirm Modal -->
-      <div class="modal fade" id="ConfirmModal">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-    
-            <!-- Modal Header -->
-            <div class="modal-header">
-              <h4 class="modal-title">Status</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-    
-            <!-- Modal body -->
-            <div class="modal-body">
-              <p id="confirmMsg">
-
-              </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      {% endif %}
-
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p id="confirmMsg"></p>
+						</div>
+						<div class="modal-footer">
+							<button
+								type="button"
+								class="btn btn-primary"
+								data-dismiss="modal"
+							>
+								OK
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endif %}
 		</div>
-
 
 		{# FOOTER #}
 
-    <footer class="mt-auto">
-        <div class="container">
-          <ul class="footer-links">
-            <li><a href="/contact">Contact Us</a></li>
-            <li><a href="/pages/how-it-works">How it Works</a></li>
-            <li><a href="/pages/terms-of-use">Terms of Use</a></li>
-            <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
-          </ul>
-          <p class="text-right mt-1 mb-0"><small>Copyright © 
-            <script type="text/javascript">
-            document.write(new Date().getFullYear());
-          </script>
-          </small></p>
-        </div>
-      </footer>
-
+		<footer class="mt-auto">
+			<div class="container">
+				<ul class="footer-links">
+					<li><a href="/contact">Contact Us</a></li>
+					<li><a href="/pages/how-it-works">How it Works</a></li>
+					<li><a href="/pages/terms-of-use">Terms of Use</a></li>
+					<li><a href="/pages/privacy-policy">Privacy Policy</a></li>
+				</ul>
+				<p class="text-right mt-1 mb-0">
+					<small
+						>Copyright ©
+						<script type="text/javascript">
+							document.write(new Date().getFullYear());
+						</script>
+					</small>
+				</p>
+			</div>
+		</footer>
 
 		{# JAVASCRIPT #}
 
-  <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-  </script>
+		<script
+			src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+			integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+			crossorigin="anonymous"
+		></script>
 
-		{# The KeystoneJS Content Editor provides support for ks-editable data attributes,
-			which generate links to edit content for users who can access Keystone #}
-		{% if user and user.canAccessKeystone %}
-			<script src="/admin/js/content/editor.js"></script>
-		{% endif %}
+		{# The KeystoneJS Content Editor provides support for ks-editable data
+		attributes, which generate links to edit content for users who can
+		access Keystone #} {% if user and user.canAccessKeystone %}
+		<script src="/admin/js/content/editor.js"></script>
+		{% endif %} {# Add scripts that are globally required by your site here.
+		#} {# Include template-specific javascript files by extending the js
+		block #} {% block js %}{% endblock %}
+		<script>
+			$.ajaxSetup({ timeout: 250000 });
+			var animationInProgress = false;
 
-		{# Add scripts that are globally required by your site here. #}
+			function showSpinner() {
+				animationInProgress = true;
+				$(".water-container").removeClass("hide");
+				animateWaves();
+			}
 
-		{# Include template-specific javascript files by extending the js block #}
-    {% block js %}{% endblock %}
-    <script>
-        $.ajaxSetup({timeout: 250000});
-        var animationInProgress = false;
+			function hideSpinner() {
+				animationInProgress = false;
+				$(".water-container").addClass("hide");
+			}
 
-        function showSpinner() {
-          animationInProgress = true;
-          $(".water-container").removeClass("hide");
-          animateWaves();
-        }
+			function toggleSpinner() {
+				$(".water-container").toggleClass("hide");
+				animationInProgress = $(".water-container").hasClass("hide");
+				animateWaves();
+			}
 
-        function hideSpinner() {
-          animationInProgress = false;
-          $(".water-container").addClass("hide");
-        }
+			function animateWaves() {
+				if (animationInProgress) {
+					setTimeout(() => {
+						$(".glass").toggleClass("up");
+					}, 50);
+					setTimeout(() => {
+						animateWaves();
+					}, 3100);
+				}
+			}
 
-        function toggleSpinner() {
-          $(".water-container").toggleClass("hide");
-          animationInProgress =  $(".water-container").hasClass("hide");
-          animateWaves();
-        }
+			function setupUserFormSubmit() {
+				$("#UserDetailsModal").on("shown.bs.modal", function () {
+					$("#password1").val("");
+					$("#password2").val("");
+				});
 
-        function animateWaves() {
-          if (animationInProgress) {
-            setTimeout(() => {$('.glass').toggleClass("up");}, 50); 
-            setTimeout(() => {animateWaves()}, 3100); 
-          }
-        }
+				$("#formUser").submit(function (event) {
+					toggleSpinner();
+					event.preventDefault();
+					const formData = {
+						firstName: $("#firstName").val(),
+						lastName: $("#lastName").val(),
+						password1: $("#password1").val(),
+						password2: $("#password2").val(),
+						email: $("#email").val(),
+					};
+					//Update the file with the information above.
+					$.post("/api/user/update", formData, function (data) {
+						$("#UserDetailsModal").modal("hide");
+						$(".water-container").addClass("hide");
+						if (data.status) {
+							showConfirmModal("Profile updated successfully.");
+						} else {
+							showConfirmModal(
+								"An error occurred while uploading your profile. Please contact system administrator. Additional info: " +
+									data
+							);
+						}
+					})
 
-        function setupUserFormSubmit() {
-          $('#UserDetailsModal').on('shown.bs.modal', function () {
-            $("#password1").val('');
-            $("#password2").val('')
-          });
+						//If the metadata update fails:
+						.fail(function (error) {
+							$(".water-container").addClass("hide");
+							showConfirmModal(
+								"An error occurred while uploading your profile: " +
+									error.responseText
+							);
+							console.log(error);
+						});
+				});
+			}
 
-          $("#formUser").submit(function(event) {
-            toggleSpinner();
-          event.preventDefault();
-          const formData = {
-            firstName: $("#firstName").val(),
-            lastName: $("#lastName").val(),
-            password1: $("#password1").val(),
-            password2: $("#password2").val(),
-            email: $("#email").val(),
-          }
-          //Update the file with the information above.
-          $.post('/api/user/update', formData, function(data) {
-            $('#UserDetailsModal').modal('hide');
-            $(".water-container").addClass("hide");
-            if (data.status) {
-              showConfirmModal("Profile updated successfully.");
-            } else {
-              showConfirmModal("An error occurred while uploading your profile. Please contact system administrator. Additional info: " + data);
-            }
-          })
+			function showConfirmModal(message) {
+				$("#confirmMsg").text(message);
+				$("#ConfirmModal").modal({
+					backdrop: true,
+					keyboard: true,
+					focus: true,
+				});
+			}
 
-          //If the metadata update fails:
-          .fail(function(error) {
-            $(".water-container").addClass("hide");
-            showConfirmModal("An error occurred while uploading your profile: " + error.responseText);
-            console.log(error);
-          });
-        });
-      }
-
-      function showConfirmModal(message){
-        $("#confirmMsg").text(message);
-        $('#ConfirmModal').modal({ backdrop: true, keyboard: true, focus: true});
-      }
-
-      setupUserFormSubmit();
-    </script>
+			setupUserFormSubmit();
+		</script>
 	</body>
 </html>

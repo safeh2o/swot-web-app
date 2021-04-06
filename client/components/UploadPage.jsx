@@ -24,7 +24,6 @@ export default function UploadPage(props) {
 	}, [uploadedFiles]);
 
 	const onHideModal = () => {
-		console.log("hiding modal");
 		hideSpinner();
 		uploadForm.reset();
 	};

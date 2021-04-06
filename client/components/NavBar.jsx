@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import AppContext from "../contexts/AppContext";
+import UserDetailsModal from "./elements/UserDetailsModal";
 
 export default class NavBar extends React.Component {
 	static contextType = AppContext;
@@ -44,22 +45,7 @@ export default class NavBar extends React.Component {
 		if (user) {
 			return (
 				<>
-					<a
-						className="panel-link"
-						href="#"
-						id="accountDetails"
-						tabIndex="-1"
-						title="Account Details"
-						onClick={() => {
-							$("#UserDetailsModal").modal({
-								backdrop: "static",
-								keyboard: false,
-								focus: true,
-							});
-						}}
-					>
-						<img src="/assets/user.svg" alt="Account Details" />
-					</a>
+					<UserDetailsModal />
 					{user.isAdmin === true && (
 						<a
 							className="panel-link"
@@ -87,24 +73,22 @@ export default class NavBar extends React.Component {
 		} else {
 			return (
 				<>
-					<button
-						onClick={() => {
-							location.href = "/signin";
-						}}
-						className="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap"
-						type="button"
-					>
-						LOGIN
-					</button>
-					<button
-						onClick={() => {
-							location.href = "/contact";
-						}}
-						className="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap"
-						type="button"
-					>
-						REGISTER
-					</button>
+					<Link to="/signin">
+						<button
+							className="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap"
+							type="button"
+						>
+							LOGIN
+						</button>
+					</Link>
+					<Link to="/contact">
+						<button
+							className="btn btn-lg btn-outline-primary my-2 my-sm-0 text-nowrap"
+							type="button"
+						>
+							REGISTER
+						</button>
+					</Link>
 				</>
 			);
 		}

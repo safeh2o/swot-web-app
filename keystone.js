@@ -74,6 +74,7 @@ keystone.init({
 	"auto update": true,
 	session: true,
 	auth: true,
+	"signin url": "/signin",
 	"signin redirect": "/",
 	"signout redirect": "/",
 	"admin path": "admin",

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+	<head>
+		<meta
+			http-equiv="Content-Security-Policy"
+			content="upgrade-insecure-requests"
+		/>
+
+		<% if (htmlWebpackPlugin.options.gtag) { %>
+		<script
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=<%= htmlWebpackPlugin.options.gtag %>"
+		></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
+
+			gtag("config", "<%= htmlWebpackPlugin.options.gtag %>");
+		</script>
+		<% } %>
+
+		<title>Safe Water Optimization Tool</title>
+
+		<script
+			src="//code.jquery.com/jquery-3.3.1.min.js"
+			crossorigin="anonymous"
+		></script>
+
+		<link
+			rel="stylesheet"
+			href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+			crossorigin="anonymous"
+		/>
+
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+		/>
+
+		<link href="/styles/site.css" rel="stylesheet" />
+
+		<script src="https://malsup.github.com/jquery.form.js"></script>
+		<script src="//unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
+		<script src="/js/fa.min.js"></script>
+		<script src="/js/modals.js"></script>
+		<script>
+			window.__INITIAL_STATE = {
+				gtag: "<%= htmlWebpackPlugin.options.gtag %>",
+				grecaptcha: "<%= htmlWebpackPlugin.options.grecaptcha %>",
+			};
+		</script>
+	</head>
+
+	<body class="d-flex flex-column h-100">
+		<div id="app-container" class="h-100 d-flex flex-column"></div>
+	</body>
+</html>

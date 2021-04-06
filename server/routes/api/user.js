@@ -2,39 +2,56 @@ const keystone = require("keystone");
 const User = keystone.list("User");
 const Enquiry = keystone.list("Enquiry");
 const dataService = require("../../utils/data.service");
+const _ = require("lodash");
 
 /**
  * Update current user profile
  */
 exports.update = async function (req, res) {
-	if (!req.body.firstName || !req.body.lastName || !req.body.email) {
-		res.status(400).send("Name and email are required fields");
+	const messages = { errors: {}, notices: {} };
+	const terminate = () => {
+		res.json({ messages });
 		return;
+	};
+	const handleError = () => {
+		messages.errors.unknown = { error: "An unknown error has occurred" };
+		terminate();
+		return;
+	};
+
+	if (!req.body.firstName || !req.body.lastName || !req.body.email) {
+		messages.errors.missing = {
+			error: "Name and email are required fields",
+		};
+		return terminate();
 	}
 	if (req.body.password1 || req.body.password2) {
 		if (
 			(req.body.password1 && !req.body.password2) ||
 			(req.body.password2 && !req.body.password1)
 		) {
-			res.status(400).send("Both password fields are required");
-			return;
+			messages.errors.missing = {
+				error: "Both password fields are required",
+			};
+			return terminate();
 		}
 
 		if (req.body.password1 !== req.body.password2) {
-			res.status(400).send("Passwords do not match");
-			return;
+			messages.errors.passwords = { error: "Passwords do not match" };
+			return terminate();
 		}
 
 		if (req.body.password1.length < 6 || req.body.password2.length < 6) {
-			res.status(400).send("Password should be minimum 6 characters");
-			return;
+			messages.errors.passwords = {
+				error: "Password should be minimum 6 characters",
+			};
+			return terminate();
 		}
 	}
 
 	User.model.findOne({ _id: req.user.id }, function (err, user) {
 		if (err) {
-			res.status(400).send("Error occurred during search: " + err);
-			return;
+			return handleError();
 		} else {
 			if (req.body.password1 && req.body.password2) {
 				user.password = req.body.password1;
@@ -46,12 +63,11 @@ exports.update = async function (req, res) {
 
 			user.save(function (saveError) {
 				if (saveError) {
-					res.status(400).send(
-						"Error occurred during update: " + err
-					);
-					return;
+					return handleError();
 				}
-				res.send({ status: "ok" });
+				messages.notices.success =
+					"Profile has been successfully updated";
+				return terminate();
 			});
 		}
 	});
@@ -115,4 +131,93 @@ exports.getProjects = async function (req, res) {
 	const projects = await dataService.getUserProjects(req.user._id);
 
 	res.json({ projects });
+};
+
+exports.validateResetKey = async function (req, res) {
+	let success = false;
+	let messages = { errors: {} };
+	const terminate = () => {
+		res.json({ success, messages });
+	};
+	const handleError = () => {
+		messages.errors.unknown = {
+			error: "An unknown error has occurred",
+		};
+		terminate();
+		return;
+	};
+	if (!req.query.key) {
+		return handleError();
+	}
+	User.model
+		.findOne()
+		.where("resetPasswordKey", req.query.key)
+		.exec(function (err, userFound) {
+			if (err) {
+				success = false;
+				console.error(err);
+				return handleError();
+			}
+			if (!userFound) {
+				messages.errors.key = {
+					error: "Sorry, that reset password key isn't valid.",
+				};
+			}
+
+			terminate();
+		});
+};
+
+exports.resetPassword = async function (req, res) {
+	let messages = { errors: {}, notices: {} };
+	const terminate = () => {
+		res.json({ messages });
+	};
+	const handleError = () => {
+		messages.errors.unknown = { error: "An unknown error has occurred" };
+		terminate();
+		return;
+	};
+	if (!req.body.password || !req.body.password_confirm) {
+		messages.errors.password = {
+			error: "Please enter, and confirm your new password.",
+		};
+		terminate();
+		return;
+	}
+
+	if (req.body.password != req.body.password_confirm) {
+		messages.errors.password = {
+			error: "Please make sure both passwords match.",
+		};
+		terminate();
+		return;
+	}
+
+	User.model
+		.findOne()
+		.where("resetPasswordKey", req.body.resetkey)
+		.exec(function (err, userFound) {
+			if (err) return next(err);
+			userFound.password = req.body.password;
+			userFound.resetPasswordKey = "";
+			userFound.save(function (err) {
+				if (err) return handleError();
+				messages.notices.success =
+					"Your password has been reset, please sign in.";
+				terminate();
+				return;
+			});
+		});
+};
+
+exports.getCurrentUser = async function (req, res) {
+	if (!req.user) {
+		res.json({ user: null });
+		return;
+	}
+
+	const fields = ["_id", "isAdmin", "name", "email"];
+	const user = _.pick(req.user, fields);
+	res.json({ user });
 };

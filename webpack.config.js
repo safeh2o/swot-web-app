@@ -1,5 +1,7 @@
 var webpack = require("webpack");
 var path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+require("dotenv").config();
 
 module.exports = {
 	// Since webpack 4 we will need to set in what mode webpack is running
@@ -8,9 +10,9 @@ module.exports = {
 	entry: ["./client/index.jsx"],
 	// This will be where the final bundle file will be outputed
 	output: {
-		path: path.join(__dirname, "/server/public/js/"),
-		filename: "bundle.js",
-		publicPath: "server/public/js/",
+		path: path.join(__dirname, "/server/public"),
+		filename: "js/bundle.js",
+		publicPath: "/",
 	},
 	// Adding babel loader to compile our javascript and jsx files
 	module: {
@@ -27,6 +29,15 @@ module.exports = {
 			},
 		],
 	},
+	plugins: [
+		new HtmlWebpackPlugin({
+			template: "server/templates/index.ejs",
+			inject: "body",
+			gtag: process.env.GOOGLE_ANALYTICS_GTAG,
+			grecaptcha: process.env.RECAPTCHA_SITE_KEY,
+			filename: "index.html",
+		}),
+	],
 	resolve: {
 		extensions: [".js", ".jsx", ".scss"],
 	},

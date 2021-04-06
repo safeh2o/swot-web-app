@@ -50,16 +50,17 @@ exports = module.exports = function (app) {
 	app.get("/blog/:category?", routes.views.blog);
 	app.get("/blog/post/:post", routes.views.post);
 	app.get("/pages/:page", routes.views.index);
-	app.all("/forgotpassword", routes.views.forgotpassword);
+	app.get("/forgotpassword", routes.views.index);
+	app.post(
+		"/forgotpassword",
+		keystone.middleware.api,
+		routes.api.forms.forgotPassword
+	);
+	app.get("/resetpassword/:key", routes.views.index);
 	app.post(
 		"/resetpassword",
-		keystone.security.csrf.middleware.validate,
-		routes.views.resetpassword
-	);
-	app.get(
-		"/resetpassword/:key",
-		keystone.security.csrf.middleware.init,
-		routes.views.resetpassword
+		keystone.middleware.api,
+		routes.api.user.resetPassword
 	);
 
 	// REST endpoints
@@ -122,6 +123,16 @@ exports = module.exports = function (app) {
 		"/api/user/fieldsites",
 		keystone.middleware.api,
 		routes.api.user.getFieldsites
+	);
+	app.get(
+		"/api/user/resetkey",
+		keystone.middleware.api,
+		routes.api.user.validateResetKey
+	);
+	app.get(
+		"/api/user/me",
+		keystone.middleware.api,
+		routes.api.user.getCurrentUser
 	);
 	app.get(
 		"/api/contactreasons",

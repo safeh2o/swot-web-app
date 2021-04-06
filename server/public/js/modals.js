@@ -55,41 +55,6 @@ function setupUserFormSubmit() {
 		$("#password1").val("");
 		$("#password2").val("");
 	});
-
-	$("#formUser").submit(function (event) {
-		toggleSpinner();
-		event.preventDefault();
-		const formData = {
-			firstName: $("#firstName").val(),
-			lastName: $("#lastName").val(),
-			password1: $("#password1").val(),
-			password2: $("#password2").val(),
-			email: $("#email").val(),
-		};
-		//Update the file with the information above.
-		$.post("/api/user/update", formData, function (data) {
-			$("#UserDetailsModal").modal("hide");
-			$(".water-container").addClass("hide");
-			if (data.status) {
-				showConfirmModal("Profile updated successfully.");
-			} else {
-				showConfirmModal(
-					"An error occurred while uploading your profile. Please contact system administrator. Additional info: " +
-						data
-				);
-			}
-		})
-
-			//If the metadata update fails:
-			.fail(function (error) {
-				$(".water-container").addClass("hide");
-				showConfirmModal(
-					"An error occurred while uploading your profile: " +
-						error.responseText
-				);
-				console.log(error);
-			});
-	});
 }
 
 function showConfirmModal(message) {

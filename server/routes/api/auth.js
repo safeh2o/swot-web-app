@@ -2,19 +2,22 @@ var keystone = require("keystone");
 
 exports.default = module.exports = function (req, res) {
 	if (req.user) {
-		return res.redirect("/");
+		res.json({ success: true });
+		return;
 	}
 
-	var onSuccess = function () {
-		res.redirect("/");
+	var onSuccess = function (user) {
+		res.json({ success: true, user });
+		return;
 	};
 
 	var onFail = function () {
-		req.flash(
-			"error",
-			"Provided credentials are incorrect, please try again."
-		);
-		res.redirect("/signin");
+		const messages = { errors: {} };
+		messages.errors.invalid = {
+			error: "Provided credentials are incorrect, please try again.",
+		};
+		res.json({ messages, success: false });
+		return;
 	};
 
 	keystone.session.signin(

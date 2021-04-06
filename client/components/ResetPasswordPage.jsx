@@ -1,23 +1,23 @@
 import React from "react";
-import { useRef, useEffect, useState, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
-import AppContext from "../contexts/AppContext";
+import { useRef, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import FlashMessages from "./elements/FlashMessages";
 
-export default function LoginPage(props) {
-	const form = useRef(null);
-	const history = useHistory();
-	const context = useContext(AppContext);
+export default function ResetPasswordPage(props) {
+	const { key } = useParams();
 	const [messages, setMessages] = useState({});
+	const form = useRef(null);
+
+	useEffect(() => {
+		fetch("/api/user/resetkey?key=" + key)
+			.then((r) => r.json())
+			.then((data) => {
+				setMessages(data.messages);
+			});
+	}, [key]);
 
 	const handleSubmitResponse = (data) => {
-		if (data.success === true) {
-			// history wouldnt work well because NavBar doesnt rerender
-			history.push("/");
-			// window.location.reload();
-			context.logInUser(data.user);
-		}
 		setMessages(data.messages);
 	};
 
@@ -30,7 +30,6 @@ export default function LoginPage(props) {
 			handleSubmitResponse(data);
 		});
 
-		// return cleanup method
 		return () => {
 			$(form.current).off();
 		};
@@ -42,7 +41,7 @@ export default function LoginPage(props) {
 				<div className="panel panel-primary">
 					<div className=" px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 						<h1 className="display-4" id="headerText">
-							Sign In
+							Password Reset
 						</h1>
 					</div>
 					<br />
@@ -52,60 +51,60 @@ export default function LoginPage(props) {
 							<form
 								ref={form}
 								role="form"
-								action="/auth"
+								action="/resetpassword"
 								method="post"
 							>
+								<input
+									type="hidden"
+									name="resetkey"
+									value={key}
+								/>
+
 								<div className="form-group">
 									<label
-										htmlFor="sender-email"
-										className="control-label"
-									>
-										Email:
-									</label>
-									<div className="input-icon">
-										<input
-											className="form-control email"
-											id="signin-email"
-											placeholder="you@mail.com"
-											name="email"
-											type="email"
-											onChange={() => {
-												handleChange();
-											}}
-										/>
-									</div>
-								</div>
-								<div className="form-group">
-									<label
-										htmlFor="user-pass"
+										htmlFor="password"
 										className="control-label"
 									>
 										Password:
 									</label>
 									<div className="input-icon">
 										<input
-											type="password"
-											className="form-control"
-											placeholder="Password"
-											name="password"
-											id="password"
 											onChange={() => {
 												handleChange();
 											}}
+											className="form-control email"
+											id="password"
+											name="password"
+											type="password"
 										/>
 									</div>
 								</div>
 								<div className="form-group">
+									<label
+										htmlFor="password_confirm"
+										className="control-label"
+									>
+										Confirm Password:
+									</label>
+									<div className="input-icon">
+										<input
+											onChange={() => {
+												handleChange();
+											}}
+											className="form-control"
+											id="password_confirm"
+											name="password_confirm"
+											type="password"
+										/>
+									</div>
+								</div>
+
+								<div className="form-group">
 									<input
 										type="submit"
 										className="btn btn-primary "
-										value="Login"
+										value="Reset"
 									/>
-									<br />
-									<br />
-									<Link to="/forgotpassword">
-										Forgot Password
-									</Link>
 								</div>
 							</form>
 						</div>

@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 import AppContext from "../contexts/AppContext";
+import FlashMessages from "./elements/FlashMessages";
 
 class ContactPage extends Component {
 	static contextType = AppContext;
@@ -80,10 +81,6 @@ class ContactPage extends Component {
 		);
 	}
 
-	numErrors() {
-		return Object.keys(this.state.validationErrors).length;
-	}
-
 	isButtonDisabled() {
 		switch (Object.keys(this.state.validationErrors).length) {
 			case 0:
@@ -95,35 +92,13 @@ class ContactPage extends Component {
 		}
 	}
 
-	renderErrors() {
-		if (!this.numErrors()) {
-			return;
-		}
-
-		const errors = _.chain(this.state.validationErrors)
-			.mapValues("error")
-			.values()
-			.value();
-
-		return (
-			<div class="container">
-				<div class="alert alert-danger">
-					<h5>There was a problem submitting your enquiry:</h5>
-
-					<ul>
-						{errors.map((err) => (
-							<li key={err}>{err}</li>
-						))}
-					</ul>
-				</div>
-			</div>
-		);
-	}
-
 	renderForm() {
 		return (
 			<>
-				{this.renderErrors()}
+				<FlashMessages
+					messages={{ errors: this.state.validationErrors }}
+					errorHeaderText="The following fields have errors:"
+				/>
 				<div className="row contact-us">
 					<div className="col-sm-8 col-md-8">
 						<form method="post" ref={this.form} id="contactForm">

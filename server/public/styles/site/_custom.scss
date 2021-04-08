@@ -290,7 +290,7 @@ body > div {
 }
 
 .bg-swot-dark-blue {
-	background-color: #007bff;
+	background-color: #4069b1;
 	border-bottom: 4px solid #f4c32e;
 }
 
@@ -333,7 +333,7 @@ footer ul li a:hover {
 /*Start - Modal*/
 .close {
 	color: #dc3545;
-	text-shadow: 0 1px 0 #007bff;
+	text-shadow: 0 1px 0 #4069b1;
 	opacity: 1;
 }
 
@@ -342,16 +342,25 @@ footer ul li a:hover {
 /**/
 .btn-group .btn-secondary {
 	color: #fff;
-	background-color: #007bff;
-	border-color: #007bff;
+	background-color: #4069b1;
+	border-color: #4069b1;
+}
+
+.btn-primary {
+	background-color: #4069b1;
+	border-radius: 2rem;
+}
+
+.btn-primary:hover {
+	background-color: #4058b1;
 }
 
 .btn-secondary:not(:disabled):not(.disabled).active,
 .btn-secondary:not(:disabled):not(.disabled):active,
 .show > .btn-secondary.dropdown-toggle {
 	color: #fff;
-	background-color: #007bff;
-	border-color: #007bff;
+	background-color: #4069b1;
+	border-color: #4069b1;
 }
 
 .btn-group .btn-secondary:hover,
@@ -406,7 +415,7 @@ tbody tr:nth-child(odd) {
 		padding-top: 0;
 		padding-bottom: 0;
 		width: 100%;
-		background-color: #007bff;
+		background-color: #4069b1;
 	}
 
 	footer ul li {

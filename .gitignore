@@ -330,7 +330,7 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 
-.vscode/
+.vscode/settings.json
 .env
 server/public/js/bundle.js
 server/public/index.html

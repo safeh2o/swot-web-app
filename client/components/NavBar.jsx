@@ -17,7 +17,9 @@ export default class NavBar extends React.Component {
 			</li>
 		);
 	}
-	renderNavItems() {
+
+	renderNavbarCollapse() {
+		const { user } = this.context;
 		const sections = [
 			"download",
 			"upload",
@@ -25,15 +27,11 @@ export default class NavBar extends React.Component {
 			// "manage",
 			"results",
 		];
-		return <>{sections.map((section) => this.renderNavItem(section))}</>;
-	}
-	renderNavbarCollapse() {
-		const { user } = this.context;
 		if (user) {
 			return (
 				<>
 					<ul className="navbar-nav mr-auto">
-						{this.renderNavItems()}
+						{sections.map((section) => this.renderNavItem(section))}
 					</ul>
 				</>
 			);

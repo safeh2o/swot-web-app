@@ -5,8 +5,22 @@
 			http-equiv="Content-Security-Policy"
 			content="upgrade-insecure-requests"
 		/>
+		<!-- add google tag manager -->
+		<% if (htmlWebpackPlugin.options.gtag) { %>
+		<script
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=<%= htmlWebpackPlugin.options.gtag %>"
+		></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
 
-		
+			gtag("config", "<%= htmlWebpackPlugin.options.gtag %>");
+		</script>
+		<% } %>
 
 		<title>Safe Water Optimization Tool</title>
 
@@ -39,13 +53,13 @@
 		<script src="/js/modals.js"></script>
 		<script>
 			window.__INITIAL_STATE = {
-				gtag: "",
-				grecaptcha: "6LdOI9cZAAAAAKDETnoWCo5q9Qsz8kZiliHK6C0a",
+				gtag: "<%= htmlWebpackPlugin.options.gtag %>",
+				grecaptcha: "<%= htmlWebpackPlugin.options.grecaptcha %>",
 			};
 		</script>
 	</head>
 
 	<body class="d-flex flex-column h-100">
 		<div id="app-container" class="h-100 d-flex flex-column"></div>
-	<script defer src="/js/bundle.js"></script></body>
+	</body>
 </html>

@@ -1,6 +1,6 @@
 var keystone = require("keystone");
 
-exports.default = module.exports = function (req, res) {
+exports.signin = async function (req, res) {
 	if (req.user) {
 		res.json({ success: true });
 		return;
@@ -27,4 +27,10 @@ exports.default = module.exports = function (req, res) {
 		onSuccess,
 		onFail
 	);
+};
+
+exports.signout = async function (req, res) {
+	keystone.session.signout(req, res, () => {
+		res.redirect("/");
+	});
 };

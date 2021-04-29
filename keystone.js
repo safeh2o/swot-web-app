@@ -5,7 +5,6 @@ require("dotenv").config();
 // Require keystone
 var keystone = require("keystone");
 var cons = require("consolidate");
-var nunjucks = require("nunjucks");
 var mongoose = require("mongoose");
 
 function checkConfigKey(configKeyName, configKeyValue) {
@@ -54,13 +53,18 @@ mongoose.connection.on("error", function (err) {
 	mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING);
 });
 
+const extraKeystoneOptions =
+	process.env.NODE_ENV.toLowerCase() === "development"
+		? {
+				static: ["./client/public", "./client/public/img"],
+				favicon: "./client/public/favicon.ico",
+		  }
+		: {};
+
 keystone.init({
 	name: "swot-web",
 	brand: "swot-web",
 
-	sass: "./server/public",
-	static: ["./server/public", "./server/public/img"],
-	favicon: "./server/public/favicon.ico",
 	views: "./server/templates/views",
 	"view engine": ".html",
 	"custom engine": cons.nunjucks,
@@ -82,7 +86,9 @@ keystone.init({
 	"user model": "User",
 
 	compress: true,
+	...extraKeystoneOptions,
 	env: process.env.NODE_ENV || "development",
+	port: 3000,
 });
 
 // Load your project's Models

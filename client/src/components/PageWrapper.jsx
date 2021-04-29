@@ -10,10 +10,6 @@ export default function PageWrapper(props) {
 	const context = useContext(AppContext);
 
 	function renderModals() {
-		const { user } = context;
-		if (!user) {
-			return null;
-		}
 		return (
 			<>
 				<Helmet>

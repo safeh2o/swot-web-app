@@ -8,6 +8,7 @@
  * modules in your project's /lib directory.
  */
 var _ = require("lodash");
+const keystone = require("keystone");
 
 /**
 	Initialises the standard view locals
@@ -57,8 +58,9 @@ exports.requireUser = function (req, res, next) {
  */
 exports.requireGuest = function (req, res, next) {
 	if (req.user) {
-		req.flash("error", "You're already logged in!");
-		res.redirect("/");
+		keystone.session.signout(req, res, () => {
+			res.redirect("/");
+		});
 	} else {
 		next();
 	}

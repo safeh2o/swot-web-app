@@ -1,4 +1,8 @@
 {
 	"ext": "js,html",
-	"ignore": "bundle.js"
+	"ignore": "bundle.js",
+	"watch": "server/",
+	"env": {
+		"NODE_ENV": "development"
+	}
 }

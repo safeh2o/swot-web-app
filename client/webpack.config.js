@@ -7,10 +7,10 @@ module.exports = {
 	// Since webpack 4 we will need to set in what mode webpack is running
 	mode: "development",
 	// This will be the entry file for all of our React code
-	entry: ["./client/index.jsx"],
+	entry: ["./src/index.jsx", "./src/styles/site.scss"],
 	// This will be where the final bundle file will be outputed
 	output: {
-		path: path.join(__dirname, "/server/public"),
+		path: path.join(__dirname, "public"),
 		filename: "js/bundle.js",
 		publicPath: "/",
 	},
@@ -27,11 +27,27 @@ module.exports = {
 					},
 				},
 			},
+			{
+				test: /\.s[ac]ss$/i,
+				use: [
+					{
+						loader: "file-loader",
+						options: {
+							name: "styles/[name].css",
+						},
+					},
+					"extract-loader",
+					// Translates CSS into CommonJS
+					"css-loader?-url",
+					// Compiles Sass to CSS
+					"sass-loader",
+				],
+			},
 		],
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			template: "server/templates/index.ejs",
+			template: "src/index.ejs",
 			inject: "body",
 			gtag: process.env.GOOGLE_ANALYTICS_GTAG,
 			grecaptcha: process.env.RECAPTCHA_SITE_KEY,

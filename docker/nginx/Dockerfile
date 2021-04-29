@@ -6,7 +6,7 @@ FROM node:13.12.0-alpine as build
 WORKDIR /app/client
 COPY ./client/package.json ./
 COPY ./client/package-lock.json ./
-RUN npm ci --silent
+RUN npm ci
 COPY ./client/ ./
 RUN npm run build
 

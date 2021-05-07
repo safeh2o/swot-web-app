@@ -24,8 +24,7 @@
 	},
 	"devDependencies": {
 		"eslint-config-keystone": "3.0.0",
-		"nodemon": "^1.19.4",
-		"webpack": "^5.36.1"
+		"nodemon": "^1.19.4"
 	},
 	"scripts": {
 		"start": "node keystone.js",

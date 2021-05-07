@@ -50,6 +50,7 @@ module.exports = {
 		contentBase: path.join(__dirname, "public"),
 		proxy: {
 			"/api": "http://localhost:3000",
+			"/admin": "http://localhost:3000",
 		},
 	},
 	plugins: [

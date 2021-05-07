@@ -24,11 +24,14 @@
 	},
 	"devDependencies": {
 		"eslint-config-keystone": "3.0.0",
-		"nodemon": "^1.19.4"
+		"nodemon": "^1.19.4",
+		"npm-run-all": "^4.1.5"
 	},
 	"scripts": {
 		"start": "node keystone.js",
-		"dev": "nodemon -L keystone.js",
+		"dev": "npm-run-all --parallel watch:server watch:client",
+		"watch:server": "nodemon -L keystone.js",
+		"watch:client": "cd client && npm run-script watch",
 		"test": "test"
 	}
 }

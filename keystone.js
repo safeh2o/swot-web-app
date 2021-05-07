@@ -53,14 +53,6 @@ mongoose.connection.on("error", function (err) {
 	mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING);
 });
 
-const extraKeystoneOptions =
-	process.env.NODE_ENV.toLowerCase() === "development"
-		? {
-				static: ["./client/public", "./client/public/img"],
-				favicon: "./client/public/favicon.ico",
-		  }
-		: {};
-
 keystone.init({
 	name: "swot-web",
 	brand: "swot-web",
@@ -74,7 +66,6 @@ keystone.init({
 		"mongodb://localhost/my-project",
 
 	emails: "./server/templates/emails",
-
 	"auto update": true,
 	session: true,
 	auth: true,
@@ -86,8 +77,7 @@ keystone.init({
 	"user model": "User",
 
 	compress: true,
-	...extraKeystoneOptions,
-	env: process.env.NODE_ENV || "development",
+	env: process.env.NODE_ENV || "production",
 	port: 3000,
 });
 

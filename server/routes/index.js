@@ -142,9 +142,6 @@ exports = module.exports = function (app) {
 		keystone.middleware.api,
 		routes.api.cms.pages
 	);
-	if (process.env.NODE_ENV.toLowerCase() === "development") {
-		app.all("*", routes.views.index);
-	}
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);
 };

@@ -45,6 +45,13 @@ module.exports = {
 			},
 		],
 	},
+	devServer: {
+		port: 8080,
+		contentBase: path.join(__dirname, "public"),
+		proxy: {
+			"/api": "http://localhost:3000",
+		},
+	},
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: "src/index.ejs",

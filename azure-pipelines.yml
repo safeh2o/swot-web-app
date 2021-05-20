@@ -11,6 +11,8 @@ trigger:
     - master
     - prod
 
+pr: none
+
 pool:
     vmImage: "ubuntu-latest"
 

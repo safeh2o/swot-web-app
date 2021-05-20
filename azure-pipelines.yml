@@ -1,7 +1,7 @@
 # Get code from repo, build images, push images to container registry
 
-trigger:
-    none
+trigger: none
+pr: none
 
 # resources:
 #     - repo: self

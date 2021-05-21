@@ -30,13 +30,13 @@ stages:
                   name: nginxEnv
                   displayName: Download Frontend Settings
                   inputs:
-                      secureFile: "nginx.env"
+                      secureFile: "$(env)-frontend.env"
 
                 - task: DownloadSecureFile@1
                   name: backendEnv
                   displayName: Download Backend Settings
                   inputs:
-                      secureFile: "backend.env"
+                      secureFile: "$(env)-backend.env"
 
                 - script: |
                       cp $(Build.SourcesDirectory)/docker-compose.yml $(Build.ArtifactStagingDirectory)

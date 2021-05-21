@@ -10,7 +10,7 @@ pr: none
 #     # Container registry service connection established during pipeline creation
 #     dockerRegistryServiceConnection: "27782c56-68dc-4114-8867-9d2b63d635af"
 #     imageRepository: "asdf"
-#     containerRegistry: "swotregistry.azurecr.io"
+#     containerRegistry: "$(registryname).azurecr.io"
 #     dockerfilePath: "$(Build.SourcesDirectory)/docker/frontend/Dockerfile"
 #     tag: "$(Build.BuildId)"
 
@@ -48,8 +48,8 @@ stages:
                   displayName: Build Images
                   inputs:
                       containerregistrytype: "Azure Container Registry"
-                      azureSubscription: "Free Trial(1b9406a2-c83f-4aa8-b634-b4f2e5ecc603)"
-                      azureContainerRegistry: '{"loginServer":"swotregistry.azurecr.io", "id" : "/subscriptions/1b9406a2-c83f-4aa8-b634-b4f2e5ecc603/resourceGroups/alpha/providers/Microsoft.ContainerRegistry/registries/swotregistry"}'
+                      azureSubscription: "Free Trial($(subscriptionid))"
+                      azureContainerRegistry: '{"loginServer":"$(registryname).azurecr.io", "id" : "/subscriptions/$(subscriptionid)/resourceGroups/$(rgname)/providers/Microsoft.ContainerRegistry/registries/$(registryname)"}'
                       dockerComposeFile: "**/docker-compose.yml"
                       action: "Build services"
 
@@ -57,8 +57,8 @@ stages:
                   displayName: Push Images
                   inputs:
                       containerregistrytype: "Azure Container Registry"
-                      azureSubscription: "Free Trial(1b9406a2-c83f-4aa8-b634-b4f2e5ecc603)"
-                      azureContainerRegistry: '{"loginServer":"swotregistry.azurecr.io", "id" : "/subscriptions/1b9406a2-c83f-4aa8-b634-b4f2e5ecc603/resourceGroups/alpha/providers/Microsoft.ContainerRegistry/registries/swotregistry"}'
+                      azureSubscription: "Free Trial($(subscriptionid))"
+                      azureContainerRegistry: '{"loginServer":"$(registryname).azurecr.io", "id" : "/subscriptions/$(subscriptionid)/resourceGroups/$(rgname)/providers/Microsoft.ContainerRegistry/registries/$(registryname)"}'
                       dockerComposeFile: "**/docker-compose.yml"
                       action: "Push services"
 

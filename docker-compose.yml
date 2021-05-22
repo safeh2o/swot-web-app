@@ -6,7 +6,7 @@ services:
         build:
             context: .
             dockerfile: ./docker/nginx/Dockerfile
-        image: swotnginx:latest
+        image: swotnginx
         ports:
             - 80:80
         depends_on:
@@ -16,7 +16,7 @@ services:
         build:
             context: .
             dockerfile: ./docker/backend/Dockerfile
-        image: swotbackend:latest
+        image: swotbackend
         expose:
             - 3000
         command: "npm start"

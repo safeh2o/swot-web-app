@@ -40,6 +40,8 @@ stages:
                     dockerRegistryEndpoint: '$(env)_cr'
                     dockerComposeFile: '**/docker-compose.yml'
                     action: 'Build services'
+                    includeLatestTag: true
+                    arguments: '--parallel'
                 
                 - task: DockerCompose@0
                   inputs:

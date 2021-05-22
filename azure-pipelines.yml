@@ -44,23 +44,39 @@ stages:
                       cp -f $(backendEnv.secureFilePath) $(Build.SourcesDirectory)/.env
                   displayName: Copy Settings
 
+                # - task: DockerCompose@0
+                #   displayName: Build Images
+                #   inputs:
+                #       containerregistrytype: "Azure Container Registry"
+                #       azureSubscription: "Free Trial($(subscriptionid))"
+                #       azureContainerRegistry: '{"loginServer":"$(registryname).azurecr.io", "id" : "/subscriptions/$(subscriptionid)/resourceGroups/$(rgname)/providers/Microsoft.ContainerRegistry/registries/$(registryname)"}'
+                #       dockerComposeFile: "**/docker-compose.yml"
+                #       action: "Build services"
+
                 - task: DockerCompose@0
                   displayName: Build Images
                   inputs:
-                      containerregistrytype: "Azure Container Registry"
-                      azureSubscription: "Free Trial($(subscriptionid))"
-                      azureContainerRegistry: '{"loginServer":"$(registryname).azurecr.io", "id" : "/subscriptions/$(subscriptionid)/resourceGroups/$(rgname)/providers/Microsoft.ContainerRegistry/registries/$(registryname)"}'
-                      dockerComposeFile: "**/docker-compose.yml"
-                      action: "Build services"
-
+                    containerregistrytype: 'Container Registry'
+                    dockerRegistryEndpoint: '$(env)_cr'
+                    dockerComposeFile: '**/docker-compose.yml'
+                    action: 'Build services'
+                
                 - task: DockerCompose@0
-                  displayName: Push Images
                   inputs:
-                      containerregistrytype: "Azure Container Registry"
-                      azureSubscription: "Free Trial($(subscriptionid))"
-                      azureContainerRegistry: '{"loginServer":"$(registryname).azurecr.io", "id" : "/subscriptions/$(subscriptionid)/resourceGroups/$(rgname)/providers/Microsoft.ContainerRegistry/registries/$(registryname)"}'
-                      dockerComposeFile: "**/docker-compose.yml"
-                      action: "Push services"
+                    containerregistrytype: 'Container Registry'
+                    dockerRegistryEndpoint: '$(env)_cr'
+                    dockerComposeFile: '**/docker-compose.yml'
+                    action: 'Push services'
+                    includeLatestTag: true
+
+                # - task: DockerCompose@0
+                #   displayName: Push Images
+                #   inputs:
+                #       containerregistrytype: "Azure Container Registry"
+                #       azureSubscription: "Free Trial($(subscriptionid))"
+                #       azureContainerRegistry: '{"loginServer":"$(registryname).azurecr.io", "id" : "/subscriptions/$(subscriptionid)/resourceGroups/$(rgname)/providers/Microsoft.ContainerRegistry/registries/$(registryname)"}'
+                #       dockerComposeFile: "**/docker-compose.yml"
+                #       action: "Push services"
 
                 - task: PublishPipelineArtifact@1
                   displayName: Publish Artifacts

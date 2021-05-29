@@ -15,29 +15,11 @@ stages:
             pool:
                 vmImage: $(vmImageName)
             steps:
-                - task: DownloadSecureFile@1
-                  name: nginxEnv
-                  displayName: Download Frontend Settings
-                  inputs:
-                      secureFile: "$(env)-frontend.env"
-
-                - task: DownloadSecureFile@1
-                  name: backendEnv
-                  displayName: Download Backend Settings
-                  inputs:
-                      secureFile: "$(env)-backend.env"
-
-                - script: |
-                      cp $(Build.SourcesDirectory)/docker-compose.yml $(Build.ArtifactStagingDirectory)
-                      cp -f $(nginxEnv.secureFilePath) $(Build.SourcesDirectory)/client/.env
-                      cp -f $(backendEnv.secureFilePath) $(Build.SourcesDirectory)/.env
-                  displayName: Copy Settings
-
                 - task: DockerCompose@0
                   displayName: Build Images
                   inputs:
                     containerregistrytype: 'Container Registry'
-                    dockerRegistryEndpoint: '$(env)_cr'
+                    dockerRegistryEndpoint: '$(REGISTRY_URI)'
                     dockerComposeFile: '**/docker-compose.yml'
                     action: 'Build services'
                     includeLatestTag: true
@@ -46,7 +28,7 @@ stages:
                 - task: DockerCompose@0
                   inputs:
                     containerregistrytype: 'Container Registry'
-                    dockerRegistryEndpoint: '$(env)_cr'
+                    dockerRegistryEndpoint: '$(REGISTRY_URI)'
                     dockerComposeFile: '**/docker-compose.yml'
                     action: 'Push services'
                     includeLatestTag: true

@@ -133,39 +133,36 @@ exports.getProjects = async function (req, res) {
 	res.json({ projects });
 };
 
+async function isResetKeyValid(key) {
+	const user = await User.model
+		.findOne()
+		.where("resetPasswordKey", key)
+		.exec();
+
+	return user !== null;
+}
+
 exports.validateResetKey = async function (req, res) {
 	let success = false;
 	let messages = { errors: {} };
 	const terminate = () => {
 		res.json({ success, messages });
 	};
-	const handleError = () => {
-		messages.errors.unknown = {
-			error: "An unknown error has occurred",
-		};
+	const handleError = (msg = "An unknown error has occurred") => {
+		messages.errors.unknown = { error: msg };
 		terminate();
 		return;
 	};
 	if (!req.query.key) {
 		return handleError();
 	}
-	User.model
-		.findOne()
-		.where("resetPasswordKey", req.query.key)
-		.exec(function (err, userFound) {
-			if (err) {
-				success = false;
-				console.error(err);
-				return handleError();
-			}
-			if (!userFound) {
-				messages.errors.key = {
-					error: "Sorry, that reset password key isn't valid.",
-				};
-			}
 
-			terminate();
-		});
+	const valid = await isResetKeyValid(req.query.key);
+	if (!valid) {
+		return handleError("Sorry, that reset password key isn't valid.");
+	}
+
+	terminate();
 };
 
 exports.resetPassword = async function (req, res) {
@@ -173,8 +170,8 @@ exports.resetPassword = async function (req, res) {
 	const terminate = () => {
 		res.json({ messages });
 	};
-	const handleError = () => {
-		messages.errors.unknown = { error: "An unknown error has occurred" };
+	const handleError = (msg = "An unknown error has occurred") => {
+		messages.errors.unknown = { error: msg };
 		terminate();
 		return;
 	};
@@ -192,6 +189,11 @@ exports.resetPassword = async function (req, res) {
 		};
 		terminate();
 		return;
+	}
+
+	const valid = await isResetKeyValid(req.body.resetkey);
+	if (!valid) {
+		return handleError("Sorry, that reset password key isn't valid.");
 	}
 
 	User.model

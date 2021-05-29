@@ -5,7 +5,6 @@ require("dotenv").config();
 // Require keystone
 var keystone = require("keystone");
 var cons = require("consolidate");
-var nunjucks = require("nunjucks");
 var mongoose = require("mongoose");
 
 function checkConfigKey(configKeyName, configKeyValue) {
@@ -58,9 +57,6 @@ keystone.init({
 	name: "swot-web",
 	brand: "swot-web",
 
-	sass: "./server/public",
-	static: ["./server/public", "./server/public/img"],
-	favicon: "./server/public/favicon.ico",
 	views: "./server/templates/views",
 	"view engine": ".html",
 	"custom engine": cons.nunjucks,
@@ -70,7 +66,6 @@ keystone.init({
 		"mongodb://localhost/my-project",
 
 	emails: "./server/templates/emails",
-
 	"auto update": true,
 	session: true,
 	auth: true,
@@ -82,7 +77,8 @@ keystone.init({
 	"user model": "User",
 
 	compress: true,
-	env: process.env.NODE_ENV || "development",
+	env: process.env.NODE_ENV || "production",
+	port: 3000,
 });
 
 // Load your project's Models

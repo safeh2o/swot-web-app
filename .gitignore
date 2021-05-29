@@ -331,7 +331,8 @@ ASALocalRun/
 .mfractor/
 
 .vscode/settings.json
-.env
+**/*.env
 server/public/js/bundle.js
 server/public/index.html
+client/public/index.html
 server/public/styles/site.css

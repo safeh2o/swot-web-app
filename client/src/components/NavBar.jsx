@@ -59,7 +59,7 @@ export default class NavBar extends React.Component {
 					)}
 					<a
 						className="panel-link"
-						href="/admin/signout"
+						href="/api/signout"
 						id="accountDetails"
 						tabIndex="-1"
 						title="Log Out"

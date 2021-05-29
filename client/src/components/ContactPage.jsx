@@ -211,8 +211,8 @@ class ContactPage extends Component {
 				<div className="container">
 					<div className=" px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 						<h4 className="display-4" id="headerText">
-							To set up an account to use the SWOT or if you have
-							any questions, please contact us:
+							Test To set up an account to use the SWOT or if you
+							have any questions, please contact us:
 						</h4>
 					</div>
 				</div>

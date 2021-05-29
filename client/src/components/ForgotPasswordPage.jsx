@@ -1,21 +1,11 @@
-import React from "react";
-import { useRef, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-
+import React, { Component } from "react";
+import { useState } from "react";
+import { useRef, useEffect } from "react";
 import FlashMessages from "./elements/FlashMessages";
 
-export default function ResetPasswordPage(props) {
-	const { key } = useParams();
-	const [messages, setMessages] = useState({});
+export default function ForgotPasswordPage(props) {
 	const form = useRef(null);
-
-	useEffect(() => {
-		fetch("/api/user/resetkey?key=" + key)
-			.then((r) => r.json())
-			.then((data) => {
-				setMessages(data.messages);
-			});
-	}, [key]);
+	const [messages, setMessages] = useState({});
 
 	const handleSubmitResponse = (data) => {
 		setMessages(data.messages);
@@ -27,9 +17,9 @@ export default function ResetPasswordPage(props) {
 
 	useEffect(() => {
 		$(form.current).ajaxForm((data) => {
+			hideSpinner();
 			handleSubmitResponse(data);
 		});
-
 		return () => {
 			$(form.current).off();
 		};
@@ -40,9 +30,7 @@ export default function ResetPasswordPage(props) {
 			<div className="container">
 				<div className="panel panel-primary">
 					<div className=" px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-						<h1 className="display-4" id="headerText">
-							Password Reset
-						</h1>
+						<h1 className="display-4">Forgot Password</h1>
 					</div>
 					<br />
 					<FlashMessages messages={messages} />
@@ -51,21 +39,15 @@ export default function ResetPasswordPage(props) {
 							<form
 								ref={form}
 								role="form"
-								action="/resetpassword"
+								action="/api/forgotpassword"
 								method="post"
 							>
-								<input
-									type="hidden"
-									name="resetkey"
-									value={key}
-								/>
-
 								<div className="form-group">
 									<label
-										htmlFor="password"
+										htmlFor="email"
 										className="control-label"
 									>
-										Password:
+										Email:
 									</label>
 									<div className="input-icon">
 										<input
@@ -73,28 +55,10 @@ export default function ResetPasswordPage(props) {
 												handleChange();
 											}}
 											className="form-control email"
-											id="password"
-											name="password"
-											type="password"
-										/>
-									</div>
-								</div>
-								<div className="form-group">
-									<label
-										htmlFor="password_confirm"
-										className="control-label"
-									>
-										Confirm Password:
-									</label>
-									<div className="input-icon">
-										<input
-											onChange={() => {
-												handleChange();
-											}}
-											className="form-control"
-											id="password_confirm"
-											name="password_confirm"
-											type="password"
+											id="email"
+											placeholder="mail@example.com"
+											name="email"
+											type="email"
 										/>
 									</div>
 								</div>
@@ -103,7 +67,10 @@ export default function ResetPasswordPage(props) {
 									<input
 										type="submit"
 										className="btn btn-primary "
-										value="Reset"
+										value="Reset Password"
+										onClick={() => {
+											showSpinner();
+										}}
 									/>
 								</div>
 							</form>

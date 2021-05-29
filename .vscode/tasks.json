@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Docker Compose Dev",
+			"type": "shell",
+			"command": "docker-compose -f docker-compose-dev.yml up -d --build --force-recreate",
+			"problemMatcher": [],
+			"options": { "cwd": "${workspaceFolder}" }
+		},
+		{
+			"label": "Docker Compose Logs",
+			"type": "shell",
+			"command": "docker-compose -f docker-compose-dev.yml logs -f",
+			"problemMatcher": [],
+			"options": { "cwd": "${workspaceFolder}" }
+		}
+	]
+}

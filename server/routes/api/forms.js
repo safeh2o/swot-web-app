@@ -107,7 +107,7 @@ exports.forgotPassword = async function (req, res) {
 				return;
 			}
 
-			let host = process.env.WEB_URL || "live.safeh2o.app";
+			let host = keystone.get("locals").weburl;
 
 			host = host.includes("http") ? host : "https://" + host;
 			host += host.endsWith("/") ? "" : "/";

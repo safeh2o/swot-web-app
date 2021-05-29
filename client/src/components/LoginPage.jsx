@@ -12,6 +12,7 @@ export default function LoginPage(props) {
 	const [messages, setMessages] = useState({});
 
 	const handleSubmitResponse = (data) => {
+		hideSpinner();
 		if (data.success === true) {
 			// history wouldnt work well because NavBar doesnt rerender
 			history.push("/");
@@ -52,7 +53,7 @@ export default function LoginPage(props) {
 							<form
 								ref={form}
 								role="form"
-								action="/auth"
+								action="/api/auth"
 								method="post"
 							>
 								<div className="form-group">
@@ -100,6 +101,9 @@ export default function LoginPage(props) {
 										type="submit"
 										className="btn btn-primary "
 										value="Login"
+										onClick={() => {
+											showSpinner();
+										}}
 									/>
 									<br />
 									<br />

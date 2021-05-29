@@ -101,7 +101,12 @@ class ContactPage extends Component {
 				/>
 				<div className="row contact-us">
 					<div className="col-sm-8 col-md-8">
-						<form method="post" ref={this.form} id="contactForm">
+						<form
+							method="post"
+							ref={this.form}
+							id="contactForm"
+							action="/api/contact"
+						>
 							<div className={this.getFormClasses("name")}>
 								<label>
 									<span>Name</span>

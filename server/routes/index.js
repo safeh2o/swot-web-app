@@ -34,31 +34,18 @@ var routes = {
 
 // Setup Route Bindings
 exports = module.exports = function (app) {
-	// Views
-	app.get("/", routes.views.index);
-	app.get("/dashboard", routes.views.index);
-	app.get("/download", middleware.requireUser, routes.views.index);
-	app.get("/upload", middleware.requireUser, routes.views.index);
-	app.get("/analyze", middleware.requireUser, routes.views.index);
-	app.get("/manage", middleware.requireUser, routes.views.index);
-	app.get("/results", middleware.requireUser, routes.views.index);
-	app.get("/archived", middleware.requireUser, routes.views.index);
-	app.get("/signin", middleware.requireGuest, routes.views.index);
-	app.get("/contact", routes.views.index);
-	app.post("/contact", keystone.middleware.api, routes.api.forms.contact);
-	app.post("/auth", routes.api.auth);
+	app.post("/api/contact", keystone.middleware.api, routes.api.forms.contact);
+	app.post("/api/auth", routes.api.auth.signin);
+	app.get("/api/signout", middleware.requireUser, routes.api.auth.signout);
 	app.get("/blog/:category?", routes.views.blog);
 	app.get("/blog/post/:post", routes.views.post);
-	app.get("/pages/:page", routes.views.index);
-	app.get("/forgotpassword", routes.views.index);
 	app.post(
-		"/forgotpassword",
+		"/api/forgotpassword",
 		keystone.middleware.api,
 		routes.api.forms.forgotPassword
 	);
-	app.get("/resetpassword/:key", routes.views.index);
 	app.post(
-		"/resetpassword",
+		"/api/resetpassword",
 		keystone.middleware.api,
 		routes.api.user.resetPassword
 	);
@@ -126,7 +113,7 @@ exports = module.exports = function (app) {
 	);
 	app.get(
 		"/api/user/resetkey",
-		keystone.middleware.api,
+		middleware.requireGuest,
 		routes.api.user.validateResetKey
 	);
 	app.get(
@@ -155,7 +142,6 @@ exports = module.exports = function (app) {
 		keystone.middleware.api,
 		routes.api.cms.pages
 	);
-
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);
 };

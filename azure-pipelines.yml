@@ -8,31 +8,13 @@ variables:
 
 stages:
     - stage: Build
-      displayName: Build and push stage
+      displayName: Create Artifact
       jobs:
           - job: Build
             displayName: Build
             pool:
                 vmImage: $(vmImageName)
             steps:
-                - task: DockerCompose@0
-                  displayName: Build Images
-                  inputs:
-                    containerregistrytype: 'Container Registry'
-                    dockerRegistryEndpoint: '$(REGISTRY_URI)'
-                    dockerComposeFile: '**/docker-compose.yml'
-                    action: 'Build services'
-                    includeLatestTag: true
-                    arguments: '--parallel'
-                
-                - task: DockerCompose@0
-                  inputs:
-                    containerregistrytype: 'Container Registry'
-                    dockerRegistryEndpoint: '$(REGISTRY_URI)'
-                    dockerComposeFile: '**/docker-compose.yml'
-                    action: 'Push services'
-                    includeLatestTag: true
-
                 - task: PublishPipelineArtifact@1
                   displayName: Publish Artifacts
                   inputs:

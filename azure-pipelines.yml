@@ -18,6 +18,6 @@ stages:
                 - task: PublishPipelineArtifact@1
                   displayName: Publish Artifacts
                   inputs:
-                      targetPath: "$(Build.ArtifactStagingDirectory)"
+                      targetPath: "$(Build.SourcesDirectory)"
                       publishLocation: "pipeline"
                       artifact: $(Build.BuildId)

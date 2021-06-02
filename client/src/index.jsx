@@ -8,6 +8,6 @@ if (typeof window !== "undefined") {
 		<Router>
 			<App />
 		</Router>,
-		document.getElementById("app-container")
+		document.getElementById("app")
 	);
 }

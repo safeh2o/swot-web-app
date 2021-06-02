@@ -1,18 +1,31 @@
+// React Imports
 import React, { useState } from "react";
 import { Switch, Route } from "react-router-dom";
-import Dashboard from "./Dashboard";
-import DownloadPage from "./DownloadPage";
-import LoginPage from "./LoginPage";
-import UploadPage from "./UploadPage";
-import AnalyzePage from "./AnalyzePage";
-import ResultsPage from "./ResultsPage";
-import CMSPage from "./CMSPage";
-import ContactPage from "./ContactPage";
-import PageWrapper from "./PageWrapper";
-import ForgotPasswordPage from "./ForgotPasswordPage";
-import ResetPasswordPage from "./ResetPasswordPage";
-import AppContext from "../contexts/AppContext";
 import { useEffect } from "react";
+import { Helmet } from "react-helmet";
+
+// App + Content Pages
+import AppContext from "../contexts/AppContext";
+import PageWrapper from "./PageWrapper";
+import Home from "./Home";
+import Dashboard from "./Dashboard";
+import ContactPage from "./ContactPage";
+
+// Tool Imports
+import CollectData from "./tool/CollectData";
+import UploadData from "./tool/UploadData";
+import SendForAnalysis from "./tool/SendForAnalysis";
+import ViewResults from "./tool/ViewResults";
+import Result from "./tool/Result";
+
+// Admin Imports
+import CMSPage from "./CMSPage";
+
+// User Profile Imports
+import ProfileLogin from "./profile/ProfileLogin";
+import ProfileForgotPassword from "./profile/ProfileForgotPassword";
+import ProfileResetPassword from "./profile/ProfileResetPassword";
+
 
 // import BlogDashboard from "./BlogDashboard";
 // import BlogPage from "./BlogPage";
@@ -32,6 +45,19 @@ export default function App(props) {
 			});
 	}, []);
 
+	// Router Titles
+	function RouteWithTitle({ title, ...props }) {
+		return (
+			<>
+				<Helmet>
+					<title>{title} - Safe Water Optimization Tool</title>
+				</Helmet>
+				<Route {...props} />
+			</>
+		)
+	}
+
+	// User Data
 	context.setMessages = (messages) => {
 		setMessages(messages);
 	};
@@ -45,46 +71,38 @@ export default function App(props) {
 		<AppContext.Provider value={{ ...context, user }}>
 			<PageWrapper>
 				<Switch>
-					<Route path="/download">
-						<DownloadPage />
-					</Route>
-					<Route path="/upload">
-						<UploadPage />
-					</Route>
-					<Route path="/analyze">
-						<AnalyzePage />
-					</Route>
+
+					{/* Home/Dashboard */}
+					<Route exact={true} path="/"><Home /></Route>
+					<Route exact={true} path="/dashboard"><Dashboard /></Route>
+
+					{/* Tool */}
+					<Route path="/download"><CollectData /></Route>
+					<Route path="/upload"><UploadData /></Route>
+					<Route path="/analyze"><SendForAnalysis /></Route>
+					<Route path="/results"><ViewResults /></Route>
+					<Route path="/result/:slug"><Result /></Route>
+
+					{/* Account */}
+					<Route path="/signin"><ProfileLogin /></Route>
+					<Route path="/forgotpassword"><ProfileForgotPassword /></Route>
+					<Route path="/resetpassword/:key"><ProfileResetPassword /></Route>
+
+					{/* Content */}
+					{/* <Route path="/contact"><ContactPage /></Route> */}
+					<RouteWithTitle
+						title="Contact us"
+						path="/contact"
+						component={ContactPage}
+						key={document.location.hostname + '/contact'}
+					/>
+					<Route path="/pages/:slug"><CMSPage /></Route>
+
 					{/* 
-					<Route path="/manage">
-						<ManagePage />
-					</Route> */}
-					<Route path="/results">
-						<ResultsPage />
-					</Route>
-					<Route path="/signin">
-						<LoginPage />
-					</Route>
-					<Route path="/forgotpassword">
-						<ForgotPasswordPage />
-					</Route>
-					<Route path="/contact">
-						<ContactPage />
-					</Route>
-					<Route path="/pages/:slug">
-						<CMSPage />
-					</Route>
-					<Route path="/resetpassword/:key">
-						<ResetPasswordPage />
-					</Route>
-					{/* <Route exact path="/blog">
-					<BlogDashboard />
-				</Route>
-				<Route path="/blog/:category">
-					<BlogPage />
-				</Route> */}
-					<Route path="*">
-						<Dashboard />
-					</Route>
+						<Route exact path="/blog"><BlogDashboard /></Route>
+						<Route path="/blog/:category"><BlogPage /></Route> 
+					*/}
+
 				</Switch>
 			</PageWrapper>
 		</AppContext.Provider>

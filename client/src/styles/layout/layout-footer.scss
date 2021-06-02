@@ -1,0 +1,124 @@
+#footer {
+  background: none;
+  background-color: #4069b1;
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+
+    max-width: 1060px;
+    margin: 0 auto;
+
+    // flex-item
+    > a {
+      display: flex;
+
+      flex: 1 0 auto;
+      padding: 10px;
+      height: 15rem;
+
+      &:hover {
+        text-decoration: none;
+
+        h3 {
+          text-decoration: underline 2px #f3c22b;
+        }
+      }
+
+      &:nth-child(2) > *:after {
+        background: {
+          position: center;
+          size: cover;
+          // image: url('/assets/footer-safe-water-optimization-tool-1.jpg');
+          repeat: no-repeat;
+        };
+      }
+
+      &:nth-child(3) > *:after {
+        background: {
+          position: center;
+          size: cover;
+          // image: url('/assets/footer-safe-water-optimization-tool-2.jpg');
+          repeat: no-repeat;
+        };
+      }
+
+      // flex-item content> * 
+      > * {
+        position: relative;
+
+        flex: 1 0 auto;
+        display: flex;
+        flex-direction: column;
+        flex-basis: 100%;
+
+        text-align: center;
+        color: #f6f7f7;
+        
+        padding: 10px;
+        max-width: 100%;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          z-index: 0;
+          width: auto;
+          height: auto;
+          
+          background-color: #4069b1;
+          background-blend-mode: exclusion;
+          border-radius: 7px;
+          border: 4px #3a63ab solid;
+
+          box-shadow: 0px 0px 2px rgba(90,98,102,.15);
+
+          overflow: hidden;
+          width: 100%;
+          height: 100%;
+        }
+
+        h3, p {
+          position: relative;
+          z-index: 1;
+        }
+
+        h3 {
+          font-weight: 500;
+          margin: auto auto .35rem;
+        }
+        p {
+          font-size: 1rem;
+          margin: 0 auto auto;
+        }
+      }
+    }
+  }
+  .legal {
+    font-size: .9rem;
+    text-align: center;
+    color: #f6f7f7;
+    margin-top: 120px;
+
+    a {
+      text-decoration: underline dotted;
+    }
+
+    > * {
+      margin: 0 7px;
+    }
+  }
+}
+
+@media (min-width:768px) {
+  #footer {
+    nav {
+      // flex-item
+      > a {
+        flex: 1 0 33.333%;
+      }
+    }
+  }
+}

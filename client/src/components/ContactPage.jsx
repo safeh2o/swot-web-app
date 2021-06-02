@@ -95,105 +95,110 @@ class ContactPage extends Component {
 	renderForm() {
 		return (
 			<>
-				<FlashMessages
-					messages={{ errors: this.state.validationErrors }}
-					errorHeaderText="The following fields have errors:"
-				/>
-				<div className="row contact-us">
-					<div className="col-sm-8 col-md-8">
-						<form
-							method="post"
-							ref={this.form}
-							id="contactForm"
-							action="/api/contact"
-						>
-							<div className={this.getFormClasses("name")}>
-								<label>
-									<span>Name</span>
-									{this.renderSimpleInput("text", "name")}
-								</label>
+				<form method="post" ref={this.form} id="contactForm">
+
+					<section className="content-window">
+						<section>
+							<FlashMessages
+								messages={{ errors: this.state.validationErrors }}
+								errorHeaderText="The following fields have errors:"
+							/>
+							<div className="content-description"><p>To set up an account to use the SWOT; <br/>Or if you have any questions; <br/>Please contact us:</p></div>
+							<div className="flex-group">
+								<div className="flex-group-item line">
+									<div className={this.getFormClasses("name") + ' flex-group-wrapper'}>
+										{this.renderSimpleInput("text", "name")}
+									</div>
+									<label>Name</label>
+								</div>
+
+								<div className="flex-group-item line">
+									<div className={this.getFormClasses("email") + ' flex-group-wrapper'}>
+										{this.renderSimpleInput("text", "email")}
+									</div>
+									<label>Email</label>
+								</div>
+
+								<div className="flex-group-item line">
+									<div className={this.getFormClasses("email") + ' flex-group-wrapper'}>
+										{this.renderSimpleInput("text", "phone")}
+									</div>
+									<label>Phone&nbsp; (Optional)</label>
+								</div>
+
+								<div className="flex-group-item line">
+									<div className={this.getFormClasses("reason") + ' flex-group-wrapper'}>
+										<select
+											name="reason"
+											className="form-control"
+											defaultValue="select reason"
+											onChange={this.handleChange}
+										>
+											<option disabled>
+												select reason
+											</option>
+											{this.state.contactReasons.map(
+												(reason) => (
+													<option
+														key={reason.value}
+														value={reason.value}
+													>
+														{reason.label}
+													</option>
+												)
+											)}
+										</select>
+									</div>
+									<label>What are you contacting us about?</label>
+								</div>
+
+								<div className="flex-group-item line">
+									<div className={this.getFormClasses("message") + ' flex-group-wrapper'}>
+										<textarea
+											name="message"
+											placeholder="Leave us a message..."
+											rows="4"
+											className="form-control"
+											onChange={this.handleChange}
+										></textarea>
+									</div>
+									<label>Message</label>
+								</div>
+								
 							</div>
-							<div className={this.getFormClasses("email")}>
-								<label>
-									<span>Email</span>
-									{this.renderSimpleInput("email", "email")}
-								</label>
-							</div>
-							<div className={this.getFormClasses("phone")}>
-								<label>
-									<span>Phone</span>
-									{this.renderSimpleInput("text", "phone", {
-										placeholder: "(optional)",
-									})}
-								</label>
-							</div>
-							<div className={this.getFormClasses("reason")}>
-								<label>
-									<span>
-										What are you contacting us about?
-									</span>
-									<select
-										name="reason"
-										className="form-control"
-										defaultValue="(select reason)"
-										onChange={this.handleChange}
-									>
-										<option disabled>
-											(select reason)
-										</option>
-										{this.state.contactReasons.map(
-											(reason) => (
-												<option
-													key={reason.value}
-													value={reason.value}
-												>
-													{reason.label}
-												</option>
-											)
-										)}
-									</select>
-								</label>
-							</div>
-							<div className={this.getFormClasses("message")}>
-								<label>
-									<span>Message</span>
-									<textarea
-										name="message"
-										placeholder="Leave us a message..."
-										rows="4"
-										className="form-control"
-										onChange={this.handleChange}
-									></textarea>
-								</label>
-							</div>
-							<div className="form-actions">
-								<p>
-									By clicking Submit below, you agree to our{" "}
-									<Link to="pages/terms-of-use">
-										Terms of Use
-									</Link>{" "}
-									and our{" "}
-									<Link to="pages/privacy-policy">
-										Privacy Policy
-									</Link>
-									.
-								</p>
-								<div
-									className="g-recaptcha"
-									data-sitekey={this.context.grecaptcha}
-									data-callback="handleCaptchaResponse"
-								></div>
-								<button
+						</section>
+					</section>
+
+					<section className="content-window">
+						<section>
+							<div
+								className="g-recaptcha"
+								data-sitekey={this.context.grecaptcha}
+								data-callback="handleCaptchaResponse"
+							></div>
+							<hr/>
+							<div className="submission-wrap">
+								<input
 									type="submit"
-									className="btn btn-primary"
+									className="button blue"
+									value="Submit"
 									disabled={this.isButtonDisabled()}
-								>
-									Submit
-								</button>
+								/>
+								<input
+									type="reset"
+									className="button reset"
+									value="Reset Fields"
+								/>
 							</div>
-						</form>
-					</div>
-				</div>
+							<div className="txt-icon notice txt-sm">
+								<i><img src="assets/icons/notice.svg" alt="" /></i>
+								<span>By clicking Submit, you agree to our <Link to="pages/terms-of-use">Terms of Use</Link>&nbsp; 
+								and our <Link to="pages/privacy-policy">Privacy Policy</Link>.</span>
+							</div>
+						</section>
+					</section>
+				
+				</form>
 			</>
 		);
 	}
@@ -208,6 +213,7 @@ class ContactPage extends Component {
 						defer
 					></script>
 				</Helmet>
+<<<<<<< Updated upstream
 				<div className="container">
 					<div className=" px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 						<h4 className="display-4" id="headerText">
@@ -218,8 +224,10 @@ class ContactPage extends Component {
 				</div>
 				<div className="container">
 					{(this.state.submitted && this.renderSubmittedMessage()) ||
+=======
+				{(this.state.submitted && this.renderSubmittedMessage()) ||
+>>>>>>> Stashed changes
 						this.renderForm()}
-				</div>
 			</>
 		);
 	}

@@ -11,6 +11,7 @@
 	"license": "ISC",
 	"dependencies": {
 		"@material-ui/core": "^4.11.4",
+		"@material-ui/data-grid": "^4.0.0-alpha.29",
 		"@material-ui/icons": "^4.11.2",
 		"@material-ui/pickers": "^3.3.10",
 		"dompurify": "^2.2.8",
@@ -22,7 +23,8 @@
 		"react-helmet": "^6.1.0",
 		"react-modal": "^3.13.1",
 		"react-perfect-scrollbar": "^1.5.8",
-		"react-router-dom": "^5.2.0"
+		"react-router-dom": "^5.2.0",
+		"react-select-search": "^3.0.7"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.13.16",

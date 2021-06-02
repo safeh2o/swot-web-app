@@ -1,0 +1,35 @@
+article.block {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  margin: 0 0 1rem 0;
+}
+article.block > figure {
+  position: relative;
+  width: 25%;
+  margin: 0 1rem 0 0;
+
+  &:before {
+    content: '';
+    display: block;
+    width: 100%;
+    padding-bottom: 100%;
+    background-color: aliceblue;
+    border-radius: 5px;
+  }
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+article.block > div {
+  flex: 1;
+}
+article.block h2 {
+  margin: 0 0 0.5rem 0;
+}

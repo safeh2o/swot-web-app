@@ -1,0 +1,63 @@
+/* #date-range */
+#date-range section {
+  padding-top: 30px;
+}
+#date-range .custom-range {
+  height: auto;
+  padding: 10px 0;
+  margin-top: 10px;
+  border-top: 1px #eee solid;
+}
+#date-range .custom-range-title {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 15px;
+
+  span {
+    font-size: 87.25%;
+    color: #9b99af;
+  }
+}
+
+/* household-duration */
+#household-duration .range {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 15px 1.3rem;
+}
+#household-duration .labels {
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+}
+#household-duration .labels > span {
+  display: block;
+  text-align: center;
+  width: 1px;
+
+  span {
+    position: relative;
+    display: block;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    width: 3rem;
+  }
+}
+#household-duration input[type="range"] {
+  flex-basis: 100%;
+  color: #4069b1;
+}
+
+input[name="household-duration"][value="3"] ~ .MuiSlider-thumb {
+  background-color: #444e56!important;
+}
+
+/* #confidence-level */
+.MuiAccordion-root.Mui-expanded {
+
+}
+
+@media (min-width: 960px) {
+}

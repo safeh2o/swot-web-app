@@ -1,15 +1,35 @@
 import React, { useContext, useEffect, useRef } from "react";
-import { Helmet } from "react-helmet";
+import { useHistory } 			from 'react-router-dom'
+import { Helmet } 					from "react-helmet";
 
-import AppContext from "../contexts/AppContext";
-import NavBar from "./NavBar";
-import Footer from "./Footer";
-import FlashMessages from "./elements/FlashMessages";
+import AppContext 					from "../contexts/AppContext";
+import Header 							from "./layout/Header";
+import SideBar 							from "./layout/SideBar";
+import Footer 							from "./layout/Footer";
+import FlashMessages 				from "./elements/FlashMessages";
 
 export default function PageWrapper(props) {
 	const context = useContext(AppContext);
 
+	let pageTitle = false;
+	function HeaderView() {
+		if (pageTitle) {
+			return '<h1 className="content-title txt-condensed">'+pageTitle+'</h1>';
+		}
+	}
+
+	const history = useHistory() 
+	useEffect(() => {
+		return history.listen((location) => { 
+			console.log(props) 
+		}) 
+	},[history]);
+
 	function renderModals() {
+		const { user } = context;
+		if (!user) {
+			return null;
+		}
 		return (
 			<>
 				<Helmet>
@@ -70,13 +90,17 @@ export default function PageWrapper(props) {
 
 	return (
 		<>
-			<NavBar />
-			<div id="body">
-				{renderModals()}
-				<FlashMessages messages={context.messages} />
-				{props.children}
-			</div>
-			<Footer />
+			<Header /> {/* Content Navigation */}
+			<main>
+				{HeaderView()}
+				<SideBar /> {/* Tool|Admin Navigation */}
+				<section id="content">
+					{renderModals()}
+					<FlashMessages messages={context.messages} />
+					{props.children}
+				</section>
+			</main> {/* Component|Views */}
+			<Footer /> {/* Colophon */}
 		</>
 	);
 }

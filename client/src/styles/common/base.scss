@@ -1,0 +1,61 @@
+/* Layout */
+html, body {
+  width: 100%;
+  min-height: 100%;
+}
+body {
+  color: #4c5054;
+  background: #edeef0;
+}
+
+/* Fonts */
+// @media (max-width:959.9px) {
+//   html {
+//     font-size: 14px;
+//   }
+// }
+// @media (max-width:719.9px) {
+//   html {
+//     font-size: 12px;
+//   }
+// }
+
+.txt-center {
+  text-align: center;
+}
+
+.txt-700 {
+  font-weight: 700;
+}
+.txt-600, strong {
+  font-weight: 600;
+}
+.txt-500 {
+  font-weight: 500;
+}
+
+.txt-apc {
+  font-family: 'Acumin Pro Condensed', sans-serif;
+}
+
+.txt-sm {
+  font-size: 16px;
+  letter-spacing: 0.005em;
+}
+
+.txt-md {
+  font-size: 17px;
+}
+
+.txt-lrg {
+  font-size: 30px;
+}
+
+.txt-xlarge {
+  font-size: 52px;
+  line-height: 52px;
+}
+
+.txt-line1 {
+  line-height: 1;
+}

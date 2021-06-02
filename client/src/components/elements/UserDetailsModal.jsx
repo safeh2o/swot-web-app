@@ -47,9 +47,16 @@ export default function UserDetailsModal() {
 	};
 
 	return (
-		<div>
-			<a onClick={handleOpen} href="#" className="panel-link">
-				<img src="/assets/user.svg" alt="Account Details" />
+		<>
+			<a
+				className="profile"
+				onClick={handleOpen}
+				href="/admin"
+				tabIndex="-1"
+				title="SWOT Admin Panel">
+				<img 
+					src="assets/icons/header-nav-profile.svg" 
+					alt="Account Details" />
 			</a>
 			<Modal
 				aria-labelledby="modal-title"
@@ -189,6 +196,6 @@ export default function UserDetailsModal() {
 					</div>
 				</Fade>
 			</Modal>
-		</div>
+		</>
 	);
 }

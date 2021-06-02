@@ -1,0 +1,14 @@
+.g-recaptcha {
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 4px;
+  > div {
+    width: auto!important;
+    > * {
+      line-height: 0;
+    }
+  }
+  iframe {
+    width: 100%;
+  }
+}

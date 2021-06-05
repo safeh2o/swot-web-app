@@ -1,10 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
-<line id="XMLID_5423_" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="3.3" y1="20.1" x2="23.3" y2="20.1"/>
-<polyline id="XMLID_5422_" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" points="18.5,13.9 23.3,20.1 
-	18.5,26.2 "/>
-<polyline id="XMLID_5414_" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-miterlimit="10" points="12.5,11.6 12.5,6.9 
-	31.9,7.9 31.9,33.1 12.5,32.1 12.5,27.6 "/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+	<path fill="none" stroke="currentColor" stroke-width="2.5" stroke-miterlimit="10"
+		d="M3.3 20.1h20M18.5 13.9l4.8 6.2-4.8 6.1" />
+	<path fill="none" stroke="currentColor" stroke-width="3" stroke-miterlimit="10"
+		d="M12.5 11.6V6.9l19.4 1v25.2l-19.4-1v-4.5" />
 </svg>

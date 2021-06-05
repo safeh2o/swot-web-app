@@ -76,7 +76,8 @@ export default class SideBar extends React.Component {
 			return (
 				<>
 					<nav aria-label="Guest Options" className="guest-options">
-						<h5>Hello Guest,</h5>
+						<h6>Hello Guest,</h6>
+						<hr />
 						<p>For you and/or your organisation to use the SWOT, please <Link to="/contact"><span>Contact Us</span></Link> in-order to setup an account, OR <Link to="/signin"><span>Log In</span></Link> to your existing account.</p>
 					</nav>
 				</>

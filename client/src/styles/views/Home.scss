@@ -1,0 +1,91 @@
+// Rich Text
+
+.content-window.rich-text {
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #4069b1;
+  }
+}
+
+#tool-steps {
+  > section {
+    margin: 0;
+  }
+
+  .button i {
+    transform: scale(1.4);
+  }
+}
+
+.tool-steps {
+  .tool-step {
+    align-items: flex-start;
+    width: 100%;
+    padding-left: 40px;
+    padding-right: 30px;
+    padding-bottom: 3rem;
+    padding-top: 0.5rem;
+    &:not(:last-child) {
+      border-bottom: 1px solid #dde6ed;
+    }
+    &:nth-child(odd) {
+      background-color: #fcfcfc;
+    }
+    .icon {
+      font-family: "Roboto Condensed";
+      font-size: 1.8rem;
+      font-weight: 400;
+      line-height: 4rem;
+      justify-content: center;
+      letter-spacing: -0.01em;
+      color: #fff;
+      font-style: normal;
+
+      width: 4rem;
+      height: auto;
+      margin-right: 1.25rem;
+      &::before {
+        background-color: #4069b1;
+        border-radius: 4rem;
+        border: 2px solid #4c5054;
+      }
+    }
+    .text {
+      padding-top: 1rem;
+    }
+
+    // rte
+  }
+}
+
+#about {
+  .button.more-info {
+    width: 100%;
+    padding: 15px 20px 25px;
+    i {
+      transform: scale(1.6);
+      margin-left: auto;
+    }
+  }
+}
+
+#organisations {
+  .project-leads,
+  .project-funding {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+  }
+  .project-leads {
+  }
+  .org {
+    margin: 0 2rem 1rem 0;
+    img {
+      max-height: 200px;
+      max-width: 200px;
+    }
+  }
+}

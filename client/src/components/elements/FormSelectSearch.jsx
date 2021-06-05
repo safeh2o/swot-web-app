@@ -10,7 +10,7 @@ function renderOptions(props, option, snapshot, className) {
 
 	return (
 		<button {...props} className={className} type="button">
-			<span><img alt="" style={imgStyle} width="24" height="24" src={'/assets/icons/flags/'+option.value+'.svg'} /><span>{option.name}</span></span>
+			<span><img alt="" style={imgStyle} width="24" height="24" src={'/assets/icons/flags/' + option.value + '.svg'} /><span>{option.name}</span></span>
 		</button>
 	);
 }
@@ -22,8 +22,8 @@ function renderInput(props, option, snapshot, className) {
 
 	return (
 		<span className="icon">
-			<i><img alt="" style={imgStyle} width="24" height="24" src={'/assets/icons/flags/'+( option.value || 'default' )+'.svg'} /></i>
-			<input {...props} className={className} type="text"/>
+			<i><img alt="" style={imgStyle} width="24" height="24" src={'/assets/icons/flags/' + (option.value || 'default') + '.svg'} /></i>
+			<input {...props} className={className} type="text" />
 		</span>
 	);
 }
@@ -31,16 +31,16 @@ function renderInput(props, option, snapshot, className) {
 class FormSelectSearch extends Component {
 	render() {
 		return (
-      <>
-		    {this.props.icon ? (
-        	<SelectSearch
+			<>
+				{this.props.icon ? (
+					<SelectSearch
 						// printOptions={'always'}
 						options={this.props.options}
 						renderOption={renderOptions}
 						renderValue={renderInput}
 						search
 						filterOptions={fuzzySearch}
-						name="response" 
+						name="response"
 						placeholder="..."
 					/>
 				) : (
@@ -48,11 +48,11 @@ class FormSelectSearch extends Component {
 						options={this.props.options}
 						search
 						filterOptions={fuzzySearch}
-						name="response" 
+						name="response"
 						placeholder="..."
 					/>
 				)}
-      </>
+			</>
 		);
 	}
 }

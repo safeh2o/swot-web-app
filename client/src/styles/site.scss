@@ -6,34 +6,34 @@
 // Add your own site style includes here
 @import "site/custom";
 
-// resets 
-@import 'common/reset-forms';
-@import 'common/reset-micro';
+// resets
+@import "common/reset-forms";
+@import "common/reset-micro";
 
 // common styles
-@import 'common/base';
-@import 'common/fonts';
-@import 'common/icons';
-@import 'common/forms';
-@import 'common/blog';
+@import "common/base";
+@import "common/fonts";
+@import "common/icons";
+@import "common/forms";
+@import "common/blog";
 
 // template part - header
-@import 'layout/layout-header';
+@import "layout/layout-header";
 // template part - main ()
-@import 'layout/layout-main';
-  @import 'layout/layout-main-sidebar'; // sidebar (overview|tools|admin)
-  @import 'layout/layout-main-content'; // content
-    // template views - Tool
-    @import 'views/Dashboard'; // Dashboard
-    @import 'views/CollectData'; // CollectData
-    @import 'views/UploadData'; // UploadData
-    @import 'views/SendForAnalysis'; // SendForAnalysis
-    @import 'views/ViewResults'; // SendForAnalysis
-    // template views - Pages
-    @import 'views/Home'; // ContactUs
-    @import 'views/ContactUs'; // ContactUs
+@import "layout/layout-main";
+@import "layout/layout-main-sidebar"; // sidebar (overview|tools|admin)
+@import "layout/layout-main-content"; // content
+// template views - Tool
+@import "views/Dashboard"; // Dashboard
+@import "views/CollectData"; // CollectData
+@import "views/UploadData"; // UploadData
+@import "views/SendForAnalysis"; // SendForAnalysis
+@import "views/ViewResults"; // SendForAnalysis
+// template views - Pages
+@import "views/Home"; // ContactUs
+@import "views/ContactUs"; // ContactUs
 // template part - footer
-@import 'layout/layout-footer';
+@import "layout/layout-footer";
 
 // Material-UI Component Customization
 // @import 'layout/';

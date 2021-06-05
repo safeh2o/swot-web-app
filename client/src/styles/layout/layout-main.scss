@@ -3,14 +3,14 @@ main {
   display: grid;
   grid-template-columns: minmax(0, 100%);
 
-  max-width: 1080px;
+  max-width: 1280px;
   margin: 0 auto;
 }
-@media (min-width:960px) {
+@media (min-width: 960px) {
   main {
     display: grid;
     grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
-  
+
     margin: 0 auto;
   }
 }

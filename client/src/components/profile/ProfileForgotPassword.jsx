@@ -27,8 +27,11 @@ export default function ProfileForgotPassword(props) {
 
 	return (
 		<>
-			<h1 className="content-title">Reset Password</h1>
+			<h1 className="content-title">Forgot Password</h1>
 			<section className="content-window">
+				<header>
+					<div>Enter the email you're using for next steps.</div>
+				</header>
 				<section>
 					<FlashMessages messages={messages} />
 					<form
@@ -37,7 +40,6 @@ export default function ProfileForgotPassword(props) {
 						action="/forgotpassword"
 						method="post"
 					>
-						<p>Enter the email you're using for next steps.</p>
 						<div className="flex-group">
 							<div className="flex-group-item line">
 								<div className="flex-group-wrapper">
@@ -68,7 +70,7 @@ export default function ProfileForgotPassword(props) {
 							className="button blue"
 							value="Reset"
 						/>
-						<Link 
+						<Link
 							to="/signin"
 							className="button reset">
 							<span>Log in</span>

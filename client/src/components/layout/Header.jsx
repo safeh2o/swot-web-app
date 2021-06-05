@@ -39,9 +39,9 @@ export default class SideBar extends React.Component {
 							href="/admin/signout"
 							tabIndex="-1"
 							title="Log Out">
-							<img
-								src="/assets/icons/header-nav-logout.svg"
-								alt="Logout" />
+							<i>
+								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><g fill="none" stroke="currentColor" stroke-width="3" stroke-miterlimit="10"><path d="M16.2 19.9h20M31.3 13.8l4.9 6.1-4.9 6.2M27.5 28.4v4.7l-19.4 1V7.9l19.4-1v5.5" /></g></svg>
+							</i>
 						</a>
 					</li>
 				</>
@@ -57,7 +57,9 @@ export default class SideBar extends React.Component {
 					</li>
 					<li className="nav-item nav-profile">
 						<a href="/signin" title="Sign In" className="icon">
-							<i><img src="/assets/icons/header-nav-login.svg" alt="" /></i>
+							<i>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path fill="none" stroke="currentColor" strokeWidth="2.5" strokeMiterlimit="10" d="M3.3 20.1h20M18.5 13.9l4.8 6.2-4.8 6.1" /><path fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" d="M12.5 11.6V6.9l19.4 1v25.2l-19.4-1v-4.5" /></svg>
+							</i>
 						</a>
 					</li>
 				</>

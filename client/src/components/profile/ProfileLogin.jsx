@@ -38,78 +38,79 @@ export default function ProfileLogin(props) {
 
 	return (
 		<>
-			<h1 className="content-title">Log In</h1>
-
 			<FlashMessages messages={messages} />
-			
 			<form
 				ref={form}
 				role="form"
 				action="/auth"
 				method="post"
 			>
-			<section className="content-window">
-				<section>
-					<p>Enter your credentials to log in.</p>
-					<div className="flex-group">
-						<div className="flex-group-item line">
-							<div className="flex-group-wrapper">
-								<input
-									className="form-control email"
-									id="signin-email"
-									placeholder="you@mail.com"
-									name="email"
-									type="email"
-									onChange={() => {
-										handleChange();
-									}}
-								/>
-							</div>
-							<label
-								htmlFor="sender-email"
-								className="control-label">
-								Email:
-							</label>
-						</div>
-						<div className="flex-group-item line">
-							<div className="flex-group-wrapper">
-								<input
-									type="password"
-									className="form-control"
-									placeholder="Password"
-									name="password"
-									id="password"
-									onChange={() => {
-										handleChange();
-									}}
-								/>
-							</div>
-							<label
-								htmlFor="user-pass"
-								className="control-label">
-								Password:
-							</label>
-						</div>
-					</div>
-				</section>
-			</section>
+				<h1 className="content-title">Log In</h1>
 
-			<section className="content-window">
-				<section>
-					<div className="submission-wrap">
-						<input
-							type="submit"
-							className="button blue"
-							value="Log In"
-						/>
-						<Link 
-							to="/forgotpassword"
-							className="button reset">
+				<section className="content-window">
+					<header>
+						<div>Enter your credentials to log in.</div>
+					</header>
+					<section>
+						<div className="flex-group">
+							<div className="flex-group-item space">
+								<div className="flex-group-wrapper">
+									<input
+										className="form-control email"
+										id="signin-email"
+										placeholder="you@mail.com"
+										name="email"
+										type="email"
+										onChange={() => {
+											handleChange();
+										}}
+									/>
+								</div>
+								<label
+									htmlFor="sender-email"
+									className="control-label">
+									Email:
+								</label>
+							</div>
+							<div className="flex-group-item">
+								<div className="flex-group-wrapper">
+									<input
+										type="password"
+										className="form-control"
+										placeholder="Password"
+										name="password"
+										id="password"
+										onChange={() => {
+											handleChange();
+										}}
+									/>
+								</div>
+								<label
+									htmlFor="user-pass"
+									className="control-label">
+									Password:
+							</label>
+							</div>
+						</div>
+					</section>
+				</section>
+
+				<section className="content-window">
+					<section>
+						<div className="submission-wrap">
+							<input
+								type="submit"
+								className="button blue"
+								value="Log In"
+							/>
+							<Link
+								to="/forgotpassword"
+								className="button reset">
 								<span>Forgot Password</span>
 							</Link>
-					</div>
+						</div>
+					</section>
 				</section>
-			</section>
 			</form>
 		</>
 	);

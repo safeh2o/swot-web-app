@@ -169,7 +169,8 @@
     }
   }
   i,
-  img {
+  img,
+  svg {
     width: 2.5rem;
     height: 2.5rem;
   }
@@ -184,13 +185,15 @@
     margin: 0 5px;
   }
   i,
-  img {
+  img,
+  svg {
     width: 1.25rem;
     height: 1.25rem;
   }
 }
 .nav-mobile {
-  img {
+  img,
+  svg {
     display: none;
   }
   body.nav-active & .close {
@@ -252,7 +255,8 @@
     margin-left: 15px;
     a {
       i,
-      img {
+      img,
+      svg {
         width: 2rem;
         height: 2rem;
       }

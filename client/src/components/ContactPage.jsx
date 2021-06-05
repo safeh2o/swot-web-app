@@ -103,7 +103,7 @@ class ContactPage extends Component {
 								messages={{ errors: this.state.validationErrors }}
 								errorHeaderText="The following fields have errors:"
 							/>
-							<div className="content-description"><p>To set up an account to use the SWOT; <br/>Or if you have any questions; <br/>Please contact us:</p></div>
+							<div className="content-description"><p>To set up an account to use the SWOT; <br />Or if you have any questions; <br />Please contact us:</p></div>
 							<div className="flex-group">
 								<div className="flex-group-item line">
 									<div className={this.getFormClasses("name") + ' flex-group-wrapper'}>
@@ -164,7 +164,7 @@ class ContactPage extends Component {
 									</div>
 									<label>Message</label>
 								</div>
-								
+
 							</div>
 						</section>
 					</section>
@@ -176,7 +176,7 @@ class ContactPage extends Component {
 								data-sitekey={this.context.grecaptcha}
 								data-callback="handleCaptchaResponse"
 							></div>
-							<hr/>
+							<hr />
 							<div className="submission-wrap">
 								<input
 									type="submit"
@@ -192,12 +192,12 @@ class ContactPage extends Component {
 							</div>
 							<div className="txt-icon notice txt-sm">
 								<i><img src="assets/icons/notice.svg" alt="" /></i>
-								<span>By clicking Submit, you agree to our <Link to="pages/terms-of-use">Terms of Use</Link>&nbsp; 
+								<span>By clicking Submit, you agree to our <Link to="pages/terms-of-use">Terms of Use</Link>&nbsp;
 								and our <Link to="pages/privacy-policy">Privacy Policy</Link>.</span>
 							</div>
 						</section>
 					</section>
-				
+
 				</form>
 			</>
 		);
@@ -213,21 +213,8 @@ class ContactPage extends Component {
 						defer
 					></script>
 				</Helmet>
-<<<<<<< Updated upstream
-				<div className="container">
-					<div className=" px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-						<h4 className="display-4" id="headerText">
-							Test To set up an account to use the SWOT or if you
-							have any questions, please contact us:
-						</h4>
-					</div>
-				</div>
-				<div className="container">
-					{(this.state.submitted && this.renderSubmittedMessage()) ||
-=======
 				{(this.state.submitted && this.renderSubmittedMessage()) ||
->>>>>>> Stashed changes
-						this.renderForm()}
+					this.renderForm()}
 			</>
 		);
 	}

@@ -16,7 +16,7 @@ export default class SideBar extends React.Component {
 						<Link to="/dashboard" className="nav-item-side dashboard">
 							<span className="txt-icon">
 								<i><img src="assets/icons/dashboard.svg" alt="" /></i>
-								<span className="label">Dashboard</span>
+								<span className="label">Home</span>
 							</span>
 						</Link>
 					</nav>
@@ -28,15 +28,12 @@ export default class SideBar extends React.Component {
 	renderNavItem(section, i) {
 		return (
 			<NavLink key={section[1]} title={section[1]} className="nav-item-side" to={`/${section[0]}`}>
-				<span className="txt-icon">
+				<span>
 					{section[2]
-						? <i><img src={section[2]} alt={section[1]} /></i>
-						: <i className="none"></i>
+						? <span className="">{i + 1}.</span>
+						: ``
 					}
-					<span className="label">
-						<span className="">{i + 1}.</span>
-						{section[1]}
-					</span>
+					{section[1]}
 				</span>
 			</NavLink>
 		);
@@ -46,10 +43,10 @@ export default class SideBar extends React.Component {
 		const { user } = this.context;
 		// [ value, label, icon (location) ]
 		const sections = [
-			["collect", "Collect Data", "assets/icons/step-1.svg"],
-			["upload", "Upload Data", "assets/icons/step-2.svg"],
-			["analyze", "Send for Analysis", "assets/icons/step-3.svg"],
-			["results", "View Results", "assets/icons/step-4.svg"]
+			["collect", "Collect Data", 1],
+			["upload", "Upload Data", 2],
+			["analyze", "Send for Analysis", 3],
+			["results", "View Results", 4]
 		];
 		if (user) {
 			return (
@@ -116,12 +113,29 @@ export default class SideBar extends React.Component {
 		}
 	}
 
+	togglePagesNav() {
+		const sections = [
+			["about", "About"],
+			["news", "News"],
+			["contact", "Contact"],
+		];
+		return (
+			<nav aria-label="Page Menu" className="hide-medium-up">
+				<span title="Admin Header" className="nav-item-header">
+					<span>Information</span>
+				</span>
+				{sections.map((pageSection) => this.renderNavItem(pageSection))}
+			</nav>
+		);
+	}
+
 	render() {
 		return (
 			<section id="sidebar">
 				{this.renderContentNav()}
 				{this.renderToolNav()}
 				{this.toggleAdminNav()}
+				{this.togglePagesNav()}
 			</section>
 		);
 	}

@@ -8,34 +8,6 @@ export default class SideBar extends React.Component {
 	capitalizeFirstLetter(s) {
 		return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();
 	}
-	renderNavItem(section) {
-		return (
-			<li key={section} className="nav-item">
-				<NavLink className="nav-link link" to={`/${section}`}>
-					{this.capitalizeFirstLetter(section)}
-				</NavLink>
-			</li>
-		);
-	}
-
-	renderNavbarCollapse() {
-		const { user } = this.context;
-		const sections = [
-			"collect",
-			"upload",
-			"analyze",
-			"results",
-		];
-		if (user) {
-			return (
-				<>
-					<ul className="navbar-nav mr-auto">
-						{sections.map((section) => this.renderNavItem(section))}
-					</ul>
-				</>
-			);
-		}
-	}
 
 	renderRightButtons() {
 		const { user } = this.context;
@@ -43,44 +15,10 @@ export default class SideBar extends React.Component {
 			return (
 				<>
 					<li className="nav-item get-started has-children">
-						<a href="#" title="Get Started" className="txt-icon">
+						<a href="/collect" title="Get Started" className="txt-icon">
 							<i><img src="/assets/icons/header-nav-swot.svg" alt="" /></i>
 							<span className="label">Get Started</span>
 						</a>
-						<ul>
-							<li>
-								<Link to="/dashboard" className="txt-icon">
-									<i><img src="/assets/icons/dashboard.svg" alt="" /></i>
-									<span className="label">Dashboard</span>
-								</Link>
-							</li>
-							<li><hr /></li>
-							<li>
-								<Link to="/collect" className="txt-icon">
-									<i><img src="/assets/icons/header-nav-swot.svg" alt="" /></i>
-									<span className="label">Tool</span>
-								</Link>
-							</li>
-							<li>
-								<Link to="/page/guides" className="txt-icon">
-									<i><img src="/assets/icons/guide.svg" alt="" /></i>
-									<span className="label">Guides</span>
-								</Link>
-							</li>
-							<li><hr /></li>
-							<li>
-								<Link to="/fieldsites" className="txt-icon">
-									<i><img src="/assets/icons/location-marker.svg" alt="" /></i>
-									<span className="label">Field Sites</span>
-								</Link>
-							</li>
-							<li>
-								<Link to="/people" className="txt-icon">
-									<i><img src="/assets/icons/people-figure.svg" alt="" /></i>
-									<span className="label">People</span>
-								</Link>
-							</li>
-						</ul>
 					</li>
 					<li className="nav-item nav-profile">
 						<UserDetailsModal />
@@ -110,13 +48,29 @@ export default class SideBar extends React.Component {
 			);
 		} else {
 			return (
-				<li className="nav-item get-started">
-					<Link to="/signin" className="txt-icon">
-						<i><img src="/assets/icons/header-nav-swot.svg" alt="" /></i>
-						<span className="label">Log in to Start</span>
-					</Link>
-				</li>
+				<>
+					<li className="nav-item get-started show-medium-up">
+						<Link to="/signin" className="txt-icon">
+							<i><img src="/assets/icons/header-nav-swot.svg" alt="" /></i>
+							<span className="label">Log in to Start</span>
+						</Link>
+					</li>
+					<li className="nav-item nav-profile">
+						<a href="/signin" title="Sign In" className="icon">
+							<i><img src="/assets/icons/header-nav-login.svg" alt="" /></i>
+						</a>
+					</li>
+				</>
 			);
+		}
+	}
+
+	toggleMobileNav() {
+		const body = document.querySelector('body');
+		if (body.classList.contains('nav-active')) {
+			body.classList.remove('nav-active');
+		} else {
+			body.classList.add('nav-active');
 		}
 	}
 
@@ -133,17 +87,9 @@ export default class SideBar extends React.Component {
 							alt="Safe Water Optimization Tool (SWOT) logo" />
 					</Link>
 
-					<button className="nav-mobile">
-						<span><img
-							src="/assets/icons/header-nav-mobile.svg"
-							alt="Toggle mobile nav" /></span>
-					</button>
-
 					<ul className="nav-wrap">
 
-						{this.renderRightButtons()}
-
-						<li className="nav-item">
+						<li className="nav-item show-medium-up">
 							<Link
 								to="/page/about"
 								title="About the Project">
@@ -151,7 +97,7 @@ export default class SideBar extends React.Component {
 							</Link>
 						</li>
 
-						<li className="nav-item">
+						<li className="nav-item show-medium-up">
 							<Link
 								to="/blog"
 								title="News">
@@ -159,12 +105,26 @@ export default class SideBar extends React.Component {
 							</Link>
 						</li>
 
-						<li className="nav-item">
+						<li className="nav-item show-medium-up">
 							<Link
 								to="/contact"
 								title="Contact">
 								<span>Contact</span>
 							</Link>
+						</li>
+
+						{this.renderRightButtons('get-started')}
+
+						<li className="nav-item nav-mobile">
+							<button onClick={() => this.toggleMobileNav()}>
+								<i><img
+									className="open"
+									src="/assets/icons/header-nav-mobile.svg"
+									alt="Toggle mobile nav" /><img
+										className="close"
+										src="/assets/icons/header-nav-mobile-close.svg"
+										alt="Toggle mobile nav" /></i>
+							</button>
 						</li>
 
 					</ul>

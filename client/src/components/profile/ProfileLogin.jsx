@@ -42,7 +42,7 @@ export default function ProfileLogin(props) {
 			<form
 				ref={form}
 				role="form"
-				action="/auth"
+				action="/api/auth"
 				method="post"
 			>
 				<h1 className="content-title">Log In</h1>

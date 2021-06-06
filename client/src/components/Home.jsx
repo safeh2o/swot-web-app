@@ -1,6 +1,5 @@
 import React from "react";
 
-import Icon from "./elements/Icon"
 import { Link } from "react-router-dom";
 import AppContext from "../contexts/AppContext";
 

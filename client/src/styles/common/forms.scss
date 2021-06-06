@@ -299,6 +299,12 @@ main {
   .flex-group > * > div {
     position: relative;
   }
+  .flex-group > * > label {
+    display: block;
+    color: #747e87;
+    padding-top: 5px;
+    padding-left: 10px;
+  }
   .flex-group > * > div.drop-down:after {
     content: "";
     position: absolute;

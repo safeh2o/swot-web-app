@@ -96,7 +96,7 @@ class ContactPage extends Component {
 		return (
 			<>
 				<form method="post" ref={this.form} id="contactForm">
-
+					<h1 className="content-title">Contact us</h1>
 					<section className="content-window">
 						<section>
 							<FlashMessages
@@ -105,14 +105,14 @@ class ContactPage extends Component {
 							/>
 							<div className="content-description"><p>To set up an account to use the SWOT; <br />Or if you have any questions; <br />Please contact us:</p></div>
 							<div className="flex-group">
-								<div className="flex-group-item line">
+								<div className="flex-group-item space">
 									<div className={this.getFormClasses("name") + ' flex-group-wrapper'}>
 										{this.renderSimpleInput("text", "name")}
 									</div>
 									<label>Name</label>
 								</div>
 
-								<div className="flex-group-item line">
+								<div className="flex-group-item">
 									<div className={this.getFormClasses("email") + ' flex-group-wrapper'}>
 										{this.renderSimpleInput("text", "email")}
 									</div>
@@ -156,7 +156,7 @@ class ContactPage extends Component {
 									<div className={this.getFormClasses("message") + ' flex-group-wrapper'}>
 										<textarea
 											name="message"
-											placeholder="Leave us a message..."
+											placeholder=""
 											rows="4"
 											className="form-control"
 											onChange={this.handleChange}

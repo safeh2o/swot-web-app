@@ -3,6 +3,7 @@ main {
   display: grid;
   grid-template-columns: minmax(0, 100%);
 
+  min-height: calc(80vh - 85px);
   max-width: 1280px;
   margin: 0 auto;
 }

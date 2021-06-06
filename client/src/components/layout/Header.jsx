@@ -40,7 +40,7 @@ export default class SideBar extends React.Component {
 							tabIndex="-1"
 							title="Log Out">
 							<i>
-								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><g fill="none" stroke="currentColor" stroke-width="3" stroke-miterlimit="10"><path d="M16.2 19.9h20M31.3 13.8l4.9 6.1-4.9 6.2M27.5 28.4v4.7l-19.4 1V7.9l19.4-1v5.5" /></g></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><g fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10"><path d="M16.2 19.9h20M31.3 13.8l4.9 6.1-4.9 6.2M27.5 28.4v4.7l-19.4 1V7.9l19.4-1v5.5" /></g></svg>
 							</i>
 						</a>
 					</li>

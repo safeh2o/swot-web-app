@@ -120,7 +120,12 @@
   }
 
   // rte
-  a {
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #4069b1;
+  }
+  a:not(h2 a):not(h3 a):not(h4 a):not(h5 a):not(h6 a) {
     font-weight: 600;
     text-decoration: underline 1px dotted;
 

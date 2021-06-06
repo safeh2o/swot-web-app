@@ -11,7 +11,7 @@ export default function SideBar() {
 			<NavLink key={section[1]} title={section[1]} className="nav-item-side" to={`/${section[0]}`}>
 				<span>
 					{section[2]
-						? <span className="">{i + 1}.</span>
+						? <span className="num">{i + 1}.</span>
 						: ``
 					}
 					{section[1]}
@@ -43,8 +43,7 @@ export default function SideBar() {
 				<>
 					<nav aria-label="Page Menu">
 						<Link to="/dashboard" className="nav-item-side dashboard">
-							<span className="txt-icon">
-								<i><img src="assets/icons/dashboard.svg" alt="" /></i>
+							<span>
 								<span className="label">Home</span>
 							</span>
 						</Link>

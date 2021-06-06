@@ -10,7 +10,6 @@ import PageWrapper from "./PageWrapper";
 import Home from "./Home";
 import Dashboard from "./Dashboard";
 import ContactPage from "./ContactPage";
-import About from "./About";
 
 // Tool Imports
 import CollectData from "./tool/CollectData";

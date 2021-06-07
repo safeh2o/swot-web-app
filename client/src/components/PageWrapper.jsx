@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useRef } from "react";
-import { useHistory } 			from 'react-router-dom'
-import { Helmet } 					from "react-helmet";
+import { useHistory } from 'react-router-dom'
+import { Helmet } from "react-helmet";
 
-import AppContext 					from "../contexts/AppContext";
-import Header 							from "./layout/Header";
-import SideBar 							from "./layout/SideBar";
-import Footer 							from "./layout/Footer";
-import FlashMessages 				from "./elements/FlashMessages";
+import AppContext from "../contexts/AppContext";
+import Header from "./layout/Header";
+import SideBar from "./layout/SideBar";
+import Footer from "./layout/Footer";
+import FlashMessages from "./elements/FlashMessages";
 
 export default function PageWrapper(props) {
 	const context = useContext(AppContext);
@@ -14,16 +14,16 @@ export default function PageWrapper(props) {
 	let pageTitle = false;
 	function HeaderView() {
 		if (pageTitle) {
-			return '<h1 className="content-title txt-condensed">'+pageTitle+'</h1>';
+			return '<h1 className="content-title txt-condensed">' + pageTitle + '</h1>';
 		}
 	}
 
-	const history = useHistory() 
+	const history = useHistory()
 	useEffect(() => {
-		return history.listen((location) => { 
-			console.log(props) 
-		}) 
-	},[history]);
+		return history.listen((location) => {
+			console.log(props)
+		})
+	}, [history]);
 
 	function renderModals() {
 		const { user } = context;
@@ -56,31 +56,33 @@ export default function PageWrapper(props) {
 					</div>
 				</div>
 				<div className="modal fade" id="ConfirmModal">
-					<div className="modal-dialog modal-dialog-centered">
-						<div className="modal-content">
-							<div className="modal-header">
-								<h4 className="modal-title">Status</h4>
-								<button
-									type="button"
-									className="close"
-									data-dismiss="modal"
-								>
-									&times;
-								</button>
-							</div>
-
-							<div className="modal-body">
-								<p id="confirmMsg"></p>
-							</div>
-							<div className="modal-footer">
-								<button
-									type="button"
-									className="btn btn-primary"
-									data-dismiss="modal"
-								>
-									OK
-								</button>
-							</div>
+					<div className="modal-content dashboard">
+						<div className="modal-header">
+							<span className="modal-title">Status</span>
+							<button
+								type="button"
+								className="close txt-icon"
+								data-dismiss="modal"
+							>
+								<i>
+									<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 40" xmlSpace="preserve">
+										<line fill="none" stroke="currentColor" strokeWidth="3" strokMiterlimit="10" x1="7" y1="33" x2="33" y2="7" />
+										<line fill="none" stroke="currentColor" strokeWidth="3" strokMiterlimit="10" x1="7" y1="7" x2="33" y2="33" />
+									</svg>
+								</i>
+							</button>
+						</div>
+						<div className="modal-body">
+							<p id="confirmMsg"></p>
+						</div>
+						<div className="modal-footer">
+							<button
+								type="button"
+								className="button"
+								data-dismiss="modal"
+							>
+								<span>OK</span>
+							</button>
 						</div>
 					</div>
 				</div>

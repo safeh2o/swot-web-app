@@ -78,9 +78,9 @@ export default function UserDetailsModal() {
 					<div className={`${classes.paper}`}>
 						<div className="modal-content">
 							<div className="modal-header">
-								<h4 className="modal-title" id="modal-title">
+								<span className="modal-title" id="modal-title">
 									USER DETAILS
-								</h4>
+								</span>
 								<button
 									type="button"
 									className="close"

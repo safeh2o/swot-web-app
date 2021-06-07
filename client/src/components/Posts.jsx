@@ -35,8 +35,7 @@ export default function SideBar(props) {
         </article>
       </section>
       <footer>
-        <Link to="/blog" className="txt-icon button yellow">
-          <i><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path fill="none" stroke="currentColor" strokeWidth="2.5" strokeMiterlimit="10" d="M3.3 20.1h20M18.5 13.9l4.8 6.2-4.8 6.1" /><path fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" d="M12.5 11.6V6.9l19.4 1v25.2l-19.4-1v-4.5" /></svg></i>
+        <Link to="/blog" className="more">
           <span>More News</span>
         </Link>
       </footer>

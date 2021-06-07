@@ -6,6 +6,7 @@ $input-line-height: $input-font-size * 2;
 main {
   .button {
     cursor: pointer;
+    font-weight: 500;
     transition: filter 0.2s ease;
 
     .value {

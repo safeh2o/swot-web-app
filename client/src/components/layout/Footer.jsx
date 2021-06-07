@@ -5,7 +5,7 @@ export default function Footer(props) {
 	return (
 		<>
 			<footer id="footer">
-				<nav>
+				{/* <nav>
 					<NavLink to="/pages/how-it-works">
 						<span>
 							<h3 className="txt-condensed">How the Tool Works</h3>
@@ -24,7 +24,7 @@ export default function Footer(props) {
 							<p>Integer aliquet augue viverra imperdiet dignissim.</p>
 						</span>
 					</NavLink>
-				</nav>
+				</nav> */}
 				<div className="legal txt-sm">
 					<NavLink to="/pages/terms-of-use"><span>Terms of Use</span></NavLink>
 					<NavLink to="/pages/privacy-policy"><span>Privacy Policy</span></NavLink>

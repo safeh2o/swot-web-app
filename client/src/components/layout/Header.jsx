@@ -14,25 +14,16 @@ export default class SideBar extends React.Component {
 		if (user) {
 			return (
 				<>
-					<li className="nav-item get-started has-children">
+					<li className="nav-item get-started show-medium-up">
 						<a href="/collect" title="Get Started" className="txt-icon">
 							<i><img src="/assets/icons/header-nav-swot.svg" alt="" /></i>
 							<span className="label">Get Started</span>
 						</a>
 					</li>
-					<li className="nav-item nav-profile">
+					{user.isAdmin === true && (
 						<UserDetailsModal />
-						{user.isAdmin === true && (
-							<span
-								className="profile"
-								href="/admin"
-								tabIndex="-1"
-								title="SWOT Admin Panel">
-								<img
-									src="/assets/icons/header-nav-profile.svg"
-									alt="Manage your Profile" />
-							</span>
-						)}
+					)}
+					<li className="nav-item nav-profile signout">
 						<a
 							id="accountDetails"
 							className="signout"
@@ -40,7 +31,9 @@ export default class SideBar extends React.Component {
 							tabIndex="-1"
 							title="Log Out">
 							<i>
-								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><g fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10"><path d="M16.2 19.9h20M31.3 13.8l4.9 6.1-4.9 6.2M27.5 28.4v4.7l-19.4 1V7.9l19.4-1v5.5" /></g></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 40">
+									<path fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" d="M35.6,20H16.4 M31,25.8l4.6-5.9L31,14.1 M27.3,12.8V7.4l-18.7,1v25.2l18.7-1v-4.5" />
+								</svg>
 							</i>
 						</a>
 					</li>
@@ -55,10 +48,14 @@ export default class SideBar extends React.Component {
 							<span className="label">Log in to Start</span>
 						</Link>
 					</li>
-					<li className="nav-item nav-profile">
+					<li className="nav-item nav-profile signin">
 						<a href="/signin" title="Sign In" className="icon">
 							<i>
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path fill="none" stroke="currentColor" strokeWidth="2.5" strokeMiterlimit="10" d="M3.3 20.1h20M18.5 13.9l4.8 6.2-4.8 6.1" /><path fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" d="M12.5 11.6V6.9l19.4 1v25.2l-19.4-1v-4.5" /></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+									<line fill="none" stroke="currentColor" strokeWidth="2.5" strokeMiterlimit="10" x1="3.3" y1="20.1" x2="23.3" y2="20.1" />
+									<polyline fill="none" stroke="currentColor" strokeWidth="2.5" strokeMiterlimit="10" points="18.5,13.9 23.3,20.1 18.5,26.2 " />
+									<polyline fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" points="12.5,11.6 12.5,6.9 31.9,7.9 31.9,33.1 12.5,32.1 12.5,27.6" />
+								</svg>
 							</i>
 						</a>
 					</li>
@@ -118,7 +115,7 @@ export default class SideBar extends React.Component {
 						{this.renderRightButtons('get-started')}
 
 						<li className="nav-item nav-mobile">
-							<button onClick={() => this.toggleMobileNav()}>
+							<button class="button" onClick={() => this.toggleMobileNav()}>
 								<i><img
 									className="open"
 									src="/assets/icons/header-nav-mobile.svg"

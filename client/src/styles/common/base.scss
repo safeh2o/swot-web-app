@@ -1,12 +1,14 @@
 /* Layout */
-html,
-body {
-  width: 100%;
+html {
+  /* To make use of full height of page*/
   min-height: 100%;
+  margin: 0;
 }
 body {
   color: #4c5054;
   background: #f3f4f7;
+  min-height: 100%;
+  margin: 0;
 }
 
 /* Fonts */

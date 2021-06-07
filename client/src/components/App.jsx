@@ -73,8 +73,7 @@ export default function App(props) {
 				<Switch>
 
 					{/* Home/Dashboard */}
-					<Route exact={true} path="/"><Home /></Route>
-					<Route exact={true} path="/dashboard"><Dashboard /></Route>
+					<Route exact={true} path="/"><Dashboard /></Route>
 
 					{/* Tool */}
 					<Route path="/download"><CollectData /></Route>

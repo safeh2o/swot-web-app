@@ -18,7 +18,7 @@ export default function SideBar(props) {
             <img src="#" alt="" />
           </figure>
           <div>
-            <time dateTime="Fri, 30 Apr 2021 20:34:29 +0000">2 days ago</time>
+            <time dateTime="Fri, 30 Apr 2021 20:34:29 +0000">May 22, 2021</time>
             <h2><a href="#">Global WASH Cluster (GWC) Annual Meeting Satellite</a></h2>
             <div><p>Check out a recent presentation made during one of the events.</p></div>
           </div>
@@ -30,7 +30,7 @@ export default function SideBar(props) {
           <div>
             <time dateTime="Fri, 30 Apr 2021 20:34:29 +0000">November 25, 2020</time>
             <h2><a href="#">Stepping Up: Sanitation specialist develops system to ensure refugee camps anywhere can have healthy drinking water</a></h2>
-            <div><p>This is part of Stepping Up, a series introducing Canadians to their country’s new sources of inspiration and leadership. - <a href="https://www.theglobeandmail.com/canada/article-sanitation-specialist-develops-system-to-ensure-refugee-camps-anywhere/">Read More</a></p></div>
+            <div><p>This is part of Stepping Up, a series introducing Canadians to their country’s new sources of inspiration and leadership.</p></div>
           </div>
         </article>
       </section>

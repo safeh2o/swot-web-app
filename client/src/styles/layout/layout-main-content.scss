@@ -104,14 +104,31 @@
   right: 40px;
 }
 
-.modal-content {
+#ConfirmModal {
+  display: flex;
   position: fixed;
-  top: 150px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 10;
-  left: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  max-width: none;
+
+  &:not(.active) {
+    display: none;
+  }
+}
+
+.MuiBackdrop-root {
+  // cant figure out how to style modal background in component :(
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.modal-content {
+  margin: 150px auto auto;
   width: 80%;
   max-width: 400px;
-  transform: translateX(-50%);
   box-shadow: 0px 0px 10px rgba(90, 98, 102, 0.15);
 
   .modal-header {
@@ -123,13 +140,15 @@
 }
 
 @media (min-width: 960px) {
-  .modal-content {
-    position: fixed;
-    top: 250px;
-  }
   #content {
     > * {
       max-width: 760px;
+    }
+  }
+  #ConfirmModal {
+    max-width: none;
+    .modal-content {
+      margin: 25vh auto auto;
     }
   }
   .content-title {

@@ -7,15 +7,15 @@ import AppContext from "../../contexts/AppContext";
 import { useRef } from "react";
 
 const useStyles = makeStyles((theme) => ({
+	root: {
+		backgroundColor: 'rgba(255,255,255,0.1)',
+	},
 	modal: {
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
+		backgroundColor: 'rgba(255,255,255,0.1)',
 	},
 	paper: {
-		backgroundColor: theme.palette.background.paper,
-		border: "2px solid #000",
 		boxShadow: theme.shadows[5],
+		backgroundColor: 'rgba(255,255,255,0.1)',
 	},
 }));
 
@@ -75,128 +75,126 @@ export default function UserDetailsModal() {
 				}}
 			>
 				<Fade in={open}>
-					<div className={`${classes.paper}`}>
-						<div className="modal-content">
-							<div className="modal-header">
-								<span className="modal-title" id="modal-title">
-									USER DETAILS
+					<div className="modal-content">
+						<div className="modal-header">
+							<span className="modal-title" id="modal-title">
+								USER DETAILS
 								</span>
-								<button
-									type="button"
-									className="close"
-									data-dismiss="modal"
-								>
-									&times;
+							<button
+								type="button"
+								className="close"
+								data-dismiss="modal"
+							>
+								&times;
 								</button>
-							</div>
+						</div>
 
-							<div className="modal-body">
-								<form
-									ref={userForm}
-									className="form"
-									role="form"
-									autoComplete="off"
-									id="formUser"
-									onSubmit={handleSubmit}
-									noValidate
-								>
-									<div className="form-group">
-										<label htmlFor="firstName">
-											First Name
+						<div className="modal-body">
+							<form
+								ref={userForm}
+								className="form"
+								role="form"
+								autoComplete="off"
+								id="formUser"
+								onSubmit={handleSubmit}
+								noValidate
+							>
+								<div className="form-group">
+									<label htmlFor="firstName">
+										First Name
 										</label>
-										<input
-											type="text"
-											autoComplete="given-name"
-											className="form-control form-control-lg"
-											name="firstName"
-											id="firstName"
-											required=""
-											defaultValue={
-												context.user.name.first
-											}
-										/>
-									</div>
+									<input
+										type="text"
+										autoComplete="given-name"
+										className="form-control form-control-lg"
+										name="firstName"
+										id="firstName"
+										required=""
+										defaultValue={
+											context.user.name.first
+										}
+									/>
+								</div>
 
-									<div className="form-group">
-										<label htmlFor="lastName">
-											Last Name
+								<div className="form-group">
+									<label htmlFor="lastName">
+										Last Name
 										</label>
-										<input
-											type="text"
-											autoComplete="family-name"
-											className="form-control form-control-lg"
-											name="lastName"
-											id="lastName"
-											defaultValue={
-												context.user.name.last
-											}
-											required=""
-										/>
-									</div>
+									<input
+										type="text"
+										autoComplete="family-name"
+										className="form-control form-control-lg"
+										name="lastName"
+										id="lastName"
+										defaultValue={
+											context.user.name.last
+										}
+										required=""
+									/>
+								</div>
 
-									<div className="form-group">
-										<label htmlFor="email">Email</label>
-										<input
-											type="text"
-											autoComplete="email"
-											className="form-control form-control-lg"
-											name="email"
-											id="email"
-											defaultValue={context.user.email}
-											required=""
-										/>
-									</div>
+								<div className="form-group">
+									<label htmlFor="email">Email</label>
+									<input
+										type="text"
+										autoComplete="email"
+										className="form-control form-control-lg"
+										name="email"
+										id="email"
+										defaultValue={context.user.email}
+										required=""
+									/>
+								</div>
 
-									<h6>Change Password</h6>
-									<div className="form-group">
-										<label htmlFor="password1">
-											Password
+								<h6>Change Password</h6>
+								<div className="form-group">
+									<label htmlFor="password1">
+										Password
 										</label>
-										<input
-											type="password"
-											autoComplete="new-password"
-											className="form-control form-control-lg"
-											name="password1"
-											id="password1"
-											minLength="6"
-										/>
-									</div>
+									<input
+										type="password"
+										autoComplete="new-password"
+										className="form-control form-control-lg"
+										name="password1"
+										id="password1"
+										minLength="6"
+									/>
+								</div>
 
-									<div className="form-group">
-										<label htmlFor="password2">
-											Confirm Password
+								<div className="form-group">
+									<label htmlFor="password2">
+										Confirm Password
 										</label>
-										<input
-											type="password"
-											autoComplete="new-password"
-											className="form-control form-control-lg"
-											name="password2"
-											id="password2"
-											minLength="6"
-										/>
-									</div>
+									<input
+										type="password"
+										autoComplete="new-password"
+										className="form-control form-control-lg"
+										name="password2"
+										id="password2"
+										minLength="6"
+									/>
+								</div>
 
-									<div className="form-group pt-4">
-										<button
-											className="btn btn-danger btn-lg"
-											data-dismiss="modal"
-											aria-hidden="true"
-											type="reset"
-											onClick={handleClose}
-										>
-											Cancel
+								<div className="form-group pt-4">
+									<button
+										className="btn btn-danger btn-lg"
+										data-dismiss="modal"
+										aria-hidden="true"
+										type="reset"
+										onClick={handleClose}
+									>
+										Cancel
 										</button>
-										<button
-											className="btn btn-primary btn-lg float-right"
-											id="btnSaveUserDetails"
-											type="submit"
-											onClick={handleClose}
-										>
-											Save
+									<button
+										className="btn btn-primary btn-lg float-right"
+										id="btnSaveUserDetails"
+										type="submit"
+										onClick={handleClose}
+									>
+										Save
 										</button>
-									</div>
-								</form>
-							</div>
+								</div>
+							</form>
 						</div>
 					</div>
 				</Fade>

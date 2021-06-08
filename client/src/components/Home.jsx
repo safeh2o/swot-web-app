@@ -14,10 +14,15 @@ export default class Home extends React.Component {
 		if (!user) {
 			return (
 				<>
+					<section className="content-window borderless">
+						<h1 className="headline">
+							Ensuring water safety by leveraging routine water quality data.
+						</h1>
+					</section>
 					<section id="tool-steps" className="content-window rich-text">
 						<header>
 							<div className="content-window-title txt-condensed">4 Simple Steps</div>
-							<div className="section-window-title-description">
+							<div className="content-window-title-description">
 								<p>The SWOT provides an accessible platform to manage data and integrates advanced data analytics including machine learning to generate site-specific and evidence-based water treatment recommendations for field teams.</p>
 							</div>
 						</header>
@@ -61,37 +66,14 @@ export default class Home extends React.Component {
 								</div>
 							</article>
 						</section>
-						<footer>
-							<div className="txt-icon button yellow">
-								<i><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path fill="none" stroke="currentColor" strokeWidth="2.5" strokeMiterlimit="10" d="M3.3 20.1h20M18.5 13.9l4.8 6.2-4.8 6.1" /><path fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" d="M12.5 11.6V6.9l19.4 1v25.2l-19.4-1v-4.5" /></svg></i>
-								<span>Log In/Signup to Get Started</span>
-							</div>
-						</footer>
+						{/* <footer></footer> */}
 					</section>
 				</>
 			)
 		} else {
 			return (
 				<>
-					<Posts
-						type={'news'}
-						data={
-							[
-								{
-									link: "",
-									title: "Global WASH Cluster (GWC) Annual Meeting Satellite",
-									date: "May 2, 2021",
-									content: "Check out a recent presentation made during one of the events.",
-								},
-								{
-									link: "https://www.theglobeandmail.com/canada/article-sanitation-specialist-develops-system-to-ensure-refugee-camps-anywhere/",
-									title: "Stepping Up: Sanitation specialist develops system to ensure refugee camps anywhere can have healthy drinking water",
-									date: "November 25, 2020",
-									content: "This is part of Stepping Up, a series introducing Canadians to their country’s new sources of inspiration and leadership.",
-								}
-							]
-						}
-					/>
+
 				</>
 			)
 		}
@@ -100,22 +82,34 @@ export default class Home extends React.Component {
 	render() {
 		return (
 			<>
-				<section className="content-window borderless">
-					<h1 className="headline">
-						Ensuring water safety by leveraging routine water quality data.
-					</h1>
-				</section>
-
 				{this.isUserLogin()}
 
-				<section id="organisations" className="content-window rich-text">
+				<Posts
+					type={'news'}
+					data={[
+						{
+							link: "",
+							title: "Global WASH Cluster (GWC) Annual Meeting Satellite",
+							date: "May 2, 2021",
+							content: "Check out a recent presentation made during one of the events.",
+						},
+						{
+							link: "https://www.theglobeandmail.com/canada/article-sanitation-specialist-develops-system-to-ensure-refugee-camps-anywhere/",
+							title: "Stepping Up: Sanitation specialist develops system to ensure refugee camps anywhere can have healthy drinking water",
+							date: "November 25, 2020",
+							content: "This is part of Stepping Up, a series introducing Canadians to their country’s new sources of inspiration and leadership.",
+						}
+					]}
+				/>
+
+				<section id="organisations" className="content-window rich-text bleed-edges">
 					<header>
-						<div className="content-window-title txt-condensed">Information:</div>
-						<div className="section-window-title-description">
+						<div className="content-window-title txt-condensed">Organisations</div>
+						<div className="content-window-title-description">
 						</div>
 					</header>
 					<section>
-						<h2 className="txt-condensed">Project Leads</h2>
+						<h2 className="txt-condensed">Leads</h2>
 						<p>Open Sources of thie projects is developed by:</p>
 						<div className="project-leads">
 							<div className="org">
@@ -140,7 +134,7 @@ export default class Home extends React.Component {
 						</div>
 					</section>
 					<section>
-						<h2 className="txt-condensed">Project Funding</h2>
+						<h2 className="txt-condensed">Funding</h2>
 						<p>We thank our sponsors for all their support</p>
 						<div className="project-funding">
 							<div className="org">
@@ -157,15 +151,18 @@ export default class Home extends React.Component {
 					</section>
 				</section>
 
-				<section id="about" className="content-window borderless">
-					<Link to="/about" className="txt-icon button yellow more-info rtl">
-						<i><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" d="M32 20H7M26 12l6 8-6 8" /></svg></i>
-						<span>
-							<span className="value">About the Project</span><br />
-							How, Why, and the People behind the Safe Water Optimization Tool.
-						</span>
-					</Link>
-				</section>
+				{/*
+					<section id="about-preview" className="content-window borderless">
+						<Link to="/about" className="txt-icon button yellow more-info rtl">
+							<i><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" d="M32 20H7M26 12l6 8-6 8" /></svg></i>
+							<span>
+								<span className="value">About the Project</span><br />
+								How, Why, and the People behind the Safe Water Optimization Tool.
+							</span>
+						</Link>
+					</section>
+				*/}
+
 			</>
 		);
 	}

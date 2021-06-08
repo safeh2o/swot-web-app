@@ -1,24 +1,10 @@
 #news {
   > header {
   }
-  > section {
-    padding: 15px 10px 15px;
+  > article {
+    padding: 15px 15px 15px;
     margin: 0;
     background-color: #fcfcfc;
-  }
-  > footer {
-    padding: 0;
-    margin: 0;
-
-    a.more {
-      display: flex;
-      height: 60px;
-
-      span {
-        display: block;
-        margin: auto;
-      }
-    }
   }
   // Bits
   time {
@@ -34,15 +20,15 @@
     line-height: 1.2;
   }
   p {
-    &:last-child:not(:first-child) {
+    &:last-child {
       margin-bottom: 0;
     }
   }
-  @media (max-width: 959.9px) {
+  @media (max-width: 719.9px) {
   }
-  @media (min-width: 960px) {
-    > section {
-      padding: 15px 30px 15px;
+  @media (min-width: 720px) {
+    > article {
+      padding: 30px 50px 30px;
       margin: 0;
     }
   }
@@ -51,8 +37,6 @@
 article.block {
   display: flex;
   align-items: flex-start;
-  padding: 20px;
-  margin: 0 0 10px 0;
 
   figure {
     position: relative;

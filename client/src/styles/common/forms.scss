@@ -290,32 +290,55 @@ main {
   .flex-group {
     display: flex;
     flex-wrap: wrap;
-  }
-  .flex-group > * {
-    flex: 1;
-    margin-bottom: 15px;
-  }
-  .flex-group .space {
-    margin-right: 10px;
-  }
-  .flex-group .line,
-  .flex-group .full-width {
-    flex-basis: 100%;
-  }
-  .flex-group .line {
-    input,
-    select {
-      max-width: 400px;
+
+    > * {
+      flex: 1;
+      margin-bottom: 15px;
+    }
+
+    .space {
+      padding-right: 10px;
+    }
+
+    .full-width {
+      flex-basis: 100%;
+    }
+
+    .half-width {
+      flex-basis: 50%;
+    }
+
+    .line {
+      flex-basis: 100%;
+      input,
+      select {
+        max-width: 400px;
+      }
+    }
+
+    .icon {
+      display: flex;
+      i {
+        position: relative;
+        left: 10px;
+        z-index: 2;
+        width: 1.5rem;
+        margin-right: -1.5rem;
+      }
+      input[type="text"] {
+        position: relative;
+        z-index: 1;
+        padding-left: calc(2rem + 10px);
+      }
     }
   }
-  .flex-group > * > div {
+  .flex-group > label > div {
     position: relative;
   }
-  .flex-group > * > label {
+  .flex-group > label > .label {
     display: block;
-    color: #747e87;
-    padding-top: 5px;
-    padding-left: 10px;
+    color: #9b99af;
+    margin: 5px 0 0 10px;
   }
   .flex-group > * > div.drop-down:after {
     content: "";
@@ -376,14 +399,6 @@ main {
         repeat: no-repeat;
         size: 20px;
       }
-    }
-    .label {
-      flex: 1 0 50%;
-
-      display: block;
-      font-size: 1rem;
-      color: #9b99af;
-      margin: 5px 0 0 10px;
     }
   }
   .form-group {

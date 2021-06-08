@@ -8,7 +8,6 @@ import { Helmet } from "react-helmet";
 import AppContext from "../contexts/AppContext";
 import PageWrapper from "./PageWrapper";
 import Home from "./Home";
-import Dashboard from "./Dashboard";
 import ContactPage from "./ContactPage";
 
 // Tool Imports
@@ -73,7 +72,7 @@ export default function App(props) {
 				<Switch>
 
 					{/* Home/Dashboard */}
-					<Route exact={true} path="/"><Dashboard /></Route>
+					<Route exact={true} path="/"><Home /></Route>
 
 					{/* Tool */}
 					<Route path="/collect"><CollectData /></Route>

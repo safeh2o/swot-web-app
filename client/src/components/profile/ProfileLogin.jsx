@@ -1,24 +1,27 @@
 import React from "react";
 import { useRef, useEffect, useState, useContext } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import AppContext from "../../contexts/AppContext";
+import { getUser } from "../../reducers/user";
+import { handleServerMessages } from "../../reducers/notifications";
 
 import FlashMessages from "../elements/FlashMessages";
 
 export default function ProfileLogin(props) {
 	const form = useRef(null);
 	const history = useHistory();
-	const context = useContext(AppContext);
 	const [messages, setMessages] = useState({});
+	const dispatch = useDispatch();
 
 	const handleSubmitResponse = (data) => {
 		if (data.success === true) {
 			// history wouldnt work well because SideBar doesnt rerender
 			history.push("/");
 			// window.location.reload();
-			context.logInUser(data.user);
+			dispatch(getUser());
 		}
-		setMessages(data.messages);
+		// setMessages(data.messages);
+		dispatch(handleServerMessages(data.messages));
 	};
 
 	const handleChange = () => {
@@ -38,23 +41,20 @@ export default function ProfileLogin(props) {
 
 	return (
 		<>
-			<FlashMessages messages={messages} />
-			<form
-				ref={form}
-				role="form"
-				action="/api/auth"
-				method="post"
-			>
-				<h1 className="content-title">Log In</h1>
+			<h1 className="content-title">Log In</h1>
 
+			<form ref={form} role="form" action="/api/auth" method="post">
 				<section className="content-window">
-					<header>
-						<div>Enter your credentials to log in.</div>
-					</header>
 					<section>
 						<div className="flex-group">
-							<div className="flex-group-item space">
+							<div className="flex-group-item line">
 								<div className="flex-group-wrapper">
+									<label
+										htmlFor="sender-email"
+										className="control-label"
+									>
+										Email:
+									</label>
 									<input
 										className="form-control email"
 										id="signin-email"
@@ -66,14 +66,15 @@ export default function ProfileLogin(props) {
 										}}
 									/>
 								</div>
-								<label
-									htmlFor="sender-email"
-									className="control-label">
-									Email:
-								</label>
 							</div>
-							<div className="flex-group-item">
+							<div className="flex-group-item line">
 								<div className="flex-group-wrapper">
+									<label
+										htmlFor="user-pass"
+										className="control-label"
+									>
+										Password:
+									</label>
 									<input
 										type="password"
 										className="form-control"
@@ -85,11 +86,6 @@ export default function ProfileLogin(props) {
 										}}
 									/>
 								</div>
-								<label
-									htmlFor="user-pass"
-									className="control-label">
-									Password:
-							</label>
 							</div>
 						</div>
 					</section>
@@ -103,9 +99,7 @@ export default function ProfileLogin(props) {
 								className="button blue"
 								value="Log In"
 							/>
-							<Link
-								to="/forgotpassword"
-								className="button reset">
+							<Link to="/forgotpassword" className="button reset">
 								<span>Forgot Password</span>
 							</Link>
 						</div>

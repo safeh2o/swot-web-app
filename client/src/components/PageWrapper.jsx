@@ -1,28 +1,37 @@
 import React, { useContext, useEffect, useRef } from "react";
-import { useHistory } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import AppContext from "../contexts/AppContext";
 import Header from "./layout/Header";
 import SideBar from "./layout/SideBar";
 import Footer from "./layout/Footer";
 import FlashMessages from "./elements/FlashMessages";
+import { useDispatch, useSelector } from "react-redux";
+import { notificationsSelectors } from "../reducers/notifications";
+import { ThemeProvider } from "@material-ui/styles";
+
+import theme from "../theme";
 
 export default function PageWrapper(props) {
-	const context = useContext(AppContext);
+	const dispatch = useDispatch();
+	const notifications = useSelector(notificationsSelectors.notifications);
 
 	let pageTitle = false;
 	function HeaderView() {
 		if (pageTitle) {
-			return '<h1 className="content-title txt-condensed">' + pageTitle + '</h1>';
+			return (
+				'<h1 className="content-title txt-condensed">' +
+				pageTitle +
+				"</h1>"
+			);
 		}
 	}
 
-	const history = useHistory()
+	const history = useHistory();
 	useEffect(() => {
 		return history.listen((location) => {
-			console.log(props)
-		})
+			console.log(props);
+		});
 	}, [history]);
 
 	function renderModals() {
@@ -65,9 +74,32 @@ export default function PageWrapper(props) {
 								data-dismiss="modal"
 							>
 								<i>
-									<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 40" xmlSpace="preserve">
-										<line fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" x1="7" y1="33" x2="33" y2="7" />
-										<line fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" x1="7" y1="7" x2="33" y2="33" />
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										xmlnsXlink="http://www.w3.org/1999/xlink"
+										viewBox="0 0 40 40"
+										xmlSpace="preserve"
+									>
+										<line
+											fill="none"
+											stroke="currentColor"
+											strokeWidth="3"
+											strokeMiterlimit="10"
+											x1="7"
+											y1="33"
+											x2="33"
+											y2="7"
+										/>
+										<line
+											fill="none"
+											stroke="currentColor"
+											strokeWidth="3"
+											strokeMiterlimit="10"
+											x1="7"
+											y1="7"
+											x2="33"
+											y2="33"
+										/>
 									</svg>
 								</i>
 							</button>
@@ -91,18 +123,18 @@ export default function PageWrapper(props) {
 	}
 
 	return (
-		<>
+		<ThemeProvider theme={theme}>
 			<Header /> {/* Content Navigation */}
 			<main>
 				{HeaderView()}
 				<SideBar /> {/* Tool|Admin Navigation */}
 				<section id="content">
-					{renderModals()}
-					<FlashMessages messages={context.messages} />
+					<FlashMessages />
 					{props.children}
 				</section>
-			</main> {/* Component|Views */}
+			</main>{" "}
+			{/* Component|Views */}
 			<Footer /> {/* Colophon */}
-		</>
+		</ThemeProvider>
 	);
 }

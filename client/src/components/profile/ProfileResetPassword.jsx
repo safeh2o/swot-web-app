@@ -2,28 +2,19 @@ import React from "react";
 import { useRef, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import FlashMessages from "../elements/FlashMessages";
-
 export default function ProfileResetPassword(props) {
 	const { key } = useParams();
-	const [messages, setMessages] = useState({});
 	const form = useRef(null);
 
 	useEffect(() => {
 		fetch("/api/user/resetkey?key=" + key)
 			.then((r) => r.json())
-			.then((data) => {
-				setMessages(data.messages);
-			});
+			.then((data) => {});
 	}, [key]);
 
-	const handleSubmitResponse = (data) => {
-		setMessages(data.messages);
-	};
+	const handleSubmitResponse = (data) => {};
 
-	const handleChange = () => {
-		setMessages({});
-	};
+	const handleChange = () => {};
 
 	useEffect(() => {
 		$(form.current).ajaxForm((data) => {
@@ -45,7 +36,6 @@ export default function ProfileResetPassword(props) {
 						</h1>
 					</div>
 					<br />
-					<FlashMessages messages={messages} />
 					<div className="panel-body">
 						<div className="col-md-4">
 							<form

@@ -12,10 +12,10 @@ exports.signin = async function (req, res) {
 	};
 
 	var onFail = function () {
-		const messages = { errors: {} };
-		messages.errors.invalid = {
-			error: "Provided credentials are incorrect, please try again.",
-		};
+		const messages = { errors: [] };
+		messages.errors.push(
+			"Provided credentials are incorrect, please try again."
+		);
 		res.json({ messages, success: false });
 		return;
 	};

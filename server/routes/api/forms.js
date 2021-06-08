@@ -15,7 +15,7 @@ exports.contact = async function (req, res) {
 	const captchaResp = req.body["g-recaptcha-response"];
 
 	const postData = querystring.stringify({
-		secret: process.env.RECAPTCHA_SECRET_KEY,
+		secret: process.env.GOOGLE_RECAPTCHA_SECRET_KEY,
 		response: captchaResp,
 	});
 
@@ -73,13 +73,13 @@ exports.getContactReasons = async function (req, res) {
 };
 
 exports.forgotPassword = async function (req, res) {
-	let messages = { errors: {}, notices: {} };
+	let messages = { errors: [], notices: {} };
 	const terminate = () => {
 		res.json({ messages });
 	};
 
 	const handleError = () => {
-		messages.errors.unknown = { error: "An unknown error has occurred" };
+		messages.errors.push("An unknown error has occurred");
 		terminate();
 		return;
 	};
@@ -90,7 +90,7 @@ exports.forgotPassword = async function (req, res) {
 	};
 
 	if (!req.body.email) {
-		messages.errors.email = { error: "Please enter an email address." };
+		messages.errors.push("Please enter an email address.");
 		terminate();
 		return;
 	}
@@ -134,9 +134,9 @@ exports.forgotPassword = async function (req, res) {
 					function (err) {
 						if (err) {
 							console.error(err);
-							messages.errors.email = {
-								error: "Error sending reset password email!",
-							};
+							messages.errors.push(
+								"Error sending reset password email!"
+							);
 							terminate();
 							return;
 						} else {

@@ -5,14 +5,13 @@ import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 
 // App + Content Pages
-import AppContext from "../contexts/AppContext";
 import PageWrapper from "./PageWrapper";
 import Home from "./Home";
 import ContactPage from "./ContactPage";
 
 // Tool Imports
 import CollectData from "./tool/CollectData";
-import UploadData from "./tool/UploadData";
+import UploadPage from "./tool/UploadPage";
 import SendForAnalysis from "./tool/SendForAnalysis";
 import ViewResults from "./tool/ViewResults";
 import Result from "./tool/Result";
@@ -24,25 +23,22 @@ import CMSPage from "./CMSPage";
 import ProfileLogin from "./profile/ProfileLogin";
 import ProfileForgotPassword from "./profile/ProfileForgotPassword";
 import ProfileResetPassword from "./profile/ProfileResetPassword";
-
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, userSelectors } from "../reducers/user";
 
 // import BlogDashboard from "./BlogDashboard";
 // import BlogPage from "./BlogPage";
 
 export default function App(props) {
-	const [user, setUser] = useState(null);
-	const [messages, setMessages] = useState({ errors: {}, notices: {} });
 	const initialState = window.__INITIAL_STATE;
 
-	const context = { ...initialState, messages };
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		fetch("/api/user/me")
-			.then((r) => r.json())
-			.then((data) => {
-				if (data !== null) setUser(data.user);
-			});
-	}, []);
+		dispatch(getUser());
+	}, [dispatch]);
+
+	const context = { ...initialState };
 
 	// Router Titles
 	function RouteWithTitle({ title, ...props }) {
@@ -53,56 +49,57 @@ export default function App(props) {
 				</Helmet>
 				<Route {...props} />
 			</>
-		)
+		);
 	}
 
 	// User Data
-	context.setMessages = (messages) => {
-		setMessages(messages);
-	};
-	context.logoutUser = () => {
-		setUser(null);
-	};
-	context.logInUser = (user) => {
-		setUser(user);
-	};
 	return (
-		<AppContext.Provider value={{ ...context, user }}>
-			<PageWrapper>
-				<Switch>
+		<PageWrapper>
+			<Switch>
+				<Route exact={true} path="/">
+					<Home />
+				</Route>
+				<Route path="/download">
+					<CollectData />
+				</Route>
+				<Route path="/upload">
+					<UploadPage />
+				</Route>
+				<Route path="/analyze">
+					<SendForAnalysis />
+				</Route>
+				<Route path="/results">
+					<ViewResults />
+				</Route>
+				<Route path="/result/:slug">
+					<Result />
+				</Route>
 
-					{/* Home/Dashboard */}
-					<Route exact={true} path="/"><Home /></Route>
+				<Route path="/signin">
+					<ProfileLogin />
+				</Route>
+				<Route path="/forgotpassword">
+					<ProfileForgotPassword />
+				</Route>
+				<Route path="/resetpassword/:key">
+					<ProfileResetPassword />
+				</Route>
 
-					{/* Tool */}
-					<Route path="/collect"><CollectData /></Route>
-					<Route path="/upload"><UploadData /></Route>
-					<Route path="/analyze"><SendForAnalysis /></Route>
-					<Route path="/results"><ViewResults /></Route>
-					<Route path="/result/:slug"><Result /></Route>
+				<RouteWithTitle
+					title="Contact us"
+					path="/contact"
+					component={ContactPage}
+					key={document.location.hostname + "/contact"}
+				/>
+				<Route path="/pages/:slug">
+					<CMSPage />
+				</Route>
 
-					{/* Account */}
-					<Route path="/signin"><ProfileLogin /></Route>
-					<Route path="/forgotpassword"><ProfileForgotPassword /></Route>
-					<Route path="/resetpassword/:key"><ProfileResetPassword /></Route>
-
-					{/* Content */}
-					{/* <Route path="/contact"><ContactPage /></Route> */}
-					<RouteWithTitle
-						title="Contact us"
-						path="/contact"
-						component={ContactPage}
-						key={document.location.hostname + '/contact'}
-					/>
-					<Route path="/pages/:slug"><CMSPage /></Route>
-
-					{/* 
+				{/* 
 						<Route exact path="/blog"><BlogDashboard /></Route>
 						<Route path="/blog/:category"><BlogPage /></Route> 
 					*/}
-
-				</Switch>
-			</PageWrapper>
-		</AppContext.Provider>
+			</Switch>
+		</PageWrapper>
 	);
 }

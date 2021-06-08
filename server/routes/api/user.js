@@ -8,21 +8,19 @@ const _ = require("lodash");
  * Update current user profile
  */
 exports.update = async function (req, res) {
-	const messages = { errors: {}, notices: {} };
+	const messages = { errors: [], notices: {} };
 	const terminate = () => {
 		res.json({ messages });
 		return;
 	};
 	const handleError = () => {
-		messages.errors.unknown = { error: "An unknown error has occurred" };
+		messages.errors.push("An unknown error has occurred");
 		terminate();
 		return;
 	};
 
 	if (!req.body.firstName || !req.body.lastName || !req.body.email) {
-		messages.errors.missing = {
-			error: "Name and email are required fields",
-		};
+		messages.errors.push("Name and email are required fields");
 		return terminate();
 	}
 	if (req.body.password1 || req.body.password2) {
@@ -30,21 +28,17 @@ exports.update = async function (req, res) {
 			(req.body.password1 && !req.body.password2) ||
 			(req.body.password2 && !req.body.password1)
 		) {
-			messages.errors.missing = {
-				error: "Both password fields are required",
-			};
+			messages.errors.push("Both password fields are required");
 			return terminate();
 		}
 
 		if (req.body.password1 !== req.body.password2) {
-			messages.errors.passwords = { error: "Passwords do not match" };
+			messages.errors.push("Passwords do not match");
 			return terminate();
 		}
 
 		if (req.body.password1.length < 6 || req.body.password2.length < 6) {
-			messages.errors.passwords = {
-				error: "Password should be minimum 6 characters",
-			};
+			messages.errors.push("Password should be minimum 6 characters");
 			return terminate();
 		}
 	}
@@ -149,7 +143,7 @@ exports.validateResetKey = async function (req, res) {
 		res.json({ success, messages });
 	};
 	const handleError = (msg = "An unknown error has occurred") => {
-		messages.errors.unknown = { error: msg };
+		messages.errors.push(msg);
 		terminate();
 		return;
 	};
@@ -171,7 +165,7 @@ exports.resetPassword = async function (req, res) {
 		res.json({ messages });
 	};
 	const handleError = (msg = "An unknown error has occurred") => {
-		messages.errors.unknown = { error: msg };
+		messages.errors.push(msg);
 		terminate();
 		return;
 	};

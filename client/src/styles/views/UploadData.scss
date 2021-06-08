@@ -1,0 +1,43 @@
+.upload ul.no_bullet {
+  list-style-type:none;
+  padding:0;
+  margin:0
+}
+.upload li.check {
+  background:url("/assets/check.png") no-repeat left top;
+  height:54px;
+  padding-left:44px;
+  padding-top:3px;
+  text-align:left
+}
+.upload .upload-box {
+  text-align:center;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px dashed #bdccd4;
+  background-color: #f6f7f7;
+  border-radius:5px
+}
+.upload .upload-box .upload_logo {
+  display: block;
+  width:50px;
+  height:50px;
+  margin: 0 auto 20px;
+}
+.upload .upload-box p {
+  margin-bottom: 5px;
+}
+.upload .upload-box .underline {
+  text-decoration: underline;
+}
+.upload .upload-box .or {
+  display: block;
+  margin: 10px 0;
+  font-weight: 500;
+  color:#4069b1;
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+.upload .upload-box .selected {
+  margin-top: 20px;
+}

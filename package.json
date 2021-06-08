@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"private": true,
 	"dependencies": {
+		"@babel/runtime": "^7.14.0",
 		"archiver": "^3.1.1",
 		"async": "2.1.4",
 		"azure-storage": "^2.10.3",
@@ -25,7 +26,8 @@
 	"devDependencies": {
 		"eslint-config-keystone": "3.0.0",
 		"nodemon": "^1.19.4",
-		"npm-run-all": "^4.1.5"
+		"npm-run-all": "^4.1.5",
+		"react-svg-loader": "^3.0.3"
 	},
 	"scripts": {
 		"start": "node keystone.js",

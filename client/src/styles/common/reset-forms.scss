@@ -1,0 +1,13 @@
+input,
+textarea,
+select,
+button {
+  color: inherit; 
+  font: inherit; 
+  letter-spacing: inherit; 
+  background-color: transparent;
+  border: none;
+}
+button * {
+  pointer-events: none;
+}

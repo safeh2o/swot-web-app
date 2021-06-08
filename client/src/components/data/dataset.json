@@ -1,0 +1,23 @@
+{
+  "datasets": {
+    "fieldsite": "Name",
+    "location": "Response|Area",
+    "total-samples": "Samples Submitted",
+    "latest-analysis": "Most Recent Analysis Requested",
+    "saftey-level": "FRC Level",
+    "user": "Last Person/People who submitted"
+  },
+  "dataset": {
+    "response": "Country of dataset",
+    "area": "Area of country",
+    "fieldsite": "Fieldsite Name",
+    "last-analyzed": "Last analysed dataset",
+    "paired-samples-submitted": "Number of paired samples submitted",
+    "valid-samples-submitted": "Number of valid samples",
+    "total-samples-submitted": "Total number of submissions to this Fieldsite",
+    "saftey-status-frc-tapstand": "",
+    "saftey-status-frc-household": "",
+    "frc-target-frc-tapstand": "",
+    "saftey-improvements-predicted-improvement": ""
+  }
+}

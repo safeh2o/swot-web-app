@@ -41,11 +41,7 @@ export default function SideBar(props) {
           <div><p>This is part of Stepping Up, a series introducing Canadians to their country’s new sources of inspiration and leadership.</p></div>
         </div>
       </article>
-      <footer>
-        <Link to="/blog" className="more">
-          <span>More News</span>
-        </Link>
-      </footer>
+
     </section >
   );
 }

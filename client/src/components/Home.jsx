@@ -19,54 +19,53 @@ export default class Home extends React.Component {
 							Ensuring water safety by leveraging routine water quality data.
 						</h1>
 					</section>
-					<section id="tool-steps" className="content-window rich-text">
+
+					<section id="tool-steps" className="content-window rich-text bleed-edges">
 						<header>
 							<div className="content-window-title txt-condensed">4 Simple Steps</div>
 							<div className="content-window-title-description">
 								<p>The SWOT provides an accessible platform to manage data and integrates advanced data analytics including machine learning to generate site-specific and evidence-based water treatment recommendations for field teams.</p>
 							</div>
 						</header>
-						<section>
-							<article>
-								<div className="tool-steps">
 
-									<div className="tool-step txt-icon">
-										<i className="icon">1</i>
-										<div className="text">
-											<h2 className="txt-condensed">Download Template, Collect Data</h2>
-											<p>Collect paired, time based water quality data from your field site &mdash; Data collection can be done using either a  digital platform *<a href="https://www.microsoft.com/en-ca/microsoft-365/free-office-online-for-the-web">Microsoft Excel</a>, <a href="https://www.google.com/sheets/">Google Sheets</a>, <a href="https://www.kobotoolbox.org/">KoboToolbox</a> or a paper-pen-to-spreadsheet approach.</p>
-										</div>
-									</div>
-
-									<div className="tool-step txt-icon">
-										<i className="icon">2</i>
-										<div className="text">
-											<h2 className="txt-condensed">Upload Collected Data</h2>
-											<p>Files can be uploaded via the Upload page (.xls, .xlsx, .csv)</p>
-										</div>
-									</div>
-
-									<div className="tool-step txt-icon">
-										<i className="icon">3</i>
-										<div className="text">
-											<h2 className="txt-condensed">Request Analysis of Data</h2>
-											<p>Machine learning and numerial modelling analytics process the data.</p>
-										</div>
-									</div>
-
-									<div className="tool-step txt-icon">
-										<i className="icon">4</i>
-										<div className="text">
-											<h2 className="txt-condensed">Get FRC recommendations</h2>
-											<p>Your site-specific chlorination target will be available within minutes of a analysis request. A secure repository for historical data can also be used for reporting purposes.</p>
-											<p>Guidance can be viewed online or sent by email.</p>
-										</div>
-									</div>
-
-								</div>
-							</article>
+						<section className="tool-step txt-icon">
+							<i className="icon">1</i>
+							<div className="text">
+								<h2 className="txt-condensed">Download Template, Collect Data</h2>
+								<p>Collect paired, time based water quality data from your field site &mdash; Data collection can be done using either a  digital platform *<a href="https://www.microsoft.com/en-ca/microsoft-365/free-office-online-for-the-web">Microsoft Excel</a>, <a href="https://www.google.com/sheets/">Google Sheets</a>, <a href="https://www.kobotoolbox.org/">KoboToolbox</a> or a paper-pen-to-spreadsheet approach.</p>
+							</div>
 						</section>
-						{/* <footer></footer> */}
+
+						<section className="tool-step txt-icon">
+							<i className="icon">2</i>
+							<div className="text">
+								<h2 className="txt-condensed">Upload Collected Data</h2>
+								<p>Files can be uploaded via the Upload page (.xls, .xlsx, .csv)</p>
+							</div>
+						</section>
+
+						<section className="tool-step txt-icon">
+							<i className="icon">3</i>
+							<div className="text">
+								<h2 className="txt-condensed">Request Analysis of Data</h2>
+								<p>Machine learning and numerial modelling analytics process the data.</p>
+							</div>
+						</section>
+
+						<section className="tool-step txt-icon">
+							<i className="icon">4</i>
+							<div className="text">
+								<h2 className="txt-condensed">Get FRC recommendations</h2>
+								<p>Your site-specific chlorination target will be available within minutes of a analysis request. A secure repository for historical data can also be used for reporting purposes.</p>
+								<p>Guidance can be viewed online or sent by email.</p>
+							</div>
+						</section>
+
+						<footer className="more">
+							<Link to="/signin">
+								<span>Login/Signup to Get Started</span>
+							</Link>
+						</footer>
 					</section>
 				</>
 			)

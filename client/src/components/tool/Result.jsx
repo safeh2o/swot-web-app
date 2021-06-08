@@ -54,9 +54,9 @@ class Result extends Component {
           </footer>
         </section>
 
-        <section id="data-submitted" className="content-window">
+        <section className="content-window result-window-stats">
           <header>
-            <div className="content-window-title">data Submitted</div>
+            <div className="content-window-title">Data Submitted</div>
             <div className="section-options"></div>
           </header>
           <section>
@@ -89,25 +89,30 @@ class Result extends Component {
               </label>
             </div>
           </section>
-          <footer></footer>
+          <footer>
+            <a class="button green" href="#">
+              <span>Download Report</span>
+            </a>
+            <a class="button yellow" href="#">
+              <span>Re-Analyze</span>
+            </a>
+          </footer>
         </section>
 
-
-        <section className="content-window">
+        <section className="content-window result-window-stats">
           <header>
             <div className="content-window-title">Current water safety status</div>
             <div className="section-options"></div>
           </header>
           <section>
-            <div className="stat">
-              <div>
-                <div className="txt-apc">
+            <div className="flex-group">
+              <label className="space half-width">
+                <div>
                   <span className="value">62</span>
-                  <span className="unit txt-lrg">%</span>
+                  <span className="unit">%</span>
                 </div>
-                <label className="txt-sm">FRC at the Tapstand</label>
-              </div>
-              <div></div>
+                <span className="label">FRC at the Tapstand</span>
+              </label>
               <div>
                 <span className="txt-icon txt-sm help">
                   <i><img src="assets/icons/guide.svg" /></i>
@@ -137,7 +142,7 @@ class Result extends Component {
           <footer></footer>
         </section>
 
-        <section className="content-window">
+        <section className="content-window result-window-stats">
           <header>
             <div className="content-window-title">FRC Target</div>
             <div className="section-options"></div>
@@ -164,7 +169,7 @@ class Result extends Component {
           <footer></footer>
         </section>
 
-        <section className="content-window">
+        <section className="content-window result-window-stats">
           <header>
             <div className="content-window-title">Water Safety Improvements</div>
             <div className="section-options"></div>

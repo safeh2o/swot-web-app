@@ -228,6 +228,7 @@
   a:not(h2 a):not(h3 a):not(h4 a):not(h5 a):not(h6 a):not(button):not(.button) {
     font-weight: 600;
     text-decoration: underline 1px dotted;
+    text-decoration: underline 1px #f3c22b;
 
     &:hover {
       color: #0056b3;

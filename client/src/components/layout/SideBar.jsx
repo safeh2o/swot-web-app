@@ -110,7 +110,7 @@ export default function SideBar() {
 					{user.isAdmin === true && (
 						<nav aria-label="Admin Menu">
 							<span title="Admin Header" className="nav-item-header">
-								<span>Admin</span>
+								<span>Manage</span>
 								<i><svg
 									xmlns="http://www.w3.org/2000/svg"
 									width="40px" height="40px"

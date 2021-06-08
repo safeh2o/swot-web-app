@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-import AppContext from "../../contexts/AppContext";
 import { userSelectors } from "../../reducers/user";
 
 export default function SideBar() {

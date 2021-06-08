@@ -1,11 +1,9 @@
 import React from "react";
-import { useRef, useEffect, useState, useContext } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { getUser } from "../../reducers/user";
 import { handleServerMessages } from "../../reducers/notifications";
-
-import FlashMessages from "../elements/FlashMessages";
 
 export default function ProfileLogin(props) {
 	const form = useRef(null);

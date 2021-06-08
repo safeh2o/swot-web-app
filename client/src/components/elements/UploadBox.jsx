@@ -1,10 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import _ from "lodash";
 import { useDispatch } from "react-redux";
-import { addError, addNotice } from "../../reducers/notifications";
-import * as constants from "../../constants";
 import { DropzoneArea } from "material-ui-dropzone";
 
 const useStyles = makeStyles((theme) => ({

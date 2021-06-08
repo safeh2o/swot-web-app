@@ -14,7 +14,9 @@ export const notificationsSlice = createSlice({
 			state.errors.push(payload);
 		},
 		addNotice: (state, { payload: { label, notice } }) => {
-			state.notices[label] = notice;
+			if (payload) {
+				state.notices[label] = notice;
+			}
 		},
 		handleServerMessages: (state, { payload: { notices, errors } }) => {
 			state.notices = notices || {};

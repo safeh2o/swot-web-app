@@ -38,7 +38,7 @@ const FromSlider_HouseholdDuration_Hours = [
 ]
 
 const SliderThumbBoxShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';
-  
+
 const FormSlider = withStyles({
   root: {
     color: '#4069b1',
@@ -1182,113 +1182,113 @@ const OptionsFieldsites = [
 ];
 
 export default class SendForAnalysis extends React.Component {
-	constructor(props) {
-		super(props);
-		this.analyzeForm = React.createRef();
-		this.formPayload = {};
-	}
+  constructor(props) {
+    super(props);
+    this.analyzeForm = React.createRef();
+    this.formPayload = {};
+  }
 
-	componentDidMount() {
-		this.populateDates();
-	}
+  componentDidMount() {
+    this.populateDates();
+  }
 
-	handleSubmit(e) {
-		e.preventDefault();
-		const formData = new FormData();
-		const formObj = this.analyzeForm.current;
-		const jqFormObj = $(formObj);
-		const { fieldsite } = this.formPayload;
-		const fieldsiteName = fieldsite.name;
-		const startDate = formObj.startDate.value;
-		const endDate = formObj.endDate.value;
+  handleSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData();
+    const formObj = this.analyzeForm.current;
+    const jqFormObj = $(formObj);
+    const { fieldsite } = this.formPayload;
+    const fieldsiteName = fieldsite.name;
+    const startDate = formObj.startDate.value;
+    const endDate = formObj.endDate.value;
 
-		formData.append("fieldsite", fieldsite.id);
-		formData.append("datasetName", formObj.datasetName.value);
-		formData.append("datasetDescription", formObj.datasetDescription.value);
-		formData.append("maxDurationHours", formObj.maxDurationHours.value);
-		formData.append("confidenceLevel", formObj.confidenceLevel.value);
-		formData.append("startDate", startDate);
-		formData.append("endDate", endDate);
+    formData.append("fieldsite", fieldsite.id);
+    formData.append("datasetName", formObj.datasetName.value);
+    formData.append("datasetDescription", formObj.datasetDescription.value);
+    formData.append("maxDurationHours", formObj.maxDurationHours.value);
+    formData.append("confidenceLevel", formObj.confidenceLevel.value);
+    formData.append("startDate", startDate);
+    formData.append("endDate", endDate);
 
-		let err = false;
+    let err = false;
 
-		const iter = formData.keys();
-		let fieldKey = null;
-		while ((fieldKey = iter.next())) {
-			if (fieldKey.done) {
-				break;
-			}
-			let fieldValue = formData.get(fieldKey.value);
-			if (!fieldValue) {
-				this.fieldError(jqFormObj, fieldKey.value);
-				err = true;
-			}
-		}
-		if (new Date(startDate) > new Date(endDate)) {
-			this.fieldError(jqFormObj, "startDate");
-		}
-		if (err) {
-			return;
-		}
+    const iter = formData.keys();
+    let fieldKey = null;
+    while ((fieldKey = iter.next())) {
+      if (fieldKey.done) {
+        break;
+      }
+      let fieldValue = formData.get(fieldKey.value);
+      if (!fieldValue) {
+        this.fieldError(jqFormObj, fieldKey.value);
+        err = true;
+      }
+    }
+    if (new Date(startDate) > new Date(endDate)) {
+      this.fieldError(jqFormObj, "startDate");
+    }
+    if (err) {
+      return;
+    }
 
-		showSpinner();
+    showSpinner();
 
-		fetch("/api/upload/analyze", { method: "POST", body: formData })
-			.then((res) =>
-				res.json().then((data) => {
-					if (res.ok) {
-						showConfirmModal(
-							`Analyzing ${fieldsiteName} from ${startDate} to ${endDate}.`
-						);
-					} else {
-						logError({ status: data.status, message: data.error });
-					}
-				})
-			)
-			.catch((err) => {
-				logError(err);
-			})
-			.finally(() => {
-				hideSpinner();
-			});
-	}
+    fetch("/api/upload/analyze", { method: "POST", body: formData })
+      .then((res) =>
+        res.json().then((data) => {
+          if (res.ok) {
+            showConfirmModal(
+              `Analyzing ${fieldsiteName} from ${startDate} to ${endDate}.`
+            );
+          } else {
+            logError({ status: data.status, message: data.error });
+          }
+        })
+      )
+      .catch((err) => {
+        logError(err);
+      })
+      .finally(() => {
+        hideSpinner();
+      });
+  }
 
-	populateDates() {
-		// get current time
-		const currTime = new Date();
-		// round to second
-		// currTime.setTime(Math.floor(currTime / 60000) * 60000);
-		$("#startDate")[0].valueAsNumber = $("#endDate")[0].valueAsNumber =
-			currTime - currTime.getTimezoneOffset() * 60000;
-	}
+  populateDates() {
+    // get current time
+    const currTime = new Date();
+    // round to second
+    // currTime.setTime(Math.floor(currTime / 60000) * 60000);
+    $("#startDate")[0].valueAsNumber = $("#endDate")[0].valueAsNumber =
+      currTime - currTime.getTimezoneOffset() * 60000;
+  }
 
-	fieldError(formElement, name) {
-		const input = formElement.find(`[name=${name}][id=${name}]`);
-		let label = formElement.find(`label[for=${input.attr("id")}]`);
-		if (!label.length) {
-			label = input.closest("label");
-		}
+  fieldError(formElement, name) {
+    const input = formElement.find(`[name=${name}][id=${name}]`);
+    let label = formElement.find(`label[for=${input.attr("id")}]`);
+    if (!label.length) {
+      label = input.closest("label");
+    }
 
-		shakeElement(input);
-		shakeElement(label);
+    shakeElement(input);
+    shakeElement(label);
 
-		input.one("input", () => {
-			label.removeClass("text-danger");
-		});
-		label.addClass("text-danger");
-	}
-	render() {
-		return (
-			<form
-				role="form"
-				autoComplete="off"
-				ref={this.analyzeForm}
-				onSubmit={(e) => {
-					this.handleSubmit(e);
-				}}>
+    input.one("input", () => {
+      label.removeClass("text-danger");
+    });
+    label.addClass("text-danger");
+  }
+  render() {
+    return (
+      <form
+        role="form"
+        autoComplete="off"
+        ref={this.analyzeForm}
+        onSubmit={(e) => {
+          this.handleSubmit(e);
+        }}>
 
         <h2 className="content-title">Choose a Location</h2>
-      
+
         <section className="content-window">
           <header>
             <div className="content-window-title">Location</div>
@@ -1311,7 +1311,7 @@ export default class SendForAnalysis extends React.Component {
             </div>
           </section>
           <footer>
-            <span className="txt-icon notice txt-sm">
+            <span className="txt-icon notice">
               <i><img src="assets/icons/notice.svg" alt="" /></i>
               <span>Cant find your Area or Fieldsite?  ...  <a href="/contact">Contact Us</a></span>
             </span>
@@ -1321,22 +1321,22 @@ export default class SendForAnalysis extends React.Component {
         <h2 className="content-title">Provide a Date Range</h2>
 
         <section id="date-range" className="content-window">
-          
+
           <section>
             <span className="predefined-range-title">Pre Defined</span>
             {/* {/* <!-- --> */}
             <label className="radio block">
-              <input type="radio" className="radio-input" name="range-option" id="range30"/>
+              <input type="radio" className="radio-input" name="range-option" id="range30" />
               <span className="label">Last 30 Days</span>
             </label>
             {/* <!-- --> */}
             <label className="radio block">
-              <input type="radio" className="radio-input" name="range-option" id="range60"/>
+              <input type="radio" className="radio-input" name="range-option" id="range60" />
               <span className="label">Last 60 Days</span>
             </label>
             {/* <!-- --> */}
             <label className="radio block">
-              <input type="radio" className="radio-input" name="range-option" id="rangeAll"/>
+              <input type="radio" className="radio-input" name="range-option" id="rangeAll" />
               <span className="label">All data Available</span>
             </label>
             {/* <!-- --> */}
@@ -1352,7 +1352,7 @@ export default class SendForAnalysis extends React.Component {
                       */}
                       <TextField
                         id="startDate"
-                        name="startDate" 
+                        name="startDate"
                         label=""
                         type="date"
                         defaultValue="YYYY-MM-DD"
@@ -1373,7 +1373,7 @@ export default class SendForAnalysis extends React.Component {
                       {/* [pattern="\d{4}-\d{2}-\d{2}"] fallback for text input to normalize YYYY-MM-DD input */}
                       <TextField
                         id="endDate"
-                        name="endDate" 
+                        name="endDate"
                         label=""
                         type="date"
                         defaultValue="YYYY-MM-DD"
@@ -1401,7 +1401,7 @@ export default class SendForAnalysis extends React.Component {
                 <React.Fragment>
                   <Typography variant="h5">Choosing a Date Range</Typography>
                   <Typography variant="body1">
-                    <em>{"And here's"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '} {"It's very engaging. Right?"}<br/>
+                    <em>{"And here's"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '} {"It's very engaging. Right?"}<br />
                     <a href="">Learn more...</a>
                   </Typography>
                 </React.Fragment>
@@ -1432,11 +1432,11 @@ export default class SendForAnalysis extends React.Component {
                   <span key={hour.value}><span>{hour.value}</span></span>
                 ))}
               </label>
-              <FormSlider 
-                name="household-duration" 
-                aria-label="Household Duration" 
-                defaultValue={3} 
-                marks={FromSlider_HouseholdDuration_Hours} 
+              <FormSlider
+                name="household-duration"
+                aria-label="Household Duration"
+                defaultValue={3}
+                marks={FromSlider_HouseholdDuration_Hours}
                 valueLabelDisplay="on"
                 min={3}
                 max={24}
@@ -1470,7 +1470,7 @@ export default class SendForAnalysis extends React.Component {
           </footer>
 
         </section>
-        
+
         <Accordion id="confidence-level" className="content-window">
 
           <AccordionSummary className="header" expandIcon={<MuiAccordionExpandMoreIcon />}>
@@ -1479,28 +1479,28 @@ export default class SendForAnalysis extends React.Component {
             <div className="section-options"></div>
 
           </AccordionSummary>
-          
+
           <AccordionDetails>
 
             <section className="section">
 
               {/* {/* <!-- --> */}
               <label htmlFor="mediumDecayScenario" className="radio block">
-                <input 
-                  type="radio" 
-                  className="radio-input" 
-                  name="DecayScenario" 
+                <input
+                  type="radio"
+                  className="radio-input"
+                  name="DecayScenario"
                   id="mediumDecayScenario"
                 />
                 <span className="label">Medium Decay Scenario</span>
               </label>
-              
+
               {/* <!-- --> */}
               <label htmlFor="BalancedDecayScenario" className="radio block">
-                <input 
-                  type="radio" 
-                  className="radio-input" 
-                  name="DecayScenario" 
+                <input
+                  type="radio"
+                  className="radio-input"
+                  name="DecayScenario"
                   id="BalancedDecayScenario"
                 />
                 <span className="label">Optimum / Balanced Decay Scenario</span>
@@ -1508,10 +1508,10 @@ export default class SendForAnalysis extends React.Component {
 
               {/* <!-- --> */}
               <label htmlFor="MaximumDecayScenario" className="radio block">
-                <input 
-                  type="radio" 
-                  className="radio-input" 
-                  name="DecayScenario" 
+                <input
+                  type="radio"
+                  className="radio-input"
+                  name="DecayScenario"
                   id="MaximumDecayScenario"
                 />
                 <span className="label">Maximum Decay Scenario</span>
@@ -1543,29 +1543,29 @@ export default class SendForAnalysis extends React.Component {
             </footer>
 
           </AccordionDetails>
-          
+
         </Accordion>
 
         <section id="" className="content-window">
           <section>
             <div className="submission-wrap">
-            <input type="submit" value="Run Analysis" className="button green" readOnly />
-            <input type="reset" value="Reset Fields" className="button" readOnly />
+              <input type="submit" value="Run Analysis" className="button green" readOnly />
+              <input type="reset" value="Reset Fields" className="button" readOnly />
             </div>
           </section>
 
           <footer>
-            
-            <span className="txt-icon notice txt-sm">
+
+            <span className="txt-icon notice">
               <i><img src="assets/icons/notice.svg" alt="" /></i>
               <span>Make sure all fields are filled out</span>
             </span>
 
           </footer>
-          
+
         </section>
 
       </form>
-		);
-	}
+    );
+  }
 }

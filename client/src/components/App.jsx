@@ -76,7 +76,7 @@ export default function App(props) {
 					<Route exact={true} path="/"><Dashboard /></Route>
 
 					{/* Tool */}
-					<Route path="/download"><CollectData /></Route>
+					<Route path="/collect"><CollectData /></Route>
 					<Route path="/upload"><UploadData /></Route>
 					<Route path="/analyze"><SendForAnalysis /></Route>
 					<Route path="/results"><ViewResults /></Route>

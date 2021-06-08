@@ -80,13 +80,13 @@ export default function SideBar() {
 									c-2.1,3.4-5.5,4.8-5.5,4.8s-1.7-2.7-4.1-4.8c0,1.2-0.5,2.3-1.1,3.2C23.3,24.5,21.8,25.4,20,25.4z"/>
 								<path fill="#99D8FF" d="M35,20L35,20L35,20c0-8.3-6.7-15-15-15c3.4,2.1,4.8,5.5,4.8,5.5s-2.7,1.7-4.8,4.1
 									c1.2,0,2.3,0.5,3.3,1.2c1.3,1,2.2,2.5,2.2,4.3l0,0l0,0l0,0l0,0c2.3,2.1,4.1,4.8,4.1,4.8S32.9,23.4,35,20L35,20L35,20z"/>
-								<path fill="none" stroke="#3F4344" stroke-width="1.5" stroke-miterlimit="10" d="M15.7,16.7
+								<path fill="none" stroke="#3F4344" strokeWidth="1.5" strokeMiterlimit="10" d="M15.7,16.7
 									c1-1.3,2.5-2.2,4.3-2.2l0,0c2.1-2.3,4.8-4.1,4.8-4.1S23.4,7.1,20,5l0,0C12.8,5,6.8,10,5.4,16.7"/>
-								<path fill="none" stroke="#3F4344" stroke-width="1.5" stroke-miterlimit="10" d="M16.7,24.3L16.7,24.3
+								<path fill="none" stroke="#3F4344" strokeWidth="1.5" strokeMiterlimit="10" d="M16.7,24.3L16.7,24.3
 									c-1.3-1-2.2-2.5-2.2-4.3c-2.3-2.1-3.4-4.8-3.4-4.8S7.1,16.6,5,20c0,7.2,5,13.1,11.7,14.6"/>
-								<path fill="none" stroke="#3F4344" stroke-width="1.5" stroke-miterlimit="10" d="M24.3,23.2
+								<path fill="none" stroke="#3F4344" strokeWidth="1.5" strokeMiterlimit="10" d="M24.3,23.2
 									c-1,1.3-2.5,2.2-4.3,2.2c-2.1,2.3-4.8,4.1-4.8,4.1s1.4,3.4,4.8,5.5c7.2,0,13.2-5,14.7-11.8"/>
-								<path fill="none" stroke="#3F4344" stroke-width="1.5" stroke-miterlimit="10" d="M23.3,15.7
+								<path fill="none" stroke="#3F4344" strokeWidth="1.5" strokeMiterlimit="10" d="M23.3,15.7
 									c1.3,1,2.2,2.5,2.2,4.3l0,0l0,0l0,0l0,0c2.3,2.1,4.1,4.8,4.1,4.8s3.4-1.4,5.5-4.8l0,0l0,0l0,0l0,0c0-7.2-5-13.2-11.7-14.6"/>
 							</svg></i>
 						</span>

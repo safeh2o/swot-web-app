@@ -190,7 +190,7 @@ class ContactPage extends Component {
 									value="Reset Fields"
 								/>
 							</div>
-							<div className="txt-icon notice txt-sm">
+							<div className="txt-icon notice">
 								<i><img src="assets/icons/notice.svg" alt="" /></i>
 								<span>By clicking Submit, you agree to our <Link to="pages/terms-of-use">Terms of Use</Link>&nbsp;
 								and our <Link to="pages/privacy-policy">Privacy Policy</Link>.</span>

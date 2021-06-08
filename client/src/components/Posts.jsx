@@ -18,6 +18,16 @@ export default function SideBar(props) {
             <img src="#" alt="" />
           </figure>
           <div>
+            <time dateTime="Fri, 30 Apr 2021 20:34:29 +0000">December 9th, 2020</time>
+            <h2><a href="#">New Research Grant: SWOT awarded major research grant from Humanitarian Innovation Fund/Elrha</a></h2>
+            <div><p>SWOT awarded $0.5 million WASH Evidence Challenge grant from the HIF.</p></div>
+          </div>
+        </article>
+        <article className="block">
+          <figure>
+            <img src="#" alt="" />
+          </figure>
+          <div>
             <time dateTime="Fri, 30 Apr 2021 20:34:29 +0000">May 22, 2021</time>
             <h2><a href="#">Global WASH Cluster (GWC) Annual Meeting Satellite</a></h2>
             <div><p>Check out a recent presentation made during one of the events.</p></div>

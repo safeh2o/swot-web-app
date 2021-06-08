@@ -15,10 +15,10 @@ export default class SideBar extends React.Component {
 			return (
 				<>
 					<li className="nav-item get-started show-medium-up">
-						<a href="/collect" title="Get Started" className="txt-icon">
+						<Link to="/collect" title="Get Started" className="txt-icon">
 							<i><img src="/assets/icons/header-nav-swot.svg" alt="" /></i>
 							<span className="label">Get Started</span>
-						</a>
+						</Link>
 					</li>
 					{user.isAdmin === true && (
 						<UserDetailsModal />
@@ -115,7 +115,7 @@ export default class SideBar extends React.Component {
 						{this.renderRightButtons('get-started')}
 
 						<li className="nav-item nav-mobile">
-							<button class="button" onClick={() => this.toggleMobileNav()}>
+							<button className="button" onClick={() => this.toggleMobileNav()}>
 								<i><img
 									className="open"
 									src="/assets/icons/header-nav-mobile.svg"

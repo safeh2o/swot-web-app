@@ -66,8 +66,8 @@ export default function PageWrapper(props) {
 							>
 								<i>
 									<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 40" xmlSpace="preserve">
-										<line fill="none" stroke="currentColor" strokeWidth="3" strokMiterlimit="10" x1="7" y1="33" x2="33" y2="7" />
-										<line fill="none" stroke="currentColor" strokeWidth="3" strokMiterlimit="10" x1="7" y1="7" x2="33" y2="33" />
+										<line fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" x1="7" y1="33" x2="33" y2="7" />
+										<line fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" x1="7" y1="7" x2="33" y2="33" />
 									</svg>
 								</i>
 							</button>

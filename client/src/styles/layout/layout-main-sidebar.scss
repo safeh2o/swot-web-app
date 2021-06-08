@@ -187,4 +187,8 @@ nav .dashboard {
     box-shadow: 0px 0px 0px 4px lighten(#4069b1, 20%);
     transition-delay: 0s;
   }
+  .nav-item-side.active {
+    border-color: #161819;
+    box-shadow: 0px 0px 0px 2px lighten(#161819, 20%);
+  }
 }

@@ -8,7 +8,6 @@ main {
     cursor: pointer;
     font-size: 1.15rem;
     font-weight: 500;
-    line-height: 40px;
     color: #161819;
     min-width: 100px;
     transition: filter 0.2s ease;
@@ -20,11 +19,12 @@ main {
     }
   }
   .button:hover {
+    text-decoration: none;
     filter: brightness(120%);
   }
   .button:active {
-    transform: scale(0.995);
-    filter: brightness(90%);
+    transform: scale(1.0025);
+    filter: brightness(98.5%) !important;
     transition-duration: 0s;
   }
 
@@ -53,6 +53,15 @@ main {
   .button.yellow {
     background-color: #f3c22b;
     border: 2px solid #3f4344;
+  }
+
+  .button.txt-icon {
+    i {
+      svg,
+      img {
+        transform: translate(-50%, -50%) scale(1.25);
+      }
+    }
   }
 
   .submission-wrap {
@@ -84,9 +93,6 @@ main {
   .guide {
     font-weight: 500;
     color: #747e87;
-  }
-  .notice {
-    color: #9b99af;
   }
   .guide.txt-icon,
   .notice.txt-icon {

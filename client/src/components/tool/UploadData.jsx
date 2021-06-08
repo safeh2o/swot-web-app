@@ -1184,7 +1184,7 @@ export default function UploadData(props) {
 					</div>
 				</section>
 				<footer>
-					<span className="txt-icon notice txt-sm">
+					<span className="txt-icon notice">
 						<i><img src="assets/icons/notice.svg" alt="" /></i>
 						<span>Cant find your Area or Fieldsite?  ...  <a href="/contact">Contact Us</a></span>
 					</span>
@@ -1221,12 +1221,12 @@ export default function UploadData(props) {
 
 				<footer>
 
-					<div className="txt-icon notice txt-sm">
+					<div className="txt-icon notice">
 						<i><img src="assets/icons/notice.svg" alt="" /></i>
 						<span>Ensure all required columns have data ... <a href="#">whats this?</a></span>
 					</div>
 
-					<div className="txt-icon notice txt-sm">
+					<div className="txt-icon notice">
 						<i><img src="assets/icons/notice.svg" alt="" /></i>
 						<span>Save your dataset either as a .csv or .xlsx file.</span>
 					</div>
@@ -1254,7 +1254,7 @@ export default function UploadData(props) {
 				</section>
 				<footer>
 
-					<span className="txt-icon notice txt-sm">
+					<span className="txt-icon notice">
 						<i><img src="assets/icons/notice.svg" alt="" /></i>
 						<span>Duplicates are rows with the same dates and times</span>
 					</span>
@@ -1272,7 +1272,7 @@ export default function UploadData(props) {
 
 				<footer>
 
-					<span className="txt-icon notice txt-sm">
+					<span className="txt-icon notice">
 						<i><img src="assets/icons/notice.svg" alt="" /></i>
 						<span>Make sure all fields are filled out</span>
 					</span>

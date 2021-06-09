@@ -43,7 +43,7 @@ exports.contact = async function (req, res) {
 				updater.process(
 					req.body,
 					{
-						fields: "name, email, reason, message",
+						fields: "name, email, reason, message, phone",
 					},
 					function (err) {
 						if (err) {

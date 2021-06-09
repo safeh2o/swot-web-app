@@ -229,64 +229,6 @@ export default function AnalyzePage(props) {
 			});
 	}
 
-	function handleFormSubmit2(e) {
-		const formData = new FormData();
-		const { fieldsite } = state;
-		const fieldsiteName = fieldsite.name;
-		const startDate = formObj.startDate.value;
-		const endDate = formObj.endDate.value;
-
-		formData.append("fieldsite", fieldsite.id);
-		formData.append("datasetName", formObj.datasetName.value);
-		formData.append("datasetDescription", formObj.datasetDescription.value);
-		formData.append("maxDurationHours", formObj.maxDurationHours.value);
-		formData.append("confidenceLevel", formObj.confidenceLevel.value);
-		formData.append("startDate", startDate);
-		formData.append("endDate", endDate);
-
-		let err = false;
-
-		const iter = formData.keys();
-		let fieldKey = null;
-		while ((fieldKey = iter.next())) {
-			if (fieldKey.done) {
-				break;
-			}
-			let fieldValue = formData.get(fieldKey.value);
-			if (!fieldValue) {
-				fieldError(jqFormObj, fieldKey.value);
-				err = true;
-			}
-		}
-		if (new Date(startDate) > new Date(endDate)) {
-			fieldError(jqFormObj, "startDate");
-		}
-		if (err) {
-			return;
-		}
-
-		showSpinner();
-
-		fetch("/api/upload/analyze", { method: "POST", body: formData })
-			.then((res) =>
-				res.json().then((data) => {
-					if (res.ok) {
-						showConfirmModal(
-							`Analyzing ${fieldsiteName} from ${startDate} to ${endDate}.`
-						);
-					} else {
-						logError({ status: data.status, message: data.error });
-					}
-				})
-			)
-			.catch((err) => {
-				logError(err);
-			})
-			.finally(() => {
-				hideSpinner();
-			});
-	}
-
 	function handleDateChange(newRange) {
 		let startDate = null,
 			endDate = null;
@@ -505,16 +447,16 @@ export default function AnalyzePage(props) {
 					className="header"
 					expandIcon={<MuiAccordionExpandMoreIcon />}
 				>
-					<div className="content-window-title">
-						Modelling Confidence Level (Optional)
-					</div>
+					<div className="content-window-title">Advanced Options</div>
 					<div className="section-options"></div>
 				</AccordionSummary>
 
 				<AccordionDetails>
 					<section className="section">
 						<FormControl component="fieldset">
-							<FormLabel component="legend">Gender</FormLabel>
+							<FormLabel component="legend">
+								Confidence Level
+							</FormLabel>
 							<RadioGroup
 								aria-label="gender"
 								name="gender1"

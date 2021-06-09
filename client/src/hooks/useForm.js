@@ -7,7 +7,7 @@ function reducer(prevState, updates) {
 	};
 }
 
-export default (initialValues) => {
+const useForm = (initialValues) => {
 	const [state, dispatch] = useReducer(reducer, initialValues);
 
 	function update(updates) {
@@ -20,3 +20,5 @@ export default (initialValues) => {
 
 	return { state, update, reset };
 };
+
+export default useForm;

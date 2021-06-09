@@ -37,8 +37,8 @@ export default function SideBar(props) {
 					<UserDetailsModal />
 					{user.isAdmin === true && (
 						<li className="nav-item nav-profile admin">
-							<Link
-								to="/admin"
+							<a
+								href="/admin"
 								className="admin"
 								title="SWOT Admin Panel"
 								color="inherit"
@@ -46,7 +46,7 @@ export default function SideBar(props) {
 								<i>
 									<AdminIcon />
 								</i>
-							</Link>
+							</a>
 						</li>
 					)}
 					<li className="nav-item nav-profile signout">

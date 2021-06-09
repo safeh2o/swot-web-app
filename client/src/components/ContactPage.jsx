@@ -1,63 +1,97 @@
-import React, { Component, useContext, useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 import AppContext from "../contexts/AppContext";
-import FlashMessages from "./elements/FlashMessages";
 import NoteLine from "./elements/NoteLine";
 import ReCAPTCHA from "react-google-recaptcha";
 import useForm from "../hooks/useForm";
-import { Button } from "@material-ui/core";
+import {
+	Button,
+	FormControl,
+	FormHelperText,
+	makeStyles,
+	MenuItem,
+	Select,
+	TextField,
+	Typography,
+} from "@material-ui/core";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { addNotice } from "../reducers/notifications";
+import { addError, addNotice, setLoading } from "../reducers/notifications";
+
+const useStyles = makeStyles((theme) => ({
+	root: {
+		"& > *": {
+			margin: theme.spacing(1),
+		},
+	},
+	formControl: {
+		margin: theme.spacing(1),
+		minWidth: 120,
+	},
+	form: {
+		flexDirection: "column",
+		display: "flex",
+		width: "50%",
+	},
+}));
 
 export default function ContactPage(props) {
 	const { grecaptcha } = useContext(AppContext);
 	const [contactReasons, setContactReasons] = useState([]);
+	const [captchaResponse, setCaptchaResponse] = useState("");
+	const [disabled, setDisabled] = useState(true);
+	const classes = useStyles();
 	const { state, update, reset } = useForm({
 		name: "",
 		email: "",
 		phone: "",
-		reason: null,
+		reason: "",
 		message: "",
 		captcha: null,
 	});
 	const dispatch = useDispatch();
 
+	function getTextChangeHandler(fieldName) {
+		return (e) => {
+			update({ [fieldName]: e.target.value });
+		};
+	}
+
 	useEffect(() => {
-		fetch("/api/contactreasons")
-			.then((res) => res.json())
-			.then((data) => {
-				// setState({ contactReasons: data });
-				setContactReasons(data);
-			});
+		axios("/api/contactreasons").then(({ data }) => {
+			setContactReasons(data);
+		});
 	}, []);
 
-	function handleRecaptcha(e) {
-		console.log(e);
-	}
+	useEffect(() => {
+		const { name, email, reason, message } = state;
+		setDisabled(!name || !email || !reason || !message || !captchaResponse);
+	}, [state, captchaResponse]);
 
 	function handleSubmit() {
-		axios.post("/api/contact", state).then((res) => {
-			dispatch(
-				addNotice({
-					label: "success",
-					notice: "Thank you, we will get back to you shortly!",
-				})
-			);
-		});
-	}
-
-	function renderSimpleInput(type, name, extraProps = {}) {
-		return (
-			<input
-				type={type}
-				name={name}
-				className="form-control"
-				{...extraProps}
-			/>
-		);
+		dispatch(setLoading(true));
+		axios
+			.post("/api/contact", {
+				...state,
+				"g-recaptcha-response": captchaResponse,
+			})
+			.then((res) => {
+				dispatch(
+					addNotice({
+						label: "success",
+						notice: "Thank you, we will get back to you shortly!",
+					})
+				);
+			})
+			.catch((err) => {
+				dispatch(
+					addError("An error occurred trying to submit this form")
+				);
+			})
+			.finally(() => {
+				dispatch(setLoading(false));
+			});
 	}
 
 	return (
@@ -65,91 +99,97 @@ export default function ContactPage(props) {
 			<form>
 				<section className="content-window">
 					<section>
-						<div className="content-description">
-							<p>
-								To set up an account to use the SWOT; <br />
-								Or if you have any questions; <br />
-								Please contact us:
-							</p>
+						<Typography variant="h3">Contact Us</Typography>
+						<div className={classes.form}>
+							<FormControl className={classes.formControl}>
+								<TextField
+									required
+									label="Name"
+									value={state.name}
+									id="name"
+									onChange={getTextChangeHandler("name")}
+								/>
+								<FormHelperText>
+									So we can address you
+								</FormHelperText>
+							</FormControl>
+							<FormControl className={classes.formControl}>
+								<TextField
+									id="email"
+									type="email"
+									label="Email"
+									value={state.email}
+									required
+									onChange={getTextChangeHandler("email")}
+								/>
+								<FormHelperText>
+									We promise not to spam you
+								</FormHelperText>
+							</FormControl>
+							<FormControl className={classes.formControl}>
+								<TextField
+									id="phone"
+									type="phone"
+									label="Phone"
+									value={state.phone}
+									onChange={getTextChangeHandler("phone")}
+								/>
+								<FormHelperText>
+									Please include your country code
+								</FormHelperText>
+							</FormControl>
+							<FormControl className={classes.formControl}>
+								<Select
+									value={state.reason}
+									onChange={(event) => {
+										update({ reason: event.target.value });
+									}}
+									displayEmpty
+									required
+								>
+									<MenuItem value="" disabled>
+										(select reason)
+									</MenuItem>
+									{contactReasons.map((reason) => (
+										<MenuItem
+											key={reason.value}
+											value={reason.value}
+										>
+											{reason.label}
+										</MenuItem>
+									))}
+								</Select>
+								<FormHelperText>
+									How can we help you?
+								</FormHelperText>
+							</FormControl>
+							<FormControl className={classes.formControl}>
+								<TextField
+									label="Message"
+									multiline
+									value={state.message}
+									id="message"
+									required
+									onChange={getTextChangeHandler("message")}
+								/>
+								<FormHelperText>
+									Please tell us more about why you are
+									contacting us
+								</FormHelperText>
+							</FormControl>
+
+							<ReCAPTCHA
+								sitekey={grecaptcha}
+								onChange={(val) => {
+									setCaptchaResponse(val);
+								}}
+							/>
 						</div>
-						<div className="flex-group">
-							<div className="flex-group-item line">
-								<div
-									className={"form-group flex-group-wrapper"}
-								>
-									{renderSimpleInput("text", "name")}
-								</div>
-								<label>Name</label>
-							</div>
-
-							<div className="flex-group-item line">
-								<div
-									className={"form-group flex-group-wrapper"}
-								>
-									{renderSimpleInput("text", "email")}
-								</div>
-								<label>Email</label>
-							</div>
-
-							<div className="flex-group-item line">
-								<div
-									className={"form-group flex-group-wrapper"}
-								>
-									{renderSimpleInput("text", "phone")}
-								</div>
-								<label>Phone&nbsp; (Optional)</label>
-							</div>
-
-							<div className="flex-group-item line">
-								<div
-									className={"form-group flex-group-wrapper"}
-								>
-									<select
-										name="reason"
-										className="form-control"
-										defaultValue="select reason"
-									>
-										<option disabled>select reason</option>
-										{contactReasons.map((reason) => (
-											<option
-												key={reason.value}
-												value={reason.value}
-											>
-												{reason.label}
-											</option>
-										))}
-									</select>
-								</div>
-								<label>What are you contacting us about?</label>
-							</div>
-
-							<div className="flex-group-item line">
-								<div
-									className={"form-group flex-group-wrapper"}
-								>
-									<textarea
-										name="message"
-										placeholder=""
-										rows="4"
-										className="form-control"
-									></textarea>
-								</div>
-								<label>Message</label>
-							</div>
-						</div>
-					</section>
-				</section>
-
-				<section className="content-window">
-					<section>
-						<ReCAPTCHA
-							sitekey={grecaptcha}
-							onChange={handleRecaptcha}
-						/>
-						<div className="submission-wrap">
+						<div className={"submission-wrap " + classes.root}>
 							<Button
 								variant="contained"
 								color="primary"
+								disabled={disabled}
 								onClick={handleSubmit}
 							>
 								Submit

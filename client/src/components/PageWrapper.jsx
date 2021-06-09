@@ -1,15 +1,38 @@
-import React, { useContext, useEffect, useRef } from "react";
-import { useHistory } from 'react-router-dom'
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import AppContext from "../contexts/AppContext";
 import Header from "./layout/Header";
 import SideBar from "./layout/SideBar";
 import Footer from "./layout/Footer";
 import FlashMessages from "./elements/FlashMessages";
+import { useDispatch, useSelector } from "react-redux";
+import { notificationsSelectors } from "../reducers/notifications";
+import { ThemeProvider } from "@material-ui/styles";
+
+import theme from "../theme";
 
 export default function PageWrapper(props) {
-	const context = useContext(AppContext);
+	const dispatch = useDispatch();
+	const notifications = useSelector(notificationsSelectors.notifications);
+
+	let pageTitle = false;
+	function HeaderView() {
+		if (pageTitle) {
+			return (
+				'<h1 className="content-title txt-condensed">' +
+				pageTitle +
+				"</h1>"
+			);
+		}
+	}
+
+	const history = useHistory();
+	useEffect(() => {
+		return history.listen((location) => {
+			console.log(props);
+		});
+	}, [history]);
 
 	let pageTitle = false;
 	function HeaderView() {
@@ -91,18 +114,18 @@ export default function PageWrapper(props) {
 	}
 
 	return (
-		<>
+		<ThemeProvider theme={theme}>
 			<Header /> {/* Content Navigation */}
 			<main>
 				{HeaderView()}
 				<SideBar /> {/* Tool|Admin Navigation */}
 				<section id="content">
-					{renderModals()}
-					<FlashMessages messages={context.messages} />
+					<FlashMessages />
 					{props.children}
 				</section>
-			</main> {/* Component|Views */}
+			</main>{" "}
+			{/* Component|Views */}
 			<Footer /> {/* Colophon */}
-		</>
+		</ThemeProvider>
 	);
 }

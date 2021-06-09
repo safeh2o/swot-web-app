@@ -33,7 +33,6 @@ export default function ProfileForgotPassword(props) {
 					<div>Enter the email you're using for next steps.</div>
 				</header>
 				<section>
-					<FlashMessages messages={messages} />
 					<form
 						ref={form}
 						role="form"
@@ -42,9 +41,17 @@ export default function ProfileForgotPassword(props) {
 					>
 						<div className="flex-group">
 							<div className="flex-group-item line">
+								<label
+									htmlFor="email"
+									className="control-label"
+								>
+									Enter Your Email
+								</label>
 								<div className="flex-group-wrapper">
 									<input
-										onChange={() => { handleChange(); }}
+										onChange={() => {
+											handleChange();
+										}}
 										className="form-control email"
 										id="email"
 										placeholder="mail@example.com"
@@ -52,10 +59,6 @@ export default function ProfileForgotPassword(props) {
 										type="email"
 									/>
 								</div>
-								<label
-									htmlFor="email"
-									className="control-label"
-								>Enter Your Email</label>
 							</div>
 						</div>
 					</form>
@@ -70,9 +73,7 @@ export default function ProfileForgotPassword(props) {
 							className="button blue"
 							value="Reset"
 						/>
-						<Link
-							to="/signin"
-							className="button reset">
+						<Link to="/signin" className="button reset">
 							<span>Log in</span>
 						</Link>
 					</div>

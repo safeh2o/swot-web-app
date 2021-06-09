@@ -1,4 +1,3 @@
-var webpack = require("webpack");
 var path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 require("dotenv").config();
@@ -54,12 +53,13 @@ module.exports = {
 			"/admin": "http://localhost:3000",
 		},
 	},
+	devtool: false,
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: "src/index.ejs",
 			inject: "body",
 			gtag: process.env.GOOGLE_ANALYTICS_GTAG,
-			grecaptcha: process.env.RECAPTCHA_SITE_KEY,
+			grecaptcha: process.env.GOOGLE_RECAPTCHA_SITE_KEY,
 			filename: "index.html",
 		}),
 	],

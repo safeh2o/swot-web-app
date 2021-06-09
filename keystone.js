@@ -95,7 +95,7 @@ keystone.set("locals", {
 	weburl: `${process.env.WEB_URL.startsWith("http") ? "" : "https://"}${
 		process.env.WEB_URL
 	}${process.env.WEB_URL.endsWith("/") ? "" : "/"}`,
-	grecaptcha: process.env.RECAPTCHA_SITE_KEY,
+	grecaptcha: process.env.GOOGLE_RECAPTCHA_SITE_KEY,
 });
 
 keystone.set("mongoose", mongoose);

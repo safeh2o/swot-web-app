@@ -1,26 +1,41 @@
-import React, { Component } from "react";
+import {
+	Button,
+	Container,
+	IconButton,
+	makeStyles,
+	Toolbar,
+} from "@material-ui/core";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import CloseIcon from "@material-ui/icons/Close";
+import {
+	notificationsSelectors,
+	clearNotifications,
+} from "../../reducers/notifications";
 
-class FlashMessages extends Component {
-	constructor(props) {
-		super(props);
-	}
+const useStyles = makeStyles((theme) => ({
+	toolbar: {
+		"flex-direction": "row-reverse",
+	},
+}));
 
-	numErrors() {
-		if (!this.props.messages || !this.props.messages.errors) return 0;
-		return Object.keys(this.props.messages.errors).length;
-	}
+export default function FlashMessages() {
+	const classes = useStyles();
+	const { notices, errors, errorHeaderText } = useSelector(
+		notificationsSelectors.notifications
+	);
 
-	numNotices() {
-		if (!this.props.messages || !this.props.messages.notices) return 0;
-		return Object.keys(this.props.messages.notices).length;
-	}
+	const dispatch = useDispatch();
 
-	renderNotices() {
-		if (!this.numNotices()) {
+	const handleDismiss = () => {
+		dispatch(clearNotifications());
+	};
+
+	function renderNotices() {
+		if (!Object.keys(notices).length) {
 			return null;
 		}
 
-		const notices = this.props.messages.notices;
 		const noticeKeys = Object.keys(notices);
 
 		return (
@@ -36,20 +51,15 @@ class FlashMessages extends Component {
 		);
 	}
 
-	renderErrors() {
-		if (!this.numErrors()) {
+	function renderErrors() {
+		if (!errors.length) {
 			return null;
 		}
-
-		const errors = _.chain(this.props.messages.errors)
-			.mapValues("error")
-			.values()
-			.value();
 
 		return (
 			<div className="container">
 				<div className="alert alert-danger">
-					<h5>{this.props.errorHeaderText}</h5>
+					<h5>{errorHeaderText}</h5>
 
 					<ul>
 						{errors.map((err) => (
@@ -61,19 +71,19 @@ class FlashMessages extends Component {
 		);
 	}
 
-	render() {
+	if (!errors.length && !Object.keys(notices).length) return null;
+	else
 		return (
 			<>
-				{this.renderNotices()}
-				{this.renderErrors()}
+				<Container>
+					<Toolbar className={classes.toolbar}>
+						<IconButton aria-label="close" onClick={handleDismiss}>
+							<CloseIcon />
+						</IconButton>
+					</Toolbar>
+					{renderNotices()}
+					{renderErrors()}
+				</Container>
 			</>
 		);
-	}
 }
-
-FlashMessages.defaultProps = {
-	errorHeaderText: "An error occurred while submitting this form:",
-	messages: { errors: {}, notices: {} },
-};
-
-export default FlashMessages;

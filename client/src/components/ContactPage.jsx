@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import _ from "lodash";
@@ -6,38 +6,50 @@ import AppContext from "../contexts/AppContext";
 import FlashMessages from "./elements/FlashMessages";
 import NoteLine from "./elements/NoteLine";
 import ReCAPTCHA from "react-google-recaptcha";
+import useForm from "../hooks/useForm";
+import { Button } from "@material-ui/core";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addNotice } from "../reducers/notifications";
 
-class ContactPage extends Component {
-	static contextType = AppContext;
-	constructor(props) {
-		super(props);
-		this.requiredFields = ["name", "email", "reason", "message"];
-		this.optionalFields = ["phone"];
-		this.state = {
-			submitted: false,
-			contactReasons: [],
-			validationErrors: {},
-		};
-		window.handleCaptchaResponse = this.handleCaptchaResponse;
-	}
+export default function ContactPage(props) {
+	const { grecaptcha } = useContext(AppContext);
+	const [contactReasons, setContactReasons] = useState([]);
+	const { state, update, reset } = useForm({
+		name: "",
+		email: "",
+		phone: "",
+		reason: null,
+		message: "",
+		captcha: null,
+	});
+	const dispatch = useDispatch();
 
-	componentDidMount() {
+	useEffect(() => {
 		fetch("/api/contactreasons")
 			.then((res) => res.json())
 			.then((data) => {
-				this.setState({ contactReasons: data });
+				// setState({ contactReasons: data });
+				setContactReasons(data);
 			});
+	}, []);
+
+	function handleRecaptcha(e) {
+		console.log(e);
 	}
 
-	handleSubmitResponse(data) {
-		this.context.setMessages({ errors: data.validationErrors });
-		this.setState({
-			validationErrors: data.validationErrors,
-			submitted: data.success,
+	function handleSubmit() {
+		axios.post("/api/contact", state).then((res) => {
+			dispatch(
+				addNotice({
+					label: "success",
+					notice: "Thank you, we will get back to you shortly!",
+				})
+			);
 		});
 	}
 
-	renderSimpleInput(type, name, extraProps = {}) {
+	function renderSimpleInput(type, name, extraProps = {}) {
 		return (
 			<input
 				type={type}
@@ -48,145 +60,122 @@ class ContactPage extends Component {
 		);
 	}
 
-	render() {
-		return (
-			<>
-				<form method="post" id="contactForm" action="/api/contact">
-					<section className="content-window">
-						<section>
-							<div className="content-description">
-								<p>
-									To set up an account to use the SWOT; <br />
-									Or if you have any questions; <br />
-									Please contact us:
-								</p>
+	return (
+		<>
+			<form>
+				<section className="content-window">
+					<section>
+						<div className="content-description">
+							<p>
+								To set up an account to use the SWOT; <br />
+								Or if you have any questions; <br />
+								Please contact us:
+							</p>
+						</div>
+						<div className="flex-group">
+							<div className="flex-group-item line">
+								<div
+									className={"form-group flex-group-wrapper"}
+								>
+									{renderSimpleInput("text", "name")}
+								</div>
+								<label>Name</label>
 							</div>
-							<div className="flex-group">
-								<div className="flex-group-item line">
-									<div
-										className={
-											"form-group flex-group-wrapper"
-										}
-									>
-										{this.renderSimpleInput("text", "name")}
-									</div>
-									<label>Name</label>
-								</div>
 
-								<div className="flex-group-item line">
-									<div
-										className={
-											"form-group flex-group-wrapper"
-										}
-									>
-										{this.renderSimpleInput(
-											"text",
-											"email"
-										)}
-									</div>
-									<label>Email</label>
+							<div className="flex-group-item line">
+								<div
+									className={"form-group flex-group-wrapper"}
+								>
+									{renderSimpleInput("text", "email")}
 								</div>
+								<label>Email</label>
+							</div>
 
-								<div className="flex-group-item line">
-									<div
-										className={
-											"form-group flex-group-wrapper"
-										}
-									>
-										{this.renderSimpleInput(
-											"text",
-											"phone"
-										)}
-									</div>
-									<label>Phone&nbsp; (Optional)</label>
+							<div className="flex-group-item line">
+								<div
+									className={"form-group flex-group-wrapper"}
+								>
+									{renderSimpleInput("text", "phone")}
 								</div>
+								<label>Phone&nbsp; (Optional)</label>
+							</div>
 
-								<div className="flex-group-item line">
-									<div
-										className={
-											"form-group flex-group-wrapper"
-										}
+							<div className="flex-group-item line">
+								<div
+									className={"form-group flex-group-wrapper"}
+								>
+									<select
+										name="reason"
+										className="form-control"
+										defaultValue="select reason"
 									>
-										<select
-											name="reason"
-											className="form-control"
-											defaultValue="select reason"
-										>
-											<option disabled>
-												select reason
+										<option disabled>select reason</option>
+										{contactReasons.map((reason) => (
+											<option
+												key={reason.value}
+												value={reason.value}
+											>
+												{reason.label}
 											</option>
-											{this.state.contactReasons.map(
-												(reason) => (
-													<option
-														key={reason.value}
-														value={reason.value}
-													>
-														{reason.label}
-													</option>
-												)
-											)}
-										</select>
-									</div>
-									<label>
-										What are you contacting us about?
-									</label>
+										))}
+									</select>
 								</div>
-
-								<div className="flex-group-item line">
-									<div
-										className={
-											"form-group flex-group-wrapper"
-										}
-									>
-										<textarea
-											name="message"
-											placeholder=""
-											rows="4"
-											className="form-control"
-										></textarea>
-									</div>
-									<label>Message</label>
-								</div>
-							</div>
-						</section>
-					</section>
-
-					<section className="content-window">
-						<section>
-							{/* <div
-								className="g-recaptcha"
-								data-sitekey={this.context.grecaptcha}
-							></div> */}
-							<ReCAPTCHA sitekey={this.context.grecaptcha} />
-							<div className="submission-wrap">
-								<input
-									type="submit"
-									className="button blue"
-									value="Submit"
-								/>
-								<input
-									type="reset"
-									className="button reset"
-									value="Reset Fields"
-								/>
+								<label>What are you contacting us about?</label>
 							</div>
 
-							<NoteLine>
-								By clicking Submit, you agree to our{" "}
-								<Link to="pages/terms-of-use">
-									Terms of Use
-								</Link>
-								&nbsp; and our{" "}
-								<Link to="pages/privacy-policy">
-									Privacy Policy
-								</Link>
-							</NoteLine>
-						</section>
+							<div className="flex-group-item line">
+								<div
+									className={"form-group flex-group-wrapper"}
+								>
+									<textarea
+										name="message"
+										placeholder=""
+										rows="4"
+										className="form-control"
+									></textarea>
+								</div>
+								<label>Message</label>
+							</div>
+						</div>
 					</section>
-				</form>
-			</>
-		);
-	}
+				</section>
+
+				<section className="content-window">
+					<section>
+						<ReCAPTCHA
+							sitekey={grecaptcha}
+							onChange={handleRecaptcha}
+						/>
+						<div className="submission-wrap">
+							<Button
+								variant="contained"
+								color="primary"
+								onClick={handleSubmit}
+							>
+								Submit
+							</Button>
+							<Button
+								variant="contained"
+								color="secondary"
+								onClick={() => {
+									reset();
+								}}
+							>
+								Reset
+							</Button>
+						</div>
+
+						<NoteLine>
+							By clicking Submit, you agree to our{" "}
+							<Link to="pages/terms-of-use">Terms of Use</Link>
+							&nbsp; and our{" "}
+							<Link to="pages/privacy-policy">
+								Privacy Policy
+							</Link>
+						</NoteLine>
+					</section>
+				</section>
+			</form>
+		</>
+	);
 }
-
-export default ContactPage;

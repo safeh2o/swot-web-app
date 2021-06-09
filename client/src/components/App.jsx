@@ -97,7 +97,7 @@ export default function App(props) {
 				</Route>
 
 				<RouteWithTitle
-					title="Contact us"
+					title="Contact Us"
 					path="/contact"
 					component={ContactPage}
 					key={document.location.hostname + "/contact"}

@@ -4,20 +4,19 @@
 	.legal {
 		font-size: 0.9rem;
 		text-align: center;
-		color: #f6f7f7;
 		padding: 10px 20px;
 		max-width: 760px;
 
 		&:after {
-			background-color: #4069b1;
+			background-color: #fff;
 		}
 
 		a {
-			text-decoration: underline dotted;
+			text-decoration: underline dotted 2px rgba(0, 0, 0, 0.1);
 		}
 
 		> * {
-			margin: 0 7px;
+			margin: 0 10px;
 		}
 	}
 }

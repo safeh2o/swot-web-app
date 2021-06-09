@@ -1045,6 +1045,12 @@ export default function FieldSites(props) {
 						<label className="space">
 							<FormSelectSearch
 								options={OptionsResponse}
+								default={[
+									{
+										name: "Nigeria",
+										value: "NG",
+									},
+								]}
 								icon={true}
 							/>
 							<span className="label">Response</span>

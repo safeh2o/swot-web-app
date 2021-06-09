@@ -54,6 +54,14 @@
 		}
 	}
 }
+.content-window:not(.rich-text) {
+	> header {
+		> :first-child {
+			color: #747e87;
+			font-weight: 500;
+		}
+	}
+}
 .modal-content .modal-header,
 .content-window > header,
 .content-window .header {

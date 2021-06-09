@@ -1,5 +1,33 @@
 .back {
 }
 
-#data-submitted {
+.result-window-stats {
+  .flex-group {
+    label {
+      padding: 10px 0;
+    }
+    .value {
+      font-family: "Roboto Condensed", sans-serif;
+      font-size: 1.625rem;
+      font-weight: 400;
+      color: #161819;
+      padding-left: 10px;
+      &.stat {
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+      &.stat {
+        font-size: 4.8rem;
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+    }
+    .label {
+    }
+  }
+  footer {
+    a {
+      margin-right: 20px;
+    }
+  }
 }

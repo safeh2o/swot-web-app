@@ -27,27 +27,6 @@ export default function PageWrapper(props) {
 		}
 	}
 
-	const history = useHistory();
-	useEffect(() => {
-		return history.listen((location) => {
-			console.log(props);
-		});
-	}, [history]);
-
-	let pageTitle = false;
-	function HeaderView() {
-		if (pageTitle) {
-			return '<h1 className="content-title txt-condensed">' + pageTitle + '</h1>';
-		}
-	}
-
-	const history = useHistory()
-	useEffect(() => {
-		return history.listen((location) => {
-			console.log(props)
-		})
-	}, [history]);
-
 	function renderModals() {
 		const { user } = context;
 		if (!user) {
@@ -78,37 +57,6 @@ export default function PageWrapper(props) {
 						<div className="water"></div>
 					</div>
 				</div>
-				<div className="modal fade" id="ConfirmModal">
-					<div className="modal-content dashboard">
-						<div className="modal-header">
-							<span className="modal-title">Status</span>
-							<button
-								type="button"
-								className="close txt-icon"
-								data-dismiss="modal"
-							>
-								<i>
-									<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 40" xmlSpace="preserve">
-										<line fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" x1="7" y1="33" x2="33" y2="7" />
-										<line fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" x1="7" y1="7" x2="33" y2="33" />
-									</svg>
-								</i>
-							</button>
-						</div>
-						<div className="modal-body">
-							<p id="confirmMsg"></p>
-						</div>
-						<div className="modal-footer">
-							<button
-								type="button"
-								className="button"
-								data-dismiss="modal"
-							>
-								<span>OK</span>
-							</button>
-						</div>
-					</div>
-				</div>
 			</>
 		);
 	}
@@ -118,6 +66,35 @@ export default function PageWrapper(props) {
 			<Header /> {/* Content Navigation */}
 			<main>
 				{HeaderView()}
+				<div className="breadcrumbs">
+					<span className="crumb">
+						<span className="txt-icon">
+							<i>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="40"
+									height="40"
+									x="0"
+									y="0"
+									version="1.1"
+									viewBox="0 0 40 40"
+									xmlSpace="preserve"
+								>
+									<path
+										fill="#747E87"
+										d="M23.6 33.1v-7.6c0-.7-.6-1.3-1.3-1.3h-5.1c-.7 0-1.3.6-1.3 1.3v7.6c0 .7-.6 1.3-1.3 1.3H7c-.7 0-1.3-.6-1.3-1.3V18.4c0-.4.2-.7.4-.9L19 5.9c.5-.4 1.2-.4 1.7 0l12.7 11.6c.3.2.4.6.4.9v14.7c0 .7-.6 1.3-1.3 1.3h-7.6c-.7 0-1.3-.6-1.3-1.3z"
+									></path>
+								</svg>
+							</i>
+							<span>Home</span>
+						</span>
+					</span>
+					<span className="crumb">
+						<span className="txt-icon">
+							<span>Tool</span>
+						</span>
+					</span>
+				</div>
 				<SideBar /> {/* Tool|Admin Navigation */}
 				<section id="content">
 					<FlashMessages />

@@ -7,8 +7,9 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import { IconButton } from "@material-ui/core";
 
 // icons
-import SignIn from "../icons/SignIn"
-import SignOut from "../icons/SignOut"
+import SignInIcon from "../icons/SignIn";
+import SignOutIcon from "../icons/SignOut";
+import AdminIcon from "../icons/Admin";
 
 export default function SideBar(props) {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
@@ -36,26 +37,30 @@ export default function SideBar(props) {
 					<UserDetailsModal />
 					{user.isAdmin === true && (
 						<li className="nav-item nav-profile admin">
-							<IconButton
-								href="/admin"
+							<Link
+								to="/admin"
 								className="admin"
 								title="SWOT Admin Panel"
 								color="inherit"
 							>
-								<SettingsIcon />
-							</IconButton>
+								<i>
+									<AdminIcon />
+								</i>
+							</Link>
 						</li>
 					)}
 					<li className="nav-item nav-profile signout">
-						<IconButton
+						<Link
 							id="accountDetails"
 							className="signout"
 							href="/admin/signout"
 							tabIndex="-1"
 							title="Log Out"
 						>
-							<i><SignOut/></i>
-						</IconButton>
+							<i>
+								<SignOutIcon />
+							</i>
+						</Link>
 					</li>
 				</>
 			);
@@ -75,7 +80,9 @@ export default function SideBar(props) {
 					</li>
 					<li className="nav-item nav-profile signin">
 						<a href="/signin" title="Sign In" className="icon">
-							<i><SignIn/></i>
+							<i>
+								<SignInIcon />
+							</i>
 						</a>
 					</li>
 				</>

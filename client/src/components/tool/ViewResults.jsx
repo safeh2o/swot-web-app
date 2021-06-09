@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import DataGrid from "../elements/DataGrid";
 
 import { Helmet } from "react-helmet";
 
@@ -9,7 +8,7 @@ class ViewResults extends Component {
 		this.state = {
 			tableData: [],
 			adminView: false,
-			selections: []
+			selections: [],
 		};
 		this.adminView = false;
 	}
@@ -228,7 +227,7 @@ class ViewResults extends Component {
 			});
 		this.$table.on(
 			"check.bs.table uncheck.bs.table " +
-			"check-all.bs.table uncheck-all.bs.table",
+				"check-all.bs.table uncheck-all.bs.table",
 			() => {
 				// save your data, here just save the current page
 				this.setState({ selections: this.getIdSelections() });
@@ -301,27 +300,9 @@ class ViewResults extends Component {
 
 				<section className="content-window">
 					<header></header>
-					<section style={{ height: 400, width: '100%', margin: 0 }}>
-						<DataGrid
-							rows={[
-								{ datasetId: 1, datasetDate: "", datasetName: 'Snow', fieldsiteName: 'Essian', status: 1 },
-								{ datasetId: 2, datasetDate: "", datasetName: 'Lannister', fieldsiteName: 'Essian', status: 0 },
-								{ datasetId: 3, datasetDate: "", datasetName: 'Lannister', fieldsiteName: 'Essian', status: 1 },
-								{ datasetId: 4, datasetDate: "", datasetName: 'Stark', fieldsiteName: 'Essian', status: 1 },
-								{ datasetId: 5, datasetDate: "", datasetName: 'Targaryen', fieldsiteName: 'Essian', status: 1 },
-								{ datasetId: 6, datasetDate: "", datasetName: 'Melisandre', fieldsiteName: 'Essian', status: 0 },
-								{ datasetId: 7, datasetDate: "", datasetName: 'Clifford', fieldsiteName: 'Bardarash', status: 0 },
-								{ datasetId: 8, datasetDate: "", datasetName: 'Frances', fieldsiteName: 'Bardarash', status: 0 },
-								{ datasetId: 9, datasetDate: "", datasetName: 'Roxie', fieldsiteName: 'Bardarash', status: 1 },
-							]}
-							columns={[
-								{ id: 'datasetId', label: 'id', width: 60 },
-								{ id: 'datasetName', label: 'Name / Date Range', width: 150 },
-								{ id: 'fieldsiteName', label: 'Fieldsites', width: 150 },
-								{ id: 'status', label: 'Status', numeric: true, width: 110 },
-							]}
-						/>
-					</section>
+					<section
+						style={{ height: 400, width: "100%", margin: 0 }}
+					></section>
 					<footer></footer>
 				</section>
 
@@ -341,9 +322,9 @@ class ViewResults extends Component {
 
 								<p className=" lead">
 									You don't seem to have any data results
-									available yet. Upload your dataset to
-									start analysis. Analysis results may be
-									delayed up to 5 minutes.
+									available yet. Upload your dataset to start
+									analysis. Analysis results may be delayed up
+									to 5 minutes.
 								</p>
 							</div>
 						</div>

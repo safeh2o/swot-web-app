@@ -1,0 +1,79 @@
+.table {
+	.table-header,
+	.table-row {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 30%)
+			minmax(0, 20%)
+			minmax(0, 20%)
+			minmax(0, 20%)
+			minmax(0, 10%);
+
+		> * {
+			padding-left: 20px;
+		}
+	}
+	.table-header {
+		font-size: 0.875rem;
+		height: 50px;
+		padding-top: 5px;
+		border-bottom: 1px solid #dde6ed;
+		> * {
+			display: block;
+			color: #929eac;
+		}
+	}
+	.table-body {
+		.table-row {
+			align-items: center;
+			height: 60px;
+			border-bottom: 1px solid #dde6ed;
+			transition: background-color 0.3s ease;
+			&:hover {
+				background-color: #fcfcfc;
+				transition-duration: 0.15s;
+			}
+		}
+	}
+	.table-footer {
+	}
+	// fieldsites
+	&.fieldsites {
+		.table-header,
+		.table-row {
+			> :nth-child(2),
+			> :nth-child(3) {
+				text-align: right;
+			}
+			> :nth-child(4) {
+				text-align: center;
+			}
+		}
+		.table-row {
+			> :nth-child(1) {
+				font-weight: 500;
+			}
+		}
+		.safe-level {
+			display: block;
+			margin: auto;
+			width: 10px;
+			height: 10px;
+			border-radius: 10px;
+
+			&.none {
+				border: 2px solid;
+			}
+
+			&.safe {
+				background-color: #66d3b6;
+			}
+			&.not-safe {
+				background-color: #ff8d8d;
+			}
+			&.check {
+				background-color: #ffd110;
+			}
+		}
+	}
+}

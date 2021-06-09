@@ -29,17 +29,12 @@
 		"react-helmet": "^6.1.0",
 		"react-modal": "^3.13.1",
 		"react-perfect-scrollbar": "^1.5.8",
-<<<<<<< HEAD
-		"react-router-dom": "^5.2.0",
-		"react-select-search": "^3.0.7"
-=======
 		"react-redux": "^7.2.4",
 		"react-router-dom": "^5.2.0",
 		"react-select-search": "^3.0.7",
 		"redux": "^4.1.0",
 		"redux-form": "^8.3.7",
 		"redux-form-material-ui": "^4.3.4"
->>>>>>> a87ec59753ffb23848f849a7fe6a95e9115d515c
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.13.16",

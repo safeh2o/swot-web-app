@@ -13,7 +13,7 @@ export default function SideBar(props) {
 			</header>
 			<article className="block">
 				<figure>
-					<img src="#" alt="" />
+					<img src="/assets/placeholder-square.png" alt="" />
 				</figure>
 				<div>
 					<time dateTime="Fri, 30 Apr 2021 20:34:29 +0000">
@@ -35,7 +35,7 @@ export default function SideBar(props) {
 			</article>
 			<article className="block">
 				<figure>
-					<img src="#" alt="" />
+					<img src="/assets/placeholder-square.png" alt="" />
 				</figure>
 				<div>
 					<time dateTime="Fri, 30 Apr 2021 20:34:29 +0000">
@@ -81,8 +81,8 @@ export default function SideBar(props) {
 					</div>
 				</div>
 			</article>
-			<footer>
-				<Link to="/blog" className="more">
+			<footer className="more">
+				<Link to="/blog">
 					<span>More News</span>
 				</Link>
 			</footer>

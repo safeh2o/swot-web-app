@@ -1,243 +1,249 @@
 /* Layout - Main - Content */
 #content {
-  > * {
-    max-width: 760px;
-  }
+	> * {
+		max-width: 760px;
+	}
 }
 .page-title {
-  grid-column-start: 1;
-  grid-column-end: 3;
+	grid-column-start: 1;
+	grid-column-end: 3;
 }
 .page-title,
 .content-title {
-  font-size: 2em;
-  font-weight: 400;
-  font-family: "Roboto Condensed", sans-serif;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+	font-size: 2em;
+	font-weight: 400;
+	font-family: "Roboto Condensed", sans-serif;
+	line-height: 1.2;
+	letter-spacing: -0.02em;
 
-  color: #747e87;
-  border-bottom: 2px solid #e5e8ed;
+	color: #747e87;
+	border-bottom: 2px solid #e5e8ed;
 
-  padding-bottom: 5px;
-  margin: 40px 30px 0;
+	padding-bottom: 5px;
+	margin: 40px 30px 0;
 }
 .headline {
-  font-family: "Roboto Condensed";
-  font-size: 3.25rem;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  color: #4069b1;
+	font-family: "Roboto Condensed";
+	font-size: 3.25rem;
+	font-weight: 400;
+	letter-spacing: -0.01em;
+	color: #4069b1;
 }
 .modal-content,
 .content-window {
-  position: relative;
-  margin: 20px 15px 40px;
-  &:not(.borderless) {
-    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.1), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-      0px 1px 3px 0px rgba(0, 0, 0, 0.05);
-    &:after {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: -1;
-      background-color: #fff;
-      border-radius: 7px;
-      border: 1px #f6f7f7 solid;
-    }
-  }
+	position: relative;
+	margin: 20px 15px 40px;
+	&:not(.borderless) {
+		// box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.1),
+		// 	0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+		// 	0px 1px 3px 0px rgba(0, 0, 0, 0.05);
+		filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, 0.075))
+			drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1))
+			drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.025));
+		&:after {
+			content: "";
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			z-index: -1;
+			background-color: #fff;
+			border-radius: 7px;
+			border: 1px #f6f7f7 solid;
+		}
+	}
 }
 .modal-content .modal-header,
 .content-window > header,
 .content-window .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 64px;
-  padding: 10px 15px;
-  border-bottom: 1px solid #dde6ed;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	min-height: 64px;
+	padding: 10px 15px;
+	border-bottom: 1px solid #dde6ed;
 
-  > :first-child {
-    font-size: 1.125rem;
-    padding: 0;
-    margin: 0;
-    color: #161819;
-  }
+	> :first-child {
+		font-size: 1.125rem;
+		padding: 0;
+		margin: 0;
+		color: #161819;
+	}
 }
 .modal-content.dashboard,
 .content-window.dashboard {
-  border-radius: 7px;
-  > .modal-header,
-  > header {
-    text-transform: uppercase;
-    color: #fff;
-    background-color: #f4c32e;
-  }
+	border-radius: 7px;
+	> .modal-header,
+	> header {
+		text-transform: uppercase;
+		color: #fff;
+		background-color: #f4c32e;
+	}
 }
 .content-description {
-  p:last-child {
-    margin-bottom: 2rem;
-  }
+	p:last-child {
+		margin-bottom: 2rem;
+	}
 }
 
 .modal-content,
 .content-window {
-  > section,
-  .section,
-  .modal-body {
-    position: relative;
-    margin: 15px 30px 15px;
-    border-bottom: 1px solid #eee;
-  }
-  &.bleed-edges {
-    > section,
-    .section,
-    .modal-body {
-      margin: 0;
-      padding: 0;
-    }
-  }
+	> section,
+	.section,
+	.modal-body {
+		position: relative;
+		margin: 15px 30px 15px;
+		border-bottom: 1px solid #eee;
+	}
+	&.bleed-edges {
+		> section,
+		.section,
+		.modal-body {
+			margin: 0;
+			padding: 0;
+		}
+	}
 }
 
 .modal-content,
 .content-window {
-  > footer,
-  .footer,
-  .modal-footer {
-    padding: 10px 30px 20px;
-    background: none;
+	> footer,
+	.footer,
+	.modal-footer {
+		padding: 10px 30px 20px;
+		background: none;
 
-    &.more {
-      padding: 0;
-      margin: 0;
+		&.more {
+			padding: 0;
+			margin: 0;
 
-      a {
-        display: flex;
-        height: 60px;
+			a {
+				display: flex;
+				height: 60px;
 
-        span {
-          display: block;
-          margin: auto;
-        }
-      }
-    }
-  }
-  &.bleed-edges {
-    > section,
-    .section,
-    .modal-body {
-      margin: 0;
-      padding: 0;
-    }
-  }
+				span {
+					display: block;
+					margin: auto;
+				}
+			}
+		}
+	}
+	&.bleed-edges {
+		> section,
+		.section,
+		.modal-body {
+			margin: 0;
+			padding: 0;
+		}
+	}
 }
 
 .content-icon {
-  position: absolute;
-  bottom: 20px;
-  right: 40px;
+	position: absolute;
+	bottom: 20px;
+	right: 40px;
 }
 
 #ConfirmModal {
-  display: flex;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 10;
-  background-color: rgba(255, 255, 255, 0.5);
-  max-width: none;
+	display: flex;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 10;
+	background-color: rgba(255, 255, 255, 0.5);
+	max-width: none;
 
-  &:not(.active) {
-    display: none;
-  }
+	&:not(.active) {
+		display: none;
+	}
 }
 
 .MuiBackdrop-root {
-  // cant figure out how to style modal background in component :(
-  background-color: rgba(255, 255, 255, 0.5) !important;
+	// cant figure out how to style modal background in component :(
+	background-color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .modal-content {
-  margin: 150px auto auto;
-  width: 80%;
-  max-width: 400px;
-  box-shadow: 0px 0px 10px rgba(90, 98, 102, 0.15);
+	margin: 150px auto auto;
+	width: 80%;
+	max-width: 400px;
+	box-shadow: 0px 0px 10px rgba(90, 98, 102, 0.15);
 
-  .modal-header {
-    font-family: "Roboto Condensed", sans-serif;
-    font-weight: 400;
-    min-height: 55px;
-    border-radius: 7px 7px 0px 0px;
-  }
+	.modal-header {
+		font-family: "Roboto Condensed", sans-serif;
+		font-weight: 400;
+		min-height: 55px;
+		border-radius: 7px 7px 0px 0px;
+	}
 }
 
 @media (min-width: 960px) {
-  #content {
-    > * {
-      max-width: 760px;
-    }
-  }
-  #ConfirmModal {
-    max-width: none;
-    .modal-content {
-      margin: 25vh auto auto;
-    }
-  }
-  .content-title {
-    margin: 40px 20px 0;
-  }
-  .content-window {
-    margin: 20px 30px 40px;
-  }
+	#content {
+		> * {
+			max-width: 760px;
+		}
+	}
+	#ConfirmModal {
+		max-width: none;
+		.modal-content {
+			margin: 25vh auto auto;
+		}
+	}
+	.content-title {
+		margin: 40px 20px 0;
+	}
+	.content-window {
+		margin: 20px 30px 40px;
+	}
 }
 
 // Rich Text
 
 .content-window.rich-text {
-  border-radius: 7px;
-  > header {
-    flex-wrap: wrap;
-    padding-top: 20px;
+	border-radius: 7px;
+	> header {
+		flex-wrap: wrap;
+		padding-top: 30px;
+		padding-bottom: 15px;
 
-    > * {
-      flex: 1 0 100%;
-    }
+		> * {
+			flex: 1 0 100%;
+		}
 
-    .content-window-title {
-      font-size: 1.8rem;
-      font-weight: 400;
-      line-height: 1;
-    }
+		.content-window-title {
+			font-size: 1.8rem;
+			font-weight: 400;
+			line-height: 1;
+		}
 
-    .content-window-title-description {
-      margin-top: 10px;
-    }
-  }
+		.content-window-title-description {
+			margin-top: 10px;
+		}
+	}
 
-  // rte
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 400;
-    color: #4069b1;
-  }
-  a:not(h2 a):not(h3 a):not(h4 a):not(h5 a):not(h6 a):not(button):not(.button) {
-    font-weight: 600;
-    text-decoration: underline 1px dotted;
-    text-decoration: underline 1px #f3c22b;
+	// rte
+	h2 {
+		font-size: 1.5rem;
+		font-weight: 400;
+		color: #4069b1;
+	}
+	a:not(h2 a):not(h3 a):not(h4 a):not(h5 a):not(h6
+			a):not(button):not(.button) {
+		font-weight: 600;
+		text-decoration: underline 1px dotted;
+		text-decoration: underline 1px #f3c22b;
 
-    &:hover {
-      color: #0056b3;
-      text-decoration: underline;
-    }
-  }
-  p {
-    &:last-child:not(:first-child) {
-      margin-bottom: 0;
-    }
-  }
+		&:hover {
+			color: #0056b3;
+			text-decoration: underline;
+		}
+	}
+	p {
+		&:last-child:not(:first-child) {
+			margin-bottom: 0;
+		}
+	}
 }

@@ -4,8 +4,8 @@ import { Link, NavLink } from "react-router-dom";
 import { userSelectors } from "../../reducers/user";
 
 // icons
-import SidebarToolNav from "../icons/SidebarToolNav"
-import SidebarManageNav from "../icons/SidebarManageNav"
+import SidebarToolNav from "../icons/SidebarToolNav";
+import SidebarManageNav from "../icons/SidebarManageNav";
 
 export default function SideBar() {
 	const user = useSelector(userSelectors.user);
@@ -83,9 +83,13 @@ export default function SideBar() {
 					<nav aria-label="Tool Menu">
 						<span title="Tool" className="nav-item-header">
 							<span>Tool Steps</span>
-							<i><SidebarToolNav/></i>
+							<i>
+								<SidebarToolNav />
+							</i>
 						</span>
-						{sections.map((toolSection, i) => renderNavItem(toolSection, i))}
+						{sections.map((toolSection, i) =>
+							renderNavItem(toolSection, i)
+						)}
 					</nav>
 				</>
 			);
@@ -107,10 +111,14 @@ export default function SideBar() {
 								title="Admin Header"
 								className="nav-item-header"
 							>
-								<span>Admin</span>
-								<i><SidebarManageNav/></i>
+								<span>Manage</span>
+								<i>
+									<SidebarManageNav />
+								</i>
 							</span>
-							{sections.map((adminSection) => renderNavItem(adminSection))}
+							{sections.map((adminSection) =>
+								renderNavItem(adminSection)
+							)}
 						</nav>
 					)}
 				</>

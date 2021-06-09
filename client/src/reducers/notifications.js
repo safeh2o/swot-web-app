@@ -4,6 +4,7 @@ const initialState = {
 	errors: [],
 	notices: {},
 	errorHeaderText: "An error occurred while submitting this form:",
+	loading: false,
 };
 
 export const notificationsSlice = createSlice({
@@ -14,23 +15,30 @@ export const notificationsSlice = createSlice({
 			state.errors.push(payload);
 		},
 		addNotice: (state, { payload: { label, notice } }) => {
-			if (payload) {
-				state.notices[label] = notice;
-			}
+			state.notices[label] = notice;
 		},
 		handleServerMessages: (state, { payload: { notices, errors } }) => {
 			state.notices = notices || {};
 			state.errors = errors || [];
 		},
 		clearNotifications: () => initialState,
+		setLoading: (state, { payload }) => {
+			state.loading = payload;
+		},
 	},
 });
 
 export const notificationsSelectors = {
 	notifications: (state) => state.notifications,
+	loading: (state) => state.notifications.loading,
 };
 
-export const { addError, addNotice, clearNotifications, handleServerMessages } =
-	notificationsSlice.actions;
+export const {
+	addError,
+	addNotice,
+	clearNotifications,
+	handleServerMessages,
+	setLoading,
+} = notificationsSlice.actions;
 
 export default notificationsSlice.reducer;

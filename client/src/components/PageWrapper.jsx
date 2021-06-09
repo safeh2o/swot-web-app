@@ -1,20 +1,29 @@
-import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import { Helmet } from "react-helmet";
 
 import Header from "./layout/Header";
 import SideBar from "./layout/SideBar";
 import Footer from "./layout/Footer";
 import FlashMessages from "./elements/FlashMessages";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { notificationsSelectors } from "../reducers/notifications";
 import { ThemeProvider } from "@material-ui/styles";
+// import DateFnsUtils from "@date-io/date-fns";
 
 import theme from "../theme";
+import { Backdrop, CircularProgress, makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+	backdrop: {
+		zIndex: theme.zIndex.drawer + 1,
+		color: "#fff",
+	},
+}));
 
 export default function PageWrapper(props) {
-	const dispatch = useDispatch();
-	const notifications = useSelector(notificationsSelectors.notifications);
+	const classes = useStyles();
+
+	const isLoading = useSelector(notificationsSelectors.loading);
 
 	let pageTitle = false;
 	function HeaderView() {
@@ -26,13 +35,6 @@ export default function PageWrapper(props) {
 			);
 		}
 	}
-
-	const history = useHistory();
-	useEffect(() => {
-		return history.listen((location) => {
-			console.log(props);
-		});
-	}, [history]);
 
 	function renderModals() {
 		const { user } = context;
@@ -124,7 +126,10 @@ export default function PageWrapper(props) {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<Header /> {/* Content Navigation */}
+			<Header />
+			<Backdrop open={isLoading} className={classes.backdrop}>
+				<CircularProgress />
+			</Backdrop>
 			<main>
 				{HeaderView()}
 				<SideBar /> {/* Tool|Admin Navigation */}

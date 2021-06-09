@@ -1,5 +1,6 @@
 var path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { SourceMapDevToolPlugin } = require("webpack");
 require("dotenv").config();
 
 module.exports = {
@@ -42,6 +43,10 @@ module.exports = {
 					"sass-loader",
 				],
 			},
+			{
+				test: /\.css$/,
+				use: ["style-loader", "css-loader"],
+			},
 		],
 	},
 	devServer: {
@@ -62,6 +67,7 @@ module.exports = {
 			grecaptcha: process.env.GOOGLE_RECAPTCHA_SITE_KEY,
 			filename: "index.html",
 		}),
+		new SourceMapDevToolPlugin({}),
 	],
 	resolve: {
 		extensions: [".js", ".jsx", ".scss"],

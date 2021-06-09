@@ -1,14 +1,24 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useReducer, useEffect } from "react";
 
 import FormSelectSearch from "../elements/FormSelectSearch";
-
-// import FieldsitesDropdown from "../elements/FieldsitesDropdown";
 
 import { Link } from "react-router-dom";
 import NoteLine from "../elements/NoteLine";
 import { MEGABYTE } from "../../helpers/bitcalc";
 import { DropzoneArea } from "material-ui-dropzone";
-import { Button, makeStyles } from "@material-ui/core";
+import {
+	Button,
+	Checkbox,
+	FormControlLabel,
+	makeStyles,
+	TextField,
+} from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import { addError, addNotice, setLoading } from "../../reducers/notifications";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import user, { userSelectors } from "../../reducers/user";
+import { simpleFormReducer } from "../../reducers/form";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -17,6 +27,14 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 }));
+
+const initialState = {
+	response: null,
+	area: null,
+	fieldsite: { _id: null, name: "" },
+	files: [],
+	overwrite: false,
+};
 
 export default function UploadPage(props) {
 	const classes = useStyles();
@@ -1041,75 +1059,82 @@ export default function UploadPage(props) {
 			value: "slug5",
 		},
 	];
-	const OptionsFieldsites = [
-		{
-			name: "Afghanistan",
-			value: "slug1",
-		},
-		{
-			name: "Arbat IDP",
-			value: "slug2",
-		},
-		{
-			name: "Bardarash",
-			value: "slug3",
-		},
-		{
-			name: "Essian",
-			value: "slug4",
-		},
-		{
-			name: "Garmawa",
-			value: "slug5",
-		},
-	];
 
-	// Definitions
+	const userFieldsites = useSelector(userSelectors.fieldsites);
+
+	const [state, formDispatch] = useReducer(simpleFormReducer, initialState);
+	const [disabled, setDisabled] = useState(true);
+
+	function getFormData() {
+		const formData = new FormData();
+		// Object.keys(state).forEach((field) => {
+		// 	formData.append(field, state[field]);
+		// })
+		const {
+			files,
+			overwrite,
+			fieldsite: { _id: fieldsiteId },
+		} = state;
+		formData.append("fieldsite", fieldsiteId);
+		files.forEach((file) => {
+			formData.append("files[]", file, file.name);
+		});
+		formData.append("overwrite", overwrite);
+
+		return formData;
+	}
+
+	function getPreviewText() {
+		if (!state || !state.files) {
+			return "No files selected!";
+		}
+		return `${state.files.length} file${
+			state.files.length > 1 ? "s" : ""
+		} selected:`;
+	}
+
+	useEffect(() => {
+		const isDisabled =
+			state.files.length === 0 ||
+			// !state.response ||
+			// !state.area ||
+			!state.fieldsite;
+		setDisabled(isDisabled);
+	}, [state]);
+
+	const dispatch = useDispatch();
+
 	const fileInput = useRef(null);
-	const uploadForm = useRef(null);
-	const fileInfo = useRef(null);
-
-	const [uploadedFiles, setUploadedFiles] = useState([]);
 
 	const handleFileChange = (files) => {
-		setUploadedFiles(files);
+		formDispatch({ type: "UPDATE", payload: { files } });
 	};
 
 	const handleFormReset = () => {
 		fileInput.current.setState({ fileObjects: [] });
+		formDispatch({ type: "RESET" });
 	};
 
 	const handleFormSubmit = (e) => {
-		e.preventDefault();
-
-		if (!uploadedFiles.length) {
-			shakeElement($(fileInfo.current));
-			return;
-		}
-
-		const formData = new FormData();
-		for (let i = 0; i < uploadedFiles.length; i++) {
-			formData.append("uploaded_files", uploadedFiles[i]);
-		}
-		formData.append("fieldsite", uploadForm.current.fieldsite.value);
-		formData.append("overwrite", uploadForm.current.overwrite.value);
-
-		showSpinner();
-		fetch("/api/upload/append", {
-			method: "POST",
-			body: formData,
-		})
-			.then((res) => res.json())
+		dispatch(setLoading(true));
+		const formData = getFormData();
+		axios
+			.post("/api/upload/append", formData)
 			.then((res) => {
-				hideModal();
-				const uploaded_count = res.uploaded_count;
-				showConfirmModal(`Uploaded ${uploaded_count} file(s).`);
+				dispatch(
+					addNotice({ label: "Success", notice: "Upload success" })
+				);
+				// console.log(res);
 			})
 			.catch((err) => {
-				logError(err);
+				dispatch(
+					addError("Error occurred while trying to upload files")
+				);
+				console.log(err);
 			})
 			.finally(() => {
-				hideSpinner();
+				dispatch(setLoading(false));
+				handleFormReset();
 			});
 	};
 
@@ -1124,7 +1149,7 @@ export default function UploadPage(props) {
 				</header>
 				<section>
 					<div className="flex-group">
-						<label className="space">
+						{/* <label className="space">
 							<FormSelectSearch
 								options={OptionsResponse}
 								icon={true}
@@ -1134,11 +1159,28 @@ export default function UploadPage(props) {
 						<label className="space">
 							<FormSelectSearch options={OptionsArea} />
 							<span className="label">Area</span>
-						</label>
-						<label className="space">
-							<FormSelectSearch options={OptionsFieldsites} />
-							<span className="label">Fieldsite</span>
-						</label>
+						</label> */}
+						<Autocomplete
+							id="fieldsite"
+							options={userFieldsites}
+							getOptionLabel={(option) => option.name}
+							renderInput={(params) => (
+								<TextField
+									{...params}
+									label="Fieldsite"
+									variant="outlined"
+								/>
+							)}
+							value={state && state.fieldsite}
+							onChange={(_event, value) => {
+								formDispatch({
+									type: "UPDATE",
+									payload: {
+										fieldsite: value,
+									},
+								});
+							}}
+						/>
 					</div>
 				</section>
 				<footer>
@@ -1173,9 +1215,7 @@ export default function UploadPage(props) {
 						useChipsForPreview
 						showPreviewsInDropzone={false}
 						showPreviews={true}
-						previewText={`${uploadedFiles.length} selected file${
-							uploadedFiles.length > 1 ? "s" : ""
-						}:`}
+						previewText={getPreviewText()}
 						ref={fileInput}
 					/>
 				</section>
@@ -1192,20 +1232,24 @@ export default function UploadPage(props) {
 					<div className="section-options"></div>
 				</header>
 				<section>
-					<label
-						htmlFor="OverwriteDuplicate"
-						className="checkbox block"
-					>
-						<input
-							type="checkbox"
-							className="checkbox-input"
-							name="OverwriteDuplicate"
-							id="OverwriteDuplicate"
-						/>
-						<span className="label">
-							Overwrite Duplicate Entries?
-						</span>
-					</label>
+					<FormControlLabel
+						control={
+							<Checkbox
+								checked={state && state.overwrite}
+								onChange={() => {
+									formDispatch({
+										type: "UPDATE",
+										payload: {
+											overwrite: !state.overwrite,
+										},
+									});
+								}}
+								name="overwriteCheck"
+								color="primary"
+							/>
+						}
+						label="Overwrite Duplicate Entries"
+					/>
 				</section>
 				<footer>
 					<NoteLine text="Duplicates are rows with the same dates and times" />
@@ -1219,6 +1263,7 @@ export default function UploadPage(props) {
 							color="primary"
 							variant="contained"
 							onClick={handleFormSubmit}
+							disabled={disabled}
 						>
 							Upload
 						</Button>

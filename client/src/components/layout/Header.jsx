@@ -6,6 +6,11 @@ import { useSelector } from "react-redux";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { IconButton } from "@material-ui/core";
 
+// icons
+import SignInIcon from "../icons/SignIn";
+import SignOutIcon from "../icons/SignOut";
+import AdminIcon from "../icons/Admin";
+
 export default function SideBar(props) {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const user = useSelector(userSelectors.user);
@@ -31,21 +36,32 @@ export default function SideBar(props) {
 					</li>
 					<UserDetailsModal />
 					{user.isAdmin === true && (
-						<IconButton
-							href="/admin"
-							title="SWOT Admin Panel"
-							color="inherit"
-						>
-							<SettingsIcon />
-						</IconButton>
+						<li className="nav-item nav-profile admin">
+							<Link
+								to="/admin"
+								className="admin"
+								title="SWOT Admin Panel"
+								color="inherit"
+							>
+								<i>
+									<AdminIcon />
+								</i>
+							</Link>
+						</li>
 					)}
-					<IconButton
-						id="accountDetails"
-						href="/admin/signout"
-						title="Log Out"
-					>
-						<img src="/assets/icons/header-nav-logout.svg" />
-					</IconButton>
+					<li className="nav-item nav-profile signout">
+						<a
+							id="accountDetails"
+							className="signout"
+							href="/admin/signout"
+							tabIndex="-1"
+							title="Log Out"
+						>
+							<i>
+								<SignOutIcon />
+							</i>
+						</a>
+					</li>
 				</>
 			);
 		} else {
@@ -61,41 +77,6 @@ export default function SideBar(props) {
 							</i>
 							<span className="label">Log in to Start</span>
 						</Link>
-					</li>
-					<li className="nav-item nav-profile signin">
-						<a href="/signin" title="Sign In" className="icon">
-							<i>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 40 40"
-								>
-									<line
-										fill="none"
-										stroke="currentColor"
-										strokeWidth="2.5"
-										strokeMiterlimit="10"
-										x1="3.3"
-										y1="20.1"
-										x2="23.3"
-										y2="20.1"
-									/>
-									<polyline
-										fill="none"
-										stroke="currentColor"
-										strokeWidth="2.5"
-										strokeMiterlimit="10"
-										points="18.5,13.9 23.3,20.1 18.5,26.2 "
-									/>
-									<polyline
-										fill="none"
-										stroke="currentColor"
-										strokeWidth="3"
-										strokeMiterlimit="10"
-										points="12.5,11.6 12.5,6.9 31.9,7.9 31.9,33.1 12.5,32.1 12.5,27.6"
-									/>
-								</svg>
-							</i>
-						</a>
 					</li>
 				</>
 			);

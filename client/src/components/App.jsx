@@ -16,6 +16,10 @@ import AnalyzePage from "./tool/AnalyzePage";
 import ViewResults from "./tool/ViewResults";
 import Result from "./tool/Result";
 
+// Manage Imports
+import FieldSites from "./manage/FieldSites";
+import People from "./manage/People";
+
 // Admin Imports
 import CMSPage from "./CMSPage";
 
@@ -59,7 +63,7 @@ export default function App(props) {
 				<Route exact={true} path="/">
 					<Home />
 				</Route>
-				<Route path="/download">
+				<Route path="/collect">
 					<CollectData />
 				</Route>
 				<Route path="/upload">
@@ -73,6 +77,13 @@ export default function App(props) {
 				</Route>
 				<Route path="/result/:slug">
 					<Result />
+				</Route>
+
+				<Route path="/fieldsites">
+					<FieldSites />
+				</Route>
+				<Route path="/people">
+					<People />
 				</Route>
 
 				<Route path="/signin">

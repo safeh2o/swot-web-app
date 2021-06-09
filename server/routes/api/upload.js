@@ -143,7 +143,7 @@ exports.analyze = async function (req, res) {
 	const startDate = new Date(req.body.startDate);
 	const endDate = new Date(req.body.endDate);
 	endDate.setDate(endDate.getDate() + 1);
-	const fieldsiteId = req.body.fieldsite;
+	const fieldsiteId = req.body.fieldsite._id;
 	const datapoints = await Datapoint.model
 		.find({
 			fieldsite: fieldsiteId,
@@ -168,18 +168,16 @@ exports.analyze = async function (req, res) {
 
 	let currDate = moment().format("YYYYMMDD");
 	const dataset = new Dataset.model({
-		name: req.body.datasetName,
-		description: req.body.datasetDescription,
+		name: req.body.name,
+		description: req.body.description,
 		dateOfReading: new Date(),
 		fieldsite: fieldsiteId,
 		user: req.user._id,
 		archived: false,
 	});
-	const blobName = `${req.body.datasetName}__${dataset.id.slice(-4)}__${
+	const blobName = `${req.body.name}__${dataset.id.slice(-4)}__${
 		fieldsite.name
-	}__${currDate}__${req.body.maxDurationHours}__${
-		req.body.confidenceLevel
-	}.csv`;
+	}__${currDate}__${req.body.duration}__${req.body.confidence}.csv`;
 
 	// create CSV with standardized datapoints
 	const blobResult = await dataService.createCsv(datapoints, blobName);
@@ -214,21 +212,23 @@ exports.append = async function (req, res) {
 	const overwrite = req.body.overwrite;
 
 	if (!req.files) {
-		res.status(400);
+		res.sendStatus(400);
 		return;
 	}
 
-	if (req.files.uploaded_files instanceof Array) {
-		files = _.flattenDeep(req.files.uploaded_files);
-	} else {
-		files = [req.files.uploaded_files];
-	}
+	const reqFiles = req.files["files[]"];
 
-	await createAttachment(userId, fieldsiteId, overwrite, files);
+	if (Array.isArray(reqFiles)) {
+		files = _.flattenDeep(reqFiles);
+	} else {
+		files = [reqFiles];
+	}
 
 	res.json({
 		uploaded_count: files.length,
 	});
+
+	await createAttachment(userId, fieldsiteId, overwrite, files);
 };
 
 async function createAttachment(userId, fieldsiteId, overwrite, files) {

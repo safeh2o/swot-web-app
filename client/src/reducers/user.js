@@ -8,7 +8,7 @@ export const getUser = createAsyncThunk("user/getUser", async () => {
 export const userSlice = createSlice({
 	name: "user",
 	initialState: {
-		user: null,
+		user: { fieldsites: [] },
 		isLoggedIn: false,
 		status: null,
 	},
@@ -30,6 +30,7 @@ export const userSlice = createSlice({
 export const userSelectors = {
 	isLoggedIn: (state) => state.user.isLoggedIn,
 	user: (state) => state.user.user,
+	fieldsites: (state) => state.user.user.fieldsites,
 };
 
 export default userSlice.reducer;

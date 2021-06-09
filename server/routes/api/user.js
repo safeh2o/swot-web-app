@@ -215,5 +215,8 @@ exports.getCurrentUser = async function (req, res) {
 
 	const fields = ["_id", "isAdmin", "name", "email"];
 	const user = _.pick(req.user, fields);
-	res.json({ user });
+
+	const fieldsites = await dataService.getUserFieldsites(user._id);
+
+	res.json({ user: { ...user, fieldsites } });
 };

@@ -12,7 +12,7 @@ import ContactPage from "./ContactPage";
 // Tool Imports
 import CollectData from "./tool/CollectData";
 import UploadPage from "./tool/UploadPage";
-import SendForAnalysis from "./tool/SendForAnalysis";
+import AnalyzePage from "./tool/AnalyzePage";
 import ViewResults from "./tool/ViewResults";
 import Result from "./tool/Result";
 
@@ -66,7 +66,7 @@ export default function App(props) {
 					<UploadPage />
 				</Route>
 				<Route path="/analyze">
-					<SendForAnalysis />
+					<AnalyzePage />
 				</Route>
 				<Route path="/results">
 					<ViewResults />

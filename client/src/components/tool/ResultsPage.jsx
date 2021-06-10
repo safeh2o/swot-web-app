@@ -1,32 +1,33 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Notice from "../elements/Notice";
-import FormSelectSearch from "../elements/FormSelectSearch";
 import { Link } from "react-router-dom";
 
-// icons
-import ReactCountryFlag from "react-country-flag";
-import DetectEmoji from "../HelperDetectEmoji";
 import { DataGrid } from "@material-ui/data-grid";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { TextField } from "@material-ui/core";
-import { useSelector } from "react-redux";
+import { Button, TextField } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
 import { userSelectors } from "../../reducers/user";
 import axios from "axios";
+import { addNotice } from "../../reducers/notifications";
+import { DateTime } from "luxon";
 
 const columns = [
-	{ field: "name", headerName: "Dataset Name", width: 70 },
-	{ field: "dateOfReading", headerName: "Date Uploaded", width: 70 },
+	{ field: "name", headerName: "Dataset Name", flex: 1 },
 	{
-		field: "status",
-		headerName: "Status",
-		width: 70,
-		valueGetter: (params) => (params.blobName ? "Ready" : "Processing"),
+		field: "dateOfReading",
+		headerName: "Date Uploaded",
+		type: "date",
+		flex: 2,
+		valueFormatter: ({ value }) => DateTime.fromISO(value).toLocaleString(),
+		// sortComparator: (v1, v2) =>
+		// 	DateTime.fromISO(v1).diff(DateTime.fromISO(v2)) > 0,
 	},
 	{
-		field: "id",
-		headerName: "id",
-		width: 70,
-		valueGetter: (params) => params._id,
+		field: "ready",
+		headerName: "Ready",
+		type: "boolean",
+		width: "100",
+		valueGetter: (params) => (params.blobName ? true : false),
 	},
 ];
 
@@ -34,6 +35,9 @@ export default function ResultsPage(props) {
 	const userFieldsites = useSelector(userSelectors.fieldsites);
 	const [fieldsite, setFieldsite] = useState(null);
 	const [datasets, setDatasets] = useState([]);
+	// list of selected dataset id's
+	const [selectedDatasets, setSelectedDatasets] = useState([]);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (!fieldsite) {
@@ -46,16 +50,21 @@ export default function ResultsPage(props) {
 			axios
 				.get(`/api/user/datasets?fieldsite=${fieldsite._id}`)
 				.then((res) => {
-					// setDatasets(res.data.datasets);
-					const datasets = res.data.datasets.map(
-						(dataset) =>
-							delete Object.assign(dataset, {
-								id: dataset["_id"],
-							})["_id"]
-					);
-					setDatasets(datasets);
+					setDatasets(res.data.datasets);
 				});
 	}, [fieldsite]);
+
+	function handleSelection(params) {
+		setSelectedDatasets(params.selectionModel);
+	}
+
+	function handleReanalysis() {
+		axios
+			.post("/api/results/analyze", { datasetIds: selectedDatasets })
+			.then((res) => {
+				dispatch(addNotice({ label: "success", notice: res.data }));
+			});
+	}
 
 	return (
 		<>
@@ -90,17 +99,30 @@ export default function ResultsPage(props) {
 					</Link>
 				</footer>
 			</section>
-			<section className="content-window bleed-edges">
+			<section
+				className="content-window bleed-edges"
+				style={{ height: "100%" }}
+			>
 				<header>
 					<div className="content-window-title">Results</div>
 					<div className="content-window-options">
-						<button className="txt-icon button yellow">
-							<i></i>
-							<span>New Analysis</span>
-						</button>
+						<Button
+							color="primary"
+							disabled={!selectedDatasets.length}
+							onClick={handleReanalysis}
+						>
+							Reanalyze Selected
+						</Button>
 					</div>
 				</header>
-				<DataGrid rows={datasets} columns={columns} checkboxSelection />
+				<DataGrid
+					rows={datasets}
+					columns={columns}
+					checkboxSelection
+					getRowId={(row) => row._id}
+					onSelectionModelChange={handleSelection}
+					sortModel={[{ field: "dateOfReading", sort: "desc" }]}
+				/>
 				<footer></footer>
 			</section>
 		</>

@@ -91,7 +91,7 @@ exports = module.exports = function (app) {
 		keystone.middleware.api,
 		routes.api.results.archive
 	);
-	app.get(
+	app.post(
 		"/api/results/analyze",
 		keystone.middleware.api,
 		routes.api.results.analyze

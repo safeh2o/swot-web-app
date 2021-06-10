@@ -11,10 +11,6 @@ import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import MuiAccordionExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // Date Picker
 import TextField from "@material-ui/core/TextField";
-// Tool Tip
-import Tooltip from "@material-ui/core/Tooltip";
-import Typography from "@material-ui/core/Typography";
-import Fade from "@material-ui/core/Fade";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,6 +30,8 @@ import { DateTime } from "luxon";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import axios from "axios";
 import useForm from "../../hooks/useForm";
+
+import { IconCalendar, IconAdd } from "../icons";
 
 // const useStyles = makeStyles((theme) => ({
 // 	root: {
@@ -109,8 +107,9 @@ const Accordion = withStyles({
 			display: "none",
 		},
 		"&$expanded": {
-			margin: "20px 20px 40px",
+			margin: "20px 30px 40px",
 		},
+		borderRadius: "7px",
 	},
 	expanded: {
 		margin: 0,
@@ -150,18 +149,6 @@ const AccordionDetails = withStyles(() => ({
 		flexDirection: "column",
 	},
 }))(MuiAccordionDetails);
-
-// Guides
-const HtmlTooltip = withStyles((theme) => ({
-	tooltip: {
-		backgroundColor: "#f5f5f9",
-		color: "rgba(0, 0, 0, 0.87)",
-		maxWidth: 380,
-		border: "2px solid #dadde9",
-		padding: "20px 30px",
-		boxShadow: "4px 4px 5px rgb(0, 0, 0, .10)",
-	},
-}))(Tooltip);
 
 const initialState = {
 	fieldsite: null,
@@ -240,7 +227,18 @@ export default function AnalyzePage(props) {
 
 	return (
 		<form role="form" autoComplete="off">
-			<h2 className="content-title">Choose a Location</h2>
+			{/* <h2 className="content-title">Choose a Location</h2> */}
+
+			<section
+				id="collect-data"
+				className="content-window bleed-edges rich-text"
+			>
+				<header>
+					<div className="content-window-title">
+						Step 3. Request Analysis of Data
+					</div>
+				</header>
+			</section>
 
 			<section className="content-window">
 				<header>
@@ -249,37 +247,32 @@ export default function AnalyzePage(props) {
 				</header>
 				<section>
 					<div className="flex-group">
-						{/* <label className="space">
-                <FormSelectSearch options={OptionsResponse} icon={true} />
-                <span className="label">Country</span>
-              </label>
-              <label className="space">
-                <FormSelectSearch options={OptionsArea} />
-                <span className="label">Area</span>
-              </label> */}
-						<Autocomplete
-							id="fieldsite"
-							options={userFieldsites}
-							getOptionLabel={(option) => option.name}
-							renderInput={(params) => (
-								<TextField
-									{...params}
-									label="Fieldsite"
-									variant="outlined"
-								/>
-							)}
-							value={state && state.fieldsite}
-							onChange={(_event, value) => {
-								update({
-									fieldsite: value,
-								});
-							}}
-						/>
+						<label>
+							<Autocomplete
+								id="fieldsite"
+								options={userFieldsites}
+								getOptionLabel={(option) => option.name}
+								renderInput={(params) => (
+									<TextField
+										{...params}
+										label=""
+										variant="outlined"
+									/>
+								)}
+								value={state && state.fieldsite}
+								onChange={(_event, value) => {
+									update({
+										fieldsite: value,
+									});
+								}}
+							/>
+							<span className="label">Fieldsite</span>
+						</label>
 					</div>
 				</section>
 				<footer>
 					<Link to="/contact">
-						<NoteLine text="Something missing?" />
+						<NoteLine text="Location Missing? ... Contact Us" />
 					</Link>
 				</footer>
 			</section>
@@ -336,44 +329,29 @@ export default function AnalyzePage(props) {
 							All-Time
 						</Button>
 					</ButtonGroup>
-					<span className="custom-range-title">
-						<span className="note">
-							* Click icon to show calender
+					<label>
+						<span className="label">
+							<span className="note">
+								* Choose Ranges Above, Or adjust Below
+							</span>
 						</span>
-					</span>
-					<DateRangePicker
-						value={[state.startDate, state.endDate]}
-						onChange={handleDateChange}
-					/>
+						<DateRangePicker
+							rangeDivider={" to "}
+							calendarIcon={<IconCalendar />}
+							clearIcon={<IconAdd />}
+							value={[state.startDate, state.endDate]}
+							onChange={handleDateChange}
+						/>
+					</label>
 				</section>
 
 				<footer>
-					<HtmlTooltip
-						placement="top-start"
-						interactive
-						TransitionComponent={Fade}
-						title={
-							<>
-								<Typography variant="h5">
-									Choosing a Date Range
-								</Typography>
-								<Typography variant="body1">
-									<em>{"And here's"}</em> <b>{"some"}</b>{" "}
-									<u>{"amazing content"}</u>.{" "}
-									{"It's very engaging. Right?"}
-									<br />
-									<a href="">Learn more...</a>
-								</Typography>
-							</>
-						}
-					>
-						<span className="txt-icon guide txt-sm">
-							<i>
-								<img src="assets/icons/guides.svg" alt="" />
-							</i>
-							<span>Choosing a Date Range</span>
-						</span>
-					</HtmlTooltip>
+					<span className="txt-icon guide txt-sm">
+						<i>
+							<img src="assets/icons/guides.svg" alt="" />
+						</i>
+						<span>Choosing a Date Range</span>
+					</span>
 				</footer>
 			</section>
 
@@ -413,32 +391,12 @@ export default function AnalyzePage(props) {
 				</section>
 
 				<footer>
-					<HtmlTooltip
-						placement="top-start"
-						interactive
-						TransitionComponent={Fade}
-						title={
-							<>
-								<Typography variant="h5">
-									How should I determine the storage time?
-								</Typography>
-								<Typography variant="body1">
-									<em>{"And here's"}</em> <b>{"some"}</b>{" "}
-									<u>{"amazing content"}</u>.{" "}
-									{"It's very engaging. Right?"}
-								</Typography>
-							</>
-						}
-					>
-						<span className="txt-icon guide txt-sm">
-							<i>
-								<img src="assets/icons/guides.svg" alt="" />
-							</i>
-							<span>
-								How should I determine the storage time?
-							</span>
-						</span>
-					</HtmlTooltip>
+					<span className="txt-icon guide txt-sm">
+						<i>
+							<img src="assets/icons/guides.svg" alt="" />
+						</i>
+						<span>How should I determine the storage time?</span>
+					</span>
 				</footer>
 			</section>
 
@@ -447,16 +405,18 @@ export default function AnalyzePage(props) {
 					className="header"
 					expandIcon={<MuiAccordionExpandMoreIcon />}
 				>
-					<div className="content-window-title">Advanced Options</div>
+					<div className="content-window-title">
+						Modelling Confidence Level (Advanced)
+					</div>
 					<div className="section-options"></div>
 				</AccordionSummary>
 
 				<AccordionDetails>
 					<section className="section">
 						<FormControl component="fieldset">
-							<FormLabel component="legend">
+							{/* <FormLabel component="legend">
 								Confidence Level
-							</FormLabel>
+							</FormLabel> */}
 							<RadioGroup
 								aria-label="gender"
 								name="gender1"
@@ -465,50 +425,73 @@ export default function AnalyzePage(props) {
 									update({ confidence });
 								}}
 							>
-								<FormControlLabel
+								{/* <FormControlLabel
 									value="minimum"
 									control={<Radio color="primary" />}
 									label="Minimum Decay"
-								/>
-								<FormControlLabel
+								/> */}
+								<label
+									htmlFor="minimum"
+									className="radio block"
+								>
+									<input
+										value="minimum"
+										type="radio"
+										className="radio-input"
+										name="decayScenario"
+										id="minimum"
+									/>
+									<span className="label">Medium Decay</span>
+								</label>
+
+								{/* <FormControlLabel
 									value="optimum"
 									control={<Radio color="primary" />}
 									label="Optimum Decay"
-								/>
-								<FormControlLabel
+								/> */}
+								<label
+									htmlFor="optimum"
+									className="radio block"
+								>
+									<input
+										value="optimum"
+										type="radio"
+										className="radio-input"
+										name="decayScenario"
+										id="optimum"
+									/>
+									<span className="label">Optimum Decay</span>
+								</label>
+
+								{/* <FormControlLabel
 									value="maximum"
 									control={<Radio color="primary" />}
 									label="Maximum Decay"
-								/>
+								/> */}
+								<label
+									htmlFor="maximum"
+									className="radio block"
+								>
+									<input
+										value="maximum"
+										type="radio"
+										className="radio-input"
+										name="decayScenario"
+										id="maximum"
+									/>
+									<span className="label">Maximum Decay</span>
+								</label>
 							</RadioGroup>
 						</FormControl>
 					</section>
 
 					<footer className="footer">
-						<HtmlTooltip
-							placement="top-start"
-							interactive
-							TransitionComponent={Fade}
-							title={
-								<>
-									<Typography variant="h5">
-										Which scenario should I choose?
-									</Typography>
-									<Typography variant="body1">
-										<em>{"And here's"}</em> <b>{"some"}</b>{" "}
-										<u>{"amazing content"}</u>.{" "}
-										{"It's very engaging. Right?"}
-									</Typography>
-								</>
-							}
-						>
-							<span className="txt-icon guide txt-sm">
-								<i>
-									<img src="assets/icons/guides.svg" alt="" />
-								</i>
-								<span>Which scenario should I choose?</span>
-							</span>
-						</HtmlTooltip>
+						<span className="txt-icon guide txt-sm">
+							<i>
+								<img src="assets/icons/guides.svg" alt="" />
+							</i>
+							<span>Which scenario should I choose?</span>
+						</span>
 					</footer>
 				</AccordionDetails>
 			</Accordion>
@@ -517,33 +500,29 @@ export default function AnalyzePage(props) {
 				<section>
 					<div className={"submission-wrap " + classes.root}>
 						<Button
+							className="button green submit"
 							color="primary"
 							variant="contained"
 							onClick={handleFormSubmit}
 							disabled={disabled}
 						>
-							Analyze
+							Upload
 						</Button>
 						<Button
+							className="button reset"
 							type="reset"
 							variant="contained"
-							color="secondary"
 							onClick={() => {
 								reset();
 							}}
 						>
-							Reset
+							Reset Fields
 						</Button>
 					</div>
 				</section>
 
 				<footer>
-					<span className="txt-icon notice">
-						<i>
-							<img src="assets/icons/notice.svg" alt="" />
-						</i>
-						<span>Make sure all fields are filled out</span>
-					</span>
+					<NoteLine text="Make sure all fields are filled out" />
 				</footer>
 			</section>
 		</form>

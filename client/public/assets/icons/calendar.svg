@@ -2,50 +2,10 @@
 <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
-<path id="XMLID_2_" fill="#DDE6ED" d="M7,5.7h26c0.7,0,1.3,0.6,1.3,1.3v26c0,0.7-0.6,1.3-1.3,1.3H7c-0.7,0-1.3-0.6-1.3-1.3V7
-	C5.7,6.3,6.3,5.7,7,5.7z"/>
-<g id="XMLID_6441_">
-	<g id="XMLID_1_">
-		<path id="XMLID_16_" fill="#747E87" d="M33,4.5h-4.6V2.9c0-0.7-0.5-1.2-1.2-1.2S26,2.2,26,2.9v1.7H14V2.9c0-0.7-0.5-1.2-1.2-1.2
-			s-1.2,0.5-1.2,1.2v1.7H7C5.6,4.5,4.5,5.6,4.5,7v26c0,1.4,1.1,2.5,2.5,2.5h26c1.4,0,2.5-1.1,2.5-2.5V7C35.5,5.6,34.4,4.5,33,4.5z
-			 M7,6.9h4.6v1.7c0,0.7,0.5,1.2,1.2,1.2S14,9.2,14,8.6V6.9h12v1.7c0,0.7,0.5,1.2,1.2,1.2s1.2-0.5,1.2-1.2V6.9H33
-			c0.1,0,0.1,0,0.1,0.1v5.3H6.9V7C6.9,7,7,6.9,7,6.9z M33,33.1H7c-0.1,0-0.1,0-0.1-0.1V14.7h26.2V33C33.1,33,33,33.1,33,33.1z"/>
-		<rect id="XMLID_18_" x="10.4" y="25" fill="#747E87" width="4.6" height="4.6"/>
-		<rect id="XMLID_19_" x="25" y="25" fill="#747E87" width="4.6" height="4.6"/>
-		<rect id="XMLID_20_" x="25" y="17.7" fill="#747E87" width="4.6" height="4.6"/>
-		<rect id="XMLID_21_" x="17.7" y="17.7" fill="#747E87" width="4.6" height="4.6"/>
-		<rect id="XMLID_22_" x="17.7" y="25" fill="#747E87" width="4.6" height="4.6"/>
-	</g>
-	<rect id="XMLID_6442_" fill="none" width="40" height="40"/>
-</g>
-<g id="XMLID_3_">
-</g>
-<g id="XMLID_4_">
-</g>
-<g id="XMLID_5_">
-</g>
-<g id="XMLID_7_">
-</g>
-<g id="XMLID_8_">
-</g>
-<g id="XMLID_9_">
-</g>
-<g id="XMLID_10_">
-</g>
-<g id="XMLID_11_">
-</g>
-<g id="XMLID_12_">
-</g>
-<g id="XMLID_13_">
-</g>
-<g id="XMLID_14_">
-</g>
-<g id="XMLID_23_">
-</g>
-<g id="XMLID_24_">
-</g>
-<g id="XMLID_25_">
-</g>
-<g id="XMLID_26_">
-</g>
+<path id="XMLID_3_" fill="#DDE6ED" stroke="#747E87" stroke-width="2.3748" stroke-linecap="round" stroke-linejoin="round" d="
+	M7,5.7h26c0.7,0,1.3,0.6,1.3,1.3v26c0,0.7-0.6,1.3-1.3,1.3H7c-0.7,0-1.3-0.6-1.3-1.3V7C5.7,6.3,6.3,5.7,7,5.7z"/>
+<path id="XMLID_1_" fill="#747E87" d="M15.5,30.2H9.8v-5.7h5.7V30.2z M24.5,30.2h5.7v-5.7h-5.7V30.2z M24.5,22.9h5.7v-5.7h-5.7V22.9
+	z M22.9,17.1h-5.7v5.7h5.7V17.1z M17.1,30.2h5.7v-5.7h-5.7V30.2z"/>
+<path id="XMLID_2_" fill="#DDE6ED" stroke="#747E87" stroke-width="2.3748" stroke-linecap="round" stroke-linejoin="round" d="
+	M34.3,13.5H5.7 M12.8,2.9v5.7 M27.2,2.9v5.7"/>
 </svg>

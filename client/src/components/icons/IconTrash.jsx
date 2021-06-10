@@ -1,6 +1,6 @@
 import React from "react";
 
-function Trash() {
+function IconTrash() {
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -34,4 +34,4 @@ function Trash() {
 	);
 }
 
-export default Trash;
+export default IconTrash;

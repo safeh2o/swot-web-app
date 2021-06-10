@@ -104,7 +104,10 @@ export default function SideBar(props) {
 
 				<ul className="nav-wrap">
 					<li className="nav-item show-medium-up">
-						<Link to="/page/about" title="About the Project">
+						<Link
+							to="https://www.safeh2o.app/"
+							title="About the Project"
+						>
 							<span>About</span>
 						</Link>
 					</li>

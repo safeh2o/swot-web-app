@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 // icons
 import ReactCountryFlag from "react-country-flag";
 import DetectEmoji from "../HelperDetectEmoji";
-import TrashIcon from "../icons/Trash";
+import { IconTrash } from "../icons";
 
 export default function FieldSites(props) {
 	console.log(DetectEmoji());
@@ -56,7 +56,7 @@ export default function FieldSites(props) {
 				</section>
 				<footer>
 					<Link to="/contact">
-						<Notice
+						<NoteLine
 							text={[
 								"Cant find your Area or Fieldsite? ... Contact Us",
 							]}
@@ -93,7 +93,7 @@ export default function FieldSites(props) {
 							<div className="table-col">923</div>
 							<div className="table-col">Feb 27 2021</div>
 							<div className="table-col">
-								<TrashIcon />
+								<IconTrash />
 							</div>
 						</div>
 						<div className="table-row">
@@ -103,7 +103,7 @@ export default function FieldSites(props) {
 							<div className="table-col">527</div>
 							<div className="table-col">Feb 19 2021</div>
 							<div className="table-col">
-								<TrashIcon />
+								<IconTrash />
 							</div>
 						</div>
 						<div className="table-row">
@@ -115,7 +115,7 @@ export default function FieldSites(props) {
 							<div className="table-col">1739</div>
 							<div className="table-col">Nov 21 2020</div>
 							<div className="table-col">
-								<TrashIcon />
+								<IconTrash />
 							</div>
 						</div>
 						<div className="table-row">
@@ -127,7 +127,7 @@ export default function FieldSites(props) {
 							<div className="table-col">1263</div>
 							<div className="table-col">Nov 21 2020</div>
 							<div className="table-col">
-								<TrashIcon />
+								<IconTrash />
 							</div>
 						</div>
 						<div className="table-row">
@@ -137,7 +137,7 @@ export default function FieldSites(props) {
 							<div className="table-col">4</div>
 							<div className="table-col">Feb 02 2021</div>
 							<div className="table-col">
-								<TrashIcon />
+								<IconTrash />
 							</div>
 						</div>
 						<div className="table-row">
@@ -149,7 +149,7 @@ export default function FieldSites(props) {
 							<div className="table-col">222</div>
 							<div className="table-col">May 22 2020</div>
 							<div className="table-col">
-								<TrashIcon />
+								<IconTrash />
 							</div>
 						</div>
 						<div className="table-row">
@@ -161,7 +161,7 @@ export default function FieldSites(props) {
 							<div className="table-col">411</div>
 							<div className="table-col">Jan 06 2020</div>
 							<div className="table-col">
-								<TrashIcon />
+								<IconTrash />
 							</div>
 						</div>
 						<div className="table-row">
@@ -173,7 +173,7 @@ export default function FieldSites(props) {
 							<div className="table-col">2</div>
 							<div className="table-col">Sept 13 2018</div>
 							<div className="table-col">
-								<TrashIcon />
+								<IconTrash />
 							</div>
 						</div>
 					</section>

@@ -6,9 +6,12 @@ import AppContext from "../contexts/AppContext";
 import Posts from "./Posts";
 import { getUser, userSelectors as userSelectors } from "../reducers/user";
 
+import { IconTrash, IconAdd } from "./icons";
+
 // function Dashboard(props) {
 export default function Home(props) {
 	const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+	const userName = useSelector((state) => state.user.firstname);
 	// const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 
 	const isUserLogin = () => {
@@ -124,7 +127,140 @@ export default function Home(props) {
 				</>
 			);
 		} else {
-			return <></>;
+			return (
+				<>
+					<h2 className="content-title">Welcome Back, Chiedza</h2>
+					<section
+						id="collect-data"
+						className="content-window bleed-edges"
+					>
+						<header>
+							<div className="content-window-title">
+								Active Fieldsites
+							</div>
+						</header>
+						<section className="table results">
+							<section className="table-header">
+								<div className="table-col">
+									<span className="txt-icon">Fieldsite</span>
+								</div>
+								<div className="table-col">Response | Area</div>
+								<div className="table-col">Samples</div>
+								<div className="table-col">Latest Analysis</div>
+								<div className="table-col">Safety Level</div>
+								<div className="table-col"></div>
+							</section>
+							<section className="table-body">
+								<div className="table-row">
+									<div className="table-col">
+										<Link to="result/garwama">Camp 07</Link>
+									</div>
+									<div className="table-col">
+										Iraq | Mamrashan
+									</div>
+									<div className="table-col">305</div>
+									<div className="table-col">Feb 27 2021</div>
+									<div className="table-col">
+										<span className="safe-level safe"></span>
+									</div>
+									<div className="table-col">
+										<IconTrash />
+									</div>
+								</div>
+								<div className="table-row">
+									<div className="table-col">
+										<Link to="result/garwama">
+											Camp DVP
+										</Link>
+									</div>
+									<div className="table-col">
+										Iraq | Arbat IDP
+									</div>
+									<div className="table-col">15</div>
+									<div className="table-col">Jan 11 2021</div>
+									<div className="table-col">
+										<span className="safe-level check"></span>
+									</div>
+									<div className="table-col">
+										<IconTrash />
+									</div>
+								</div>
+								<div className="table-row">
+									<div className="table-col">
+										<Link to="result/garwama">
+											Camp Varungu
+										</Link>
+									</div>
+									<div className="table-col">
+										Nigeria | Essian
+									</div>
+									<div className="table-col">105</div>
+									<div className="table-col">Nov 21 2020</div>
+									<div className="table-col">
+										<span className="safe-level none"></span>
+									</div>
+									<div className="table-col">
+										<IconTrash />
+									</div>
+								</div>
+								<div className="table-row">
+									<div className="table-col">
+										<Link to="result/garwama">
+											Arbat IDP
+										</Link>
+									</div>
+									<div className="table-col">
+										Iraq | Garmawa
+									</div>
+									<div className="table-col">0</div>
+									<div className="table-col">- - -</div>
+									<div className="table-col">
+										<span className="safe-level none"></span>
+									</div>
+									<div className="table-col">
+										<IconTrash />
+									</div>
+								</div>
+								<div className="table-row">
+									<div className="table-col">
+										<Link to="result/garwama">Camp 03</Link>
+									</div>
+									<div className="table-col">
+										Iraq | Mamrashan
+									</div>
+									<div className="table-col">305</div>
+									<div className="table-col">Aug 17 2020</div>
+									<div className="table-col">
+										<span className="safe-level not-safe"></span>
+									</div>
+									<div className="table-col">
+										<IconTrash />
+									</div>
+								</div>
+								<div className="table-row">
+									<div className="table-col">
+										<Link to="result/garwama">
+											Bardarash
+										</Link>
+									</div>
+									<div className="table-col">
+										Nigeria | Essian
+									</div>
+									<div className="table-col">234</div>
+									<div className="table-col">Aug 8 2021</div>
+									<div className="table-col">
+										<span className="safe-level safe"></span>
+									</div>
+									<div className="table-col">
+										<IconTrash />
+									</div>
+								</div>
+							</section>
+							<section className="table-footer"></section>
+						</section>
+					</section>
+				</>
+			);
 		}
 	};
 

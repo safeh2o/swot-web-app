@@ -104,12 +104,12 @@ export default function Header(props) {
 
 				<ul className="nav-wrap">
 					<li className="nav-item show-medium-up">
-						<Link
-							to="https://www.safeh2o.app/"
+						<a
+							href="https://www.safeh2o.app/"
 							title="About the Project"
 						>
 							<span>About</span>
-						</Link>
+						</a>
 					</li>
 
 					<li className="nav-item show-medium-up">

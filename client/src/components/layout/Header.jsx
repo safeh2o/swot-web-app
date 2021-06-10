@@ -11,7 +11,7 @@ import SignInIcon from "../icons/SignIn";
 import SignOutIcon from "../icons/SignOut";
 import AdminIcon from "../icons/Admin";
 
-export default function SideBar(props) {
+export default function Header(props) {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const user = useSelector(userSelectors.user);
 

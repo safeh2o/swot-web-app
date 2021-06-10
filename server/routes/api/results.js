@@ -222,14 +222,12 @@ exports.archive = async function (req, res) {
 };
 
 exports.analyze = async function (req, res) {
-	if (!req.query.datasetIds) {
+	if (!req.body.datasetIds) {
 		res.status(400).send("No dataset id given");
 		return;
 	}
-	let datasetIds = [];
-	try {
-		datasetIds = JSON.parse(req.query.datasetIds).map((d) => d.toString());
-	} catch (e) {
+	let datasetIds = req.body.datasetIds;
+	if (!Array.isArray(datasetIds)) {
 		res.status(400).send("Invalid dataset id");
 		return;
 	}
@@ -276,9 +274,8 @@ async function fetchDatasets(archived, req) {
 	const processedDatasetArray = await getUserDatasets(req.user.id, archived);
 	//console.log('Datasets', JSON.stringify(processedDatasetArray));
 	if (processedDatasetArray && processedDatasetArray.length) {
-		const processedDatasetArrayWithBlobs = await getAnalysisResultsFromBlobStorage(
-			processedDatasetArray
-		);
+		const processedDatasetArrayWithBlobs =
+			await getAnalysisResultsFromBlobStorage(processedDatasetArray);
 		//console.log('Blob Datasets', JSON.stringify(processedDatasetArrayWithBlobs));
 		return processedDatasetArrayWithBlobs;
 	} else {
@@ -291,9 +288,8 @@ async function fetchDatasets(archived, req) {
  */
 async function getUserDatasets(userId, archived) {
 	return new Promise(async (resolve, reject) => {
-		const projectsWithFieldsites = await dataService.getProjectsWithFieldsites(
-			userId
-		);
+		const projectsWithFieldsites =
+			await dataService.getProjectsWithFieldsites(userId);
 
 		if (projectsWithFieldsites.length == 0) {
 			resolve(null);

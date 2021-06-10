@@ -120,6 +120,8 @@ export default function ResultsPage(props) {
 					columns={columns}
 					checkboxSelection
 					getRowId={(row) => row._id}
+					autoHeight
+					rowCount={18}
 					onSelectionModelChange={handleSelection}
 					sortModel={[{ field: "dateOfReading", sort: "desc" }]}
 				/>

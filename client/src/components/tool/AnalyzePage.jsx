@@ -277,7 +277,7 @@ export default function AnalyzePage(props) {
 				</footer>
 			</section>
 
-			<h2 className="content-title">Name the Dataset</h2>
+			{/* <h2 className="content-title">Name the Dataset</h2>
 
 			<section className="content-window">
 				<section>
@@ -296,7 +296,7 @@ export default function AnalyzePage(props) {
 						}}
 					/>
 				</section>
-			</section>
+			</section> */}
 
 			<h2 className="content-title">Provide a Date Range</h2>
 

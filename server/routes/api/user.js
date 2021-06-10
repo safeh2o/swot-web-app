@@ -207,6 +207,19 @@ exports.resetPassword = async function (req, res) {
 		});
 };
 
+exports.getUserDatasets = async function (req, res) {
+	if (!req.user) {
+		res.sendStatus(403);
+		return;
+	}
+
+	const datasets = await dataService.getUserDatasets(
+		req.user,
+		req.query.fieldsite
+	);
+	res.json({ datasets });
+};
+
 exports.getCurrentUser = async function (req, res) {
 	if (!req.user) {
 		res.json({ user: null });

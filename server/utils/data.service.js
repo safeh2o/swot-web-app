@@ -306,6 +306,10 @@ exports.associateDatasetWithUser = async function (userId, datasetId) {
 		.exec();
 };
 
+exports.getUserDatasets = async function (user, fieldsite) {
+	return await Dataset.model.find({ user, fieldsite });
+};
+
 /**
  * Update dataset record with selected fieldsite ID
  */

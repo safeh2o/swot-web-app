@@ -4,9 +4,6 @@ export * from "./Admin";
 export { default as Download } from "./Download";
 export * from "./Download";
 
-export { default as Home } from "./Home";
-export * from "./Home";
-
 export { default as NavMobile } from "./NavMobile";
 export * from "./NavMobile";
 

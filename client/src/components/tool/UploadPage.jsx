@@ -20,10 +20,12 @@ import user, { userSelectors } from "../../reducers/user";
 import axios from "axios";
 import useForm from "../../hooks/useForm";
 
+import { IconUpload } from "../icons";
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		"& > *": {
-			margin: theme.spacing(1),
+			margin: 0,
 		},
 	},
 }));
@@ -120,7 +122,20 @@ export default function UploadPage(props) {
 
 	return (
 		<form>
-			<h2 className="content-title">Choose a Location</h2>
+			{/* <h2 className="content-title">Choose a Location</h2> */}
+
+			<section
+				id="collect-data"
+				className="content-window bleed-edges rich-text"
+			>
+				<header>
+					<div className="content-window-title txt-condensed">
+						Step 2. Upload Your Data
+					</div>
+				</header>
+			</section>
+
+			{/* <h2 className="content-title">Choose location</h2> */}
 
 			<section className="content-window">
 				<header>
@@ -129,45 +144,37 @@ export default function UploadPage(props) {
 				</header>
 				<section>
 					<div className="flex-group">
-						{/* <label className="space">
-							<FormSelectSearch
-								options={OptionsResponse}
-								icon={true}
+						<label>
+							<Autocomplete
+								id="fieldsite"
+								options={userFieldsites}
+								getOptionLabel={(option) => option.name}
+								renderInput={(params) => (
+									<TextField
+										{...params}
+										label=""
+										variant="outlined"
+									/>
+								)}
+								value={state && state.fieldsite}
+								onChange={(_event, value) => {
+									update({
+										fieldsite: value,
+									});
+								}}
 							/>
-							<span className="label">Response</span>
+							<span className="label">Fieldsite</span>
 						</label>
-						<label className="space">
-							<FormSelectSearch options={OptionsArea} />
-							<span className="label">Area</span>
-						</label> */}
-						<Autocomplete
-							id="fieldsite"
-							options={userFieldsites}
-							getOptionLabel={(option) => option.name}
-							renderInput={(params) => (
-								<TextField
-									{...params}
-									label="Fieldsite"
-									variant="outlined"
-								/>
-							)}
-							value={state && state.fieldsite}
-							onChange={(_event, value) => {
-								update({
-									fieldsite: value,
-								});
-							}}
-						/>
 					</div>
 				</section>
 				<footer>
 					<Link to="/contact">
-						<NoteLine text="Something missing?" />
+						<NoteLine text="Fieldsite Missing? ... Contact Us" />
 					</Link>
 				</footer>
 			</section>
 
-			<h2 className="content-title">Upload Data</h2>
+			{/* <h2 className="content-title">Upload Data</h2> */}
 
 			<section className="content-window">
 				<header>
@@ -181,6 +188,7 @@ export default function UploadPage(props) {
 				</header>
 				<section>
 					<DropzoneArea
+						Icon={IconUpload}
 						onChange={handleFileChange}
 						maxFileSize={50 * MEGABYTE}
 						acceptedFiles={[
@@ -190,8 +198,8 @@ export default function UploadPage(props) {
 						]}
 						filesLimit={5}
 						useChipsForPreview
-						showPreviewsInDropzone={false}
-						showPreviews={true}
+						showPreviewsInDropzone={true}
+						showPreviews={false}
 						previewText={getPreviewText()}
 						ref={fileInput}
 					/>
@@ -209,21 +217,21 @@ export default function UploadPage(props) {
 					<div className="section-options"></div>
 				</header>
 				<section>
-					<FormControlLabel
-						control={
-							<Checkbox
-								checked={state && state.overwrite}
-								onChange={() => {
-									update({
-										overwrite: !state.overwrite,
-									});
-								}}
-								name="overwriteCheck"
-								color="primary"
-							/>
-						}
-						label="Overwrite Duplicate Entries"
-					/>
+					<label className="checkbox">
+						<input
+							checked={state && state.overwrite}
+							onChange={() => {
+								update({
+									overwrite: !state.overwrite,
+								});
+							}}
+							name="overwriteCheck"
+							type="checkbox"
+						/>
+						<span className="label">
+							Overwrite Duplicate Entries
+						</span>
+					</label>
 				</section>
 				<footer>
 					<NoteLine text="Duplicates are rows with the same dates and times" />
@@ -234,6 +242,7 @@ export default function UploadPage(props) {
 				<section>
 					<div className={"submission-wrap " + classes.root}>
 						<Button
+							className="button green submit"
 							color="primary"
 							variant="contained"
 							onClick={handleFormSubmit}
@@ -242,12 +251,13 @@ export default function UploadPage(props) {
 							Upload
 						</Button>
 						<Button
+							className="button reset"
 							type="reset"
 							variant="contained"
-							color="secondary"
+							color=""
 							onClick={handleFormReset}
 						>
-							Reset
+							Reset Fields
 						</Button>
 					</div>
 				</section>

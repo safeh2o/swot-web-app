@@ -58,11 +58,15 @@ export default function SideBar() {
 			return (
 				<>
 					<nav aria-label="Page Menu">
-						<Link to="/" className="nav-item-side dashboard">
+						<NavLink
+							to="/"
+							className="nav-item-side dashboard"
+							title="Home"
+						>
 							<span>
 								<span className="label">Home</span>
 							</span>
-						</Link>
+						</NavLink>
 					</nav>
 				</>
 			);

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
-import Notice from "../elements/Notice";
+import NoteLine from "../elements/NoteLine";
+import GuideLine from "../elements/GuideLine";
 
 import { Helmet } from "react-helmet";
 
@@ -31,43 +32,11 @@ class Result extends Component {
 					<section>
 						<div className="flex-group">
 							<label className="space">
-								<span className="icon">
-									<i>
-										<img
-											alt=""
-											src="/assets/icons/flags/NG.svg"
-											width="24"
-											height="24"
-										/>
-									</i>
-									<input
-										tabIndex="0"
-										autoComplete="on"
-										type="text"
-										value="Nigeria"
-										readOnly
-										disabled="disabled"
-									/>
-								</span>
-								<span className="label">Country</span>
-							</label>
-							<label className="space">
 								<input
 									tabIndex="0"
 									autoComplete="on"
 									type="text"
-									value="Maiduguri"
-									readOnly
-									disabled="disabled"
-								/>
-								<span className="label">Area</span>
-							</label>
-							<label className="space">
-								<input
-									tabIndex="0"
-									autoComplete="on"
-									type="text"
-									value="Garmawa"
+									value="Maiduguri, Nigeria"
 									readOnly
 									disabled="disabled"
 								/>
@@ -96,20 +65,6 @@ class Result extends Component {
 						<div className="flex-group">
 							<label className="space half-width">
 								<div>
-									<span className="value">27 Feb 2021</span>
-								</div>
-								<span className="label">Last Analyzed</span>
-							</label>
-							<label className="half-width">
-								<div>
-									<span className="value">
-										12 Dec 2020 - 27 Feb 2021
-									</span>
-								</div>
-								<span className="label">Date Range</span>
-							</label>
-							<label className="space half-width">
-								<div>
 									<span className="value stat">320</span>
 									<i></i>
 								</div>
@@ -126,16 +81,76 @@ class Result extends Component {
 									Valid Samples Analyzed
 								</span>
 							</label>
+							<label className="space half-width">
+								<div>
+									<span className="value">27 Feb 2021</span>
+								</div>
+								<span className="label">Last Analyzed</span>
+							</label>
+							<label className="half-width">
+								<div>
+									<span className="value">
+										12 Dec 2020 - 27 Feb 2021
+									</span>
+								</div>
+								<span className="label">Date Range</span>
+							</label>
 						</div>
 					</section>
 					<footer>
-						<a class="button green" href="#">
+						<a className="button green" href="#">
 							<span>Download Report</span>
 						</a>
-						<a class="button yellow" href="#">
+						<a className="button yellow" href="#">
 							<span>Re-Analyze</span>
 						</a>
 					</footer>
+				</section>
+
+				<section className="content-window result-window-stats">
+					<header>
+						<div className="content-window-title">FRC Target</div>
+						<div className="section-options"></div>
+					</header>
+					<section>
+						<div className="flex-group">
+							<label className="space half-width">
+								<div>
+									<span className="value stat">0.9</span>
+									<span className="value unit">mg/l</span>
+								</div>
+								<span className="label">
+									FRC at the Tapstand
+								</span>
+								<hr />
+								<GuideLine
+									text={[
+										"You should aim for this FRC value at the tapstand in order to ensure water is safe to drink after storing in the home.",
+										" - ",
+										<a href="/contact">learn more</a>,
+									]}
+								/>
+							</label>
+							<label className="half-width">
+								<div>
+									<span className="value stat">15</span>
+									<span className="value unit">Hours</span>
+								</div>
+								<span className="label">
+									Valid Samples Analysed
+								</span>
+								<hr />
+								<GuideLine
+									text={[
+										"This is the delay used to calculate the FRC target, it should reflect the typical maximum amount of time water is being storde for",
+										" - ",
+										<a href="/contact">learn more</a>,
+									]}
+								/>
+							</label>
+						</div>
+					</section>
+					<footer></footer>
 				</section>
 
 				<section className="content-window result-window-stats">
@@ -149,90 +164,42 @@ class Result extends Component {
 						<div className="flex-group">
 							<label className="space half-width">
 								<div>
-									<span className="value">62</span>
-									<span className="unit">%</span>
+									<span className="value stat">26</span>
+									<span className="value unit">%</span>
+								</div>
+								<span className="label">Tapstand FRC</span>
+								<hr />
+								<GuideLine
+									text={[
+										"This is the percentage of tapstand FRC measurments that met the target recommendation",
+										" - ",
+										<a href="/contact">learn more</a>,
+									]}
+								/>
+							</label>
+							<label className="half-width">
+								<div>
+									<span className="value stat">12</span>
+									<span className="value unit">%</span>
 								</div>
 								<span className="label">
-									FRC at the Tapstand
+									Household Water Safety
 								</span>
+								<hr />
+								<GuideLine
+									text={[
+										"This is the percentage of household FRC measurments that met the minimum FRC of 0.2mg/l",
+										" - ",
+										<a href="/contact">learn more</a>,
+									]}
+								/>
 							</label>
-							<div>
-								<span className="txt-icon txt-sm help">
-									<i>
-										<img src="assets/icons/guide.svg" />
-									</i>
-									<span>
-										The percentage of tapstand water samples
-										with an FRC of at least 0.2mg/l -{" "}
-										<a href="#">learn more</a>
-									</span>
-								</span>
-							</div>
-						</div>
-						<div className="stat">
-							<div>
-								<div className="txt-apc">
-									<span className="value">32</span>
-									<span className="unit txt-lrg">%</span>
-								</div>
-								<label className="txt-sm">
-									FRC at the Household
-								</label>
-							</div>
-							<div></div>
-							<div>
-								<span className="txt-icon txt-sm help">
-									<i>
-										<img src="assets/icons/guide.svg" />
-									</i>
-									<span>
-										The percentage of household water
-										samples with an FRC of at least 0.2mg/l
-										- <a href="#">learn more</a>
-									</span>
-								</span>
-							</div>
 						</div>
 					</section>
 					<footer></footer>
 				</section>
 
-				<section className="content-window result-window-stats">
-					<header>
-						<div className="content-window-title">FRC Target</div>
-						<div className="section-options"></div>
-					</header>
-					<section>
-						<div className="stat">
-							<div>
-								<div className="txt-apc">
-									<span className="value">0.9</span>
-									<span className="unit txt-lrg">mg/l</span>
-								</div>
-								<label className="txt-sm">
-									FRC at the Tapstand
-								</label>
-							</div>
-							<div></div>
-							<div>
-								<span className="txt-icon txt-sm help">
-									<i>
-										<img src="assets/icons/guide.svg" />
-									</i>
-									<span>
-										You should aim for this FRC value at the
-										tapstand in order to ensure water is
-										safe to drink after storing in the home.
-										- <a href="#">learn more</a>
-									</span>
-								</span>
-							</div>
-						</div>
-					</section>
-					<footer></footer>
-				</section>
-
-				<section className="content-window result-window-stats">
+				{/* <section className="content-window result-window-stats">
 					<header>
 						<div className="content-window-title">
 							Water Safety Improvements
@@ -244,7 +211,7 @@ class Result extends Component {
 							<div>
 								<div className="txt-apc">
 									<span className="value">85</span>
-									<span className="unit txt-lrg">%</span>
+									<span className="unit">%</span>
 								</div>
 								<label className="txt-sm">
 									Predicted improvements
@@ -252,7 +219,7 @@ class Result extends Component {
 							</div>
 							<div></div>
 							<div className="full">
-								<span className="txt-icon txt-sm help">
+								<span className="txt-icon help">
 									<i>
 										<img src="assets/icons/guide.svg" />
 									</i>
@@ -268,7 +235,7 @@ class Result extends Component {
 						</div>
 					</section>
 					<footer></footer>
-				</section>
+				</section> */}
 
 				<section className="content-window">
 					<header>
@@ -278,9 +245,6 @@ class Result extends Component {
 					<section>
 						<ul className="whats-next float txt-center inline">
 							<li>
-								<figure>
-									<img src="assets/icons/tap-stand.svg" />
-								</figure>
 								<div>
 									<div className="title txt-500">
 										Increase chlorine dosing
@@ -290,11 +254,11 @@ class Result extends Component {
 										<a href="#">more info</a>
 									</p>
 								</div>
+								<figure>
+									<img src="/assets/pages/increase-chlorine-dosage.svg" />
+								</figure>
 							</li>
 							<li>
-								<figure>
-									<img src="assets/icons/guide-monitor.svg" />
-								</figure>
 								<div>
 									<div className="title txt-500">
 										Continue monitoring FRC
@@ -306,11 +270,11 @@ class Result extends Component {
 										<a href="#">more info</a>
 									</p>
 								</div>
+								<figure>
+									<img src="/assets/pages/continue-monitoring-frc.svg" />
+								</figure>
 							</li>
 							<li>
-								<figure>
-									<img src="assets/icons/guide-full.svg" />
-								</figure>
 								<div>
 									<div className="title txt-500">
 										Review guidance
@@ -321,10 +285,12 @@ class Result extends Component {
 										<a href="#">more info</a>
 									</p>
 								</div>
+								<figure>
+									<img src="assets/pages/review-guidance.svg" />
+								</figure>
 							</li>
 						</ul>
 					</section>
-					<footer></footer>
 				</section>
 			</>
 		);

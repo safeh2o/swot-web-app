@@ -5,13 +5,17 @@ $input-line-height: $input-font-size * 2;
 // Main Tag as parent to try prevent conflicts
 main {
 	.button {
+		display: inline-flex;
+		align-items: center;
 		cursor: pointer;
 		font-size: 1.15rem;
 		font-weight: 500;
-		line-height: 2.6rem;
+		height: 2.6rem;
 		color: #161819;
 		min-width: 100px;
 		transition: filter 0.2s ease;
+		padding-left: 10px;
+		padding-right: 10px;
 
 		.value {
 			font-size: 1.1325rem;

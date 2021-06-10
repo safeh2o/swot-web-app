@@ -99,10 +99,7 @@ export default function ResultsPage(props) {
 					</Link>
 				</footer>
 			</section>
-			<section
-				className="content-window bleed-edges"
-				style={{ height: "100%" }}
-			>
+			<section className="content-window bleed-edges">
 				<header>
 					<div className="content-window-title">Results</div>
 					<div className="content-window-options">
@@ -115,16 +112,22 @@ export default function ResultsPage(props) {
 						</Button>
 					</div>
 				</header>
-				<DataGrid
-					rows={datasets}
-					columns={columns}
-					checkboxSelection
-					getRowId={(row) => row._id}
-					autoHeight
-					rowCount={18}
-					onSelectionModelChange={handleSelection}
-					sortModel={[{ field: "dateOfReading", sort: "desc" }]}
-				/>
+				<section className="DataGridContainer">
+					<div style={{ display: "flex", height: "100%" }}>
+						<div style={{ flexGrow: 1 }}>
+							<DataGrid
+								rows={datasets}
+								columns={columns}
+								checkboxSelection
+								getRowId={(row) => row._id}
+								onSelectionModelChange={handleSelection}
+								sortModel={[
+									{ field: "dateOfReading", sort: "desc" },
+								]}
+							/>
+						</div>
+					</div>
+				</section>
 				<footer></footer>
 			</section>
 		</>

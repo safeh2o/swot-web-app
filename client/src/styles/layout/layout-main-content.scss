@@ -188,6 +188,20 @@
 	}
 }
 
+// Data Grid
+@media (max-height: 479.9px) {
+	.DataGridContainer {
+		height: calc(100vh - 100px);
+	}
+}
+@media (min-height: 480px) {
+	.DataGridContainer {
+		height: 350px;
+		min-height: 400px;
+		max-height: calc(100vh - 300px);
+	}
+}
+
 @media (min-width: 960px) {
 	#content {
 		> * {

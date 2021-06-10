@@ -11,7 +11,7 @@ stages:
       displayName: Create Artifact
       jobs:
           - job: Build
-            displayName: Build
+            displayName: Create Artifact
             pool:
                 vmImage: $(vmImageName)
             steps:

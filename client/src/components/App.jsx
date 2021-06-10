@@ -13,7 +13,6 @@ import ContactPage from "./ContactPage";
 import CollectData from "./tool/CollectData";
 import UploadPage from "./tool/UploadPage";
 import AnalyzePage from "./tool/AnalyzePage";
-import ViewResults from "./tool/ViewResults";
 import Result from "./tool/Result";
 
 // Manage Imports
@@ -29,6 +28,7 @@ import ProfileForgotPassword from "./profile/ProfileForgotPassword";
 import ProfileResetPassword from "./profile/ProfileResetPassword";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, userSelectors } from "../reducers/user";
+import ResultsPage from "./tool/ResultsPage";
 
 // import BlogDashboard from "./BlogDashboard";
 // import BlogPage from "./BlogPage";
@@ -73,7 +73,7 @@ export default function App(props) {
 					<AnalyzePage />
 				</Route>
 				<Route path="/results">
-					<ViewResults />
+					<ResultsPage />
 				</Route>
 				<Route path="/result/:slug">
 					<Result />

@@ -6,6 +6,9 @@ services:
         build:
             context: .
             dockerfile: ./docker/nginx/Dockerfile
+            args:
+                - GOOGLE_ANALYTICS_GTAG=$GOOGLE_ANALYTICS_GTAG
+                - GOOGLE_RECAPTCHA_SITE_KEY=$GOOGLE_RECAPTCHA_SITE_KEY
         image: swotnginx
         ports:
             - 80:80

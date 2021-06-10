@@ -1,18 +1,16 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
-import AppContext from "../contexts/AppContext";
 import Posts from "./Posts";
-import { getUser, userSelectors as userSelectors } from "../reducers/user";
+import { userSelectors as userSelectors } from "../reducers/user";
 
-import { IconTrash, IconAdd } from "./icons";
+import { IconTrash } from "./icons";
 
 // function Dashboard(props) {
 export default function Home(props) {
-	const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-	const userName = useSelector((state) => state.user.firstname);
-	// const isLoggedIn = useSelector(userSelectors.isLoggedIn);
+	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
+	const user = useSelector(userSelectors.user);
 
 	const isUserLogin = () => {
 		if (!isLoggedIn) {
@@ -129,7 +127,9 @@ export default function Home(props) {
 		} else {
 			return (
 				<>
-					<h2 className="content-title">Welcome Back, Chiedza</h2>
+					<h2 className="content-title">
+						Welcome Back, {user.name.first}
+					</h2>
 					<section
 						id="collect-data"
 						className="content-window bleed-edges"

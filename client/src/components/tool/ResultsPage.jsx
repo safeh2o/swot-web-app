@@ -8,7 +8,7 @@ import { Button, TextField } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { userSelectors } from "../../reducers/user";
 import axios from "axios";
-import { addNotice } from "../../reducers/notifications";
+import { addNotice, setLoading } from "../../reducers/notifications";
 import { DateTime } from "luxon";
 
 const columns = [
@@ -33,7 +33,7 @@ const columns = [
 
 export default function ResultsPage(props) {
 	const userFieldsites = useSelector(userSelectors.fieldsites);
-	const [fieldsite, setFieldsite] = useState(null);
+	const [fieldsite, setFieldsite] = useState({ name: "" });
 	const [datasets, setDatasets] = useState([]);
 	// list of selected dataset id's
 	const [selectedDatasets, setSelectedDatasets] = useState([]);
@@ -46,12 +46,19 @@ export default function ResultsPage(props) {
 	}, [userFieldsites]);
 
 	useEffect(() => {
-		if (fieldsite)
+		if (fieldsite && fieldsite.name) {
+			dispatch(setLoading(true));
 			axios
 				.get(`/api/user/datasets?fieldsite=${fieldsite._id}`)
 				.then((res) => {
 					setDatasets(res.data.datasets);
+				})
+				.finally(() => {
+					dispatch(setLoading(false));
 				});
+		} else {
+			setDatasets([]);
+		}
 	}, [fieldsite]);
 
 	function handleSelection(params) {

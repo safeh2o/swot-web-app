@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from "react";
+import React from "react";
 import { Switch, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
@@ -26,8 +26,8 @@ import CMSPage from "./CMSPage";
 import ProfileLogin from "./profile/ProfileLogin";
 import ProfileForgotPassword from "./profile/ProfileForgotPassword";
 import ProfileResetPassword from "./profile/ProfileResetPassword";
-import { useDispatch, useSelector } from "react-redux";
-import { getUser, userSelectors } from "../reducers/user";
+import { useDispatch } from "react-redux";
+import { getUser } from "../reducers/user";
 import ResultsPage from "./tool/ResultsPage";
 
 // import BlogDashboard from "./BlogDashboard";

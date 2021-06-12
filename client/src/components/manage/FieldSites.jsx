@@ -3,6 +3,7 @@ import Notice from "../elements/Notice";
 import FormSelectSearch from "../elements/FormSelectSearch";
 import { Link } from "react-router-dom";
 
+import NoteLine from "../elements/NoteLine";
 // icons
 import ReactCountryFlag from "react-country-flag";
 import DetectEmoji from "../HelperDetectEmoji";
@@ -18,7 +19,7 @@ export default function FieldSites(props) {
 					<div className="content-window-title">Location</div>
 					<div className="section-options"></div>
 				</header>
-				<section>
+				{/* <section>
 					<div className="flex-group">
 						<label className="space">
 							<FormSelectSearch
@@ -38,7 +39,7 @@ export default function FieldSites(props) {
 							<span className="label">Area</span>
 						</label>
 					</div>
-				</section>
+				</section> */}
 				<footer>
 					<Link to="/contact">
 						<NoteLine
@@ -63,7 +64,7 @@ export default function FieldSites(props) {
 				<section className="table fieldsites">
 					<section className="table-header">
 						<div className="table-col">
-							<span class="txt-icon">Fieldsite</span>
+							<span className="txt-icon">Fieldsite</span>
 						</div>
 						<div className="table-col">Total Samples</div>
 						<div className="table-col">Latest Analysis</div>

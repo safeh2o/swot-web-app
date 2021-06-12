@@ -13,6 +13,7 @@ import useForm from "../../hooks/useForm";
 
 import { IconUpload } from "../icons";
 import FieldsitesDropdown from "../elements/FieldsitesDropdown";
+import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 const initialState = {
 	response: null,
 	area: null,
-	fieldsite: { _id: null, name: "" },
+	fieldsite: DEFAULT_FIELDSITE,
 	files: [],
 	overwrite: false,
 };
@@ -42,17 +43,6 @@ export default function UploadPage(props) {
 		const isDisabled = state.files.length === 0 || !state.fieldsite;
 		setDisabled(isDisabled);
 	}, [state]);
-
-	useEffect(() => {
-		if (
-			!state.fieldsite ||
-			(!state.fieldsite._id &&
-				userFieldsites &&
-				userFieldsites.length > 0)
-		) {
-			update({ fieldsite: userFieldsites[0] });
-		}
-	}, [userFieldsites]);
 
 	function getFormData() {
 		const formData = new FormData();

@@ -31,16 +31,15 @@ const initialState = {
 	overwrite: false,
 };
 
-export default function UploadPage(props) {
+export default function UploadPage() {
 	const classes = useStyles();
-	const userFieldsites = useSelector(userSelectors.fieldsites);
 	const { state, update, reset } = useForm(initialState);
 	const [disabled, setDisabled] = useState(true);
 	const dispatch = useDispatch();
 	const fileInput = useRef(null);
 
 	useEffect(() => {
-		const isDisabled = state.files.length === 0 || !state.fieldsite;
+		const isDisabled = state.files.length === 0 || !state.fieldsite._id;
 		setDisabled(isDisabled);
 	}, [state]);
 
@@ -87,7 +86,6 @@ export default function UploadPage(props) {
 				dispatch(
 					addNotice({ label: "Success", notice: "Upload success" })
 				);
-				// console.log(res);
 			})
 			.catch((err) => {
 				dispatch(

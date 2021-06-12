@@ -7,6 +7,8 @@ const _ = require("lodash");
 const mailer = require("../../utils/emailer");
 const analyzer = require("../../utils/analyzer");
 const dataService = require("../../utils/data.service");
+const { BlobServiceClient } = require("@azure/storage-blob");
+const { QueueServiceClient } = require("@azure/storage-queue");
 const path = require("path");
 
 const std = require("../../utils/standardize");
@@ -206,6 +208,56 @@ exports.analyze = async function (req, res) {
 };
 
 exports.append = async function (req, res) {
+	const fieldsiteId = req.body.fieldsite;
+	const overwrite = req.body.overwrite;
+	const userId = req.user._id;
+
+	if (!req.files) {
+		res.sendStatus(400);
+		return;
+	}
+
+	const reqFiles = req.files["files[]"];
+	const files = Array.isArray(reqFiles)
+		? _.flattenDeep(reqFiles)
+		: [reqFiles];
+
+	const blobServiceClient = BlobServiceClient.fromConnectionString(
+		process.env.AZURE_STORAGE_CONNECTION_STRING
+	);
+	const containerClient = blobServiceClient.getContainerClient(
+		process.env.AZURE_STORAGE_CONTAINER
+	);
+
+	const attachment = new Attachment.model({
+		user: userId,
+		fieldsite: fieldsiteId,
+		overwriting: overwrite,
+	});
+
+	const uploadBlobResponses = [];
+
+	await Promise.all(
+		files.map(async (file, i) => {
+			const blockBlobClient = containerClient.getBlockBlobClient(
+				`${attachment.id}/${i}_${file.originalname}`
+			);
+			const response = await blockBlobClient.uploadFile(file.path);
+			uploadBlobResponses.push(response);
+		})
+	);
+
+	const queueClient = QueueServiceClient.fromConnectionString(
+		process.env.AZURE_STORAGE_CONNECTION_STRING
+	).getQueueClient(process.env.AZURE_STORAGE_QUEUE_STANDARDIZE);
+	const sendMessageResponse = await queueClient.sendMessage(attachment.id);
+
+	attachment.save();
+
+	res.json({ blobs: uploadBlobResponses, queue: sendMessageResponse });
+};
+
+exports.append2 = async function (req, res) {
 	let files;
 	const fieldsiteId = req.body.fieldsite;
 	const userId = req.user._id;

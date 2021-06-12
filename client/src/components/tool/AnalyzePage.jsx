@@ -176,7 +176,7 @@ export default function AnalyzePage(props) {
 			description,
 		} = state;
 		setDisabled(
-			!fieldsite ||
+			!fieldsite._id ||
 				(!startDate && !endDate) ||
 				!duration ||
 				!confidence ||

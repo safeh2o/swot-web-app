@@ -30,6 +30,7 @@ import { DateTime } from "luxon";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import axios from "axios";
 import useForm from "../../hooks/useForm";
+import FieldsitesDropdown from "../elements/FieldsitesDropdown";
 
 import { IconCalendar, IconAdd } from "../icons";
 
@@ -248,23 +249,13 @@ export default function AnalyzePage(props) {
 				<section>
 					<div className="flex-group">
 						<label>
-							<Autocomplete
-								id="fieldsite"
-								options={userFieldsites}
-								getOptionLabel={(option) => option.name}
-								renderInput={(params) => (
-									<TextField
-										{...params}
-										label=""
-										variant="outlined"
-									/>
-								)}
-								value={state && state.fieldsite}
+							<FieldsitesDropdown
 								onChange={(_event, value) => {
 									update({
 										fieldsite: value,
 									});
 								}}
+								value={state && state.fieldsite}
 							/>
 							<span className="label">Fieldsite</span>
 						</label>

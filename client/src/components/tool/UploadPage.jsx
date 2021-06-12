@@ -1,22 +1,13 @@
-import React, { useState, useRef, useReducer, useEffect } from "react";
-
-import FormSelectSearch from "../elements/FormSelectSearch";
+import React, { useState, useRef, useEffect } from "react";
 
 import { Link } from "react-router-dom";
 import NoteLine from "../elements/NoteLine";
 import { MEGABYTE } from "../../helpers/bitcalc";
 import { DropzoneArea } from "material-ui-dropzone";
-import {
-	Button,
-	Checkbox,
-	FormControlLabel,
-	makeStyles,
-	TextField,
-} from "@material-ui/core";
+import { Button, makeStyles } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import user, { userSelectors } from "../../reducers/user";
+import { userSelectors } from "../../reducers/user";
 import axios from "axios";
 import useForm from "../../hooks/useForm";
 

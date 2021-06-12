@@ -25,7 +25,7 @@ function FieldsitesDropdown(props) {
 }
 
 FieldsitesDropdown.propTypes = {
-	value: PropTypes.func.isRequired,
+	value: PropTypes.object.isRequired,
 	onChange: PropTypes.func.isRequired,
 };
 

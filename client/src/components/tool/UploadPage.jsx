@@ -21,6 +21,7 @@ import axios from "axios";
 import useForm from "../../hooks/useForm";
 
 import { IconUpload } from "../icons";
+import FieldsitesDropdown from "../elements/FieldsitesDropdown";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -40,18 +41,30 @@ const initialState = {
 
 export default function UploadPage(props) {
 	const classes = useStyles();
-
 	const userFieldsites = useSelector(userSelectors.fieldsites);
-
-	// const [state, formDispatch] = useReducer(simpleFormReducer, initialState);
 	const { state, update, reset } = useForm(initialState);
 	const [disabled, setDisabled] = useState(true);
+	const dispatch = useDispatch();
+	const fileInput = useRef(null);
+
+	useEffect(() => {
+		const isDisabled = state.files.length === 0 || !state.fieldsite;
+		setDisabled(isDisabled);
+	}, [state]);
+
+	useEffect(() => {
+		if (
+			!state.fieldsite ||
+			(!state.fieldsite._id &&
+				userFieldsites &&
+				userFieldsites.length > 0)
+		) {
+			update({ fieldsite: userFieldsites[0] });
+		}
+	}, [userFieldsites]);
 
 	function getFormData() {
 		const formData = new FormData();
-		// Object.keys(state).forEach((field) => {
-		// 	formData.append(field, state[field]);
-		// })
 		const {
 			files,
 			overwrite,
@@ -74,19 +87,6 @@ export default function UploadPage(props) {
 			state.files.length > 1 ? "s" : ""
 		} selected:`;
 	}
-
-	useEffect(() => {
-		const isDisabled =
-			state.files.length === 0 ||
-			// !state.response ||
-			// !state.area ||
-			!state.fieldsite;
-		setDisabled(isDisabled);
-	}, [state]);
-
-	const dispatch = useDispatch();
-
-	const fileInput = useRef(null);
 
 	const handleFileChange = (files) => {
 		update({ files });
@@ -145,17 +145,7 @@ export default function UploadPage(props) {
 				<section>
 					<div className="flex-group">
 						<label>
-							<Autocomplete
-								id="fieldsite"
-								options={userFieldsites}
-								getOptionLabel={(option) => option.name}
-								renderInput={(params) => (
-									<TextField
-										{...params}
-										label=""
-										variant="outlined"
-									/>
-								)}
+							<FieldsitesDropdown
 								value={state && state.fieldsite}
 								onChange={(_event, value) => {
 									update({
@@ -254,7 +244,6 @@ export default function UploadPage(props) {
 							className="button reset"
 							type="reset"
 							variant="contained"
-							color=""
 							onClick={handleFormReset}
 						>
 							Reset Fields

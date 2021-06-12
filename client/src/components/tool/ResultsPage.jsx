@@ -10,6 +10,7 @@ import { userSelectors } from "../../reducers/user";
 import axios from "axios";
 import { addNotice, setLoading } from "../../reducers/notifications";
 import { DateTime } from "luxon";
+import FieldsitesDropdown from "../elements/FieldsitesDropdown";
 
 const columns = [
 	{ field: "name", headerName: "Dataset Name", flex: 1 },
@@ -82,17 +83,7 @@ export default function ResultsPage(props) {
 				</header>
 				<section>
 					<div className="flex-group">
-						<Autocomplete
-							id="fieldsite"
-							options={userFieldsites}
-							getOptionLabel={(option) => option.name}
-							renderInput={(params) => (
-								<TextField
-									{...params}
-									label="Fieldsite"
-									variant="outlined"
-								/>
-							)}
+						<FieldsitesDropdown
 							value={fieldsite}
 							onChange={(_event, value) => {
 								setFieldsite(value);

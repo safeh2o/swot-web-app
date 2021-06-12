@@ -1,5 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
-import FormSelectSearch from "../elements/FormSelectSearch";
+import React, { useEffect, useState } from "react";
 // Styles
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 // Slider
@@ -10,18 +9,14 @@ import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import MuiAccordionExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // Date Picker
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { userSelectors } from "../../reducers/user";
+import ClearIcon from "@material-ui/icons/Clear";
 import {
 	Button,
 	ButtonGroup,
 	FormControl,
-	FormControlLabel,
-	FormLabel,
-	Radio,
 	RadioGroup,
 } from "@material-ui/core";
 import NoteLine from "../elements/NoteLine";
@@ -32,7 +27,8 @@ import axios from "axios";
 import useForm from "../../hooks/useForm";
 import FieldsitesDropdown from "../elements/FieldsitesDropdown";
 
-import { IconCalendar, IconAdd } from "../icons";
+import { IconCalendar } from "../icons";
+import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 
 // const useStyles = makeStyles((theme) => ({
 // 	root: {
@@ -152,7 +148,7 @@ const AccordionDetails = withStyles(() => ({
 }))(MuiAccordionDetails);
 
 const initialState = {
-	fieldsite: null,
+	fieldsite: DEFAULT_FIELDSITE,
 	startDate: null,
 	endDate: null,
 	duration: 3,
@@ -329,7 +325,7 @@ export default function AnalyzePage(props) {
 						<DateRangePicker
 							rangeDivider={" to "}
 							calendarIcon={<IconCalendar />}
-							clearIcon={<IconAdd />}
+							clearIcon={<ClearIcon />}
 							value={[state.startDate, state.endDate]}
 							onChange={handleDateChange}
 						/>

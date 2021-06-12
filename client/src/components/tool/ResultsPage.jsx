@@ -11,6 +11,7 @@ import axios from "axios";
 import { addNotice, setLoading } from "../../reducers/notifications";
 import { DateTime } from "luxon";
 import FieldsitesDropdown from "../elements/FieldsitesDropdown";
+import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 
 const columns = [
 	{ field: "name", headerName: "Dataset Name", flex: 1 },
@@ -32,19 +33,12 @@ const columns = [
 	},
 ];
 
-export default function ResultsPage(props) {
-	const userFieldsites = useSelector(userSelectors.fieldsites);
-	const [fieldsite, setFieldsite] = useState({ name: "" });
+export default function ResultsPage() {
+	const [fieldsite, setFieldsite] = useState(DEFAULT_FIELDSITE);
 	const [datasets, setDatasets] = useState([]);
 	// list of selected dataset id's
 	const [selectedDatasets, setSelectedDatasets] = useState([]);
 	const dispatch = useDispatch();
-
-	useEffect(() => {
-		if (!fieldsite) {
-			setFieldsite(userFieldsites[0]);
-		}
-	}, [userFieldsites]);
 
 	useEffect(() => {
 		if (fieldsite && fieldsite.name) {

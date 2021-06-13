@@ -115,7 +115,7 @@ keystone.set("nav", {
 	enquiries: "enquiries",
 	welcomes: "welcomes",
 	datapoints: "datapoints",
-	attachments: "attachments",
+	uploads: "uploads",
 });
 
 // Start Keystone to connect to your database and initialise the web server

@@ -17,6 +17,8 @@ import {
 	Button,
 	ButtonGroup,
 	FormControl,
+	Radio,
+	FormControlLabel,
 	RadioGroup,
 } from "@material-ui/core";
 import NoteLine from "../elements/NoteLine";
@@ -153,35 +155,22 @@ const initialState = {
 	endDate: null,
 	duration: 3,
 	confidence: "optimum",
-	name: "",
-	description: "",
 };
 
-export default function AnalyzePage(props) {
+export default function AnalyzePage() {
 	const classes = useStyles();
 
-	const userFieldsites = useSelector(userSelectors.fieldsites);
 	const { state, update, reset } = useForm(initialState);
 	const [disabled, setDisabled] = useState(true);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const {
-			fieldsite,
-			startDate,
-			endDate,
-			duration,
-			confidence,
-			name,
-			description,
-		} = state;
+		const { fieldsite, startDate, endDate, duration, confidence } = state;
 		setDisabled(
 			!fieldsite._id ||
 				(!startDate && !endDate) ||
 				!duration ||
-				!confidence ||
-				!name ||
-				!description
+				!confidence
 		);
 	}, [state]);
 
@@ -200,12 +189,12 @@ export default function AnalyzePage(props) {
 		dispatch(setLoading(true));
 		axios
 			.post("/api/upload/analyze", state)
-			.then((res) => {
+			.then(() => {
 				dispatch(
 					addNotice({ label: "success", notice: "Analyze Success" })
 				);
 			})
-			.catch((err) =>
+			.catch(() =>
 				dispatch(addError("Error occurred while trying to analyze"))
 			)
 			.finally(() => {
@@ -412,12 +401,12 @@ export default function AnalyzePage(props) {
 									update({ confidence });
 								}}
 							>
-								{/* <FormControlLabel
+								<FormControlLabel
 									value="minimum"
 									control={<Radio color="primary" />}
 									label="Minimum Decay"
-								/> */}
-								<label
+								/>
+								{/* <label
 									htmlFor="minimum"
 									className="radio block"
 								>
@@ -429,14 +418,14 @@ export default function AnalyzePage(props) {
 										id="minimum"
 									/>
 									<span className="label">Medium Decay</span>
-								</label>
+								</label> */}
 
-								{/* <FormControlLabel
+								<FormControlLabel
 									value="optimum"
 									control={<Radio color="primary" />}
 									label="Optimum Decay"
-								/> */}
-								<label
+								/>
+								{/* <label
 									htmlFor="optimum"
 									className="radio block"
 								>
@@ -448,14 +437,14 @@ export default function AnalyzePage(props) {
 										id="optimum"
 									/>
 									<span className="label">Optimum Decay</span>
-								</label>
+								</label> */}
 
-								{/* <FormControlLabel
+								<FormControlLabel
 									value="maximum"
 									control={<Radio color="primary" />}
 									label="Maximum Decay"
-								/> */}
-								<label
+								/>
+								{/* <label
 									htmlFor="maximum"
 									className="radio block"
 								>
@@ -467,7 +456,7 @@ export default function AnalyzePage(props) {
 										id="maximum"
 									/>
 									<span className="label">Maximum Decay</span>
-								</label>
+								</label> */}
 							</RadioGroup>
 						</FormControl>
 					</section>

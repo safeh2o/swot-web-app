@@ -95,7 +95,6 @@ export default function UploadPage() {
 			})
 			.finally(() => {
 				dispatch(setLoading(false));
-				handleFormReset();
 			});
 	};
 

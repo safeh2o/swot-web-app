@@ -12,7 +12,7 @@ const { QueueServiceClient } = require("@azure/storage-queue");
 const path = require("path");
 
 const std = require("../../utils/standardize");
-const Attachment = keystone.list("Attachment");
+const Upload = keystone.list("Upload");
 const { DataTypes } = require("../../utils/enums");
 const fs = require("fs");
 
@@ -149,6 +149,53 @@ exports.analyze = async function (req, res) {
 	const datapoints = await Datapoint.model
 		.find({
 			fieldsite: fieldsiteId,
+		})
+		.where("tsDate")
+		.gte(startDate)
+		.lt(endDate)
+		.exec();
+
+	if (!datapoints.length) {
+		res.status(404).json({
+			error: "Could not find any datapoints in the given date range",
+		});
+		return;
+	}
+
+	const { AZURE_STORAGE_CONNECTION_STRING, AZURE_STORAGE_QUEUE_ANALYZE } =
+		process.env;
+
+	const dataset = new Dataset.model({
+		fieldsite: fieldsiteId,
+		user: req.user._id,
+		startDate,
+		endDate,
+	});
+
+	const queueClient = QueueServiceClient.fromConnectionString(
+		AZURE_STORAGE_CONNECTION_STRING
+	).getQueueClient(AZURE_STORAGE_QUEUE_ANALYZE);
+	const sendMessageResponse = await queueClient.sendMessage(
+		Buffer.from(
+			JSON.stringify({
+				datasetId: dataset.id,
+			})
+		).toString("base64")
+	);
+	await dataset.save();
+
+	res.send({ queue: sendMessageResponse });
+};
+
+exports.analyze2 = async function (req, res) {
+	// get all rows within the time frame for the fieldsite
+	const startDate = new Date(req.body.startDate);
+	const endDate = new Date(req.body.endDate);
+	endDate.setDate(endDate.getDate() + 1);
+	const fieldsiteId = req.body.fieldsite._id;
+	const datapoints = await Datapoint.model
+		.find({
+			fieldsite: fieldsiteId,
 			active: true,
 			type: DataTypes.STANDARDIZED,
 		})
@@ -211,6 +258,11 @@ exports.append = async function (req, res) {
 	const fieldsiteId = req.body.fieldsite;
 	const overwrite = req.body.overwrite;
 	const userId = req.user._id;
+	const {
+		AZURE_STORAGE_CONTAINER,
+		AZURE_STORAGE_CONNECTION_STRING,
+		AZURE_STORAGE_QUEUE_STANDARDIZE,
+	} = process.env;
 
 	if (!req.files) {
 		res.sendStatus(400);
@@ -223,24 +275,27 @@ exports.append = async function (req, res) {
 		: [reqFiles];
 
 	const blobServiceClient = BlobServiceClient.fromConnectionString(
-		process.env.AZURE_STORAGE_CONNECTION_STRING
+		AZURE_STORAGE_CONNECTION_STRING
 	);
 	const containerClient = blobServiceClient.getContainerClient(
-		process.env.AZURE_STORAGE_CONTAINER
+		AZURE_STORAGE_CONTAINER
 	);
 
-	const attachment = new Attachment.model({
+	const upload = new Upload.model({
 		user: userId,
 		fieldsite: fieldsiteId,
 		overwriting: overwrite,
+		containerName: AZURE_STORAGE_CONTAINER,
 	});
+
+	const blobDirectoryName = upload.id;
 
 	const uploadBlobResponses = [];
 
 	await Promise.all(
 		files.map(async (file, i) => {
 			const blockBlobClient = containerClient.getBlockBlobClient(
-				`${attachment.id}/${i}_${file.originalname}`
+				`${blobDirectoryName}/${i}_${file.originalname}`
 			);
 			const response = await blockBlobClient.uploadFile(file.path);
 			uploadBlobResponses.push(response);
@@ -248,11 +303,16 @@ exports.append = async function (req, res) {
 	);
 
 	const queueClient = QueueServiceClient.fromConnectionString(
-		process.env.AZURE_STORAGE_CONNECTION_STRING
-	).getQueueClient(process.env.AZURE_STORAGE_QUEUE_STANDARDIZE);
-	const sendMessageResponse = await queueClient.sendMessage(attachment.id);
-
-	attachment.save();
+		AZURE_STORAGE_CONNECTION_STRING
+	).getQueueClient(AZURE_STORAGE_QUEUE_STANDARDIZE);
+	const sendMessageResponse = await queueClient.sendMessage(
+		Buffer.from(
+			JSON.stringify({
+				uploadId: upload.id,
+			})
+		).toString("base64")
+	);
+	await upload.save();
 
 	res.json({ blobs: uploadBlobResponses, queue: sendMessageResponse });
 };
@@ -280,11 +340,11 @@ exports.append2 = async function (req, res) {
 		uploaded_count: files.length,
 	});
 
-	await createAttachment(userId, fieldsiteId, overwrite, files);
+	await createUpload(userId, fieldsiteId, overwrite, files);
 };
 
-async function createAttachment(userId, fieldsiteId, overwrite, files) {
-	const attachment = new Attachment.model({
+async function createUpload(userId, fieldsiteId, overwrite, files) {
+	const upload = new Upload.model({
 		user: userId,
 		fieldsite: fieldsiteId,
 	});
@@ -304,7 +364,7 @@ async function createAttachment(userId, fieldsiteId, overwrite, files) {
 			nDuplicates += (await dataService.createDatapoint(
 				row,
 				fieldsiteId,
-				attachment.id,
+				upload.id,
 				type,
 				overwrite
 			))
@@ -322,8 +382,8 @@ async function createAttachment(userId, fieldsiteId, overwrite, files) {
 		});
 	});
 
-	attachment.nBefore = nBefore;
-	attachment.nDuplicates = nDuplicates;
+	upload.nBefore = nBefore;
+	upload.nDuplicates = nDuplicates;
 
-	attachment.save();
+	upload.save();
 }

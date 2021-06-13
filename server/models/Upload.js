@@ -5,16 +5,16 @@ const moment = require("moment");
 const DataTypes = require("../utils/enums").DataTypes;
 
 /**
- * Attachment Model
+ * Upload Model
  * ==========
  */
-var Attachment = new keystone.List("Attachment", {
-	label: "Attachment",
+var Upload = new keystone.List("Upload", {
+	label: "Upload",
 	nocreate: true,
 	autokey: { path: "name", from: "dateUploaded", unique: true },
 });
 
-Attachment.add(
+Upload.add(
 	{
 		dateUploaded: {
 			type: Types.Datetime,
@@ -53,6 +53,10 @@ Attachment.add(
 			type: Types.Boolean,
 			default: false,
 		},
+		containerName: {
+			type: Types.Text,
+			default: process.env.AZURE_STORAGE_CONTAINER,
+		},
 	},
 	"Rewind Fieldsite",
 	{
@@ -65,44 +69,42 @@ Attachment.add(
 	}
 );
 
-Attachment.schema.pre("save", function (next) {
+Upload.schema.pre("save", function (next) {
 	if (this.rewind) {
 		this.rewind = false;
 		this.rewindFieldsite();
 	}
 	if (this.isNew) {
-		// TODO get most recent attachment's total rows after
+		// TODO get most recent upload's total rows after
 		this.wasNew = true;
 	}
 	next();
 });
 
-Attachment.schema.post("save", function () {
+Upload.schema.post("save", function () {
 	if (this.wasNew) {
 		this.populate("user fieldsite")
 			.execPopulate()
-			.then((attachment) => {
-				attachment.sendNotificationEmail();
+			.then((upload) => {
+				upload.sendNotificationEmail();
 			});
 	}
 });
 
-Attachment.schema.methods.rewindFieldsite = async function () {
-	const nextAttachments = await Attachment.model
+Upload.schema.methods.rewindFieldsite = async function () {
+	const nextUploads = await Upload.model
 		.find({ dateUploaded: { $gt: this.dateUploaded } })
 		.exec();
-	nextAttachments.forEach((attachment) => {
-		attachment.remove();
+	nextUploads.forEach((upload) => {
+		upload.remove();
 	});
 	const Datapoint = keystone.list("Datapoint");
-	Datapoint.model
-		.updateMany({ attachment: this.id }, { active: true })
-		.exec();
+	Datapoint.model.updateMany({ upload: this.id }, { active: true }).exec();
 };
 
-Attachment.schema.pre("remove", function (next) {
+Upload.schema.pre("remove", function (next) {
 	const Datapoint = keystone.list("Datapoint");
-	Datapoint.model.remove({ attachment: this.id }).exec();
+	Datapoint.model.remove({ upload: this.id }).exec();
 
 	next();
 });
@@ -119,7 +121,7 @@ function updateContent(model) {
 	};
 }
 
-Attachment.schema.methods.sendNotificationEmail = async function (callback) {
+Upload.schema.methods.sendNotificationEmail = async function (callback) {
 	if (typeof callback !== "function") {
 		callback = function (err) {
 			if (err) {
@@ -151,10 +153,10 @@ Attachment.schema.methods.sendNotificationEmail = async function (callback) {
 	};
 
 	info.stdRows = await Datapoint.model
-		.count({ attachment: this.id, type: DataTypes.STANDARDIZED })
+		.count({ upload: this.id, type: DataTypes.STANDARDIZED })
 		.exec();
 	info.errRows = await Datapoint.model
-		.count({ attachment: this.id, type: DataTypes.ERRONEOUS })
+		.count({ upload: this.id, type: DataTypes.ERRONEOUS })
 		.exec();
 	// info.rowsAfter = info.nBefore + info.stdRows
 
@@ -181,14 +183,14 @@ Attachment.schema.methods.sendNotificationEmail = async function (callback) {
 /**
  * Relationships
  */
-Attachment.relationship({
+Upload.relationship({
 	ref: "Datapoint",
-	refPath: "attachment",
+	refPath: "upload",
 	path: "datapoints",
 });
 
 /**
  * Registration
  */
-Attachment.defaultColumns = "name, dateUploaded";
-Attachment.register();
+Upload.defaultColumns = "name, dateUploaded";
+Upload.register();

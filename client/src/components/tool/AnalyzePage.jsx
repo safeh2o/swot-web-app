@@ -482,7 +482,7 @@ export default function AnalyzePage() {
 							onClick={handleFormSubmit}
 							disabled={disabled}
 						>
-							Upload
+							Analyze
 						</Button>
 						<Button
 							className="button reset"

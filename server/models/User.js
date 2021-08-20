@@ -24,10 +24,10 @@ User.add(
 			noedit: true,
 			initial: true,
 		},
-		projects: {
+		area: {
 			type: Types.Relationship,
-			label: "Assigned Projects",
-			ref: "Project",
+			label: "Assigned Area",
+			ref: "Area",
 			many: true,
 			initial: true,
 			hidden: true,
@@ -47,7 +47,7 @@ User.add(
 	// "Managed Entities",
 	// {
 	// 	managedSites: {type: Types.Relationship, ref: "Fieldsite", label: "Fieldsites managed by user", index: true, many: true, initial: false},
-	// 	managedProjects: {type: Types.Relationship, ref: "Project", label: "Projects managed by user", index: true, many: true, initial: false},
+	// 	managedArea: {type: Types.Relationship, ref: "Area", label: "Area managed by user", index: true, many: true, initial: false},
 	// 	managedCountries: {type: Types.Relationship, ref: "Country", label: "Countries managed by user", index: true, many: true, initial: false},
 	// 	managedOrganizations: {type: Types.Relationship, ref: "Organization", label: "Organizations managed by user", index: true, many: true, initial: false},
 	// }
@@ -66,14 +66,14 @@ User.schema.pre("save", function (next) {
 User.schema.post("save", function () {
 	if (!this.wasNew) return;
 
-	var Project = keystone.list("Project");
-	Project.model.updateMany(
-		{ _id: { $in: this.projects } },
+	var Area = keystone.list("Area");
+	Area.model.updateMany(
+		{ _id: { $in: this.area } },
 		{ $push: { users: this._id } },
 		(err, res) => {
 			if (err) {
 				console.error(
-					`Error adding user ${this.name.full} to projects during creation.`,
+					`Error adding user ${this.name.full} to area during creation.`,
 					err
 				);
 				return;
@@ -91,7 +91,7 @@ User.schema.post("save", function () {
  * Relationships
  */
 User.relationship({ ref: "Dataset", path: "datasets", refPath: "user" });
-User.relationship({ ref: "Project", path: "projects", refPath: "users" });
+User.relationship({ ref: "Area", path: "area", refPath: "users" });
 User.relationship({ ref: "Post", path: "posts", refPath: "author" });
 /**
  * Registration

@@ -137,7 +137,7 @@ export default function UploadPage() {
 				</section>
 				<footer>
 					<Link to="/contact">
-						<NoteLine text="Fieldsite Missing? ... Contact Us" />
+						<NoteLine text="Something missing?" />
 					</Link>
 				</footer>
 			</section>

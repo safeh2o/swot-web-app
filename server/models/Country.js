@@ -10,7 +10,7 @@ var Country = new keystone.List("Country");
 
 Country.add({
 	name: { type: String, required: true, index: true },
-	projects: { type: Types.Relationship, ref: "Project", many: true },
+	areas: { type: Types.Relationship, ref: "Area", many: true },
 });
 
 // Country.relationship({ref: "User", path: "user", refPath: "managedCountries"});

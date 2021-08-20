@@ -1,5 +1,6 @@
 var filenameUtils = require("../utils/filename");
 var keystone = require("keystone");
+const { QueueServiceClient } = require("@azure/storage-queue");
 var Types = keystone.Field.Types;
 
 /**
@@ -25,7 +26,7 @@ var azureStorage = new keystone.Storage({
 
 Dataset.add(
 	{
-		description: { type: Types.Textarea, initial: true, index: true },
+		// description: { type: Types.Textarea, initial: true, index: true },
 		dateCreated: {
 			type: Types.Datetime,
 			utc: false,
@@ -58,6 +59,21 @@ Dataset.add(
 			ref: "User",
 			initial: true,
 			index: true,
+		},
+		maxDuration: {
+			type: Types.Select,
+			options: [3, 6, 9, 12, 15, 18, 21, 24],
+			default: 3,
+			numeric: true,
+		},
+		confidenceLevel: {
+			type: Types.Select,
+			options: [
+				{ value: "minDecay", label: "Minimum Decay" },
+				{ value: "optimumDecay", label: "Optimum Decay" },
+				{ value: "maxDecay", label: "Maximum Decay" },
+			],
+			default: "optimumDecay",
 		},
 		file: {
 			type: Types.File,
@@ -154,31 +170,48 @@ Dataset.schema.pre("save", function (next) {
 });
 
 Dataset.schema.methods.runAnalysis = async function (callback) {
-	const analyzer = require("../utils/analyzer");
-	const dataService = require("../utils/data.service");
+	// const analyzer = require("../utils/analyzer");
+	// const dataService = require("../utils/data.service");
 
-	const project = await dataService.getProjectByFieldsite(
-		this.fieldsite.toString()
+	// const area = await dataService.getAreaByFieldsite(
+	// 	this.fieldsite.toString()
+	// );
+	// const country = await dataService.getCountryByArea(area.id);
+	// const populated = await this.populate("user fieldsite").execPopulate();
+	// let filename;
+	// if (!this.stdFile || !this.stdFile.filename) {
+	// 	console.log("This dataset is old, parsing old URL...");
+	// 	filename = this.file.url.substring(this.file.url.lastIndexOf("/") + 1);
+	// 	filename = filename.substring(0, filename.lastIndexOf(".")) + ".csv";
+	// } else {
+	// 	filename = this.stdFile.filename;
+	// }
+	// analyzer.notifyFileUpload(
+	// 	filename,
+	// 	populated.user.email,
+	// 	country,
+	// 	area,
+	// 	populated.fieldsite,
+	// 	this.user.toString(),
+	// 	this
+	// );
+
+	const { AZURE_STORAGE_CONNECTION_STRING, AZURE_STORAGE_QUEUE_ANALYZE } =
+		process.env;
+
+	const queueClient = QueueServiceClient.fromConnectionString(
+		AZURE_STORAGE_CONNECTION_STRING
+	).getQueueClient(AZURE_STORAGE_QUEUE_ANALYZE);
+	const sendMessageResponse = await queueClient.sendMessage(
+		Buffer.from(
+			JSON.stringify({
+				datasetId: this.id,
+				maxDuration: this.maxDuration,
+				confidenceLevel: this.confidenceLevel,
+			})
+		).toString("base64")
 	);
-	const country = await dataService.getCountryByProject(project.id);
-	const populated = await this.populate("user fieldsite").execPopulate();
-	let filename;
-	if (!this.stdFile || !this.stdFile.filename) {
-		console.log("This dataset is old, parsing old URL...");
-		filename = this.file.url.substring(this.file.url.lastIndexOf("/") + 1);
-		filename = filename.substring(0, filename.lastIndexOf(".")) + ".csv";
-	} else {
-		filename = this.stdFile.filename;
-	}
-	analyzer.notifyFileUpload(
-		filename,
-		populated.user.email,
-		country,
-		project,
-		populated.fieldsite,
-		this.user.toString(),
-		this
-	);
+	return sendMessageResponse;
 };
 
 /**

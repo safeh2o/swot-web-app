@@ -1,6 +1,6 @@
 const keystone = require("keystone");
 const _ = require("lodash");
-const Project = keystone.list("Project");
+const Area = keystone.list("Area");
 const Fieldsite = keystone.list("Fieldsite");
 const Dataset = keystone.list("Dataset");
 const dataService = require("../../utils/data.service");
@@ -108,16 +108,16 @@ exports.fetch = async function (req, res) {
 		.populate("fieldsite")
 		.exec();
 	const fieldsite = dataset.fieldsite;
-	const project = await Project.model
+	const area = await Area.model
 		.findOne({ fieldsites: { $in: [fieldsite.id] } })
 		.exec();
 	const country = await Country.model
-		.findOne({ projects: { $in: [project.id] } })
+		.findOne({ areas: { $in: [area.id] } })
 		.exec();
 
 	const containerName = `${dataService.getIdentifier(country)}`;
 	const prefix = `${dataService.getIdentifier(
-		project
+		area
 	)}/${dataService.getIdentifier(fieldsite)}/${dataset._id}`;
 
 	let datasetArtifacts;
@@ -284,35 +284,31 @@ async function fetchDatasets(archived, req) {
 }
 
 /**
- * Return user's datasets from associated fieldsites through project relationship
+ * Return user's datasets from associated fieldsites through area relationship
  */
 async function getUserDatasets(userId, archived) {
 	return new Promise(async (resolve, reject) => {
-		const projectsWithFieldsites =
-			await dataService.getProjectsWithFieldsites(userId);
+		const areasWithFieldsites = await dataService.getAreasWithFieldsites(
+			userId
+		);
 
-		if (projectsWithFieldsites.length == 0) {
+		if (areasWithFieldsites.length == 0) {
 			resolve(null);
 		}
 
 		const result = [];
 
-		for (let i = 0; i < projectsWithFieldsites.length; i++) {
-			const project = projectsWithFieldsites[i];
-			const country = await dataService.getCountryByProject(project._id);
-			for (let j = 0; j < project.fieldsites.length; j++) {
-				const fieldsite = project.fieldsites[j];
+		for (let i = 0; i < areasWithFieldsites.length; i++) {
+			const area = areasWithFieldsites[i];
+			const country = await dataService.getCountryByArea(area._id);
+			for (let j = 0; j < area.fieldsites.length; j++) {
+				const fieldsite = area.fieldsites[j];
 				const filter = { fieldsite: fieldsite.id, archived: archived };
 				const datasets = await Dataset.model.find(filter).exec();
 				if (datasets && datasets.length) {
-					delete project.user;
+					delete area.user;
 					result.push(
-						new ProcessedDataset(
-							country,
-							project,
-							fieldsite,
-							datasets
-						)
+						new ProcessedDataset(country, area, fieldsite, datasets)
 					);
 				}
 			}
@@ -354,8 +350,8 @@ async function searchAzureStorage(
 					processedDatasetItem.country._id,
 					processedDatasetItem.fieldsite.name,
 					processedDatasetItem.fieldsite._id,
-					processedDatasetItem.project.name,
-					processedDatasetItem.project._id,
+					processedDatasetItem.area.name,
+					processedDatasetItem.area._id,
 					dataset.name,
 					dataset._id,
 					dataset.description,
@@ -388,7 +384,7 @@ async function getAnalysisResultsFromBlobStorage(processedDatasetArray) {
 			if (
 				processedDatasetItem.country &&
 				processedDatasetItem.fieldsite &&
-				processedDatasetItem.project
+				processedDatasetItem.area
 			) {
 				for (
 					let innerIndex = 0;
@@ -400,7 +396,7 @@ async function getAnalysisResultsFromBlobStorage(processedDatasetArray) {
 						processedDatasetItem.country
 					)}`;
 					const prefix = `${dataService.getIdentifier(
-						processedDatasetItem.project
+						processedDatasetItem.area
 					)}/${dataService.getIdentifier(
 						processedDatasetItem.fieldsite
 					)}/${dataset._id}`;
@@ -428,7 +424,7 @@ async function getAnalysisResultsFromBlobStorage(processedDatasetArray) {
 				}
 			} else {
 				console.log(
-					"Warning: This project does not seem to have a country or fieldset assignment: ",
+					"Warning: This area does not seem to have a country or fieldset assignment: ",
 					processedDatasetItem
 				);
 			}
@@ -441,9 +437,9 @@ async function getAnalysisResultsFromBlobStorage(processedDatasetArray) {
 }
 
 class ProcessedDataset {
-	constructor(country, project, fieldsite, datasets) {
+	constructor(country, area, fieldsite, datasets) {
 		this.country = country;
-		this.project = project;
+		this.area = area;
 		this.fieldsite = fieldsite;
 		this.datasets = datasets;
 	}
@@ -455,8 +451,8 @@ class ProcessedDatasetViewModel {
 		countryId,
 		fieldsiteName,
 		fieldsiteId,
-		projectName,
-		projectId,
+		areaName,
+		areaId,
 		datasetName,
 		datasetId,
 		datasetDesc,
@@ -468,8 +464,8 @@ class ProcessedDatasetViewModel {
 		this.countryId = countryId;
 		this.fieldsiteName = fieldsiteName;
 		this.fieldsiteId = fieldsiteId;
-		this.projectName = projectName;
-		this.projectId = projectId;
+		this.areaName = areaName;
+		this.areaId = areaId;
 		this.datasetName = datasetName;
 		this.datasetId = datasetId;
 		this.datasetDesc = datasetDesc;

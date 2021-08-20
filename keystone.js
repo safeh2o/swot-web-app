@@ -107,7 +107,7 @@ keystone.set("routes", require("./server/routes"));
 keystone.set("nav", {
 	users: "users",
 	countries: "countries",
-	projects: "projects",
+	areas: "areas",
 	fieldsites: "fieldsites",
 	datasets: "datasets",
 	blog: ["posts", "post-categories"],

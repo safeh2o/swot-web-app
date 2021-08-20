@@ -154,7 +154,7 @@ const initialState = {
 	startDate: null,
 	endDate: null,
 	duration: 3,
-	confidence: "optimum",
+	confidence: "optimumDecay",
 };
 
 export default function AnalyzePage() {
@@ -213,8 +213,6 @@ export default function AnalyzePage() {
 
 	return (
 		<form role="form" autoComplete="off">
-			{/* <h2 className="content-title">Choose a Location</h2> */}
-
 			<section
 				id="collect-data"
 				className="content-window bleed-edges rich-text"
@@ -248,31 +246,10 @@ export default function AnalyzePage() {
 				</section>
 				<footer>
 					<Link to="/contact">
-						<NoteLine text="Location Missing? ... Contact Us" />
+						<NoteLine text="Something missing?" />
 					</Link>
 				</footer>
 			</section>
-
-			{/* <h2 className="content-title">Name the Dataset</h2>
-
-			<section className="content-window">
-				<section>
-					<TextField
-						label="Dataset Name"
-						onChange={(e) => {
-							update({ name: e.target.value });
-						}}
-					/>
-					<br />
-					<TextField
-						label="Dataset Description"
-						multiline
-						onChange={(e) => {
-							update({ description: e.target.value });
-						}}
-					/>
-				</section>
-			</section> */}
 
 			<h2 className="content-title">Provide a Date Range</h2>
 
@@ -326,7 +303,7 @@ export default function AnalyzePage() {
 						<i>
 							<img src="assets/icons/guides.svg" alt="" />
 						</i>
-						<span>Choosing a Date Range</span>
+						<span>Choosing a date range</span>
 					</span>
 				</footer>
 			</section>
@@ -390,9 +367,6 @@ export default function AnalyzePage() {
 				<AccordionDetails>
 					<section className="section">
 						<FormControl component="fieldset">
-							{/* <FormLabel component="legend">
-								Confidence Level
-							</FormLabel> */}
 							<RadioGroup
 								aria-label="confidence"
 								name="confidence"
@@ -402,61 +376,22 @@ export default function AnalyzePage() {
 								}}
 							>
 								<FormControlLabel
-									value="minimum"
+									value="minDecay"
 									control={<Radio color="primary" />}
 									label="Minimum Decay"
 								/>
-								{/* <label
-									htmlFor="minimum"
-									className="radio block"
-								>
-									<input
-										value="minimum"
-										type="radio"
-										className="radio-input"
-										name="decayScenario"
-										id="minimum"
-									/>
-									<span className="label">Medium Decay</span>
-								</label> */}
 
 								<FormControlLabel
-									value="optimum"
+									value="optimumDecay"
 									control={<Radio color="primary" />}
 									label="Optimum Decay"
 								/>
-								{/* <label
-									htmlFor="optimum"
-									className="radio block"
-								>
-									<input
-										value="optimum"
-										type="radio"
-										className="radio-input"
-										name="decayScenario"
-										id="optimum"
-									/>
-									<span className="label">Optimum Decay</span>
-								</label> */}
 
 								<FormControlLabel
-									value="maximum"
+									value="maxDecay"
 									control={<Radio color="primary" />}
 									label="Maximum Decay"
 								/>
-								{/* <label
-									htmlFor="maximum"
-									className="radio block"
-								>
-									<input
-										value="maximum"
-										type="radio"
-										className="radio-input"
-										name="decayScenario"
-										id="maximum"
-									/>
-									<span className="label">Maximum Decay</span>
-								</label> */}
 							</RadioGroup>
 						</FormControl>
 					</section>

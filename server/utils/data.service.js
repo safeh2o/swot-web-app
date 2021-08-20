@@ -2,7 +2,7 @@ const moment = require("moment");
 const azure = require("azure-storage");
 const keystone = require("keystone");
 const Country = keystone.list("Country");
-const Project = keystone.list("Project");
+const Area = keystone.list("Area");
 const Fieldsite = keystone.list("Fieldsite");
 const mongoose = require("mongoose");
 const Dataset = keystone.list("Dataset");
@@ -18,19 +18,19 @@ exports.getFieldsiteById = async function (fieldsiteId) {
 };
 
 /**
- * Retrieves a country record where project is associated
+ * Retrieves a country record where area is associated
  */
-exports.getCountryByProject = async function (projectId) {
+exports.getCountryByArea = async function (areaId) {
 	return Country.model
-		.findOne({ projects: mongoose.Types.ObjectId(projectId) })
+		.findOne({ areas: mongoose.Types.ObjectId(areaId) })
 		.exec();
 };
 
 /**
- * Retrieves a project record where field is associated
+ * Retrieves a area record where field is associated
  */
-exports.getProjectByFieldsite = async function (fieldSiteId) {
-	return Project.model.findOne({ fieldsites: fieldSiteId }).exec();
+exports.getAreaByFieldsite = async function (fieldSiteId) {
+	return Area.model.findOne({ fieldsites: fieldSiteId }).exec();
 };
 
 exports.getIdentifier = function (dataItem) {
@@ -69,10 +69,8 @@ exports.archiveDatasets = async function (datasetIds) {
 	});
 };
 
-exports.getProjectsWithFieldsites = async function getProjectsWithFieldsites(
-	userId
-) {
-	return Project.model
+exports.getAreasWithFieldsites = async function getAreasWithFieldsites(userId) {
+	return Area.model
 		.find({ users: userId, fieldsites: { $ne: [] } })
 		.populate("users")
 		.populate("fieldsites")
@@ -80,28 +78,28 @@ exports.getProjectsWithFieldsites = async function getProjectsWithFieldsites(
 };
 
 /**
- * Return user's associated fieldsites from project relationship
+ * Return user's associated fieldsites from area relationship
  */
 exports.getUserFieldsites = async function (userId) {
-	const projectsHavingUser = await Project.model
+	const areasHavingUser = await Area.model
 		.find({ users: userId })
 		.populate("users")
 		.populate("fieldsites")
 		.exec();
 
-	if (!projectsHavingUser) {
+	if (!areasHavingUser) {
 		return null;
 	}
 
 	let fieldsites = [];
 
-	for (let i = 0; i < projectsHavingUser.length; i++) {
-		prj = projectsHavingUser[i];
-		const countriesHavingProject = await Country.model
-			.find({ projects: prj })
+	for (let i = 0; i < areasHavingUser.length; i++) {
+		prj = areasHavingUser[i];
+		const countriesHavingArea = await Country.model
+			.find({ areas: prj })
 			.exec();
 
-		if (countriesHavingProject.length) {
+		if (countriesHavingArea.length) {
 			fieldsites = fieldsites.concat(prj.fieldsites);
 		}
 	}
@@ -113,18 +111,16 @@ exports.getUserFieldsites = async function (userId) {
 };
 
 /**
- * Return user's associated projects
+ * Return user's associated areas
  */
-exports.getUserProjects = async function (userId) {
-	const projectsHavingUser = await Project.model
-		.find({ users: userId })
-		.exec();
+exports.getUserAreas = async function (userId) {
+	const areasHavingUser = await Area.model.find({ users: userId }).exec();
 
-	if (!projectsHavingUser) {
+	if (!areasHavingUser) {
 		return null;
 	}
 
-	return _.sortBy(projectsHavingUser, (p) => p.name);
+	return _.sortBy(areasHavingUser, (p) => p.name);
 };
 
 exports.createDatapoint = async function createDatapoint(

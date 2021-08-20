@@ -15,8 +15,8 @@ Fieldsite.add({
  * Relationships
  */
 Fieldsite.relationship({
-	ref: "Project",
-	path: "project",
+	ref: "Area",
+	path: "area",
 	refPath: "fieldsites",
 });
 Fieldsite.relationship({

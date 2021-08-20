@@ -132,9 +132,9 @@ exports = module.exports = function (app) {
 		routes.api.forms.getContactReasons
 	);
 	app.get(
-		"/api/user/projects",
+		"/api/user/areas",
 		keystone.middleware.api,
-		routes.api.user.getProjects
+		routes.api.user.getAreas
 	);
 	app.get("/api/data/raw", keystone.middleware.api, routes.api.data.raw);
 	app.get(

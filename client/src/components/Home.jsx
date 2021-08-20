@@ -299,7 +299,7 @@ export default function Home(props) {
 				</header>
 				<section>
 					<h2 className="txt-condensed">Leads</h2>
-					<p>Open Sources of thie projects is developed by:</p>
+					<p>This project is implemented by:</p>
 					<div className="project-leads">
 						<div className="org">
 							<a target="_blank" href="http://dighr.yorku.ca/">

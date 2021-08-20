@@ -121,10 +121,10 @@ exports.getFieldsites = async function (req, res) {
 	res.json({ fieldsites });
 };
 
-exports.getProjects = async function (req, res) {
-	const projects = await dataService.getUserProjects(req.user._id);
+exports.getAreas = async function (req, res) {
+	const areas = await dataService.getUserAreas(req.user._id);
 
-	res.json({ projects });
+	res.json({ areas });
 };
 
 async function isResetKeyValid(key) {

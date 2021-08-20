@@ -50,10 +50,8 @@ exports.update = async function (req, res) {
 				dataItem._id
 			);
 
-			const project = await dataService.getProjectByFieldsite(
-				data.fieldsite
-			);
-			const country = await dataService.getCountryByProject(project._id);
+			const area = await dataService.getAreaByFieldsite(data.fieldsite);
+			const country = await dataService.getCountryByArea(area._id);
 			const fieldsite = await dataService.getFieldsiteById(
 				data.fieldsite
 			);
@@ -118,16 +116,16 @@ exports.update = async function (req, res) {
 			await dataService.updateDatasetWithBlobPrefix(
 				data.id,
 				country.name,
-				`${dataService.getIdentifier(
-					project
-				)}/${dataService.getIdentifier(fieldsite)}`
+				`${dataService.getIdentifier(area)}/${dataService.getIdentifier(
+					fieldsite
+				)}`
 			);
 
 			await analyzer.notifyFileUpload(
 				stdBlobName,
 				req.user.email,
 				country,
-				project,
+				area,
 				fieldsite,
 				req.user,
 				dataItem
@@ -144,6 +142,8 @@ exports.analyze = async function (req, res) {
 	// get all rows within the time frame for the fieldsite
 	const startDate = new Date(req.body.startDate);
 	const endDate = new Date(req.body.endDate);
+	const confidenceLevel = req.body.confidence;
+	const maxDuration = req.body.duration;
 	endDate.setDate(endDate.getDate() + 1);
 	const fieldsiteId = req.body.fieldsite._id;
 	const datapoints = await Datapoint.model
@@ -162,29 +162,32 @@ exports.analyze = async function (req, res) {
 		return;
 	}
 
-	const { AZURE_STORAGE_CONNECTION_STRING, AZURE_STORAGE_QUEUE_ANALYZE } =
-		process.env;
-
 	const dataset = new Dataset.model({
 		fieldsite: fieldsiteId,
 		user: req.user._id,
 		startDate,
 		endDate,
+		maxDuration,
+		confidenceLevel,
+		dateCreated: new Date(),
 	});
 
-	const queueClient = QueueServiceClient.fromConnectionString(
-		AZURE_STORAGE_CONNECTION_STRING
-	).getQueueClient(AZURE_STORAGE_QUEUE_ANALYZE);
-	const sendMessageResponse = await queueClient.sendMessage(
-		Buffer.from(
-			JSON.stringify({
-				datasetId: dataset.id,
-			})
-		).toString("base64")
-	);
+	// const queueClient = QueueServiceClient.fromConnectionString(
+	// 	AZURE_STORAGE_CONNECTION_STRING
+	// ).getQueueClient(AZURE_STORAGE_QUEUE_ANALYZE);
+	// const sendMessageResponse = await queueClient.sendMessage(
+	// 	Buffer.from(
+	// 		JSON.stringify({
+	// 			datasetId: dataset.id,
+	// 			maxDuration,
+	// 			confidenceLevel,
+	// 		})
+	// 	).toString("base64")
+	// );
 	await dataset.save();
+	const response = dataset.runAnalysis();
 
-	res.send({ queue: sendMessageResponse });
+	res.send({ queue: response });
 };
 
 exports.analyze2 = async function (req, res) {
@@ -305,18 +308,25 @@ exports.append = async function (req, res) {
 	const queueClient = QueueServiceClient.fromConnectionString(
 		AZURE_STORAGE_CONNECTION_STRING
 	).getQueueClient(AZURE_STORAGE_QUEUE_STANDARDIZE);
-	const sendMessageResponse = await queueClient.sendMessage(
-		Buffer.from(
-			JSON.stringify({
-				uploadId: upload.id,
-			})
-		).toString("base64")
-	);
-	await upload.save();
+	const sendMessageResponse = await queueClient
+		.sendMessage(
+			Buffer.from(
+				JSON.stringify({
+					uploadId: upload.id,
+				})
+			).toString("base64")
+		)
+		.catch((err) => {
+			res.status(404).send("Queue does not exist");
+		});
 
-	res.json({ blobs: uploadBlobResponses, queue: sendMessageResponse });
+	if (sendMessageResponse) {
+		await upload.save();
+		res.json({ blobs: uploadBlobResponses, queue: sendMessageResponse });
+	}
 };
 
+// legacy append system
 exports.append2 = async function (req, res) {
 	let files;
 	const fieldsiteId = req.body.fieldsite;

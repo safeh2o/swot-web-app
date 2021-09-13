@@ -232,30 +232,39 @@ exports.analyze = async function (req, res) {
 		return;
 	}
 
-	const processedDatasets = await fetchDatasets(false, req);
-	const processedDatasetIds = processedDatasets.map((d) => d.datasetId);
-	const datasetToArchive = processedDatasetIds.filter(
-		(d) => datasetIds.indexOf(d.toString()) !== -1
-	);
+	const datasets = await Dataset.model
+		.find({ _id: { $in: datasetIds }, user: req.user._id })
+		.exec();
 
-	if (datasetToArchive.length == 0) {
+	if (datasets.length == 0) {
 		res.status(400).send("Unable to find datasets");
 		return;
 	} else {
-		// console.log(datasetToArchive);
-		datasets = await Dataset.model
-			.find({ _id: { $in: datasetToArchive } })
-			.exec();
-
-		const processedDatasetNames = [];
 		datasets.forEach((dataset) => {
 			dataset.runAnalysis();
-			processedDatasetNames.push(dataset.name);
 		});
 
-		res.json(
-			`Resent datasets ${processedDatasetNames.join(", ")} for analysis`
-		);
+		res.json(`Resent ${datasets.length} dataset(s) for analysis`);
+	}
+};
+
+exports.resolve = async function (req, res) {
+	const { datasetId, filename } = req.query;
+	const { AZURE_SAS } = process.env;
+	res.header("AZURE-SAS", AZURE_SAS);
+	res.redirect(`/storage/${datasetId}/${filename}`);
+};
+
+exports.datasets = async function (req, res) {
+	if (!req.params.datasetId) {
+		res.status(400).send("No dataset id given");
+		return;
+	}
+	try {
+		const dataset = await Dataset.model.find({ _id: req.params.datasetId });
+		res.json({ dataset });
+	} catch (ex) {
+		res.status(500).send("Something happened getting dataset information");
 	}
 };
 

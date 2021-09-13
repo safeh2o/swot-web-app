@@ -35,7 +35,7 @@ var routes = {
 // Setup Route Bindings
 exports = module.exports = function (app) {
 	app.post("/api/contact", keystone.middleware.api, routes.api.forms.contact);
-	app.post("/api/auth", routes.api.auth.signin);
+	app.post("/api/auth", keystone.middleware.api, routes.api.auth.signin);
 	app.get("/api/signout", middleware.requireUser, routes.api.auth.signout);
 	app.get("/blog/:category?", routes.views.blog);
 	app.get("/blog/post/:post", routes.views.post);
@@ -65,6 +65,16 @@ exports = module.exports = function (app) {
 		"/api/upload/analyze",
 		keystone.middleware.api,
 		routes.api.upload.analyze
+	);
+	app.get(
+		"/api/results/resolve",
+		keystone.middleware.api,
+		routes.api.results.resolve
+	);
+	app.post(
+		"/api/auth/sas",
+		middleware.requireUser, // add middleware.requireUser
+		routes.api.auth.getSas
 	);
 	app.get(
 		"/api/results/processed",
@@ -127,6 +137,11 @@ exports = module.exports = function (app) {
 		routes.api.user.getUserDatasets
 	);
 	app.get(
+		"/api/common/settings",
+		keystone.middleware.api,
+		routes.api.common.settings
+	);
+	app.get(
 		"/api/contactreasons",
 		keystone.middleware.api,
 		routes.api.forms.getContactReasons
@@ -146,6 +161,11 @@ exports = module.exports = function (app) {
 		"/api/cms/pages/:slug",
 		keystone.middleware.api,
 		routes.api.cms.pages
+	);
+	app.get(
+		"/api/datasets/:datasetId",
+		keystone.middleware.api,
+		routes.api.results.datasets
 	);
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);

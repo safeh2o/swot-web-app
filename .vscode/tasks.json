@@ -2,18 +2,28 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Docker Compose Dev",
+			"label": "docker compose up",
 			"type": "shell",
-			"command": "docker-compose -f docker-compose-dev.yml up -d --build --force-recreate",
+			"command": "docker-compose up -d --build --force-recreate",
 			"problemMatcher": [],
-			"options": { "cwd": "${workspaceFolder}" }
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
 		},
 		{
 			"label": "Docker Compose Logs",
 			"type": "shell",
-			"command": "docker-compose -f docker-compose-dev.yml logs -f",
+			"command": "docker-compose logs -f",
 			"problemMatcher": [],
-			"options": { "cwd": "${workspaceFolder}" }
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "docker build nginx",
+			"type": "shell",
+			"command": "docker build . -f docker/nginx/Dockerfile.dev --build-arg AZURE_STORAGE_ACCOUNT=${AZURE_STORAGE_ACCOUNT} -t nginxa && docker run --add-host 'backend:172.17.0.1' --network='host' -p 80:80 --rm -it swotnginx",
+			"problemMatcher": []
 		}
 	]
 }

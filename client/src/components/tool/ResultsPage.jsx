@@ -13,23 +13,49 @@ import { DateTime } from "luxon";
 import FieldsitesDropdown from "../elements/FieldsitesDropdown";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 
+function formatDate(value) {
+	return DateTime.fromISO(value).toLocaleString();
+}
+
+function getReadyStatus(dataset) {
+	if (!dataset?.status?.ann?.success || !dataset?.status?.eo?.success) {
+		return <Button disabled>Not Ready</Button>;
+	} else {
+		return (
+			<Link to={`/results/${dataset._id}`}>
+				<Button color="primary">Ready</Button>
+			</Link>
+		);
+	}
+}
+
 const columns = [
-	{ field: "name", headerName: "Dataset Name", flex: 1 },
 	{
-		field: "dateOfReading",
-		headerName: "Date Uploaded",
+		field: "dateCreated",
+		headerName: "Date Generated",
 		type: "date",
-		flex: 2,
-		valueFormatter: ({ value }) => DateTime.fromISO(value).toLocaleString(),
-		// sortComparator: (v1, v2) =>
-		// 	DateTime.fromISO(v1).diff(DateTime.fromISO(v2)) > 0,
+		flex: 10,
+		valueFormatter: ({ value }) => formatDate(value),
 	},
 	{
-		field: "ready",
-		headerName: "Ready",
-		type: "boolean",
-		width: "100",
-		valueGetter: (params) => (params.blobName ? true : false),
+		field: "startDate",
+		headerName: "Start Date",
+		type: "date",
+		flex: 10,
+		valueFormatter: ({ value }) => formatDate(value),
+	},
+	{
+		field: "endDate",
+		headerName: "End Date",
+		type: "date",
+		flex: 10,
+		valueFormatter: ({ value }) => formatDate(value),
+	},
+	{
+		field: "status",
+		headerName: "Status",
+		flex: 10,
+		renderCell: ({ row }) => getReadyStatus(row),
 	},
 ];
 
@@ -114,7 +140,7 @@ export default function ResultsPage() {
 								getRowId={(row) => row._id}
 								onSelectionModelChange={handleSelection}
 								sortModel={[
-									{ field: "dateOfReading", sort: "desc" },
+									{ field: "dateCreated", sort: "desc" },
 								]}
 							/>
 						</div>

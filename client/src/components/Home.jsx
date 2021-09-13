@@ -153,7 +153,9 @@ export default function Home(props) {
 							<section className="table-body">
 								<div className="table-row">
 									<div className="table-col">
-										<Link to="result/garwama">Camp 07</Link>
+										<Link to="results/garwama">
+											Camp 07
+										</Link>
 									</div>
 									<div className="table-col">
 										Iraq | Mamrashan
@@ -169,7 +171,7 @@ export default function Home(props) {
 								</div>
 								<div className="table-row">
 									<div className="table-col">
-										<Link to="result/garwama">
+										<Link to="results/garwama">
 											Camp DVP
 										</Link>
 									</div>
@@ -187,7 +189,7 @@ export default function Home(props) {
 								</div>
 								<div className="table-row">
 									<div className="table-col">
-										<Link to="result/garwama">
+										<Link to="results/garwama">
 											Camp Varungu
 										</Link>
 									</div>
@@ -205,7 +207,7 @@ export default function Home(props) {
 								</div>
 								<div className="table-row">
 									<div className="table-col">
-										<Link to="result/garwama">
+										<Link to="results/garwama">
 											Arbat IDP
 										</Link>
 									</div>
@@ -223,7 +225,9 @@ export default function Home(props) {
 								</div>
 								<div className="table-row">
 									<div className="table-col">
-										<Link to="result/garwama">Camp 03</Link>
+										<Link to="results/garwama">
+											Camp 03
+										</Link>
 									</div>
 									<div className="table-col">
 										Iraq | Mamrashan
@@ -239,7 +243,7 @@ export default function Home(props) {
 								</div>
 								<div className="table-row">
 									<div className="table-col">
-										<Link to="result/garwama">
+										<Link to="results/garwama">
 											Bardarash
 										</Link>
 									</div>

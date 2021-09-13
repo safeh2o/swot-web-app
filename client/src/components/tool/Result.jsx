@@ -1,59 +1,77 @@
-import React, { Component } from "react";
-
-import NoteLine from "../elements/NoteLine";
+import React from "react";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import GuideLine from "../elements/GuideLine";
+import useBlob from "../../hooks/useBlob";
+import { useSelector } from "react-redux";
+import { settingsSelectors } from "../../reducers/settings";
 
-import { Helmet } from "react-helmet";
+export default function Result(props) {
+	const { AZURE_STORAGE_ACCOUNT } = useSelector(settingsSelectors.settings);
+	const { datasetId } = useParams();
+	const defaultDataset = {
+		nSamples: 0,
+		dateCreated: "N/A",
+		startDate: "N/A",
+		endDate: "N/A",
+		frcTarget: 0,
+		maxDuration: 0,
+		tsFrc: 0,
+		hhSafety: 0,
+	};
+	const [dataset, setDataset] = useState(defaultDataset);
 
-const object = {
-	response: "NG", // ISO code of country
-	area: "Area of country",
-	fieldsite: "Fieldsite Name",
-	"last-analyzed": "Last analysed dataset",
-	"paired-samples-submitted": "Number of paired samples submitted",
-	"valid-samples-submitted": "Number of valid samples",
-	"total-samples-submitted": "Total number of submissions to this Fieldsite",
-	"saftey-status-frc-tapstand": "",
-	"saftey-status-frc-household": "",
-	"frc-target-frc-tapstand": "",
-	"saftey-improvements-predicted-improvement": "",
-};
+	const blobs = useBlob(
+		{
+			annHtml: { path: `${datasetId}/${datasetId}.html` },
+			frcImg: { path: `${datasetId}/${datasetId}-frc.jpg` },
+			annResults: { path: `${datasetId}/${datasetId}.csv` },
+			annChart: { path: `${datasetId}/${datasetId}.png` },
+			eoBackcheck: {
+				path: `${datasetId}/${datasetId}_Backcheck.png`,
+			},
+			eoContour: {
+				path: `${datasetId}/${datasetId}_Contour.png`,
+			},
+			eoHistogram: {
+				path: `${datasetId}/${datasetId}_Histogram.png`,
+			},
+			eoResults: {
+				path: `${datasetId}/${datasetId}_Results.xlsx`,
+			},
+			eoRuleset: {
+				path: `${datasetId}/${datasetId}_Ruleset.csv`,
+			},
+			eoSkippedRows: {
+				path: `${datasetId}/${datasetId}_SkippedRows.csv`,
+			},
+		},
+		datasetId
+	);
 
-class Result extends Component {
-	render() {
-		return (
-			<>
-				<Helmet></Helmet>
-				<section id="location" className="content-window">
-					<header>
-						<div className="content-window-title">Location</div>
-						<div className="section-options"></div>
-					</header>
-					<section>
-						<div className="flex-group">
-							<label className="space">
-								<input
-									tabIndex="0"
-									autoComplete="on"
-									type="text"
-									value="Maiduguri, Nigeria"
-									readOnly
-									disabled="disabled"
-								/>
-								<span className="label">Fieldsite</span>
-							</label>
-						</div>
-					</section>
-					<footer>
-						<NoteLine
-							text={[
-								"Cant find your Area or Fieldsite? ... ",
-								<a href="/contact">Contact Us</a>,
-							]}
-						/>
-					</footer>
-				</section>
+	useEffect(() => {
+		fetch(`/api/datasets/${datasetId}`)
+			.then((res) => res.json())
+			.then((json) => {
+				setDataset(json.dataset[0]);
+			})
+			.catch(() => {
+				setDataset(defaultDataset);
+			});
+	}, [datasetId]);
 
+	return (
+		<>
+			{/* <div>
+				<h1>Results:</h1>
+				{blobs.frcImg && AZURE_STORAGE_ACCOUNT && (
+					<img
+						src={`https://${AZURE_STORAGE_ACCOUNT}.blob.core.windows.net/results/${blobs.frcImg.path}${blobs.frcImg.sasToken}`}
+					/>
+				)}
+			</div> */}
+			<div>
+				{/* <h4>Coming soon...</h4> */}
 				<section className="content-window result-window-stats">
 					<header>
 						<div className="content-window-title">
@@ -65,7 +83,9 @@ class Result extends Component {
 						<div className="flex-group">
 							<label className="space half-width">
 								<div>
-									<span className="value stat">320</span>
+									<span className="value stat">
+										{dataset.nSamples}
+									</span>
 									<i></i>
 								</div>
 								<span className="label">
@@ -74,7 +94,9 @@ class Result extends Component {
 							</label>
 							<label className="half-width">
 								<div>
-									<span className="value stat">180</span>
+									<span className="value stat">
+										{dataset.nSamples}
+									</span>
 									<i></i>
 								</div>
 								<span className="label">
@@ -83,28 +105,31 @@ class Result extends Component {
 							</label>
 							<label className="space half-width">
 								<div>
-									<span className="value">27 Feb 2021</span>
+									<span className="value">
+										{dataset.dateCreated.substr(0, 10)}
+									</span>
 								</div>
 								<span className="label">Last Analyzed</span>
 							</label>
 							<label className="half-width">
 								<div>
 									<span className="value">
-										12 Dec 2020 - 27 Feb 2021
+										{dataset.startDate.substr(0, 10)} to{" "}
+										{dataset.endDate.substr(0, 10)}
 									</span>
 								</div>
 								<span className="label">Date Range</span>
 							</label>
 						</div>
 					</section>
-					<footer>
-						<a className="button green" href="#">
-							<span>Download Report</span>
-						</a>
-						<a className="button yellow" href="#">
-							<span>Re-Analyze</span>
-						</a>
-					</footer>
+					{/* <footer>
+					<a className="button green" href="#">
+						<span>Download Report</span>
+					</a>
+					<a className="button yellow" href="#">
+						<span>Re-Analyze</span>
+					</a>
+				</footer> */}
 				</section>
 
 				<section className="content-window result-window-stats">
@@ -116,37 +141,39 @@ class Result extends Component {
 						<div className="flex-group">
 							<label className="space half-width">
 								<div>
-									<span className="value stat">0.9</span>
+									<span className="value stat">
+										{dataset.frcTarget}
+									</span>
 									<span className="value unit">mg/l</span>
 								</div>
 								<span className="label">
 									FRC at the Tapstand
 								</span>
 								<hr />
-								<GuideLine
-									text={[
-										"You should aim for this FRC value at the tapstand in order to ensure water is safe to drink after storing in the home.",
-										" - ",
-										<a href="/contact">learn more</a>,
-									]}
-								/>
+								<GuideLine>
+									You should aim for this FRC value at the
+									tapstand in order to ensure water is safe to
+									drink after storing in the home. -{" "}
+									<a href="/contact">learn more</a>
+								</GuideLine>
 							</label>
 							<label className="half-width">
 								<div>
-									<span className="value stat">15</span>
+									<span className="value stat">
+										{dataset.maxDuration}
+									</span>
 									<span className="value unit">Hours</span>
 								</div>
 								<span className="label">
-									Valid Samples Analysed
+									Duration of Household Storage
 								</span>
 								<hr />
-								<GuideLine
-									text={[
-										"This is the delay used to calculate the FRC target, it should reflect the typical maximum amount of time water is being storde for",
-										" - ",
-										<a href="/contact">learn more</a>,
-									]}
-								/>
+								<GuideLine>
+									This is the delay used to calculate the FRC
+									target, it should reflect the typical
+									maximum amount of time water is being stored
+									for - <a href="/contact">learn more</a>
+								</GuideLine>
 							</label>
 						</div>
 					</section>
@@ -164,78 +191,41 @@ class Result extends Component {
 						<div className="flex-group">
 							<label className="space half-width">
 								<div>
-									<span className="value stat">26</span>
+									<span className="value stat">
+										{dataset.tsFrc}
+									</span>
 									<span className="value unit">%</span>
 								</div>
 								<span className="label">Tapstand FRC</span>
 								<hr />
-								<GuideLine
-									text={[
-										"This is the percentage of tapstand FRC measurments that met the target recommendation",
-										" - ",
-										<a href="/contact">learn more</a>,
-									]}
-								/>
+								<GuideLine>
+									This is the percentage of tapstand FRC
+									measurments that met the target
+									recommendation -{" "}
+									<a href="/contact">learn more</a>
+								</GuideLine>
 							</label>
 							<label className="half-width">
 								<div>
-									<span className="value stat">12</span>
+									<span className="value stat">
+										{dataset.hhSafety}
+									</span>
 									<span className="value unit">%</span>
 								</div>
 								<span className="label">
 									Household Water Safety
 								</span>
 								<hr />
-								<GuideLine
-									text={[
-										"This is the percentage of household FRC measurments that met the minimum FRC of 0.2mg/l",
-										" - ",
-										<a href="/contact">learn more</a>,
-									]}
-								/>
+								<GuideLine>
+									This is the percentage of household FRC
+									measurments that met the minimum FRC of
+									0.2mg/l - <a href="/contact">learn more</a>
+								</GuideLine>
 							</label>
 						</div>
 					</section>
 					<footer></footer>
 				</section>
-
-				{/* <section className="content-window result-window-stats">
-					<header>
-						<div className="content-window-title">
-							Water Safety Improvements
-						</div>
-						<div className="section-options"></div>
-					</header>
-					<section>
-						<div className="stat float">
-							<div>
-								<div className="txt-apc">
-									<span className="value">85</span>
-									<span className="unit">%</span>
-								</div>
-								<label className="txt-sm">
-									Predicted improvements
-								</label>
-							</div>
-							<div></div>
-							<div className="full">
-								<span className="txt-icon help">
-									<i>
-										<img src="assets/icons/guide.svg" />
-									</i>
-									<span>
-										If the target FRC level was achieved at
-										all tapstands, the SWOT predicts that
-										this percentage of household water
-										samples would show at least 0.2mg/l FRC.
-										- <a href="#">learn more</a>
-									</span>
-								</span>
-							</div>
-						</div>
-					</section>
-					<footer></footer>
-				</section> */}
 
 				<section className="content-window">
 					<header>
@@ -286,15 +276,13 @@ class Result extends Component {
 									</p>
 								</div>
 								<figure>
-									<img src="assets/pages/review-guidance.svg" />
+									<img src="/assets/pages/review-guidance.svg" />
 								</figure>
 							</li>
 						</ul>
 					</section>
 				</section>
-			</>
-		);
-	}
+			</div>
+		</>
+	);
 }
-
-export default Result;

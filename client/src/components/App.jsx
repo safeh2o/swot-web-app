@@ -29,20 +29,18 @@ import ProfileResetPassword from "./profile/ProfileResetPassword";
 import { useDispatch } from "react-redux";
 import { getUser } from "../reducers/user";
 import ResultsPage from "./tool/ResultsPage";
+import { getSettings } from "../reducers/settings";
 
 // import BlogDashboard from "./BlogDashboard";
 // import BlogPage from "./BlogPage";
 
 export default function App(props) {
-	const initialState = window.__INITIAL_STATE;
-
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(getUser());
+		dispatch(getSettings());
 	}, [dispatch]);
-
-	const context = { ...initialState };
 
 	// Router Titles
 	function RouteWithTitle({ title, ...props }) {
@@ -72,13 +70,12 @@ export default function App(props) {
 				<Route path="/analyze">
 					<AnalyzePage />
 				</Route>
+				<Route path="/results/:datasetId">
+					<Result />
+				</Route>
 				<Route path="/results">
 					<ResultsPage />
 				</Route>
-				<Route path="/result/:slug">
-					<Result />
-				</Route>
-
 				<Route path="/fieldsites">
 					<FieldSites />
 				</Route>

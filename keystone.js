@@ -26,10 +26,6 @@ function validateConfig() {
 	checkConfigKey("FILE_REQUIRED_COLUMNS", process.env.FILE_REQUIRED_COLUMNS);
 	checkConfigKey("ANALYZER_URL", process.env.ANALYZER_URL);
 	checkConfigKey(
-		"AZURE_STORAGE_ACCESS_KEY",
-		process.env.AZURE_STORAGE_ACCESS_KEY
-	);
-	checkConfigKey(
 		"AZURE_STORAGE_CONTAINER_STD",
 		process.env.AZURE_STORAGE_CONTAINER_STD
 	);

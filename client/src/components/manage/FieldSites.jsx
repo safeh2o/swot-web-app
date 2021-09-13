@@ -10,8 +10,6 @@ import DetectEmoji from "../HelperDetectEmoji";
 import { IconTrash } from "../icons";
 
 export default function FieldSites(props) {
-	console.log(DetectEmoji());
-
 	return (
 		<>
 			<section className="content-window">

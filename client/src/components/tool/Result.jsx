@@ -18,7 +18,7 @@ export default function Result(props) {
 		maxDuration: 0,
 		tsFrc: 0,
 		hhSafety: 0,
-		frcReco: 0,
+		eo: { reco: 0 },
 	};
 	const [dataset, setDataset] = useState(defaultDataset);
 
@@ -193,7 +193,7 @@ export default function Result(props) {
 							<label className="space half-width">
 								<div>
 									<span className="value stat">
-										{dataset.frcReco.toFixed(2)}
+										{dataset.eo.reco.toFixed(2)}
 									</span>
 									<span className="value unit">%</span>
 								</div>

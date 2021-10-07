@@ -123,14 +123,14 @@ export default function Result(props) {
 							</label>
 						</div>
 					</section>
-					{/* <footer>
-					<a className="button green" href="#">
-						<span>Download Report</span>
-					</a>
-					<a className="button yellow" href="#">
-						<span>Re-Analyze</span>
-					</a>
-				</footer> */}
+					<footer>
+						{/* <a className="button green" href="#">
+							<span>Download Report</span>
+						</a> */}
+						<a className="button yellow" href="#">
+							<span>Re-Analyze</span>
+						</a>
+					</footer>
 				</section>
 
 				<section className="content-window result-window-stats">

@@ -193,7 +193,7 @@ export default function Result(props) {
 							<label className="space half-width">
 								<div>
 									<span className="value stat">
-										{dataset.frcReco}
+										{dataset.frcReco.toFixed(2)}
 									</span>
 									<span className="value unit">%</span>
 								</div>

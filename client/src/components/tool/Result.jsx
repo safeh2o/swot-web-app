@@ -143,7 +143,7 @@ export default function Result(props) {
 							<label className="space half-width">
 								<div>
 									<span className="value stat">
-										{dataset.frcTarget}
+										{dataset.eo.reco.toFixed(2)}
 									</span>
 									<span className="value unit">mg/l</span>
 								</div>
@@ -193,7 +193,7 @@ export default function Result(props) {
 							<label className="space half-width">
 								<div>
 									<span className="value stat">
-										{dataset.eo.reco.toFixed(2)}
+										{dataset.frcTarget}
 									</span>
 									<span className="value unit">%</span>
 								</div>

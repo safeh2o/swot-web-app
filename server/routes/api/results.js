@@ -17,7 +17,7 @@ exports.archived = async function (req, res) {
 	await sendDatasets(true, req, res);
 };
 
-exports.download = async function (req, res) {
+exports.downloadOld = async function (req, res) {
 	if (!req.query.datasetId) {
 		res.status(400).send("Invalid dataset id");
 		return;
@@ -193,6 +193,92 @@ exports.fetch = async function (req, res) {
 	);
 };
 
+exports.download = async function (req, res) {
+	const { datasetId } = req.query;
+
+	const allowed =
+		req.user &&
+		(await dataService.isUserAllowedAccessToDataset(
+			req.user._id,
+			datasetId
+		));
+
+	if (!allowed) {
+		res.status(403).send("Insufficient Privilleges");
+		return;
+	} else if (!datasetId) {
+		res.status(400).send("Invalid dataset id");
+		return;
+	}
+
+	const containerName = process.env.AZURE_STORAGE_CONTAINER_RESULTS;
+	const prefix = datasetId;
+
+	let datasetArtifacts;
+
+	const retryOperations = new azure.LinearRetryPolicyFilter();
+	const blobService = azure.createBlobService().withFilter(retryOperations);
+
+	blobService.listBlobsSegmentedWithPrefix(
+		containerName,
+		prefix,
+		null,
+		{
+			delimiter: "",
+			useNagleAlgorithm: true,
+			maximumExecutionTimeInMs: 12000,
+			clientRequestTimeoutInMs: 12000,
+			timeoutIntervalInMs: 12000,
+		},
+		(err, data) => {
+			if (err) {
+				console.log(
+					`Error occurred while reading blobs from Azure, container name is ${containerName}, prefix is ${prefix} and error is ${err}`
+				);
+				reject(err);
+			}
+
+			datasetArtifacts = data.entries.map((e) => e.name);
+
+			const archive = archiver("zip");
+
+			archive.on("error", function (err) {
+				console.log(`Error during download operation`, err);
+				res.send("Error occurred during download operation");
+				return;
+			});
+
+			res.header("Content-Type", "application/zip");
+			res.header(
+				"Content-Disposition",
+				`attachment; filename="${datasetId}.zip"`
+			);
+
+			archive.pipe(res);
+
+			datasetArtifacts.forEach((artifactLink) => {
+				const filename = artifactLink.substring(
+					artifactLink.lastIndexOf("/") + 1
+				);
+				archive.append(
+					std.getBlobReadStream(containerName, artifactLink),
+					{ name: filename }
+				);
+			});
+
+			archive.finalize(function (err, bytes) {
+				if (err) {
+					throw err;
+				}
+
+				console.log(
+					`Prepared zip file for download in size of ${bytes} total bytes`
+				);
+			});
+		}
+	);
+};
+
 exports.archive = async function (req, res) {
 	if (!req.query.datasetIds) {
 		res.status(400).send("No dataset id given");
@@ -222,13 +308,13 @@ exports.archive = async function (req, res) {
 };
 
 exports.analyze = async function (req, res) {
-	if (!req.body.datasetIds) {
-		res.status(400).send("No dataset id given");
+	const { datasetIds } = req.body;
+	if (!datasetIds) {
+		res.status(400).send("No dataset ids given");
 		return;
 	}
-	let datasetIds = req.body.datasetIds;
 	if (!Array.isArray(datasetIds)) {
-		res.status(400).send("Invalid dataset id");
+		res.status(400).send("Invalid dataset ids");
 		return;
 	}
 
@@ -246,6 +332,33 @@ exports.analyze = async function (req, res) {
 
 		res.json(`Resent ${datasets.length} dataset(s) for analysis`);
 	}
+};
+
+exports.analyzedataset = async function (req, res) {
+	const { datasetId } = req.query;
+	if (!datasetId) {
+		res.status(400).send("No dataset id given");
+		return;
+	}
+
+	const allowed =
+		req.user &&
+		dataService.isUserAllowedAccessToDataset(req.user._id, datasetId);
+
+	if (!allowed) {
+		res.status(403).send("Not allowed");
+		return;
+	}
+
+	const dataset = await Dataset.model.findOne({ _id: datasetId });
+
+	if (!dataset) {
+		res.status(404).send("No dataset found");
+		return;
+	}
+
+	dataset.runAnalysis();
+	res.status(200).send(`Resent dataset with id ${datasetId} for analysis`);
 };
 
 exports.resolve = async function (req, res) {

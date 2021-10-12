@@ -1,6 +1,7 @@
 const {
 	generateBlobSASQueryParameters,
 	BlobServiceClient,
+	BlobSASPermissions,
 } = require("@azure/storage-blob");
 const keystone = require("keystone");
 const Dataset = keystone.list("Dataset");

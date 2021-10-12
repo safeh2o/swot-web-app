@@ -26,6 +26,17 @@ exports.getCountryByArea = async function (areaId) {
 		.exec();
 };
 
+exports.isUserAllowedAccessToDataset = async function (userId, datasetId) {
+	const dataset = await Dataset.model.findOne({ _id: datasetId });
+	const fieldsiteId = dataset.fieldsite;
+	const area = await Area.model.findOne({
+		fieldsites: fieldsiteId,
+		users: userId,
+	});
+
+	return area !== null;
+};
+
 /**
  * Retrieves a area record where field is associated
  */

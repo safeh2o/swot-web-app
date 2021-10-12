@@ -106,6 +106,11 @@ exports = module.exports = function (app) {
 		keystone.middleware.api,
 		routes.api.results.analyze
 	);
+	app.get(
+		"/api/results/analyzedataset",
+		keystone.middleware.api,
+		routes.api.results.analyzedataset
+	);
 	app.post(
 		"/api/user/update",
 		keystone.middleware.api,

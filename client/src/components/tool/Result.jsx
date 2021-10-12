@@ -22,33 +22,33 @@ export default function Result(props) {
 	};
 	const [dataset, setDataset] = useState(defaultDataset);
 
-	const blobs = useBlob(
-		{
-			annHtml: { path: `${datasetId}/${datasetId}.html` },
-			frcImg: { path: `${datasetId}/${datasetId}-frc.jpg` },
-			annResults: { path: `${datasetId}/${datasetId}.csv` },
-			annChart: { path: `${datasetId}/${datasetId}.png` },
-			eoBackcheck: {
-				path: `${datasetId}/${datasetId}_Backcheck.png`,
-			},
-			eoContour: {
-				path: `${datasetId}/${datasetId}_Contour.png`,
-			},
-			eoHistogram: {
-				path: `${datasetId}/${datasetId}_Histogram.png`,
-			},
-			eoResults: {
-				path: `${datasetId}/${datasetId}_Results.xlsx`,
-			},
-			eoRuleset: {
-				path: `${datasetId}/${datasetId}_Ruleset.csv`,
-			},
-			eoSkippedRows: {
-				path: `${datasetId}/${datasetId}_SkippedRows.csv`,
-			},
-		},
-		datasetId
-	);
+	// const blobs = useBlob(
+	// 	{
+	// 		annHtml: { path: `${datasetId}/${datasetId}.html` },
+	// 		frcImg: { path: `${datasetId}/${datasetId}-frc.jpg` },
+	// 		annResults: { path: `${datasetId}/${datasetId}.csv` },
+	// 		annChart: { path: `${datasetId}/${datasetId}.png` },
+	// 		eoBackcheck: {
+	// 			path: `${datasetId}/${datasetId}_Backcheck.png`,
+	// 		},
+	// 		eoContour: {
+	// 			path: `${datasetId}/${datasetId}_Contour.png`,
+	// 		},
+	// 		eoHistogram: {
+	// 			path: `${datasetId}/${datasetId}_Histogram.png`,
+	// 		},
+	// 		eoResults: {
+	// 			path: `${datasetId}/${datasetId}_Results.xlsx`,
+	// 		},
+	// 		eoRuleset: {
+	// 			path: `${datasetId}/${datasetId}_Ruleset.csv`,
+	// 		},
+	// 		eoSkippedRows: {
+	// 			path: `${datasetId}/${datasetId}_SkippedRows.csv`,
+	// 		},
+	// 	},
+	// 	datasetId
+	// );
 
 	useEffect(() => {
 		fetch(`/api/datasets/${datasetId}`)
@@ -124,11 +124,18 @@ export default function Result(props) {
 						</div>
 					</section>
 					<footer>
-						{/* <a className="button green" href="#">
-							<span>Download Report</span>
-						</a> */}
-						<a className="button yellow" href="#">
-							<span>Re-Analyze</span>
+						<a
+							className="button green"
+							href={`/api/results/download?datasetId=${datasetId}`}
+						>
+							<span>Download Raw Results</span>
+						</a>
+						<a
+							className="button yellow"
+							href={`/api/results/analyzedataset?datasetId=${datasetId}`}
+							target="_blank"
+						>
+							<span>Reanalyze</span>
 						</a>
 					</footer>
 				</section>

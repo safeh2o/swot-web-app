@@ -30,6 +30,8 @@ import { useDispatch } from "react-redux";
 import { getUser } from "../reducers/user";
 import ResultsPage from "./tool/ResultsPage";
 import { getSettings } from "../reducers/settings";
+import { ThemeProvider } from "@mui/material";
+import theme from "../theme";
 
 // import BlogDashboard from "./BlogDashboard";
 // import BlogPage from "./BlogPage";
@@ -56,58 +58,60 @@ export default function App(props) {
 
 	// User Data
 	return (
-		<PageWrapper>
-			<Switch>
-				<Route exact={true} path="/">
-					<Home />
-				</Route>
-				<Route path="/collect">
-					<CollectData />
-				</Route>
-				<Route path="/upload">
-					<UploadPage />
-				</Route>
-				<Route path="/analyze">
-					<AnalyzePage />
-				</Route>
-				<Route path="/results/:datasetId">
-					<Result />
-				</Route>
-				<Route path="/results">
-					<ResultsPage />
-				</Route>
-				<Route path="/fieldsites">
-					<FieldSites />
-				</Route>
-				<Route path="/people">
-					<People />
-				</Route>
+		<ThemeProvider theme={theme}>
+			<PageWrapper>
+				<Switch>
+					<Route exact={true} path="/">
+						<Home />
+					</Route>
+					<Route path="/collect">
+						<CollectData />
+					</Route>
+					<Route path="/upload">
+						<UploadPage />
+					</Route>
+					<Route path="/analyze">
+						<AnalyzePage />
+					</Route>
+					<Route path="/results/:datasetId">
+						<Result />
+					</Route>
+					<Route path="/results">
+						<ResultsPage />
+					</Route>
+					<Route path="/fieldsites">
+						<FieldSites />
+					</Route>
+					<Route path="/people">
+						<People />
+					</Route>
 
-				<Route path="/signin">
-					<ProfileLogin />
-				</Route>
-				<Route path="/forgotpassword">
-					<ProfileForgotPassword />
-				</Route>
-				<Route path="/resetpassword/:key">
-					<ProfileResetPassword />
-				</Route>
+					<Route path="/signin">
+						<ProfileLogin />
+					</Route>
+					<Route path="/forgotpassword">
+						<ProfileForgotPassword />
+					</Route>
+					<Route path="/resetpassword/:key">
+						<ProfileResetPassword />
+					</Route>
 
-				<RouteWithTitle
-					title="Contact Us"
-					path="/contact"
-					component={ContactPage}
-					key={document.location.hostname + "/contact"}
-				/>
-				<Route path="/pages/:slug">
-					<CMSPage />
-				</Route>
+					<RouteWithTitle
+						title="Contact Us"
+						path="/contact"
+						component={ContactPage}
+						key={document.location.hostname + "/contact"}
+					/>
+					<Route path="/pages/:slug">
+						<CMSPage />
+					</Route>
 
-				{/* 
+					{/* 
 						<Route exact path="/blog"><BlogDashboard /></Route>
 						<Route path="/blog/:category"><BlogPage /></Route> 
 					*/}
-			</Switch>
-		</PageWrapper>
+				</Switch>
+			</PageWrapper>
+		</ThemeProvider>
 	);
 }

@@ -1,19 +1,18 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import UserDetailsModal from "../elements/UserDetailsModal";
 import { userSelectors } from "../../reducers/user";
 import { useSelector } from "react-redux";
-import SettingsIcon from "@material-ui/icons/Settings";
-import { IconButton } from "@material-ui/core";
+import { Skeleton } from "@mui/material";
 
 // icons
-import SignInIcon from "../icons/SignIn";
 import SignOutIcon from "../icons/SignOut";
 import AdminIcon from "../icons/Admin";
 
 export default function Header(props) {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const user = useSelector(userSelectors.user);
+	const userLoadingStatus = useSelector(userSelectors.loadingStatus);
 
 	function renderRightButtons() {
 		if (isLoggedIn) {
@@ -92,6 +91,79 @@ export default function Header(props) {
 		}
 	}
 
+	function headerSkeleton(text) {
+		return (
+			<Skeleton
+				variant="text"
+				animation="wave"
+				style={{ marginRight: 15 }}
+			>
+				<h2>{text}</h2>
+			</Skeleton>
+		);
+	}
+
+	function headerSkeletonCircle(radius) {
+		return (
+			<Skeleton
+				variant="circular"
+				width={`${radius}px`}
+				height={`${radius}px`}
+				animation="wave"
+				style={{ marginRight: 5 }}
+			/>
+		);
+	}
+
+	function headerContent() {
+		return (
+			<ul className="nav-wrap">
+				<li className="nav-item show-medium-up">
+					<a
+						href="https://www.safeh2o.app/"
+						title="About the Project"
+					>
+						<span>About</span>
+					</a>
+				</li>
+
+				<li className="nav-item show-medium-up">
+					<Link to="/blog" title="News">
+						<span>News</span>
+					</Link>
+				</li>
+
+				<li className="nav-item show-medium-up">
+					<Link to="/contact" title="Contact">
+						<span>Contact</span>
+					</Link>
+				</li>
+
+				{renderRightButtons("get-started")}
+
+				<li className="nav-item nav-mobile">
+					<button
+						className="button"
+						onClick={() => toggleMobileNav()}
+					>
+						<i>
+							<img
+								className="open"
+								src="/assets/icons/header-nav-mobile.svg"
+								alt="Toggle mobile nav"
+							/>
+							<img
+								className="close"
+								src="/assets/icons/header-nav-mobile-close.svg"
+								alt="Toggle mobile nav"
+							/>
+						</i>
+					</button>
+				</li>
+			</ul>
+		);
+	}
+
 	return (
 		<header id="header">
 			<nav id="main-navigation" aria-label="Site Menu">
@@ -101,51 +173,28 @@ export default function Header(props) {
 						alt="Safe Water Optimization Tool (SWOT) logo"
 					/>
 				</Link>
-
-				<ul className="nav-wrap">
-					<li className="nav-item show-medium-up">
-						<a
-							href="https://www.safeh2o.app/"
-							title="About the Project"
-						>
-							<span>About</span>
-						</a>
-					</li>
-
-					<li className="nav-item show-medium-up">
-						<Link to="/blog" title="News">
-							<span>News</span>
-						</Link>
-					</li>
-
-					<li className="nav-item show-medium-up">
-						<Link to="/contact" title="Contact">
-							<span>Contact</span>
-						</Link>
-					</li>
-
-					{renderRightButtons("get-started")}
-
-					<li className="nav-item nav-mobile">
-						<button
-							className="button"
-							onClick={() => toggleMobileNav()}
-						>
-							<i>
-								<img
-									className="open"
-									src="/assets/icons/header-nav-mobile.svg"
-									alt="Toggle mobile nav"
-								/>
-								<img
-									className="close"
-									src="/assets/icons/header-nav-mobile-close.svg"
-									alt="Toggle mobile nav"
-								/>
-							</i>
-						</button>
-					</li>
-				</ul>
+				{userLoadingStatus === "success" ? (
+					headerContent()
+				) : (
+					<div
+						style={{
+							display: "flex",
+							width: "50%",
+							height: "100%",
+							alignItems: "center",
+							justifyContent: "end",
+						}}
+					>
+						{headerSkeleton("Started")}
+						{headerSkeleton("About")}
+						{headerSkeleton("News")}
+						{headerSkeleton("Conta")}
+						<span style={{ width: "40px" }}></span>
+						{headerSkeletonCircle(34)}
+						{headerSkeletonCircle(34)}
+						{headerSkeletonCircle(34)}
+					</div>
+				)}
 			</nav>
 		</header>
 	);

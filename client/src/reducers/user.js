@@ -31,6 +31,7 @@ export const userSelectors = {
 	isLoggedIn: (state) => state.user.isLoggedIn,
 	user: (state) => state.user.user,
 	fieldsites: (state) => state.user.user.fieldsites,
+	loadingStatus: (state) => state.user.status,
 };
 
 export default userSlice.reducer;

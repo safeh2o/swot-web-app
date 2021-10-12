@@ -7,10 +7,8 @@ import Footer from "./layout/Footer";
 import FlashMessages from "./elements/FlashMessages";
 import { useSelector } from "react-redux";
 import { notificationsSelectors } from "../reducers/notifications";
-import { ThemeProvider } from "@material-ui/styles";
 // import DateFnsUtils from "@date-io/date-fns";
 
-import theme from "../theme";
 import { Backdrop, CircularProgress, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -71,7 +69,7 @@ export default function PageWrapper(props) {
 	}
 
 	return (
-		<ThemeProvider theme={theme}>
+		<>
 			<Header />
 			<Backdrop open={isLoading} className={classes.backdrop}>
 				<CircularProgress />
@@ -99,6 +97,6 @@ export default function PageWrapper(props) {
 			</main>{" "}
 			{/* Component|Views */}
 			<Footer /> {/* Colophon */}
-		</ThemeProvider>
+		</>
 	);
 }

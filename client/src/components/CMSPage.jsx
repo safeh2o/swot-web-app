@@ -2,15 +2,20 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DOMPurify from "dompurify";
+import { useDispatch } from "react-redux";
+import { pushView } from "../reducers/view";
+import { setLoading } from "../reducers/notifications";
 
 export default function CMSPage(props) {
+	const dispatch = useDispatch();
 	const { slug } = useParams();
 	const defaultPage = {
-		title: "Loading...",
-		content: { extended: "Content is loading..." },
+		title: "",
+		content: { extended: "" },
 	};
 	const [page, setPage] = useState(defaultPage);
 	useEffect(() => {
+		dispatch(setLoading(true));
 		setPage(defaultPage);
 		fetch(`/api/cms/pages/${slug}`)
 			.then((res) => res.json())
@@ -24,15 +29,24 @@ export default function CMSPage(props) {
 						extended: "Looks like you've entered an invalid page!",
 					},
 				});
+			})
+			.finally(() => {
+				dispatch(setLoading(false));
 			});
 	}, [slug]);
+
+	useEffect(() => {
+		if (page.title) {
+			dispatch(pushView({ title: page.title, path: slug }));
+		}
+	}, [page]);
 
 	return (
 		<>
 			<div className="container">
 				<div className=" px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 					<h1 className="display-4" id="headerText">
-						{page.title}
+						{page.title || "Loading..."}
 					</h1>
 				</div>
 			</div>
@@ -49,7 +63,9 @@ export default function CMSPage(props) {
 				)}
 				<div
 					dangerouslySetInnerHTML={{
-						__html: DOMPurify.sanitize(page.content.extended),
+						__html: DOMPurify.sanitize(
+							page.content.extended || "Content is loading..."
+						),
 					}}
 				/>
 			</div>

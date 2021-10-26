@@ -18,6 +18,7 @@ import {
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addError, addNotice, setLoading } from "../reducers/notifications";
+import { pushView } from "../reducers/view";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -59,6 +60,7 @@ export default function ContactPage(props) {
 	}
 
 	useEffect(() => {
+		dispatch(pushView({ title: "Contact", path: "/contact" }));
 		axios("/api/contactreasons").then(({ data }) => {
 			setContactReasons(data);
 		});

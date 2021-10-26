@@ -14,6 +14,7 @@ import useForm from "../../hooks/useForm";
 import { IconUpload } from "../icons";
 import FieldsitesDropdown from "../elements/FieldsitesDropdown";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
+import { pushView } from "../../reducers/view";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -32,10 +33,15 @@ const initialState = {
 };
 
 export default function UploadPage() {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(pushView({ title: "Upload", path: "/upload" }));
+	}, []);
+
 	const classes = useStyles();
 	const { state, update, reset } = useForm(initialState);
 	const [disabled, setDisabled] = useState(true);
-	const dispatch = useDispatch();
 	const fileInput = useRef(null);
 
 	useEffect(() => {

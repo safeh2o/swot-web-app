@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import GuideLine from "../elements/GuideLine";
 import useBlob from "../../hooks/useBlob";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { settingsSelectors } from "../../reducers/settings";
+import { pushView } from "../../reducers/view";
 
 export default function Result(props) {
 	const { AZURE_STORAGE_ACCOUNT } = useSelector(settingsSelectors.settings);
@@ -21,6 +22,11 @@ export default function Result(props) {
 		eo: { reco: 0 },
 	};
 	const [dataset, setDataset] = useState(defaultDataset);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(pushView({ title: datasetId, path: `/results/${datasetId}` }));
+	}, []);
 
 	// const blobs = useBlob(
 	// 	{

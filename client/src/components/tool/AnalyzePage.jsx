@@ -31,15 +31,7 @@ import FieldsitesDropdown from "../elements/FieldsitesDropdown";
 
 import { IconCalendar } from "../icons";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
-
-// const useStyles = makeStyles((theme) => ({
-// 	root: {
-// 		width: 300 + theme.spacing(3) * 2,
-// 	},
-// 	margin: {
-// 		height: theme.spacing(3),
-// 	},
-// }));
+import { pushView } from "../../reducers/view";
 
 const FromSlider_HouseholdDuration_Hours = [
 	{ value: 3 },
@@ -158,11 +150,16 @@ const initialState = {
 };
 
 export default function AnalyzePage() {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(pushView({ title: "Analyze", path: "/analyze" }));
+	}, []);
+
 	const classes = useStyles();
 
 	const { state, update, reset } = useForm(initialState);
 	const [disabled, setDisabled] = useState(true);
-	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const { fieldsite, startDate, endDate, duration, confidence } = state;

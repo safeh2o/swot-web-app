@@ -22,7 +22,6 @@ import People from "./manage/People";
 // Admin Imports
 import CMSPage from "./CMSPage";
 
-// User Profile Imports
 import ProfileLogin from "./profile/ProfileLogin";
 import ProfileForgotPassword from "./profile/ProfileForgotPassword";
 import ProfileResetPassword from "./profile/ProfileResetPassword";
@@ -32,9 +31,6 @@ import ResultsPage from "./tool/ResultsPage";
 import { getSettings } from "../reducers/settings";
 import { ThemeProvider } from "@mui/material";
 import theme from "../theme";
-
-// import BlogDashboard from "./BlogDashboard";
-// import BlogPage from "./BlogPage";
 
 export default function App(props) {
 	const dispatch = useDispatch();

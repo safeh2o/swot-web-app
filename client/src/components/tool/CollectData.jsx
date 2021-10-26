@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { pushView } from "../../reducers/view";
 
 // icons
 import DownloadIcon from "../icons/Download";
@@ -8,6 +10,11 @@ import XlsIcon from "../icons/Xls";
 export default function CollectData(props) {
 	const urlFieldGuide = "#";
 	const urlDataInputTemplate = "#";
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(pushView({ title: "Collect", path: "/collect" }));
+	}, []);
 
 	return (
 		<>

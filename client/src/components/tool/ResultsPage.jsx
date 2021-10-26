@@ -12,6 +12,7 @@ import { addNotice, setLoading } from "../../reducers/notifications";
 import { DateTime } from "luxon";
 import FieldsitesDropdown from "../elements/FieldsitesDropdown";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
+import { pushView } from "../../reducers/view";
 
 function formatDate(value) {
 	return DateTime.fromISO(value).toLocaleString();
@@ -65,6 +66,10 @@ export default function ResultsPage() {
 	// list of selected dataset id's
 	const [selectedDatasets, setSelectedDatasets] = useState([]);
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(pushView({ title: "Results", path: "/results" }));
+	}, []);
 
 	useEffect(() => {
 		if (fieldsite && fieldsite.name) {

@@ -37,7 +37,7 @@ export default function CMSPage(props) {
 
 	useEffect(() => {
 		if (page.title) {
-			dispatch(pushView({ title: page.title, path: slug }));
+			dispatch(pushView({ title: page.title, path: `/pages/${slug}` }));
 		}
 	}, [page]);
 

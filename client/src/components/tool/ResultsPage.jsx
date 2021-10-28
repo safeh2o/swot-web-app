@@ -1,12 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Notice from "../elements/Notice";
 import { Link } from "react-router-dom";
 
 import { DataGrid } from "@material-ui/data-grid";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { Button, TextField } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
-import { userSelectors } from "../../reducers/user";
+import { Button } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import { addNotice, setLoading } from "../../reducers/notifications";
 import { DateTime } from "luxon";
@@ -15,6 +13,9 @@ import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import { pushView } from "../../reducers/view";
 
 function formatDate(value) {
+	if (!value) {
+		return String.fromCharCode(8734);
+	}
 	return DateTime.fromISO(value).toLocaleString();
 }
 

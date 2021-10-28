@@ -147,7 +147,7 @@ exports.analyze = async function (req, res) {
 	endDate.setDate(endDate.getDate() + 1);
 	const fieldsiteId = req.body.fieldsite._id;
 	const datapoints = await Datapoint.model
-		.find({
+		.count({
 			fieldsite: fieldsiteId,
 		})
 		.where("tsDate")
@@ -155,22 +155,36 @@ exports.analyze = async function (req, res) {
 		.lt(endDate)
 		.exec();
 
-	if (!datapoints.length) {
-		res.status(404).json({
+	if (datapoints <= 0) {
+		res.status(400).json({
 			error: "Could not find any datapoints in the given date range",
 		});
 		return;
 	}
 
-	const dataset = new Dataset.model({
-		fieldsite: fieldsiteId,
-		user: req.user._id,
-		startDate,
-		endDate,
-		maxDuration,
-		confidenceLevel,
-		dateCreated: new Date(),
-	});
+	let dataset;
+
+	if (req.body.startDate) {
+		dataset = new Dataset.model({
+			fieldsite: fieldsiteId,
+			user: req.user._id,
+			startDate,
+			endDate,
+			maxDuration,
+			confidenceLevel,
+			dateCreated: new Date(),
+		});
+	} else {
+		dataset = new Dataset.model({
+			fieldsite: fieldsiteId,
+			user: req.user._id,
+			startDate: null,
+			endDate,
+			maxDuration,
+			confidenceLevel,
+			dateCreated: new Date(),
+		});
+	}
 
 	// const queueClient = QueueServiceClient.fromConnectionString(
 	// 	AZURE_STORAGE_CONNECTION_STRING
@@ -317,7 +331,7 @@ exports.append = async function (req, res) {
 			).toString("base64")
 		)
 		.catch((err) => {
-			res.status(404).send("Queue does not exist");
+			res.status(501).send("Queue does not exist");
 		});
 
 	if (sendMessageResponse) {

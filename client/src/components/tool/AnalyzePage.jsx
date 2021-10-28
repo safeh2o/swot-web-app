@@ -182,6 +182,13 @@ export default function AnalyzePage() {
 		});
 	}
 
+	function selectAllTimeDate() {
+		update({
+			startDate: null,
+			endDate: DateTime.now().toJSDate(),
+		});
+	}
+
 	function handleFormSubmit() {
 		dispatch(setLoading(true));
 		axios
@@ -273,7 +280,7 @@ export default function AnalyzePage() {
 						</Button>
 						<Button
 							onClick={() => {
-								selectDate(9999);
+								selectAllTimeDate();
 							}}
 						>
 							All-Time
@@ -282,7 +289,7 @@ export default function AnalyzePage() {
 					<label>
 						<span className="label">
 							<span className="note">
-								* Choose Ranges Above, Or adjust Below
+								* Choose ranges above, or adjust below
 							</span>
 						</span>
 						<DateRangePicker

@@ -121,8 +121,9 @@ export default function Result(props) {
 							<label className="half-width">
 								<div>
 									<span className="value">
-										{dataset.startDate.substr(0, 10)} to{" "}
-										{dataset.endDate.substr(0, 10)}
+										{dataset?.startDate?.substr(0, 10) ||
+											String.fromCharCode(8734)}{" "}
+										to {dataset.endDate.substr(0, 10)}
 									</span>
 								</div>
 								<span className="label">Date Range</span>
@@ -156,7 +157,7 @@ export default function Result(props) {
 							<label className="space half-width">
 								<div>
 									<span className="value stat">
-										{dataset.eo.reco.toFixed(2)}
+										{dataset?.eo?.reco?.toFixed(2)}
 									</span>
 									<span className="value unit">mg/l</span>
 								</div>

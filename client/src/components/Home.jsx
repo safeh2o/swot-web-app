@@ -7,18 +7,20 @@ import { userSelectors as userSelectors } from "../reducers/user";
 
 import { IconTrash } from "./icons";
 import { clearViewStack } from "../reducers/view";
+import { blogSelectors, getPosts } from "../reducers/posts";
 
-// function Dashboard(props) {
 export default function Home(props) {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const user = useSelector(userSelectors.user);
+	const posts = useSelector(blogSelectors.posts);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(clearViewStack());
+		dispatch(getPosts());
 	}, []);
 
-	const isUserLogin = () => {
+	const privilegedContent = () => {
 		if (!isLoggedIn) {
 			return (
 				<>
@@ -276,27 +278,30 @@ export default function Home(props) {
 
 	return (
 		<>
-			{isUserLogin()}
+			{privilegedContent()}
 
-			<Posts
+			{/* <Posts
 				type={"news"}
 				data={[
 					{
 						link: "",
 						title: "Global WASH Cluster (GWC) Annual Meeting Satellite",
-						date: "May 2, 2021",
-						content:
-							"Check out a recent presentation made during one of the events.",
+						publishedDate: "May 2, 2021",
+						content: {
+							brief: "Check out a recent presentation made during one of the events.",
+						},
 					},
 					{
 						link: "https://www.theglobeandmail.com/canada/article-sanitation-specialist-develops-system-to-ensure-refugee-camps-anywhere/",
 						title: "Stepping Up: Sanitation specialist develops system to ensure refugee camps anywhere can have healthy drinking water",
-						date: "November 25, 2020",
-						content:
-							"This is part of Stepping Up, a series introducing Canadians to their country’s new sources of inspiration and leadership.",
+						publishedDate: "November 25, 2020",
+						content: {
+							brief: "This is part of Stepping Up, a series introducing Canadians to their country’s new sources of inspiration and leadership.",
+						},
 					},
 				]}
-			/>
+			/> */}
+			<Posts type={"news"} data={posts} />
 
 			<section
 				id="organisations"

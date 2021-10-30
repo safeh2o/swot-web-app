@@ -2,8 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { userSelectors } from "../../reducers/user";
-
-// icons
 import SidebarToolNav from "../icons/SidebarToolNav";
 import SidebarManageNav from "../icons/SidebarManageNav";
 

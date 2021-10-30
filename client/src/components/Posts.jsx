@@ -1,15 +1,93 @@
+import { Skeleton } from "@mui/material";
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { blogSelectors } from "../reducers/posts";
 
-export default function SideBar(props) {
+export default function Posts(props) {
+	const { data: posts } = props;
+	const blogLoadingStatus = useSelector(blogSelectors.loadingStatus);
+
+	function articleFromPost(post) {
+		return (
+			<article className="block" key={post.link}>
+				<figure>
+					<Link to={`/blog/${post.slug}`}>
+						<img
+							src={
+								post?.image?.secure_url ||
+								"/assets/placeholder-square.png"
+							}
+							alt=""
+						/>
+					</Link>
+				</figure>
+				<div>
+					<time>{post.publishedDate}</time>
+					<h2>
+						<Link to={`/blog/${post.slug}`}>{post.title}</Link>
+					</h2>
+					<div>
+						<p>{post.content.brief}</p>
+					</div>
+				</div>
+			</article>
+		);
+	}
+
+	function blogSkeleton(numPosts) {
+		const post = {
+			title: "Stepping Up: Sanitation specialist develops system",
+			publishedDate: "November 25, 2020",
+			content: {
+				brief: "This is part of Stepping Up, a series introducing Canadians to their country’s new sources of inspiration and leadership.",
+			},
+		};
+
+		return _.times(numPosts, (i) => (
+			<article className="block">
+				<figure>
+					<Skeleton variant="rectangular" component="img" />
+				</figure>
+				<div>
+					<Skeleton>
+						<time>{post.publishedDate}</time>
+					</Skeleton>
+					<Skeleton component="h2">
+						<a>{post.title}</a>
+					</Skeleton>
+
+					<Skeleton variant="rectangular">
+						<div>
+							<p>{post.content.brief}</p>
+						</div>
+					</Skeleton>
+				</div>
+			</article>
+		));
+	}
+
 	return (
 		<section id="news" className="content-window rich-text">
 			<header>
 				<div className="content-window-title txt-condensed">
 					Latest News
 				</div>
-				{/* <div className="content-window-title-description"></div> */}
 			</header>
+
+			{blogLoadingStatus === "success"
+				? posts.map((post) => articleFromPost(post))
+				: blogSkeleton(3)}
+			<footer className="more">
+				<Link to="/blog">
+					<span>More News</span>
+				</Link>
+			</footer>
+		</section>
+	);
+}
+
+/*
 			<article className="block">
 				<figure>
 					<img src="/assets/placeholder-square.png" alt="" />
@@ -80,11 +158,5 @@ export default function SideBar(props) {
 					</div>
 				</div>
 			</article>
-			<footer className="more">
-				<Link to="/blog">
-					<span>More News</span>
-				</Link>
-			</footer>
-		</section>
-	);
-}
+
+*/

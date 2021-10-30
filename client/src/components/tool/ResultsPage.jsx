@@ -64,7 +64,6 @@ const columns = [
 export default function ResultsPage() {
 	const [fieldsite, setFieldsite] = useState(DEFAULT_FIELDSITE);
 	const [datasets, setDatasets] = useState([]);
-	// list of selected dataset id's
 	const [selectedDatasets, setSelectedDatasets] = useState([]);
 	const dispatch = useDispatch();
 

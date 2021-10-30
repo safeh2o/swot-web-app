@@ -167,6 +167,12 @@ exports = module.exports = function (app) {
 		keystone.middleware.api,
 		routes.api.cms.pages
 	);
+	app.get("/api/cms/posts", keystone.middleware.api, routes.api.cms.posts);
+	app.get(
+		"/api/cms/posts/:slug",
+		keystone.middleware.api,
+		routes.api.cms.post
+	);
 	app.get(
 		"/api/datasets/:datasetId",
 		keystone.middleware.api,

@@ -28,6 +28,8 @@ import ProfileResetPassword from "./profile/ProfileResetPassword";
 import { useDispatch } from "react-redux";
 import { getUser } from "../reducers/user";
 import ResultsPage from "./tool/ResultsPage";
+import BlogPost from "./BlogPost";
+import Blog from "./Blog";
 import { getSettings } from "../reducers/settings";
 import { ThemeProvider } from "@mui/material";
 import theme from "../theme";
@@ -101,11 +103,12 @@ export default function App(props) {
 					<Route path="/pages/:slug">
 						<CMSPage />
 					</Route>
-
-					{/* 
-						<Route exact path="/blog"><BlogDashboard /></Route>
-						<Route path="/blog/:category"><BlogPage /></Route> 
-					*/}
+					<Route path="/blog/:slug">
+						<BlogPost />
+					</Route>
+					<Route path="/blog">
+						<Blog />
+					</Route>
 				</Switch>
 			</PageWrapper>
 		</ThemeProvider>

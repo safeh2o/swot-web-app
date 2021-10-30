@@ -41,12 +41,18 @@ exports.post = async function (req, res) {
 };
 
 exports.posts = async function (req, res) {
-	if (!req.user) {
-		res.sendStatus(403);
-		return;
-	}
-
-	let posts = await Post.model.find({ state: "published" }).exec();
+	let posts = await Post.model
+		.find(
+			{ state: "published" },
+			{
+				slug: 1,
+				"image.secure_url": 1,
+				publishedDate: 1,
+				title: 1,
+				content: 1,
+			}
+		)
+		.exec();
 
 	posts = posts.map((post) => post.toJSON());
 

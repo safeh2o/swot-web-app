@@ -22,7 +22,14 @@ export default function Blog(props) {
 
 	return (
 		<>
-			<Posts type={"news"} data={posts} />
+			<section id="news" className="content-window rich-text">
+				<header>
+					<div className="content-window-title txt-condensed">
+						Latest News
+					</div>
+				</header>
+				<Posts type={"news"} data={posts} />
+			</section>
 		</>
 	);
 }

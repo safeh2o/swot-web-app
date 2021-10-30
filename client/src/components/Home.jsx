@@ -301,7 +301,21 @@ export default function Home(props) {
 					},
 				]}
 			/> */}
-			<Posts type={"news"} data={posts} />
+
+			<section id="news" className="content-window rich-text">
+				<header>
+					<div className="content-window-title txt-condensed">
+						Latest News
+					</div>
+				</header>
+				<Posts type={"news"} data={posts.slice(0, 2)} />
+
+				<footer className="more">
+					<Link to="/blog">
+						<span>More News</span>
+					</Link>
+				</footer>
+			</section>
 
 			<section
 				id="organisations"

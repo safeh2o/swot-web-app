@@ -67,24 +67,9 @@ export default function Posts(props) {
 		));
 	}
 
-	return (
-		<section id="news" className="content-window rich-text">
-			<header>
-				<div className="content-window-title txt-condensed">
-					Latest News
-				</div>
-			</header>
-
-			{blogLoadingStatus === "success"
-				? posts.map((post) => articleFromPost(post))
-				: blogSkeleton(3)}
-			<footer className="more">
-				<Link to="/blog">
-					<span>More News</span>
-				</Link>
-			</footer>
-		</section>
-	);
+	return blogLoadingStatus === "success"
+		? posts.map((post) => articleFromPost(post))
+		: blogSkeleton(3);
 }
 
 /*

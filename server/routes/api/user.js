@@ -127,6 +127,16 @@ exports.getAreas = async function (req, res) {
 	res.json({ areas });
 };
 
+exports.getFieldsitesByArea = async function (req, res) {
+	if (!req.query.area) {
+		res.sendStatus(400);
+		return;
+	}
+	const fieldsites = await dataService.getFieldsitesByArea(req.query.area);
+
+	res.json({ fieldsites });
+};
+
 async function isResetKeyValid(key) {
 	const user = await User.model
 		.findOne()
@@ -230,6 +240,7 @@ exports.getCurrentUser = async function (req, res) {
 	const user = _.pick(req.user, fields);
 
 	const fieldsites = await dataService.getUserFieldsites(user._id);
+	const areas = await dataService.getUserAreas(user._id);
 
-	res.json({ user: { ...user, fieldsites } });
+	res.json({ user: { ...user, fieldsites, areas } });
 };

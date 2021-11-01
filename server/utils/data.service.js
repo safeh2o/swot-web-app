@@ -17,6 +17,11 @@ exports.getFieldsiteById = async function (fieldsiteId) {
 	return Fieldsite.model.findById(fieldsiteId).exec();
 };
 
+exports.getFieldsitesByArea = async function (areaId) {
+	const area = Area.model.findById(areaId).exec();
+	return area.fieldsites;
+};
+
 /**
  * Retrieves a country record where area is associated
  */

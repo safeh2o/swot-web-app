@@ -9,10 +9,11 @@ export default function Posts(props) {
 	const blogLoadingStatus = useSelector(blogSelectors.loadingStatus);
 
 	function articleFromPost(post) {
+		const link = `/blog/${post.slug}`;
 		return (
-			<article className="block" key={post.link}>
+			<article className="block" key={link}>
 				<figure>
-					<Link to={`/blog/${post.slug}`}>
+					<Link to={link}>
 						<img
 							src={
 								post?.image?.secure_url ||
@@ -25,7 +26,7 @@ export default function Posts(props) {
 				<div>
 					<time>{post.publishedDate}</time>
 					<h2>
-						<Link to={`/blog/${post.slug}`}>{post.title}</Link>
+						<Link to={link}>{post.title}</Link>
 					</h2>
 					<div>
 						<p>{post.content.brief}</p>
@@ -45,7 +46,7 @@ export default function Posts(props) {
 		};
 
 		return _.times(numPosts, (i) => (
-			<article className="block">
+			<article className="block" key={i}>
 				<figure>
 					<Skeleton variant="rectangular" component="img" />
 				</figure>

@@ -11,13 +11,7 @@ import { DateTime } from "luxon";
 import FieldsitesDropdown from "../elements/FieldsitesDropdown";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import { pushView } from "../../reducers/view";
-
-function formatDate(value) {
-	if (!value) {
-		return String.fromCharCode(8734);
-	}
-	return DateTime.fromISO(value).toLocaleString();
-}
+import { formatDate } from "../../helpers/dates";
 
 function getReadyStatus(dataset) {
 	if (!dataset?.status?.ann?.success || !dataset?.status?.eo?.success) {

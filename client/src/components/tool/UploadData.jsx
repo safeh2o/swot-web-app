@@ -1186,7 +1186,7 @@ export default function UploadData(props) {
 				<footer>
 					<span className="txt-icon notice">
 						<i><img src="assets/icons/notice.svg" alt="" /></i>
-						<span>Cant find your Area or Fieldsite?  ...  <a href="/contact">Contact Us</a></span>
+						<span>Can't find your Area or Fieldsite?  ...  <a href="/contact">Contact Us</a></span>
 					</span>
 				</footer>
 			</section>

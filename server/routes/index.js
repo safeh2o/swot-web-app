@@ -123,7 +123,7 @@ exports = module.exports = function (app) {
 	);
 	app.get(
 		"/api/user/fieldsites",
-		keystone.middleware.api,
+		middleware.requireUser,
 		routes.api.user.getFieldsites
 	);
 	app.get(

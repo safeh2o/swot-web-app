@@ -57,7 +57,7 @@ export default function FieldSites(props) {
 					<Link to="/contact">
 						<NoteLine
 							text={[
-								"Cant find your Area or Fieldsite? ... Contact Us",
+								"Can't find your Area or Fieldsite? ... Contact Us",
 							]}
 						/>
 					</Link>

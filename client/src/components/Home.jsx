@@ -280,28 +280,6 @@ export default function Home(props) {
 		<>
 			{privilegedContent()}
 
-			{/* <Posts
-				type={"news"}
-				data={[
-					{
-						link: "",
-						title: "Global WASH Cluster (GWC) Annual Meeting Satellite",
-						publishedDate: "May 2, 2021",
-						content: {
-							brief: "Check out a recent presentation made during one of the events.",
-						},
-					},
-					{
-						link: "https://www.theglobeandmail.com/canada/article-sanitation-specialist-develops-system-to-ensure-refugee-camps-anywhere/",
-						title: "Stepping Up: Sanitation specialist develops system to ensure refugee camps anywhere can have healthy drinking water",
-						publishedDate: "November 25, 2020",
-						content: {
-							brief: "This is part of Stepping Up, a series introducing Canadians to their country’s new sources of inspiration and leadership.",
-						},
-					},
-				]}
-			/> */}
-
 			<section id="news" className="content-window rich-text">
 				<header>
 					<div className="content-window-title txt-condensed">
@@ -385,18 +363,6 @@ export default function Home(props) {
 					</div>
 				</section>
 			</section>
-
-			{/*
-				<section id="about-preview" className="content-window borderless">
-					<Link to="/about" className="txt-icon button yellow more-info rtl">
-						<i><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path fill="none" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" d="M32 20H7M26 12l6 8-6 8" /></svg></i>
-						<span>
-							<span className="value">About the Project</span><br />
-							How, Why, and the People behind the Safe Water Optimization Tool.
-						</span>
-					</Link>
-				</section>
-			*/}
 		</>
 	);
 }

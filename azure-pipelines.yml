@@ -1,4 +1,5 @@
 # Get code from repo, then publish artifact for Releases to build images, push images to container registry
+# This pipeline currently exists because there is no current support for GitHub integration triggers straight from a Release pipeline, so we're using an artifact trigger instead
 
 trigger: [master, prod]
 pr: none

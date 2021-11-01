@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Notice from "../elements/Notice";
 import FormSelectSearch from "../elements/FormSelectSearch";
 import { Link } from "react-router-dom";
@@ -8,8 +8,73 @@ import NoteLine from "../elements/NoteLine";
 import ReactCountryFlag from "react-country-flag";
 import DetectEmoji from "../HelperDetectEmoji";
 import { IconTrash } from "../icons";
+import { DataGrid } from "@material-ui/data-grid";
+import { DEFAULT_AREA } from "../../constants/defaults";
+import { useDispatch } from "react-redux";
+import { pushView } from "../../reducers/view";
+import FieldsitesDropdown from "../elements/FieldsitesDropdown";
+import AreasDropdown from "../elements/AreasDropdown";
+import { setLoading } from "../../reducers/notifications";
+import axios from "axios";
+import { formatDate } from "../../helpers/dates";
+import CircleIcon from "@mui/icons-material/Circle";
+import * as luxon from "luxon";
 
-export default function FieldSites(props) {
+const columns = [
+	{
+		field: "name",
+		headerName: "Fieldsite",
+		flex: 10,
+		renderCell: ({ row }) => (
+			<Link to={`/fieldsites/${row._id}`}>{row.name}</Link>
+		),
+	},
+	{
+		field: "totalSamples",
+		headerName: "Total Samples",
+		flex: 10,
+		valueGetter: (params) => 123,
+	},
+	{
+		field: "latestAnalysis",
+		headerName: "Latest Analysis",
+		type: "date",
+		flex: 10,
+		valueGetter: (params) => luxon.DateTime.now().toISODate(),
+	},
+	{
+		field: "safetyLevel",
+		headerName: "Safety Level",
+		flex: 10,
+		renderCell: ({ row }) => <CircleIcon sx={{ color: "#ff0000" }} />,
+	},
+];
+
+export default function Fieldsites(props) {
+	const [area, setArea] = useState(DEFAULT_AREA);
+	const [fieldsites, setFieldsites] = useState([]);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(pushView({ title: "Field Sites", path: "/fieldsites" }));
+	}, []);
+
+	useEffect(() => {
+		if (area && area.name) {
+			dispatch(setLoading(true));
+			axios
+				.get(`/api/user/fieldsites?area=${area._id}`)
+				.then((res) => {
+					setFieldsites(res.data.fieldsites);
+				})
+				.finally(() => {
+					dispatch(setLoading(false));
+				});
+		} else {
+			setFieldsites([]);
+		}
+	}, [area]);
+
 	return (
 		<>
 			<section className="content-window">
@@ -17,34 +82,19 @@ export default function FieldSites(props) {
 					<div className="content-window-title">Location</div>
 					<div className="section-options"></div>
 				</header>
-				{/* <section>
+				<section>
 					<div className="flex-group">
-						<label className="space">
-							<FormSelectSearch
-								options={OptionsResponse}
-								default={[
-									{
-										name: "Nigeria",
-										value: "NG",
-									},
-								]}
-								icon={true}
-							/>
-							<span className="label">Response</span>
-						</label>
-						<label className="space">
-							<FormSelectSearch options={OptionsArea} />
-							<span className="label">Area</span>
-						</label>
+						<AreasDropdown
+							value={area}
+							onChange={(_event, value) => {
+								setArea(value);
+							}}
+						/>
 					</div>
-				</section> */}
+				</section>
 				<footer>
 					<Link to="/contact">
-						<NoteLine
-							text={[
-								"Cant find your Area or Fieldsite? ... Contact Us",
-							]}
-						/>
+						<Notice text={["Something missing?"]} />
 					</Link>
 				</footer>
 			</section>
@@ -59,6 +109,18 @@ export default function FieldSites(props) {
 						</button>
 					</div>
 				</header>
+				<section className="DataGridContainer">
+					<div style={{ display: "flex", height: "100%" }}>
+						<div style={{ flexGrow: 1 }}>
+							<DataGrid
+								rows={fieldsites}
+								columns={columns}
+								getRowId={(row) => row._id}
+							/>
+						</div>
+					</div>
+				</section>
+				<br />
 				<section className="table fieldsites">
 					<section className="table-header">
 						<div className="table-col">

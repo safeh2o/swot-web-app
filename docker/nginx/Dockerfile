@@ -1,7 +1,7 @@
 
 # The first stage
 # Build React static files
-FROM node:13.12.0-alpine as build
+FROM node:16.13.0-alpine as build
 
 ARG GOOGLE_ANALYTICS_GTAG
 ARG GOOGLE_RECAPTCHA_SITE_KEY

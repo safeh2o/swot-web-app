@@ -1,4 +1,4 @@
-# Get code from repo, build images, push images to container registry
+# Get code from repo, then publish artifact for Releases to build images, push images to container registry
 
 trigger: [master, prod]
 pr: none

@@ -8,8 +8,10 @@ import PdfIcon from "../icons/Pdf";
 import XlsIcon from "../icons/Xls";
 
 export default function CollectData(props) {
-	const urlFieldGuide = "#";
-	const urlDataInputTemplate = "#";
+	const urlFieldGuide =
+		"https://gitcdn.link/repo/safeh2o/swot-web-assets/master/SWOT_Field_Data_Protocol_Sep2020.pdf";
+	const urlDataInputTemplate =
+		"https://github.com/safeh2o/swot-web-assets/blob/master/DataInputTemplate_ver2.0.xlsx?raw=true";
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -41,6 +43,7 @@ export default function CollectData(props) {
 							<a
 								className="txt-icon button yellow"
 								href={urlFieldGuide}
+								target="_blank"
 							>
 								<i>
 									<DownloadIcon />
@@ -51,9 +54,7 @@ export default function CollectData(props) {
 								<i>
 									<PdfIcon />
 								</i>
-								<span>
-									.pdf 623kb (Last Updated: Sep 22 2020)
-								</span>
+								<span>.pdf 357kb</span>
 							</div>
 							<div className="rte">
 								<p>
@@ -74,6 +75,7 @@ export default function CollectData(props) {
 							<a
 								className="txt-icon button yellow"
 								href={urlDataInputTemplate}
+								target="_blank"
 							>
 								<i>
 									<DownloadIcon />
@@ -84,9 +86,7 @@ export default function CollectData(props) {
 								<i>
 									<XlsIcon />
 								</i>
-								<span>
-									.xls 123kb (Last Updated: May 11 2020)
-								</span>
+								<span>.xlsx 20kb</span>
 							</div>
 							<div className="rte">
 								<span className="txt-icon notice">

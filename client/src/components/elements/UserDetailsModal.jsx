@@ -1,14 +1,10 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
+import { makeStyles } from "@mui/styles";
+import { Modal, Backdrop, Fade } from "@mui/material";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userSelectors } from "../../reducers/user";
 import { handleServerMessages } from "../../reducers/notifications";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { IconButton } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	root: {

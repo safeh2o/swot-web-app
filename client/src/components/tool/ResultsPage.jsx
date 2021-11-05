@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import Notice from "../elements/Notice";
 import { Link } from "react-router-dom";
 
-import { DataGrid } from "@material-ui/data-grid";
-import { Button } from "@material-ui/core";
-import { useDispatch } from "react-redux";
+import { DataGrid } from "@mui/x-data-grid";
+import { Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { addNotice, setLoading } from "../../reducers/notifications";
-import { DateTime } from "luxon";
-import FieldsitesDropdown from "../elements/FieldsitesDropdown";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import { pushView } from "../../reducers/view";
 import { formatDate } from "../../helpers/dates";
+import LocationDropdown from "../elements/LocationDropdown";
+import { userSelectors } from "../../reducers/user";
 
 function getReadyStatus(dataset) {
 	if (!dataset?.status?.ann?.success || !dataset?.status?.eo?.success) {
@@ -56,6 +56,7 @@ const columns = [
 ];
 
 export default function ResultsPage() {
+	const fieldsites = useSelector(userSelectors.fieldsites);
 	const [fieldsite, setFieldsite] = useState(DEFAULT_FIELDSITE);
 	const [datasets, setDatasets] = useState([]);
 	const [selectedDatasets, setSelectedDatasets] = useState([]);
@@ -102,11 +103,12 @@ export default function ResultsPage() {
 				</header>
 				<section>
 					<div className="flex-group">
-						<FieldsitesDropdown
+						<LocationDropdown
 							value={fieldsite}
 							onChange={(_event, value) => {
 								setFieldsite(value);
 							}}
+							locations={fieldsites}
 						/>
 					</div>
 				</section>

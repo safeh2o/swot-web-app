@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 import _ from "lodash";
 import { useDispatch } from "react-redux";
 import { DropzoneArea } from "material-ui-dropzone";

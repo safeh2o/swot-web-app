@@ -1,13 +1,8 @@
-import {
-	Button,
-	Container,
-	IconButton,
-	makeStyles,
-	Toolbar,
-} from "@material-ui/core";
+import { Container, IconButton, Toolbar } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CloseIcon from "@material-ui/icons/Close";
+import { CancelOutlined } from "@mui/icons-material";
 import {
 	notificationsSelectors,
 	clearNotifications,
@@ -78,7 +73,7 @@ export default function FlashMessages() {
 				<Container>
 					<Toolbar className={classes.toolbar}>
 						<IconButton aria-label="close" onClick={handleDismiss}>
-							<CloseIcon />
+							<CancelOutlined />
 						</IconButton>
 					</Toolbar>
 					{renderNotices()}

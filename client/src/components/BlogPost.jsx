@@ -11,7 +11,7 @@ export default function BlogPost(props) {
 	const { slug } = useParams();
 	const defaultPage = {
 		title: "",
-		content: { extended: "" },
+		content: { extended: null },
 	};
 	const [page, setPage] = useState(defaultPage);
 	useEffect(() => {
@@ -64,7 +64,9 @@ export default function BlogPost(props) {
 				<div
 					dangerouslySetInnerHTML={{
 						__html: DOMPurify.sanitize(
-							page.content.extended || "Content is loading..."
+							page.content.extended !== null
+								? page.content.extended
+								: "Content is loading..."
 						),
 					}}
 				/>

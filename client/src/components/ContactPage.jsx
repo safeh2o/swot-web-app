@@ -9,12 +9,12 @@ import {
 	Button,
 	FormControl,
 	FormHelperText,
-	makeStyles,
 	MenuItem,
 	Select,
 	TextField,
 	Typography,
-} from "@material-ui/core";
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addError, addNotice, setLoading } from "../reducers/notifications";

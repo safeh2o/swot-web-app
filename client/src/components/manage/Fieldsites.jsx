@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Notice from "../elements/Notice";
-import FormSelectSearch from "../elements/FormSelectSearch";
 import { Link } from "react-router-dom";
 
-import NoteLine from "../elements/NoteLine";
 // icons
-import ReactCountryFlag from "react-country-flag";
-import DetectEmoji from "../HelperDetectEmoji";
 import { IconTrash } from "../icons";
-import { DataGrid } from "@material-ui/data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { DEFAULT_AREA } from "../../constants/defaults";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { pushView } from "../../reducers/view";
-import FieldsitesDropdown from "../elements/FieldsitesDropdown";
-import AreasDropdown from "../elements/AreasDropdown";
+import LocationDropdown from "../elements/LocationDropdown";
 import { setLoading } from "../../reducers/notifications";
 import axios from "axios";
-import { formatDate } from "../../helpers/dates";
 import CircleIcon from "@mui/icons-material/Circle";
 import * as luxon from "luxon";
+import { userSelectors } from "../../reducers/user";
 
 const columns = [
 	{
@@ -33,6 +28,7 @@ const columns = [
 		field: "totalSamples",
 		headerName: "Total Samples",
 		flex: 10,
+		type: "number",
 		valueGetter: (params) => 123,
 	},
 	{
@@ -53,6 +49,7 @@ const columns = [
 export default function Fieldsites(props) {
 	const [area, setArea] = useState(DEFAULT_AREA);
 	const [fieldsites, setFieldsites] = useState([]);
+	const areas = useSelector(userSelectors.areas);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -84,11 +81,12 @@ export default function Fieldsites(props) {
 				</header>
 				<section>
 					<div className="flex-group">
-						<AreasDropdown
+						<LocationDropdown
 							value={area}
 							onChange={(_event, value) => {
 								setArea(value);
 							}}
+							locations={areas}
 						/>
 					</div>
 				</section>

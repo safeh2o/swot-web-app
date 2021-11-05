@@ -7,9 +7,8 @@ import FlashMessages from "./elements/FlashMessages";
 import { useSelector } from "react-redux";
 import { notificationsSelectors } from "../reducers/notifications";
 import AppBreadcrumbs from "./elements/AppBreadcrumbs";
-import { Link } from "react-router-dom";
-
-import { Backdrop, CircularProgress, makeStyles } from "@material-ui/core";
+import { Backdrop, CircularProgress } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
 	backdrop: {

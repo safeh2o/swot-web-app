@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import NoteLine from "../elements/NoteLine";
 import { MEGABYTE } from "../../helpers/bitcalc";
 import { DropzoneArea } from "material-ui-dropzone";
-import { Button, makeStyles } from "@material-ui/core";
+import { Button } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import { userSelectors } from "../../reducers/user";
@@ -12,9 +13,9 @@ import axios from "axios";
 import useForm from "../../hooks/useForm";
 
 import { IconUpload } from "../icons";
-import FieldsitesDropdown from "../elements/FieldsitesDropdown";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import { pushView } from "../../reducers/view";
+import LocationDropdown from "../elements/LocationDropdown";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -34,6 +35,7 @@ const initialState = {
 
 export default function UploadPage() {
 	const dispatch = useDispatch();
+	const fieldsites = useSelector(userSelectors.fieldsites);
 
 	useEffect(() => {
 		dispatch(pushView({ title: "Upload", path: "/upload" }));
@@ -129,13 +131,14 @@ export default function UploadPage() {
 				<section>
 					<div className="flex-group">
 						<label>
-							<FieldsitesDropdown
+							<LocationDropdown
 								value={state && state.fieldsite}
 								onChange={(_event, value) => {
 									update({
 										fieldsite: value,
 									});
 								}}
+								locations={fieldsites}
 							/>
 							<span className="label">Fieldsite</span>
 						</label>

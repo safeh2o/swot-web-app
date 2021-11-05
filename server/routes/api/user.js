@@ -239,8 +239,15 @@ exports.getCurrentUser = async function (req, res) {
 	const fields = ["_id", "isAdmin", "name", "email"];
 	const user = _.pick(req.user, fields);
 
-	const fieldsites = await dataService.getUserFieldsites(user._id);
-	const areas = await dataService.getUserAreas(user._id);
+	let fieldsites = await dataService.getUserFieldsites(user._id);
+	fieldsites = fieldsites.map((location) =>
+		_.pick(location, ["_id", "name"])
+	);
+
+	let areas = await dataService.getUserAreas(user._id);
+	areas = areas.map((location) =>
+		_.pick(location, ["_id", "name", "fieldsites"])
+	);
 
 	res.json({ user: { ...user, fieldsites, areas } });
 };

@@ -31,7 +31,7 @@ import ResultsPage from "./tool/ResultsPage";
 import BlogPost from "./BlogPost";
 import Blog from "./Blog";
 import { getSettings } from "../reducers/settings";
-import { ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme";
 import { useSelector } from "react-redux";
 

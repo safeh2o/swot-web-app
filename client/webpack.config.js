@@ -52,7 +52,10 @@ module.exports = {
 	devServer: {
 		port: 8080,
 		historyApiFallback: true,
-		contentBase: path.join(__dirname, "public"),
+		static: { directory: path.join(__dirname, "public") },
+		onAfterSetupMiddleware: function (devServer) {
+			devServer.app.disable("x-powered-by");
+		},
 		proxy: {
 			"/api": "http://localhost:3000",
 			"/admin": "http://localhost:3000",

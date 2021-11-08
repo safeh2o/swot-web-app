@@ -8,16 +8,14 @@
 		"@babel/runtime": "^7.14.0",
 		"archiver": "^3.1.1",
 		"async": "2.1.4",
-		"azure-storage": "^2.10.3",
 		"bootstrap": "^4.6.0",
 		"connect-mongo": "^3.2.0",
 		"consolidate": "0.14.5",
 		"dotenv": "4.0.0",
 		"fast-csv": "^4.3.6",
 		"jquery": "^3.6.0",
-		"keystone": "^4.2.1",
+		"keystone": "^4.0.0",
 		"keystone-email": "^1.1.0",
-		"keystone-storage-adapter-azure": "^1.1.0",
 		"lodash": "^4.17.21",
 		"mailgun-js": "^0.22.0",
 		"memory-streams": "^0.1.3",
@@ -27,9 +25,9 @@
 	"devDependencies": {
 		"eslint": "^8.2.0",
 		"eslint-utils": "^3.0.0",
-		"nodemon": "^1.19.4",
+		"nodemon": "^2.0.14",
 		"npm-run-all": "^4.1.5",
-		"react-svg-loader": "^3.0.3"
+		"react-svg-loader": "^3.0.0"
 	},
 	"scripts": {
 		"start": "node keystone.js",

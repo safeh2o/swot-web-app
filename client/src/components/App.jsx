@@ -1,5 +1,4 @@
 // React Imports
-import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";

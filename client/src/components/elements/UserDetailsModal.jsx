@@ -1,7 +1,6 @@
-import React from "react";
+import { useState, useRef } from "react";
 import { makeStyles } from "@mui/styles";
 import { Modal, Backdrop, Fade } from "@mui/material";
-import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userSelectors } from "../../reducers/user";
 import { handleServerMessages } from "../../reducers/notifications";
@@ -23,7 +22,7 @@ export default function UserDetailsModal() {
 	const user = useSelector(userSelectors.user);
 	const classes = useStyles();
 	const userForm = useRef(null);
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = useState(false);
 	const dispatch = useDispatch();
 
 	const handleSubmit = (e) => {

@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import UserDetailsModal from "../elements/UserDetailsModal";
 import { userSelectors } from "../../reducers/user";

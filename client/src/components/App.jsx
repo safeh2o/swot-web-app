@@ -1,5 +1,5 @@
 // React Imports
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 
@@ -46,7 +46,7 @@ export default function App(props) {
 					return isLoggedIn === true ? (
 						<Component {...props} />
 					) : (
-						<Redirect
+						<Navigate
 							to={{
 								pathname: "/signin",
 								state: { from: props.location },
@@ -66,12 +66,11 @@ export default function App(props) {
 	return (
 		<ThemeProvider theme={theme}>
 			<PageWrapper>
-				<Switch>
-					<Route exact={true} path="/">
-						<Home />
-					</Route>
+				<Routes>
+					<Route exact={true} path="/" element={<Home />} />
 					<Route path="/collect" component={CollectData} />
-					<PrivateRoute path="/upload" component={UploadPage} />
+					{/* <PrivateRoute path="/upload" component={UploadPage} /> */}
+					{PrivateRoute({ component: UploadPage, path: "/upload" })}
 					<PrivateRoute path="/analyze" component={AnalyzePage} />
 					<PrivateRoute
 						path="/results/:datasetId"
@@ -101,7 +100,7 @@ export default function App(props) {
 					<Route path="/blog">
 						<Blog />
 					</Route>
-				</Switch>
+				</Routes>
 			</PageWrapper>
 		</ThemeProvider>
 	);

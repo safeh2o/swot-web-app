@@ -3,6 +3,7 @@ const Enquiry = keystone.list("Enquiry");
 const User = keystone.list("User");
 const https = require("https");
 const querystring = require("querystring");
+const fetch = require("node-fetch");
 
 exports.contact = async function (req, res) {
 	const newEnquiry = new Enquiry.model();
@@ -28,17 +29,24 @@ exports.contact = async function (req, res) {
 		"Content-Length": postData.length,
 	};
 
-	const options = {
-		hostname: "www.google.com",
-		path: "/recaptcha/api/siteverify",
-		port: 443,
-		method: "POST",
-		headers: headers,
-	};
+	// const options = {
+	// 	hostname: "www.google.com",
+	// 	path: "/recaptcha/api/siteverify",
+	// 	port: 443,
+	// 	method: "POST",
+	// 	headers: headers,
+	// };
 
-	const captchaReq = https.request(options, (captchaRes) => {
-		captchaRes.on("data", (d) => {
-			const captchaResData = JSON.parse(d);
+	fetch("https://www.google.com/recaptcha/api/siteverify", {
+		method: "POST",
+		// headers,
+		body: JSON.stringify({
+			secret: process.env.GOOGLE_RECAPTCHA_SECRET_KEY,
+			response: captchaResp,
+		}),
+	})
+		.then((res) => res.json())
+		.then((captchaResData) => {
 			if (captchaResData.success) {
 				updater.process(
 					req.body,
@@ -59,13 +67,37 @@ exports.contact = async function (req, res) {
 				res.json({ validationErrors, success });
 			}
 		});
-	});
 
-	captchaReq.on("error", (e) => {
-		console.error(e);
-	});
-	captchaReq.write(postData);
-	captchaReq.end();
+	// const captchaReq = https.request(options, (captchaRes) => {
+	// 	captchaRes.on("data", (d) => {
+	// 		const captchaResData = JSON.parse(d);
+	// 		if (captchaResData.success) {
+	// 			updater.process(
+	// 				req.body,
+	// 				{
+	// 					fields: "name, email, reason, message, phone",
+	// 				},
+	// 				function (err) {
+	// 					if (err) {
+	// 						validationErrors = err.detail;
+	// 					} else {
+	// 						success = true;
+	// 					}
+	// 					res.json({ validationErrors, success });
+	// 				}
+	// 			);
+	// 		} else {
+	// 			validationErrors.captcha = INVALID_TOKEN_ERROR;
+	// 			res.json({ validationErrors, success });
+	// 		}
+	// 	});
+	// });
+
+	// captchaReq.on("error", (e) => {
+	// 	console.error(e);
+	// });
+	// captchaReq.write(postData);
+	// captchaReq.end();
 };
 
 exports.getContactReasons = async function (req, res) {

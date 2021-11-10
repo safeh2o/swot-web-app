@@ -3,31 +3,29 @@
 	"version": "1.0.0",
 	"private": true,
 	"dependencies": {
-		"@azure/storage-blob": "^12.6.0",
-		"@azure/storage-queue": "^12.5.0",
-		"@babel/runtime": "^7.14.0",
-		"archiver": "^3.1.1",
-		"async": "2.1.4",
-		"bootstrap": "^4.6.0",
+		"@azure/storage-blob": "^12.8.0",
+		"@azure/storage-queue": "^12.7.0",
+		"@babel/runtime": "^7.16.3",
+		"archiver": "^5.3.0",
+		"async": "^3.2.2",
+		"bootstrap": "^5.1.3",
 		"connect-mongo": "^3.2.0",
-		"consolidate": "0.14.5",
-		"dotenv": "4.0.0",
+		"consolidate": "^0.16.0",
+		"dotenv": "^10.0.0",
 		"fast-csv": "^4.3.6",
 		"jquery": "^3.6.0",
 		"keystone": "^4.0.0",
 		"keystone-email": "^1.1.0",
 		"lodash": "^4.17.21",
 		"mailgun-js": "^0.22.0",
-		"memory-streams": "^0.1.3",
-		"nunjucks": "^3.2.3",
-		"xlsx-stream-reader": "^1.1.1"
+		"node-fetch": "^2.6.6",
+		"nunjucks": "^3.2.3"
 	},
 	"devDependencies": {
 		"eslint": "^8.2.0",
 		"eslint-utils": "^3.0.0",
-		"nodemon": "^2.0.14",
-		"npm-run-all": "^4.1.5",
-		"react-svg-loader": "^3.0.0"
+		"nodemon": "^2.0.15",
+		"npm-run-all": "^4.1.5"
 	},
 	"scripts": {
 		"start": "node keystone.js",

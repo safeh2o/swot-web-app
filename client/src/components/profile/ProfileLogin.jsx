@@ -1,28 +1,23 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getUser } from "../../reducers/user";
 import { handleServerMessages } from "../../reducers/notifications";
 
 export default function ProfileLogin(props) {
 	const form = useRef(null);
-	const history = useHistory();
-	const [messages, setMessages] = useState({});
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	const handleSubmitResponse = (data) => {
 		if (data.success === true) {
 			// history wouldnt work well because SideBar doesnt rerender
-			history.push("/");
+			navigate("/");
 			// window.location.reload();
 			dispatch(getUser());
 		}
 		// setMessages(data.messages);
 		dispatch(handleServerMessages(data.messages));
-	};
-
-	const handleChange = () => {
-		setMessages({});
 	};
 
 	useEffect(() => {
@@ -58,9 +53,6 @@ export default function ProfileLogin(props) {
 										placeholder="you@mail.com"
 										name="email"
 										type="email"
-										onChange={() => {
-											handleChange();
-										}}
 									/>
 								</div>
 							</div>
@@ -78,9 +70,6 @@ export default function ProfileLogin(props) {
 										placeholder="Password"
 										name="password"
 										id="password"
-										onChange={() => {
-											handleChange();
-										}}
 									/>
 								</div>
 							</div>

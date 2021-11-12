@@ -1,5 +1,5 @@
 // React Imports
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 
@@ -38,24 +38,27 @@ export default function App(props) {
 	const dispatch = useDispatch();
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 
-	function PrivateRoute({ component: Component, ...routeProps }) {
-		return (
-			<Route
-				{...routeProps}
-				render={(props) => {
-					return isLoggedIn === true ? (
-						<Component {...props} />
-					) : (
-						<Navigate
-							to={{
-								pathname: "/signin",
-								state: { from: props.location },
-							}}
-						/>
-					);
-				}}
-			/>
-		);
+	// function PrivateRoute({ component: Component, routeProps }) {
+	// 	return (
+	// 		<Route
+	// 			{...routeProps}
+	// 			render={(props) => {
+	// 				return isLoggedIn === true ? (
+	// 					<Component {...props} />
+	// 				) : (
+	// 					<Navigate
+	// 						to={{
+	// 							pathname: "/signin",
+	// 							state: { from: props.location },
+	// 						}}
+	// 					/>
+	// 				);
+	// 			}}
+	// 		/>
+	// 	);
+	// }
+	function PrivateRoute() {
+		return isLoggedIn === true ? <Outlet /> : <Navigate to={"/signin"} />;
 	}
 
 	useEffect(() => {
@@ -67,39 +70,42 @@ export default function App(props) {
 		<ThemeProvider theme={theme}>
 			<PageWrapper>
 				<Routes>
-					<Route exact={true} path="/" element={<Home />} />
-					<Route path="/collect" component={CollectData} />
-					{/* <PrivateRoute path="/upload" component={UploadPage} /> */}
-					{PrivateRoute({ component: UploadPage, path: "/upload" })}
-					<PrivateRoute path="/analyze" component={AnalyzePage} />
-					<PrivateRoute
+					<Route path="/" element={<Home />} />
+					<Route path="/collect" element={<CollectData />} />
+					<Route path="/upload" element={<PrivateRoute />}>
+						<Route path="" element={<UploadPage />} />
+					</Route>
+					<Route path="/analyze" element={<PrivateRoute />}>
+						<Route path="" element={<AnalyzePage />} />
+					</Route>
+					<Route path="/results" element={<PrivateRoute />}>
+						<Route path="" element={<ResultsPage />} />
+					</Route>
+					<Route
 						path="/results/:datasetId"
-						component={Result}
+						element={<PrivateRoute />}
+					>
+						<Route path="" element={<Result />} />
+					</Route>
+					<Route path="/fieldsites" element={<PrivateRoute />}>
+						<Route path="" element={<Fieldsites />} />
+					</Route>
+					<Route path="/people" element={<PrivateRoute />}>
+						<Route path="" element={<People />} />
+					</Route>
+					<Route path="/signin" element={<ProfileLogin />} />
+					<Route
+						path="/forgotpassword"
+						element={ProfileForgotPassword}
 					/>
-					<PrivateRoute path="/results" component={ResultsPage} />
-					<PrivateRoute path="/fieldsites" component={Fieldsites} />
-					<PrivateRoute path="/people" component={People} />
-					<Route path="/signin">
-						<ProfileLogin />
-					</Route>
-					<Route path="/forgotpassword">
-						<ProfileForgotPassword />
-					</Route>
-					<Route path="/resetpassword/:key">
-						<ProfileResetPassword />
-					</Route>
-					<Route path="/contact">
-						<ContactPage />
-					</Route>
-					<Route path="/pages/:slug">
-						<CMSPage />
-					</Route>
-					<Route path="/blog/:slug">
-						<BlogPost />
-					</Route>
-					<Route path="/blog">
-						<Blog />
-					</Route>
+					<Route
+						path="/resetpassword/:key"
+						element={ProfileResetPassword}
+					/>
+					<Route path="/contact" element={ContactPage} />
+					<Route path="/pages/:slug" element={CMSPage} />
+					<Route path="/blog/:slug" element={BlogPost} />
+					<Route path="/blog" element={Blog} />
 				</Routes>
 			</PageWrapper>
 		</ThemeProvider>

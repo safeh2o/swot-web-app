@@ -78,8 +78,8 @@ module.exports = {
 			devServer.app.disable("x-powered-by");
 		},
 		proxy: {
-			"/api": "http://localhost:3000",
-			"/admin": "http://localhost:3000",
+			"/api": "http://0.0.0.0:3000",
+			"/admin": "http://0.0.0.0:3000",
 		},
 	},
 	devtool: false,

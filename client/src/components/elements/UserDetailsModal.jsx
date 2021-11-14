@@ -3,7 +3,7 @@
 import { IconButton } from "@mui/material";
 // import { useDispatch, useSelector } from "react-redux";
 // import { userSelectors } from "../../reducers/user";
-// import { handleServerMessages } from "../../reducers/notifications";
+import { handleServerMessages } from "../../reducers/notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 // const useStyles = makeStyles((theme) => ({
@@ -24,7 +24,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // 	const classes = useStyles();
 // 	const userForm = useRef(null);
 // 	const [open, setOpen] = useState(false);
-// 	const dispatch = useDispatch();
 
 // 	const handleSubmit = (e) => {
 // 		e.preventDefault();
@@ -196,11 +195,15 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import useForm from "../../hooks/useForm";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, userSelectors } from "../../reducers/user";
 
 export default function UserDetailsModal() {
 	const [open, setOpen] = React.useState(false);
+	const user = useSelector(userSelectors.user);
+	const dispatch = useDispatch();
 
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -210,8 +213,33 @@ export default function UserDetailsModal() {
 		setOpen(false);
 	};
 
-	const handleSave = () => {
-		console.log("saved");
+	const { state, update, reset } = useForm({
+		firstName: user.name.first,
+		lastName: user.name.last,
+		email: user.email,
+		password1: "",
+		password2: "",
+	});
+
+	function getTextChangeHandler(fieldName) {
+		return (e) => {
+			update({ [fieldName]: e.target.value });
+		};
+	}
+
+	const handleSubmit = () => {
+		fetch("/api/user/update", {
+			method: "POST",
+			body: JSON.stringify(state),
+			headers: { "Content-Type": "application/json" },
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				dispatch(handleServerMessages(data.messages));
+			})
+			.finally(() => {
+				dispatch(getUser());
+			});
 		handleClose();
 	};
 
@@ -226,34 +254,39 @@ export default function UserDetailsModal() {
 					<TextField
 						autoFocus
 						margin="dense"
-						id="email"
-						label="Email Address"
-						type="email"
+						id="firstname"
+						label="First Name"
+						type="text"
 						fullWidth
 						variant="standard"
+						value={state.firstName}
+						onChange={getTextChangeHandler("firstName")}
 					/>
 					<TextField
-						autoFocus
+						margin="dense"
+						id="lastname"
+						label="Last Name"
+						type="text"
+						fullWidth
+						variant="standard"
+						value={state.lastName}
+						onChange={getTextChangeHandler("lastName")}
+					/>
+					<TextField
 						margin="dense"
 						id="email"
 						label="Email Address"
 						type="email"
 						fullWidth
 						variant="standard"
-					/>
-					<TextField
-						autoFocus
-						margin="dense"
-						id="email"
-						label="Email Address"
-						type="email"
-						fullWidth
-						variant="standard"
+						value={state.email}
+						onChange={getTextChangeHandler("email")}
 					/>
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleClose}>Cancel</Button>
-					<Button onClick={handleSave}>Save</Button>
+					<Button onClick={reset}>Reset</Button>
+					<Button onClick={handleSubmit}>Save</Button>
 				</DialogActions>
 			</Dialog>
 		</div>

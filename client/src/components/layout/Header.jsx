@@ -204,6 +204,7 @@ export default function Header(props) {
 						{headerSkeletonCircle(34)}
 						{headerSkeletonCircle(34)}
 						{headerSkeletonCircle(34)}
+						{headerSkeletonCircle(34)}
 					</div>
 				)}
 			</nav>

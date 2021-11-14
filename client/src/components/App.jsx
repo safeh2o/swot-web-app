@@ -96,16 +96,16 @@ export default function App(props) {
 					<Route path="/signin" element={<ProfileLogin />} />
 					<Route
 						path="/forgotpassword"
-						element={ProfileForgotPassword}
+						element={<ProfileForgotPassword />}
 					/>
 					<Route
 						path="/resetpassword/:key"
-						element={ProfileResetPassword}
+						element={<ProfileResetPassword />}
 					/>
-					<Route path="/contact" element={ContactPage} />
-					<Route path="/pages/:slug" element={CMSPage} />
-					<Route path="/blog/:slug" element={BlogPost} />
-					<Route path="/blog" element={Blog} />
+					<Route path="/contact" element={<ContactPage />} />
+					<Route path="/pages/:slug" element={<CMSPage />} />
+					<Route path="/blog/:slug" element={<BlogPost />} />
+					<Route path="/blog" element={<Blog />} />
 				</Routes>
 			</PageWrapper>
 		</ThemeProvider>

@@ -26,6 +26,7 @@ import { useEffect, useRef, useState } from "react";
 import {
 	markAllRead,
 	notificationsSelectors,
+	setLoading,
 } from "../../reducers/notifications";
 import _ from "lodash";
 
@@ -37,6 +38,7 @@ export default function Header(props) {
 	const notificationsRef = useRef(null);
 	const notifications = useSelector(notificationsSelectors.notifications);
 	const [unreadCount, setUnreadCount] = useState(0);
+	const [waitingForSignout, setWaitingForSignout] = useState(false);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -44,6 +46,19 @@ export default function Header(props) {
 			_.sumBy(notifications, (message) => (message.read === true ? 0 : 1))
 		);
 	}, [notifications]);
+
+	useEffect(() => {
+		if (waitingForSignout && isLoggedIn) {
+			dispatch(setLoading(true));
+		} else {
+			setWaitingForSignout(false);
+			dispatch(setLoading(false));
+		}
+	}, [waitingForSignout]);
+
+	const handleSignout = () => {
+		setWaitingForSignout(true);
+	};
 
 	const popNotifications = () => {
 		setShowNotifications(true);
@@ -96,6 +111,7 @@ export default function Header(props) {
 						<IconButton
 							href="/admin/signout"
 							style={{ color: "inherit" }}
+							onClick={handleSignout}
 						>
 							<SignOutIcon />
 						</IconButton>

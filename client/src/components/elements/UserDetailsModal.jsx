@@ -29,19 +29,13 @@ export default function UserDetailsModal() {
 		setOpen(false);
 	};
 
-	const { state, update, reset } = useForm({
+	const { state, reset, getTextChangeHandler } = useForm({
 		firstName: user.name.first,
 		lastName: user.name.last,
 		email: user.email,
 		password1: "",
 		password2: "",
 	});
-
-	function getTextChangeHandler(fieldName) {
-		return (e) => {
-			update({ [fieldName]: e.target.value });
-		};
-	}
 
 	const handleSubmit = () => {
 		fetch("/api/user/update", {

@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function NoteLine(props) {
 	return (
 		<div className="txt-icon notice txt-sm">

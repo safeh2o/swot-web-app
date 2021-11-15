@@ -1,5 +1,3 @@
-const moment = require("moment");
-const azure = require("azure-storage");
 const keystone = require("keystone");
 const Country = keystone.list("Country");
 const Area = keystone.list("Area");
@@ -110,7 +108,7 @@ exports.getUserFieldsites = async function (userId) {
 	let fieldsites = [];
 
 	for (let i = 0; i < areasHavingUser.length; i++) {
-		prj = areasHavingUser[i];
+		const prj = areasHavingUser[i];
 		const countriesHavingArea = await Country.model
 			.find({ areas: prj })
 			.exec();
@@ -193,77 +191,6 @@ exports.createDatapoint = async function createDatapoint(
 	return datapointModel;
 };
 
-exports.createCsv = async function (datapoints, blobName) {
-	const dateFormat = process.env.DATE_FORMAT;
-
-	let text = "ts_datetime,ts_frc,hh_datetime,hh_frc,ts_cond,ts_wattemp\n";
-	datapoints.forEach(async (row) => {
-		text +=
-			[
-				moment(row.tsDate).format(dateFormat),
-				row.tsFrc,
-				moment(row.hhDate).format(dateFormat),
-				row.hhFrc,
-				row.tsCond,
-				row.tsTemp,
-			].join(",") + "\n";
-	});
-
-	// return blob URL from Azure
-	return await writeTextToBlob(
-		process.env.AZURE_STORAGE_CONTAINER_STD,
-		blobName,
-		text
-	);
-};
-
-exports.getBlobURL = async function (containerName, blobName) {
-	const retryOperations = new azure.LinearRetryPolicyFilter();
-	const blobService = azure.createBlobService().withFilter(retryOperations);
-	return new Promise((resolve, reject) => {
-		const url = blobService.getUrl(containerName, blobName);
-		resolve(url);
-	});
-};
-
-exports.renameBlobFile = async function (
-	sourceURI,
-	targetBlobName,
-	containerName
-) {
-	const retryOperations = new azure.LinearRetryPolicyFilter();
-	const blobService = azure.createBlobService().withFilter(retryOperations);
-	return new Promise((resolve, reject) => {
-		blobService.startCopyBlob(
-			sourceURI,
-			containerName,
-			targetBlobName,
-			(err, _result) => {
-				if (err) {
-					console.log(
-						`Error occurred while renaming blobs on Azure, container name is ${containerName}, source is ${sourceURI}, target is ${targetBlobName} and error is ${err}`
-					);
-					reject(err);
-				}
-
-				const srcBlobName = sourceURI.substring(
-					sourceURI.lastIndexOf("/") + 1
-				);
-				blobService.deleteBlob(
-					containerName,
-					srcBlobName,
-					(err, response) => {
-						if (err) {
-							reject(err);
-						}
-						resolve(response);
-					}
-				);
-			}
-		);
-	});
-};
-
 exports.updateDatasetBlobInfo = async function (
 	datasetId,
 	rawDataURL,
@@ -336,30 +263,3 @@ exports.associateDatasetWithFieldsite = async function (
 		)
 		.exec();
 };
-
-async function writeTextToBlob(containerName, blobName, text) {
-	const retryOperations = new azure.LinearRetryPolicyFilter();
-	const blobService = azure.createBlobService().withFilter(retryOperations);
-	return new Promise((resolve, reject) => {
-		blobService.createContainerIfNotExists(
-			containerName,
-			null,
-			function (error) {
-				if (!error) {
-					blobService.createBlockBlobFromText(
-						containerName,
-						blobName,
-						text,
-						(err, response) => {
-							if (err) {
-								reject(err);
-							} else {
-								resolve(response);
-							}
-						}
-					);
-				} else reject(error);
-			}
-		);
-	});
-}

@@ -51,11 +51,6 @@ exports = module.exports = function (app) {
 	);
 
 	// REST endpoints
-	app.all(
-		"/api/upload/:id/update",
-		keystone.middleware.api,
-		routes.api.upload.update
-	);
 	app.post(
 		"/api/upload/append",
 		keystone.middleware.api,
@@ -71,35 +66,11 @@ exports = module.exports = function (app) {
 		keystone.middleware.api,
 		routes.api.results.resolve
 	);
-	app.post(
-		"/api/auth/sas",
-		middleware.requireUser, // add middleware.requireUser
-		routes.api.auth.getSas
-	);
-	app.get(
-		"/api/results/processed",
-		keystone.middleware.api,
-		routes.api.results.processed
-	);
-	app.get(
-		"/api/results/archived",
-		keystone.middleware.api,
-		routes.api.results.archived
-	);
+	app.post("/api/auth/sas", middleware.requireUser, routes.api.auth.getSas);
 	app.get(
 		"/api/results/download",
 		keystone.middleware.api,
 		routes.api.results.download
-	);
-	app.get(
-		"/api/results/fetch",
-		keystone.middleware.api,
-		routes.api.results.fetch
-	);
-	app.get(
-		"/api/results/archive",
-		keystone.middleware.api,
-		routes.api.results.archive
 	);
 	app.post(
 		"/api/results/analyze",
@@ -156,12 +127,6 @@ exports = module.exports = function (app) {
 		keystone.middleware.api,
 		routes.api.user.getAreas
 	);
-	app.get("/api/data/raw", keystone.middleware.api, routes.api.data.raw);
-	app.get(
-		"/api/data/standardized",
-		keystone.middleware.api,
-		routes.api.data.standardized
-	);
 	app.get(
 		"/api/cms/pages/:slug",
 		keystone.middleware.api,
@@ -176,8 +141,6 @@ exports = module.exports = function (app) {
 	app.get(
 		"/api/datasets/:datasetId",
 		keystone.middleware.api,
-		routes.api.results.datasets
+		routes.api.results.dataset
 	);
-	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
-	// app.get('/protected', middleware.requireUser, routes.views.protected);
 };

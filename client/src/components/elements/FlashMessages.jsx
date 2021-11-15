@@ -1,6 +1,5 @@
 import { Container, IconButton, Toolbar } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CancelOutlined } from "@mui/icons-material";
 import {

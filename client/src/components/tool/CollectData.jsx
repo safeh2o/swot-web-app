@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { Outlet, Route, Routes } from "react-router-dom";
 import { pushView } from "../../reducers/view";
 
 // icons
@@ -7,7 +8,7 @@ import DownloadIcon from "../icons/Download";
 import PdfIcon from "../icons/Pdf";
 import XlsIcon from "../icons/Xls";
 
-export default function CollectData(props) {
+export default function CollectData() {
 	const urlFieldGuide =
 		"https://gitcdn.link/repo/safeh2o/swot-web-assets/master/SWOT_Field_Data_Protocol_Sep2020.pdf";
 	const urlDataInputTemplate =
@@ -44,6 +45,7 @@ export default function CollectData(props) {
 								className="txt-icon button yellow"
 								href={urlFieldGuide}
 								target="_blank"
+								rel="noreferrer"
 							>
 								<i>
 									<DownloadIcon />
@@ -76,6 +78,7 @@ export default function CollectData(props) {
 								className="txt-icon button yellow"
 								href={urlDataInputTemplate}
 								target="_blank"
+								rel="noreferrer"
 							>
 								<i>
 									<DownloadIcon />

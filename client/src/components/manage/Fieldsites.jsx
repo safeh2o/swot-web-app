@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Notice from "../elements/Notice";
 import { Link } from "react-router-dom";
-
-// icons
 import { IconTrash } from "../icons";
 import { DataGrid } from "@mui/x-data-grid";
 import { DEFAULT_AREA } from "../../constants/defaults";
@@ -29,14 +27,14 @@ const columns = [
 		headerName: "Total Samples",
 		flex: 10,
 		type: "number",
-		valueGetter: (params) => 123,
+		valueGetter: (_params) => 123,
 	},
 	{
 		field: "latestAnalysis",
 		headerName: "Latest Analysis",
 		type: "date",
 		flex: 10,
-		valueGetter: (params) => luxon.DateTime.now().toISODate(),
+		valueGetter: (_params) => luxon.DateTime.now().toISODate(),
 	},
 	{
 		field: "safetyLevel",
@@ -46,7 +44,7 @@ const columns = [
 	},
 ];
 
-export default function Fieldsites(props) {
+export default function Fieldsites(_props) {
 	const [area, setArea] = useState(DEFAULT_AREA);
 	const [fieldsites, setFieldsites] = useState([]);
 	const areas = useSelector(userSelectors.areas);

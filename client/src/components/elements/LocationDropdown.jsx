@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { notificationsSelectors } from "../../reducers/notifications";
 import { TextField, Autocomplete } from "@mui/material";

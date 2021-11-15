@@ -1,5 +1,3 @@
-import React from "react";
-
 import Header from "./layout/Header";
 import SideBar from "./layout/SideBar";
 import Footer from "./layout/Footer";

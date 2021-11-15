@@ -88,7 +88,7 @@ module.exports = {
 			template: "src/index.ejs",
 			inject: "body",
 			gtag: process.env.GOOGLE_ANALYTICS_GTAG,
-			grecaptcha: process.env.GOOGLE_RECAPTCHA_SITE_KEY,
+			grecaptchaSiteKey: process.env.GOOGLE_RECAPTCHA_SITE_KEY,
 			filename: "index.html",
 		}),
 		new SourceMapDevToolPlugin({}),

@@ -1,10 +1,8 @@
 const keystone = require("keystone");
 const Enquiry = keystone.list("Enquiry");
 const User = keystone.list("User");
-const https = require("https");
-const querystring = require("querystring");
-const fetch = require("node-fetch");
 const _ = require("lodash");
+const FormData = require("form-data");
 
 exports.contact = async function (req, res) {
 	const newEnquiry = new Enquiry.model();
@@ -19,92 +17,48 @@ exports.contact = async function (req, res) {
 
 	const captchaResp = req.body["g-recaptcha-response"];
 
-	const postData = querystring.stringify({
-		secret: process.env.GOOGLE_RECAPTCHA_SECRET_KEY,
-		response: captchaResp,
-	});
-
 	if (!captchaResp) {
 		validationErrors.captcha = INVALID_TOKEN_ERROR;
 	}
 
-	const headers = {
-		"Content-Type": "application/x-www-form-urlencoded",
-		"Content-Length": postData.length,
-	};
-
-	// const options = {
-	// 	hostname: "www.google.com",
-	// 	path: "/recaptcha/api/siteverify",
-	// 	port: 443,
-	// 	method: "POST",
-	// 	headers: headers,
-	// };
-
-	fetch("https://www.google.com/recaptcha/api/siteverify", {
-		method: "POST",
-		// headers,
-		body: JSON.stringify({
-			secret: process.env.GOOGLE_RECAPTCHA_SECRET_KEY,
-			response: captchaResp,
-		}),
-	})
-		.then((res) => res.json())
-		.then((captchaResData) => {
-			if (captchaResData.success) {
-				updater.process(
-					req.body,
-					{
-						fields: "name, email, reason, message, phone",
-					},
-					function (errors) {
-						if (errors) {
-							_.forEach(errors.detail, (err) => {
-								messages.errors.push(err.error);
-							});
-						} else {
-							success = true;
-							messages.notices.push(CONTACT_SUCCESS_MESSAGE);
+	const recaptchaForm = new FormData();
+	recaptchaForm.append("secret", process.env.GOOGLE_RECAPTCHA_SECRET_KEY);
+	recaptchaForm.append("response", captchaResp);
+	recaptchaForm.submit(
+		"https://www.google.com/recaptcha/api/siteverify",
+		(err, captchaRes) => {
+			let captchaResData = "";
+			let captchaResJson = {};
+			captchaRes.on("data", (chunk) => {
+				captchaResData += chunk;
+			});
+			captchaRes.on("end", () => {
+				captchaResJson = JSON.parse(captchaResData);
+				if (captchaResJson.success) {
+					updater.process(
+						req.body,
+						{
+							fields: "name, email, reason, message, phone",
+						},
+						function (errors) {
+							if (errors) {
+								_.forEach(errors.detail, (err) => {
+									messages.errors.push(err.error);
+								});
+							} else {
+								success = true;
+								messages.notices.push(CONTACT_SUCCESS_MESSAGE);
+							}
+							res.json({ messages, success });
 						}
-						res.json({ messages, success });
-					}
-				);
-			} else {
-				messages.errors.push(INVALID_TOKEN_MESSAGE);
-				res.json({ messages, success });
-			}
-		});
-
-	// const captchaReq = https.request(options, (captchaRes) => {
-	// 	captchaRes.on("data", (d) => {
-	// 		const captchaResData = JSON.parse(d);
-	// 		if (captchaResData.success) {
-	// 			updater.process(
-	// 				req.body,
-	// 				{
-	// 					fields: "name, email, reason, message, phone",
-	// 				},
-	// 				function (err) {
-	// 					if (err) {
-	// 						validationErrors = err.detail;
-	// 					} else {
-	// 						success = true;
-	// 					}
-	// 					res.json({ validationErrors, success });
-	// 				}
-	// 			);
-	// 		} else {
-	// 			validationErrors.captcha = INVALID_TOKEN_ERROR;
-	// 			res.json({ validationErrors, success });
-	// 		}
-	// 	});
-	// });
-
-	// captchaReq.on("error", (e) => {
-	// 	console.error(e);
-	// });
-	// captchaReq.write(postData);
-	// captchaReq.end();
+					);
+				} else {
+					messages.errors.push(INVALID_TOKEN_MESSAGE);
+					res.json({ messages, success });
+				}
+			});
+		}
+	);
 };
 
 exports.getContactReasons = async function (req, res) {

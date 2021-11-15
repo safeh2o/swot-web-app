@@ -52,14 +52,17 @@
 
 		<link href="/styles/site.css" rel="stylesheet" />
 
+		<script src="https://www.google.com/recaptcha/api.js?render=<%= htmlWebpackPlugin.options.grecaptchaSiteKey %>"></script>
 		<script src="/js/jquery/jquery.form.min.js"></script>
 		<script src="//unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
 		<script src="/js/fa.min.js"></script>
 		<script src="/js/modals.js"></script>
+
 		<script>
 			window.__INITIAL_STATE = {
 				gtag: "<%= htmlWebpackPlugin.options.gtag %>",
-				grecaptcha: "<%= htmlWebpackPlugin.options.grecaptcha %>",
+				grecaptchaSiteKey:
+					"<%= htmlWebpackPlugin.options.grecaptchaSiteKey %>",
 			};
 		</script>
 	</head>

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import _ from "lodash";
 import AppContext from "../contexts/AppContext";
 import NoteLine from "./elements/NoteLine";
-import ReCAPTCHA from "react-google-recaptcha";
 import useForm from "../hooks/useForm";
 import {
 	Button,
@@ -43,9 +42,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ContactPage(props) {
-	const { grecaptcha } = useContext(AppContext);
+	const { grecaptchaSiteKey } = useContext(AppContext);
 	const [contactReasons, setContactReasons] = useState([]);
-	const [captchaResponse, setCaptchaResponse] = useState("");
 	const [disabled, setDisabled] = useState(true);
 	const classes = useStyles();
 	const { state, reset, getTextChangeHandler } = useForm({
@@ -67,32 +65,28 @@ export default function ContactPage(props) {
 
 	useEffect(() => {
 		const { name, email, reason, message } = state;
-		setDisabled(!name || !email || !reason || !message || !captchaResponse);
-	}, [state, captchaResponse]);
+		setDisabled(!name || !email || !reason || !message);
+	}, [state]);
 
 	function handleSubmit() {
 		dispatch(setLoading(true));
-		axios
-			.post("/api/contact", {
-				...state,
-				"g-recaptcha-response": captchaResponse,
-			})
-			.then(({ data }) => {
-				dispatch(handleServerMessages(data.messages));
-			})
-			// .then((res) => {
-			// 	dispatch(
-			// 		addNotice("Thank you, we will get back to you shortly!")
-			// 	);
-			// })
-			// .catch((err) => {
-			// 	dispatch(
-			// 		addError("An error occurred trying to submit this form")
-			// 	);
-			// })
-			.finally(() => {
-				dispatch(setLoading(false));
-			});
+		grecaptcha.ready(function () {
+			grecaptcha
+				.execute(grecaptchaSiteKey, { action: "submit" })
+				.then(function (token) {
+					axios
+						.post("/api/contact", {
+							...state,
+							"g-recaptcha-response": token,
+						})
+						.then(({ data }) => {
+							dispatch(handleServerMessages(data.messages));
+						})
+						.finally(() => {
+							dispatch(setLoading(false));
+						});
+				});
+		});
 	}
 
 	return (
@@ -176,13 +170,6 @@ export default function ContactPage(props) {
 									contacting us
 								</FormHelperText>
 							</FormControl>
-
-							<ReCAPTCHA
-								sitekey={grecaptcha}
-								onChange={(val) => {
-									setCaptchaResponse(val);
-								}}
-							/>
 						</div>
 						<div className={"submission-wrap " + classes.root}>
 							<Button

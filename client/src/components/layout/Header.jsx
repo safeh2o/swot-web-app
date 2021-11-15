@@ -1,21 +1,58 @@
 import { Link } from "react-router-dom";
 import UserDetailsModal from "../elements/UserDetailsModal";
 import { userSelectors } from "../../reducers/user";
-import { useSelector } from "react-redux";
-import { IconButton, Badge, Skeleton, Stack } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	IconButton,
+	Badge,
+	Skeleton,
+	Stack,
+	Button,
+	Popover,
+	Typography,
+	List,
+	ListItem,
+	ListItemText,
+	ListItemIcon,
+} from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 // icons
 import SignOutIcon from "@mui/icons-material/Logout";
-import AdminIcon from "../icons/Admin";
-import { useNavigate } from "react-router";
+import { useEffect, useRef, useState } from "react";
+import {
+	markAllRead,
+	notificationsSelectors,
+} from "../../reducers/notifications";
+import _ from "lodash";
 
 export default function Header(props) {
-	const navigate = useNavigate();
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const user = useSelector(userSelectors.user);
 	const userLoadingStatus = useSelector(userSelectors.loadingStatus);
+	const [showNotifications, setShowNotifications] = useState(false);
+	const notificationsRef = useRef(null);
+	const notifications = useSelector(notificationsSelectors.notifications);
+	const [unreadCount, setUnreadCount] = useState(0);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		setUnreadCount(
+			_.sumBy(notifications, (message) => (message.read === true ? 0 : 1))
+		);
+	}, [notifications]);
+
+	const popNotifications = () => {
+		setShowNotifications(true);
+	};
+
+	const closeNotifications = () => {
+		setShowNotifications(false);
+		dispatch(markAllRead());
+	};
 
 	function renderRightButtons() {
 		if (isLoggedIn) {
@@ -40,37 +77,28 @@ export default function Header(props) {
 					<Stack direction="row">
 						<UserDetailsModal />
 						{user.isAdmin === true && (
-							// <li className="nav-item nav-profile admin">
-							// <a
-							// 	href="/admin"
-							// 	className="admin"
-							// 	title="SWOT Admin Panel"
-							// 	color="inherit"
-							// >
-							<IconButton color="inherit" href="/admin">
+							<IconButton
+								href="/admin"
+								style={{ color: "inherit" }}
+							>
 								<SettingsIcon />
 							</IconButton>
-							// </a>
-							// </li>
 						)}
-						<IconButton color="inherit">
-							<Badge badgeContent={4}>
+						<IconButton
+							color="inherit"
+							onClick={popNotifications}
+							ref={notificationsRef}
+						>
+							<Badge color="secondary" badgeContent={unreadCount}>
 								<NotificationsIcon />
 							</Badge>
 						</IconButton>
-						{/* <li className="nav-item nav-profile signout"> */}
-						{/* <a
-							id="accountDetails"
-							className="signout"
+						<IconButton
 							href="/admin/signout"
-							tabIndex="-1"
-							title="Log Out"
-						> */}
-						<IconButton color="inherit" href="/admin/signout">
+							style={{ color: "inherit" }}
+						>
 							<SignOutIcon />
 						</IconButton>
-						{/* </a> */}
-						{/* </li> */}
 					</Stack>
 				</>
 			);
@@ -151,6 +179,42 @@ export default function Header(props) {
 				</li>
 
 				{renderRightButtons()}
+
+				<Popover
+					open={showNotifications}
+					anchorEl={notificationsRef.current}
+					onClose={closeNotifications}
+					anchorOrigin={{
+						vertical: "bottom",
+						horizontal: "left",
+					}}
+					transformOrigin={{
+						vertical: "top",
+						horizontal: "right",
+					}}
+				>
+					<List sx={{ overflow: "auto" }}>
+						{notifications.map((message, i) => (
+							<ListItem
+								key={i}
+								sx={{
+									backgroundColor: message.read
+										? "inherit"
+										: "lightgray",
+								}}
+							>
+								<ListItemIcon>
+									{(message.type === "error" && (
+										<ErrorOutlineIcon />
+									)) || <CheckCircleOutlineIcon />}
+								</ListItemIcon>
+								<Typography sx={{ p: 1 }}>
+									{message.content}
+								</Typography>
+							</ListItem>
+						))}
+					</List>
+				</Popover>
 
 				<li className="nav-item nav-mobile">
 					<button

@@ -1,5 +1,3 @@
-import React, { Component } from "react";
-
 export default function GuideLine(props) {
 	return (
 		<div className="txt-icon help guide txt-sm">

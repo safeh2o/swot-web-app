@@ -389,7 +389,7 @@ main {
 			border-radius: 7px;
 		}
 		&.checkbox .label:after {
-			width: $input-line-height/2;
+			width: $input-line-height*0.5;
 			background-color: none;
 			border-bottom: 9px solid transparent;
 			border-right: 9px solid transparent;

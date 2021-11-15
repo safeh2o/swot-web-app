@@ -1,15 +1,18 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import UserDetailsModal from "../elements/UserDetailsModal";
 import { userSelectors } from "../../reducers/user";
 import { useSelector } from "react-redux";
-import { Skeleton } from "@mui/material";
+import { IconButton, Badge, Skeleton, Stack } from "@mui/material";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 // icons
-import SignOutIcon from "../icons/SignOut";
+import SignOutIcon from "@mui/icons-material/Logout";
 import AdminIcon from "../icons/Admin";
+import { useNavigate } from "react-router";
 
 export default function Header(props) {
+	const navigate = useNavigate();
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const user = useSelector(userSelectors.user);
 	const userLoadingStatus = useSelector(userSelectors.loadingStatus);
@@ -33,34 +36,42 @@ export default function Header(props) {
 							<span className="label">Get Started</span>
 						</Link>
 					</li>
-					<UserDetailsModal />
-					{user.isAdmin === true && (
-						<li className="nav-item nav-profile admin">
-							<a
-								href="/admin"
-								className="admin"
-								title="SWOT Admin Panel"
-								color="inherit"
-							>
-								<i>
-									<AdminIcon />
-								</i>
-							</a>
-						</li>
-					)}
-					<li className="nav-item nav-profile signout">
-						<a
+
+					<Stack direction="row">
+						<UserDetailsModal />
+						{user.isAdmin === true && (
+							// <li className="nav-item nav-profile admin">
+							// <a
+							// 	href="/admin"
+							// 	className="admin"
+							// 	title="SWOT Admin Panel"
+							// 	color="inherit"
+							// >
+							<IconButton color="inherit" href="/admin">
+								<SettingsIcon />
+							</IconButton>
+							// </a>
+							// </li>
+						)}
+						<IconButton color="inherit">
+							<Badge badgeContent={4}>
+								<NotificationsIcon />
+							</Badge>
+						</IconButton>
+						{/* <li className="nav-item nav-profile signout"> */}
+						{/* <a
 							id="accountDetails"
 							className="signout"
 							href="/admin/signout"
 							tabIndex="-1"
 							title="Log Out"
-						>
-							<i>
-								<SignOutIcon />
-							</i>
-						</a>
-					</li>
+						> */}
+						<IconButton color="inherit" href="/admin/signout">
+							<SignOutIcon />
+						</IconButton>
+						{/* </a> */}
+						{/* </li> */}
+					</Stack>
 				</>
 			);
 		} else {
@@ -139,7 +150,7 @@ export default function Header(props) {
 					</Link>
 				</li>
 
-				{renderRightButtons("get-started")}
+				{renderRightButtons()}
 
 				<li className="nav-item nav-mobile">
 					<button
@@ -190,6 +201,7 @@ export default function Header(props) {
 						{headerSkeleton("News")}
 						{headerSkeleton("Conta")}
 						<span style={{ width: "40px" }}></span>
+						{headerSkeletonCircle(34)}
 						{headerSkeletonCircle(34)}
 						{headerSkeletonCircle(34)}
 						{headerSkeletonCircle(34)}

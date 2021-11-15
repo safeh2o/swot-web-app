@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import GuideLine from "../elements/GuideLine";
@@ -113,7 +112,7 @@ export default function Result(props) {
 							<label className="space half-width">
 								<div>
 									<span className="value">
-										{dataset.dateCreated.substr(0, 10)}
+										{dataset?.dateCreated?.substr(0, 10)}
 									</span>
 								</div>
 								<span className="label">Last Analyzed</span>
@@ -123,7 +122,7 @@ export default function Result(props) {
 									<span className="value">
 										{dataset?.startDate?.substr(0, 10) ||
 											String.fromCharCode(8734)}{" "}
-										to {dataset.endDate.substr(0, 10)}
+										to {dataset?.endDate?.substr(0, 10)}
 									</span>
 								</div>
 								<span className="label">Date Range</span>

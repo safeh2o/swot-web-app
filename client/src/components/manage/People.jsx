@@ -1,34 +1,27 @@
-import React from "react";
-import Notice from "../elements/Notice";
-import FormSelectSearch from "../elements/FormSelectSearch";
 import { Link } from "react-router-dom";
 import NoteLine from "../elements/NoteLine";
-
-// icons
-import ReactCountryFlag from "react-country-flag";
-import DetectEmoji from "../HelperDetectEmoji";
 import { IconTrash } from "../icons";
 
 export default function FieldSites(props) {
 	// Demo Data
-	const OptionsOrganisations = [
-		{
-			name: "MSF Doctors Without Borders",
-			value: "MSF",
-		},
-		{
-			name: "The UN Refugee Agency",
-			value: "UNHCR",
-		},
-		{
-			name: "Elrha",
-			value: "elrha",
-		},
-		{
-			name: "Water Safety USA",
-			value: "WSUSA",
-		},
-	];
+	// const OptionsOrganisations = [
+	// 	{
+	// 		name: "MSF Doctors Without Borders",
+	// 		value: "MSF",
+	// 	},
+	// 	{
+	// 		name: "The UN Refugee Agency",
+	// 		value: "UNHCR",
+	// 	},
+	// 	{
+	// 		name: "Elrha",
+	// 		value: "elrha",
+	// 	},
+	// 	{
+	// 		name: "Water Safety USA",
+	// 		value: "WSUSA",
+	// 	},
+	// ];
 	return (
 		<>
 			<section className="content-window">
@@ -39,7 +32,7 @@ export default function FieldSites(props) {
 				<section>
 					<div className="flex-group">
 						<label className="space">
-							<FormSelectSearch
+							{/* <FormSelectSearch
 								options={OptionsOrganisations}
 								default={[
 									{
@@ -48,7 +41,7 @@ export default function FieldSites(props) {
 									},
 								]}
 								icon={true}
-							/>
+							/> */}
 							<span className="label">Organisation</span>
 						</label>
 					</div>
@@ -76,7 +69,7 @@ export default function FieldSites(props) {
 				<section className="table people">
 					<section className="table-header">
 						<div className="table-col">
-							<span class="txt-icon">Name</span>
+							<span className="txt-icon">Name</span>
 						</div>
 						<div className="table-col">Datasets</div>
 						<div className="table-col">Latest Analysis</div>

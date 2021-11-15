@@ -1,4 +1,3 @@
-var filenameUtils = require("../utils/filename");
 var keystone = require("keystone");
 const { QueueServiceClient } = require("@azure/storage-queue");
 var Types = keystone.Field.Types;
@@ -10,18 +9,6 @@ var Types = keystone.Field.Types;
 var Dataset = new keystone.List("Dataset", {
 	strict: false,
 	autokey: { path: "name", from: "startDate", unique: false },
-});
-
-var azureStorage = new keystone.Storage({
-	adapter: require("keystone-storage-adapter-azure"),
-	azure: {
-		generateFilename: filenameUtils.swotAnalysisFilenameGenerator,
-	},
-	schema: {
-		container: true, // optional; store the referenced container in the database
-		etag: true, // optional; store the etag for the resource
-		url: true, // optional; generate & store a public URL
-	},
 });
 
 Dataset.add(
@@ -75,18 +62,6 @@ Dataset.add(
 			],
 			default: "optimumDecay",
 		},
-		file: {
-			type: Types.File,
-			storage: azureStorage,
-			label: "Raw Data",
-			hidden: true,
-		},
-		stdFile: {
-			type: Types.File,
-			storage: azureStorage,
-			label: "Standardized Data",
-			hidden: true,
-		},
 		archived: { type: Types.Boolean, index: true, default: false },
 	},
 	"Redo Analysis",
@@ -118,24 +93,6 @@ Dataset.add(
 			noedit: true,
 			dependsOn: { $ne: { resultsUrl: null } },
 		},
-		stdUrl: {
-			type: Types.Url,
-			initial: false,
-			label: "Download Standardized Data",
-			watch: true,
-			value: getStandardizedUrl,
-			noedit: true,
-			dependsOn: { $ne: { stdUrl: null } },
-		},
-		rawUrl: {
-			type: Types.Url,
-			initial: false,
-			label: "Download Raw Data",
-			watch: true,
-			value: getRawUrl,
-			noedit: true,
-			dependsOn: { $ne: { rawUrl: null } },
-		},
 	}
 );
 
@@ -143,22 +100,6 @@ function getResultsUrl() {
 	return `${keystone.get("locals").weburl}api/results/fetch?datasetId=${
 		this.id
 	}`;
-}
-
-function getStandardizedUrl() {
-	if (!this.stdFile.url) {
-		return null;
-	}
-	return `${keystone.get("locals").weburl}api/data/standardized?datasetId=${
-		this.id
-	}`;
-}
-
-function getRawUrl() {
-	if (!this.file.url) {
-		return null;
-	}
-	return `${keystone.get("locals").weburl}api/data/raw?datasetId=${this.id}`;
 }
 
 Dataset.schema.pre("save", function (next) {
@@ -169,7 +110,7 @@ Dataset.schema.pre("save", function (next) {
 	next();
 });
 
-Dataset.schema.methods.runAnalysis = async function (callback) {
+Dataset.schema.methods.runAnalysis = async function () {
 	// const analyzer = require("../utils/analyzer");
 	// const dataService = require("../utils/data.service");
 

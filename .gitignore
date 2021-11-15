@@ -338,3 +338,4 @@ server/public/styles/site.css
 client/public/js/bundle.js
 client/public/styles/site.css
 .envrc
+**/.DS_Store

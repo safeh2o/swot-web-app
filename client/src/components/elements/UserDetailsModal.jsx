@@ -1,16 +1,9 @@
-import {
-	Accordion,
-	AccordionDetails,
-	AccordionSummary,
-	DialogContentText,
-	IconButton,
-} from "@mui/material";
+import { AccordionSummary, Collapse, IconButton } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { handleServerMessages } from "../../reducers/notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { styled } from "@mui/styles";
-
-import * as React from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -23,9 +16,10 @@ import { getUser, userSelectors } from "../../reducers/user";
 import PaperComponent from "./PaperComponent";
 
 export default function UserDetailsModal() {
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = useState(false);
 	const user = useSelector(userSelectors.user);
 	const dispatch = useDispatch();
+	const [changingPassword, setChangingPassword] = useState(false);
 
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -117,33 +111,39 @@ export default function UserDetailsModal() {
 					/>
 					<br />
 					<br />
-					<Accordion elevation={0}>
-						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-							Change Password
-						</AccordionSummary>
-						<AccordionDetails>
-							<TextField
-								margin="dense"
-								id="password1"
-								label="New Password"
-								type="password"
-								fullWidth
-								variant="standard"
-								value={state.password1}
-								onChange={getTextChangeHandler("password1")}
-							/>
-							<TextField
-								margin="dense"
-								id="password2"
-								label="Confirm Password"
-								type="password"
-								fullWidth
-								variant="standard"
-								value={state.password2}
-								onChange={getTextChangeHandler("password2")}
-							/>
-						</AccordionDetails>
-					</Accordion>
+					<AccordionSummary
+						expandIcon={
+							(changingPassword && <ExpandLessIcon />) || (
+								<ExpandMoreIcon />
+							)
+						}
+						onClick={() => setChangingPassword(!changingPassword)}
+					>
+						Change Password
+					</AccordionSummary>
+					<Collapse in={changingPassword}>
+						<TextField
+							margin="dense"
+							id="password1"
+							label="New Password"
+							type="password"
+							fullWidth
+							variant="standard"
+							value={state.password1}
+							onChange={getTextChangeHandler("password1")}
+							autoComplete="new-password"
+						/>
+						<TextField
+							margin="dense"
+							id="password2"
+							label="Confirm Password"
+							type="password"
+							fullWidth
+							variant="standard"
+							value={state.password2}
+							onChange={getTextChangeHandler("password2")}
+						/>
+					</Collapse>
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleClose}>Cancel</Button>

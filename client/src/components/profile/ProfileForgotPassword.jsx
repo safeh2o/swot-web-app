@@ -2,7 +2,6 @@ import { Component } from "react";
 import { useState } from "react";
 import { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import FlashMessages from "../elements/FlashMessages";
 
 export default function ProfileForgotPassword(props) {
 	const form = useRef(null);

@@ -1,7 +1,6 @@
 import Header from "./layout/Header";
 import SideBar from "./layout/SideBar";
 import Footer from "./layout/Footer";
-import FlashMessages from "./elements/FlashMessages";
 import { useSelector } from "react-redux";
 import { notificationsSelectors } from "../reducers/notifications";
 import AppBreadcrumbs from "./elements/AppBreadcrumbs";
@@ -29,10 +28,7 @@ export default function PageWrapper(props) {
 			<main>
 				<AppBreadcrumbs />
 				<SideBar />
-				<section id="content">
-					<FlashMessages />
-					{props.children}
-				</section>
+				<section id="content">{props.children}</section>
 			</main>
 			<Footer />
 		</>

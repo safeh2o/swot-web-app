@@ -91,15 +91,12 @@ export default function UploadPage() {
 		axios
 			.post("/api/upload/append", formData)
 			.then((res) => {
-				dispatch(
-					addNotice({ label: "Success", notice: "Upload success" })
-				);
+				dispatch(addNotice("Upload successful"));
 			})
 			.catch((err) => {
 				dispatch(
 					addError("Error occurred while trying to upload files")
 				);
-				console.log(err);
 			})
 			.finally(() => {
 				dispatch(setLoading(false));
@@ -108,8 +105,6 @@ export default function UploadPage() {
 
 	return (
 		<form>
-			{/* <h2 className="content-title">Choose a Location</h2> */}
-
 			<section
 				id="collect-data"
 				className="content-window bleed-edges rich-text"
@@ -120,8 +115,6 @@ export default function UploadPage() {
 					</div>
 				</header>
 			</section>
-
-			{/* <h2 className="content-title">Choose location</h2> */}
 
 			<section className="content-window">
 				<header>

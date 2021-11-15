@@ -17,7 +17,12 @@ import {
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { addError, addNotice, setLoading } from "../reducers/notifications";
+import {
+	addError,
+	addNotice,
+	handleServerMessages,
+	setLoading,
+} from "../reducers/notifications";
 import { pushView } from "../reducers/view";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +48,7 @@ export default function ContactPage(props) {
 	const [captchaResponse, setCaptchaResponse] = useState("");
 	const [disabled, setDisabled] = useState(true);
 	const classes = useStyles();
-	const { state, update, reset } = useForm({
+	const { state, reset, getTextChangeHandler } = useForm({
 		name: "",
 		email: "",
 		phone: "",
@@ -52,12 +57,6 @@ export default function ContactPage(props) {
 		captcha: null,
 	});
 	const dispatch = useDispatch();
-
-	function getTextChangeHandler(fieldName) {
-		return (e) => {
-			update({ [fieldName]: e.target.value });
-		};
-	}
 
 	useEffect(() => {
 		dispatch(pushView({ title: "Contact", path: "/contact" }));
@@ -78,19 +77,19 @@ export default function ContactPage(props) {
 				...state,
 				"g-recaptcha-response": captchaResponse,
 			})
-			.then((res) => {
-				dispatch(
-					addNotice({
-						label: "success",
-						notice: "Thank you, we will get back to you shortly!",
-					})
-				);
+			.then(({ data }) => {
+				dispatch(handleServerMessages(data.messages));
 			})
-			.catch((err) => {
-				dispatch(
-					addError("An error occurred trying to submit this form")
-				);
-			})
+			// .then((res) => {
+			// 	dispatch(
+			// 		addNotice("Thank you, we will get back to you shortly!")
+			// 	);
+			// })
+			// .catch((err) => {
+			// 	dispatch(
+			// 		addError("An error occurred trying to submit this form")
+			// 	);
+			// })
 			.finally(() => {
 				dispatch(setLoading(false));
 			});
@@ -143,9 +142,7 @@ export default function ContactPage(props) {
 							<FormControl className={classes.formControl}>
 								<Select
 									value={state.reason}
-									onChange={(event) => {
-										update({ reason: event.target.value });
-									}}
+									onChange={getTextChangeHandler("reason")}
 									displayEmpty
 									required
 								>

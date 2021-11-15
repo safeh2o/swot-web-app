@@ -309,7 +309,11 @@ export default function Home(props) {
 					<p>This project is implemented by:</p>
 					<div className="project-leads">
 						<div className="org">
-							<a target="_blank" href="http://dighr.yorku.ca/">
+							<a
+								target="_blank"
+								href="http://dighr.yorku.ca/"
+								rel="noreferrer"
+							>
 								<img
 									src="assets/DIGHR-blue.png"
 									width="150px"
@@ -322,6 +326,7 @@ export default function Home(props) {
 							<a
 								target="_blank"
 								href="https://www.doctorswithoutborders.ca/"
+								rel="noreferrer"
 							>
 								<img
 									src="assets/MSF-logo.jpg"
@@ -340,6 +345,7 @@ export default function Home(props) {
 							<a
 								target="_blank"
 								href="https://www.achmea.nl/en/foundation"
+								rel="noreferrer"
 							>
 								<img
 									src="assets/AchmeaFoundation.png"
@@ -352,6 +358,7 @@ export default function Home(props) {
 							<a
 								target="_blank"
 								href="https://www.grandchallenges.ca/programs/creating-hope-conflict/"
+								rel="noreferrer"
 							>
 								<img
 									src="assets/GCC-logo.png"

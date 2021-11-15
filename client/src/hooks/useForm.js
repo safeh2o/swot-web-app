@@ -18,7 +18,13 @@ const useForm = (initialValues) => {
 		dispatch(initialValues);
 	}
 
-	return { state, update, reset };
+	function getTextChangeHandler(fieldName) {
+		return (e) => {
+			update({ [fieldName]: e.target.value });
+		};
+	}
+
+	return { state, update, reset, getTextChangeHandler };
 };
 
 export default useForm;

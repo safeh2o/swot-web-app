@@ -18,7 +18,7 @@ exports.signin = async function (req, res) {
 	};
 
 	var onFail = function () {
-		const messages = { errors: [] };
+		const messages = { errors: [], notices: [] };
 		messages.errors.push(
 			"Provided credentials are incorrect, please try again."
 		);

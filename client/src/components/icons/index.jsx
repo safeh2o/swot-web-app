@@ -22,12 +22,6 @@ export * from "./SidebarManageNav";
 export { default as SidebarToolNav } from "./SidebarToolNav";
 export * from "./SidebarToolNav";
 
-export { default as SignIn } from "./SignIn";
-export * from "./SignIn";
-
-export { default as SignOut } from "./SignOut";
-export * from "./SignOut";
-
 export { default as IconTrash } from "./IconTrash";
 export * from "./IconTrash";
 

@@ -14,17 +14,27 @@ export const notificationsSlice = createSlice({
 			state.messages.unshift({ type, content });
 		},
 		addNotice: (state, { payload }) => {
-			state.messages.unshift({ type: "notice", content: payload });
+			if (typeof payload === "string") {
+				state.messages.unshift({ type: "notice", content: payload });
+			}
 		},
 		addError: (state, { payload }) => {
-			state.messages.unshift({ type: "error", content: payload });
+			if (typeof payload === "string") {
+				state.messages.unshift({ type: "error", content: payload });
+			}
 		},
 		handleServerMessages: (state, { payload: { notices, errors } }) => {
 			_.forEach(notices, (notice) => {
-				state.messages.unshift({ type: "notice", content: notice });
+				state.messages.unshift({
+					type: "notice",
+					content: notice.toString(),
+				});
 			});
 			_.forEach(errors, (error) => {
-				state.messages.unshift({ type: "error", content: error });
+				state.messages.unshift({
+					type: "error",
+					content: error.toString(),
+				});
 			});
 		},
 		clearNotifications: () => initialState,

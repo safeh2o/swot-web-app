@@ -5,7 +5,7 @@
 	"private": true,
 	"scripts": {
 		"build": "webpack --config webpack.config.js",
-		"watch": "webpack serve"
+		"watch": "webpack serve --open"
 	},
 	"author": "",
 	"license": "ISC",

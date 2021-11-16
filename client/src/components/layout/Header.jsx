@@ -1,26 +1,32 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import UserDetailsModal from "../elements/UserDetailsModal";
 import { userSelectors } from "../../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
+
+import SidebarToolNav from "../icons/SidebarToolNav";
+import SidebarManageNav from "../icons/SidebarManageNav";
 import {
 	IconButton,
 	Badge,
 	Skeleton,
 	Stack,
 	Button,
+	Box,
+	Divider,
 	Popover,
 	Typography,
 	List,
 	ListItem,
 	ListItemText,
 	ListItemIcon,
+	Drawer,
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
-// icons
+import SideBar from "../layout/SideBar";
 import SignOutIcon from "@mui/icons-material/Logout";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -39,6 +45,7 @@ export default function Header(props) {
 	const notifications = useSelector(notificationsSelectors.notifications);
 	const [unreadCount, setUnreadCount] = useState(0);
 	const [waitingForSignout, setWaitingForSignout] = useState(false);
+	const [mobileNavOpen, setMobileNavOpen] = useState(false);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -137,14 +144,14 @@ export default function Header(props) {
 		}
 	}
 
-	function toggleMobileNav() {
-		const body = document.querySelector("body");
-		if (body.classList.contains("nav-active")) {
-			body.classList.remove("nav-active");
-		} else {
-			body.classList.add("nav-active");
-		}
-	}
+	// function toggleMobileNav() {
+	// 	const body = document.querySelector("body");
+	// 	if (body.classList.contains("nav-active")) {
+	// 		body.classList.remove("nav-active");
+	// 	} else {
+	// 		body.classList.add("nav-active");
+	// 	}
+	// }
 
 	function headerSkeleton(text) {
 		return (
@@ -235,7 +242,7 @@ export default function Header(props) {
 				<li className="nav-item nav-mobile">
 					<button
 						className="button"
-						onClick={() => toggleMobileNav()}
+						onClick={() => setMobileNavOpen(true)}
 					>
 						<i>
 							<img
@@ -287,6 +294,29 @@ export default function Header(props) {
 						{headerSkeletonCircle(34)}
 					</div>
 				)}
+
+				<Drawer
+					anchor="left"
+					open={mobileNavOpen}
+					onClose={() => {
+						setMobileNavOpen(false);
+					}}
+				>
+					<Box
+						sx={{
+							width: 250,
+						}}
+						role="presentation"
+						onClick={() => {
+							setMobileNavOpen(false);
+						}}
+						onKeyDown={() => {
+							setMobileNavOpen(false);
+						}}
+					>
+						<SideBar />
+					</Box>
+				</Drawer>
 			</nav>
 		</header>
 	);

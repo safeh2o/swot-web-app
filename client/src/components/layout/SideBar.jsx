@@ -3,153 +3,169 @@ import { Link, NavLink } from "react-router-dom";
 import { userSelectors } from "../../reducers/user";
 import SidebarToolNav from "../icons/SidebarToolNav";
 import SidebarManageNav from "../icons/SidebarManageNav";
+import { Box } from "@mui/material";
 
 export default function SideBar() {
 	const user = useSelector(userSelectors.user);
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 
-	function renderNavItem(section, i) {
+	function renderGuestNav() {
 		return (
-			<NavLink
-				key={section[1]}
-				title={section[1]}
-				className="nav-item-side"
-				to={`/${section[0]}`}
-			>
-				<span>
-					{section[2] ? <span className="num">{i + 1}.</span> : ``}
-					<span>{section[1]}</span>
-				</span>
-			</NavLink>
+			<>
+				<nav aria-label="Guest Options" className="guest-options">
+					<h6>Hello Guest,</h6>
+					<hr />
+					<p>
+						For you and/or your organisation to use the SWOT, please{" "}
+						<Link to="/contact">
+							<span>Contact Us</span>
+						</Link>{" "}
+						in-order to setup an account, OR{" "}
+						<Link to="/signin">
+							<span>Log In</span>
+						</Link>{" "}
+						to your existing account.
+					</p>
+				</nav>
+				<nav aria-label="Page Menu" className="hide-medium-up">
+					<span title="Admin Header" className="nav-item-header">
+						<span>Information</span>
+					</span>
+					<NavLink
+						title="About"
+						className="nav-item-side"
+						to="/about"
+					>
+						<span>
+							<span>About</span>
+						</span>
+					</NavLink>
+					<NavLink title="News" className="nav-item-side" to="/news">
+						<span>
+							<span>News</span>
+						</span>
+					</NavLink>
+					<NavLink
+						title="Contact"
+						className="nav-item-side"
+						to="/contact"
+					>
+						<span>
+							<span>Contact</span>
+						</span>
+					</NavLink>
+				</nav>
+			</>
 		);
 	}
 
-	function renderGuestNav() {
-		if (!user) {
-			return (
-				<>
-					<nav aria-label="Guest Options" className="guest-options">
-						<h6>Hello Guest,</h6>
-						<hr />
-						<p>
-							For you and/or your organisation to use the SWOT,
-							please{" "}
-							<Link to="/contact">
-								<span>Contact Us</span>
-							</Link>{" "}
-							in-order to setup an account, OR{" "}
-							<Link to="/signin">
-								<span>Log In</span>
-							</Link>{" "}
-							to your existing account.
-						</p>
-					</nav>
-				</>
-			);
-		}
-	}
+	const renderPrivateSidebar = () => {
+		return (
+			<>
+				<nav aria-label="Page Menu">
+					<NavLink
+						title="Home"
+						aria-current="page"
+						className="nav-item-side dashboard active"
+						to="/"
+					>
+						<span>
+							<span className="label">Home</span>
+						</span>
+					</NavLink>
+				</nav>
+				<nav aria-label="Tool Menu">
+					<span title="Tool" className="nav-item-header">
+						<span>Tool Steps</span>
+						<i>
+							<SidebarToolNav />
+						</i>
+					</span>
+					<NavLink
+						title="Collect Data"
+						className="nav-item-side"
+						to="/collect"
+					>
+						<span>
+							<span className="num">1.</span>
+							<span>Collect Data</span>
+						</span>
+					</NavLink>
+					<NavLink
+						title="Upload Data"
+						className="nav-item-side"
+						to="/upload"
+					>
+						<span>
+							<span className="num">2.</span>
+							<span>Upload Data</span>
+						</span>
+					</NavLink>
+					<NavLink
+						title="Send for Analysis"
+						className="nav-item-side"
+						to="/analyze"
+					>
+						<span>
+							<span className="num">3.</span>
+							<span>Send for Analysis</span>
+						</span>
+					</NavLink>
+					<NavLink
+						title="View Results"
+						className="nav-item-side"
+						to="/results"
+					>
+						<span>
+							<span className="num">4.</span>
+							<span>View Results</span>
+						</span>
+					</NavLink>
+				</nav>
 
-	function renderContentNav() {
-		// [ value, label, icon (location) ]
-		if (isLoggedIn) {
-			return (
-				<>
-					<nav aria-label="Page Menu">
+				{user?.isAdmin && (
+					<nav aria-label="Admin Menu">
+						<span title="Admin Header" className="nav-item-header">
+							<span>Manage</span>
+							<i>
+								<SidebarManageNav />
+							</i>
+						</span>
 						<NavLink
-							to="/"
-							className="nav-item-side dashboard"
-							title="Home"
+							title="Field Sites"
+							className="nav-item-side"
+							to="/fieldsites"
 						>
 							<span>
-								<span className="label">Home</span>
+								<span>Field Sites</span>
+							</span>
+						</NavLink>
+						<NavLink
+							title="People"
+							className="nav-item-side"
+							to="/people"
+						>
+							<span>
+								<span>People</span>
 							</span>
 						</NavLink>
 					</nav>
-				</>
-			);
-		}
-	}
-
-	function renderToolNav() {
-		// [ value, label, icon (location) ]
-		const sections = [
-			["collect", "Collect Data", 1],
-			["upload", "Upload Data", 2],
-			["analyze", "Send for Analysis", 3],
-			["results", "View Results", 4],
-		];
-		if (isLoggedIn) {
-			return (
-				<>
-					<nav aria-label="Tool Menu">
-						<span title="Tool" className="nav-item-header">
-							<span>Tool Steps</span>
-							<i>
-								<SidebarToolNav />
-							</i>
-						</span>
-						{sections.map((toolSection, i) =>
-							renderNavItem(toolSection, i)
-						)}
-					</nav>
-				</>
-			);
-		}
-	}
-
-	function toggleAdminNav() {
-		// [ value, label, icon (location) ]
-		const sections = [
-			["fieldsites", "Field Sites"],
-			["people", "People"],
-		];
-		if (isLoggedIn) {
-			return (
-				<>
-					{user.isAdmin === true && (
-						<nav aria-label="Admin Menu">
-							<span
-								title="Admin Header"
-								className="nav-item-header"
-							>
-								<span>Manage</span>
-								<i>
-									<SidebarManageNav />
-								</i>
-							</span>
-							{sections.map((adminSection) =>
-								renderNavItem(adminSection)
-							)}
-						</nav>
-					)}
-				</>
-			);
-		}
-	}
-
-	function togglePagesNav() {
-		const sections = [
-			["about", "About"],
-			["news", "News"],
-			["contact", "Contact"],
-		];
-		return (
-			<nav aria-label="Page Menu" className="hide-medium-up">
-				<span title="Admin Header" className="nav-item-header">
-					<span>Information</span>
-				</span>
-				{sections.map((pageSection) => renderNavItem(pageSection))}
-			</nav>
+				)}
+			</>
 		);
-	}
+	};
 
 	return (
-		<section id="sidebar">
-			{renderGuestNav()}
-			{renderContentNav()}
-			{renderToolNav()}
-			{toggleAdminNav()}
-			{togglePagesNav()}
-		</section>
+		<Box
+			position="sticky"
+			zIndex="10"
+			top="0"
+			alignSelf="flex-start"
+			overflow="hidden"
+			mb="10px"
+			id="sidebar"
+		>
+			{(isLoggedIn && renderPrivateSidebar()) || renderGuestNav()}
+		</Box>
 	);
 }

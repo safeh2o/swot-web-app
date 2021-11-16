@@ -5,6 +5,7 @@ import AppContext from "../contexts/AppContext";
 import NoteLine from "./elements/NoteLine";
 import useForm from "../hooks/useForm";
 import {
+	Grid,
 	Button,
 	FormControl,
 	FormHelperText,
@@ -92,9 +93,13 @@ export default function ContactPage(props) {
 	return (
 		<>
 			<form>
-				<section className="content-window">
+				<section className="content-window rich-text">
+					<header>
+						<div className="content-window-title txt-condensed">
+							Contact Us
+						</div>
+					</header>
 					<section>
-						<Typography variant="h3">Contact Us</Typography>
 						<div className={classes.form}>
 							<FormControl className={classes.formControl}>
 								<TextField
@@ -118,7 +123,7 @@ export default function ContactPage(props) {
 									onChange={getTextChangeHandler("email")}
 								/>
 								<FormHelperText>
-									We promise not to spam you
+									We respect your privacy
 								</FormHelperText>
 							</FormControl>
 							<FormControl className={classes.formControl}>
@@ -171,25 +176,29 @@ export default function ContactPage(props) {
 								</FormHelperText>
 							</FormControl>
 						</div>
-						<div className={"submission-wrap " + classes.root}>
-							<Button
-								variant="contained"
-								color="primary"
-								disabled={disabled}
-								onClick={handleSubmit}
-							>
-								Submit
-							</Button>
-							<Button
-								variant="contained"
-								color="secondary"
-								onClick={() => {
-									reset();
-								}}
-							>
-								Reset
-							</Button>
-						</div>
+						<Grid container direction="row" spacing={3}>
+							<Grid item xs="auto">
+								<Button
+									variant="contained"
+									color="primary"
+									disabled={disabled}
+									onClick={handleSubmit}
+								>
+									Submit
+								</Button>
+							</Grid>
+							<Grid item xs="auto">
+								<Button
+									variant="contained"
+									color="secondary"
+									onClick={() => {
+										reset();
+									}}
+								>
+									Reset
+								</Button>
+							</Grid>
+						</Grid>
 
 						<NoteLine>
 							By clicking Submit, you agree to our{" "}

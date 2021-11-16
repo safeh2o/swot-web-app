@@ -31,16 +31,16 @@ export default function SideBar() {
 					<span title="Admin Header" className="nav-item-header">
 						<span>Information</span>
 					</span>
-					<NavLink
+					<a
 						title="About"
 						className="nav-item-side"
-						to="/about"
+						href="https://safeh2o.app"
 					>
 						<span>
 							<span>About</span>
 						</span>
-					</NavLink>
-					<NavLink title="News" className="nav-item-side" to="/news">
+					</a>
+					<NavLink title="News" className="nav-item-side" to="/blog">
 						<span>
 							<span>News</span>
 						</span>
@@ -65,8 +65,7 @@ export default function SideBar() {
 				<nav aria-label="Page Menu">
 					<NavLink
 						title="Home"
-						aria-current="page"
-						className="nav-item-side dashboard active"
+						className="nav-item-side dashboard"
 						to="/"
 					>
 						<span>

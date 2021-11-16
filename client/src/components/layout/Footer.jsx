@@ -12,7 +12,6 @@ export default function Footer(props) {
 							direction="row"
 							justifyContent="center"
 							alignItems="center"
-							width="100%"
 							spacing={3}
 						>
 							<Grid item xs="auto">

@@ -82,13 +82,14 @@ export default function AnalyzePage() {
 		axios
 			.post("/api/upload/analyze", state)
 			.then(() => {
-				dispatch(
-					addNotice({ label: "success", notice: "Analyze Success" })
-				);
+				dispatch(addNotice("Dataset successfully sent for analysis"));
 			})
-			.catch(() =>
-				dispatch(addError("Error occurred while trying to analyze"))
-			)
+			.catch((err) => {
+				const message =
+					err?.response?.data?.error ||
+					"Error occurred while trying to analyze";
+				dispatch(addError(message));
+			})
 			.finally(() => {
 				dispatch(setLoading(false));
 			});

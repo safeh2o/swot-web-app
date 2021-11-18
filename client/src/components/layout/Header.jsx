@@ -1,23 +1,18 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import UserDetailsModal from "../elements/UserDetailsModal";
 import { userSelectors } from "../../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 
-import SidebarToolNav from "../icons/SidebarToolNav";
-import SidebarManageNav from "../icons/SidebarManageNav";
 import {
 	IconButton,
 	Badge,
 	Skeleton,
 	Stack,
-	Button,
 	Box,
-	Divider,
 	Popover,
 	Typography,
 	List,
 	ListItem,
-	ListItemText,
 	ListItemIcon,
 	Drawer,
 } from "@mui/material";
@@ -216,7 +211,7 @@ export default function Header(props) {
 						horizontal: "right",
 					}}
 				>
-					<List sx={{ overflow: "auto" }}>
+					<List sx={{ overflow: "auto", maxHeight: "500px" }}>
 						{notifications.map((message, i) => (
 							<ListItem
 								key={i}
@@ -224,12 +219,17 @@ export default function Header(props) {
 									backgroundColor: message.read
 										? "inherit"
 										: "lightgray",
+									maxWidth: "400px",
 								}}
 							>
 								<ListItemIcon>
 									{(message.type === "error" && (
-										<ErrorOutlineIcon />
-									)) || <CheckCircleOutlineIcon />}
+										<ErrorOutlineIcon color={"error"} />
+									)) || (
+										<CheckCircleOutlineIcon
+											color={"success"}
+										/>
+									)}
 								</ListItemIcon>
 								<Typography sx={{ p: 1 }}>
 									{message.content}

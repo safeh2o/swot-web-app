@@ -82,8 +82,8 @@ export default function ResultsPage() {
 		}
 	}, [fieldsite]);
 
-	function handleSelection(params) {
-		setSelectedDatasets(params.selectionModel);
+	function handleSelection(selectionModel) {
+		setSelectedDatasets(selectionModel || []);
 	}
 
 	function handleReanalysis() {

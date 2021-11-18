@@ -11,6 +11,7 @@ import {
 	Radio,
 	FormControlLabel,
 	RadioGroup,
+	Stack,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -154,27 +155,32 @@ export default function AnalyzePage() {
 						color="primary"
 						aria-label="large outlined primary button group"
 					>
-						<Button
-							onClick={() => {
-								selectDate(30);
-							}}
-						>
-							Last 30 Days
-						</Button>
-						<Button
-							onClick={() => {
-								selectDate(60);
-							}}
-						>
-							Last 60 Days
-						</Button>
-						<Button
-							onClick={() => {
-								selectAllTimeDate();
-							}}
-						>
-							All-Time
-						</Button>
+						<Stack direction={{ xs: "column", sm: "row" }}>
+							<Button
+								onClick={() => {
+									selectDate(30);
+								}}
+								sx={{ width: "100%" }}
+							>
+								Last 30 Days
+							</Button>
+							<Button
+								onClick={() => {
+									selectDate(60);
+								}}
+								sx={{ width: "100%" }}
+							>
+								Last 60 Days
+							</Button>
+							<Button
+								onClick={() => {
+									selectAllTimeDate();
+								}}
+								sx={{ width: "100%" }}
+							>
+								All-Time
+							</Button>
+						</Stack>
 					</ButtonGroup>
 					<label>
 						<span className="label">

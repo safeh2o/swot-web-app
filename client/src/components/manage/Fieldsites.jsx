@@ -40,7 +40,9 @@ const columns = [
 		field: "safetyLevel",
 		headerName: "Safety Level",
 		flex: 10,
-		renderCell: ({ row }) => <CircleIcon sx={{ color: "#ff0000" }} />,
+		renderCell: ({ row }) => (
+			<CircleIcon sx={{ color: "#ff8d8d", fontSize: "18px" }} />
+		),
 	},
 ];
 

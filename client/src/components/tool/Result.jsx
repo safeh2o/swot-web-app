@@ -5,6 +5,7 @@ import useBlob from "../../hooks/useBlob";
 import { useDispatch, useSelector } from "react-redux";
 import { settingsSelectors } from "../../reducers/settings";
 import { pushView } from "../../reducers/view";
+import { addError, addNotice, setLoading } from "../../reducers/notifications";
 
 export default function Result(props) {
 	const { AZURE_STORAGE_ACCOUNT } = useSelector(settingsSelectors.settings);
@@ -54,6 +55,17 @@ export default function Result(props) {
 	// 	},
 	// 	datasetId
 	// );
+
+	const handleReanalysis = () => {
+		dispatch(setLoading(true));
+		fetch(`/api/results/analyzedataset?datasetId=${datasetId}`)
+			.then((res) => res.text())
+			.then((data) => dispatch(addNotice(data)))
+			.catch((err) => dispatch(addError(err)))
+			.finally(() => {
+				dispatch(setLoading(false));
+			});
+	};
 
 	useEffect(() => {
 		fetch(`/api/datasets/${datasetId}`)
@@ -136,11 +148,7 @@ export default function Result(props) {
 						>
 							<span>Download Raw Results</span>
 						</a>
-						<a
-							className="button yellow"
-							href={`/api/results/analyzedataset?datasetId=${datasetId}`}
-							target="_blank"
-						>
+						<a className="button yellow" onClick={handleReanalysis}>
 							<span>Reanalyze</span>
 						</a>
 					</footer>
@@ -254,8 +262,7 @@ export default function Result(props) {
 										Increase chlorine dosing
 									</div>
 									<p className="txt-sm">
-										To achieve 0.9mg/l across all tapstands.{" "}
-										<a href="#">more info</a>
+										To achieve 0.9mg/l across all tapstands.
 									</p>
 								</div>
 								<figure>
@@ -270,8 +277,7 @@ export default function Result(props) {
 									<p className="txt-sm">
 										Once you have collected 100 more paired
 										samples try running another analysis and
-										compare the results.{" "}
-										<a href="#">more info</a>
+										compare the results.
 									</p>
 								</div>
 								<figure>
@@ -285,8 +291,7 @@ export default function Result(props) {
 									</div>
 									<p className="txt-sm">
 										For information on improving safe water
-										chain and addressing common problems.{" "}
-										<a href="#">more info</a>
+										chain and addressing common problems.
 									</p>
 								</div>
 								<figure>

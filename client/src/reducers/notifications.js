@@ -39,7 +39,7 @@ export const notificationsSlice = createSlice({
 		},
 		clearNotifications: () => initialState,
 		markAllRead: (state) => {
-			state.messages.forEach((message) => {
+			state?.messages?.forEach((message) => {
 				message.read = true;
 			});
 		},

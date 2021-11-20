@@ -87,10 +87,14 @@ export default function ResultsPage() {
 	}
 
 	function handleReanalysis() {
+		dispatch(setLoading(true));
 		axios
 			.post("/api/results/analyze", { datasetIds: selectedDatasets })
 			.then((res) => {
-				dispatch(addNotice({ label: "success", notice: res.data }));
+				dispatch(addNotice(res.data));
+			})
+			.finally(() => {
+				dispatch(setLoading(false));
 			});
 	}
 

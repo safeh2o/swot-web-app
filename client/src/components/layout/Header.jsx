@@ -1,37 +1,35 @@
-import { Link } from "react-router-dom";
-import UserDetailsModal from "../elements/UserDetailsModal";
-import { userSelectors } from "../../reducers/user";
-import { useDispatch, useSelector } from "react-redux";
-
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import SignOutIcon from "@mui/icons-material/Logout";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import SettingsIcon from "@mui/icons-material/Settings";
 import {
-	IconButton,
 	Badge,
-	Skeleton,
-	Stack,
 	Box,
-	Popover,
-	Typography,
+	Drawer,
+	IconButton,
 	List,
 	ListItem,
 	ListItemIcon,
-	Drawer,
+	Popover,
+	Skeleton,
+	Stack,
+	Typography,
 } from "@mui/material";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import SettingsIcon from "@mui/icons-material/Settings";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-
-import SideBar from "../layout/SideBar";
-import SignOutIcon from "@mui/icons-material/Logout";
+import _ from "lodash";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
 	markAllRead,
 	notificationsSelectors,
 	setLoading,
 } from "../../reducers/notifications";
-import _ from "lodash";
+import { userSelectors } from "../../reducers/user";
+import UserDetailsModal from "../elements/UserDetailsModal";
+import SideBar from "../layout/SideBar";
 
-export default function Header(props) {
+export default function Header() {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const user = useSelector(userSelectors.user);
 	const userLoadingStatus = useSelector(userSelectors.loadingStatus);
@@ -211,15 +209,20 @@ export default function Header(props) {
 						horizontal: "right",
 					}}
 				>
-					<List sx={{ overflow: "auto", maxHeight: "500px" }}>
-						{notifications.map((message, i) => (
+					<List
+						sx={{
+							overflow: "auto",
+							maxHeight: "500px",
+							maxWidth: "400px",
+						}}
+					>
+						{notifications?.map((message, i) => (
 							<ListItem
 								key={i}
 								sx={{
 									backgroundColor: message.read
 										? "inherit"
 										: "lightgray",
-									maxWidth: "400px",
 								}}
 							>
 								<ListItemIcon>
@@ -235,7 +238,11 @@ export default function Header(props) {
 									{message.content}
 								</Typography>
 							</ListItem>
-						))}
+						)) || (
+							<Typography variant="body1" p="10px">
+								You have no notifications at this time
+							</Typography>
+						)}
 					</List>
 				</Popover>
 

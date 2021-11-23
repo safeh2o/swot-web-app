@@ -228,7 +228,7 @@ export default function Home(props) {
 								rel="noreferrer"
 							>
 								<img
-									src="assets/GCC-logo.png"
+									src="assets/HGC-Logo-clear.png"
 									className="img-fluid"
 									alt="support logo"
 								/>

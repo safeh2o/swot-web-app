@@ -215,9 +215,10 @@ export default function Home(props) {
 								rel="noreferrer"
 							>
 								<img
-									src="assets/AchmeaFoundation.png"
+									src="assets/achmea-2021.svg"
 									className="img-fluid"
-									alt="support logo"
+									alt="achmea.nl"
+									style={{ height: "200px" }}
 								/>
 							</a>
 						</div>
@@ -230,7 +231,7 @@ export default function Home(props) {
 								<img
 									src="assets/HGC-Logo-clear.png"
 									className="img-fluid"
-									alt="support logo"
+									alt="grandchallenges.ca"
 								/>
 							</a>
 						</div>

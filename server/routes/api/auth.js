@@ -22,7 +22,7 @@ exports.signin = async function (req, res) {
 		messages.errors.push(
 			"Provided credentials are incorrect, please try again."
 		);
-		res.json({ messages, success: false });
+		res.status(401).json({ messages, success: false });
 		return;
 	};
 

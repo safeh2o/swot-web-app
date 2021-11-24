@@ -43,6 +43,9 @@ export const notificationsSlice = createSlice({
 				message.read = true;
 			});
 		},
+		shiftNotification: (state) => {
+			state.messages.shift();
+		},
 		setLoading: (state, { payload }) => {
 			state.loading = payload;
 		},
@@ -51,6 +54,8 @@ export const notificationsSlice = createSlice({
 
 export const notificationsSelectors = {
 	notifications: (state) => state.notifications.messages,
+	unreadNotifications: (state) =>
+		_.filter(state.notifications.messages, (n) => n.read !== true),
 	loading: (state) => state.notifications.loading,
 };
 
@@ -62,6 +67,7 @@ export const {
 	clearNotifications,
 	handleServerMessages,
 	setLoading,
+	shiftNotification,
 } = notificationsSlice.actions;
 
 export default notificationsSlice.reducer;

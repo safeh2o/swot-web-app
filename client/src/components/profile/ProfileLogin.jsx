@@ -1,9 +1,13 @@
+import { Button, TextField } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { getUser } from "../../reducers/user";
-import { handleServerMessages, setLoading } from "../../reducers/notifications";
-import { Button, TextField } from "@mui/material";
 import useForm from "../../hooks/useForm";
+import {
+	addError,
+	handleServerMessages,
+	setLoading,
+} from "../../reducers/notifications";
+import { getUser } from "../../reducers/user";
 
 export default function ProfileLogin() {
 	const { state, getTextChangeHandler } = useForm({
@@ -25,8 +29,12 @@ export default function ProfileLogin() {
 				if (data.success === true) {
 					navigate("/");
 					dispatch(getUser());
+				} else {
+					dispatch(handleServerMessages(data.messages));
 				}
-				dispatch(handleServerMessages(data.messages));
+			})
+			.catch((err) => {
+				dispatch(addError(err));
 			})
 			.finally(() => {
 				dispatch(setLoading(false));

@@ -1,11 +1,12 @@
-import Header from "./layout/Header";
-import SideBar from "./layout/SideBar";
-import Footer from "./layout/Footer";
+import { Backdrop, CircularProgress } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import { useSelector } from "react-redux";
 import { notificationsSelectors } from "../reducers/notifications";
 import AppBreadcrumbs from "./elements/AppBreadcrumbs";
-import { Backdrop, CircularProgress } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import PublicSnackbar from "./elements/PublicSnackbar";
+import Footer from "./layout/Footer";
+import Header from "./layout/Header";
+import SideBar from "./layout/SideBar";
 
 const useStyles = makeStyles((theme) => ({
 	backdrop: {
@@ -29,6 +30,7 @@ export default function PageWrapper(props) {
 				<AppBreadcrumbs />
 				<SideBar />
 				<section id="content">{props.children}</section>
+				<PublicSnackbar />
 			</main>
 			<Footer />
 		</>

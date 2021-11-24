@@ -57,11 +57,8 @@ export default function Header() {
 	}, [waitingForSignout]);
 
 	const handleSignout = () => {
+		dispatch(markAllRead());
 		setWaitingForSignout(true);
-	};
-
-	const popNotifications = () => {
-		setShowNotifications(true);
 	};
 
 	const closeNotifications = () => {
@@ -101,7 +98,9 @@ export default function Header() {
 						)}
 						<IconButton
 							color="inherit"
-							onClick={popNotifications}
+							onClick={() => {
+								setShowNotifications(true);
+							}}
 							ref={notificationsRef}
 						>
 							<Badge color="secondary" badgeContent={unreadCount}>
@@ -216,29 +215,30 @@ export default function Header() {
 							maxWidth: "400px",
 						}}
 					>
-						{notifications?.map((message, i) => (
-							<ListItem
-								key={i}
-								sx={{
-									backgroundColor: message.read
-										? "inherit"
-										: "lightgray",
-								}}
-							>
-								<ListItemIcon>
-									{(message.type === "error" && (
-										<ErrorOutlineIcon color={"error"} />
-									)) || (
-										<CheckCircleOutlineIcon
-											color={"success"}
-										/>
-									)}
-								</ListItemIcon>
-								<Typography sx={{ p: 1 }}>
-									{message.content}
-								</Typography>
-							</ListItem>
-						)) || (
+						{(notifications?.length &&
+							notifications?.map((message, i) => (
+								<ListItem
+									key={i}
+									sx={{
+										backgroundColor: message.read
+											? "inherit"
+											: "lightgray",
+									}}
+								>
+									<ListItemIcon>
+										{(message.type === "error" && (
+											<ErrorOutlineIcon color={"error"} />
+										)) || (
+											<CheckCircleOutlineIcon
+												color={"success"}
+											/>
+										)}
+									</ListItemIcon>
+									<Typography sx={{ p: 1 }}>
+										{message.content}
+									</Typography>
+								</ListItem>
+							))) || (
 							<Typography variant="body1" p="10px">
 								You have no notifications at this time
 							</Typography>

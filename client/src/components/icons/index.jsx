@@ -1,3 +1,19 @@
+// Tool
+
+export { default as IconToolUpload } from "./IconToolUpload";
+export * from "./IconToolUpload";
+
+export { default as IconToolCollect } from "./IconToolCollect";
+export * from "./IconToolCollect";
+
+export { default as IconToolResult } from "./IconToolResult";
+export * from "./IconToolResult";
+
+export { default as IconToolAnalyze } from "./IconToolAnalyze";
+export * from "./IconToolAnalyze";
+
+// Other
+
 export { default as Admin } from "./Admin";
 export * from "./Admin";
 

@@ -109,7 +109,7 @@ function PageWrapper(props) {
 			</Backdrop>
 
 			{/* Breadcrumbs */}
-			<AppBreadcrumbs />
+			<AppBreadcrumbs sx={{ ...css.breadcrumbs }} />
 
 			{/* Content Wrapper */}
 			<Box component={"main"} sx={{ ...css.main }}>

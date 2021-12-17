@@ -4,8 +4,8 @@ import { Typography, IconButton, Badge } from "@mui/material";
 import { IconBell, IconImportant } from "../icons";
 
 import { useState, useRef } from "react";
-// import { useDispatch } from 'react-redux';
-// import { useSelector } from 'react-redux';
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import {
 	markAllRead,

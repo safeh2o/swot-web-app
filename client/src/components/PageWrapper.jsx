@@ -74,7 +74,6 @@ function PageWrapper(props) {
 			flex: { xs: "1", md: "1 0 33%" },
 			maxWidth: layoutMetrics.sidebar,
 			m: { md: 2 },
-			mt: { md: 6 },
 			mr: { md: 3 },
 		},
 		article: {

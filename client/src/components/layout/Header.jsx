@@ -36,7 +36,6 @@ export default function Header(props) {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const user = useSelector(userSelectors.user);
 	const userLoadingStatus = useSelector(userSelectors.loadingStatus);
-	const [userLoadingStatus, setUserLoadingStatus] = useState(null);
 
 	const [waitingForSignout, setWaitingForSignout] = useState(false);
 

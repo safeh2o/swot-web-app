@@ -6,7 +6,7 @@ import Slide from "@mui/material/Slide";
 import { Backdrop, CircularProgress } from "@mui/material";
 
 import { notificationsSelectors } from "../reducers/notifications";
-import { AppBreadcrumbs } from "./elements/AppBreadcrumbs";
+import AppBreadcrumbs from "./elements/AppBreadcrumbs";
 import PublicSnackbar from "./elements/PublicSnackbar";
 
 import Footer from "./layout/Footer";

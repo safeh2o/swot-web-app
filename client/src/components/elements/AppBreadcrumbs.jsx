@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { popViewsTo, viewSelectors } from "../../reducers/view";
 import { Link } from "react-router-dom";
 
-export default function AppBreadcrumbs(props) {
+function AppBreadcrumbs(props) {
 	const dispatch = useDispatch();
 	const viewStack = useSelector(viewSelectors.viewStack);
 	const currentView = useSelector(viewSelectors.currentView);
@@ -28,3 +28,5 @@ export default function AppBreadcrumbs(props) {
 		</Breadcrumbs>
 	);
 }
+
+export default AppBreadcrumbs;

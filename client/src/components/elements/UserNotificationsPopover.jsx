@@ -3,7 +3,7 @@ import { Typography, IconButton, Badge } from "@mui/material";
 
 import { IconBell, IconImportant } from "../icons";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
@@ -18,7 +18,6 @@ export default function UserNotificationsPopover() {
 	const notificationsRef = useRef(null);
 	const notifications = useSelector(notificationsSelectors.notifications);
 	const [unreadCount, setUnreadCount] = useState(0);
-	const [unreadCount] = [3];
 
 	const dispatch = useDispatch();
 

@@ -1,38 +1,24 @@
-// Site Styles
-// ===========
+// sass --watch src/index.scss:src/index.css --style compressed
 
-// sass --watch server/public/styles/site.scss:server/public/styles/site.css --style compressed
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
 
-// Add your own site style includes here
-@import "site/custom";
+body {
+	overflow-y: scroll; /* Show vertical scrollbar */
+	margin: 0;
+	font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+		"Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+		"Helvetica Neue", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 
-// resets
-@import "common/reset-forms";
-@import "common/reset-micro";
+	background: #ededed;
+}
 
-// common styles
-@import "common/base";
-@import "common/fonts";
-@import "common/icons";
-@import "common/forms";
-@import "common/blog";
-
-// template part - header
-@import "layout/layout-header";
-// template part - main ()
-@import "layout/layout-main";
-@import "layout/layout-main-sidebar"; // sidebar (overview|tools|admin)
-@import "layout/layout-main-content"; // content
-// template views - Tool
-@import "views/Dashboard"; // Dashboard
-@import "views/CollectData"; // CollectData
-@import "views/UploadData"; // UploadData
-@import "views/SendForAnalysis"; // SendForAnalysis
-@import "views/ViewResults"; // Results Archive
-@import "views/Result"; // Result Page
-// template views - Manage
-@import "views/Fieldsites"; // Fieldsites
-// template views - Pages
-@import "views/Home"; // ContactUs
-// template part - footer
-@import "layout/layout-footer";
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+		monospace;
+}

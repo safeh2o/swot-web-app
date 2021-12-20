@@ -69,9 +69,15 @@ export default function Home() {
 			},
 		},
 		news: {
+			backgroundColor: "#fcfcfc",
 			"& article": {
 				maxWidth: "45ch",
 				mb: 4,
+			},
+			"& .MuiCardActions-root": {
+				"& a": {
+					color: "inherit",
+				},
 			},
 		},
 		organisations: {
@@ -141,15 +147,7 @@ export default function Home() {
 						</>
 					)) || (
 						<>
-							<Grid item xs={12}>
-								<Typography variant="h3">
-									Begin the swot procedure at{" "}
-									<Link to="/collect">Step #1</Link> to set up
-									a data collection procedure for you or your
-									team.
-								</Typography>
-							</Grid>
-							<Grid item xs={"auto"} sx={{ marginTop: 2 }}>
+							<Grid item xs={"auto"} sx={{ marginBottom: 2 }}>
 								<SvgIcon
 									viewBox="0 0 32 32"
 									sx={{
@@ -159,6 +157,14 @@ export default function Home() {
 								>
 									<path d="M3.2,16.9L9.3,23c0.4,0.4,1.1,0.5,1.5,0.4c0.4-0.3,0.8-0.7,0.8-1.2v-4.5h16.2c0.9,0,1.6-0.7,1.6-1.6c0-0.9-0.7-1.6-1.6-1.6 H11.6V9.9c0-0.5-0.4-1.1-0.8-1.2c-0.3-0.1-0.4-0.1-0.5-0.1C9.9,8.6,9.6,8.9,9.3,9l-6.1,6.1c-0.4,0.3-0.4,0.5-0.4,0.9 C2.8,16.3,3.1,16.6,3.2,16.9z" />
 								</SvgIcon>
+							</Grid>
+							<Grid item xs={12}>
+								<Typography variant="h3">
+									Begin the swot procedure at{" "}
+									<Link to="/collect">Step #1</Link> to set up
+									a data collection procedure for you or your
+									team.
+								</Typography>
 							</Grid>
 						</>
 					)}
@@ -174,7 +180,7 @@ export default function Home() {
 				variant="body1"
 				sx={{
 					mb: 2,
-					fontSize: "2em",
+					fontSize: "1.75rem",
 					fontWeight: "400",
 					fontFamily: '"Roboto Condensed", sans-serif',
 					lineHeight: "1.2",
@@ -216,8 +222,8 @@ export default function Home() {
 							>
 								Download
 							</Link>{" "}
-							this quick start guide for an overview of the steps,
-							from planning considerations to monitoring,
+							this quick start guide for an overview of the SWOT
+							process, from planning considerations to monitoring,
 							uploading data and running your first analysis.
 						</Typography>
 						<Typography variant="h3" component="p">
@@ -246,8 +252,9 @@ export default function Home() {
 				</CardContent>
 
 				<CardActions className="more" sx={{ p: 2 }}>
+					<Divider sx={{ mb: 1 }} />
 					<Link to="/blog">
-						<span>More News</span>
+						<Typography variant="body1">More News</Typography>
 					</Link>
 				</CardActions>
 			</Card>

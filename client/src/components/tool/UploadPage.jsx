@@ -260,12 +260,13 @@ export default function UploadPage() {
 
 					<Divider
 						sx={{
-							my: 2,
+							mt: 4,
+							opacity: 0,
 						}}
 					/>
 
 					<Typography
-						variant="body2"
+						variant="h4"
 						component="div"
 						sx={{
 							mt: 2,
@@ -321,6 +322,8 @@ export default function UploadPage() {
 							}
 						/>
 					</FormGroup>
+
+					<Divider />
 
 					<NotificationLine type="guide">
 						Duplicates are rows with the same dates and times

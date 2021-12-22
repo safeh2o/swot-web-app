@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta
-			http-equiv="Content-Security-Policy"
-			content="upgrade-insecure-requests"
-		/>
-		<script src="https://www.google.com/recaptcha/api.js?render=<%= htmlWebpackPlugin.options.grecaptchaSiteKey %>"></script>
-		<!-- add google tag manager -->
-		<% if (htmlWebpackPlugin.options.gtag) { %>
+
+<head>
+	<meta
+		http-equiv="Content-Security-Policy"
+		content="upgrade-insecure-requests" />
+	<script
+		src="https://www.google.com/recaptcha/api.js?render=<%= htmlWebpackPlugin.options.grecaptchaSiteKey %>"></script>
+	<!-- add google tag manager -->
+	<% if (htmlWebpackPlugin.options.gtag) { %>
 		<script
 			async
-			src="https://www.googletagmanager.com/gtag/js?id=<%= htmlWebpackPlugin.options.gtag %>"
-		></script>
+			src="https://www.googletagmanager.com/gtag/js?id=<%= htmlWebpackPlugin.options.gtag %>"></script>
 
 		<script>
 			window.dataLayer = window.dataLayer || [];
@@ -24,50 +24,37 @@
 		</script>
 		<% } %>
 
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Safe Water Optimization Tool</title>
+			<meta charset="UTF-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<title>Safe Water Optimization Tool</title>
 
-		<script
-			src="//code.jquery.com/jquery-3.3.1.min.js"
-			crossorigin="anonymous"
-		></script>
+			<script
+				src="//code.jquery.com/jquery-3.3.1.min.js"
+				crossorigin="anonymous"></script>
 
-		<!-- <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-				integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" /> -->
+			<!-- Fonts -->
+			<link
+				href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap"
+				rel="stylesheet" />
 
-		<!-- Fonts -->
-		<link rel="preconnect" href="https://fonts.gstatic.com" />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
-			rel="stylesheet"
-		/>
-		<link
-			href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap"
-			rel="stylesheet"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://fonts.googleapis.com/icon?family=Material+Icons"
-		/>
+			<link href="/styles/site.css" rel="stylesheet" />
 
-		<link href="/styles/site.css" rel="stylesheet" />
+			<script src="/js/jquery/jquery.form.min.js"></script>
+			<script src="//unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
+			<script src="/js/fa.min.js"></script>
+			<script src="/js/modals.js"></script>
 
-		<script src="/js/jquery/jquery.form.min.js"></script>
-		<script src="//unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
-		<script src="/js/fa.min.js"></script>
-		<script src="/js/modals.js"></script>
+			<script>
+				window.__INITIAL_STATE = {
+					gtag: "<%= htmlWebpackPlugin.options.gtag %>",
+					grecaptchaSiteKey:
+						"<%= htmlWebpackPlugin.options.grecaptchaSiteKey %>",
+				};
+			</script>
+</head>
 
-		<script>
-			window.__INITIAL_STATE = {
-				gtag: "<%= htmlWebpackPlugin.options.gtag %>",
-				grecaptchaSiteKey:
-					"<%= htmlWebpackPlugin.options.grecaptchaSiteKey %>",
-			};
-		</script>
-	</head>
+<body>
+	<div id="app"></div>
+</body>
 
-	<body>
-		<div id="app"></div>
-	</body>
 </html>

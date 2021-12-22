@@ -25,7 +25,12 @@ function LocationDropdown(props) {
 			options={locations}
 			getOptionLabel={(option) => option.name || ""}
 			renderInput={(params) => (
-				<TextField {...params} label="" variant="outlined" />
+				<TextField
+					{...params}
+					label=""
+					variant="outlined"
+					placeholder="Select a Location"
+				/>
 			)}
 			loading={isLoading}
 			value={props.value}

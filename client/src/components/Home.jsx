@@ -13,7 +13,7 @@ import {
 import { Typography, Grid, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 
-import { IconProfile, IconSignIn, IconQuestionMark } from "./icons";
+import { IconProfile, IconSignIn } from "./icons"; // IconQuestionMark
 
 import Posts from "./Posts";
 
@@ -109,7 +109,7 @@ export default function Home() {
 				>
 					{(!isLoggedIn && (
 						<>
-							<Grid item xs={"auto"} sx={{ marginRight: 3 }}>
+							<Grid item xs={12} sx={{ marginBottom: 2 }}>
 								<IconProfile
 									sx={{
 										width: "2.5rem",
@@ -128,21 +128,41 @@ export default function Home() {
 								</Typography>
 							</Grid>
 							<Grid item xs={12}>
-								<Divider sx={{ my: 2 }} />
-							</Grid>
-							<Grid item xs={"auto"} sx={{ marginRight: 3 }}>
-								<IconSignIn
+								<Divider
 									sx={{
-										width: "2.5rem",
-										height: "2.5rem",
+										borderColor: "#ffe5ed",
+										my: 3,
+										opacity: 0.3,
 									}}
 								/>
 							</Grid>
-							<Grid item xs={"auto"}>
+							<Grid item xs={9}>
 								<Typography variant="h3">
 									Or, <Link to="/signin">Sign in</Link> to
-									your account to begin the SWOT Process.
+									your account to begin or continue your SWOT
+									Process.
 								</Typography>
+							</Grid>
+							<Grid item xs={3}>
+								<Box
+									component={Link}
+									to="/signin"
+									sx={{
+										float: "right",
+										lineHeight: "0",
+									}}
+								>
+									<IconSignIn
+										sx={{
+											width: "2.5rem",
+											height: "2.5rem",
+											color: "#d05478",
+											backgroundColor: "#ffe5ed",
+											borderRadius:
+												"2rem .75rem .75rem 2rem",
+										}}
+									/>
+								</Box>
 							</Grid>
 						</>
 					)) || (
@@ -203,18 +223,25 @@ export default function Home() {
 					alignItems={"center"}
 					sx={{ ...css.action, ...css.actionGuide }}
 				>
-					<Grid item xs={12} sx={{ marginBottom: 2 }}>
-						<IconQuestionMark
+					<Grid item sx={{ marginRight: 3, flex: "0 1 auto" }}>
+						<SvgIcon
+							viewBox="0 0 32 32"
 							sx={{
 								width: "2.5rem",
 								height: "auto",
 							}}
-						/>
+						>
+							<path
+								fill="currentColor"
+								d="M16 0c8.8 0 16 7.2 16 16s-7.2 16-16 16S0 24.8 0 16 7.2 0 16 0z"
+							></path>
+							<path
+								fill="#f4c639"
+								d="M21.8 11.5c0 2.9-2.9 5-3.2 5.2-.9.6-.9 1.5-.9 1.5l.2 1.7-3.5.3-.2-1.7c-.1-1 .3-3.2 2.4-4.7.5-.3 1.7-1.5 1.7-2.4 0-1.1-1-2.1-2.3-2.1s-2.3.9-2.3 2.1c0 .2.1.3.2.6l.3.5-3.3 1.5-.3-.5c-.3-.7-.4-1.4-.4-2.1 0-3.1 2.6-5.6 5.8-5.6s5.8 2.7 5.8 5.7zm-5.6 14.6c1.2 0 2.1-1 2.1-2.1 0-1.2-1-2.1-2.1-2.1-1.2 0-2.1 1-2.1 2.1-.1 1.2.9 2.1 2.1 2.1z"
+							></path>
+						</SvgIcon>
 					</Grid>
-					<Grid item xs={12}>
-						<Typography variant="h2" gutterBottom>
-							Getting Started:
-						</Typography>
+					<Grid item sx={{ flex: "1" }}>
 						<Typography variant="h3" component="p" gutterBottom>
 							<Link
 								to="https://www.safeh2o.app/public/SWOT_Quickstart.pdf"
@@ -226,7 +253,14 @@ export default function Home() {
 							process, from planning considerations to monitoring,
 							uploading data and running your first analysis.
 						</Typography>
-						<Typography variant="h3" component="p">
+						<Divider
+							sx={{
+								borderColor: "#ffe5ed",
+								my: 3,
+								opacity: 0.6,
+							}}
+						/>
+						<Typography variant="body1" component="p">
 							Fore more information contact the SWOT team at{" "}
 							<Link to="mailto:hello@safeh2o.app">
 								hello@safeh2o.app

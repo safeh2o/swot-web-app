@@ -114,6 +114,16 @@ let theme = createTheme({
 				},
 			},
 		},
+		MuiCardHeader: {
+			styleOverrides: {
+				root: {
+					'& .MuiTypography-root': {
+						typography: 'subtitle1',
+						fontWeight: '400'
+					}
+				},
+			},
+		},
 		MuiAccordionDetails: {
 			styleOverrides: {
 				root: {

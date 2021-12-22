@@ -1,6 +1,23 @@
-import { Button, TextField } from "@mui/material";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+import { Card, CardHeader, Divider, CardContent } from "@mui/material";
+
+import {
+	Grid,
+	Box,
+	Button,
+	FormControl,
+	TextField,
+	InputLabel,
+	OutlinedInput,
+	InputAdornment,
+	IconButton,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+
 import useForm from "../../hooks/useForm";
 import {
 	addError,
@@ -41,55 +58,124 @@ export default function ProfileLogin() {
 			});
 	};
 
+	// Password input field
+	const [values, setValues] = useState({
+		email: "",
+		password: "",
+		showPassword: false,
+	});
+
+	const handleChange = (prop) => (event) => {
+		setValues({ ...values, [prop]: event.target.value });
+	};
+
+	const handleClickShowPassword = () => {
+		setValues({
+			...values,
+			showPassword: !values.showPassword,
+		});
+	};
+
+	const handleMouseDownPassword = (event) => {
+		event.preventDefault();
+	};
+
+	// Styles
+	const css = {
+		cardElement: {},
+		form: {
+			"& button": { textTransform: "capitalize" },
+			"& #btnLogIn": {
+				color: "white",
+				mb: 1,
+			},
+		},
+	};
+
 	return (
 		<>
-			<h1 className="content-title">Log In</h1>
-			<section className="content-window">
-				<section>
-					<div className="flex-group input">
-						<div className="flex-group-item line">
-							<TextField
-								margin="dense"
-								id="email"
-								label="Email Address"
-								type="email"
-								fullWidth
-								variant="standard"
-								value={state.email}
-								onChange={getTextChangeHandler("email")}
-							/>
-						</div>
-						<div className="flex-group-item line">
-							<TextField
-								margin="dense"
-								id="password"
-								label="Password"
-								type="password"
-								fullWidth
-								variant="standard"
-								value={state.password}
-								onChange={getTextChangeHandler("password")}
-								autoComplete="password"
-							/>
-						</div>
-					</div>
-				</section>
-			</section>
-			<section className="content-window">
-				<section>
-					<div className="submission-wrap">
-						<Button
-							className="button blue"
-							onClick={handleSubmitResponse}
-						>
-							Log In
-						</Button>
-						<Link to="/forgotpassword" className="button reset">
-							<span>Forgot Password</span>
-						</Link>
-					</div>
-				</section>
-			</section>
+			<Card elevation={1}>
+				<CardHeader title={"Log in"} />
+
+				<Divider />
+
+				<CardContent>
+					<Box component="div" sx={{ ...css.form }}>
+						<Grid container direction="row" spacing={2}>
+							<Grid item xs={12}>
+								<FormControl fullWidth>
+									<TextField
+										margin="dense"
+										id="email"
+										label="Email Address"
+										type="email"
+										variant="outlined"
+										value={state.email}
+										onChange={getTextChangeHandler("email")}
+									/>
+								</FormControl>
+							</Grid>
+							<Grid item xs={12}>
+								<FormControl fullWidth>
+									<InputLabel htmlFor="password">
+										Password
+									</InputLabel>
+									<OutlinedInput
+										id="password"
+										name="password"
+										type={
+											values.showPassword
+												? "text"
+												: "password"
+										}
+										minLength="6"
+										endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label="toggle password visibility"
+													onClick={
+														handleClickShowPassword
+													}
+													onMouseDown={
+														handleMouseDownPassword
+													}
+													edge="end"
+												>
+													{values.showPassword ? (
+														<VisibilityOff />
+													) : (
+														<Visibility />
+													)}
+												</IconButton>
+											</InputAdornment>
+										}
+										autoComplete="password"
+										label="Password"
+										value={state.password}
+										onChange={
+											(handleChange("password"),
+											getTextChangeHandler("password"))
+										}
+									/>
+								</FormControl>
+							</Grid>
+							<Grid item xs={12}>
+								<Button
+									id="btnLogIn"
+									variant="contained"
+									fullWidth
+									onClick={handleSubmitResponse}
+								>
+									Log In
+								</Button>
+								<Link to="/forgotpassword">
+									Forgot password?
+								</Link>
+							</Grid>
+						</Grid>
+					</Box>
+				</CardContent>
+			</Card>
 		</>
 	);
 }

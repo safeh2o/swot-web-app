@@ -1,9 +1,21 @@
-import { Component } from "react";
 import { useState } from "react";
 import { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-export default function ProfileForgotPassword(props) {
+import {
+	Grid,
+	Box,
+	Card,
+	CardHeader,
+	Divider,
+	CardContent,
+} from "@mui/material";
+
+import { Button, FormControl, TextField } from "@mui/material";
+
+import NotificationLine from "../elements/NotificationLine";
+
+export default function ProfileForgotPassword() {
 	const form = useRef(null);
 	const [messages, setMessages] = useState({});
 
@@ -12,7 +24,7 @@ export default function ProfileForgotPassword(props) {
 	};
 
 	const handleChange = () => {
-		setMessages({});
+		// setMessages({});
 	};
 
 	useEffect(() => {
@@ -24,60 +36,73 @@ export default function ProfileForgotPassword(props) {
 		};
 	}, []);
 
+	// Styles
+	const css = {
+		cardElement: {},
+		form: {
+			"& button": { textTransform: "capitalize" },
+			"& #btnReset": {
+				color: "white",
+				mb: 1,
+			},
+		},
+	};
+
 	return (
 		<>
-			<h1 className="content-title">Forgot Password</h1>
-			<section className="content-window">
-				<header>
-					<div>Enter the email you're using for next steps.</div>
-				</header>
-				<section>
-					<form
+			<Card elevation={1}>
+				<CardHeader title={"Forgot Password"} />
+
+				<Divider />
+
+				<CardContent>
+					<Box
 						ref={form}
 						role="form"
 						action="/forgotpassword"
 						method="post"
+						component="form"
+						sx={{ ...css.form }}
 					>
-						<div className="flex-group">
-							<div className="flex-group-item line">
-								<label
-									htmlFor="email"
-									className="control-label"
-								>
-									Enter Your Email
-								</label>
-								<div className="flex-group-wrapper">
-									<input
-										onChange={() => {
-											handleChange();
-										}}
-										className="form-control email"
+						<Grid container direction="row" spacing={2}>
+							<Grid item xs={12}>
+								<FormControl fullWidth>
+									<TextField
+										margin="dense"
 										id="email"
-										placeholder="mail@example.com"
-										name="email"
+										label="Email Address"
 										type="email"
+										variant="outlined"
+										onChange={handleChange()}
 									/>
-								</div>
-							</div>
-						</div>
-					</form>
-				</section>
-			</section>
-
-			<section className="content-window">
-				<section>
-					<div className="submission-wrap">
-						<input
-							type="submit"
-							className="button blue"
-							value="Reset"
-						/>
-						<Link to="/signin" className="button reset">
-							<span>Log in</span>
-						</Link>
-					</div>
-				</section>
-			</section>
+								</FormControl>
+							</Grid>
+							<Grid item xs={12}>
+								<NotificationLine
+									type="notice"
+									sx={{
+										paddingTop: "0px",
+										paddingBottom: "0px",
+									}}
+								>
+									Enter the email you're to recieve
+									instructions to reset your password.
+								</NotificationLine>
+							</Grid>
+							<Grid item xs={12}>
+								<Button
+									id="btnReset"
+									variant="contained"
+									fullWidth
+								>
+									Reset
+								</Button>
+								or,&nbsp;<Link to="/signin">Sign in</Link>
+							</Grid>
+						</Grid>
+					</Box>
+				</CardContent>
+			</Card>
 		</>
 	);
 }

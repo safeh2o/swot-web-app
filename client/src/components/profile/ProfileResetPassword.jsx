@@ -1,105 +1,142 @@
-import { useRef, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
 
-export default function ProfileResetPassword(props) {
-	const { key } = useParams();
-	const form = useRef(null);
+import { Card, CardHeader, Divider, CardContent } from "@mui/material";
 
-	useEffect(() => {
-		fetch("/api/user/resetkey?key=" + key)
-			.then((r) => r.json())
-			.then((data) => {});
-	}, [key]);
+import {
+	Grid,
+	Box,
+	Button,
+	FormControl,
+	TextField,
+	InputLabel,
+	OutlinedInput,
+	InputAdornment,
+	IconButton,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-	const handleSubmitResponse = (data) => {};
+export default function ProfileResetPassword() {
+	// Password input field
+	const [values, setValues] = useState({
+		email: "",
+		password: "",
+		showPassword: false,
+	});
 
-	const handleChange = () => {};
+	const handleChange = (prop) => (event) => {
+		setValues({ ...values, [prop]: event.target.value });
+	};
 
-	useEffect(() => {
-		$(form.current).ajaxForm((data) => {
-			handleSubmitResponse(data);
+	const handleClickShowPassword = () => {
+		setValues({
+			...values,
+			showPassword: !values.showPassword,
 		});
+	};
 
-		return () => {
-			$(form.current).off();
-		};
-	}, []);
+	const handleMouseDownPassword = (event) => {
+		event.preventDefault();
+	};
+
+	// Styles
+	const css = {
+		cardElement: {},
+		form: {
+			"& button": { textTransform: "capitalize" },
+			"& #btnReset": {
+				color: "white",
+				mb: 1,
+			},
+		},
+	};
 
 	return (
 		<>
-			<div className="container">
-				<div className="panel panel-primary">
-					<div className=" px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-						<h1 className="display-4" id="headerText">
-							Password Reset
-						</h1>
-					</div>
-					<br />
-					<div className="panel-body">
-						<div className="col-md-4">
-							<form
-								ref={form}
-								role="form"
-								action="/resetpassword"
-								method="post"
-							>
+			<Card elevation={1}>
+				<CardHeader title={"Password Reset"} />
+
+				<Divider />
+
+				<CardContent>
+					<Box
+						component="form"
+						action="/resetpassword"
+						method="post"
+						sx={{ ...css.form }}
+					>
+						<Grid container direction="row" spacing={2}>
+							<Grid item xs={12}>
 								<input
 									type="hidden"
 									name="resetkey"
-									value={key}
+									value={""}
 								/>
-
-								<div className="form-group">
-									<label
-										htmlFor="password"
-										className="control-label"
-									>
-										Password:
-									</label>
-									<div className="input-icon">
-										<input
-											onChange={() => {
-												handleChange();
-											}}
-											className="form-control email"
-											id="password"
-											name="password"
-											type="password"
-										/>
-									</div>
-								</div>
-								<div className="form-group">
-									<label
-										htmlFor="password_confirm"
-										className="control-label"
-									>
-										Confirm Password:
-									</label>
-									<div className="input-icon">
-										<input
-											onChange={() => {
-												handleChange();
-											}}
-											className="form-control"
-											id="password_confirm"
-											name="password_confirm"
-											type="password"
-										/>
-									</div>
-								</div>
-
-								<div className="form-group">
-									<input
-										type="submit"
-										className="btn btn-primary "
-										value="Reset"
+								<FormControl fullWidth sx={{ mb: 1 }}>
+									<InputLabel htmlFor="password">
+										Password
+									</InputLabel>
+									<OutlinedInput
+										id="password"
+										name="password"
+										type={
+											values.showPassword
+												? "text"
+												: "password"
+										}
+										minLength="6"
+										endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label="toggle password visibility"
+													onClick={
+														handleClickShowPassword
+													}
+													onMouseDown={
+														handleMouseDownPassword
+													}
+													edge="end"
+												>
+													{values.showPassword ? (
+														<VisibilityOff />
+													) : (
+														<Visibility />
+													)}
+												</IconButton>
+											</InputAdornment>
+										}
+										autoComplete="password"
+										label="New Password"
+										onChange={handleChange("password")}
 									/>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
+								</FormControl>
+								<FormControl fullWidth>
+									<TextField
+										id="password_confirm"
+										name="password_confirm"
+										label="Confirm Password"
+										type={
+											values.showPassword
+												? "text"
+												: "password"
+										}
+										variant="outlined"
+									/>
+								</FormControl>
+							</Grid>
+							<Grid item xs={12}>
+								<Button
+									id="btnReset"
+									variant="contained"
+									fullWidth
+									type="submit"
+								>
+									Reset
+								</Button>
+							</Grid>
+						</Grid>
+					</Box>
+				</CardContent>
+			</Card>
 		</>
 	);
 }

@@ -2,7 +2,7 @@ import { AccordionSummary, Collapse, IconButton } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { handleServerMessages } from "../../reducers/notifications";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { IconProfile } from "../icons";
 import { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -56,7 +56,7 @@ export default function UserDetailsModal() {
 	return (
 		<div>
 			<IconButton color="inherit" onClick={handleClickOpen}>
-				<AccountCircleIcon />
+				<IconProfile />
 			</IconButton>
 
 			<Dialog

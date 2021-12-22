@@ -23,6 +23,7 @@ export default function Posts(props) {
 					to={link}
 					variant="h2"
 					gutterBottom
+					color="primary"
 					sx={{ fontWeight: "500" }}
 				>
 					{post.title}
@@ -40,7 +41,8 @@ export default function Posts(props) {
 			</Box>
 		);
 	}
-	// my own custom times method with a ccustom api
+
+	// my own custom times method with a custom api
 	let times = (count, func) => {
 		var i = 0,
 			per,
@@ -86,7 +88,7 @@ export default function Posts(props) {
 			<Box component="article" key={i}>
 				{post?.image?.secure_url && (
 					<figure>
-						<Skeleton variant="rectangular" component="img" />
+						<Skeleton component="img" />
 					</figure>
 				)}
 				<Skeleton>
@@ -94,7 +96,7 @@ export default function Posts(props) {
 						{post.title}
 					</Typography>
 				</Skeleton>
-				<Skeleton variant="rectangular">
+				<Skeleton>
 					<Typography variant="body1" component="div" gutterBottom>
 						{post.content.brief}
 					</Typography>
@@ -110,7 +112,7 @@ export default function Posts(props) {
 
 	return blogLoadingStatus === "success"
 		? posts.map((post) => articleFromPost(post))
-		: blogSkeleton(3);
+		: blogSkeleton(2);
 }
 
 /*

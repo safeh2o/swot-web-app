@@ -50,6 +50,7 @@ function NotificationLine(props) {
 			component="div"
 			variant="caption"
 			mx={{ ...css }}
+			{...props}
 			className="notification"
 		>
 			{props.type === "guide" && <IconQuestionMark />}

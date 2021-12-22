@@ -1,64 +1,55 @@
 // React Imports
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { Helmet } from "react-helmet";
+
+// App Theme Styling
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "../theme";
 
 // App + Content Pages
 import PageWrapper from "./PageWrapper";
 import Home from "./Home";
 import ContactPage from "./ContactPage";
 
-// Tool Imports
-import CollectData from "./tool/CollectData";
-import UploadPage from "./tool/UploadPage";
-import AnalyzePage from "./tool/AnalyzePage";
-import Result from "./tool/Result";
-
-// Manage Imports
+// Management Imports
 import Fieldsites from "./manage/Fieldsites";
-import People from "./manage/People";
+import People from "./manage/People.jsx";
 
 // Admin Imports
 import CMSPage from "./CMSPage";
 
+// Tool Imports
+import CollectData from "./tool/CollectData";
+import UploadPage from "./tool/UploadPage";
+import AnalyzePage from "./tool/AnalyzePage";
+import ResultsPage from "./tool/ResultsPage";
+import Result from "./tool/Result";
+
+// Admin Imports
 import ProfileLogin from "./profile/ProfileLogin";
 import ProfileForgotPassword from "./profile/ProfileForgotPassword";
 import ProfileResetPassword from "./profile/ProfileResetPassword";
-import { useDispatch } from "react-redux";
-import { getUser, userSelectors } from "../reducers/user";
-import ResultsPage from "./tool/ResultsPage";
+
+// Archival Imports
 import BlogPost from "./BlogPost";
 import Blog from "./Blog";
-import { getSettings } from "../reducers/settings";
-import { ThemeProvider } from "@mui/material/styles";
-import theme from "../theme";
-import { useSelector } from "react-redux";
 
-export default function App(props) {
+import { getUser } from "../reducers/user";
+import { userSelectors } from "../reducers/user";
+import { getSettings } from "../reducers/settings";
+
+export default function App() {
 	const dispatch = useDispatch();
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 
-	// function PrivateRoute({ component: Component, routeProps }) {
-	// 	return (
-	// 		<Route
-	// 			{...routeProps}
-	// 			render={(props) => {
-	// 				return isLoggedIn === true ? (
-	// 					<Component {...props} />
-	// 				) : (
-	// 					<Navigate
-	// 						to={{
-	// 							pathname: "/signin",
-	// 							state: { from: props.location },
-	// 						}}
-	// 					/>
-	// 				);
-	// 			}}
-	// 		/>
-	// 	);
-	// }
 	function PrivateRoute() {
 		return isLoggedIn === true ? <Outlet /> : <Navigate to={"/signin"} />;
+	}
+
+	function PublicRoute() {
+		return isLoggedIn === false ? <Outlet /> : <Navigate to={"/home"} />;
 	}
 
 	useEffect(() => {
@@ -71,7 +62,13 @@ export default function App(props) {
 			<PageWrapper>
 				<Routes>
 					<Route path="/" element={<Home />} />
-					<Route path="/collect" element={<CollectData />} />
+
+					<Route path="/collect" element={<PrivateRoute />}>
+						<Route path="" element={<CollectData />} />
+					</Route>
+					<Route path="/upload" element={<PrivateRoute />}>
+						<Route path="" element={<UploadPage />} />
+					</Route>
 					<Route path="/upload" element={<PrivateRoute />}>
 						<Route path="" element={<UploadPage />} />
 					</Route>
@@ -87,13 +84,18 @@ export default function App(props) {
 					>
 						<Route path="" element={<Result />} />
 					</Route>
+
 					<Route path="/fieldsites" element={<PrivateRoute />}>
 						<Route path="" element={<Fieldsites />} />
 					</Route>
 					<Route path="/people" element={<PrivateRoute />}>
 						<Route path="" element={<People />} />
 					</Route>
-					<Route path="/signin" element={<ProfileLogin />} />
+
+					<Route path="/signin" element={<PublicRoute />}>
+						<Route path="" element={<ProfileLogin />} />
+					</Route>
+
 					<Route
 						path="/forgotpassword"
 						element={<ProfileForgotPassword />}
@@ -102,10 +104,12 @@ export default function App(props) {
 						path="/resetpassword/:key"
 						element={<ProfileResetPassword />}
 					/>
+
 					<Route path="/contact" element={<ContactPage />} />
 					<Route path="/pages/:slug" element={<CMSPage />} />
-					<Route path="/blog/:slug" element={<BlogPost />} />
+
 					<Route path="/blog" element={<Blog />} />
+					<Route path="/blog/:slug" element={<BlogPost />} />
 				</Routes>
 			</PageWrapper>
 		</ThemeProvider>

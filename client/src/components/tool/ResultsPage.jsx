@@ -60,6 +60,9 @@ export default function ResultsPage() {
 	const [fieldsite, setFieldsite] = useState(DEFAULT_FIELDSITE);
 	const [datasets, setDatasets] = useState([]);
 	const [selectedDatasets, setSelectedDatasets] = useState([]);
+	const [sortModel, setSortModel] = useState([
+		{ field: "dateCreated", sort: "desc" },
+	]);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -144,9 +147,11 @@ export default function ResultsPage() {
 								checkboxSelection
 								getRowId={(row) => row._id}
 								onSelectionModelChange={handleSelection}
-								sortModel={[
-									{ field: "dateCreated", sort: "desc" },
-								]}
+								sortModel={sortModel}
+								onSortModelChange={(model) => {
+									setSortModel(model);
+								}}
+								sortingOrder={["desc", "asc"]}
 							/>
 						</div>
 					</div>

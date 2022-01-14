@@ -169,7 +169,7 @@ exports.validateResetKey = async function (req, res) {
 	terminate();
 };
 
-exports.resetPassword = async function (req, res) {
+exports.resetPassword = async function (req, res, next) {
 	let messages = { errors: {}, notices: {} };
 	const terminate = () => {
 		res.json({ messages });
@@ -250,9 +250,13 @@ exports.getCurrentUser = async function (req, res) {
 	);
 
 	let countries = await dataService.getUserCountries(user._id);
-	countries = countries.map((location) =>
-		_.pick(location, ["_id", "name", "areas"])
-	);
+	if (countries) {
+		countries = countries.map((location) =>
+			_.pick(location, ["_id", "name", "areas"])
+		);
+	} else {
+		countries = [];
+	}
 
 	res.json({ user: { ...user, fieldsites, areas, countries } });
 };

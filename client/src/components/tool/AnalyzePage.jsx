@@ -16,16 +16,16 @@ import {
 } from "@mui/material";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 import axios from "axios";
+import _ from "lodash";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
-import { userSelectors } from "../../reducers/user";
 import { pushView } from "../../reducers/view";
-import LocationDropdown from "../elements/LocationDropdown";
+import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NoteLine from "../elements/NoteLine";
 import { IconCalendar } from "../icons";
 
@@ -40,7 +40,6 @@ const initialState = {
 export default function AnalyzePage() {
 	const dispatch = useDispatch();
 	const theme = useTheme();
-	const fieldsites = useSelector(userSelectors.fieldsites);
 
 	useEffect(() => {
 		dispatch(pushView({ title: "Analyze", path: "/analyze" }));
@@ -124,18 +123,11 @@ export default function AnalyzePage() {
 				</header>
 				<section>
 					<div className="flex-group">
-						<label>
-							<LocationDropdown
-								onChange={(_event, value) => {
-									update({
-										fieldsite: value,
-									});
-								}}
-								value={state && state.fieldsite}
-								locations={fieldsites}
-							/>
-							<span className="label">Fieldsite</span>
-						</label>
+						<FieldsiteDropdown
+							onChange={(value) => {
+								update({ fieldsite: value });
+							}}
+						/>
 					</div>
 				</section>
 				<footer>
@@ -229,11 +221,10 @@ export default function AnalyzePage() {
 							name="household-duration"
 							aria-label="Household Duration"
 							marks
-							valueLabelDisplay="on"
 							min={3}
 							max={24}
 							step={3}
-							valueLabelDisplay={"off"}
+							valueLabelDisplay="off"
 							value={state.duration}
 							onChange={(_e, duration) => {
 								update({ duration });

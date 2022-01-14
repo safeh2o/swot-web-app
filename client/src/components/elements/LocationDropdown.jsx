@@ -13,7 +13,7 @@ function LocationDropdown(props) {
 		if (
 			props.value &&
 			!props.value._id &&
-			locations.length > 0 &&
+			locations?.length > 0 &&
 			props.onChange
 		) {
 			props.onChange(null, locations[0]);
@@ -22,8 +22,7 @@ function LocationDropdown(props) {
 
 	return (
 		<Autocomplete
-			id="fieldsite"
-			options={locations}
+			options={locations || []}
 			getOptionLabel={(option) => option.name || ""}
 			renderInput={(params) => (
 				<TextField {...params} label={fieldLabel} />

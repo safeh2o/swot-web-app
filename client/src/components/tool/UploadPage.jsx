@@ -3,19 +3,18 @@ import { makeStyles } from "@mui/styles";
 import axios from "axios";
 import { DropzoneArea } from "material-ui-dropzone";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import { MEGABYTE } from "../../helpers/bitcalc";
 import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
-import { userSelectors } from "../../reducers/user";
 import { pushView } from "../../reducers/view";
-import LocationDropdown from "../elements/LocationDropdown";
+import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NoteLine from "../elements/NoteLine";
 import { IconUpload } from "../icons";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	root: {
 		"& > *": {
 			margin: 0,
@@ -33,7 +32,6 @@ const initialState = {
 
 export default function UploadPage() {
 	const dispatch = useDispatch();
-	const fieldsites = useSelector(userSelectors.fieldsites);
 
 	useEffect(() => {
 		dispatch(pushView({ title: "Upload", path: "/upload" }));
@@ -83,15 +81,15 @@ export default function UploadPage() {
 		reset();
 	};
 
-	const handleFormSubmit = (e) => {
+	const handleFormSubmit = () => {
 		dispatch(setLoading(true));
 		const formData = getFormData();
 		axios
 			.post("/api/upload/append", formData)
-			.then((res) => {
+			.then(() => {
 				dispatch(addNotice("Upload successful"));
 			})
-			.catch((err) => {
+			.catch(() => {
 				dispatch(
 					addError("Error occurred while trying to upload files")
 				);
@@ -121,18 +119,11 @@ export default function UploadPage() {
 				</header>
 				<section>
 					<div className="flex-group">
-						<label>
-							<LocationDropdown
-								value={state && state.fieldsite}
-								onChange={(_event, value) => {
-									update({
-										fieldsite: value,
-									});
-								}}
-								locations={fieldsites}
-							/>
-							<span className="label">Fieldsite</span>
-						</label>
+						<FieldsiteDropdown
+							onChange={(value) => {
+								update({ fieldsite: value });
+							}}
+						/>
 					</div>
 				</section>
 				<footer>

@@ -1,8 +1,7 @@
-import { useState } from "react";
 import { makeStyles } from "@mui/styles";
-import _ from "lodash";
-import { useDispatch } from "react-redux";
 import { DropzoneArea } from "material-ui-dropzone";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
 	root: {

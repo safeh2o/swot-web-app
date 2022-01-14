@@ -1,8 +1,8 @@
-import { useEffect } from "react";
 import { Breadcrumbs } from "@mui/material";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { popViewsTo, viewSelectors } from "../../reducers/view";
 import { Link } from "react-router-dom";
+import { popViewsTo, viewSelectors } from "../../reducers/view";
 
 export default function AppBreadcrumbs() {
 	const dispatch = useDispatch();

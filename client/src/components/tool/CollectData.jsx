@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Outlet, Route, Routes } from "react-router-dom";
 import { pushView } from "../../reducers/view";
-
 // icons
 import DownloadIcon from "../icons/Download";
 import PdfIcon from "../icons/Pdf";

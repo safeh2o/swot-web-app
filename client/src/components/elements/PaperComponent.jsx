@@ -1,5 +1,5 @@
-import Draggable from "react-draggable";
 import { Paper } from "@mui/material";
+import Draggable from "react-draggable";
 
 export default function PaperComponent(props) {
 	return (

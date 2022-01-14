@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import DOMPurify from "dompurify";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { pushView } from "../reducers/view";
+import { useParams } from "react-router-dom";
 import { setLoading } from "../reducers/notifications";
+import { pushView } from "../reducers/view";
 
 export default function CMSPage(props) {
 	const dispatch = useDispatch();

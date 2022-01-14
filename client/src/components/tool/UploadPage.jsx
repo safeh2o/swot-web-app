@@ -1,21 +1,19 @@
-import { useState, useRef, useEffect } from "react";
-
-import { Link } from "react-router-dom";
-import NoteLine from "../elements/NoteLine";
-import { MEGABYTE } from "../../helpers/bitcalc";
-import { DropzoneArea } from "material-ui-dropzone";
 import { Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import axios from "axios";
+import { DropzoneArea } from "material-ui-dropzone";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { DEFAULT_FIELDSITE } from "../../constants/defaults";
+import { MEGABYTE } from "../../helpers/bitcalc";
+import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import { userSelectors } from "../../reducers/user";
-import axios from "axios";
-import useForm from "../../hooks/useForm";
-
-import { IconUpload } from "../icons";
-import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import { pushView } from "../../reducers/view";
 import LocationDropdown from "../elements/LocationDropdown";
+import NoteLine from "../elements/NoteLine";
+import { IconUpload } from "../icons";
 
 const useStyles = makeStyles((theme) => ({
 	root: {

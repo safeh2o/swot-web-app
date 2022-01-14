@@ -1,29 +1,22 @@
-import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import _ from "lodash";
-import AppContext from "../contexts/AppContext";
-import NoteLine from "./elements/NoteLine";
-import useForm from "../hooks/useForm";
 import {
-	Grid,
 	Button,
 	FormControl,
 	FormHelperText,
+	Grid,
 	MenuItem,
 	Select,
 	TextField,
-	Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-	addError,
-	addNotice,
-	handleServerMessages,
-	setLoading,
-} from "../reducers/notifications";
+import { Link } from "react-router-dom";
+import AppContext from "../contexts/AppContext";
+import useForm from "../hooks/useForm";
+import { handleServerMessages, setLoading } from "../reducers/notifications";
 import { pushView } from "../reducers/view";
+import NoteLine from "./elements/NoteLine";
 
 const useStyles = makeStyles((theme) => ({
 	root: {

@@ -249,5 +249,10 @@ exports.getCurrentUser = async function (req, res) {
 		_.pick(location, ["_id", "name", "fieldsites"])
 	);
 
-	res.json({ user: { ...user, fieldsites, areas } });
+	let countries = await dataService.getUserCountries(user._id);
+	countries = countries.map((location) =>
+		_.pick(location, ["_id", "name", "areas"])
+	);
+
+	res.json({ user: { ...user, fieldsites, areas, countries } });
 };

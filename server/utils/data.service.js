@@ -109,9 +109,7 @@ exports.getUserFieldsites = async function (userId) {
 
 	for (let i = 0; i < areasHavingUser.length; i++) {
 		const prj = areasHavingUser[i];
-		const countriesHavingArea = await Country.model
-			.find({ areas: prj })
-			.exec();
+		const countriesHavingArea = await getCountriesHavingArea(prj.id);
 
 		if (countriesHavingArea.length) {
 			fieldsites = fieldsites.concat(prj.fieldsites);
@@ -124,6 +122,10 @@ exports.getUserFieldsites = async function (userId) {
 	);
 };
 
+function getCountriesHavingArea(areaId) {
+	return Country.model.find({ areas: areaId }).exec();
+}
+
 /**
  * Return user's associated areas
  */
@@ -135,6 +137,31 @@ exports.getUserAreas = async function (userId) {
 	}
 
 	return _.sortBy(areasHavingUser, (p) => p.name);
+};
+
+/**
+ * Return user's associated areas
+ */
+exports.getUserCountries = async function (userId) {
+	const areasHavingUser = await Area.model.find({ users: userId }).exec();
+
+	if (!areasHavingUser?.length) {
+		return null;
+	}
+
+	const countriesHavingAreas = (
+		await Promise.all(
+			areasHavingUser.map(
+				async (area) => await getCountriesHavingArea(area.id)
+			)
+		)
+	).flatMap((x) => x);
+
+	const userCountries = _.chain(countriesHavingAreas)
+		.uniqWith((c1, c2) => c1.id === c2.id)
+		.sortBy((c) => c.name);
+
+	return userCountries;
 };
 
 exports.createDatapoint = async function createDatapoint(

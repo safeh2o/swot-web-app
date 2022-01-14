@@ -3,10 +3,11 @@ import { useSelector } from "react-redux";
 import { notificationsSelectors } from "../../reducers/notifications";
 import { TextField, Autocomplete } from "@mui/material";
 import PropTypes from "prop-types";
+
 function LocationDropdown(props) {
 	const isLoading = useSelector(notificationsSelectors.loading);
 
-	const { locations } = props;
+	const { locations, fieldLabel } = props;
 
 	useEffect(() => {
 		if (
@@ -25,7 +26,7 @@ function LocationDropdown(props) {
 			options={locations}
 			getOptionLabel={(option) => option.name || ""}
 			renderInput={(params) => (
-				<TextField {...params} label="" variant="outlined" />
+				<TextField {...params} label={fieldLabel} />
 			)}
 			loading={isLoading}
 			value={props.value}
@@ -41,6 +42,8 @@ function LocationDropdown(props) {
 LocationDropdown.propTypes = {
 	value: PropTypes.object.isRequired,
 	onChange: PropTypes.func.isRequired,
+	fieldLabel: PropTypes.string,
+	locations: PropTypes.array,
 };
 
 export default LocationDropdown;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useReducer, useState } from "react";
 import Notice from "../elements/Notice";
 import { Link } from "react-router-dom";
 
@@ -7,11 +7,16 @@ import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { addNotice, setLoading } from "../../reducers/notifications";
-import { DEFAULT_FIELDSITE } from "../../constants/defaults";
+import {
+	DEFAULT_AREA,
+	DEFAULT_COUNTRY,
+	DEFAULT_FIELDSITE,
+} from "../../constants/defaults";
 import { pushView } from "../../reducers/view";
 import { formatDate } from "../../helpers/dates";
 import LocationDropdown from "../elements/LocationDropdown";
 import { userSelectors } from "../../reducers/user";
+import useForm from "../../hooks/useForm";
 
 function getReadyStatus(dataset) {
 	if (!dataset?.status?.ann?.success || !dataset?.status?.eo?.success) {
@@ -56,24 +61,43 @@ const columns = [
 ];
 
 export default function ResultsPage() {
-	const fieldsites = useSelector(userSelectors.fieldsites);
-	const [fieldsite, setFieldsite] = useState(DEFAULT_FIELDSITE);
+	const countries = useSelector(userSelectors.countries);
+	const allAreas = useSelector(userSelectors.areas);
+	const allFieldsites = useSelector(userSelectors.fieldsites);
+	const { state: locations, update: updateLocations } = useForm({
+		country: DEFAULT_COUNTRY,
+		area: DEFAULT_AREA,
+		fieldsite: DEFAULT_FIELDSITE,
+	});
 	const [datasets, setDatasets] = useState([]);
 	const [selectedDatasets, setSelectedDatasets] = useState([]);
 	const [sortModel, setSortModel] = useState([
 		{ field: "dateCreated", sort: "desc" },
 	]);
 	const dispatch = useDispatch();
+	const areas = useMemo(() => {
+		return allAreas.filter(
+			(area) => locations?.country?.areas?.indexOf(area._id) >= 0
+		);
+	}, [locations.country]);
+	const fieldsites = useMemo(() => {
+		console.log(allFieldsites);
+		console.log(locations.area);
+		return allFieldsites.filter(
+			(fieldsite) =>
+				locations?.area?.fieldsites?.indexOf(fieldsite._id) >= 0
+		);
+	}, [locations.area]);
 
 	useEffect(() => {
 		dispatch(pushView({ title: "Results", path: "/results" }));
 	}, []);
 
 	useEffect(() => {
-		if (fieldsite && fieldsite.name) {
+		if (locations.fieldsite && locations.fieldsite.name) {
 			dispatch(setLoading(true));
 			axios
-				.get(`/api/user/datasets?fieldsite=${fieldsite._id}`)
+				.get(`/api/user/datasets?fieldsite=${locations.fieldsite._id}`)
 				.then((res) => {
 					setDatasets(res.data.datasets);
 				})
@@ -83,7 +107,7 @@ export default function ResultsPage() {
 		} else {
 			setDatasets([]);
 		}
-	}, [fieldsite]);
+	}, [locations.fieldsite]);
 
 	function handleSelection(selectionModel) {
 		setSelectedDatasets(selectionModel || []);
@@ -111,11 +135,35 @@ export default function ResultsPage() {
 				<section>
 					<div className="flex-group">
 						<LocationDropdown
-							value={fieldsite}
+							value={locations.country}
 							onChange={(_event, value) => {
-								setFieldsite(value);
+								updateLocations({
+									country: value,
+									area: DEFAULT_AREA,
+									fieldsite: DEFAULT_FIELDSITE,
+								});
+							}}
+							locations={countries}
+							fieldLabel="Country"
+						/>
+						<LocationDropdown
+							value={locations.area}
+							onChange={(_event, value) => {
+								updateLocations({
+									area: value,
+									fieldsite: DEFAULT_FIELDSITE,
+								});
+							}}
+							locations={areas}
+							fieldLabel="Area"
+						/>
+						<LocationDropdown
+							value={locations.fieldsite}
+							onChange={(_event, value) => {
+								updateLocations({ fieldsite: value });
 							}}
 							locations={fieldsites}
+							fieldLabel="Fieldsite"
 						/>
 					</div>
 				</section>

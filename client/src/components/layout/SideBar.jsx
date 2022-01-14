@@ -1,9 +1,9 @@
+import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { userSelectors } from "../../reducers/user";
-import SidebarToolNav from "../icons/SidebarToolNav";
 import SidebarManageNav from "../icons/SidebarManageNav";
-import { Box } from "@mui/material";
+import SidebarToolNav from "../icons/SidebarToolNav";
 
 export default function SideBar() {
 	const user = useSelector(userSelectors.user);

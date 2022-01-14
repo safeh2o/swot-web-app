@@ -1,38 +1,31 @@
 // React Imports
-import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { ThemeProvider } from "@mui/material/styles";
 import { useEffect } from "react";
-import { Helmet } from "react-helmet";
-
-// App + Content Pages
-import PageWrapper from "./PageWrapper";
-import Home from "./Home";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { getSettings } from "../reducers/settings";
+import { getUser, userSelectors } from "../reducers/user";
+import theme from "../theme";
+import Blog from "./Blog";
+import BlogPost from "./BlogPost";
+// Admin Imports
+import CMSPage from "./CMSPage";
 import ContactPage from "./ContactPage";
-
-// Tool Imports
-import CollectData from "./tool/CollectData";
-import UploadPage from "./tool/UploadPage";
-import AnalyzePage from "./tool/AnalyzePage";
-import Result from "./tool/Result";
-
+import Home from "./Home";
 // Manage Imports
 import Fieldsites from "./manage/Fieldsites";
 import People from "./manage/People";
-
-// Admin Imports
-import CMSPage from "./CMSPage";
-
-import ProfileLogin from "./profile/ProfileLogin";
+// App + Content Pages
+import PageWrapper from "./PageWrapper";
 import ProfileForgotPassword from "./profile/ProfileForgotPassword";
+import ProfileLogin from "./profile/ProfileLogin";
 import ProfileResetPassword from "./profile/ProfileResetPassword";
-import { useDispatch } from "react-redux";
-import { getUser, userSelectors } from "../reducers/user";
+import AnalyzePage from "./tool/AnalyzePage";
+// Tool Imports
+import CollectData from "./tool/CollectData";
+import Result from "./tool/Result";
 import ResultsPage from "./tool/ResultsPage";
-import BlogPost from "./BlogPost";
-import Blog from "./Blog";
-import { getSettings } from "../reducers/settings";
-import { ThemeProvider } from "@mui/material/styles";
-import theme from "../theme";
-import { useSelector } from "react-redux";
+import UploadPage from "./tool/UploadPage";
 
 export default function App(props) {
 	const dispatch = useDispatch();

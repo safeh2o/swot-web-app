@@ -1,11 +1,10 @@
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import GuideLine from "../elements/GuideLine";
-import useBlob from "../../hooks/useBlob";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import { settingsSelectors } from "../../reducers/settings";
 import { pushView } from "../../reducers/view";
-import { addError, addNotice, setLoading } from "../../reducers/notifications";
+import GuideLine from "../elements/GuideLine";
 
 export default function Result(props) {
 	const { AZURE_STORAGE_ACCOUNT } = useSelector(settingsSelectors.settings);

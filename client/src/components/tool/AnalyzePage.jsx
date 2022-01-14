@@ -1,34 +1,33 @@
-import { useEffect, useState } from "react";
+import ClearIcon from "@mui/icons-material/Clear";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
-	Slider,
 	Accordion,
-	AccordionSummary,
 	AccordionDetails,
-	useTheme,
+	AccordionSummary,
 	Button,
 	ButtonGroup,
 	FormControl,
-	Radio,
 	FormControlLabel,
+	Radio,
 	RadioGroup,
+	Slider,
 	Stack,
+	useTheme,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ClearIcon from "@mui/icons-material/Clear";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
-import { useDispatch, useSelector } from "react-redux";
-import NoteLine from "../elements/NoteLine";
-import { Link } from "react-router-dom";
-import { DateTime } from "luxon";
-import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import axios from "axios";
-import useForm from "../../hooks/useForm";
-
-import { IconCalendar } from "../icons";
+import { DateTime } from "luxon";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
+import useForm from "../../hooks/useForm";
+import { addError, addNotice, setLoading } from "../../reducers/notifications";
+import { userSelectors } from "../../reducers/user";
 import { pushView } from "../../reducers/view";
 import LocationDropdown from "../elements/LocationDropdown";
-import { userSelectors } from "../../reducers/user";
+import NoteLine from "../elements/NoteLine";
+import { IconCalendar } from "../icons";
 
 const initialState = {
 	fieldsite: DEFAULT_FIELDSITE,

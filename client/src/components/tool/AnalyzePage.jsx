@@ -1,9 +1,11 @@
-import ClearIcon from "@mui/icons-material/Clear";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { DateRangePicker, LocalizationProvider } from "@mui/lab";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {
 	Accordion,
 	AccordionDetails,
 	AccordionSummary,
+	Box,
 	Button,
 	ButtonGroup,
 	FormControl,
@@ -12,9 +14,9 @@ import {
 	RadioGroup,
 	Slider,
 	Stack,
+	TextField,
 	useTheme,
 } from "@mui/material";
-import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 import axios from "axios";
 import _ from "lodash";
 import { DateTime } from "luxon";
@@ -27,7 +29,6 @@ import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import { pushView } from "../../reducers/view";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NoteLine from "../elements/NoteLine";
-import { IconCalendar } from "../icons";
 
 const initialState = {
 	fieldsite: DEFAULT_FIELDSITE,
@@ -179,13 +180,20 @@ export default function AnalyzePage() {
 								* Choose ranges above, or adjust below
 							</span>
 						</span>
-						<DateRangePicker
-							rangeDivider={" to "}
-							calendarIcon={<IconCalendar />}
-							clearIcon={<ClearIcon />}
-							value={[state.startDate, state.endDate]}
-							onChange={handleDateChange}
-						/>
+
+						<LocalizationProvider dateAdapter={AdapterDateFns}>
+							<DateRangePicker
+								value={[state.startDate, state.endDate]}
+								onChange={handleDateChange}
+								renderInput={(startProps, endProps) => (
+									<>
+										<TextField {...startProps} />
+										<Box sx={{ mx: 1 }}> to </Box>
+										<TextField {...endProps} />
+									</>
+								)}
+							/>
+						</LocalizationProvider>
 					</label>
 				</section>
 

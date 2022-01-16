@@ -1,3 +1,4 @@
+const sgMail = require("@sendgrid/mail");
 var keystone = require("keystone");
 var Types = keystone.Field.Types;
 
@@ -44,13 +45,6 @@ User.add(
 			index: true,
 		},
 	}
-	// "Managed Entities",
-	// {
-	// 	managedSites: {type: Types.Relationship, ref: "Fieldsite", label: "Fieldsites managed by user", index: true, many: true, initial: false},
-	// 	managedArea: {type: Types.Relationship, ref: "Area", label: "Area managed by user", index: true, many: true, initial: false},
-	// 	managedCountries: {type: Types.Relationship, ref: "Country", label: "Countries managed by user", index: true, many: true, initial: false},
-	// 	managedOrganizations: {type: Types.Relationship, ref: "Organization", label: "Organizations managed by user", index: true, many: true, initial: false},
-	// }
 );
 
 // Provide access to Keystone
@@ -82,10 +76,60 @@ User.schema.post("save", function () {
 	);
 
 	if (this.welcome) {
-		var Welcome = keystone.list("Welcome");
-		Welcome.model.create({ user: this });
+		const user = this;
+		this.requestResetPassword(function () {
+			var Welcome = keystone.list("Welcome");
+			Welcome.model.create({ user });
+		});
 	}
 });
+
+User.schema.methods.requestResetPassword = function (callback) {
+	if (typeof callback !== "function") {
+		callback = function (err) {
+			if (err) {
+				console.error(
+					"There was an error requesting user password reset:",
+					err
+				);
+			}
+		};
+	}
+
+	this.resetPasswordKey = keystone.utils.randomString([16, 24]);
+	this.save(function (err) {
+		callback(err);
+		return err;
+	});
+};
+
+User.schema.methods.sendEmailToResetPassword = function () {
+	let weburl = keystone.get("locals").weburl;
+
+	const passwordResetUrl = weburl + "resetpassword/" + this.resetPasswordKey;
+	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+	const msg = {
+		to: this.email,
+		from: `SWOT Accounts <${process.env.FROM_EMAIL}>`,
+		templateId: process.env.SENDGRID_PASSWORD_RESET_TEMPLATE_ID,
+		dynamicTemplateData: {
+			passwordResetUrl,
+		},
+	};
+
+	sgMail
+		.send(msg)
+		.then(() => {
+			console.log("Password reset email sent to user", this.email);
+		})
+		.catch((err) => {
+			console.error(
+				"Error occurred while sending password reset email sent to user",
+				this.email,
+				err
+			);
+		});
+};
 
 /**
  * Relationships

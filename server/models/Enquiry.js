@@ -1,3 +1,4 @@
+const sgMail = require("@sendgrid/mail");
 var keystone = require("keystone");
 var Types = keystone.Field.Types;
 
@@ -22,11 +23,11 @@ Enquiry.add(
 			options: [
 				{ value: "register", label: "I want to sign up" },
 				{ value: "message", label: "Just leaving a message" },
-				{ value: "question", label: "I've got a question" },
+				{ value: "question", label: "I have a question" },
 				{ value: "other", label: "Something else..." },
 			],
 		},
-		message: { type: Types.Markdown, required: true },
+		message: { type: Types.Text, required: true },
 		createdAt: { type: Types.Datetime, default: Date.now },
 	},
 	{ heading: "Create and Welcome User", dependsOn: { reason: "register" } },
@@ -73,40 +74,56 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 		};
 	}
 
-	if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
-		console.log("Unable to send email - no mailgun credentials provided");
-		return callback(new Error("could not find mailgun credentials"));
-	}
+	const weburl = keystone.get("locals").weburl;
 
-	var enquiry = this;
-	var brand = keystone.get("brand");
+	const createLink = this.reason == "register" ? this.createUser : undefined;
+	const viewLink = weburl + "admin/enquiries/" + this.id;
 
-	var toEmail = [];
-	var emails = [process.env.ACCOUNTS_ADMIN_EMAIL, process.env.SUPPORT_EMAIL];
-	emails.forEach((email) => {
-		if (email) {
-			toEmail.push(email);
-		}
-	});
-
-	new keystone.Email({
-		templateName: "enquiry-notification",
-		transport: "mailgun",
-	}).send(
-		{
-			to: toEmail.length ? toEmail : process.env.ADMIN_EMAIL,
-			from: {
-				name: process.env.FROM_ADDRESS,
-				email: process.env.FROM_ADDRESS,
-			},
-			subject: "Contact Form Submitted for SWOT",
-			"o:tracking": false,
-			enquiry: enquiry,
-			brand: brand,
-			weburl: keystone.get("locals").weburl,
+	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+	// staff email
+	const msgToStaff = {
+		to: process.env.SUPPORT_EMAIL,
+		from: `SWOT Support <${process.env.FROM_EMAIL}>`,
+		templateId: process.env.SENDGRID_STAFF_CONTACT_TEMPLATE_ID,
+		dynamicTemplateData: {
+			name: this.name.full,
+			email: this.email,
+			reason: this._.reason.format(),
+			message: this.message,
+			createLink,
+			viewLink,
+			inquiryTimestamp: this._.createdAt.format(),
 		},
-		callback
-	);
+	};
+	sgMail
+		.send(msgToStaff)
+		.then(() => {
+			console.log("Contact form forwarded to staff");
+		})
+		.catch((err) => {
+			console.error(
+				"An error occurred trying to forward contact form to staff",
+				err
+			);
+		});
+
+	// guest email
+	const msgToGuest = {
+		to: this.email,
+		from: `SWOT Support <${process.env.FROM_EMAIL}>`,
+		templateId: process.env.SENDGRID_GUEST_CONTACT_TEMPLATE_ID,
+	};
+	sgMail
+		.send(msgToGuest)
+		.then(() => {
+			console.log("Contact form confirmation email sent to guest");
+		})
+		.catch((err) => {
+			console.error(
+				"An error occurred trying to send confirmation email to guest",
+				err
+			);
+		});
 };
 
 Enquiry.defaultSort = "-createdAt";

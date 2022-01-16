@@ -30,6 +30,8 @@ function validateConfig() {
 		process.env.AZURE_STORAGE_CONTAINER_STD
 	);
 	checkConfigKey("WEB_URL", process.env.WEB_URL);
+	checkConfigKey("FROM_EMAIL", process.env.FROM_EMAIL);
+	checkConfigKey("SUPPORT_EMAIL", process.env.SUPPORT_EMAIL);
 }
 
 // Initialise Keystone with your project's configuration.

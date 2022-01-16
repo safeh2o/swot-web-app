@@ -18,11 +18,11 @@ export default function SideBar() {
 					<p>
 						For you and/or your organisation to use the SWOT, please{" "}
 						<Link to="/contact">
-							<span>Contact Us</span>
+							<span>contact us</span>
 						</Link>{" "}
-						in-order to setup an account, OR{" "}
+						to set up an account, or{" "}
 						<Link to="/signin">
-							<span>Log In</span>
+							<span>log in</span>
 						</Link>{" "}
 						to your existing account.
 					</p>

@@ -42,7 +42,7 @@ exports = module.exports = function (app) {
 	app.post(
 		"/api/forgotpassword",
 		keystone.middleware.api,
-		routes.api.forms.forgotPassword
+		routes.api.user.forgotPassword
 	);
 	app.post(
 		"/api/resetpassword",

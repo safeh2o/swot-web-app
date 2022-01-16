@@ -1,8 +1,5 @@
 var keystone = require("keystone");
-const { update } = require("lodash");
 var Types = keystone.Field.Types;
-const moment = require("moment");
-const DataTypes = require("../utils/enums").DataTypes;
 
 /**
  * Upload Model
@@ -81,16 +78,6 @@ Upload.schema.pre("save", function (next) {
 	next();
 });
 
-Upload.schema.post("save", function () {
-	if (this.wasNew) {
-		this.populate("user fieldsite")
-			.execPopulate()
-			.then((upload) => {
-				upload.sendNotificationEmail();
-			});
-	}
-});
-
 Upload.schema.methods.rewindFieldsite = async function () {
 	const nextUploads = await Upload.model
 		.find({ dateUploaded: { $gt: this.dateUploaded } })
@@ -108,77 +95,6 @@ Upload.schema.pre("remove", function (next) {
 
 	next();
 });
-
-function updateContent(model) {
-	return (err, { html }) => {
-		if (err) {
-			console.error(err);
-			return;
-		} else {
-			model.content = html;
-			model.save();
-		}
-	};
-}
-
-Upload.schema.methods.sendNotificationEmail = async function (callback) {
-	if (typeof callback !== "function") {
-		callback = function (err) {
-			if (err) {
-				console.error(
-					"There was an error sending the upload notification email:",
-					err
-				);
-			}
-		};
-	}
-
-	if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
-		console.log("Unable to send email - no mailgun credentials provided");
-		return callback(new Error("could not find mailgun credentials"));
-	}
-
-	const Datapoint = keystone.list("Datapoint");
-
-	let locals = {
-		host: keystone.get("locals").weburl,
-		support: process.env.SUPPORT_EMAIL || process.env.ADMIN_EMAIL,
-		fieldsiteName: this.fieldsite.name,
-		formattedDate: moment.utc(new Date()).format("YYYY-MM-DD hh:mm A UTC"),
-	};
-
-	let info = {
-		// dupRows: this.nDuplicates,
-		// nBefore: this.nBefore
-	};
-
-	info.stdRows = await Datapoint.model
-		.count({ upload: this.id, type: DataTypes.STANDARDIZED })
-		.exec();
-	info.errRows = await Datapoint.model
-		.count({ upload: this.id, type: DataTypes.ERRONEOUS })
-		.exec();
-	// info.rowsAfter = info.nBefore + info.stdRows
-
-	locals.info = info;
-	locals.instructionsUrl = locals.host + "pages/instructions";
-	locals.firstName = this.user.name.first;
-
-	const email = new keystone.Email({
-		templateName: "upload-notification",
-		transport: "mailgun",
-	});
-
-	email.render(locals, updateContent(this));
-
-	// email.send({
-	// 	to: this.user.email,
-	// 	from: `SWOT Support <${locals.support}>`,
-	// 	'o:tracking': false,
-	// 	subject: 'New Data Uploaded to SWOT',
-	// 	...locals
-	// }, callback);
-};
 
 /**
  * Relationships

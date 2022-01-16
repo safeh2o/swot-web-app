@@ -148,7 +148,7 @@ async function isResetKeyValid(key) {
 
 exports.validateResetKey = async function (req, res) {
 	let success = false;
-	let messages = { errors: {} };
+	let messages = { errors: [] };
 	const terminate = () => {
 		res.json({ success, messages });
 	};
@@ -170,7 +170,7 @@ exports.validateResetKey = async function (req, res) {
 };
 
 exports.resetPassword = async function (req, res, next) {
-	let messages = { errors: {}, notices: {} };
+	let messages = { errors: [], notices: [] };
 	const terminate = () => {
 		res.json({ messages });
 	};
@@ -179,38 +179,35 @@ exports.resetPassword = async function (req, res, next) {
 		terminate();
 		return;
 	};
-	if (!req.body.password || !req.body.password_confirm) {
-		messages.errors.password = {
-			error: "Please enter, and confirm your new password.",
-		};
+	if (!req.body.password || !req.body.confirmPassword) {
+		messages.errors.push("Please enter, and confirm your new password.");
 		terminate();
 		return;
 	}
 
-	if (req.body.password != req.body.password_confirm) {
-		messages.errors.password = {
-			error: "Please make sure both passwords match.",
-		};
+	if (req.body.password != req.body.confirmPassword) {
+		messages.errors.push("Please make sure both passwords match.");
 		terminate();
 		return;
 	}
 
-	const valid = await isResetKeyValid(req.body.resetkey);
+	const valid = await isResetKeyValid(req.body.resetKey);
 	if (!valid) {
 		return handleError("Sorry, that reset password key isn't valid.");
 	}
 
 	User.model
 		.findOne()
-		.where("resetPasswordKey", req.body.resetkey)
+		.where("resetPasswordKey", req.body.resetKey)
 		.exec(function (err, userFound) {
 			if (err) return next(err);
 			userFound.password = req.body.password;
 			userFound.resetPasswordKey = "";
 			userFound.save(function (err) {
 				if (err) return handleError();
-				messages.notices.success =
-					"Your password has been reset, please sign in.";
+				messages.notices.push(
+					"Your password has been reset, please sign in."
+				);
 				terminate();
 				return;
 			});
@@ -259,4 +256,56 @@ exports.getCurrentUser = async function (req, res) {
 	}
 
 	res.json({ user: { ...user, fieldsites, areas, countries } });
+};
+
+exports.forgotPassword = async function (req, res) {
+	let messages = { errors: [], notices: [] };
+	const terminate = () => {
+		res.json({ messages });
+	};
+
+	const handleError = () => {
+		messages.errors.push("An unknown error has occurred");
+		terminate();
+		return;
+	};
+
+	const setSuccessMessage = () => {
+		messages.notices.push(
+			"Thanks! If there is a SWOT account associated with that email address, you'll get an email with a reset password link shortly."
+		);
+	};
+
+	if (!req.body.email) {
+		messages.errors.push("Please enter an email address.");
+		terminate();
+		return;
+	}
+
+	User.model
+		.findOne()
+		.where("email", req.body.email)
+		.exec(function (err, user) {
+			if (err) return handleError();
+			else if (!user) {
+				setSuccessMessage();
+				terminate();
+				return;
+			} else {
+				let err = user.requestResetPassword();
+				if (!err) {
+					err = user.sendEmailToResetPassword();
+				}
+				if (!err) {
+					setSuccessMessage();
+					terminate();
+				} else {
+					console.error(
+						"Error occurred trying to reset valid user password",
+						err
+					);
+					return handleError();
+				}
+			}
+		});
 };

@@ -1,6 +1,7 @@
 var keystone = require("keystone");
 const User = keystone.list("User");
 var Types = keystone.Field.Types;
+const sgMail = require("@sendgrid/mail");
 
 /**
  * Welcome Model
@@ -18,27 +19,10 @@ Welcome.add({
 		noedit: true,
 	},
 	createdAt: { type: Date, default: Date.now, noedit: true },
-	content: {
-		type: Types.Html,
-		initial: false,
-		required: false,
-		height: 400,
-		wysiwyg: true,
-	},
 });
 
 Welcome.schema.pre("save", function (next) {
-	this.wasNew = this.isNew;
-	if (!this.content || this.updatingContent) next();
-	else {
-		throw new Error(
-			"Cannot modify email already sent, please refresh the page"
-		);
-	}
-});
-
-Welcome.schema.post("save", function () {
-	if (this.wasNew) {
+	if (this.isNew) {
 		this.populate("user")
 			.execPopulate()
 			.then((welcome) => {
@@ -47,20 +31,9 @@ Welcome.schema.post("save", function () {
 				welcome.user.save();
 			});
 	}
-});
 
-function updateContent(welcome) {
-	return (err, { html }) => {
-		if (err) {
-			console.error(err);
-			return;
-		} else {
-			welcome.updatingContent = true;
-			welcome.content = html;
-			welcome.save();
-		}
-	};
-}
+	next();
+});
 
 Welcome.schema.methods.sendNotificationEmail = function (callback) {
 	if (typeof callback !== "function") {
@@ -74,42 +47,35 @@ Welcome.schema.methods.sendNotificationEmail = function (callback) {
 		};
 	}
 
-	if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
-		console.log("Unable to send email - no mailgun credentials provided");
-		return callback(new Error("could not find mailgun credentials"));
-	}
+	const confirmUrl =
+		keystone.get("locals").weburl +
+		"resetpassword/" +
+		this.user.resetPasswordKey;
+	const firstName = this.user.name.first;
 
-	let locals = {
-		host: keystone.get("locals").weburl,
-		support: process.env.SUPPORT_EMAIL || process.env.ADMIN_EMAIL,
-		welcome: this,
+	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+	const msg = {
+		to: this.user.email,
+		from: `SWOT Accounts <${process.env.FROM_EMAIL}>`,
+		templateId: process.env.SENDGRID_USER_CREATION_TEMPLATE_ID,
+		dynamicTemplateData: {
+			confirmUrl,
+			firstName,
+		},
 	};
 
-	locals.host = locals.host.includes("http")
-		? locals.host
-		: "https://" + locals.host;
-	locals.host += locals.host.endsWith("/") ? "" : "/";
-	locals.instructionsUrl = locals.host + "pages/instructions";
-
-	const email = new keystone.Email({
-		templateName: "welcome-notification",
-		transport: "mailgun",
-	});
-
-	email.render(locals, updateContent(this));
-
-	email.send(
-		{
-			to: this.user.email,
-			from: `SWOT Accounts <${
-				process.env.ACCOUNTS_ADMIN_EMAIL || process.env.ADMIN_EMAIL
-			}>`,
-			"o:tracking": false,
-			subject: "Welcome to SWOT",
-			...locals,
-		},
-		callback
-	);
+	sgMail
+		.send(msg)
+		.then(() => {
+			console.log("Welcome email sent to user", this.user.email);
+		})
+		.catch((err) => {
+			console.error(
+				"Error occurred while sending welcome to user",
+				this.user.email,
+				err
+			);
+		});
 };
 
 Welcome.defaultSort = "-createdAt";

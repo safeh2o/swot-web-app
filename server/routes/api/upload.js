@@ -76,6 +76,7 @@ exports.append = async function (req, res) {
 	const fieldsiteId = req.body.fieldsite;
 	const overwrite = req.body.overwrite;
 	const userId = req.user._id;
+	const uploaderEmail = req.user.email;
 	const {
 		AZURE_STORAGE_CONTAINER,
 		AZURE_STORAGE_CONNECTION_STRING,
@@ -128,6 +129,7 @@ exports.append = async function (req, res) {
 			Buffer.from(
 				JSON.stringify({
 					uploadId: upload.id,
+					uploaderEmail: uploaderEmail,
 				})
 			).toString("base64")
 		)

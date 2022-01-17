@@ -17,7 +17,6 @@ import LocationDropdown from "../elements/LocationDropdown";
 import { DataGrid } from "@mui/x-data-grid";
 import NotificationLine from "../elements/NotificationLine";
 import axios from "axios";
-import Notice from "../elements/Notice";
 
 import {
 	Card,

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Breadcrumbs } from "@mui/material";
+import { Breadcrumbs, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { popViewsTo, viewSelectors } from "../../reducers/view";
 import { Link } from "react-router-dom";
@@ -22,9 +22,18 @@ function AppBreadcrumbs(props) {
 					{view.title}
 				</Link>
 			))}
-			<strong>
-				<span>{currentView.title}</span>
-			</strong>
+			<Box
+				component="span"
+				sx={{
+					display: "block",
+					maxWidth: "12ch",
+					textOverflow: "ellipsis",
+					whiteSpace: "nowrap",
+					overflow: "hidden",
+				}}
+			>
+				<Box component="span">{currentView.title}</Box>
+			</Box>
 		</Breadcrumbs>
 	);
 }

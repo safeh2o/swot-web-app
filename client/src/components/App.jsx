@@ -69,9 +69,6 @@ export default function App() {
 					<Route path="/upload" element={<PrivateRoute />}>
 						<Route path="" element={<UploadPage />} />
 					</Route>
-					<Route path="/upload" element={<PrivateRoute />}>
-						<Route path="" element={<UploadPage />} />
-					</Route>
 					<Route path="/analyze" element={<PrivateRoute />}>
 						<Route path="" element={<AnalyzePage />} />
 					</Route>

@@ -20,6 +20,21 @@ const css = {
 	p: 0,
 	marginBottom: "10px",
 	transition: "box-shadow 0s ease, background-color 0s ease",
+	"&:after": {
+		content: "attr(step)",
+		position: "absolute",
+		top: "1rem",
+		left: ".75rem",
+		fontSize: "0.8rem",
+		fontWeight: "500",
+		textAlign: "center",
+		color: "#d05478",
+		backgroundColor: "#ffe5ed",
+		width: "1.4rem",
+		height: "1.4rem",
+		lineHeight: "1.4rem",
+		borderRadius: "40px",
+	},
 	"& *": {
 		pointerEvents: "none",
 	},
@@ -34,6 +49,10 @@ const css = {
 		boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.5)",
 		"& .gray": {
 			fill: "#929eac",
+		},
+		"&:after": {
+			color: "#fff",
+			backgroundColor: "#4a77c6",
 		},
 	},
 	"&:not(.active):hover": {

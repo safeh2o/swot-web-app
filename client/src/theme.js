@@ -117,10 +117,12 @@ let theme = createTheme({
 		MuiCardHeader: {
 			styleOverrides: {
 				root: {
-					'& .MuiTypography-root': {
-						typography: 'subtitle1',
-						fontWeight: '400'
-					}
+					// '& .MuiTypography-root': {
+					// 	fontSize: '1.15rem',
+					// 	letterSpacing: '-0.014em',
+					// 	lineHeight: '1.416',
+					// 	fontWeight: 400,
+					// }
 				},
 			},
 		},

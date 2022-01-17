@@ -1,5 +1,23 @@
 // sass --watch src/index.scss:src/index.css --style compressed
 
+html {
+	height: 100%;
+}
+
+body,
+#app {
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+}
+
+body {
+}
+
+#app {
+	flex-grow: 1;
+}
+
 *,
 *::before,
 *::after {

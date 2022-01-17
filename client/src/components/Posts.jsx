@@ -1,6 +1,6 @@
-import { Skeleton, Box, Typography } from "@mui/material";
+import { Skeleton, Box, Typography, Divider } from "@mui/material";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { blogSelectors } from "../reducers/posts";
 
 export default function Posts(props) {
@@ -13,31 +13,34 @@ export default function Posts(props) {
 			<Box component="article" key={link}>
 				{post?.image?.secure_url && (
 					<figure>
-						<Link to={link}>
+						<NavLink to={link}>
 							<img src={post?.image?.secure_url} alt="" />
-						</Link>
+						</NavLink>
 					</figure>
 				)}
 				<Typography
-					component={Link}
+					component={NavLink}
 					to={link}
-					variant="h2"
+					variant="h3"
 					gutterBottom
 					color="primary"
-					sx={{ fontWeight: "500" }}
+					sx={{ display: "block", fontWeight: "500" }}
 				>
 					{post.title}
 				</Typography>
 				<Typography variant="body1" gutterBottom component="div">
 					{post.content.brief}
 				</Typography>
-				<Typography
-					component="time"
-					variant="caption"
-					sx={{ display: "block", mt: 1, color: "#9a9a9a" }}
-				>
+				<Typography component="time" variant="caption">
 					{post.publishedDate}
 				</Typography>
+				<Divider
+					sx={{
+						borderColor: "primary.main",
+						my: 3,
+						opacity: 0.2,
+					}}
+				/>
 			</Box>
 		);
 	}
@@ -106,13 +109,20 @@ export default function Posts(props) {
 						{post.publishedDate}
 					</Typography>
 				</Skeleton>
+				<Divider
+					sx={{
+						borderColor: "primary.main",
+						my: 3,
+						opacity: 0.2,
+					}}
+				/>
 			</Box>
 		));
 	}
 
 	return blogLoadingStatus === "success"
 		? posts.map((post) => articleFromPost(post))
-		: blogSkeleton(2);
+		: blogSkeleton((props.postNumber && props.postNumber) || 3);
 }
 
 /*

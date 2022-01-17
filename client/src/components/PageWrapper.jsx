@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { useLocation } from "react-router-dom";
 
 import { AppBar, Box, IconButton } from "@mui/material";
 
@@ -25,6 +26,15 @@ function PageWrapper(props) {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const isLoading = useSelector(notificationsSelectors.loading);
 
+	let url = useLocation();
+	const isToolSideBar = [
+		"/collect",
+		"/upload",
+		"/analyze",
+		"/results",
+		"/",
+	].some((path) => url.pathname === path);
+
 	const layoutMetrics = {
 		sidebar: 180,
 		content: 760,
@@ -47,7 +57,7 @@ function PageWrapper(props) {
 		},
 		breadcrumbs: {
 			typography: "caption",
-			width: "auto",
+			width: "100%",
 			maxWidth:
 				layoutMetrics.content +
 				layoutMetrics.sidebar +
@@ -113,7 +123,7 @@ function PageWrapper(props) {
 			{/* Content Wrapper */}
 			<Box component={"main"} sx={{ ...css.main }}>
 				{/* Sidebar */}
-				{isLoggedIn && (
+				{isLoggedIn && isToolSideBar && (
 					<Box component="nav" sx={{ ...css.nav }}>
 						<NavTools />
 					</Box>

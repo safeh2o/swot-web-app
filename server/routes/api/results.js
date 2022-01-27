@@ -57,7 +57,7 @@ exports.download = async function (req, res) {
 		const blobClient = containerClient.getBlobClient(blobName);
 		const blobData = await blobClient.download();
 		archive.append(blobData.readableStreamBody, {
-			name: blobName.split("/").at(-1),
+			name: blobName.split("/").slice(-1)[0],
 		});
 	}
 

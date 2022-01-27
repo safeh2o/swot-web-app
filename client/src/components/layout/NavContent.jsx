@@ -1,7 +1,6 @@
 import { Button } from "@mui/material";
-import { NavLink } from "react-router-dom";
-
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { userSelectors } from "../../reducers/user";
 import { IconQuestionMark } from "../icons";
 

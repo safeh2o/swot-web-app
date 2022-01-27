@@ -1,32 +1,26 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-
+import {
+	Box,
+	Button,
+	Card,
+	CardContent,
+	CardHeader,
+	Checkbox,
+	Divider,
+	Stack,
+	SvgIcon,
+} from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
-import { addNotice, setLoading } from "../../reducers/notifications";
-import { pushView } from "../../reducers/view";
-import { userSelectors } from "../../reducers/user";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import { formatDate } from "../../helpers/dates";
-
-import { Checkbox, Button, SvgIcon } from "@mui/material";
-
+import { addNotice, setLoading } from "../../reducers/notifications";
+import { userSelectors } from "../../reducers/user";
+import { pushView } from "../../reducers/view";
 import LocationDropdown from "../elements/LocationDropdown";
-import { DataGrid } from "@mui/x-data-grid";
 import NotificationLine from "../elements/NotificationLine";
-import axios from "axios";
-
-import {
-	Card,
-	CardHeader,
-	Divider,
-	CardContent,
-	Box,
-	Stack,
-} from "@mui/material";
-
 import { IconCheck } from "../icons";
 
 function renderRowSamples(dataset) {

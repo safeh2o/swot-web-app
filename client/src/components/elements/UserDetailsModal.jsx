@@ -1,37 +1,30 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-
-import useForm from "../../hooks/useForm";
-import { getUser } from "../../reducers/user";
-import { userSelectors } from "../../reducers/user";
-import { handleServerMessages } from "../../reducers/notifications";
-
-import {
-	Dialog,
-	DialogTitle,
-	DialogContent,
-	DialogActions,
-	AccordionSummary,
-	Collapse,
-	Divider,
-} from "@mui/material";
-import {
-	Grid,
-	Button,
-	FormControl,
-	TextField,
-	InputLabel,
-	OutlinedInput,
-	InputAdornment,
-	IconButton,
-	Typography,
-} from "@mui/material";
-
-import { IconProfile } from "../icons";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+	AccordionSummary,
+	Button,
+	Collapse,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	Divider,
+	FormControl,
+	Grid,
+	IconButton,
+	InputAdornment,
+	InputLabel,
+	OutlinedInput,
+	TextField,
+	Typography,
+} from "@mui/material";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import useForm from "../../hooks/useForm";
+import { handleServerMessages } from "../../reducers/notifications";
+import { getUser, userSelectors } from "../../reducers/user";
+import { IconProfile } from "../icons";
 
 export default function UserDetailsModal() {
 	const [open, setOpen] = useState(false);

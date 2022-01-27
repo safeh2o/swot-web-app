@@ -1,26 +1,24 @@
-import { useRef } from "react";
-import { useLocation } from "react-router-dom";
-
-import { AppBar, Box, IconButton } from "@mui/material";
-
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import {
+	AppBar,
+	Backdrop,
+	Box,
+	CircularProgress,
+	IconButton,
+} from "@mui/material";
 import Slide from "@mui/material/Slide";
-import { Backdrop, CircularProgress } from "@mui/material";
-
+import useScrollTrigger from "@mui/material/useScrollTrigger";
+import PropTypes from "prop-types";
+import { useRef } from "react";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { notificationsSelectors } from "../reducers/notifications";
+import { userSelectors } from "../reducers/user";
 import AppBreadcrumbs from "./elements/AppBreadcrumbs";
 import PublicSnackbar from "./elements/PublicSnackbar";
-
 import Footer from "./layout/Footer";
 import Header from "./layout/Header";
 import NavTools from "./layout/NavTools.jsx";
-
-import { useSelector } from "react-redux";
-import { userSelectors } from "../reducers/user";
-
-import PropTypes from "prop-types";
-
-import useScrollTrigger from "@mui/material/useScrollTrigger";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 function PageWrapper(props) {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);

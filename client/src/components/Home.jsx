@@ -1,27 +1,22 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-
 import {
+	Box,
 	Card,
+	CardActions,
+	CardContent,
 	CardHeader,
 	Divider,
-	CardContent,
-	CardActions,
+	Grid,
 	SvgIcon,
-	Button,
+	Typography,
 } from "@mui/material";
-import { Typography, Grid, Box } from "@mui/material";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-
-import { IconProfile, IconSignIn } from "./icons"; // IconQuestionMark
-
-import Posts from "./Posts";
-
-import { clearViewStack } from "../reducers/view";
-
-import { userSelectors } from "../reducers/user";
 import { blogSelectors, getPosts } from "../reducers/posts";
+import { userSelectors } from "../reducers/user";
+import { clearViewStack } from "../reducers/view";
+import { IconProfile, IconSignIn } from "./icons"; // IconQuestionMark
+import Posts from "./Posts";
 
 export default function Home() {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);

@@ -1,36 +1,30 @@
 import {
-	SWOTLogo,
-	IconSignIn,
-	IconSignOut,
-	IconAdmin,
-	IconNavOpen,
-	IconNavClose,
-} from "../icons";
-
-import {
 	Box,
-	Drawer,
 	Button,
+	Drawer,
 	IconButton,
 	Skeleton,
 	Stack,
 	Typography,
 } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 // import _ from 'lodash';
 import { NavLink } from "react-router-dom";
-import { useEffect } from "react";
-import { useRef } from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-
 import { setLoading } from "../../reducers/notifications";
-
 import { userSelectors } from "../../reducers/user";
 import UserDetailsModal from "../elements/UserDetailsModal";
 import UserNotificationsPopover from "../elements/UserNotificationsPopover";
-import NavTools from "./NavTools";
+import {
+	IconAdmin,
+	IconNavClose,
+	IconNavOpen,
+	IconSignIn,
+	IconSignOut,
+	SWOTLogo,
+} from "../icons";
 import NavContent from "./NavContent";
+import NavTools from "./NavTools";
 
 export default function Header(props) {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);

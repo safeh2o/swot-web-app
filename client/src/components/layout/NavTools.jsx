@@ -1,13 +1,11 @@
-import { Button, Box, Typography } from "@mui/material";
-
+import { Box, Button, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
-
 // Icons
 import {
-	IconToolCollect,
-	IconToolUpload,
 	IconToolAnalyze,
+	IconToolCollect,
 	IconToolResult,
+	IconToolUpload,
 } from "../icons";
 
 const css = {

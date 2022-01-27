@@ -1,5 +1,3 @@
-import { Component } from "react";
-
 export default function Notice(props) {
 	return (
 		<span className="txt-icon notice">

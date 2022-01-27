@@ -1,45 +1,26 @@
-import { useContext } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-
 import {
-	Button,
-	FormControl,
-	FormHelperText,
-	InputLabel,
+	Box, Button, Card, CardContent, CardHeader,
+	Divider, FormControl,
+	FormHelperText, Grid, InputLabel,
 	MenuItem,
 	Select,
-	TextField,
+	TextField
 } from "@mui/material";
-import {
-	Grid,
-	Box,
-	Card,
-	CardHeader,
-	Divider,
-	CardContent,
-} from "@mui/material";
-
-// import _ from 'lodash';
 import axios from "axios";
-
-import AppContext from "../contexts/AppContext";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import useForm from "../hooks/useForm";
-import {
-	// addError,
-	// addNotice,
-	handleServerMessages,
-	setLoading,
-} from "../reducers/notifications";
+import { handleServerMessages, setLoading } from "../reducers/notifications";
 import { pushView } from "../reducers/view";
-
 import NotificationLine from "./elements/NotificationLine";
 
+
+
+
+
+
 export default function ContactPage(props) {
-	const { grecaptchaSiteKey } = useContext(AppContext);
 	const [contactReasons, setContactReasons] = useState([]);
 	const [disabled, setDisabled] = useState(true);
 	const { state, reset, getTextChangeHandler } = useForm({
@@ -48,7 +29,6 @@ export default function ContactPage(props) {
 		phone: "",
 		reason: "",
 		message: "",
-		captcha: null,
 	});
 	const dispatch = useDispatch();
 
@@ -66,23 +46,14 @@ export default function ContactPage(props) {
 
 	function handleSubmit() {
 		dispatch(setLoading(true));
-		grecaptcha.ready(function () {
-			grecaptcha
-				.execute(grecaptchaSiteKey, { action: "submit" })
-				.then(function (token) {
-					axios
-						.post("/api/contact", {
-							...state,
-							"g-recaptcha-response": token,
-						})
-						.then(({ data }) => {
-							dispatch(handleServerMessages(data.messages));
-						})
-						.finally(() => {
-							dispatch(setLoading(false));
-						});
-				});
-		});
+		axios
+			.post("/api/contact", state)
+			.then(({ data }) => {
+				dispatch(handleServerMessages(data.messages));
+			})
+			.finally(() => {
+				dispatch(setLoading(false));
+			});
 	}
 
 	// Styles

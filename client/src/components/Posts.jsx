@@ -1,4 +1,4 @@
-import { Skeleton, Box, Typography, Divider } from "@mui/material";
+import { Box, Divider, Skeleton, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { blogSelectors } from "../reducers/posts";

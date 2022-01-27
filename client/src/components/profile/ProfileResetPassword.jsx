@@ -1,19 +1,20 @@
-import { useState } from "react";
-
-import { Card, CardHeader, Divider, CardContent } from "@mui/material";
-
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
-	Grid,
 	Box,
 	Button,
+	Card,
+	CardContent,
+	CardHeader,
+	Divider,
 	FormControl,
-	TextField,
+	Grid,
+	IconButton,
+	InputAdornment,
 	InputLabel,
 	OutlinedInput,
-	InputAdornment,
-	IconButton,
+	TextField,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useState } from "react";
 
 export default function ProfileResetPassword() {
 	// Password input field

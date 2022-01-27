@@ -1,13 +1,11 @@
-import { Box } from "@mui/material";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import PropTypes from "prop-types";
-
 import {
+	IconAsterisk,
+	IconCheck,
 	IconImportant,
 	IconInformation,
-	IconAsterisk,
 	IconQuestionMark,
-	IconCheck,
 } from "../icons";
 
 function NotificationLine(props) {

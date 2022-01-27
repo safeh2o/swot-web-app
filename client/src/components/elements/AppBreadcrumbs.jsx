@@ -1,8 +1,8 @@
+import { Box, Breadcrumbs } from "@mui/material";
 import { useEffect } from "react";
-import { Breadcrumbs, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { popViewsTo, viewSelectors } from "../../reducers/view";
 import { Link } from "react-router-dom";
+import { popViewsTo, viewSelectors } from "../../reducers/view";
 
 function AppBreadcrumbs(props) {
 	const dispatch = useDispatch();

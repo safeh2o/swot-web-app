@@ -1,18 +1,16 @@
-import { useState } from "react";
-import { useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
-
 import {
-	Grid,
 	Box,
+	Button,
 	Card,
+	CardContent,
 	CardHeader,
 	Divider,
-	CardContent,
+	FormControl,
+	Grid,
+	TextField,
 } from "@mui/material";
-
-import { Button, FormControl, TextField } from "@mui/material";
-
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import NotificationLine from "../elements/NotificationLine";
 
 export default function ProfileForgotPassword() {

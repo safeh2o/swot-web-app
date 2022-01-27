@@ -1,22 +1,18 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
 import {
-	Card,
-	CardContent,
-	Typography,
 	Box,
 	Button,
+	Card,
+	CardContent,
 	SvgIcon,
+	Typography,
 } from "@mui/material/";
-
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import Posts from "./Posts";
-import { userSelectors as userSelectors } from "../reducers/user";
-
-import { IconTrash } from "./icons";
-import { clearViewStack, pushView } from "../reducers/view";
 import { blogSelectors, getPosts } from "../reducers/posts";
+import { userSelectors as userSelectors } from "../reducers/user";
+import { pushView } from "../reducers/view";
+import Posts from "./Posts";
 
 export default function Blog(props) {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);

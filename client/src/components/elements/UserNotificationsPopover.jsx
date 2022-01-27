@@ -1,17 +1,18 @@
-import { useState } from "react";
-import { useRef } from "react";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-
+import {
+	Badge,
+	IconButton,
+	List,
+	ListItem,
+	ListItemIcon,
+	Popover,
+	Typography,
+} from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
 	markAllRead,
 	notificationsSelectors,
 } from "../../reducers/notifications";
-
-import { Popover, List, ListItem, ListItemIcon } from "@mui/material";
-import { Typography, IconButton, Badge } from "@mui/material";
-
 import { IconBell, IconImportant } from "../icons";
 
 export default function UserNotificationsPopover() {

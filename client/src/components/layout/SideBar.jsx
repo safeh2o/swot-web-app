@@ -1,9 +1,9 @@
-import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { userSelectors } from "../../reducers/user";
-import SidebarManageNav from "../icons/SidebarManageNav";
 import SidebarToolNav from "../icons/SidebarToolNav";
+import SidebarManageNav from "../icons/SidebarManageNav";
+import { Box } from "@mui/material";
 
 export default function SideBar() {
 	const user = useSelector(userSelectors.user);
@@ -18,11 +18,11 @@ export default function SideBar() {
 					<p>
 						For you and/or your organisation to use the SWOT, please{" "}
 						<Link to="/contact">
-							<span>contact us</span>
+							<span>Contact Us</span>
 						</Link>{" "}
-						to set up an account, or{" "}
+						in-order to setup an account, OR{" "}
 						<Link to="/signin">
-							<span>log in</span>
+							<span>Log In</span>
 						</Link>{" "}
 						to your existing account.
 					</p>

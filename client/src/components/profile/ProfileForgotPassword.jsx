@@ -1,77 +1,108 @@
-import {
-	Box,
-	Button,
-	Divider,
-	Grid,
-	Paper,
-	TextField,
-	Typography,
-} from "@mui/material";
-import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import useForm from "../../hooks/useForm";
-import { handleServerMessages } from "../../reducers/notifications";
+
+import {
+	Grid,
+	Box,
+	Card,
+	CardHeader,
+	Divider,
+	CardContent,
+} from "@mui/material";
+
+import { Button, FormControl, TextField } from "@mui/material";
+
+import NotificationLine from "../elements/NotificationLine";
 
 export default function ProfileForgotPassword() {
-	const dispatch = useDispatch();
+	const form = useRef(null);
+	const [messages, setMessages] = useState({});
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		axios.post("/api/forgotpassword", state).then((res) => {
-			console.log(res.data);
-			dispatch(handleServerMessages(res.data?.messages));
-		});
+	const handleSubmitResponse = (data) => {
+		setMessages(data.messages);
 	};
 
-	const { state, getTextChangeHandler } = useForm({ email: "" });
+	const handleChange = () => {
+		// setMessages({});
+	};
+
+	useEffect(() => {
+		$(form.current).ajaxForm((data) => {
+			handleSubmitResponse(data);
+		});
+		return () => {
+			$(form.current).off();
+		};
+	}, []);
+
+	// Styles
+	const css = {
+		cardElement: {},
+		form: {
+			"& button": { textTransform: "capitalize" },
+			"& #btnReset": {
+				color: "white",
+				mb: 1,
+			},
+		},
+	};
 
 	return (
 		<>
-			<Box component="form" onSubmit={handleSubmit}>
-				<Grid container direction="column" spacing={3}>
-					<Grid item>
-						<Typography variant="h3" color="darkgrey">
-							Forgot Password
-						</Typography>
-					</Grid>
-					<Grid item>
-						<Paper sx={(theme) => ({ padding: theme.spacing(4) })}>
-							<Typography variant="body1">
-								Enter the email you are using for next steps
-							</Typography>
-							<Divider sx={{ my: 2 }} />
-							<TextField
-								type="email"
-								autoComplete="email"
-								required
-								label="Email"
-								value={state.email}
-								onChange={getTextChangeHandler("email")}
-							/>
-						</Paper>
-					</Grid>
-					<Grid item>
-						<Paper sx={(theme) => ({ padding: theme.spacing(2) })}>
-							<Grid
-								container
-								spacing={3}
-								alignItems="center"
-								mx={0}
-							>
-								<Grid item>
-									<Button type="submit" variant="contained">
-										Submit
-									</Button>
-								</Grid>
-								<Grid item>
-									<Link to="/signin">LOG IN</Link>
-								</Grid>
+			<Card elevation={1}>
+				<CardHeader title={"Forgot Password"} />
+
+				<Divider />
+
+				<CardContent>
+					<Box
+						ref={form}
+						role="form"
+						action="/forgotpassword"
+						method="post"
+						component="form"
+						sx={{ ...css.form }}
+					>
+						<Grid container direction="row" spacing={2}>
+							<Grid item xs={12}>
+								<FormControl fullWidth>
+									<TextField
+										margin="dense"
+										id="email"
+										label="Email Address"
+										type="email"
+										variant="outlined"
+										onChange={handleChange()}
+									/>
+								</FormControl>
 							</Grid>
-						</Paper>
-					</Grid>
-				</Grid>
-			</Box>
+							<Grid item xs={12}>
+								<NotificationLine
+									type="notice"
+									sx={{
+										paddingTop: "0px",
+										paddingBottom: "0px",
+									}}
+								>
+									Enter the email you're to recieve
+									instructions to reset your password.
+								</NotificationLine>
+							</Grid>
+							<Grid item xs={12}>
+								<Button
+									id="btnReset"
+									variant="contained"
+									fullWidth
+								>
+									Reset
+								</Button>
+								or,&nbsp;<Link to="/signin">Sign in</Link>
+							</Grid>
+						</Grid>
+					</Box>
+				</CardContent>
+			</Card>
 		</>
 	);
 }

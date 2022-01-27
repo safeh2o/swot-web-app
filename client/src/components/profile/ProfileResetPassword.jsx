@@ -1,120 +1,142 @@
-import axios from "axios";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { handleServerMessages } from "../../reducers/notifications";
-import useForm from "../../hooks/useForm";
+import { useState } from "react";
+
+import { Card, CardHeader, Divider, CardContent } from "@mui/material";
+
 import {
+	Grid,
 	Box,
 	Button,
-	Divider,
-	Grid,
-	Paper,
+	FormControl,
 	TextField,
-	Typography,
+	InputLabel,
+	OutlinedInput,
+	InputAdornment,
+	IconButton,
 } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export default function ProfileResetPassword() {
-	const { key } = useParams();
-	const navigate = useNavigate();
-
-	const dispatch = useDispatch();
-	const { state, getTextChangeHandler } = useForm({
+	// Password input field
+	const [values, setValues] = useState({
+		email: "",
 		password: "",
-		confirmPassword: "",
+		showPassword: false,
 	});
 
-	useEffect(() => {
-		axios.get("/api/user/resetkey", { params: { key } }).then((res) => {
-			dispatch(handleServerMessages(res.data?.messages));
-		});
-	}, [key]);
+	const handleChange = (prop) => (event) => {
+		setValues({ ...values, [prop]: event.target.value });
+	};
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		axios
-			.post("/api/resetpassword", {
-				password: state.password,
-				confirmPassword: state.confirmPassword,
-				resetKey: key,
-			})
-			.then((res) => {
-				dispatch(handleServerMessages(res.data?.messages));
-				if (!res.data?.messages?.errors?.length) {
-					navigate("/signin");
-				}
-			});
+	const handleClickShowPassword = () => {
+		setValues({
+			...values,
+			showPassword: !values.showPassword,
+		});
+	};
+
+	const handleMouseDownPassword = (event) => {
+		event.preventDefault();
+	};
+
+	// Styles
+	const css = {
+		cardElement: {},
+		form: {
+			"& button": { textTransform: "capitalize" },
+			"& #btnReset": {
+				color: "white",
+				mb: 1,
+			},
+		},
 	};
 
 	return (
 		<>
-			<Box component="form" onSubmit={handleSubmit}>
-				<Grid container direction="column" spacing={3}>
-					<Grid item>
-						<Typography variant="h3" color="darkgrey">
-							Reset Password
-						</Typography>
-					</Grid>
-					<Grid item>
-						<Paper sx={(theme) => ({ padding: theme.spacing(4) })}>
-							<Grid container direction="column" spacing={2}>
-								<Grid item>
-									<Typography variant="body1">
-										Please fill the following fields to
-										reset your password
-									</Typography>
-								</Grid>
-								<Grid item>
-									<Divider />
-								</Grid>
-								<Grid item>
-									<TextField
-										type="password"
-										autoComplete="new-password"
-										required
-										label="Password"
-										value={state.password}
-										onChange={getTextChangeHandler(
-											"password"
-										)}
+			<Card elevation={1}>
+				<CardHeader title={"Password Reset"} />
+
+				<Divider />
+
+				<CardContent>
+					<Box
+						component="form"
+						action="/resetpassword"
+						method="post"
+						sx={{ ...css.form }}
+					>
+						<Grid container direction="row" spacing={2}>
+							<Grid item xs={12}>
+								<input
+									type="hidden"
+									name="resetkey"
+									value={""}
+								/>
+								<FormControl fullWidth sx={{ mb: 1 }}>
+									<InputLabel htmlFor="password">
+										Password
+									</InputLabel>
+									<OutlinedInput
+										id="password"
+										name="password"
+										type={
+											values.showPassword
+												? "text"
+												: "password"
+										}
+										minLength="6"
+										endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label="toggle password visibility"
+													onClick={
+														handleClickShowPassword
+													}
+													onMouseDown={
+														handleMouseDownPassword
+													}
+													edge="end"
+												>
+													{values.showPassword ? (
+														<VisibilityOff />
+													) : (
+														<Visibility />
+													)}
+												</IconButton>
+											</InputAdornment>
+										}
+										autoComplete="password"
+										label="New Password"
+										onChange={handleChange("password")}
 									/>
-								</Grid>
-								<Grid item>
+								</FormControl>
+								<FormControl fullWidth>
 									<TextField
-										type="password"
-										autoComplete="new-password"
-										required
+										id="password_confirm"
+										name="password_confirm"
 										label="Confirm Password"
-										value={state.confirmPassword}
-										onChange={getTextChangeHandler(
-											"confirmPassword"
-										)}
+										type={
+											values.showPassword
+												? "text"
+												: "password"
+										}
+										variant="outlined"
 									/>
-								</Grid>
+								</FormControl>
 							</Grid>
-						</Paper>
-					</Grid>
-					<Grid item>
-						<Paper sx={(theme) => ({ padding: theme.spacing(2) })}>
-							<Grid
-								container
-								spacing={3}
-								alignItems="center"
-								mx={0}
-							>
-								<Grid item>
-									<Button type="submit" variant="contained">
-										Submit
-									</Button>
-								</Grid>
-								<Grid item>
-									<Link to="/signin">LOG IN</Link>
-								</Grid>
+							<Grid item xs={12}>
+								<Button
+									id="btnReset"
+									variant="contained"
+									fullWidth
+									type="submit"
+								>
+									Reset
+								</Button>
 							</Grid>
-						</Paper>
-					</Grid>
-				</Grid>
-			</Box>
+						</Grid>
+					</Box>
+				</CardContent>
+			</Card>
 		</>
 	);
 }

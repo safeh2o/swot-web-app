@@ -1,10 +1,80 @@
-import { createTheme } from "@mui/material";
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
 const SliderThumbBoxShadow =
 	"0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)";
 
-export default createTheme({
+const CardShadow = '0px 2px 2px -1px rgba(0,0,0,0.1),0px 1px 2px 0px rgba(0,0,0,0.1),0px 1px 3px 0px rgba(0,0,0,0.075)';
+
+const family = '"Inter", "Roboto", "Helvetica", "Arial", sans-serif';
+
+let theme = createTheme({
+	ripple: {
+		opacity: '0.1',
+	},
+	typography: {
+		fontFamily: family,
+		fontSize: 16,
+		fontWeightBold: 600,
+		body1: {
+			fontSize: '1rem',
+			letterSpacing: '-0.011em',
+			lineHeight: '1.375',
+		},
+		body2: {
+			fontSize: '0.9375rem',
+			letterSpacing: '-0.009em',
+			lineHeight: '1.4',
+		},
+		h5: {
+			fontSize: '1rem',
+			letterSpacing: 'inherit',
+			lineHeight: 'inherit',
+		},
+		h4: {
+			fontSize: '1.0625rem',
+			letterSpacing: '-0.013em',
+			lineHeight: '1.4',
+		},
+		h3: {
+			fontSize: '1.225rem',
+			letterSpacing: '-0.014em',
+			lineHeight: '1.388',
+		},
+		h2: {
+			fontSize: '1.55rem',
+			letterSpacing: '-0.021em',
+			lineHeight: '1.416',
+			fontWeight: 500,
+		},
+		h1: {
+			fontSize: '1.875rem',
+			letterSpacing: '-0.021em',
+			lineHeight: '1.35',
+			fontWeight: 500,
+		},
+		subtitle1: {
+			fontSize: '1.15rem',
+			letterSpacing: '-0.014em',
+			lineHeight: '1.416',
+			fontWeight: 500,
+		},
+		subtitle2: {
+			fontSize: '1rem',
+			letterSpacing: '-0.009em',
+			lineHeight: '1.4',
+			fontWeight: 500,
+		},
+		// Forms
+		caption: {
+			fontSize: '0.875rem',
+			letterSpacing: '-0.006em',
+			lineHeight: '1.428',
+		}
+	},
 	palette: {
+		text: {
+			primary: '#161819',
+		},
 		primary: {
 			main: "#4069b1",
 			contrastText: "#ffffff",
@@ -15,6 +85,47 @@ export default createTheme({
 		},
 	},
 	components: {
+		MuiButton: {
+			styleOverrides: {
+				root: {
+					color: 'inherit',
+				},
+			},
+		},
+		MuiIconButton: {
+			styleOverrides: {
+				root: {
+					color: 'inherit',
+				},
+			},
+		},
+		MuiFormHelperText: {
+			styleOverrides: {
+				root: {
+					fontWeight: 500,
+					marginTop: '10px'
+				},
+			},
+		},
+		MuiCard: {
+			styleOverrides: {
+				root: {
+					boxShadow: CardShadow,
+				},
+			},
+		},
+		MuiCardHeader: {
+			styleOverrides: {
+				root: {
+					// '& .MuiTypography-root': {
+					// 	fontSize: '1.15rem',
+					// 	letterSpacing: '-0.014em',
+					// 	lineHeight: '1.416',
+					// 	fontWeight: 400,
+					// }
+				},
+			},
+		},
 		MuiAccordionDetails: {
 			styleOverrides: {
 				root: {
@@ -26,20 +137,30 @@ export default createTheme({
 		MuiAccordion: {
 			styleOverrides: {
 				root: {
+					zIndex: 0,
+					borderRadius: 0,
+					boxShadow: 'none',
 					"&:before": {
 						display: "none",
 					},
 					"&.Mui-expanded": {
-						margin: "20px 30px 40px",
+						margin: 0,
+						'& .MuiAccordionSummary-root': {
+							minHeight: 'auto'
+						}
 					},
-					borderRadius: "7px",
+				},
+				content: {
+					margin: 0,
+					"&.Mui-expanded": {
+						margin: 0,
+					},
 				},
 			},
 		},
 		MuiAccordionSummary: {
 			styleOverrides: {
 				root: {
-					borderBottom: "1px solid #dde6ed",
 					margin: 0,
 				},
 				content: {
@@ -56,50 +177,71 @@ export default createTheme({
 		MuiSlider: {
 			styleOverrides: {
 				root: {
-					color: "#4069b1",
-					height: 10,
-					padding: "15px 0",
+					height: '24px',
+					zIndex: 1,
+					'&::before': {
+						content: '""',
+						position: 'absolute',
+						top: 'calc(50% - 12px)',
+						right: '100%',
+						zIndex: -1,
+						height: '24px',
+						width: '8px',
+						backgroundColor: '#4069b1'
+					},
+					'&::after': {
+						content: '""',
+						position: 'absolute',
+						top: 'calc(50% - 12px)',
+						left: '100%',
+						zIndex: -1,
+						height: '24px',
+						width: '8px',
+						backgroundColor: '#d5d9df'
+					}
 				},
 				thumb: {
 					transform: "scale(1)",
-					height: "2.6rem",
-					width: "2.6rem",
-					backgroundColor: "#4069b1",
+					height: "2.5rem",
+					width: "2.5rem",
 					boxShadow: SliderThumbBoxShadow,
-					marginTop: "-1.3rem",
-					marginLeft: "-1.3rem",
+					marginTop: "-1.25rem",
+					marginLeft: "-1.25rem",
+					border: "3px solid #305ba8",
 					"&.MuiSlider-thumb.Mui-focus, &.MuiSlider-thumb.Mui-hover, &.MuiSlider-thumb.Mui-active":
-						{
-							transform: "scale(1.1)",
-							boxShadow:
-								"0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)",
-							// Reset on touch devices, it doesn't add specificity
-							"@media (hover: none)": {
-								boxShadow: SliderThumbBoxShadow,
-							},
+					{
+						transform: "scale(1.1)",
+						boxShadow:
+							"0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)",
+						"@media (hover: none)": {
+							boxShadow: SliderThumbBoxShadow,
 						},
-				},
-				active: {},
-				track: {
-					height: 10,
+					},
 				},
 				rail: {
-					height: 10,
-					opacity: 0.5,
-					backgroundColor: "#bfbfbf",
+					backgroundColor: '#929eac',
+					borderRadius: '0',
 				},
-				mark: {
-					backgroundColor: "#bfbfbf",
-					height: 15,
-					width: 2,
-					marginTop: -5,
-					marginLeft: -1,
+				track: {
+					borderRadius: '0',
 				},
-				markActive: {
-					opacity: 1,
-					backgroundColor: "currentColor",
+				valueLabelCircle: {
+					backgroundColor: '#c1d1e0',
+					borderRadius: '2px',
+					color: '#161819',
+					boxShadow: SliderThumbBoxShadow,
 				},
+				'& .MuiSlider-valueLabelOpen': {
+					color: 'primary',
+					py: '2px',
+					px: 1,
+					backgroundColor: '#c1d1e0',
+				}
 			},
 		},
 	},
 });
+
+theme = responsiveFontSizes(theme);
+
+export default theme;

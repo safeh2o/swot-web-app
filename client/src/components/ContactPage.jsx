@@ -9,10 +9,9 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import AppContext from "../contexts/AppContext";
 import useForm from "../hooks/useForm";
 import { handleServerMessages, setLoading } from "../reducers/notifications";
 import { pushView } from "../reducers/view";
@@ -36,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ContactPage(props) {
-	const { grecaptchaSiteKey } = useContext(AppContext);
 	const [contactReasons, setContactReasons] = useState([]);
 	const [disabled, setDisabled] = useState(true);
 	const classes = useStyles();
@@ -46,7 +44,6 @@ export default function ContactPage(props) {
 		phone: "",
 		reason: "",
 		message: "",
-		captcha: null,
 	});
 	const dispatch = useDispatch();
 
@@ -64,23 +61,14 @@ export default function ContactPage(props) {
 
 	function handleSubmit() {
 		dispatch(setLoading(true));
-		grecaptcha.ready(function () {
-			grecaptcha
-				.execute(grecaptchaSiteKey, { action: "submit" })
-				.then(function (token) {
-					axios
-						.post("/api/contact", {
-							...state,
-							"g-recaptcha-response": token,
-						})
-						.then(({ data }) => {
-							dispatch(handleServerMessages(data.messages));
-						})
-						.finally(() => {
-							dispatch(setLoading(false));
-						});
-				});
-		});
+		axios
+			.post("/api/contact", state)
+			.then(({ data }) => {
+				dispatch(handleServerMessages(data.messages));
+			})
+			.finally(() => {
+				dispatch(setLoading(false));
+			});
 	}
 
 	return (
@@ -195,24 +183,12 @@ export default function ContactPage(props) {
 
 						<NoteLine>
 							By clicking Submit, you agree to our{" "}
-							<Link to="pages/terms-of-use">Terms of Use</Link>
+							<Link to="/pages/terms-of-use">Terms of Use</Link>
 							&nbsp; and our{" "}
-							<Link to="pages/privacy-policy">
+							<Link to="/pages/privacy-policy">
 								Privacy Policy
 							</Link>
 						</NoteLine>
-						<small>
-							This site is also protected by reCAPTCHA and the
-							Google{" "}
-							<a href="https://policies.google.com/privacy">
-								Privacy Policy
-							</a>{" "}
-							and{" "}
-							<a href="https://policies.google.com/terms">
-								Terms of Service
-							</a>{" "}
-							apply.
-						</small>
 					</section>
 				</section>
 			</form>

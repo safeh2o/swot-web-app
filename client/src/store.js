@@ -1,29 +1,27 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "./reducers/user";
-import blogReducer from "./reducers/posts";
-import notificationsReducer from "./reducers/notifications";
-import settingsReducer from "./reducers/settings";
-import viewReducer from "./reducers/view";
-import { reducer as formReducer } from "redux-form";
-import { combineReducers, createStore } from "redux";
+import { combineReducers } from "redux";
 import {
-	persistStore,
-	persistReducer,
 	FLUSH,
-	REHYDRATE,
 	PAUSE,
 	PERSIST,
+	persistReducer,
+	persistStore,
 	PURGE,
 	REGISTER,
+	REHYDRATE,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
+import notificationsReducer from "./reducers/notifications";
+import blogReducer from "./reducers/posts";
+import settingsReducer from "./reducers/settings";
+import userReducer from "./reducers/user";
+import viewReducer from "./reducers/view";
 
 const rootReducer = combineReducers({
 	user: userReducer,
 	blog: blogReducer,
 	notifications: notificationsReducer,
 	settings: settingsReducer,
-	form: formReducer,
 	view: viewReducer,
 });
 

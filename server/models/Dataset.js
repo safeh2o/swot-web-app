@@ -111,32 +111,6 @@ Dataset.schema.pre("save", function (next) {
 });
 
 Dataset.schema.methods.runAnalysis = async function () {
-	// const analyzer = require("../utils/analyzer");
-	// const dataService = require("../utils/data.service");
-
-	// const area = await dataService.getAreaByFieldsite(
-	// 	this.fieldsite.toString()
-	// );
-	// const country = await dataService.getCountryByArea(area.id);
-	// const populated = await this.populate("user fieldsite").execPopulate();
-	// let filename;
-	// if (!this.stdFile || !this.stdFile.filename) {
-	// 	console.log("This dataset is old, parsing old URL...");
-	// 	filename = this.file.url.substring(this.file.url.lastIndexOf("/") + 1);
-	// 	filename = filename.substring(0, filename.lastIndexOf(".")) + ".csv";
-	// } else {
-	// 	filename = this.stdFile.filename;
-	// }
-	// analyzer.notifyFileUpload(
-	// 	filename,
-	// 	populated.user.email,
-	// 	country,
-	// 	area,
-	// 	populated.fieldsite,
-	// 	this.user.toString(),
-	// 	this
-	// );
-
 	const { AZURE_STORAGE_CONNECTION_STRING, AZURE_STORAGE_QUEUE_ANALYZE } =
 		process.env;
 

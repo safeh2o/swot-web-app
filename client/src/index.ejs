@@ -5,7 +5,6 @@
 			http-equiv="Content-Security-Policy"
 			content="upgrade-insecure-requests"
 		/>
-		<script src="https://www.google.com/recaptcha/api.js?render=<%= htmlWebpackPlugin.options.grecaptchaSiteKey %>"></script>
 		<!-- add google tag manager -->
 		<% if (htmlWebpackPlugin.options.gtag) { %>
 		<script
@@ -28,14 +27,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Safe Water Optimization Tool</title>
 
-		<script
-			src="//code.jquery.com/jquery-3.3.1.min.js"
-			crossorigin="anonymous"
-		></script>
-
-		<!-- <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-				integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" /> -->
-
 		<!-- Fonts -->
 		<link rel="preconnect" href="https://fonts.gstatic.com" />
 		<link
@@ -53,16 +44,9 @@
 
 		<link href="/styles/site.css" rel="stylesheet" />
 
-		<script src="/js/jquery/jquery.form.min.js"></script>
-		<script src="//unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
-		<script src="/js/fa.min.js"></script>
-		<script src="/js/modals.js"></script>
-
 		<script>
 			window.__INITIAL_STATE = {
 				gtag: "<%= htmlWebpackPlugin.options.gtag %>",
-				grecaptchaSiteKey:
-					"<%= htmlWebpackPlugin.options.grecaptchaSiteKey %>",
 			};
 		</script>
 	</head>

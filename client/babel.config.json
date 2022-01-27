@@ -1,7 +1,11 @@
 {
 	"plugins": [
 		"@babel/plugin-proposal-class-properties",
-		"@babel/plugin-transform-runtime"
+		"@babel/plugin-transform-runtime",
+		[
+			"babel-plugin-direct-import",
+			{ "modules": ["@mui/material", "@mui/icons-material"] }
+		]
 	],
 	"presets": [
 		[

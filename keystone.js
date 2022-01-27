@@ -23,8 +23,6 @@ function validateConfig() {
 		"MONGO_DB_CONNECTION_STRING",
 		process.env.MONGO_DB_CONNECTION_STRING
 	);
-	checkConfigKey("FILE_REQUIRED_COLUMNS", process.env.FILE_REQUIRED_COLUMNS);
-	checkConfigKey("ANALYZER_URL", process.env.ANALYZER_URL);
 	checkConfigKey(
 		"AZURE_STORAGE_CONTAINER_STD",
 		process.env.AZURE_STORAGE_CONTAINER_STD
@@ -55,15 +53,11 @@ keystone.init({
 	name: "swot-web",
 	brand: "swot-web",
 
-	views: "./server/templates/views",
-	"view engine": ".html",
-	"custom engine": cons.nunjucks,
 	"signin logo": "./server/assets/swot_logo1.png",
 	mongo:
 		process.env.MONGO_DB_CONNECTION_STRING ||
 		"mongodb://localhost/my-project",
 
-	emails: "./server/templates/emails",
 	"auto update": true,
 	session: true,
 	auth: true,
@@ -93,7 +87,6 @@ keystone.set("locals", {
 	weburl: `${process.env.WEB_URL.startsWith("http") ? "" : "https://"}${
 		process.env.WEB_URL
 	}${process.env.WEB_URL.endsWith("/") ? "" : "/"}`,
-	grecaptcha: process.env.GOOGLE_RECAPTCHA_SITE_KEY,
 });
 
 keystone.set("mongoose", mongoose);

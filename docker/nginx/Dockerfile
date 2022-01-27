@@ -4,7 +4,6 @@
 FROM node:16.13.0-alpine as build
 
 ARG GOOGLE_ANALYTICS_GTAG
-ARG GOOGLE_RECAPTCHA_SITE_KEY
 WORKDIR /app/client
 COPY ./client/package.json ./
 COPY ./client/package-lock.json ./

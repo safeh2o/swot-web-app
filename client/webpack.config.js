@@ -95,6 +95,7 @@ module.exports = (_env, argv) => {
 				"/admin": "http://0.0.0.0:3000",
 			},
 		},
+		devtool: false,
 		plugins,
 		resolve: {
 			extensions: [".js", ".jsx", ".scss"],

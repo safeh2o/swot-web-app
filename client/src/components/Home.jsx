@@ -344,7 +344,7 @@ export default function Home() {
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										viewBox="0 0 200 200"
-										preserveAspectRatio="minXminY slice"
+										preserveAspectRatio="xMinYMin slice"
 									>
 										<path
 											fill="#004B8D"
@@ -371,7 +371,7 @@ export default function Home() {
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										viewBox="0 0 1599.6 465.8"
-										preserveAspectRatio="minXminY slice"
+										preserveAspectRatio="xMinYMin slice"
 									>
 										<path
 											fill="#ed1c24"
@@ -391,7 +391,7 @@ export default function Home() {
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										viewBox="0 0 540 540"
-										preserveAspectRatio="minXminY slice"
+										preserveAspectRatio="xMinYMin slice"
 									>
 										<path
 											fill="#691B33"
@@ -439,7 +439,7 @@ export default function Home() {
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										viewBox="0 0 126 24"
-										preserveAspectRatio="minXminY slice"
+										preserveAspectRatio="xMinYMin slice"
 									>
 										<path
 											fill="#c00"
@@ -459,7 +459,7 @@ export default function Home() {
 										xmlns="http://www.w3.org/2000/svg"
 										xmlnsXlink="http://www.w3.org/1999/xlink"
 										viewBox="0 0 321.7 97.5"
-										preserveAspectRatio="minXminY slice"
+										preserveAspectRatio="xMinYMin slice"
 									>
 										<path
 											fill="#d52b1e"

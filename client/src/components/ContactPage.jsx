@@ -1,10 +1,17 @@
 import {
-	Box, Button, Card, CardContent, CardHeader,
-	Divider, FormControl,
-	FormHelperText, Grid, InputLabel,
+	Box,
+	Button,
+	Card,
+	CardContent,
+	CardHeader,
+	Divider,
+	FormControl,
+	FormHelperText,
+	Grid,
+	InputLabel,
 	MenuItem,
 	Select,
-	TextField
+	TextField,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -14,11 +21,6 @@ import useForm from "../hooks/useForm";
 import { handleServerMessages, setLoading } from "../reducers/notifications";
 import { pushView } from "../reducers/view";
 import NotificationLine from "./elements/NotificationLine";
-
-
-
-
-
 
 export default function ContactPage(props) {
 	const [contactReasons, setContactReasons] = useState([]);
@@ -221,11 +223,11 @@ export default function ContactPage(props) {
 								<NotificationLine type="notice">
 									<p>
 										By clicking Submit, you agree to our{" "}
-										<Link to="pages/terms-of-use">
+										<Link to="/pages/terms-of-use">
 											Terms of Use
 										</Link>
 										&nbsp; and our{" "}
-										<Link to="pages/privacy-policy">
+										<Link to="/pages/privacy-policy">
 											Privacy Policy
 										</Link>
 									</p>

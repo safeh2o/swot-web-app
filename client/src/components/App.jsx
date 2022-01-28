@@ -1,44 +1,34 @@
 // React Imports
-import { Routes, Route, Navigate, Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-
 // App Theme Styling
 import { ThemeProvider } from "@mui/material/styles";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { getSettings } from "../reducers/settings";
+import { getUser, userSelectors } from "../reducers/user";
 import theme from "../theme";
-
-// App + Content Pages
-import PageWrapper from "./PageWrapper";
-import Home from "./Home";
+import Blog from "./Blog";
+// Archival Imports
+import BlogPost from "./BlogPost";
+// Admin Imports
+import CMSPage from "./CMSPage";
 import ContactPage from "./ContactPage";
-
+import Home from "./Home";
 // Management Imports
 import Fieldsites from "./manage/Fieldsites";
 import People from "./manage/People.jsx";
-
-// Admin Imports
-import CMSPage from "./CMSPage";
-
-// Tool Imports
-import CollectData from "./tool/CollectData";
-import UploadPage from "./tool/UploadPage";
-import AnalyzePage from "./tool/AnalyzePage";
-import ResultsPage from "./tool/ResultsPage";
-import Result from "./tool/Result";
-
+// App + Content Pages
+import PageWrapper from "./PageWrapper";
+import ProfileForgotPassword from "./profile/ProfileForgotPassword";
 // Admin Imports
 import ProfileLogin from "./profile/ProfileLogin";
-import ProfileForgotPassword from "./profile/ProfileForgotPassword";
 import ProfileResetPassword from "./profile/ProfileResetPassword";
-
-// Archival Imports
-import BlogPost from "./BlogPost";
-import Blog from "./Blog";
-
-import { getUser } from "../reducers/user";
-import { userSelectors } from "../reducers/user";
-import { getSettings } from "../reducers/settings";
+import AnalyzePage from "./tool/AnalyzePage";
+// Tool Imports
+import CollectData from "./tool/CollectData";
+import Result from "./tool/Result";
+import ResultsPage from "./tool/ResultsPage";
+import UploadPage from "./tool/UploadPage";
 
 export default function App() {
 	const dispatch = useDispatch();

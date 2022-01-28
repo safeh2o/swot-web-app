@@ -1,47 +1,40 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { DateRangePicker, LocalizationProvider } from "@mui/lab";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {
+	Box,
 	Card,
+	CardContent,
 	CardHeader,
 	Divider,
-	CardContent,
-	Box,
 	Grid,
 	Slider,
 	Stack,
+	TextField,
 } from "@mui/material";
 import {
 	Accordion,
-	AccordionSummary,
 	AccordionDetails,
+	AccordionSummary,
 	Button,
 	FormControl,
+	FormControlLabel,
 	Radio,
 	RadioGroup,
-	FormControlLabel,
 	Typography,
 } from "@mui/material/";
-
-import { IconCalendar } from "../icons";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ClearIcon from "@mui/icons-material/Clear";
-
+import axios from "axios";
 import _ from "lodash";
 import { DateTime } from "luxon";
-import axios from "axios";
-
-import useForm from "../../hooks/useForm";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
-import { pushView } from "../../reducers/view";
-import { userSelectors } from "../../reducers/user";
+import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
-
-import DateRangePicker from "@wojtekmaj/react-daterange-picker";
-import LocationDropdown from "../elements/LocationDropdown";
+import { userSelectors } from "../../reducers/user";
+import { pushView } from "../../reducers/view";
+import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
 
 const initialState = {
@@ -362,14 +355,10 @@ export default function AnalyzePage() {
 						},
 					}}
 				>
-					<LocationDropdown
-						onChange={(_event, value) => {
-							update({
-								fieldsite: value,
-							});
+					<FieldsiteDropdown
+						onChange={(value) => {
+							update({ fieldsite: value });
 						}}
-						value={state && state.fieldsite}
-						locations={fieldsites}
 					/>
 				</CardContent>
 			</Card>
@@ -423,7 +412,21 @@ export default function AnalyzePage() {
 								</Button>
 							</Stack>
 
-							<DateRangePicker
+							<LocalizationProvider dateAdapter={AdapterDateFns}>
+								<DateRangePicker
+									value={[state.startDate, state.endDate]}
+									onChange={handleDateChange}
+									renderInput={(startProps, endProps) => (
+										<>
+											<TextField {...startProps} />
+											<Box sx={{ mx: 1 }}> to </Box>
+											<TextField {...endProps} />
+										</>
+									)}
+									sx={{ width: "100%" }}
+								/>
+							</LocalizationProvider>
+							{/* <DateRangePicker
 								format={"y-MM-dd"}
 								yearPlaceholder={"YYYY"}
 								monthPlaceholder={"M"}
@@ -442,7 +445,7 @@ export default function AnalyzePage() {
 								value={[state.startDate, state.endDate]}
 								onChange={handleDateChange}
 								sx={{ width: "100%" }}
-							/>
+							/> */}
 
 							<Divider />
 

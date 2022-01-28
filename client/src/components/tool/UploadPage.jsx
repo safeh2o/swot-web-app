@@ -1,39 +1,29 @@
-import { useState } from "react";
-import { useRef } from "react";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-
-import { Link } from "react-router-dom";
-
 import {
-	Grid,
 	Box,
-	Card,
-	CardHeader,
-	Divider,
-	CardContent,
-} from "@mui/material";
-import {
-	FormGroup,
-	FormControlLabel,
 	Button,
+	Card,
+	CardContent,
+	CardHeader,
 	Checkbox,
+	Divider,
+	FormControlLabel,
+	FormGroup,
+	Grid,
 	Typography,
 } from "@mui/material";
-
+import axios from "axios";
+import { DropzoneArea } from "material-ui-dropzone";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { DEFAULT_FIELDSITE } from "../../constants/defaults";
+import { MEGABYTE } from "../../helpers/bitcalc";
+import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import { userSelectors } from "../../reducers/user";
 import { pushView } from "../../reducers/view";
-import useForm from "../../hooks/useForm";
-import { DEFAULT_FIELDSITE } from "../../constants/defaults";
-import { MEGABYTE } from "../../helpers/bitcalc";
-
-import LocationDropdown from "../elements/LocationDropdown";
+import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
-import { DropzoneArea } from "material-ui-dropzone";
-import axios from "axios";
-
 import { IconUpload } from "../icons";
 
 const initialState = {
@@ -215,14 +205,10 @@ export default function UploadPage() {
 				<Divider />
 
 				<CardContent>
-					<LocationDropdown
-						value={state && state.fieldsite}
-						onChange={(_event, value) => {
-							update({
-								fieldsite: value,
-							});
+					<FieldsiteDropdown
+						onChange={(value) => {
+							update({ fieldsite: value });
 						}}
-						locations={fieldsites}
 					/>
 				</CardContent>
 			</Card>

@@ -26,7 +26,7 @@ export default function Footer() {
 					<NavLink to="/pages/terms-of-use">
 						<span>Terms of Use</span>
 					</NavLink>
-					&nbsp;&nbsp;
+					&nbsp;&nbsp;/&nbsp;&nbsp;
 					<NavLink to="/pages/privacy-policy">
 						<span>Privacy Policy</span>
 					</NavLink>

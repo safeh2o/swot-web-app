@@ -19,7 +19,7 @@ import { formatDate } from "../../helpers/dates";
 import { addNotice, setLoading } from "../../reducers/notifications";
 import { userSelectors } from "../../reducers/user";
 import { pushView } from "../../reducers/view";
-import LocationDropdown from "../elements/LocationDropdown";
+import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
 import { IconCheck } from "../icons";
 
@@ -71,15 +71,6 @@ const columns = [
 		headerName: "Date Generated",
 		type: "date",
 		flex: 0.3,
-		renderCell: ({ row }) => {
-			if (!row?.status?.ann?.success || !row?.status?.eo?.success) {
-				return row.dateCreated;
-			} else {
-				return (
-					<Link to={`/results/${row._id}`}>{row.dateCreated}</Link>
-				);
-			}
-		},
 		valueFormatter: ({ value }) => formatDate(value),
 	},
 	{
@@ -177,7 +168,6 @@ const css = {
 };
 
 export default function ResultsPage() {
-	const fieldsites = useSelector(userSelectors.fieldsites);
 	const [fieldsite, setFieldsite] = useState(DEFAULT_FIELDSITE);
 	const [datasets, setDatasets] = useState([]);
 	const [selectedDatasets, setSelectedDatasets] = useState([]);
@@ -237,12 +227,10 @@ export default function ResultsPage() {
 						},
 					}}
 				>
-					<LocationDropdown
-						value={fieldsite}
-						onChange={(_event, value) => {
+					<FieldsiteDropdown
+						onChange={(value) => {
 							setFieldsite(value);
 						}}
-						locations={fieldsites}
 					/>
 				</CardContent>
 			</Card>

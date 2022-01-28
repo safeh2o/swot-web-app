@@ -3,16 +3,17 @@ import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { notificationsSelectors } from "../../reducers/notifications";
+
 function LocationDropdown(props) {
 	const isLoading = useSelector(notificationsSelectors.loading);
 
-	const { locations } = props;
+	const { locations, fieldLabel } = props;
 
 	useEffect(() => {
 		if (
 			props.value &&
 			!props.value._id &&
-			locations.length > 0 &&
+			locations?.length > 0 &&
 			props.onChange
 		) {
 			props.onChange(null, locations[0]);
@@ -21,16 +22,10 @@ function LocationDropdown(props) {
 
 	return (
 		<Autocomplete
-			id="fieldsite"
-			options={locations}
+			options={locations || []}
 			getOptionLabel={(option) => option.name || ""}
 			renderInput={(params) => (
-				<TextField
-					{...params}
-					label=""
-					variant="outlined"
-					placeholder="Select a Location"
-				/>
+				<TextField {...params} label={fieldLabel} />
 			)}
 			loading={isLoading}
 			value={props.value}
@@ -39,6 +34,7 @@ function LocationDropdown(props) {
 			isOptionEqualToValue={(option, value) =>
 				value.name === "" || option.name === value.name
 			}
+			fullWidth
 		/>
 	);
 }
@@ -46,6 +42,8 @@ function LocationDropdown(props) {
 LocationDropdown.propTypes = {
 	value: PropTypes.object.isRequired,
 	onChange: PropTypes.func.isRequired,
+	fieldLabel: PropTypes.string,
+	locations: PropTypes.array,
 };
 
 export default LocationDropdown;

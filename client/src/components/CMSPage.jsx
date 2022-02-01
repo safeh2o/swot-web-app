@@ -5,6 +5,9 @@ import { useParams } from "react-router-dom";
 import { setLoading } from "../reducers/notifications";
 import { pushView } from "../reducers/view";
 
+import { Card, CardContent, Divider } from "@mui/material";
+import { Box, Typography, Button, SvgIcon } from "@mui/material";
+
 export default function CMSPage(props) {
 	const dispatch = useDispatch();
 	const { slug } = useParams();
@@ -40,34 +43,51 @@ export default function CMSPage(props) {
 		}
 	}, [page]);
 
+	// Styles
+	const css = {
+		cardElement: {
+			overflow: "visible",
+			marginBottom: "30px",
+			"& .MuiCardContent-root": {
+				p: 2,
+				"&:last-child": {
+					p: 2,
+				},
+			},
+		},
+	};
+
 	return (
 		<>
-			<div className="container">
-				<div className=" px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-					<h1 className="display-4" id="headerText">
-						{page.title || "Loading..."}
-					</h1>
-				</div>
-			</div>
-			<div className="container px-3 py-3 pb-md-4 mx-auto">
-				{page.image && page.image.secure_url && (
-					<div className="image-wrap">
-						<img
-							src={page.image.secure_url}
-							className="img-responsive"
-						/>
-						<br />
-						<br />
-					</div>
-				)}
-				<div
-					dangerouslySetInnerHTML={{
-						__html: DOMPurify.sanitize(
-							page.content.extended || "Content is loading..."
-						),
-					}}
-				/>
-			</div>
+			<Card sx={{ ...css.cardElement }}>
+				<CardContent>
+					<Box component="article">
+						{page.image && page.image.secure_url && (
+							<Box component={"figure"} sx={{ mb: 2 }}>
+								<img src={page.image.secure_url} alt="" />
+							</Box>
+						)}
+						<Typography
+							component={"h3"}
+							variant="h3"
+							gutterBottom
+							color="primary"
+							sx={{ display: "block", fontWeight: "500" }}
+						>
+							{page.title || "Loading..."}
+						</Typography>
+						<div
+							variant="body1"
+							dangerouslySetInnerHTML={{
+								__html: DOMPurify.sanitize(
+									page.content.extended ||
+										"Content is loading..."
+								),
+							}}
+						></div>
+					</Box>
+				</CardContent>
+			</Card>
 		</>
 	);
 }

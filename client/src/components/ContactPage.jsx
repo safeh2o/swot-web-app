@@ -90,13 +90,14 @@ export default function ContactPage(props) {
 								<FormControl fullWidth>
 									<TextField
 										required
-										label="Name"
+										label="Full Name"
 										id="name"
 										value={state.name}
 										onChange={getTextChangeHandler("name")}
 									/>
 									<FormHelperText>
-										So we can address you
+										Please add your first and last name here
+										(required)
 									</FormHelperText>
 								</FormControl>
 							</Grid>
@@ -118,28 +119,44 @@ export default function ContactPage(props) {
 							<Grid item xs={12} sm={6}>
 								<FormControl fullWidth>
 									<TextField
+										id="organisation"
+										type="text"
+										label="Organisation"
+										required
+										value={state.email}
+										// onChange={}
+									/>
+									<FormHelperText>
+										Which organisation do you work with?
+										(required)
+									</FormHelperText>
+								</FormControl>
+							</Grid>
+							<Grid item xs={12} sm={6}>
+								<FormControl fullWidth>
+									<TextField
 										id="phone"
 										type="phone"
-										label="Phone"
+										label="Phone Number"
 										value={state.phone}
 										onChange={getTextChangeHandler("phone")}
 									/>
 									<FormHelperText>
-										(Optional) Please include your country
-										code
+										Please include you country and area code
+										(Optional)
 									</FormHelperText>
 								</FormControl>
 							</Grid>
 							<Grid item xs={12} sm={7} sx={{ mt: 4 }}>
 								<FormControl fullWidth>
 									<InputLabel id="SelectReasonLabel">
-										Type of Inquiry
+										Reason for contacting us today*
 									</InputLabel>
 									<Select
 										required
 										displayEmpty
 										labelId="SelectReasonLabel"
-										label="Type of Inquiry"
+										label="Reason for contacting us today*"
 										value={state.reason}
 										onChange={getTextChangeHandler(
 											"reason"
@@ -174,7 +191,8 @@ export default function ContactPage(props) {
 										)}
 									</Select>
 									<FormHelperText>
-										How can we help you?
+										Please select from the dropdown menu
+										(optional)
 									</FormHelperText>
 								</FormControl>
 							</Grid>
@@ -184,7 +202,7 @@ export default function ContactPage(props) {
 										required
 										multiline
 										id="message"
-										label="Message"
+										label="Leave us a short message (optional)"
 										rows={4}
 										value={state.message}
 										onChange={getTextChangeHandler(

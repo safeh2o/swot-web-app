@@ -122,6 +122,7 @@ const css = {
 				typography: "caption",
 				color: "#929eac",
 				fontWeight: "500",
+				marginBottom: "0",
 			},
 		"& .MuiDataGrid-columnHeaderTitleContainer button, & .MuiDataGrid-columnHeaderTitleContainer .MuiInputBase-root, & .MuiDataGrid-columnHeaderTitleContainer .MuiCheckbox-root":
 			{
@@ -296,6 +297,7 @@ export default function ResultsPage() {
 										typography: "caption",
 										color: "#929eac",
 										p: 4,
+										minHeight: "200px",
 									}}
 								>
 									No Datasets. Please Select a Location Above

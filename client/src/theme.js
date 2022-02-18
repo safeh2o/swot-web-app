@@ -110,7 +110,7 @@ let theme = createTheme({
 		MuiCard: {
 			styleOverrides: {
 				root: {
-					boxShadow: CardShadow,
+					boxShadow: 'none',
 				},
 			},
 		},

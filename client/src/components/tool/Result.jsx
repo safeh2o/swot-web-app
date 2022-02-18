@@ -62,7 +62,7 @@ export default function Result(props) {
 	// Styles
 	const css = {
 		hr: {
-			borderColor: "#",
+			borderColor: "rgba(0,0,0,0.05)",
 			borderWidth: "2px",
 			marginTop: "30px",
 			marginBottom: "30px",
@@ -91,9 +91,9 @@ export default function Result(props) {
 		},
 		stat: {
 			display: "inline-block",
-			borderLeft: "1.5px solid #dde6ed",
+			borderLeft: "1.5px solid #eee",
 			padding: "0 20px 10px 10px",
-			margin: "0px 0px 15px 0px",
+			margin: "0px 0px 20px 0px",
 			//
 			"& .MuiTypography-inputValue": {
 				display: "flex",

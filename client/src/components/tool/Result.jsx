@@ -93,7 +93,7 @@ export default function Result(props) {
 			display: "inline-block",
 			borderLeft: "1.5px solid #eee",
 			padding: "0 20px 10px 10px",
-			margin: "0px 0px 20px 0px",
+			margin: "5px 0px",
 			//
 			"& .MuiTypography-inputValue": {
 				display: "flex",
@@ -112,14 +112,15 @@ export default function Result(props) {
 					marginLeft: "3px",
 				},
 			},
-			seperator: {
+			divider: {
 				opacity: 0,
 			},
 			range: {
 				display: "flex",
-				divider: {
+				seperator: {
+					fontSize: "15px",
 					alignSelf: "center",
-					margin: "0 .5rem",
+					margin: "0 .75rem",
 				},
 			},
 			unit: {
@@ -242,6 +243,8 @@ export default function Result(props) {
 						<Type variant="inputLabel">Date of Analysis</Type>
 					</Box>
 
+					<Divider sx={{ ...css.stat.divider }} />
+
 					<Box sx={{ ...css.stat }}>
 						<Box sx={{ ...css.stat.range }}>
 							<Type variant="inputValue">
@@ -250,7 +253,7 @@ export default function Result(props) {
 							</Type>
 							<Type
 								component="span"
-								sx={{ ...css.stat.range.divider }}
+								sx={{ ...css.stat.range.seperator }}
 							>
 								to
 							</Type>
@@ -262,6 +265,8 @@ export default function Result(props) {
 							Date Range of Analysis Requested
 						</Type>
 					</Box>
+
+					<Divider sx={{ ...css.stat.divider }} />
 
 					<Box sx={{ ...css.stat }}>
 						<Type variant="inputValue">9 hrs</Type>
@@ -291,7 +296,7 @@ export default function Result(props) {
 							<Type variant="inputValue">12/12/20</Type>
 							<Type
 								component="span"
-								sx={{ ...css.stat.range.divider }}
+								sx={{ ...css.stat.range.seperator }}
 							>
 								to
 							</Type>
@@ -315,7 +320,7 @@ export default function Result(props) {
 							</Tooltip>
 						</Type>
 					</Box>
-					<Divider sx={{ ...css.stat.seperator }} />
+					<Divider sx={{ ...css.stat.divider }} />
 					<Box
 						sx={{ ...css.stat }}
 						className={dataset.nSamples < 100 ? "low" : "pass"}

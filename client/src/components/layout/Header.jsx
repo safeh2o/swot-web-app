@@ -5,12 +5,13 @@ import {
 	IconButton,
 	Skeleton,
 	Stack,
+	SvgIcon,
 	Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import _ from 'lodash';
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { setLoading } from "../../reducers/notifications";
 import { userSelectors } from "../../reducers/user";
 import UserDetailsModal from "../elements/UserDetailsModal";
@@ -22,6 +23,7 @@ import {
 	IconSignIn,
 	IconSignOut,
 	SWOTLogo,
+	SWOTLogoCompact,
 } from "../icons";
 import NavContent from "./NavContent";
 import NavTools from "./NavTools";
@@ -57,31 +59,38 @@ export default function Header(props) {
 			display: "flex",
 			justifyContent: "space-between",
 			color: "#fff",
-			px: 2,
+			px: {
+				xs: 4,
+				md: 2,
+			},
 			mt: {
-				xs: 1,
+				xs: 2,
 				md: 3,
 			},
 			mb: {
 				xs: 1,
 				md: 2,
 			},
-		},
-		logo: {
-			flexGrow: 0,
-			alignSelf: "flex-end",
-			display: "block",
-			lineHeight: 0,
-			color: "white",
-			m: 0,
-			p: 0,
-			"& svg ": {
-				fill: "currentColor",
-				width: {
-					xs: 191,
-					md: 231,
+			"& .logo": {
+				flexGrow: 0,
+				alignSelf: "flex-end",
+				display: "block",
+				lineHeight: 0,
+				color: "white",
+				m: 0,
+				p: 0,
+				"& svg ": {
+					fill: "currentColor",
+					height: "auto",
 				},
-				height: "auto",
+				"& svg.large": {
+					display: { xs: "none", md: "block" },
+					width: 231,
+				},
+				"& svg.compact": {
+					display: { xs: "block", md: "none" },
+					width: 154,
+				},
 			},
 		},
 		ul: {
@@ -95,47 +104,98 @@ export default function Header(props) {
 			pl: 4,
 			m: 0,
 			//
+			"& a, & button": {
+				"&:hover": {
+					color: "currentColor",
+				},
+			},
+			//
 			"& .nav-content": {
 				display: { xs: "none", md: "flex" },
-				marginTop: { md: 1 },
-				"& a, & button": {
+				"& a": {
 					typography: "subtitle2",
 					textTransform: "capitalize",
-					padding: "3px 5px",
-					margin: "3px",
-					backgroundColor: "rgba(0,0,0,0.05)",
+					margin: "3px 6px",
+				},
+				"& .signout": {
+					textDecoration: "underline dotted",
 				},
 			},
 			"& .nav-profile": {
+				display: "flex",
+				gridTemplateColumns: "1fr 1fr",
 				order: { md: "-1" },
 				flexBasis: { md: "100%" },
 				flexWrap: { xs: "wrap", md: "nowrap" },
 				justifyContent: "end",
 				"& a, & button": {
-					color: "primary.main",
-					backgroundColor: "white",
-					padding: "3px",
-					margin: "3px 4px",
+					padding: { xs: "0px", md: "3px" },
+					margin: { xs: "4px", md: "3px 4px" },
 					borderRadius: "3px",
+					svg: {
+						width: { xs: "1em", md: ".9em" },
+						height: { xs: "1em", md: ".9em" },
+					},
+				},
+				"& .signin": {
+					textTransform: "none",
+					p: 0,
+					m: 0,
+				},
+				"& .openDrawer": {
+					svg: {
+						width: "1.3em",
+						height: "1.3em",
+					},
 				},
 			},
 		},
 		list: {},
-		action: {
-			textTransform: "none",
-			backgroundColor: "#4c7fd8",
-			paddingLeft: "10px!important",
-			"& svg": {
-				marginLeft: "10px",
-			},
-		},
 		setMobileNavOpen: {
 			display: { md: "none" },
 			padding: "6px",
 			margin: "0px 1px",
 		},
 		drawerElement: {
-			"": {},
+			"& .MuiPaper-root": {
+				width: 200,
+				minHeight: "100%",
+				backgroundColor: "#E3E4E6",
+				p: "20px 20px 10px",
+				maxWidth: "100%",
+			},
+			"& .signout, & .signin": {
+				position: "relative",
+				textAlign: "left",
+				marginBottom: "16px",
+				color: "#fff",
+				backgroundColor: "primary.main",
+				border: "1px solid #bbb",
+				borderRadius: "3px",
+				display: { xs: "block", sm: "inline" },
+				p: { xs: "4px 8px", sm: 0 },
+				mb: 2,
+				"& svg": {
+					position: "absolute",
+					top: "50%",
+					right: "8px",
+					transform: "translateY(-50%)",
+					width: ".9em",
+					height: ".9em",
+				},
+			},
+			"& .signout": {
+				color: "#4c5054",
+				backgroundColor: "#EAC1AE",
+			},
+			"& .signin": {
+				color: "#4c5054",
+				backgroundColor: "#C2D4D0",
+			},
+			"& .nav-profile": {
+				justifyContent: "center",
+				mb: 2,
+			},
 		},
 	};
 
@@ -170,8 +230,9 @@ export default function Header(props) {
 	return (
 		<>
 			<Box component="nav" sx={{ ...css.nav }}>
-				<Box to={"/"} component={NavLink} sx={{ ...css.logo }}>
-					<SWOTLogo />
+				<Box to={"/"} component={NavLink} className="logo">
+					<SWOTLogo className="large" />
+					<SWOTLogoCompact className="compact" />
 				</Box>
 
 				{/* Large Screens */}
@@ -186,11 +247,22 @@ export default function Header(props) {
 								component="li"
 							>
 								<NavContent />
+								{/* User signout */}
+								{isLoggedIn && (
+									<Link
+										to="/admin/signout"
+										tabIndex={-1}
+										onClick={handleSignout}
+										className="signout"
+									>
+										Logout
+									</Link>
+								)}
 							</Stack>
 
 							{/* profile based nav */}
 							<Stack
-								className="nav-profile"
+								className="nav-profile large"
 								direction="row"
 								alignItems="center"
 								component="li"
@@ -207,15 +279,6 @@ export default function Header(props) {
 										<IconButton href="/admin" tabIndex={-1}>
 											<IconAdmin />
 										</IconButton>
-
-										{/* User signout */}
-										<IconButton
-											href="/admin/signout"
-											tabIndex={-1}
-											onClick={handleSignout}
-										>
-											<IconSignOut />
-										</IconButton>
 									</>
 								) : (
 									<>
@@ -224,25 +287,25 @@ export default function Header(props) {
 											to="/signin"
 											component={NavLink}
 											tabIndex={-1}
-											sx={{ ...css.action }}
+											className="signin"
 										>
 											Log in
-											<IconSignIn />
 										</Button>
 									</>
 								)}
-							</Stack>
 
-							{/* open mobile nav */}
-							<IconButton
-								component="li"
-								onClick={() => setMobileNavOpen(true)}
-								sx={{ ...css.setMobileNavOpen }}
-							>
-								{(mobileNavOpen && <IconNavClose />) || (
-									<IconNavOpen />
-								)}
-							</IconButton>
+								{/* open mobile nav */}
+								<IconButton
+									component="a"
+									onClick={() => setMobileNavOpen(true)}
+									sx={{ ...css.setMobileNavOpen }}
+									className={"openDrawer"}
+								>
+									{(mobileNavOpen && <IconNavClose />) || (
+										<IconNavOpen />
+									)}
+								</IconButton>
+							</Stack>
 						</>
 					)) || (
 						<>
@@ -261,16 +324,37 @@ export default function Header(props) {
 					anchor="left"
 					open={mobileNavOpen}
 					onClose={() => setMobileNavOpen(false)}
+					sx={{ ...css.drawerElement }}
 				>
 					<Box
-						sx={{
-							width: 250,
-						}}
 						role="presentation"
 						onClick={() => setMobileNavOpen(false)}
 						onKeyUp={() => setMobileNavOpen(false)}
 					>
-						<NavTools />
+						{/* User signout */}
+						{isLoggedIn ? (
+							<>
+								<Link
+									to="/admin/signout"
+									tabIndex={-1}
+									onClick={handleSignout}
+									className="signout"
+								>
+									Logout
+									<IconSignOut />
+								</Link>
+								<NavTools />
+							</>
+						) : (
+							<NavLink
+								to="/signin"
+								tabIndex={-1}
+								className="signin"
+							>
+								Log in
+								<IconSignIn />
+							</NavLink>
+						)}
 						<NavContent />
 					</Box>
 				</Drawer>

@@ -61,3 +61,5 @@ export * from "./SidebarToolNav";
 export { default as SidebarToolNav } from "./SidebarToolNav";
 export * from "./SWOTLogo";
 export { default as SWOTLogo } from "./SWOTLogo";
+export * from "./SWOTLogoCompact";
+export { default as SWOTLogoCompact } from "./SWOTLogoCompact";

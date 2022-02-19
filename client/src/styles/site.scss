@@ -15,24 +15,9 @@
 @import "common/fonts";
 @import "common/icons";
 @import "common/forms";
-@import "common/blog";
-
 // template part - header
 @import "layout/layout-header";
 // template part - main ()
-@import "layout/layout-main";
-@import "layout/layout-main-sidebar"; // sidebar (overview|tools|admin)
 @import "layout/layout-main-content"; // content
 // template views - Tool
-@import "views/Dashboard"; // Dashboard
 @import "views/CollectData"; // CollectData
-@import "views/UploadData"; // UploadData
-@import "views/SendForAnalysis"; // SendForAnalysis
-@import "views/ViewResults"; // Results Archive
-@import "views/Result"; // Result Page
-// template views - Manage
-@import "views/Fieldsites"; // Fieldsites
-// template views - Pages
-@import "views/Home"; // ContactUs
-// template part - footer
-@import "layout/layout-footer";

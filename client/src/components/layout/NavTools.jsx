@@ -14,15 +14,17 @@ const css = {
 	color: "#17191a",
 	backgroundColor: "#fff",
 	borderRadius: "4px",
-	boxShadow: "0px 1px 1px rgba(0, 0, 0, 0.075)",
-	p: 0,
-	marginBottom: "10px",
+	boxShadow: "none",
+	border: { xs: "1px solid rgba(0, 0, 0, 0.05)", sm: "none" },
+	p: { xs: 1, sm: 0 },
+	m: { xs: "0 0 12px", sm: "0 0 10px 0" },
 	transition: "box-shadow 0s ease, background-color 0s ease",
-	"&:after": {
+	"&:before": {
+		display: { xs: "none", sm: "flex" },
 		content: "attr(step)",
 		position: "absolute",
-		top: "1rem",
-		left: ".75rem",
+		top: { xs: "6px", sm: "1rem" },
+		left: { xs: "6px", sm: ".75rem" },
 		fontSize: "0.8rem",
 		fontWeight: "500",
 		textAlign: "center",
@@ -44,7 +46,8 @@ const css = {
 		color: "#fff",
 		backgroundColor: "primary.main",
 		pointerEvents: "none",
-		boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.5)",
+		textDecoration: "underline dotted",
+		textUnderlineOffset: 0,
 		"& .gray": {
 			fill: "#929eac",
 		},
@@ -54,7 +57,7 @@ const css = {
 		},
 	},
 	"&:not(.active):hover": {
-		backgroundColor: "#dfdfdf",
+		backgroundColor: "transparent",
 	},
 	//
 	wrap: {
@@ -64,7 +67,7 @@ const css = {
 	},
 	//
 	icon: {
-		display: "flex",
+		display: { xs: "none", sm: "flex" },
 		height: "relative",
 		p: 0,
 		"& > svg": {

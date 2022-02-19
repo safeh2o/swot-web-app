@@ -1,26 +1,24 @@
-import { Button } from "@mui/material";
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
-import { userSelectors } from "../../reducers/user";
-import { IconQuestionMark } from "../icons";
+import { Box } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function NavTools() {
-	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
+	const css = {
+		display: { xs: "block", sm: "inline-block" },
+		"& a": {
+			display: { xs: "block", sm: "inline" },
+			textAlign: "center",
+			p: { xs: "4px", sm: 0 },
+		},
+	};
 
 	return (
-		<>
-			<Button href="https://www.safeh2o.app/" target="_blank">
+		<Box sx={{ ...css }}>
+			<a href="https://www.safeh2o.app/" target="_blank" rel="noreferrer">
 				About
-			</Button>
-			<Button to="/blog" component={NavLink}>
-				News
-			</Button>
-			<Button to="/support" component={NavLink}>
-				Support
-			</Button>
-			<Button to="/contact" component={NavLink}>
-				Contact
-			</Button>
-		</>
+			</a>
+			<Link to="/blog">News</Link>
+			<Link to="/support">Support</Link>
+			<Link to="/contact">Contact</Link>
+		</Box>
 	);
 }

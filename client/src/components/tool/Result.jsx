@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import NotificationLine from "../elements/NotificationLine";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,8 +9,6 @@ import { addError, addNotice, setLoading } from "../../reducers/notifications";
 // Frontend Imports
 import { Card, CardHeader, CardContent, Divider, Tooltip } from "@mui/material";
 import { Box, Link, Typography, Button, SvgIcon } from "@mui/material";
-
-import { IconQuestionMark } from "../icons";
 
 export default function Result(props) {
 	const { AZURE_STORAGE_ACCOUNT } = useSelector(settingsSelectors.settings);
@@ -61,6 +59,22 @@ export default function Result(props) {
 
 	// Styles
 	const css = {
+		buttonBackToResults: {
+			display: "block",
+			fontSize: "0.85em",
+			alignItems: "center",
+			justifyContent: "flex-start",
+			backgroundColor: "#161819",
+			borderRadius: "2px",
+			color: "#fcfcfc",
+			width: "100%",
+			py: 1,
+			px: 2,
+			mb: 3,
+			hover: {
+				backgroundColor: "#161819",
+			},
+		},
 		hr: {
 			borderColor: "rgba(0,0,0,0.05)",
 			borderWidth: "2px",
@@ -69,6 +83,8 @@ export default function Result(props) {
 		},
 		cardElement: {
 			marginBottom: "15px",
+			//
+
 			//
 			"& .sup": {
 				position: "relative",
@@ -205,9 +221,13 @@ export default function Result(props) {
 	return (
 		<>
 			{/* <h4>Coming soon...</h4> */}
-			<Link component="button" href={`/results`} sx={{ mb: 2 }}>
+			<Button
+				component={NavLink}
+				to={`/results`}
+				sx={{ ...css.buttonBackToResults }}
+			>
 				Back to All Results
-			</Link>
+			</Button>
 
 			{/* Location */}
 			<Card id="result-location" sx={{ ...css.cardElement }}>

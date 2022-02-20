@@ -57,7 +57,7 @@ exports.download = async function (req, res) {
 		const blobClient = containerClient.getBlobClient(blobName);
 		const blobData = await blobClient.download();
 		archive.append(blobData.readableStreamBody, {
-			name: blobName.split("/").at(-1),
+			name: blobName.split("/").slice(-1)[0],
 		});
 	}
 
@@ -140,9 +140,20 @@ exports.dataset = async function (req, res) {
 		return;
 	}
 	try {
-		const dataset = await Dataset.model.find({ _id: req.params.datasetId });
-		res.json({ dataset });
+		const dataset = await Dataset.model.findById(req.params.datasetId);
+		const fieldsite = await dataService.getFieldsiteById(dataset.fieldsite);
+		const area = await dataService.getAreaByFieldsite(fieldsite.id);
+		const country = await dataService.getCountryByArea(area.id);
+		res.json({
+			dataset,
+			locationData: {
+				fieldsiteName: fieldsite.name,
+				areaName: area.name,
+				countryName: country.name,
+			},
+		});
 	} catch (ex) {
+		console.error(ex);
 		res.status(500).send("Something happened getting dataset information");
 	}
 };

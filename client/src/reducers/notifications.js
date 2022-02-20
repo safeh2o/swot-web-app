@@ -23,7 +23,9 @@ export const notificationsSlice = createSlice({
 				state.messages.unshift({ type: "error", content: payload });
 			}
 		},
-		handleServerMessages: (state, { payload: { notices, errors } }) => {
+		handleServerMessages: (state, { payload }) => {
+			const notices = payload?.notices || [];
+			const errors = payload?.errors || [];
 			_.forEach(notices, (notice) => {
 				state.messages.unshift({
 					type: "notice",

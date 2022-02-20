@@ -1,18 +1,25 @@
-import axios from "axios";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { handleServerMessages } from "../../reducers/notifications";
-import useForm from "../../hooks/useForm";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
 	Box,
 	Button,
+	Card,
+	CardContent,
+	CardHeader,
 	Divider,
+	FormControl,
 	Grid,
-	Paper,
+	IconButton,
+	InputAdornment,
+	InputLabel,
+	OutlinedInput,
 	TextField,
-	Typography,
 } from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import useForm from "../../hooks/useForm";
+import { handleServerMessages } from "../../reducers/notifications";
 
 export default function ProfileResetPassword() {
 	const { key } = useParams();
@@ -23,6 +30,7 @@ export default function ProfileResetPassword() {
 		password: "",
 		confirmPassword: "",
 	});
+	const [showPassword, setShowPassword] = useState(false);
 
 	useEffect(() => {
 		axios.get("/api/user/resetkey", { params: { key } }).then((res) => {
@@ -46,75 +54,109 @@ export default function ProfileResetPassword() {
 			});
 	};
 
+	const handleClickShowPassword = () => {
+		setShowPassword((showPassword) => !showPassword);
+	};
+
+	const handleMouseDownPassword = (event) => {
+		event.preventDefault();
+	};
+
+	// Styles
+	const css = {
+		cardElement: {},
+		form: {
+			"& button": { textTransform: "capitalize" },
+			"& #btnSubmit": {
+				color: "white",
+				mb: 1,
+			},
+		},
+	};
+
 	return (
 		<>
-			<Box component="form" onSubmit={handleSubmit}>
-				<Grid container direction="column" spacing={3}>
-					<Grid item>
-						<Typography variant="h3" color="darkgrey">
-							Reset Password
-						</Typography>
-					</Grid>
-					<Grid item>
-						<Paper sx={(theme) => ({ padding: theme.spacing(4) })}>
-							<Grid container direction="column" spacing={2}>
-								<Grid item>
-									<Typography variant="body1">
-										Please fill the following fields to
-										reset your password
-									</Typography>
-								</Grid>
-								<Grid item>
-									<Divider />
-								</Grid>
-								<Grid item>
-									<TextField
-										type="password"
+			<Card elevation={1}>
+				<CardHeader title={"Password Reset"} />
+
+				<Divider />
+
+				<CardContent>
+					<Box
+						component="form"
+						onSubmit={handleSubmit}
+						sx={{ ...css.form }}
+					>
+						<Grid container direction="row" spacing={2}>
+							<Grid item xs={12}>
+								<FormControl fullWidth sx={{ mb: 1 }}>
+									<InputLabel htmlFor="password">
+										Password
+									</InputLabel>
+									<OutlinedInput
+										type={
+											showPassword ? "text" : "password"
+										}
+										minLength="6"
+										endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label="toggle password visibility"
+													onClick={
+														handleClickShowPassword
+													}
+													onMouseDown={
+														handleMouseDownPassword
+													}
+													edge="end"
+												>
+													{showPassword ? (
+														<VisibilityOff />
+													) : (
+														<Visibility />
+													)}
+												</IconButton>
+											</InputAdornment>
+										}
 										autoComplete="new-password"
-										required
-										label="Password"
-										value={state.password}
+										label="New Password"
 										onChange={getTextChangeHandler(
 											"password"
 										)}
-									/>
-								</Grid>
-								<Grid item>
-									<TextField
-										type="password"
-										autoComplete="new-password"
 										required
+									/>
+								</FormControl>
+								<FormControl fullWidth>
+									<TextField
 										label="Confirm Password"
-										value={state.confirmPassword}
+										type={
+											showPassword ? "text" : "password"
+										}
+										variant="outlined"
 										onChange={getTextChangeHandler(
 											"confirmPassword"
 										)}
+										required
 									/>
-								</Grid>
+								</FormControl>
 							</Grid>
-						</Paper>
-					</Grid>
-					<Grid item>
-						<Paper sx={(theme) => ({ padding: theme.spacing(2) })}>
-							<Grid
-								container
-								spacing={3}
-								alignItems="center"
-								mx={0}
-							>
-								<Grid item>
-									<Button type="submit" variant="contained">
-										Submit
-									</Button>
-								</Grid>
-								<Grid item>
-									<Link to="/signin">LOG IN</Link>
-								</Grid>
+							<Grid item xs={12}>
+								<Button
+									id="btnSubmit"
+									variant="contained"
+									fullWidth
+									type="submit"
+								>
+									Submit
+								</Button>
+								<Button fullWidth type="reset">
+									Reset
+								</Button>
 							</Grid>
-						</Paper>
-					</Grid>
-				</Grid>
-			</Box>
+						</Grid>
+					</Box>
+				</CardContent>
+			</Card>
 		</>
 	);
 }

@@ -9,6 +9,7 @@ import {
 import useForm from "../../hooks/useForm";
 import { userSelectors } from "../../reducers/user";
 import LocationDropdown from "./LocationDropdown";
+import { Box } from "@mui/material";
 
 function FieldsiteDropdown(props) {
 	const countries = useSelector(userSelectors.countries);
@@ -36,8 +37,22 @@ function FieldsiteDropdown(props) {
 		props.onChange(locations.fieldsite);
 	}, [locations.fieldsite]);
 
+	const css = {
+		display: "grid",
+		gridAutoFlow: {
+			xs: "row",
+			md: "column",
+		},
+		gap: "10px",
+		"& > *": {
+			flex: {
+				xs: "1 0 50%",
+			},
+		},
+	};
+
 	return (
-		<>
+		<Box sx={{ ...css }}>
 			<LocationDropdown
 				value={locations.country}
 				onChange={(_event, value) => {
@@ -69,7 +84,7 @@ function FieldsiteDropdown(props) {
 				locations={fieldsites}
 				fieldLabel="Fieldsite"
 			/>
-		</>
+		</Box>
 	);
 }
 

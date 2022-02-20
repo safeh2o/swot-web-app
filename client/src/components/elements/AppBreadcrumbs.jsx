@@ -1,16 +1,16 @@
-import { Breadcrumbs } from "@mui/material";
+import { Box, Breadcrumbs } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { popViewsTo, viewSelectors } from "../../reducers/view";
 
-export default function AppBreadcrumbs() {
+function AppBreadcrumbs(props) {
 	const dispatch = useDispatch();
 	const viewStack = useSelector(viewSelectors.viewStack);
 	const currentView = useSelector(viewSelectors.currentView);
 	useEffect(() => {}, [viewStack]);
 	return (
-		<Breadcrumbs className="breadcrumbs">
+		<Breadcrumbs {...props}>
 			{viewStack.map((view, i) => (
 				<Link
 					key={view.path}
@@ -22,9 +22,20 @@ export default function AppBreadcrumbs() {
 					{view.title}
 				</Link>
 			))}
-			<strong>
-				<span>{currentView.title}</span>
-			</strong>
+			<Box
+				component="span"
+				sx={{
+					display: "block",
+					maxWidth: "12ch",
+					textOverflow: "ellipsis",
+					whiteSpace: "nowrap",
+					overflow: "hidden",
+				}}
+			>
+				<Box component="span">{currentView.title}</Box>
+			</Box>
 		</Breadcrumbs>
 	);
 }
+
+export default AppBreadcrumbs;

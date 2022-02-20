@@ -22,7 +22,7 @@ import { handleServerMessages, setLoading } from "../reducers/notifications";
 import { pushView } from "../reducers/view";
 import NotificationLine from "./elements/NotificationLine";
 
-export default function ContactPage(props) {
+export default function ContactPage() {
 	const [contactReasons, setContactReasons] = useState([]);
 	const [disabled, setDisabled] = useState(true);
 	const { state, reset, getTextChangeHandler } = useForm({
@@ -31,6 +31,7 @@ export default function ContactPage(props) {
 		phone: "",
 		reason: "",
 		message: "",
+		organisation: "",
 	});
 	const dispatch = useDispatch();
 
@@ -42,8 +43,8 @@ export default function ContactPage(props) {
 	}, []);
 
 	useEffect(() => {
-		const { name, email, reason, message } = state;
-		setDisabled(!name || !email || !reason || !message);
+		const { name, email, reason, organisation } = state;
+		setDisabled(!name || !email || !reason, !organisation);
 	}, [state]);
 
 	function handleSubmit() {
@@ -112,7 +113,8 @@ export default function ContactPage(props) {
 										onChange={getTextChangeHandler("email")}
 									/>
 									<FormHelperText>
-										We respect your privacy
+										Please add email to associate with your
+										account if registering (required)
 									</FormHelperText>
 								</FormControl>
 							</Grid>
@@ -123,8 +125,10 @@ export default function ContactPage(props) {
 										type="text"
 										label="Organisation"
 										required
-										value={state.email}
-										// onChange={}
+										value={state.organisation}
+										onChange={getTextChangeHandler(
+											"organisation"
+										)}
 									/>
 									<FormHelperText>
 										Which organisation do you work with?
@@ -191,15 +195,14 @@ export default function ContactPage(props) {
 										)}
 									</Select>
 									<FormHelperText>
-										Please select from the dropdown menu
-										(optional)
+										Please select reason from the dropdown
+										menu (required)
 									</FormHelperText>
 								</FormControl>
 							</Grid>
 							<Grid item xs={12} sm={9}>
 								<FormControl fullWidth>
 									<TextField
-										required
 										multiline
 										id="message"
 										label="Leave us a short message (optional)"

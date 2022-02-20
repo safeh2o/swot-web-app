@@ -13,7 +13,7 @@ exports.contact = async function (req, res) {
 	updater.process(
 		req.body,
 		{
-			fields: "name, email, reason, message, phone",
+			fields: "name, email, reason, message, phone, organisation",
 		},
 		function (errors) {
 			if (errors) {

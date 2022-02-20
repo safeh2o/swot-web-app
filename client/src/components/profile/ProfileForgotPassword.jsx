@@ -9,37 +9,32 @@ import {
 	Grid,
 	TextField,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import NotificationLine from "../elements/NotificationLine";
+import useForm from "../../hooks/useForm";
+import { handleServerMessages } from "../../reducers/notifications";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 
 export default function ProfileForgotPassword() {
-	const form = useRef(null);
-	const [messages, setMessages] = useState({});
+	const dispatch = useDispatch();
 
-	const handleSubmitResponse = (data) => {
-		setMessages(data.messages);
-	};
-
-	const handleChange = () => {
-		// setMessages({});
-	};
-
-	useEffect(() => {
-		$(form.current).ajaxForm((data) => {
-			handleSubmitResponse(data);
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		axios.post("/api/forgotpassword", state).then((res) => {
+			console.log(res.data);
+			dispatch(handleServerMessages(res.data?.messages));
 		});
-		return () => {
-			$(form.current).off();
-		};
-	}, []);
+	};
+
+	const { state, getTextChangeHandler } = useForm({ email: "" });
 
 	// Styles
 	const css = {
 		cardElement: {},
 		form: {
 			"& button": { textTransform: "capitalize" },
-			"& #btnReset": {
+			"& #btnSubmit": {
 				color: "white",
 				mb: 1,
 			},
@@ -55,10 +50,8 @@ export default function ProfileForgotPassword() {
 
 				<CardContent>
 					<Box
-						ref={form}
 						role="form"
-						action="/forgotpassword"
-						method="post"
+						onSubmit={handleSubmit}
 						component="form"
 						sx={{ ...css.form }}
 					>
@@ -71,7 +64,7 @@ export default function ProfileForgotPassword() {
 										label="Email Address"
 										type="email"
 										variant="outlined"
-										onChange={handleChange()}
+										onChange={getTextChangeHandler("email")}
 									/>
 								</FormControl>
 							</Grid>
@@ -83,16 +76,19 @@ export default function ProfileForgotPassword() {
 										paddingBottom: "0px",
 									}}
 								>
-									Enter the email you're to recieve
-									instructions to reset your password.
+									Enter the email you registered with.
 								</NotificationLine>
 							</Grid>
 							<Grid item xs={12}>
 								<Button
-									id="btnReset"
+									type="submit"
 									variant="contained"
 									fullWidth
+									id="btnSubmit"
 								>
+									Submit
+								</Button>
+								<Button fullWidth type="reset">
 									Reset
 								</Button>
 								or,&nbsp;<Link to="/signin">Sign in</Link>

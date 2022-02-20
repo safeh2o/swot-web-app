@@ -14,6 +14,7 @@ import {
 	OutlinedInput,
 	TextField,
 } from "@mui/material";
+import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -33,24 +34,28 @@ export default function ProfileLogin() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const handleSubmitResponse = () => {
+	const handleSubmit = (e) => {
+		e.preventDefault();
 		dispatch(setLoading(true));
-		fetch("/api/auth", {
-			method: "POST",
-			body: JSON.stringify(state),
-			headers: { "Content-Type": "application/json" },
-		})
-			.then((res) => res.json())
-			.then((data) => {
-				if (data.success === true) {
+		axios
+			.post("/api/auth", {
+				email: state.email,
+				password: state.password,
+			})
+			.then((res) => {
+				if (res.status === 200) {
 					navigate("/");
 					dispatch(getUser());
-				} else {
-					dispatch(handleServerMessages(data.messages));
 				}
+				dispatch(handleServerMessages(res.data?.messages));
 			})
 			.catch((err) => {
-				dispatch(addError(err));
+				console.error(err);
+				dispatch(
+					addError(
+						"An unknown error occurred, please try again or contact support"
+					)
+				);
 			})
 			.finally(() => {
 				dispatch(setLoading(false));
@@ -58,21 +63,10 @@ export default function ProfileLogin() {
 	};
 
 	// Password input field
-	const [values, setValues] = useState({
-		email: "",
-		password: "",
-		showPassword: false,
-	});
-
-	const handleChange = (prop) => (event) => {
-		setValues({ ...values, [prop]: event.target.value });
-	};
+	const [showPassword, setShowPassword] = useState(false);
 
 	const handleClickShowPassword = () => {
-		setValues({
-			...values,
-			showPassword: !values.showPassword,
-		});
+		setShowPassword((showPassword) => !showPassword);
 	};
 
 	const handleMouseDownPassword = (event) => {
@@ -99,7 +93,11 @@ export default function ProfileLogin() {
 				<Divider />
 
 				<CardContent>
-					<Box component="div" sx={{ ...css.form }}>
+					<Box
+						component="form"
+						sx={{ ...css.form }}
+						onSubmit={handleSubmit}
+					>
 						<Grid container direction="row" spacing={2}>
 							<Grid item xs={12}>
 								<FormControl fullWidth>
@@ -123,9 +121,7 @@ export default function ProfileLogin() {
 										id="password"
 										name="password"
 										type={
-											values.showPassword
-												? "text"
-												: "password"
+											showPassword ? "text" : "password"
 										}
 										minLength="6"
 										endAdornment={
@@ -140,7 +136,7 @@ export default function ProfileLogin() {
 													}
 													edge="end"
 												>
-													{values.showPassword ? (
+													{showPassword ? (
 														<VisibilityOff />
 													) : (
 														<Visibility />
@@ -151,10 +147,9 @@ export default function ProfileLogin() {
 										autoComplete="password"
 										label="Password"
 										value={state.password}
-										onChange={
-											(handleChange("password"),
-											getTextChangeHandler("password"))
-										}
+										onChange={getTextChangeHandler(
+											"password"
+										)}
 									/>
 								</FormControl>
 							</Grid>
@@ -163,7 +158,7 @@ export default function ProfileLogin() {
 									id="btnLogIn"
 									variant="contained"
 									fullWidth
-									onClick={handleSubmitResponse}
+									type="submit"
 								>
 									Log In
 								</Button>

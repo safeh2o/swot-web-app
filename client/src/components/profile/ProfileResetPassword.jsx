@@ -14,25 +14,48 @@ import {
 	OutlinedInput,
 	TextField,
 } from "@mui/material";
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import useForm from "../../hooks/useForm";
+import { handleServerMessages } from "../../reducers/notifications";
 
 export default function ProfileResetPassword() {
-	// Password input field
-	const [values, setValues] = useState({
-		email: "",
-		password: "",
-		showPassword: false,
-	});
+	const { key } = useParams();
+	const navigate = useNavigate();
 
-	const handleChange = (prop) => (event) => {
-		setValues({ ...values, [prop]: event.target.value });
+	const dispatch = useDispatch();
+	const { state, getTextChangeHandler } = useForm({
+		password: "",
+		confirmPassword: "",
+	});
+	const [showPassword, setShowPassword] = useState(false);
+
+	useEffect(() => {
+		axios.get("/api/user/resetkey", { params: { key } }).then((res) => {
+			dispatch(handleServerMessages(res.data?.messages));
+		});
+	}, [key]);
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		axios
+			.post("/api/resetpassword", {
+				password: state.password,
+				confirmPassword: state.confirmPassword,
+				resetKey: key,
+			})
+			.then((res) => {
+				dispatch(handleServerMessages(res.data?.messages));
+				if (!res.data?.messages?.errors?.length) {
+					navigate("/signin");
+				}
+			});
 	};
 
 	const handleClickShowPassword = () => {
-		setValues({
-			...values,
-			showPassword: !values.showPassword,
-		});
+		setShowPassword((showPassword) => !showPassword);
 	};
 
 	const handleMouseDownPassword = (event) => {
@@ -44,7 +67,7 @@ export default function ProfileResetPassword() {
 		cardElement: {},
 		form: {
 			"& button": { textTransform: "capitalize" },
-			"& #btnReset": {
+			"& #btnSubmit": {
 				color: "white",
 				mb: 1,
 			},
@@ -61,28 +84,18 @@ export default function ProfileResetPassword() {
 				<CardContent>
 					<Box
 						component="form"
-						action="/resetpassword"
-						method="post"
+						onSubmit={handleSubmit}
 						sx={{ ...css.form }}
 					>
 						<Grid container direction="row" spacing={2}>
 							<Grid item xs={12}>
-								<input
-									type="hidden"
-									name="resetkey"
-									value={""}
-								/>
 								<FormControl fullWidth sx={{ mb: 1 }}>
 									<InputLabel htmlFor="password">
 										Password
 									</InputLabel>
 									<OutlinedInput
-										id="password"
-										name="password"
 										type={
-											values.showPassword
-												? "text"
-												: "password"
+											showPassword ? "text" : "password"
 										}
 										minLength="6"
 										endAdornment={
@@ -97,7 +110,7 @@ export default function ProfileResetPassword() {
 													}
 													edge="end"
 												>
-													{values.showPassword ? (
+													{showPassword ? (
 														<VisibilityOff />
 													) : (
 														<Visibility />
@@ -105,32 +118,38 @@ export default function ProfileResetPassword() {
 												</IconButton>
 											</InputAdornment>
 										}
-										autoComplete="password"
+										autoComplete="new-password"
 										label="New Password"
-										onChange={handleChange("password")}
+										onChange={getTextChangeHandler(
+											"password"
+										)}
+										required
 									/>
 								</FormControl>
 								<FormControl fullWidth>
 									<TextField
-										id="password_confirm"
-										name="password_confirm"
 										label="Confirm Password"
 										type={
-											values.showPassword
-												? "text"
-												: "password"
+											showPassword ? "text" : "password"
 										}
 										variant="outlined"
+										onChange={getTextChangeHandler(
+											"confirmPassword"
+										)}
+										required
 									/>
 								</FormControl>
 							</Grid>
 							<Grid item xs={12}>
 								<Button
-									id="btnReset"
+									id="btnSubmit"
 									variant="contained"
 									fullWidth
 									type="submit"
 								>
+									Submit
+								</Button>
+								<Button fullWidth type="reset">
 									Reset
 								</Button>
 							</Grid>

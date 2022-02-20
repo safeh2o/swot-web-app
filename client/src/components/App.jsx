@@ -38,10 +38,6 @@ export default function App() {
 		return isLoggedIn === true ? <Outlet /> : <Navigate to={"/signin"} />;
 	}
 
-	function PublicRoute() {
-		return isLoggedIn === false ? <Outlet /> : <Navigate to={"/home"} />;
-	}
-
 	useEffect(() => {
 		dispatch(getUser());
 		dispatch(getSettings());
@@ -79,9 +75,7 @@ export default function App() {
 						<Route path="" element={<People />} />
 					</Route>
 
-					<Route path="/signin" element={<PublicRoute />}>
-						<Route path="" element={<ProfileLogin />} />
-					</Route>
+					<Route path="/signin" element={<ProfileLogin />} />
 
 					<Route
 						path="/forgotpassword"

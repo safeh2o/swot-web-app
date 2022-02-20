@@ -5,14 +5,13 @@ import {
 	IconButton,
 	Skeleton,
 	Stack,
-	SvgIcon,
 	Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import _ from 'lodash';
-import { NavLink, Link } from "react-router-dom";
-import { setLoading } from "../../reducers/notifications";
+import { NavLink } from "react-router-dom";
+import { markAllRead, setLoading } from "../../reducers/notifications";
 import { userSelectors } from "../../reducers/user";
 import UserDetailsModal from "../elements/UserDetailsModal";
 import UserNotificationsPopover from "../elements/UserNotificationsPopover";
@@ -28,7 +27,7 @@ import {
 import NavContent from "./NavContent";
 import NavTools from "./NavTools";
 
-export default function Header(props) {
+export default function Header() {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const user = useSelector(userSelectors.user);
 	const userLoadingStatus = useSelector(userSelectors.loadingStatus);
@@ -51,7 +50,6 @@ export default function Header(props) {
 	const handleSignout = () => {
 		dispatch(markAllRead());
 		setWaitingForSignout(true);
-		console.log("");
 	};
 
 	const css = {
@@ -249,14 +247,14 @@ export default function Header(props) {
 								<NavContent />
 								{/* User signout */}
 								{isLoggedIn && (
-									<Link
-										to="/admin/signout"
+									<Button
+										href="/admin/signout"
 										tabIndex={-1}
 										onClick={handleSignout}
 										className="signout"
 									>
 										Logout
-									</Link>
+									</Button>
 								)}
 							</Stack>
 
@@ -276,9 +274,14 @@ export default function Header(props) {
 										<UserNotificationsPopover />
 
 										{/* Administration */}
-										<IconButton href="/admin" tabIndex={-1}>
-											<IconAdmin />
-										</IconButton>
+										{user.isAdmin && (
+											<IconButton
+												href="/admin"
+												tabIndex={-1}
+											>
+												<IconAdmin />
+											</IconButton>
+										)}
 									</>
 								) : (
 									<>
@@ -334,15 +337,15 @@ export default function Header(props) {
 						{/* User signout */}
 						{isLoggedIn ? (
 							<>
-								<Link
-									to="/admin/signout"
+								<Button
+									href="/admin/signout"
 									tabIndex={-1}
 									onClick={handleSignout}
 									className="signout"
 								>
 									Logout
 									<IconSignOut />
-								</Link>
+								</Button>
 								<NavTools />
 							</>
 						) : (

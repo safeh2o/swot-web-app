@@ -34,6 +34,7 @@ function LocationDropdown(props) {
 			isOptionEqualToValue={(option, value) =>
 				value.name === "" || option.name === value.name
 			}
+			fullWidth
 		/>
 	);
 }

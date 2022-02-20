@@ -1,15 +1,7 @@
-function IconCalendar() {
+import { SvgIcon } from "@mui/material";
+function IconCalendar(props) {
 	return (
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width="40"
-			height="40"
-			x="0"
-			y="0"
-			version="1.1"
-			viewBox="0 0 40 40"
-			xmlSpace="preserve"
-		>
+		<SvgIcon viewBox="0 0 40 40" {...props}>
 			<path
 				fill="#DDE6ED"
 				stroke="#747E87"
@@ -30,7 +22,7 @@ function IconCalendar() {
 				strokeWidth="2.375"
 				d="M34.3 13.5H5.7m7.1-10.6v5.7m14.4-5.7v5.7"
 			></path>
-		</svg>
+		</SvgIcon>
 	);
 }
 

@@ -27,7 +27,8 @@ Enquiry.add(
 				{ value: "other", label: "Something else..." },
 			],
 		},
-		message: { type: Types.Text, required: true },
+		message: { type: Types.Text, required: false },
+		organisation: { type: Types.Text, required: true },
 		createdAt: { type: Types.Datetime, default: Date.now },
 	},
 	{ heading: "Create and Welcome User", dependsOn: { reason: "register" } },
@@ -88,6 +89,7 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 		dynamicTemplateData: {
 			name: this.name.full,
 			email: this.email,
+			organisation: this.organisation,
 			reason: this._.reason.format(),
 			message: this.message,
 			createLink,

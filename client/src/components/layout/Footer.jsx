@@ -1,41 +1,37 @@
-import { Box, Container, Grid, Stack } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
-export default function Footer(props) {
+export default function Footer() {
 	return (
 		<>
-			<Container maxWidth="md">
-				<Box className="content-window legal txt-sm">
-					<Stack direction="column">
-						<Grid
-							container
-							direction="row"
-							justifyContent="center"
-							alignItems="center"
-							spacing={3}
-						>
-							<Grid item xs="auto">
-								<NavLink to="/pages/terms-of-use">
-									<span>Terms of Use</span>
-								</NavLink>
-							</Grid>
-							<Grid item xs="auto">
-								<NavLink to="/pages/privacy-policy">
-									<span>Privacy Policy</span>
-								</NavLink>
-							</Grid>
-						</Grid>
-						<Box
-							component="span"
-							className="txt-sm"
-							alignSelf="center"
-						>
-							&copy; Safe Water Optimization Tool{" "}
-							{new Date().getFullYear()}
-						</Box>
-					</Stack>
-				</Box>
-			</Container>
+			<Grid
+				container
+				alignItems="center"
+				typography="caption"
+				sx={{
+					pl: { xs: 2, md: 4 },
+					pr: { xs: 2, md: 4 },
+					mt: "auto",
+					ml: "auto",
+					mr: "auto",
+					mb: 3,
+				}}
+			>
+				<Grid item xs={12}>
+					<Box component="span">
+						&copy; {new Date().getFullYear()} Safe Water
+						Optimization Tool{" "}
+					</Box>
+					&nbsp;&mdash;&nbsp;
+					<NavLink to="/pages/terms-of-use">
+						<span>Terms of Use</span>
+					</NavLink>
+					&nbsp;&nbsp;/&nbsp;&nbsp;
+					<NavLink to="/pages/privacy-policy">
+						<span>Privacy Policy</span>
+					</NavLink>
+				</Grid>
+			</Grid>
 		</>
 	);
 }

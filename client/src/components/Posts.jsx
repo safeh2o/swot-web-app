@@ -1,6 +1,6 @@
-import { Skeleton } from "@mui/material";
+import { Box, Divider, Skeleton, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { blogSelectors } from "../reducers/posts";
 
 export default function Posts(props) {
@@ -10,30 +10,73 @@ export default function Posts(props) {
 	function articleFromPost(post) {
 		const link = `/blog/${post.slug}`;
 		return (
-			<article className="block" key={link}>
-				<figure>
-					<Link to={link}>
-						<img
-							src={
-								post?.image?.secure_url ||
-								"/assets/placeholder-square.png"
-							}
-							alt=""
-						/>
-					</Link>
-				</figure>
-				<div>
-					<time>{post.publishedDate}</time>
-					<h2>
-						<Link to={link}>{post.title}</Link>
-					</h2>
-					<div>
-						<p>{post.content.brief}</p>
-					</div>
-				</div>
-			</article>
+			<Box component="article" key={link}>
+				{post?.image?.secure_url && (
+					<figure>
+						<NavLink to={link}>
+							<img src={post?.image?.secure_url} alt="" />
+						</NavLink>
+					</figure>
+				)}
+				<Typography
+					component={NavLink}
+					to={link}
+					variant="h3"
+					gutterBottom
+					color="primary"
+					sx={{ display: "block", fontWeight: "500" }}
+				>
+					{post.title}
+				</Typography>
+				<Typography variant="body1" gutterBottom component="div">
+					{post.content.brief}
+				</Typography>
+				<Typography component="time" variant="caption">
+					{post.publishedDate}
+				</Typography>
+				<Divider
+					sx={{
+						borderColor: "primary.main",
+						my: 3,
+						opacity: 0.2,
+					}}
+				/>
+			</Box>
 		);
 	}
+
+	// my own custom times method with a custom api
+	let times = (count, func) => {
+		var i = 0,
+			per,
+			results = [];
+		count = count || 0;
+		func = func || function () {};
+
+		// while i is less than len
+		while (i < count) {
+			per = i / count;
+
+			// call function with a custom api that can be
+			// used via the this keyword
+			results.push(
+				func.call(
+					{
+						i: i,
+						count: count,
+						per: per,
+						bias: 1 - Math.abs(0.5 - per) / 0.5,
+						results: results,
+					},
+					i,
+					count,
+					per
+				)
+			);
+			i += 1;
+		}
+		return results;
+	};
 
 	function blogSkeleton(numPosts) {
 		const post = {
@@ -44,104 +87,92 @@ export default function Posts(props) {
 			},
 		};
 
-		return _.times(numPosts, (i) => (
-			<article className="block" key={i}>
-				<figure>
-					<Skeleton variant="rectangular" component="img" />
-				</figure>
-				<div>
-					<Skeleton>
-						<time>{post.publishedDate}</time>
-					</Skeleton>
-					<Skeleton component="h2">
-						<a>{post.title}</a>
-					</Skeleton>
-
-					<Skeleton variant="rectangular">
-						<div>
-							<p>{post.content.brief}</p>
-						</div>
-					</Skeleton>
-				</div>
-			</article>
+		return times(numPosts, (i) => (
+			<Box component="article" key={i}>
+				{post?.image?.secure_url && (
+					<figure>
+						<Skeleton component="img" />
+					</figure>
+				)}
+				<Skeleton>
+					<Typography component={"span"} variant="h2" gutterBottom>
+						{post.title}
+					</Typography>
+				</Skeleton>
+				<Skeleton>
+					<Typography variant="body1" component="div" gutterBottom>
+						{post.content.brief}
+					</Typography>
+				</Skeleton>
+				<Skeleton>
+					<Typography variant="caption" component="time">
+						{post.publishedDate}
+					</Typography>
+				</Skeleton>
+				<Divider
+					sx={{
+						borderColor: "primary.main",
+						my: 3,
+						opacity: 0.2,
+					}}
+				/>
+			</Box>
 		));
 	}
 
 	return blogLoadingStatus === "success"
 		? posts.map((post) => articleFromPost(post))
-		: blogSkeleton(3);
+		: blogSkeleton((props.postNumber && props.postNumber) || 3);
 }
 
 /*
-			<article className="block">
-				<figure>
-					<img src="/assets/placeholder-square.png" alt="" />
-				</figure>
-				<div>
-					<time dateTime="Fri, 30 Apr 2021 20:34:29 +0000">
-						December 9th, 2020
-					</time>
-					<h2>
-						<a href="#">
-							New Research Grant: SWOT awarded major research
-							grant from Humanitarian Innovation Fund/Elrha
-						</a>
-					</h2>
-					<div>
-						<p>
-							SWOT awarded $0.5 million WASH Evidence Challenge
-							grant from the HIF.
-						</p>
-					</div>
-				</div>
-			</article>
-			<article className="block">
-				<figure>
-					<img src="/assets/placeholder-square.png" alt="" />
-				</figure>
-				<div>
-					<time dateTime="Fri, 30 Apr 2021 20:34:29 +0000">
-						May 22, 2021
-					</time>
-					<h2>
-						<a href="#">
-							Global WASH Cluster (GWC) Annual Meeting Satellite
-						</a>
-					</h2>
-					<div>
-						<p>
-							Check out a recent presentation made during one of
-							the events.
-						</p>
-					</div>
-				</div>
-			</article>
-			<article className="block">
-				<figure>
-					<img
-						src="https://www.theglobeandmail.com/resizer/7GtDjOvVq7XmAxufC7TZpAqjssw=/620x0/filters:quality(80)/cloudfront-us-east-1.images.arcpublishing.com/tgam/3Y4SNA4XKRGBNCXRG2MGV43YCM.JPG"
-						alt=""
-					/>
-				</figure>
-				<div>
-					<time dateTime="Fri, 30 Apr 2021 20:34:29 +0000">
-						November 25, 2020
-					</time>
-					<h2>
-						<a href="#">
-							Stepping Up: Sanitation specialist develops system
-							to ensure refugee camps anywhere can have healthy
-							drinking water
-						</a>
-					</h2>
-					<div>
-						<p>
-							This is part of Stepping Up, a series introducing
-							Canadians to their country’s new sources of
-							inspiration and leadership.
-						</p>
-					</div>
-				</div>
-			</article>
-
+<Box component="article">
+	<Typography variant="h2" gutterBottom sx={{ fontWeight: '500' }}>
+		Stepping Up: Sanitation specialist develops system to ensure
+		refugee camps anywhere can have healthy drinking water
+	</Typography>
+	<Typography variant="body1" gutterBottom component="div">
+		This is part of Stepping Up, a series introducing Canadians to
+		their country&lsquo;s new sources of inspiration and leadership.
+	</Typography>
+	<Typography
+		component="time"
+		variant="caption"
+		sx={{ display: 'block', mt: 1, color: '#9a9a9a' }}
+	>
+		December 9th, 2020
+	</Typography>
+</Box>
+<Box component="article">
+	<Typography variant="h2" gutterBottom sx={{ fontWeight: '500' }}>
+		Global WASH Cluster (GWC) Annual Meeting Satellite
+	</Typography>
+	<Typography variant="body1" gutterBottom component="div">
+		Check out a recent presentation made during one of the events.
+	</Typography>
+	<Typography
+		component="time"
+		variant="caption"
+		sx={{ display: 'block', mt: 1, color: '#9a9a9a' }}
+	>
+		May 22, 2021
+	</Typography>
+</Box>
+<Box component="article">
+	<Typography variant="h2" gutterBottom sx={{ fontWeight: '500' }}>
+		New Research Grant: SWOT awarded major research grant from
+		Humanitarian Innovation Fund/Elrha
+	</Typography>
+	<Typography variant="body1" gutterBottom component="div">
+		SWOT awarded $0.5 million WASH Evidence Challenge grant from the
+		HIF.
+	</Typography>
+	<Typography
+		component="time"
+		variant="caption"
+		sx={{ display: 'block', mt: 1, color: '#9a9a9a' }}
+	>
+		November 25, 2020
+	</Typography>
+</Box>
 */

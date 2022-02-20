@@ -1,17 +1,20 @@
 import {
 	Box,
 	Button,
+	Card,
+	CardContent,
+	CardHeader,
 	Divider,
+	FormControl,
 	Grid,
-	Paper,
 	TextField,
-	Typography,
 } from "@mui/material";
-import axios from "axios";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import NotificationLine from "../elements/NotificationLine";
 import useForm from "../../hooks/useForm";
 import { handleServerMessages } from "../../reducers/notifications";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 
 export default function ProfileForgotPassword() {
 	const dispatch = useDispatch();
@@ -26,52 +29,74 @@ export default function ProfileForgotPassword() {
 
 	const { state, getTextChangeHandler } = useForm({ email: "" });
 
+	// Styles
+	const css = {
+		cardElement: {},
+		form: {
+			"& button": { textTransform: "capitalize" },
+			"& #btnSubmit": {
+				color: "white",
+				mb: 1,
+			},
+		},
+	};
+
 	return (
 		<>
-			<Box component="form" onSubmit={handleSubmit}>
-				<Grid container direction="column" spacing={3}>
-					<Grid item>
-						<Typography variant="h3" color="darkgrey">
-							Forgot Password
-						</Typography>
-					</Grid>
-					<Grid item>
-						<Paper sx={(theme) => ({ padding: theme.spacing(4) })}>
-							<Typography variant="body1">
-								Enter the email you are using for next steps
-							</Typography>
-							<Divider sx={{ my: 2 }} />
-							<TextField
-								type="email"
-								autoComplete="email"
-								required
-								label="Email"
-								value={state.email}
-								onChange={getTextChangeHandler("email")}
-							/>
-						</Paper>
-					</Grid>
-					<Grid item>
-						<Paper sx={(theme) => ({ padding: theme.spacing(2) })}>
-							<Grid
-								container
-								spacing={3}
-								alignItems="center"
-								mx={0}
-							>
-								<Grid item>
-									<Button type="submit" variant="contained">
-										Submit
-									</Button>
-								</Grid>
-								<Grid item>
-									<Link to="/signin">LOG IN</Link>
-								</Grid>
+			<Card elevation={1}>
+				<CardHeader title={"Forgot Password"} />
+
+				<Divider />
+
+				<CardContent>
+					<Box
+						role="form"
+						onSubmit={handleSubmit}
+						component="form"
+						sx={{ ...css.form }}
+					>
+						<Grid container direction="row" spacing={2}>
+							<Grid item xs={12}>
+								<FormControl fullWidth>
+									<TextField
+										margin="dense"
+										id="email"
+										label="Email Address"
+										type="email"
+										variant="outlined"
+										onChange={getTextChangeHandler("email")}
+									/>
+								</FormControl>
 							</Grid>
-						</Paper>
-					</Grid>
-				</Grid>
-			</Box>
+							<Grid item xs={12}>
+								<NotificationLine
+									type="notice"
+									sx={{
+										paddingTop: "0px",
+										paddingBottom: "0px",
+									}}
+								>
+									Enter the email you registered with.
+								</NotificationLine>
+							</Grid>
+							<Grid item xs={12}>
+								<Button
+									type="submit"
+									variant="contained"
+									fullWidth
+									id="btnSubmit"
+								>
+									Submit
+								</Button>
+								<Button fullWidth type="reset">
+									Reset
+								</Button>
+								or,&nbsp;<Link to="/signin">Sign in</Link>
+							</Grid>
+						</Grid>
+					</Box>
+				</CardContent>
+			</Card>
 		</>
 	);
 }

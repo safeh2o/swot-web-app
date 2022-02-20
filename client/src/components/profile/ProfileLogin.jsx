@@ -1,4 +1,21 @@
-import { Button, TextField } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+	Box,
+	Button,
+	Card,
+	CardContent,
+	CardHeader,
+	Divider,
+	FormControl,
+	Grid,
+	IconButton,
+	InputAdornment,
+	InputLabel,
+	OutlinedInput,
+	TextField,
+} from "@mui/material";
+import axios from "axios";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import useForm from "../../hooks/useForm";
@@ -17,79 +34,142 @@ export default function ProfileLogin() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const handleSubmitResponse = () => {
+	const handleSubmit = (e) => {
+		e.preventDefault();
 		dispatch(setLoading(true));
-		fetch("/api/auth", {
-			method: "POST",
-			body: JSON.stringify(state),
-			headers: { "Content-Type": "application/json" },
-		})
-			.then((res) => res.json())
-			.then((data) => {
-				if (data.success === true) {
+		axios
+			.post("/api/auth", {
+				email: state.email,
+				password: state.password,
+			})
+			.then((res) => {
+				if (res.status === 200) {
 					navigate("/");
 					dispatch(getUser());
-				} else {
-					dispatch(handleServerMessages(data.messages));
 				}
+				dispatch(handleServerMessages(res.data?.messages));
 			})
 			.catch((err) => {
-				dispatch(addError(err));
+				console.error(err);
+				dispatch(
+					addError(
+						"An unknown error occurred, please try again or contact support"
+					)
+				);
 			})
 			.finally(() => {
 				dispatch(setLoading(false));
 			});
 	};
 
+	// Password input field
+	const [showPassword, setShowPassword] = useState(false);
+
+	const handleClickShowPassword = () => {
+		setShowPassword((showPassword) => !showPassword);
+	};
+
+	const handleMouseDownPassword = (event) => {
+		event.preventDefault();
+	};
+
+	// Styles
+	const css = {
+		cardElement: {},
+		form: {
+			"& button": { textTransform: "capitalize" },
+			"& #btnLogIn": {
+				color: "white",
+				mb: 1,
+			},
+		},
+	};
+
 	return (
 		<>
-			<h1 className="content-title">Log In</h1>
-			<section className="content-window">
-				<section>
-					<div className="flex-group input">
-						<div className="flex-group-item line">
-							<TextField
-								margin="dense"
-								id="email"
-								label="Email Address"
-								type="email"
-								fullWidth
-								variant="standard"
-								value={state.email}
-								onChange={getTextChangeHandler("email")}
-							/>
-						</div>
-						<div className="flex-group-item line">
-							<TextField
-								margin="dense"
-								id="password"
-								label="Password"
-								type="password"
-								fullWidth
-								variant="standard"
-								value={state.password}
-								onChange={getTextChangeHandler("password")}
-								autoComplete="password"
-							/>
-						</div>
-					</div>
-				</section>
-			</section>
-			<section className="content-window">
-				<section>
-					<div className="submission-wrap">
-						<Button
-							className="button blue"
-							onClick={handleSubmitResponse}
-						>
-							Log In
-						</Button>
-						<Link to="/forgotpassword" className="button reset">
-							<span>Forgot Password</span>
-						</Link>
-					</div>
-				</section>
-			</section>
+			<Card elevation={1}>
+				<CardHeader title={"Log in"} />
+
+				<Divider />
+
+				<CardContent>
+					<Box
+						component="form"
+						sx={{ ...css.form }}
+						onSubmit={handleSubmit}
+					>
+						<Grid container direction="row" spacing={2}>
+							<Grid item xs={12}>
+								<FormControl fullWidth>
+									<TextField
+										margin="dense"
+										id="email"
+										label="Email Address"
+										type="email"
+										variant="outlined"
+										value={state.email}
+										onChange={getTextChangeHandler("email")}
+									/>
+								</FormControl>
+							</Grid>
+							<Grid item xs={12}>
+								<FormControl fullWidth>
+									<InputLabel htmlFor="password">
+										Password
+									</InputLabel>
+									<OutlinedInput
+										id="password"
+										name="password"
+										type={
+											showPassword ? "text" : "password"
+										}
+										minLength="6"
+										endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label="toggle password visibility"
+													onClick={
+														handleClickShowPassword
+													}
+													onMouseDown={
+														handleMouseDownPassword
+													}
+													edge="end"
+												>
+													{showPassword ? (
+														<VisibilityOff />
+													) : (
+														<Visibility />
+													)}
+												</IconButton>
+											</InputAdornment>
+										}
+										autoComplete="password"
+										label="Password"
+										value={state.password}
+										onChange={getTextChangeHandler(
+											"password"
+										)}
+									/>
+								</FormControl>
+							</Grid>
+							<Grid item xs={12}>
+								<Button
+									id="btnLogIn"
+									variant="contained"
+									fullWidth
+									type="submit"
+								>
+									Log In
+								</Button>
+								<Link to="/forgotpassword">
+									Forgot password?
+								</Link>
+							</Grid>
+						</Grid>
+					</Box>
+				</CardContent>
+			</Card>
 		</>
 	);
 }

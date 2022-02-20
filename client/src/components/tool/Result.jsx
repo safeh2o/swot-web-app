@@ -1,17 +1,23 @@
-import { useParams, NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
-import NotificationLine from "../elements/NotificationLine";
-import { useDispatch, useSelector } from "react-redux";
-import { settingsSelectors } from "../../reducers/settings";
-import { pushView } from "../../reducers/view";
-import { addError, addNotice, setLoading } from "../../reducers/notifications";
-
 // Frontend Imports
-import { Card, CardHeader, CardContent, Divider, Tooltip } from "@mui/material";
-import { Box, Link, Typography, Button, SvgIcon } from "@mui/material";
+import {
+	Box,
+	Button,
+	Card,
+	CardContent,
+	CardHeader,
+	Divider,
+	SvgIcon,
+	Tooltip,
+	Typography,
+} from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { NavLink, useParams } from "react-router-dom";
+import { addError, addNotice, setLoading } from "../../reducers/notifications";
+import { pushView } from "../../reducers/view";
 
-export default function Result(props) {
-	const { AZURE_STORAGE_ACCOUNT } = useSelector(settingsSelectors.settings);
+export default function Result() {
 	const { datasetId } = useParams();
 	const defaultDataset = {
 		nSamples: 122,
@@ -26,6 +32,11 @@ export default function Result(props) {
 		eo: { reco: 0.6 },
 	};
 	const [dataset, setDataset] = useState(defaultDataset);
+	const [locationData, setLocationData] = useState({
+		fieldsiteName: "",
+		areaName: "",
+		countryName: "",
+	});
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -44,15 +55,31 @@ export default function Result(props) {
 	};
 
 	useEffect(() => {
-		fetch(`/api/datasets/${datasetId}`)
-			.then((res) => res.json())
-			.then((json) => {
-				setDataset(json.dataset[0]);
+		axios
+			.get(`/api/datasets/${datasetId}`)
+			.then(({ data }) => {
+				setDataset(data.dataset);
+				setLocationData(data.locationData);
 			})
 			.catch(() => {
 				setDataset(defaultDataset);
 			});
 	}, [datasetId]);
+
+	const parseDecayScenario = (scenarioKey) => {
+		switch (scenarioKey) {
+			case "minDecay":
+				return "Minimum Decay Scenario";
+			case "optimumDecay":
+				return "Optimum Decay Scenario";
+			case "maxDecay":
+				return "Maximum Decay Scenario";
+			default:
+				return "";
+		}
+	};
+
+	const parseDate = (date) => date?.slice(0, 10) || String.fromCharCode(8734);
 
 	// Custom Elements
 	const Type = Typography; // extends Typography Component
@@ -235,18 +262,24 @@ export default function Result(props) {
 				<Divider />
 				<CardContent>
 					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">Nigeria</Type>
-						<Type variant="inputLabel">Response</Type>
+						<Type variant="inputValue">
+							{locationData.countryName}
+						</Type>
+						<Type variant="inputLabel">Country</Type>
 					</Box>
 
 					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">Maiduguri</Type>
+						<Type variant="inputValue">
+							{locationData.areaName}
+						</Type>
 						<Type variant="inputLabel">Area</Type>
 					</Box>
 
 					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">NE Maiduguri A1</Type>
-						<Type variant="inputLabel">Site</Type>
+						<Type variant="inputValue">
+							{locationData.fieldsiteName}
+						</Type>
+						<Type variant="inputLabel">Fieldsite</Type>
 					</Box>
 				</CardContent>
 			</Card>
@@ -258,7 +291,7 @@ export default function Result(props) {
 				<CardContent>
 					<Box sx={{ ...css.stat }}>
 						<Type variant="inputValue">
-							{dataset?.dateCreated?.substr(0, 10)}
+							{parseDate(dataset?.dateCreated)}
 						</Type>
 						<Type variant="inputLabel">Date of Analysis</Type>
 					</Box>
@@ -268,8 +301,7 @@ export default function Result(props) {
 					<Box sx={{ ...css.stat }}>
 						<Box sx={{ ...css.stat.range }}>
 							<Type variant="inputValue">
-								{dataset?.startDate?.substr(0, 10) ||
-									String.fromCharCode(8734)}{" "}
+								{parseDate(dataset?.startDate)}{" "}
 							</Type>
 							<Type
 								component="span"
@@ -278,7 +310,7 @@ export default function Result(props) {
 								to
 							</Type>
 							<Type variant="inputValue">
-								{dataset?.endDate?.substr(0, 10)}
+								{parseDate(dataset?.endDate)}
 							</Type>
 						</Box>
 						<Type variant="inputLabel">
@@ -289,14 +321,18 @@ export default function Result(props) {
 					<Divider sx={{ ...css.stat.divider }} />
 
 					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">9 hrs</Type>
+						<Type variant="inputValue">
+							{dataset.maxDuration} hrs
+						</Type>
 						<Type variant="inputLabel">
 							Length of storage time to analyse for
 						</Type>
 					</Box>
 
 					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">Maximum Decay Scenario</Type>
+						<Type variant="inputValue">
+							{parseDecayScenario(dataset.confidenceLevel)}
+						</Type>
 						<Type variant="inputLabel">
 							Modelling confidence level
 						</Type>
@@ -313,14 +349,18 @@ export default function Result(props) {
 				<CardContent>
 					<Box sx={{ ...css.stat }}>
 						<Box sx={{ ...css.stat.range }}>
-							<Type variant="inputValue">12/12/20</Type>
+							<Type variant="inputValue">
+								{parseDate(dataset?.firstSample)}
+							</Type>
 							<Type
 								component="span"
 								sx={{ ...css.stat.range.seperator }}
 							>
 								to
 							</Type>
-							<Type variant="inputValue">27/02/21</Type>
+							<Type variant="inputValue">
+								{parseDate(dataset?.lastSample)}
+							</Type>
 						</Box>
 						<Type variant="inputLabel">
 							Date Range Analyzed{" "}
@@ -372,39 +412,6 @@ export default function Result(props) {
 							</Tooltip>
 						</Type>
 					</Box>
-					<Box
-						sx={{ ...css.stat }}
-						className={dataset.validSamples < 100 ? "low" : "pass"}
-					>
-						<Type variant="inputValue">
-							{dataset.validSamples}
-							{/* if total samples are less than 100 */}
-							<SvgIcon viewBox="0 0 32 32" className="sup">
-								{dataset.validSamples < 100 ? (
-									<path d="M16,2C8.3,2,2,8.3,2,16s6.3,14,14,14s14-6.3,14-14S23.7,2,16,2z M17.4,23h-2.8v-2.8h2.8V23z M17.4,17.4h-2.8V9h2.8V17.4z" />
-								) : (
-									<path d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm-2.4 20.4-6.3-6.3 1.9-1.8 4.4 4.3 9.1-9.1 1.9 1.9-11 11z" />
-								)}
-							</SvgIcon>
-						</Type>
-						<Type variant="inputLabel">
-							Number of Valid Samples
-							<Tooltip
-								title="The number of data records that passed
-							cleaning/validation steps and ultimately went to
-							analysis."
-								arrow
-								placement="top"
-							>
-								<SvgIcon viewBox="0 0 32 32">
-									<path
-										fill="currentColor"
-										d="M16 0C7.2 0 0 7.2 0 16s7.2 16 16 16 16-7.2 16-16S24.8 0 16 0zm.2 26.1c-1.2 0-2.2-.9-2.1-2.1 0-1.1.9-2.1 2.1-2.1 1.1 0 2.1.9 2.1 2.1 0 1.1-.9 2.1-2.1 2.1zm2.4-9.4c-.9.6-.9 1.5-.9 1.5l.2 1.7-3.5.3-.2-1.7c-.1-1 .3-3.2 2.4-4.7.5-.3 1.7-1.5 1.7-2.4 0-1.1-1-2.1-2.3-2.1s-2.3.9-2.3 2.1c0 .2.1.3.2.6l.3.5-3.3 1.5-.3-.5c-.3-.7-.4-1.4-.4-2.1 0-3.1 2.6-5.6 5.8-5.6s5.8 2.7 5.8 5.7c0 2.9-2.9 5-3.2 5.2z"
-									></path>
-								</SvgIcon>
-							</Tooltip>
-						</Type>
-					</Box>
 				</CardContent>
 			</Card>
 
@@ -441,9 +448,7 @@ export default function Result(props) {
 						</Type>
 					</Box>
 					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">
-							{dataset.maxDuration} hrs
-						</Type>
+						<Type variant="inputValue">? hrs</Type>
 						<Type variant="inputLabel">
 							Duration of protection
 							<Tooltip
@@ -476,7 +481,7 @@ export default function Result(props) {
 				<Divider />
 				<CardContent>
 					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">{dataset.frcTarget} %</Type>
+						<Type variant="inputValue">? %</Type>
 						<Type variant="inputLabel">
 							Current household water safety
 							<Tooltip
@@ -499,7 +504,7 @@ export default function Result(props) {
 						</Type>
 					</Box>
 					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">{dataset.hhSafety} %</Type>
+						<Type variant="inputValue">? %</Type>
 						<Type variant="inputLabel">
 							Predicted household water safety
 							<Tooltip
@@ -523,7 +528,7 @@ export default function Result(props) {
 			{/* Download Options */}
 			<Box id="result-files" sx={{ ...css.resultFiles }}>
 				<Button
-					href={`/api/results/download?datasetId=`}
+					href={`/api/results/download?datasetId=${datasetId}`}
 					className="btn-download"
 				>
 					<SvgIcon viewBox="0 0 32 32">
@@ -531,7 +536,7 @@ export default function Result(props) {
 					</SvgIcon>{" "}
 					<Type component="span">Download Raw Results</Type>
 				</Button>
-				<Button>Reanalyze</Button>
+				<Button onClick={handleReanalysis}>Reanalyze</Button>
 			</Box>
 		</>
 	);

@@ -3,16 +3,12 @@
 
 // sass --watch server/public/styles/site.scss:server/public/styles/site.css --style compressed
 
-// Add your own site style includes here
-@import "site/custom";
-
 // resets
 @import "common/reset-forms";
 @import "common/reset-micro";
 
 // common styles
 @import "common/base";
-@import "common/fonts";
 @import "common/icons";
 @import "common/forms";
 // template part - header

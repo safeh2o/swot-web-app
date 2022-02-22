@@ -8,6 +8,9 @@ export default function NavTools() {
 			display: { xs: "block", sm: "inline" },
 			textAlign: "center",
 			p: { xs: "4px", sm: 0 },
+			"&.active": {
+				textDecoration: "underline solid 1px",
+			},
 		},
 	};
 

@@ -93,7 +93,7 @@ export default function ProfileLogin() {
 				variant="body1"
 				sx={{
 					mb: 2,
-					fontSize: "1.55rem",
+					fontSize: "1.45rem",
 					fontWeight: "400",
 					fontFamily: '"Roboto Condensed", sans-serif',
 					lineHeight: "1.2",

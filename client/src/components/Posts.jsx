@@ -16,12 +16,13 @@ export default function Posts(props) {
 
 	const css = {
 		cardElement: {
+			p: 2,
 			overflow: "visible",
 			marginBottom: "20px",
 			"& .MuiCardContent-root": {
-				p: 2,
+				p: 0,
 				"&:last-child": {
-					p: 2,
+					p: 0,
 				},
 			},
 			"& .MuiAccordionSummary-expandIconWrapper": {

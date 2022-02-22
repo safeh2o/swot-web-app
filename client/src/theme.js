@@ -73,7 +73,7 @@ let theme = createTheme({
 	},
 	palette: {
 		text: {
-			primary: '#161819',
+			primary: '#3f4549',
 		},
 		primary: {
 			main: "#466FB6",
@@ -228,7 +228,7 @@ let theme = createTheme({
 				valueLabelCircle: {
 					backgroundColor: '#c1d1e0',
 					borderRadius: '2px',
-					color: '#161819',
+					color: '#3f4549',
 					boxShadow: SliderThumbBoxShadow,
 				},
 				'& .MuiSlider-valueLabelOpen': {

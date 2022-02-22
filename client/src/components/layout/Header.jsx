@@ -83,7 +83,7 @@ export default function Header() {
 				},
 				"& svg.large": {
 					display: { xs: "none", md: "block" },
-					width: 231,
+					width: 211,
 				},
 				"& svg.compact": {
 					display: { xs: "block", md: "none" },
@@ -138,7 +138,10 @@ export default function Header() {
 				"& .signin": {
 					textTransform: "none",
 					p: 0,
-					m: 0,
+					m: "3px 6px",
+					"&.active": {
+						textDecoration: "underline solid 1px",
+					},
 				},
 				"& .openDrawer": {
 					svg: {
@@ -286,14 +289,17 @@ export default function Header() {
 								) : (
 									<>
 										{/* User signin */}
-										<Button
+										<NavLink
 											to="/signin"
-											component={NavLink}
 											tabIndex={-1}
-											className="signin"
+											className={({ isActive }) =>
+												isActive
+													? "active signin"
+													: "signin"
+											}
 										>
 											Log in
-										</Button>
+										</NavLink>
 									</>
 								)}
 

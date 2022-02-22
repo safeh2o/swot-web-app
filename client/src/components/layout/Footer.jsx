@@ -5,6 +5,7 @@ export default function Footer() {
 	return (
 		<>
 			<Grid
+				className="app-footer"
 				container
 				alignItems="center"
 				typography="caption"

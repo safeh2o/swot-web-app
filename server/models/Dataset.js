@@ -63,6 +63,7 @@ Dataset.add(
 			default: "optimumDecay",
 		},
 		archived: { type: Types.Boolean, index: true, default: false },
+		isComplete: { type: Types.Boolean, index: true, default: false },
 	},
 	"Redo Analysis",
 	{

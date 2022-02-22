@@ -70,7 +70,7 @@ export default function BlogPost() {
 				border: ".5px solid #ddd",
 				color: "#666",
 				p: 1,
-				mb: 4,
+				mb: 2,
 				"&:hover": {
 					color: "currentColor",
 					backgroundColor: "#eee",
@@ -78,14 +78,14 @@ export default function BlogPost() {
 			},
 			icon: {
 				flex: "1 0 1.3em",
-				maxWidth: "1.3em",
-				maxHeight: "1.3em",
+				maxWidth: "1.1em",
+				maxHeight: "1.1em",
 			},
 			text: {
 				fontSize: "1rem",
 				lineHeight: 1,
 				textTransform: "capitalize",
-				paddingLeft: "10px",
+				paddingLeft: "5px",
 			},
 		},
 		cardElement: {
@@ -113,19 +113,8 @@ export default function BlogPost() {
 					sx={{ ...css.buttonBackToResults.icon }}
 				>
 					<rect width="256" height="256" fill="none"></rect>
-					<line
-						x1="216"
-						y1="128"
-						x2="40"
-						y2="128"
-						fill="none"
-						stroke="currentColor"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						strokeWidth="16"
-					></line>
 					<polyline
-						points="112 56 40 128 112 200"
+						points="160 208 80 128 160 48"
 						fill="none"
 						stroke="currentColor"
 						strokeLinecap="round"

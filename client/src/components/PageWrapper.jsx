@@ -55,14 +55,9 @@ function PageWrapper(props) {
 		},
 		breadcrumbs: {
 			typography: "caption",
+			color: "#aaa",
 			width: "100%",
-			maxWidth:
-				layoutMetrics.content +
-				layoutMetrics.sidebar +
-				((theme) => {
-					return 40;
-				}),
-			pt: 2,
+			pt: 1,
 			pb: 0,
 			px: 4,
 			ml: "auto",

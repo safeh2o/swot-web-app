@@ -196,14 +196,13 @@ export default function Home() {
 				variant="body1"
 				sx={{
 					mb: 2,
-					fontSize: "1.75rem",
+					fontSize: "1.55rem",
 					fontWeight: "400",
 					fontFamily: '"Roboto Condensed", sans-serif',
 					lineHeight: "1.2",
 					letterSpacing: "-0.02em",
 					color: "#747e87",
-					paddingBottom: "5px",
-					margin: "8px 0 16px 8px",
+					margin: "5px 0 10px 8px",
 				}}
 			>
 				{(!isLoggedIn && "Welcome, Guest") ||
@@ -280,14 +279,13 @@ export default function Home() {
 				variant="body1"
 				sx={{
 					mb: 2,
-					fontSize: "1.75rem",
+					fontSize: "1.55rem",
 					fontWeight: "400",
 					fontFamily: '"Roboto Condensed", sans-serif',
 					lineHeight: "1.2",
 					letterSpacing: "-0.02em",
 					color: "#747e87",
-					paddingBottom: "5px",
-					margin: "8px 0 16px 8px",
+					margin: "5px 0 10px 8px",
 				}}
 			>
 				Latest News

@@ -76,7 +76,7 @@ let theme = createTheme({
 			primary: '#161819',
 		},
 		primary: {
-			main: "#4069b1",
+			main: "#466FB6",
 			contrastText: "#ffffff",
 		},
 		secondary: {
@@ -187,7 +187,7 @@ let theme = createTheme({
 						zIndex: -1,
 						height: '24px',
 						width: '8px',
-						backgroundColor: '#4069b1'
+						backgroundColor: '#466FB6'
 					},
 					'&::after': {
 						content: '""',

@@ -12,6 +12,7 @@ import {
 	MenuItem,
 	Select,
 	TextField,
+	Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -76,14 +77,23 @@ export default function ContactPage() {
 
 	return (
 		<>
+			<Typography
+				component={"h1"}
+				variant="body1"
+				sx={{
+					mb: 2,
+					fontSize: "1.5rem",
+					fontWeight: "400",
+					fontFamily: '"Roboto Condensed", sans-serif',
+					lineHeight: "1.2",
+					letterSpacing: "-0.02em",
+					color: "#747e87",
+					margin: "15px 0 15px 8px",
+				}}
+			>
+				Get In Touch
+			</Typography>
 			<Card elevation={1}>
-				<CardHeader
-					title={"Get in Touch"}
-					titleTypographyProps={{ variant: "h2", fontWeight: "400" }}
-				/>
-
-				<Divider />
-
 				<CardContent>
 					<Box component="form" sx={{ ...css.form }}>
 						<Grid container direction="row" spacing={2}>

@@ -27,7 +27,7 @@ export default function Blog(props) {
 					lineHeight: "1.2",
 					letterSpacing: "-0.02em",
 					color: "#747e87",
-					margin: "8px 0 30px 8px",
+					margin: "15px 0 15px 8px",
 				}}
 			>
 				Latest News

@@ -62,7 +62,8 @@ function PageWrapper(props) {
 				((theme) => {
 					return 40;
 				}),
-			py: 2,
+			pt: 2,
+			pb: 0,
 			px: 4,
 			ml: "auto",
 			mr: "auto",

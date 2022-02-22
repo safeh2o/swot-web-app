@@ -36,18 +36,18 @@ let theme = createTheme({
 			lineHeight: '1.4',
 		},
 		h3: {
-			fontSize: '1.225rem',
+			fontSize: '1.2rem',
 			letterSpacing: '-0.014em',
 			lineHeight: '1.388',
 		},
 		h2: {
-			fontSize: '1.55rem',
+			fontSize: '1.3rem',
 			letterSpacing: '-0.021em',
 			lineHeight: '1.416',
 			fontWeight: 500,
 		},
 		h1: {
-			fontSize: '1.875rem',
+			fontSize: '1.4rem',
 			letterSpacing: '-0.021em',
 			lineHeight: '1.35',
 			fontWeight: 500,
@@ -242,6 +242,6 @@ let theme = createTheme({
 	},
 });
 
-theme = responsiveFontSizes(theme);
+// theme = responsiveFontSizes(theme);
 
 export default theme;

@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function NavTools() {
 	const css = {
@@ -20,19 +20,19 @@ export default function NavTools() {
 				About
 			</a>
 			<NavLink
-				className={({ isActive }) => (isActive ? "active" : "")}
+				className={({ isActive }) => (isActive ? "active" : undefined)}
 				to="/blog"
 			>
 				News
 			</NavLink>
 			<NavLink
-				className={({ isActive }) => (isActive ? "active" : "")}
+				className={({ isActive }) => (isActive ? "active" : undefined)}
 				to="/support"
 			>
 				Support
 			</NavLink>
 			<NavLink
-				className={({ isActive }) => isActive && "active"}
+				className={({ isActive }) => (isActive ? "active" : undefined)}
 				to="/contact"
 			>
 				Contact

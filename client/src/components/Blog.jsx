@@ -21,13 +21,13 @@ export default function Blog(props) {
 				variant="body1"
 				sx={{
 					mb: 2,
-					fontSize: "1.5rem",
+					fontSize: "1.55rem",
 					fontWeight: "400",
 					fontFamily: '"Roboto Condensed", sans-serif',
 					lineHeight: "1.2",
 					letterSpacing: "-0.02em",
 					color: "#747e87",
-					margin: "15px 0 15px 8px",
+					margin: "5px 0 10px 8px",
 				}}
 			>
 				Latest News

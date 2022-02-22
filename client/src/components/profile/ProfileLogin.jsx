@@ -1,5 +1,6 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
+	Typography,
 	Box,
 	Button,
 	Card,
@@ -87,11 +88,23 @@ export default function ProfileLogin() {
 
 	return (
 		<>
+			<Typography
+				component={"h1"}
+				variant="body1"
+				sx={{
+					mb: 2,
+					fontSize: "1.55rem",
+					fontWeight: "400",
+					fontFamily: '"Roboto Condensed", sans-serif',
+					lineHeight: "1.2",
+					letterSpacing: "-0.02em",
+					color: "#747e87",
+					margin: "5px 0 10px 8px",
+				}}
+			>
+				Log in
+			</Typography>
 			<Card elevation={1}>
-				<CardHeader title={"Log in"} />
-
-				<Divider />
-
 				<CardContent>
 					<Box
 						component="form"

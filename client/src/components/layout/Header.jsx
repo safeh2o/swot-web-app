@@ -113,7 +113,7 @@ export default function Header() {
 				"& a": {
 					typography: "subtitle2",
 					textTransform: "capitalize",
-					margin: "3px 6px",
+					m: "3px 6px",
 				},
 				"& .signout": {
 					textDecoration: "underline dotted",
@@ -136,6 +136,7 @@ export default function Header() {
 					},
 				},
 				"& .signin": {
+					typography: "subtitle2",
 					textTransform: "none",
 					p: 0,
 					m: "3px 6px",

@@ -76,6 +76,7 @@ function PageWrapper(props) {
 			flexDirection: { xs: "Columns", md: "Rows" },
 			justifyContent: "center",
 			px: 2,
+			width: "100%",
 		},
 		nav: {
 			display: { xs: "none", md: "block" },

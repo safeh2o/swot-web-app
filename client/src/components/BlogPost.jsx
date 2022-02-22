@@ -53,7 +53,6 @@ export default function BlogPost() {
 			month: "long",
 			day: "numeric",
 			year: "numeric",
-			day: "numeric",
 			hour: "numeric",
 			minute: "2-digit",
 		};
@@ -67,12 +66,14 @@ export default function BlogPost() {
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "flex-start",
-				backgroundColor: "primary.main",
-				color: "#fcfcfc",
-				p: 2,
+				backgroundColor: "transparent",
+				border: ".5px solid #ddd",
+				color: "#666",
+				p: 1,
 				mb: 4,
 				"&:hover": {
-					backgroundColor: "primary.main",
+					color: "currentColor",
+					backgroundColor: "#eee",
 				},
 			},
 			icon: {
@@ -108,10 +109,29 @@ export default function BlogPost() {
 				sx={{ ...css.buttonBackToResults.wrapper }}
 			>
 				<SvgIcon
-					viewBox="0 0 32 32"
+					viewBox="0 0 256 256"
 					sx={{ ...css.buttonBackToResults.icon }}
 				>
-					<path d="M29.4 17.5h-22l4.2 5.6-2.4 1.8L2.6 16l6.7-8.9 2.4 1.8-4.2 5.6h22v3z" />
+					<rect width="256" height="256" fill="none"></rect>
+					<line
+						x1="216"
+						y1="128"
+						x2="40"
+						y2="128"
+						fill="none"
+						stroke="currentColor"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+						strokeWidth="16"
+					></line>
+					<polyline
+						points="112 56 40 128 112 200"
+						fill="none"
+						stroke="currentColor"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+						strokeWidth="16"
+					></polyline>
 				</SvgIcon>
 				<Box sx={{ ...css.buttonBackToResults.text }}>All News</Box>
 			</Button>
@@ -124,8 +144,8 @@ export default function BlogPost() {
 							</Box>
 						)}
 						<Typography
-							component={"h3"}
-							variant="h3"
+							component={"h1"}
+							variant="h1"
 							gutterBottom
 							color="primary"
 							sx={{ display: "block", fontWeight: "500" }}

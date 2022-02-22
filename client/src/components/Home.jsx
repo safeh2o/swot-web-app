@@ -65,7 +65,6 @@ export default function Home() {
 			},
 		},
 		news: {
-			backgroundColor: "#d9e5fa",
 			backgroundColor: "#fff",
 			"& article": {
 				// maxWidth: "45ch",
@@ -250,7 +249,8 @@ export default function Home() {
 						<Typography variant="h3" component="p" gutterBottom>
 							<a
 								href="https://www.safeh2o.app/public/SWOT_Quickstart.pdf"
-								target={"_blank"}
+								target="_blank"
+								rel="noreferrer"
 							>
 								Download
 							</a>{" "}

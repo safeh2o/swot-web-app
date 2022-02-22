@@ -26,31 +26,6 @@ export default function Blog(props) {
 	}, []);
 
 	const css = {
-		buttonBackToResults: {
-			wrapper: {
-				display: "flex",
-				alignItems: "center",
-				justifyContent: "flex-start",
-				backgroundColor: "primary.main",
-				color: "#fcfcfc",
-				p: 2,
-				mb: 4,
-				"&:hover": {
-					backgroundColor: "primary.main",
-				},
-			},
-			icon: {
-				flex: "1 0 1.3em",
-				maxWidth: "1.3em",
-				maxHeight: "1.3em",
-			},
-			text: {
-				fontSize: "1rem",
-				lineHeight: 1,
-				textTransform: "capitalize",
-				paddingLeft: "10px",
-			},
-		},
 		cardElement: {
 			overflow: "visible",
 			marginBottom: "30px",
@@ -71,21 +46,6 @@ export default function Blog(props) {
 
 	return (
 		<>
-			<Button
-				to={`/`}
-				component={NavLink}
-				size="large"
-				sx={{ ...css.buttonBackToResults.wrapper }}
-			>
-				<SvgIcon
-					viewBox="0 0 32 32"
-					sx={{ ...css.buttonBackToResults.icon }}
-				>
-					<path d="M29.4 17.5h-22l4.2 5.6-2.4 1.8L2.6 16l6.7-8.9 2.4 1.8-4.2 5.6h22v3z" />
-				</SvgIcon>
-				<Box sx={{ ...css.buttonBackToResults.text }}>Home</Box>
-			</Button>
-
 			<Typography
 				component={"h1"}
 				variant="body1"

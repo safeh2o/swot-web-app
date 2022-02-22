@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function NavTools() {
 	const css = {
@@ -16,9 +16,24 @@ export default function NavTools() {
 			<a href="https://www.safeh2o.app/" target="_blank" rel="noreferrer">
 				About
 			</a>
-			<Link to="/blog">News</Link>
-			<Link to="/support">Support</Link>
-			<Link to="/contact">Contact</Link>
+			<NavLink
+				className={({ isActive }) => (isActive ? "active" : "")}
+				to="/blog"
+			>
+				News
+			</NavLink>
+			<NavLink
+				className={({ isActive }) => (isActive ? "active" : "")}
+				to="/support"
+			>
+				Support
+			</NavLink>
+			<NavLink
+				className={({ isActive }) => isActive && "active"}
+				to="/contact"
+			>
+				Contact
+			</NavLink>
 		</Box>
 	);
 }

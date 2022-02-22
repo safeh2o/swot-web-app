@@ -1,19 +1,9 @@
-// Site Styles
-// ===========
-
-// sass --watch server/public/styles/site.scss:server/public/styles/site.css --style compressed
-
 // resets
 @import "common/reset-forms";
 @import "common/reset-micro";
 
 // common styles
 @import "common/base";
-@import "common/icons";
-@import "common/forms";
-// template part - header
-@import "layout/layout-header";
-// template part - main ()
 @import "layout/layout-main-content"; // content
 // template views - Tool
 @import "views/CollectData"; // CollectData

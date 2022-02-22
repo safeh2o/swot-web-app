@@ -91,7 +91,7 @@ export default function Result() {
 			fontSize: "0.85em",
 			alignItems: "center",
 			justifyContent: "flex-start",
-			backgroundColor: "#161819",
+			backgroundColor: "#3f4549",
 			borderRadius: "2px",
 			color: "#fcfcfc",
 			width: "100%",
@@ -99,7 +99,7 @@ export default function Result() {
 			px: 2,
 			mb: 3,
 			hover: {
-				backgroundColor: "#161819",
+				backgroundColor: "#3f4549",
 			},
 		},
 		hr: {
@@ -177,7 +177,7 @@ export default function Result() {
 			wrapper: {
 				display: "flex",
 				alignItems: "center",
-				backgroundColor: "#161819",
+				backgroundColor: "#3f4549",
 				color: "#fcfcfc",
 				p: 3,
 				mb: 4,

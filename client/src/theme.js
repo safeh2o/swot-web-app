@@ -53,7 +53,7 @@ let theme = createTheme({
 			fontWeight: 500,
 		},
 		subtitle1: {
-			fontSize: '1.15rem',
+			fontSize: '1.125rem',
 			letterSpacing: '-0.014em',
 			lineHeight: '1.416',
 			fontWeight: 500,

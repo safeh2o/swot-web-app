@@ -3,7 +3,6 @@ import {
 	Card,
 	CardActions,
 	CardContent,
-	CardHeader,
 	Divider,
 	Grid,
 	SvgIcon,
@@ -11,7 +10,7 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { blogSelectors, getPosts } from "../reducers/posts";
 import { userSelectors } from "../reducers/user";
 import { clearViewStack } from "../reducers/view";

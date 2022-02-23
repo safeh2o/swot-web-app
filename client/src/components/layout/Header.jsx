@@ -19,6 +19,7 @@ import {
 	IconAdmin,
 	IconNavClose,
 	IconNavOpen,
+	IconProfile,
 	IconSignIn,
 	IconSignOut,
 	SWOTLogo,
@@ -111,7 +112,7 @@ export default function Header() {
 			"& .nav-content": {
 				display: { xs: "none", md: "flex" },
 				"& a": {
-					typography: "subtitle2",
+					typography: "subtitle1",
 					textTransform: "capitalize",
 					m: "3px 6px",
 				},
@@ -136,12 +137,16 @@ export default function Header() {
 					},
 				},
 				"& .signin": {
-					typography: "subtitle2",
+					display: "flex",
+					typography: "subtitle1",
 					textTransform: "none",
 					p: 0,
 					m: "3px 6px",
 					"&.active": {
 						textDecoration: "underline solid 1px",
+					},
+					"& svg": {
+						ml: 1,
 					},
 				},
 				"& .openDrawer": {
@@ -299,7 +304,7 @@ export default function Header() {
 													: "signin"
 											}
 										>
-											Log in
+											Log in <IconProfile />
 										</NavLink>
 									</>
 								)}

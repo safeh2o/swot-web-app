@@ -91,6 +91,9 @@ export default function BlogPost() {
 		cardElement: {
 			overflow: "visible",
 			marginBottom: "30px",
+			"& h1": {
+				marginBottom: "1em",
+			},
 			"& .MuiCardContent-root": {
 				p: 2,
 				"&:last-child": {
@@ -141,16 +144,17 @@ export default function BlogPost() {
 						>
 							{page.title || "Loading..."}
 						</Typography>
-						<div
-							variant="body1"
-							dangerouslySetInnerHTML={{
-								__html: DOMPurify.sanitize(
-									page.content.extended !== null
-										? page.content.extended
-										: "Content is loading..."
-								),
-							}}
-						></div>
+						<Typography variant="body1" component={"div"}>
+							<div
+								dangerouslySetInnerHTML={{
+									__html: DOMPurify.sanitize(
+										page.content.extended !== null
+											? page.content.extended
+											: "Content is loading..."
+									),
+								}}
+							></div>
+						</Typography>
 						<Divider sx={{ mb: 1 }} />
 						<Typography
 							component="time"

@@ -14,6 +14,7 @@ let theme = createTheme({
 	typography: {
 		fontFamily: family,
 		fontSize: 16,
+		lineHeight: '1.375',
 		fontWeightBold: 600,
 		body1: {
 			fontSize: '1rem',

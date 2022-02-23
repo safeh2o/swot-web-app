@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
-export default function NavTools() {
+export default function NavTools(props) {
 	const css = {
 		display: { xs: "block", sm: "inline-block" },
 		"& a": {
@@ -15,7 +15,7 @@ export default function NavTools() {
 	};
 
 	return (
-		<Box sx={{ ...css }}>
+		<Box sx={{ ...css }} {...props}>
 			<a href="https://www.safeh2o.app/" target="_blank" rel="noreferrer">
 				About
 			</a>

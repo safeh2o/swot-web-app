@@ -257,7 +257,7 @@ export default function ResultsPage() {
 								sx={{
 									color: "#fff",
 									textTransform: "none",
-									backgroundColor: "#4069b1",
+									backgroundColor: "#466FB6",
 									"&[disabled]": {
 										backgroundColor: "#fcfcfc",
 										borderColor: "rgba(0, 0, 0, 0.12)",

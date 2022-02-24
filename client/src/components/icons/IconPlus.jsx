@@ -12,14 +12,14 @@ function IconPlus() {
 		>
 			<path
 				fill="none"
-				stroke="#161819"
+				stroke="#3f4549"
 				strokeMiterlimit="10"
 				strokeWidth="3"
 				d="M30 20L10 20"
 			></path>
 			<path
 				fill="none"
-				stroke="#161819"
+				stroke="#3f4549"
 				strokeMiterlimit="10"
 				strokeWidth="3"
 				d="M20 10L20 30"

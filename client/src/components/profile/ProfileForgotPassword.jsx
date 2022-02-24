@@ -3,8 +3,7 @@ import {
 	Button,
 	Card,
 	CardContent,
-	CardHeader,
-	Divider,
+	Typography,
 	FormControl,
 	Grid,
 	TextField,
@@ -38,16 +37,32 @@ export default function ProfileForgotPassword() {
 				color: "white",
 				mb: 1,
 			},
+			"& #btnReset": {
+				backgroundColor: "#f1f4f7",
+				mb: 1,
+			},
 		},
 	};
 
 	return (
 		<>
+			<Typography
+				component={"h1"}
+				variant="body1"
+				sx={{
+					mb: 2,
+					fontSize: "1.45rem",
+					fontWeight: "400",
+					fontFamily: '"Roboto Condensed", sans-serif',
+					lineHeight: "1.2",
+					letterSpacing: "-0.02em",
+					color: "#747e87",
+					margin: "5px 0 10px 8px",
+				}}
+			>
+				Forgot Password
+			</Typography>
 			<Card elevation={1}>
-				<CardHeader title={"Forgot Password"} />
-
-				<Divider />
-
 				<CardContent>
 					<Box
 						role="form"
@@ -88,7 +103,7 @@ export default function ProfileForgotPassword() {
 								>
 									Submit
 								</Button>
-								<Button fullWidth type="reset">
+								<Button fullWidth type="reset" id="btnReset">
 									Reset
 								</Button>
 								or,&nbsp;<Link to="/signin">Sign in</Link>

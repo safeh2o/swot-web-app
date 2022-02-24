@@ -1,24 +1,42 @@
 import { Box } from "@mui/material";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-export default function NavTools() {
+export default function NavTools(props) {
 	const css = {
 		display: { xs: "block", sm: "inline-block" },
 		"& a": {
 			display: { xs: "block", sm: "inline" },
 			textAlign: "center",
 			p: { xs: "4px", sm: 0 },
+			"&.active": {
+				textDecoration: "underline solid 1px",
+			},
 		},
 	};
 
 	return (
-		<Box sx={{ ...css }}>
+		<Box sx={{ ...css }} {...props}>
 			<a href="https://www.safeh2o.app/" target="_blank" rel="noreferrer">
 				About
 			</a>
-			<Link to="/blog">News</Link>
-			<Link to="/support">Support</Link>
-			<Link to="/contact">Contact</Link>
+			<NavLink
+				className={({ isActive }) => (isActive ? "active" : undefined)}
+				to="/blog"
+			>
+				News
+			</NavLink>
+			<NavLink
+				className={({ isActive }) => (isActive ? "active" : undefined)}
+				to="/support"
+			>
+				Support
+			</NavLink>
+			<NavLink
+				className={({ isActive }) => (isActive ? "active" : undefined)}
+				to="/contact"
+			>
+				Contact
+			</NavLink>
 		</Box>
 	);
 }

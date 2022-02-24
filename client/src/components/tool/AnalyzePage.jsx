@@ -291,7 +291,7 @@ export default function AnalyzePage() {
 			"& .MuiSlider-root": {
 				"& .MuiSlider-valueLabel": {
 					textAlign: "center",
-					background: "#4069b1",
+					background: "#466FB6",
 					"& .MuiSlider-valueLabelCircle::after": {
 						display: "block",
 						content: '"hrs"',
@@ -321,7 +321,7 @@ export default function AnalyzePage() {
 				},
 				"&.Mui-checked": {
 					"& svg": {
-						fill: "#4069b1",
+						fill: "#466FB6",
 						stroke: "#305ba8",
 						strokeWidth: "3px",
 					},

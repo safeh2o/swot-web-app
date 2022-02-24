@@ -4,7 +4,8 @@ import {
 	Button,
 	Card,
 	CardContent,
-	Typography,
+	CardHeader,
+	Divider,
 	FormControl,
 	Grid,
 	IconButton,
@@ -75,23 +76,11 @@ export default function ProfileResetPassword() {
 
 	return (
 		<>
-			<Typography
-				component={"h1"}
-				variant="body1"
-				sx={{
-					mb: 2,
-					fontSize: "1.45rem",
-					fontWeight: "400",
-					fontFamily: '"Roboto Condensed", sans-serif',
-					lineHeight: "1.2",
-					letterSpacing: "-0.02em",
-					color: "#747e87",
-					margin: "5px 0 10px 8px",
-				}}
-			>
-				Password Reset
-			</Typography>
 			<Card elevation={1}>
+				<CardHeader title={"Password Reset"} />
+
+				<Divider />
+
 				<CardContent>
 					<Box
 						component="form"

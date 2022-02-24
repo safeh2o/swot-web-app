@@ -19,7 +19,6 @@ import {
 	IconAdmin,
 	IconNavClose,
 	IconNavOpen,
-	IconProfile,
 	IconSignIn,
 	IconSignOut,
 	SWOTLogo,
@@ -84,7 +83,7 @@ export default function Header() {
 				},
 				"& svg.large": {
 					display: { xs: "none", md: "block" },
-					width: 211,
+					width: 231,
 				},
 				"& svg.compact": {
 					display: { xs: "block", md: "none" },
@@ -95,7 +94,7 @@ export default function Header() {
 		ul: {
 			flexGrow: 0,
 			display: "flex",
-			flexWrap: { sm: "wrap" },
+			flexWrap: { md: "wrap" },
 			alignItems: "center",
 			justifyContent: "end",
 			listStyle: "none",
@@ -110,11 +109,11 @@ export default function Header() {
 			},
 			//
 			"& .nav-content": {
-				display: { xs: "none", sm: "flex" },
+				display: { xs: "none", md: "flex" },
 				"& a": {
-					typography: "subtitle1",
+					typography: "subtitle2",
 					textTransform: "capitalize",
-					m: "3px 6px",
+					margin: "3px 6px",
 				},
 				"& .signout": {
 					textDecoration: "underline dotted",
@@ -123,33 +122,23 @@ export default function Header() {
 			"& .nav-profile": {
 				display: "flex",
 				gridTemplateColumns: "1fr 1fr",
-				order: { sm: "-1" },
-				flexBasis: { sm: "100%" },
-				flexWrap: { xs: "wrap", sm: "nowrap" },
+				order: { md: "-1" },
+				flexBasis: { md: "100%" },
+				flexWrap: { xs: "wrap", md: "nowrap" },
 				justifyContent: "end",
-				margin: { xs: "auto 0 5px", sm: "initial" },
 				"& a, & button": {
-					padding: { xs: "0px", sm: "3px" },
-					margin: { xs: "4px", sm: "3px 4px" },
+					padding: { xs: "0px", md: "3px" },
+					margin: { xs: "4px", md: "3px 4px" },
 					borderRadius: "3px",
 					svg: {
-						width: { xs: "1em", sm: ".9em" },
-						height: { xs: "1em", sm: ".9em" },
+						width: { xs: "1em", md: ".9em" },
+						height: { xs: "1em", md: ".9em" },
 					},
 				},
 				"& .signin": {
-					display: "flex",
-					typography: "subtitle1",
 					textTransform: "none",
 					p: 0,
-					m: { xs: "3px 6px", sm: "3px 3px 3px 6px" },
-					"&.active": {
-						textDecoration: "underline solid 1px",
-					},
-					"& svg": {
-						ml: 1,
-						display: { xs: "none", sm: "block" },
-					},
+					m: 0,
 				},
 				"& .openDrawer": {
 					svg: {
@@ -161,7 +150,7 @@ export default function Header() {
 		},
 		list: {},
 		setMobileNavOpen: {
-			display: { sm: "none" },
+			display: { md: "none" },
 			padding: "6px",
 			margin: "0px 1px",
 		},
@@ -204,12 +193,6 @@ export default function Header() {
 			"& .nav-profile": {
 				justifyContent: "center",
 				mb: 2,
-			},
-			"& .guest": {
-				"& a": {
-					typography: "subtitle1",
-					p: 2,
-				},
 			},
 		},
 	};
@@ -303,17 +286,14 @@ export default function Header() {
 								) : (
 									<>
 										{/* User signin */}
-										<NavLink
+										<Button
 											to="/signin"
+											component={NavLink}
 											tabIndex={-1}
-											className={({ isActive }) =>
-												isActive
-													? "active signin"
-													: "signin"
-											}
+											className="signin"
 										>
-											Log in <IconProfile />
-										</NavLink>
+											Log in
+										</Button>
 									</>
 								)}
 
@@ -355,7 +335,7 @@ export default function Header() {
 						onKeyUp={() => setMobileNavOpen(false)}
 					>
 						{/* User signout */}
-						{isLoggedIn && (
+						{isLoggedIn ? (
 							<>
 								<Button
 									href="/admin/signout"
@@ -368,8 +348,17 @@ export default function Header() {
 								</Button>
 								<NavTools />
 							</>
+						) : (
+							<NavLink
+								to="/signin"
+								tabIndex={-1}
+								className="signin"
+							>
+								Log in
+								<IconSignIn />
+							</NavLink>
 						)}
-						<NavContent className={isLoggedIn ? "user" : "guest"} />
+						<NavContent />
 					</Box>
 				</Drawer>
 			</Box>

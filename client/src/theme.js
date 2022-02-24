@@ -14,7 +14,6 @@ let theme = createTheme({
 	typography: {
 		fontFamily: family,
 		fontSize: 16,
-		lineHeight: '1.375',
 		fontWeightBold: 600,
 		body1: {
 			fontSize: '1rem',
@@ -37,24 +36,24 @@ let theme = createTheme({
 			lineHeight: '1.4',
 		},
 		h3: {
-			fontSize: '1.2rem',
+			fontSize: '1.225rem',
 			letterSpacing: '-0.014em',
 			lineHeight: '1.388',
 		},
 		h2: {
-			fontSize: '1.3rem',
+			fontSize: '1.55rem',
 			letterSpacing: '-0.021em',
 			lineHeight: '1.416',
 			fontWeight: 500,
 		},
 		h1: {
-			fontSize: '1.4rem',
+			fontSize: '1.875rem',
 			letterSpacing: '-0.021em',
 			lineHeight: '1.35',
 			fontWeight: 500,
 		},
 		subtitle1: {
-			fontSize: '1.125rem',
+			fontSize: '1.15rem',
 			letterSpacing: '-0.014em',
 			lineHeight: '1.416',
 			fontWeight: 500,
@@ -74,10 +73,10 @@ let theme = createTheme({
 	},
 	palette: {
 		text: {
-			primary: '#3f4549',
+			primary: '#161819',
 		},
 		primary: {
-			main: "#466FB6",
+			main: "#4069b1",
 			contrastText: "#ffffff",
 		},
 		secondary: {
@@ -188,7 +187,7 @@ let theme = createTheme({
 						zIndex: -1,
 						height: '24px',
 						width: '8px',
-						backgroundColor: '#466FB6'
+						backgroundColor: '#4069b1'
 					},
 					'&::after': {
 						content: '""',
@@ -229,7 +228,7 @@ let theme = createTheme({
 				valueLabelCircle: {
 					backgroundColor: '#c1d1e0',
 					borderRadius: '2px',
-					color: '#3f4549',
+					color: '#161819',
 					boxShadow: SliderThumbBoxShadow,
 				},
 				'& .MuiSlider-valueLabelOpen': {
@@ -243,6 +242,6 @@ let theme = createTheme({
 	},
 });
 
-// theme = responsiveFontSizes(theme);
+theme = responsiveFontSizes(theme);
 
 export default theme;

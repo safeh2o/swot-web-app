@@ -53,6 +53,7 @@ export default function BlogPost() {
 			month: "long",
 			day: "numeric",
 			year: "numeric",
+			day: "numeric",
 			hour: "numeric",
 			minute: "2-digit",
 		};
@@ -66,34 +67,29 @@ export default function BlogPost() {
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "flex-start",
-				backgroundColor: "transparent",
-				border: ".5px solid #ddd",
-				color: "#666",
-				p: 1,
-				mb: 2,
+				backgroundColor: "primary.main",
+				color: "#fcfcfc",
+				p: 2,
+				mb: 4,
 				"&:hover": {
-					color: "currentColor",
-					backgroundColor: "#eee",
+					backgroundColor: "primary.main",
 				},
 			},
 			icon: {
 				flex: "1 0 1.3em",
-				maxWidth: "1.1em",
-				maxHeight: "1.1em",
+				maxWidth: "1.3em",
+				maxHeight: "1.3em",
 			},
 			text: {
 				fontSize: "1rem",
 				lineHeight: 1,
 				textTransform: "capitalize",
-				paddingLeft: "5px",
+				paddingLeft: "10px",
 			},
 		},
 		cardElement: {
 			overflow: "visible",
 			marginBottom: "30px",
-			"& h1": {
-				marginBottom: "1em",
-			},
 			"& .MuiCardContent-root": {
 				p: 2,
 				"&:last-child": {
@@ -112,18 +108,10 @@ export default function BlogPost() {
 				sx={{ ...css.buttonBackToResults.wrapper }}
 			>
 				<SvgIcon
-					viewBox="0 0 256 256"
+					viewBox="0 0 32 32"
 					sx={{ ...css.buttonBackToResults.icon }}
 				>
-					<rect width="256" height="256" fill="none"></rect>
-					<polyline
-						points="160 208 80 128 160 48"
-						fill="none"
-						stroke="currentColor"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						strokeWidth="16"
-					></polyline>
+					<path d="M29.4 17.5h-22l4.2 5.6-2.4 1.8L2.6 16l6.7-8.9 2.4 1.8-4.2 5.6h22v3z" />
 				</SvgIcon>
 				<Box sx={{ ...css.buttonBackToResults.text }}>All News</Box>
 			</Button>
@@ -136,25 +124,24 @@ export default function BlogPost() {
 							</Box>
 						)}
 						<Typography
-							component={"h1"}
-							variant="h1"
+							component={"h3"}
+							variant="h3"
 							gutterBottom
 							color="primary"
 							sx={{ display: "block", fontWeight: "500" }}
 						>
 							{page.title || "Loading..."}
 						</Typography>
-						<Typography variant="body1" component={"div"}>
-							<div
-								dangerouslySetInnerHTML={{
-									__html: DOMPurify.sanitize(
-										page.content.extended !== null
-											? page.content.extended
-											: "Content is loading..."
-									),
-								}}
-							></div>
-						</Typography>
+						<div
+							variant="body1"
+							dangerouslySetInnerHTML={{
+								__html: DOMPurify.sanitize(
+									page.content.extended !== null
+										? page.content.extended
+										: "Content is loading..."
+								),
+							}}
+						></div>
 						<Divider sx={{ mb: 1 }} />
 						<Typography
 							component="time"

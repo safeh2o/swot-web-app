@@ -7,14 +7,14 @@ function Download() {
 		>
 			<polyline
 				fill="none"
-				stroke="#3f4549"
+				stroke="#161819"
 				strokeWidth="3"
 				strokeMiterlimit="10"
 				points="30,16.5 20.4,24.4 11,16.5"
 			/>
 			<line
 				fill="none"
-				stroke="#3f4549"
+				stroke="#161819"
 				strokeWidth="3"
 				strokeMiterlimit="10"
 				x1="20.4"
@@ -24,7 +24,7 @@ function Download() {
 			/>
 			<line
 				fill="none"
-				stroke="#3f4549"
+				stroke="#161819"
 				strokeWidth="3"
 				strokeMiterlimit="10"
 				x1="4.4"

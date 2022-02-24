@@ -5,7 +5,6 @@ import {
 	Box,
 	CircularProgress,
 	IconButton,
-	Typography,
 } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
@@ -35,8 +34,8 @@ function PageWrapper(props) {
 	].some((path) => url.pathname === path);
 
 	const layoutMetrics = {
-		sidebar: 170,
-		content: 700,
+		sidebar: 180,
+		content: 760,
 	};
 
 	const BackToTopAnchor = useRef(null);
@@ -56,10 +55,14 @@ function PageWrapper(props) {
 		},
 		breadcrumbs: {
 			typography: "caption",
-			color: "#aaa",
 			width: "100%",
-			pt: 1,
-			pb: 0,
+			maxWidth:
+				layoutMetrics.content +
+				layoutMetrics.sidebar +
+				((theme) => {
+					return 40;
+				}),
+			py: 2,
 			px: 4,
 			ml: "auto",
 			mr: "auto",
@@ -73,7 +76,6 @@ function PageWrapper(props) {
 			flexDirection: { xs: "Columns", md: "Rows" },
 			justifyContent: "center",
 			px: 2,
-			width: "100%",
 		},
 		nav: {
 			display: { xs: "none", md: "block" },
@@ -121,22 +123,6 @@ function PageWrapper(props) {
 				{/* Sidebar */}
 				{isLoggedIn && isToolSideBar && (
 					<Box component="nav" sx={{ ...css.nav }}>
-						<Typography
-							component={"h1"}
-							variant="body1"
-							sx={{
-								mb: 2,
-								fontSize: "1.45rem",
-								fontWeight: "400",
-								fontFamily: '"Roboto Condensed", sans-serif',
-								lineHeight: "1.2",
-								letterSpacing: "-0.02em",
-								color: "#747e87",
-								margin: "5px 0 10px 8px",
-							}}
-						>
-							Tool Menu
-						</Typography>
 						<NavTools />
 					</Box>
 				)}

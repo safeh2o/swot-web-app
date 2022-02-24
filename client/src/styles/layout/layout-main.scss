@@ -1,0 +1,39 @@
+/* Layout - Main */
+main {
+	display: grid;
+	grid-template-columns: minmax(0, 100%);
+	grid-template-rows: auto 1fr;
+
+	min-height: calc(80vh - 85px);
+	max-width: 1280px;
+	margin: 0 auto;
+}
+@media (min-width: 960px) {
+	main {
+		grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+	}
+}
+
+.breadcrumbs {
+	grid-column: 1/-1;
+	display: flex;
+	align-items: center;
+
+	color: #747e87;
+	padding: 10px 20px;
+
+	.crumb {
+		display: flex;
+		align-items: center;
+		i {
+			width: 1.575em;
+			height: 1.575em;
+			margin: 0;
+			transform: scale(0.8) translateY(-2px);
+		}
+		&:after {
+			content: "/";
+			margin: 0;
+		}
+	}
+}

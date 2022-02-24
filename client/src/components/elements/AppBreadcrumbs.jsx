@@ -1,7 +1,7 @@
 import { Box, Breadcrumbs } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { popViewsTo, viewSelectors } from "../../reducers/view";
 
 function AppBreadcrumbs(props) {
@@ -9,11 +9,6 @@ function AppBreadcrumbs(props) {
 	const viewStack = useSelector(viewSelectors.viewStack);
 	const currentView = useSelector(viewSelectors.currentView);
 	useEffect(() => {}, [viewStack]);
-
-	const location = useLocation();
-	const path = location.pathname.split(/[/]/);
-	console.log(path);
-
 	return (
 		<Breadcrumbs {...props}>
 			{viewStack.map((view, i) => (

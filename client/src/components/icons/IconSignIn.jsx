@@ -9,7 +9,7 @@ function IconSignIn(props) {
 				stroke="currentColor"
 				strokeLinecap="round"
 				strokeLinejoin="round"
-				strokeWidth="20"
+				strokeWidth="16"
 				d="m94 170 42-42-42-42M24 128h112M136 40h56a8 8 0 0 1 8 8v160a8 8 0 0 1-8 8h-56"
 			/>
 		</SvgIcon>

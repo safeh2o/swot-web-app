@@ -174,7 +174,7 @@ export default function UploadPage() {
 				},
 				"&.Mui-checked": {
 					"& svg": {
-						fill: "#466FB6",
+						fill: "#4069b1",
 						stroke: "#305ba8",
 						strokeWidth: "3px",
 						"& .check": {

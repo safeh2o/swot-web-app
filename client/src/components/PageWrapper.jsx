@@ -65,7 +65,7 @@ function PageWrapper(props) {
 			mr: "auto",
 			"& a": {
 				color: "inherit",
-				textDecorationStyle: "dotted",
+				textDecorationStyle: "solid",
 			},
 		},
 		main: {

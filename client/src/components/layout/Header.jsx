@@ -117,7 +117,7 @@ export default function Header() {
 					m: "3px 6px",
 				},
 				"& .signout": {
-					textDecoration: "underline dotted",
+					textDecoration: "underline solid",
 				},
 			},
 			"& .nav-profile": {

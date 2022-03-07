@@ -75,7 +75,7 @@ export default function Home() {
 			"& a": {
 				color: "inherit",
 				fontWeight: "500",
-				textDecoration: "1.5px dotted underline",
+				textDecoration: "1px underline",
 				margin: "auto",
 			},
 		},

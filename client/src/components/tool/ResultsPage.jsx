@@ -138,7 +138,7 @@ const css = {
 			justifyContent: "space-between",
 			px: 1,
 			textTransform: "none",
-			textDecoration: "underline dotted 1px",
+			textDecoration: "underline",
 			color: "#34d379",
 			backgroundColor: "rgb(248, 248, 248)",
 			"&.waiting": {

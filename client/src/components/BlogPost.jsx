@@ -1,20 +1,20 @@
-import { Card, CardContent, Divider } from "@mui/material";
-import { Box, Typography, Button, SvgIcon } from "@mui/material";
-import { useParams, NavLink } from "react-router-dom";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-
-import { pushView } from "../reducers/view";
-import { setLoading } from "../reducers/notifications";
-
+import {
+	Box,
+	Button,
+	Card,
+	CardContent,
+	Divider,
+	Typography,
+} from "@mui/material";
 import DOMPurify from "dompurify";
 import { DateTime } from "luxon";
-import { object } from "prop-types";
-
-import { IconArrowBack } from "./icons";
-
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { NavLink, useParams } from "react-router-dom";
+import { setLoading } from "../reducers/notifications";
+import { pushView } from "../reducers/view";
 import { BlogPost as css } from "../styles/styles";
+import { IconArrowBack } from "./icons";
 
 export default function BlogPost() {
 	const dispatch = useDispatch();

@@ -3,19 +3,18 @@ import {
 	Button,
 	Card,
 	CardContent,
-	Typography,
 	FormControl,
 	Grid,
 	TextField,
+	Typography,
 } from "@mui/material";
+import axios from "axios";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import NotificationLine from "../elements/NotificationLine";
 import useForm from "../../hooks/useForm";
 import { handleServerMessages } from "../../reducers/notifications";
-import { useDispatch } from "react-redux";
-import axios from "axios";
-
 import { ProfileForgotPassword as css } from "../../styles/styles";
+import NotificationLine from "../elements/NotificationLine";
 
 export default function ProfileForgotPassword() {
 	const dispatch = useDispatch();

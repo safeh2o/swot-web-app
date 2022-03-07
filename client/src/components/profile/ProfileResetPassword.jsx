@@ -4,7 +4,6 @@ import {
 	Button,
 	Card,
 	CardContent,
-	Typography,
 	FormControl,
 	Grid,
 	IconButton,
@@ -12,6 +11,7 @@ import {
 	InputLabel,
 	OutlinedInput,
 	TextField,
+	Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -19,7 +19,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import useForm from "../../hooks/useForm";
 import { handleServerMessages } from "../../reducers/notifications";
-
 import { ProfileResetPassword as css } from "../../styles/styles";
 
 export default function ProfileResetPassword() {

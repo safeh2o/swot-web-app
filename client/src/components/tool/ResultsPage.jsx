@@ -11,18 +11,16 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import { formatDate } from "../../helpers/dates";
 import { addNotice, setLoading } from "../../reducers/notifications";
-import { userSelectors } from "../../reducers/user";
 import { pushView } from "../../reducers/view";
+import { ResultsPage as css } from "../../styles/styles";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
 import { IconCheck, IconRowChecked, IconRowUnchecked } from "../icons";
-
-import { ResultsPage as css } from "../../styles/styles";
 
 function renderRowSamples(dataset) {
 	return (

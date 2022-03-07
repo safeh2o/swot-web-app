@@ -1,12 +1,9 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
-	Typography,
 	Box,
 	Button,
 	Card,
 	CardContent,
-	CardHeader,
-	Divider,
 	FormControl,
 	Grid,
 	IconButton,
@@ -14,6 +11,7 @@ import {
 	InputLabel,
 	OutlinedInput,
 	TextField,
+	Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
@@ -26,7 +24,6 @@ import {
 	setLoading,
 } from "../../reducers/notifications";
 import { getUser } from "../../reducers/user";
-
 import { ProfileLogin as css } from "../../styles/styles";
 
 export default function ProfileLogin() {

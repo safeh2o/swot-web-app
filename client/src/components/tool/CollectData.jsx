@@ -5,11 +5,9 @@ import {
 	Divider,
 	Typography,
 } from "@mui/material";
-
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { pushView } from "../../reducers/view";
-
 import { CollectData as css } from "../../styles/styles";
 
 export default function CollectData() {

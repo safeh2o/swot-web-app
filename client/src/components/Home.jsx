@@ -5,7 +5,6 @@ import {
 	CardContent,
 	Divider,
 	Grid,
-	SvgIcon,
 	Typography,
 } from "@mui/material";
 import { useEffect } from "react";
@@ -14,10 +13,9 @@ import { Link } from "react-router-dom";
 import { blogSelectors, getPosts } from "../reducers/posts";
 import { userSelectors } from "../reducers/user";
 import { clearViewStack } from "../reducers/view";
-import { IconProfile, IconSignIn, IconArrowHome } from "./icons"; // IconQuestionMark
-import Posts from "./Posts";
-
 import { Home as css } from "../styles/styles";
+import { IconArrowHome, IconProfile, IconSignIn } from "./icons"; // IconQuestionMark
+import Posts from "./Posts";
 
 export default function Home() {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);

@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { NavTools as css } from "../../styles/styles";
 // Icons
 import {
 	IconToolAnalyze,
@@ -7,8 +8,6 @@ import {
 	IconToolResult,
 	IconToolUpload,
 } from "../icons";
-
-import { NavTools as css } from "../../styles/styles";
 
 export default function NavTools() {
 	const list = [

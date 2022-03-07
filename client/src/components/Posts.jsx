@@ -1,7 +1,7 @@
 import {
+	Box,
 	Card,
 	CardContent,
-	Box,
 	Divider,
 	Skeleton,
 	Typography,
@@ -9,7 +9,6 @@ import {
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { blogSelectors } from "../reducers/posts";
-
 import { Posts as css } from "../styles/styles";
 
 export default function Posts(props) {

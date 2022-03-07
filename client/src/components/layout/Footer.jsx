@@ -1,6 +1,5 @@
 import { Box, Grid } from "@mui/material";
 import { NavLink } from "react-router-dom";
-
 import { Header as css } from "../../styles/styles";
 
 export default function Footer() {

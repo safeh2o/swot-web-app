@@ -3,9 +3,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { blogSelectors, getPosts } from "../reducers/posts";
 import { pushView } from "../reducers/view";
-import Posts from "./Posts";
-
 import { Blog as css } from "../styles/styles";
+import Posts from "./Posts";
 
 export default function Blog(props) {
 	const posts = useSelector(blogSelectors.posts);

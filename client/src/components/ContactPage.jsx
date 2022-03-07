@@ -3,7 +3,6 @@ import {
 	Button,
 	Card,
 	CardContent,
-	CardHeader,
 	Divider,
 	FormControl,
 	FormHelperText,
@@ -21,9 +20,8 @@ import { Link } from "react-router-dom";
 import useForm from "../hooks/useForm";
 import { handleServerMessages, setLoading } from "../reducers/notifications";
 import { pushView } from "../reducers/view";
-import NotificationLine from "./elements/NotificationLine";
-
 import { ContactPage as css } from "../styles/styles";
+import NotificationLine from "./elements/NotificationLine";
 
 export default function ContactPage() {
 	const [contactReasons, setContactReasons] = useState([]);

@@ -22,11 +22,10 @@ import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import { userSelectors } from "../../reducers/user";
 import { pushView } from "../../reducers/view";
+import { UploadData as css } from "../../styles/styles";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
 import { IconUpload } from "../icons";
-
-import { UploadData as css } from "../../styles/styles";
 
 const initialState = {
 	response: null,

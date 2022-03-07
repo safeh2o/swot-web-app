@@ -15,13 +15,12 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { notificationsSelectors } from "../reducers/notifications";
 import { userSelectors } from "../reducers/user";
+import { PageWrapper as css } from "../styles/styles";
 import AppBreadcrumbs from "./elements/AppBreadcrumbs";
 import PublicSnackbar from "./elements/PublicSnackbar";
 import Footer from "./layout/Footer";
 import Header from "./layout/Header";
 import NavTools from "./layout/NavTools.jsx";
-
-import { PageWrapper as css } from "../styles/styles";
 
 function PageWrapper(props) {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);

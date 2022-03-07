@@ -24,9 +24,8 @@ import { useDispatch, useSelector } from "react-redux";
 import useForm from "../../hooks/useForm";
 import { handleServerMessages } from "../../reducers/notifications";
 import { getUser, userSelectors } from "../../reducers/user";
-import { IconProfile } from "../icons";
-
 import { UserDetailsModal as css } from "../../styles/styles";
+import { IconProfile } from "../icons";
 
 export default function UserDetailsModal() {
 	const [open, setOpen] = useState(false);

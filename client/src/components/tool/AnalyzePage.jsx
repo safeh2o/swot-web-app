@@ -34,10 +34,9 @@ import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import { userSelectors } from "../../reducers/user";
 import { pushView } from "../../reducers/view";
+import { AnalyzePage as css } from "../../styles/styles";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
-
-import { AnalyzePage as css } from "../../styles/styles";
 
 const initialState = {
 	fieldsite: DEFAULT_FIELDSITE,

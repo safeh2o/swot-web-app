@@ -13,9 +13,8 @@ import {
 	markAllRead,
 	notificationsSelectors,
 } from "../../reducers/notifications";
-import { IconBell, IconImportant } from "../icons";
-
 import { UserNotificationsPopover as css } from "../../styles/styles";
+import { IconBell, IconImportant } from "../icons";
 
 export default function UserNotificationsPopover() {
 	const [anchorEl, setAnchorEl] = useState(null);

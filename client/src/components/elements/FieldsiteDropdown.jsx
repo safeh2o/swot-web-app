@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import PropTypes from "prop-types";
 import { useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
@@ -8,10 +9,8 @@ import {
 } from "../../constants/defaults";
 import useForm from "../../hooks/useForm";
 import { userSelectors } from "../../reducers/user";
-import LocationDropdown from "./LocationDropdown";
-import { Box } from "@mui/material";
-
 import { FieldsiteDropdown as css } from "../../styles/styles";
+import LocationDropdown from "./LocationDropdown";
 
 function FieldsiteDropdown(props) {
 	const countries = useSelector(userSelectors.countries);

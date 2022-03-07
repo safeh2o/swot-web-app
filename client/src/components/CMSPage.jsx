@@ -1,13 +1,10 @@
+import { Box, Card, CardContent, Typography } from "@mui/material";
 import DOMPurify from "dompurify";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { setLoading } from "../reducers/notifications";
 import { pushView } from "../reducers/view";
-
-import { Card, CardContent, Divider } from "@mui/material";
-import { Box, Typography, Button, SvgIcon } from "@mui/material";
-
 import { CMSPage as css } from "../styles/styles";
 
 export default function CMSPage(props) {

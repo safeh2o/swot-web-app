@@ -31,6 +31,10 @@ export default function Footer() {
 					<NavLink to="/pages/privacy-policy">
 						<span>Privacy Policy</span>
 					</NavLink>
+					&nbsp;&nbsp;/&nbsp;&nbsp;
+					<NavLink to="/pages/cookie-policy">
+						<span>Cookie Policy</span>
+					</NavLink>
 				</Grid>
 			</Grid>
 		</>

@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
-import Notice from "../elements/Notice";
-import { Link } from "react-router-dom";
-import { IconTrash } from "../icons";
+import CircleIcon from "@mui/icons-material/Circle";
 import { DataGrid } from "@mui/x-data-grid";
-import { DEFAULT_AREA } from "../../constants/defaults";
+import axios from "axios";
+import * as luxon from "luxon";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { DEFAULT_AREA } from "../../constants/defaults";
+import { setLoading } from "../../reducers/notifications";
+import { userSelectors } from "../../reducers/user";
 import { pushView } from "../../reducers/view";
 import LocationDropdown from "../elements/LocationDropdown";
-import { setLoading } from "../../reducers/notifications";
-import axios from "axios";
-import CircleIcon from "@mui/icons-material/Circle";
-import * as luxon from "luxon";
-import { userSelectors } from "../../reducers/user";
+import Notice from "../elements/Notice";
+import { IconTrash } from "../icons";
 
 const columns = [
 	{

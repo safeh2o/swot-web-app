@@ -1,16 +1,20 @@
-import { Card, CardContent, Divider } from "@mui/material";
-import { Box, Typography, Button, SvgIcon } from "@mui/material";
-import { useParams, NavLink } from "react-router-dom";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-
-import { pushView } from "../reducers/view";
-import { setLoading } from "../reducers/notifications";
-
+import {
+	Box,
+	Button,
+	Card,
+	CardContent,
+	Divider,
+	Typography,
+} from "@mui/material";
 import DOMPurify from "dompurify";
 import { DateTime } from "luxon";
-import { object } from "prop-types";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { NavLink, useParams } from "react-router-dom";
+import { setLoading } from "../reducers/notifications";
+import { pushView } from "../reducers/view";
+import { BlogPost as css } from "../styles/styles";
+import { IconArrowBack } from "./icons";
 
 export default function BlogPost() {
 	const dispatch = useDispatch();
@@ -53,50 +57,10 @@ export default function BlogPost() {
 			month: "long",
 			day: "numeric",
 			year: "numeric",
-			day: "numeric",
 			hour: "numeric",
 			minute: "2-digit",
 		};
 		return dt.toLocaleString(f);
-	};
-
-	// Styles
-	const css = {
-		buttonBackToResults: {
-			wrapper: {
-				display: "flex",
-				alignItems: "center",
-				justifyContent: "flex-start",
-				backgroundColor: "primary.main",
-				color: "#fcfcfc",
-				p: 2,
-				mb: 4,
-				"&:hover": {
-					backgroundColor: "primary.main",
-				},
-			},
-			icon: {
-				flex: "1 0 1.3em",
-				maxWidth: "1.3em",
-				maxHeight: "1.3em",
-			},
-			text: {
-				fontSize: "1rem",
-				lineHeight: 1,
-				textTransform: "capitalize",
-				paddingLeft: "10px",
-			},
-		},
-		cardElement: {
-			overflow: "visible",
-			marginBottom: "30px",
-			"& .MuiCardContent-root": {
-				p: 2,
-				"&:last-child": {
-					p: 2,
-				},
-			},
-		},
 	};
 
 	return (
@@ -107,12 +71,7 @@ export default function BlogPost() {
 				size="large"
 				sx={{ ...css.buttonBackToResults.wrapper }}
 			>
-				<SvgIcon
-					viewBox="0 0 32 32"
-					sx={{ ...css.buttonBackToResults.icon }}
-				>
-					<path d="M29.4 17.5h-22l4.2 5.6-2.4 1.8L2.6 16l6.7-8.9 2.4 1.8-4.2 5.6h22v3z" />
-				</SvgIcon>
+				<IconArrowBack />
 				<Box sx={{ ...css.buttonBackToResults.text }}>All News</Box>
 			</Button>
 			<Card sx={{ ...css.cardElement }}>
@@ -124,24 +83,25 @@ export default function BlogPost() {
 							</Box>
 						)}
 						<Typography
-							component={"h3"}
-							variant="h3"
+							component={"h1"}
+							variant="h1"
 							gutterBottom
 							color="primary"
 							sx={{ display: "block", fontWeight: "500" }}
 						>
 							{page.title || "Loading..."}
 						</Typography>
-						<div
-							variant="body1"
-							dangerouslySetInnerHTML={{
-								__html: DOMPurify.sanitize(
-									page.content.extended !== null
-										? page.content.extended
-										: "Content is loading..."
-								),
-							}}
-						></div>
+						<Typography variant="body1" component={"div"}>
+							<div
+								dangerouslySetInnerHTML={{
+									__html: DOMPurify.sanitize(
+										page.content.extended !== null
+											? page.content.extended
+											: "Content is loading..."
+									),
+								}}
+							></div>
+						</Typography>
 						<Divider sx={{ mb: 1 }} />
 						<Typography
 							component="time"

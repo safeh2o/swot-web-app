@@ -3,7 +3,6 @@ import {
 	Button,
 	Card,
 	CardContent,
-	CardHeader,
 	Divider,
 	FormControl,
 	FormHelperText,
@@ -12,6 +11,7 @@ import {
 	MenuItem,
 	Select,
 	TextField,
+	Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -20,6 +20,7 @@ import { Link } from "react-router-dom";
 import useForm from "../hooks/useForm";
 import { handleServerMessages, setLoading } from "../reducers/notifications";
 import { pushView } from "../reducers/view";
+import { ContactPage as css } from "../styles/styles";
 import NotificationLine from "./elements/NotificationLine";
 
 export default function ContactPage() {
@@ -59,31 +60,16 @@ export default function ContactPage() {
 			});
 	}
 
-	// Styles
-	const css = {
-		form: {
-			'& [type="text"], & [type="email"], & [type="phone"], & [type="text"], & .MuiTextField-root':
-				{
-					backgroundColor: "#f9f9f9",
-				},
-			"& button": { textTransform: "capitalize" },
-			"& #btnSubmit": {
-				color: "white",
-				mb: 1,
-			},
-		},
-	};
-
 	return (
 		<>
+			<Typography
+				component={"h1"}
+				variant="body1"
+				sx={{ ...css.sectionHeader }}
+			>
+				Get In Touch
+			</Typography>
 			<Card elevation={1}>
-				<CardHeader
-					title={"Get in Touch"}
-					titleTypographyProps={{ variant: "h2", fontWeight: "400" }}
-				/>
-
-				<Divider />
-
 				<CardContent>
 					<Box component="form" sx={{ ...css.form }}>
 						<Grid container direction="row" spacing={2}>

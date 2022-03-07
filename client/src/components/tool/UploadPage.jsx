@@ -22,6 +22,7 @@ import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import { userSelectors } from "../../reducers/user";
 import { pushView } from "../../reducers/view";
+import { UploadData as css } from "../../styles/styles";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
 import { IconUpload } from "../icons";
@@ -101,97 +102,6 @@ export default function UploadPage() {
 			.finally(() => {
 				dispatch(setLoading(false));
 			});
-	};
-
-	// Styles
-	const css = {
-		cardElement: {
-			overflow: "visible",
-			marginBottom: "30px",
-			"& .MuiCardContent-root": {
-				p: 2,
-				"&:last-child": {
-					p: 2,
-				},
-			},
-		},
-		uploadLocation: {
-			marginBottom: "0",
-		},
-		uploadDrop: {
-			"& .MuiDropzoneArea-root": {
-				maxWidth: "720px",
-				minHeight: "225px",
-				margin: "16px auto",
-				backgroundColor: "#F9F9F9",
-				backgrounImage:
-					"url(\"data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23CCCCCCFF' stroke-width='2' stroke-dasharray='8%2c 8' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e\")",
-				borderRadius: "8px",
-				"& .MuiDropzoneArea-text": {
-					marginTop: "40px",
-					marginBottom: "20px",
-				},
-				"& .MuiDropzoneArea-textContainer": {
-					color: "#929eac",
-				},
-				"& .MuiDropzoneArea-icon": {
-					width: "6rem",
-					height: "6rem",
-					color: "#ccc",
-					fill: "#ccc",
-				},
-				"& .MuiChip-root": {
-					m: 2,
-					backgroundColor: "primary.main",
-					color: "#fff",
-					"& .MuiSvgIcon-root": {
-						color: "#fff",
-					},
-				},
-			},
-			"& .notification": {
-				paddingLeft: "20px",
-				paddingBottom: "8px",
-			},
-			"& .MuiFormGroup-root": {
-				pl: 2,
-			},
-			"& .MuiCheckbox-root": {
-				p: 1,
-				"& svg": {
-					fill: "#F9F9F9",
-					"& .base": {
-						boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)",
-						filter: "drop-shadow( 1px 1px 1px rgba(0, 0, 0, .1))",
-					},
-				},
-				"&:not(.Mui-checked)": {
-					"& svg": {
-						fill: "#F9F9F9",
-						stroke: "#888",
-						strokeWidth: "1px",
-					},
-				},
-				"&.Mui-checked": {
-					"& svg": {
-						fill: "#4069b1",
-						stroke: "#305ba8",
-						strokeWidth: "3px",
-						"& .check": {
-							fill: "#fff",
-							stroke: "none",
-						},
-					},
-				},
-			},
-		},
-		cardSubmit: {
-			"& button": { textTransform: "capitalize" },
-			"& #btnSubmit": {
-				color: "white",
-				mb: 1,
-			},
-		},
 	};
 
 	return (

@@ -3,19 +3,18 @@ import {
 	Card,
 	CardActions,
 	CardContent,
-	CardHeader,
 	Divider,
 	Grid,
-	SvgIcon,
 	Typography,
 } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { blogSelectors, getPosts } from "../reducers/posts";
 import { userSelectors } from "../reducers/user";
 import { clearViewStack } from "../reducers/view";
-import { IconProfile, IconSignIn } from "./icons"; // IconQuestionMark
+import { Home as css } from "../styles/styles";
+import { IconArrowHome, IconProfile, IconSignIn } from "./icons"; // IconQuestionMark
 import Posts from "./Posts";
 
 export default function Home() {
@@ -29,164 +28,61 @@ export default function Home() {
 		dispatch(getPosts());
 	}, []);
 
-	// Styles
-	const css = {
-		action: {
-			p: 3,
-			mb: 4,
-			borderRadius: "6px",
-			"& a": {
-				color: "inherit",
-				fontWeight: "500",
-			},
-			"& .MuiTypography-root": {
-				maxWidth: "33ch",
-			},
-		},
-		actionSwot: {
-			color: "#ffe5ed",
-			backgroundColor: "#d05478",
-		},
-		actionGuide: {
-			color: "#fffaea",
-			backgroundColor: "#f4c639",
-			"& .MuiTypography-root": {
-				maxWidth: "100%",
-			},
-		},
-		cardElement: {
-			overflow: "visible",
-			marginBottom: "30px",
-			"& .MuiCardContent-root": {
-				p: 2,
-				"&:last-child": {
-					p: 2,
-				},
-			},
-		},
-		news: {
-			backgroundColor: "#d9e5fa",
-			backgroundColor: "#fff",
-			"& article": {
-				// maxWidth: "45ch",
-				mb: 4,
-			},
-			"& .MuiCardActions-root": {
-				"& a": {
-					color: "inherit",
-				},
-			},
-		},
-		organisations: {
-			"& a[href]": {
-				display: "block",
-				maxWidth: "125px",
-				maxHeight: "125px",
-				"& svg": {
-					maxWidth: "125px",
-					maxHeight: "125px",
-				},
-				"&.wide": {
-					maxWidth: "200px",
-					"& svg": {
-						maxWidth: "200px",
-					},
-				},
-			},
-		},
-	};
-
 	const privilegedContent = () => {
 		return (
-			<Box>
-				<Grid
-					container
-					alignItems={"center"}
-					sx={{ ...css.action, ...css.actionSwot }}
-				>
-					{(!isLoggedIn && (
-						<>
-							<Grid item xs={12} sx={{ marginBottom: 2 }}>
-								<IconProfile
-									sx={{
-										width: "2.5rem",
-										height: "2.5rem",
-										fill: "#d05478",
-										backgroundColor: "currentColor",
-										borderRadius: "2.5rem",
-									}}
-								/>
-							</Grid>
-							<Grid item xs={"auto"}>
-								<Typography variant="h3">
-									Visit our contact page to{" "}
-									<Link to="/contact">Request</Link> an
-									account for you or your team members.
-								</Typography>
-							</Grid>
-							<Grid item xs={12}>
-								<Divider
-									sx={{
-										borderColor: "#ffe5ed",
-										my: 3,
-										opacity: 0.3,
-									}}
-								/>
-							</Grid>
-							<Grid item xs={9}>
-								<Typography variant="h3">
-									Or, <Link to="/signin">Sign in</Link> to
-									your account to begin or continue your SWOT
-									Process.
-								</Typography>
-							</Grid>
-							<Grid item xs={3}>
-								<Box
-									component={NavLink}
-									to="/signin"
-									sx={{
-										float: "right",
-										lineHeight: "0",
-									}}
-								>
+			<>
+				<Box sx={{ ...css.userPanel }}>
+					<Box sx={{ ...css.action, ...css.actionSwot }}>
+						{(!isLoggedIn && (
+							<>
+								<Box>
+									<IconProfile
+										sx={{
+											width: "2.5rem",
+											height: "2.5rem",
+										}}
+									/>
+									<Typography variant="h3" component={"p"}>
+										<Link to="/contact">Request</Link> an
+										account for you or your team members.
+									</Typography>
+								</Box>
+								<Box>
 									<IconSignIn
 										sx={{
 											width: "2.5rem",
 											height: "2.5rem",
-											color: "#d05478",
-											backgroundColor: "#ffe5ed",
-											borderRadius:
-												"2rem .75rem .75rem 2rem",
 										}}
 									/>
+									<Typography variant="h3" component={"p"}>
+										<Link to="/signin">Sign in</Link> to
+										begin or continue your SWOT Process.
+									</Typography>
 								</Box>
-							</Grid>
-						</>
-					)) || (
-						<>
-							<Grid item xs={"auto"} sx={{ marginBottom: 2 }}>
-								<SvgIcon
-									viewBox="0 0 32 32"
+							</>
+						)) || (
+							<>
+								<IconArrowHome
+									viewBox="0 0 256 256"
 									sx={{
 										width: "2.5rem",
 										height: "2.5rem",
 									}}
-								>
-									<path d="M3.2,16.9L9.3,23c0.4,0.4,1.1,0.5,1.5,0.4c0.4-0.3,0.8-0.7,0.8-1.2v-4.5h16.2c0.9,0,1.6-0.7,1.6-1.6c0-0.9-0.7-1.6-1.6-1.6 H11.6V9.9c0-0.5-0.4-1.1-0.8-1.2c-0.3-0.1-0.4-0.1-0.5-0.1C9.9,8.6,9.6,8.9,9.3,9l-6.1,6.1c-0.4,0.3-0.4,0.5-0.4,0.9 C2.8,16.3,3.1,16.6,3.2,16.9z" />
-								</SvgIcon>
-							</Grid>
-							<Grid item xs={12}>
+								/>
 								<Typography variant="h3">
-									Begin the swot procedure at{" "}
-									<Link to="/collect">Step #1</Link> to set up
-									a data collection procedure for you or your
-									team.
+									Use the Tool menu to begin or continue your
+									SWOT Process
 								</Typography>
-							</Grid>
-						</>
-					)}
-				</Grid>
-			</Box>
+							</>
+						)}
+					</Box>
+					<Box sx={{ ...css.actionGuide }}>
+						<Typography component="p">
+							For help, <Link to="/contact">Contact Us</Link>
+						</Typography>
+					</Box>
+				</Box>
+			</>
 		);
 	};
 
@@ -195,17 +91,7 @@ export default function Home() {
 			<Typography
 				component={"h1"}
 				variant="body1"
-				sx={{
-					mb: 2,
-					fontSize: "1.75rem",
-					fontWeight: "400",
-					fontFamily: '"Roboto Condensed", sans-serif',
-					lineHeight: "1.2",
-					letterSpacing: "-0.02em",
-					color: "#747e87",
-					paddingBottom: "5px",
-					margin: "8px 0 16px 8px",
-				}}
+				sx={{ ...css.sectionHeader }}
 			>
 				{(!isLoggedIn && "Welcome, Guest") ||
 					"Welcome Back, " +
@@ -214,94 +100,16 @@ export default function Home() {
 
 			{privilegedContent()}
 
-			<Box>
-				<Grid
-					container
-					alignItems={"flex-start"}
-					sx={{ ...css.action, ...css.actionGuide }}
-				>
-					<Grid
-						item
-						sx={{
-							marginTop: 0,
-							marginRight: 3,
-							marginBottom: 2,
-							flex: { xs: "1 0 100%", md: "0 1 auto" },
-						}}
-					>
-						<SvgIcon
-							viewBox="0 0 32 32"
-							sx={{
-								width: "2.5rem",
-								height: "auto",
-							}}
-						>
-							<path
-								fill="currentColor"
-								d="M16 0c8.8 0 16 7.2 16 16s-7.2 16-16 16S0 24.8 0 16 7.2 0 16 0z"
-							></path>
-							<path
-								fill="#f4c639"
-								d="M21.8 11.5c0 2.9-2.9 5-3.2 5.2-.9.6-.9 1.5-.9 1.5l.2 1.7-3.5.3-.2-1.7c-.1-1 .3-3.2 2.4-4.7.5-.3 1.7-1.5 1.7-2.4 0-1.1-1-2.1-2.3-2.1s-2.3.9-2.3 2.1c0 .2.1.3.2.6l.3.5-3.3 1.5-.3-.5c-.3-.7-.4-1.4-.4-2.1 0-3.1 2.6-5.6 5.8-5.6s5.8 2.7 5.8 5.7zm-5.6 14.6c1.2 0 2.1-1 2.1-2.1 0-1.2-1-2.1-2.1-2.1-1.2 0-2.1 1-2.1 2.1-.1 1.2.9 2.1 2.1 2.1z"
-							></path>
-						</SvgIcon>
-					</Grid>
-					<Grid item sx={{ flex: "1" }}>
-						<Typography variant="h3" component="p" gutterBottom>
-							<a
-								href="https://www.safeh2o.app/public/SWOT_Quickstart.pdf"
-								target={"_blank"}
-							>
-								Download
-							</a>{" "}
-							this quick start guide for an overview of the SWOT
-							process, from planning considerations to monitoring,
-							uploading data and running your first analysis.
-						</Typography>
-						<Divider
-							sx={{
-								borderColor: "#fffaea",
-								my: 3,
-								opacity: 0.6,
-							}}
-						/>
-						<Typography variant="body1" component="p">
-							Fore more information contact the SWOT team at{" "}
-							<Link to="mailto:hello@safeh2o.app">
-								hello@safeh2o.app
-							</Link>
-						</Typography>
-					</Grid>
-				</Grid>
-			</Box>
-
 			<Typography
 				component={"h1"}
 				variant="body1"
-				sx={{
-					mb: 2,
-					fontSize: "1.75rem",
-					fontWeight: "400",
-					fontFamily: '"Roboto Condensed", sans-serif',
-					lineHeight: "1.2",
-					letterSpacing: "-0.02em",
-					color: "#747e87",
-					paddingBottom: "5px",
-					margin: "8px 0 16px 8px",
-				}}
+				sx={{ ...css.sectionHeader }}
 			>
 				Latest News
 			</Typography>
 
+			<Posts type={"news"} data={posts.slice(0, 3)} />
 			<Card sx={{ ...css.cardElement, ...css.news }}>
-				{/* <CardHeader title={"Latest News"} />
-
-				<Divider /> */}
-
-				<CardContent>
-					<Posts type={"news"} data={posts.slice(0, 2)} />
-				</CardContent>
-
 				<CardActions className="more" sx={{ p: 2 }}>
 					<Divider sx={{ mb: 1 }} />
 					<Link to="/blog">
@@ -310,11 +118,15 @@ export default function Home() {
 				</CardActions>
 			</Card>
 
+			<Typography
+				component={"h1"}
+				variant="body1"
+				sx={{ ...css.sectionHeader }}
+			>
+				Organisations
+			</Typography>
+
 			<Card sx={{ ...css.cardElement, ...css.organisations }}>
-				<CardHeader title={"Organisations"} />
-
-				<Divider />
-
 				<CardContent>
 					<Grid
 						container

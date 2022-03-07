@@ -13,13 +13,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { markAllRead, setLoading } from "../../reducers/notifications";
 import { userSelectors } from "../../reducers/user";
+import { Header as css } from "../../styles/styles";
 import UserDetailsModal from "../elements/UserDetailsModal";
 import UserNotificationsPopover from "../elements/UserNotificationsPopover";
 import {
 	IconAdmin,
 	IconNavClose,
 	IconNavOpen,
-	IconSignIn,
+	IconProfile,
 	IconSignOut,
 	SWOTLogo,
 	SWOTLogoCompact,
@@ -50,151 +51,6 @@ export default function Header() {
 	const handleSignout = () => {
 		dispatch(markAllRead());
 		setWaitingForSignout(true);
-	};
-
-	const css = {
-		nav: {
-			display: "flex",
-			justifyContent: "space-between",
-			color: "#fff",
-			px: {
-				xs: 4,
-				md: 2,
-			},
-			mt: {
-				xs: 2,
-				md: 3,
-			},
-			mb: {
-				xs: 1,
-				md: 2,
-			},
-			"& .logo": {
-				flexGrow: 0,
-				alignSelf: "flex-end",
-				display: "block",
-				lineHeight: 0,
-				color: "white",
-				m: 0,
-				p: 0,
-				"& svg ": {
-					fill: "currentColor",
-					height: "auto",
-				},
-				"& svg.large": {
-					display: { xs: "none", md: "block" },
-					width: 231,
-				},
-				"& svg.compact": {
-					display: { xs: "block", md: "none" },
-					width: 154,
-				},
-			},
-		},
-		ul: {
-			flexGrow: 0,
-			display: "flex",
-			flexWrap: { md: "wrap" },
-			alignItems: "center",
-			justifyContent: "end",
-			listStyle: "none",
-			p: 0,
-			pl: 4,
-			m: 0,
-			//
-			"& a, & button": {
-				"&:hover": {
-					color: "currentColor",
-				},
-			},
-			//
-			"& .nav-content": {
-				display: { xs: "none", md: "flex" },
-				"& a": {
-					typography: "subtitle2",
-					textTransform: "capitalize",
-					margin: "3px 6px",
-				},
-				"& .signout": {
-					textDecoration: "underline dotted",
-				},
-			},
-			"& .nav-profile": {
-				display: "flex",
-				gridTemplateColumns: "1fr 1fr",
-				order: { md: "-1" },
-				flexBasis: { md: "100%" },
-				flexWrap: { xs: "wrap", md: "nowrap" },
-				justifyContent: "end",
-				"& a, & button": {
-					padding: { xs: "0px", md: "3px" },
-					margin: { xs: "4px", md: "3px 4px" },
-					borderRadius: "3px",
-					svg: {
-						width: { xs: "1em", md: ".9em" },
-						height: { xs: "1em", md: ".9em" },
-					},
-				},
-				"& .signin": {
-					textTransform: "none",
-					p: 0,
-					m: 0,
-				},
-				"& .openDrawer": {
-					svg: {
-						width: "1.3em",
-						height: "1.3em",
-					},
-				},
-			},
-		},
-		list: {},
-		setMobileNavOpen: {
-			display: { md: "none" },
-			padding: "6px",
-			margin: "0px 1px",
-		},
-		drawerElement: {
-			"& .MuiPaper-root": {
-				width: 200,
-				minHeight: "100%",
-				backgroundColor: "#E3E4E6",
-				p: "20px 20px 10px",
-				maxWidth: "100%",
-			},
-			"& .signout, & .signin": {
-				position: "relative",
-				textAlign: "left",
-				marginBottom: "16px",
-				color: "#fff",
-				backgroundColor: "primary.main",
-				border: "1px solid #bbb",
-				borderRadius: "3px",
-				display: { xs: "block", sm: "inline" },
-				p: { xs: "4px 8px", sm: 0 },
-				mb: 2,
-				"& svg": {
-					position: "absolute",
-					top: "50%",
-					right: "8px",
-					transform: "translateY(-50%)",
-					width: ".9em",
-					height: ".9em",
-				},
-			},
-			"& .signout": {
-				color: "#4c5054",
-				backgroundColor: "#EAC1AE",
-			},
-			"& .signin": {
-				color: "#4c5054",
-				backgroundColor: "#C2D4D0",
-			},
-			"& .nav-profile": {
-				justifyContent: "center",
-				mb: 2,
-			},
-		},
 	};
 
 	function headerSkeleton(text) {
@@ -286,14 +142,17 @@ export default function Header() {
 								) : (
 									<>
 										{/* User signin */}
-										<Button
+										<NavLink
 											to="/signin"
-											component={NavLink}
 											tabIndex={-1}
-											className="signin"
+											className={({ isActive }) =>
+												isActive
+													? "active signin"
+													: "signin"
+											}
 										>
-											Log in
-										</Button>
+											Log in <IconProfile />
+										</NavLink>
 									</>
 								)}
 
@@ -335,7 +194,7 @@ export default function Header() {
 						onKeyUp={() => setMobileNavOpen(false)}
 					>
 						{/* User signout */}
-						{isLoggedIn ? (
+						{isLoggedIn && (
 							<>
 								<Button
 									href="/admin/signout"
@@ -348,17 +207,8 @@ export default function Header() {
 								</Button>
 								<NavTools />
 							</>
-						) : (
-							<NavLink
-								to="/signin"
-								tabIndex={-1}
-								className="signin"
-							>
-								Log in
-								<IconSignIn />
-							</NavLink>
 						)}
-						<NavContent />
+						<NavContent className={isLoggedIn ? "user" : "guest"} />
 					</Box>
 				</Drawer>
 			</Box>

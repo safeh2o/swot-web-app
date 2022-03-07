@@ -71,3 +71,8 @@ export { default as IconArrowBack } from "./IconArrowBack";
 
 export * from "./IconArrowHome";
 export { default as IconArrowHome } from "./IconArrowHome";
+
+export * from "./IconRowChecked";
+export { default as IconRowChecked } from "./IconRowChecked";
+export * from "./IconRowUnchecked";
+export { default as IconRowUnchecked } from "./IconRowUnchecked";

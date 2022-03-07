@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { pushView } from "../../reducers/view";
 // icons
-import DownloadIcon from "../icons/Download";
+import { IconDownload } from "../icons";
 import PdfIcon from "../icons/Pdf";
 import XlsIcon from "../icons/Xls";
 
@@ -46,7 +46,7 @@ export default function CollectData() {
 								rel="noreferrer"
 							>
 								<i>
-									<DownloadIcon />
+									<IconDownload />
 								</i>
 								<span>Field Data Collection Protocol</span>
 							</a>
@@ -79,7 +79,7 @@ export default function CollectData() {
 								rel="noreferrer"
 							>
 								<i>
-									<DownloadIcon />
+									<IconDownload />
 								</i>
 								<span>Data Input Template</span>
 							</a>

@@ -23,6 +23,7 @@
 		"nunjucks": "^3.2.3"
 	},
 	"devDependencies": {
+		"concurrently": "^7.0.0",
 		"eslint": "^8.2.0",
 		"eslint-utils": "^3.0.0",
 		"nodemon": "^2.0.15",
@@ -30,7 +31,7 @@
 	},
 	"scripts": {
 		"start": "node keystone.js",
-		"dev": "npm-run-all --parallel watch:server watch:client",
+		"dev": "concurrently -k \"npm:watch:*\"",
 		"watch:server": "nodemon -L keystone.js",
 		"watch:client": "cd client && npm run-script watch",
 		"test": "test"

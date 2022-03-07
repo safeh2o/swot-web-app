@@ -22,6 +22,8 @@ import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
 import { IconCheck, IconRowChecked, IconRowUnchecked } from "../icons";
 
+import { ResultsPage as css } from "../../styles/styles";
+
 function renderRowSamples(dataset) {
 	return (
 		<Box
@@ -101,71 +103,6 @@ const columns = [
 		renderCell: ({ row }) => renderRowStatus(row),
 	},
 ];
-
-// Styles
-const css = {
-	grid: {
-		border: "none",
-		"& .MuiDataGrid-columnSeparator": {
-			display: "none",
-		},
-		"& .MuiDataGrid-columnHeaders": {
-			backgroundColor: "#fcfcfc",
-		},
-		"& .MuiTablePagination-select": {
-			backgroundColor: "#f8f8f8",
-			borderRadius: "4px",
-		},
-		"& .MuiDataGrid-columnHeaderTitleContainer, & .MuiDataGrid-footerContainer p":
-			{
-				typography: "caption",
-				color: "#929eac",
-				fontWeight: "500",
-				marginBottom: "0",
-			},
-		"& .MuiDataGrid-columnHeaderTitleContainer button, & .MuiDataGrid-columnHeaderTitleContainer .MuiInputBase-root, & .MuiDataGrid-columnHeaderTitleContainer .MuiCheckbox-root":
-			{
-				color: "#929eac",
-			},
-		"& .MuiDataGrid-columnHeaderTitle, & .MuiDataGrid-columnHeaderTitleContainer":
-			{
-				p: 0,
-			},
-		"& .MuiDataGrid-columnHeader:not(:first-of-type)": {
-			borderLeft: "1px solid rgb(230, 230, 230)",
-		},
-		"& .BtnStatus": {
-			justifyContent: "space-between",
-			px: 1,
-			textTransform: "none",
-			textDecoration: "underline",
-			color: "#34d379",
-			backgroundColor: "rgb(248, 248, 248)",
-			"&.waiting": {
-				color: "#fc9170",
-			},
-			"&:hover": {
-				color: "#fff",
-				backgroundColor: "primary.main",
-			},
-		},
-		'& [data-colindex="1"]': {
-			fontWeight: 500,
-			"& a": {
-				color: "inherit",
-				textDecoration: "underline solid transparent",
-				"&:hover": {
-					color: "primary.main",
-					textDecorationColor: "currentColor",
-				},
-			},
-		},
-		"& .MuiCheckbox-root": {
-			color: "#929eac",
-			borderRadius: "3rem",
-		},
-	},
-};
 
 export default function ResultsPage() {
 	const [fieldsite, setFieldsite] = useState(DEFAULT_FIELDSITE);

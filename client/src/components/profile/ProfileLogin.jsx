@@ -27,6 +27,8 @@ import {
 } from "../../reducers/notifications";
 import { getUser } from "../../reducers/user";
 
+import { ProfileLogin as css } from "../../styles/styles";
+
 export default function ProfileLogin() {
 	const { state, getTextChangeHandler } = useForm({
 		email: "",
@@ -74,33 +76,12 @@ export default function ProfileLogin() {
 		event.preventDefault();
 	};
 
-	// Styles
-	const css = {
-		cardElement: {},
-		form: {
-			"& button": { textTransform: "capitalize" },
-			"& #btnLogIn": {
-				color: "white",
-				mb: 1,
-			},
-		},
-	};
-
 	return (
 		<>
 			<Typography
 				component={"h1"}
 				variant="body1"
-				sx={{
-					mb: 2,
-					fontSize: "1.45rem",
-					fontWeight: "400",
-					fontFamily: '"Roboto Condensed", sans-serif',
-					lineHeight: "1.2",
-					letterSpacing: "-0.02em",
-					color: "#747e87",
-					margin: "5px 0 10px 8px",
-				}}
+				sx={{ ...css.sectionHeader }}
 			>
 				Log in
 			</Typography>

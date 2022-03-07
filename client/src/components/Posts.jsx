@@ -10,29 +10,11 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { blogSelectors } from "../reducers/posts";
 
+import { Posts as css } from "../styles/styles";
+
 export default function Posts(props) {
 	const { data: posts } = props;
 	const blogLoadingStatus = useSelector(blogSelectors.loadingStatus);
-
-	const css = {
-		cardElement: {
-			p: 2,
-			overflow: "visible",
-			marginBottom: "20px",
-			"& .MuiCardContent-root": {
-				p: 0,
-				"&:last-child": {
-					p: 0,
-				},
-			},
-			"& .MuiAccordionSummary-expandIconWrapper": {
-				"& svg": {
-					width: "0.92em",
-					height: "0.92em",
-				},
-			},
-		},
-	};
 
 	function articleFromPost(post) {
 		const link = `/blog/${post.slug}`;

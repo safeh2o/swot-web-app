@@ -23,6 +23,8 @@ import { handleServerMessages, setLoading } from "../reducers/notifications";
 import { pushView } from "../reducers/view";
 import NotificationLine from "./elements/NotificationLine";
 
+import { ContactPage as css } from "../styles/styles";
+
 export default function ContactPage() {
 	const [contactReasons, setContactReasons] = useState([]);
 	const [disabled, setDisabled] = useState(true);
@@ -60,36 +62,12 @@ export default function ContactPage() {
 			});
 	}
 
-	// Styles
-	const css = {
-		form: {
-			'& [type="text"], & [type="email"], & [type="phone"], & [type="text"], & .MuiTextField-root':
-				{
-					backgroundColor: "#f9f9f9",
-				},
-			"& button": { textTransform: "capitalize" },
-			"& #btnSubmit": {
-				color: "white",
-				mb: 1,
-			},
-		},
-	};
-
 	return (
 		<>
 			<Typography
 				component={"h1"}
 				variant="body1"
-				sx={{
-					mb: 2,
-					fontSize: "1.45rem",
-					fontWeight: "400",
-					fontFamily: '"Roboto Condensed", sans-serif',
-					lineHeight: "1.2",
-					letterSpacing: "-0.02em",
-					color: "#747e87",
-					margin: "5px 0 10px 8px",
-				}}
+				sx={{ ...css.sectionHeader }}
 			>
 				Get In Touch
 			</Typography>

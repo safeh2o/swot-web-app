@@ -2,5 +2,5 @@
 	"appService.zipIgnorePattern": ["node_modules{,/**}", ".vscode{,/**}"],
 	"editor.formatOnSave": true,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"prettier.configPath": ".prettierrc"
+	"prettier.tabWidth": 4
 }

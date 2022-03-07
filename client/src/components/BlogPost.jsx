@@ -14,6 +14,8 @@ import { object } from "prop-types";
 
 import { IconArrowBack } from "./icons";
 
+import { BlogPost as css } from "../styles/styles";
+
 export default function BlogPost() {
 	const dispatch = useDispatch();
 	const { slug } = useParams();
@@ -59,50 +61,6 @@ export default function BlogPost() {
 			minute: "2-digit",
 		};
 		return dt.toLocaleString(f);
-	};
-
-	// Styles
-	const css = {
-		buttonBackToResults: {
-			wrapper: {
-				display: "flex",
-				alignItems: "center",
-				justifyContent: "flex-start",
-				backgroundColor: "transparent",
-				border: ".5px solid #ddd",
-				color: "#666",
-				p: 1,
-				mb: 2,
-				"&:hover": {
-					color: "currentColor",
-					backgroundColor: "#eee",
-				},
-			},
-			icon: {
-				flex: "1 0 1.3em",
-				maxWidth: "1.1em",
-				maxHeight: "1.1em",
-			},
-			text: {
-				fontSize: "1rem",
-				lineHeight: 1,
-				textTransform: "capitalize",
-				paddingLeft: "5px",
-			},
-		},
-		cardElement: {
-			overflow: "visible",
-			marginBottom: "30px",
-			"& h1": {
-				marginBottom: "1em",
-			},
-			"& .MuiCardContent-root": {
-				p: 2,
-				"&:last-child": {
-					p: 2,
-				},
-			},
-		},
 	};
 
 	return (

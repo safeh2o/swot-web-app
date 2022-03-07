@@ -11,6 +11,8 @@ import { userSelectors } from "../../reducers/user";
 import LocationDropdown from "./LocationDropdown";
 import { Box } from "@mui/material";
 
+import { FieldsiteDropdown as css } from "../../styles/styles";
+
 function FieldsiteDropdown(props) {
 	const countries = useSelector(userSelectors.countries);
 	const allAreas = useSelector(userSelectors.areas);
@@ -36,20 +38,6 @@ function FieldsiteDropdown(props) {
 	useEffect(() => {
 		props.onChange(locations.fieldsite);
 	}, [locations.fieldsite]);
-
-	const css = {
-		display: "grid",
-		gridAutoFlow: {
-			xs: "row",
-			md: "column",
-		},
-		gap: "10px",
-		"& > *": {
-			flex: {
-				xs: "1 0 50%",
-			},
-		},
-	};
 
 	return (
 		<Box sx={{ ...css }}>

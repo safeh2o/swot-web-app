@@ -21,6 +21,8 @@ import Footer from "./layout/Footer";
 import Header from "./layout/Header";
 import NavTools from "./layout/NavTools.jsx";
 
+import { PageWrapper as css } from "../styles/styles";
+
 function PageWrapper(props) {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const isLoading = useSelector(notificationsSelectors.loading);
@@ -34,60 +36,8 @@ function PageWrapper(props) {
 		"/",
 	].some((path) => url.pathname === path);
 
-	const layoutMetrics = {
-		sidebar: 170,
-		content: 700,
-	};
-
 	const BackToTopAnchor = useRef(null);
 	const scrollTrigger = useScrollTrigger();
-
-	const css = {
-		header: {
-			position: "sticky",
-		},
-		backdrop: {
-			color: "#4369ac",
-			zIndex: (theme) => theme.zIndex.speedDial + 1,
-			backgroundColor: "#fff",
-			"& > *": {
-				color: "inherit",
-			},
-		},
-		breadcrumbs: {
-			typography: "caption",
-			color: "#aaa",
-			width: "100%",
-			pt: 1,
-			pb: 0,
-			px: 4,
-			ml: "auto",
-			mr: "auto",
-			"& a": {
-				color: "inherit",
-				textDecorationStyle: "solid",
-			},
-		},
-		main: {
-			display: "flex",
-			flexDirection: { xs: "Columns", md: "Rows" },
-			justifyContent: "center",
-			px: 2,
-			width: "100%",
-		},
-		nav: {
-			display: { xs: "none", md: "block" },
-			flex: { xs: "1", md: "1 0 33%" },
-			maxWidth: layoutMetrics.sidebar,
-			m: { md: 2 },
-			mr: { md: 3 },
-		},
-		article: {
-			flex: { xs: "1", md: "1 0 66%" },
-			maxWidth: layoutMetrics.content,
-			m: 2,
-		},
-	};
 
 	return (
 		<>
@@ -124,16 +74,7 @@ function PageWrapper(props) {
 						<Typography
 							component={"h1"}
 							variant="body1"
-							sx={{
-								mb: 2,
-								fontSize: "1.45rem",
-								fontWeight: "400",
-								fontFamily: '"Roboto Condensed", sans-serif',
-								lineHeight: "1.2",
-								letterSpacing: "-0.02em",
-								color: "#747e87",
-								margin: "5px 0 10px 8px",
-							}}
+							sx={{ ...css.sectionHeader }}
 						>
 							Tool Menu
 						</Typography>
@@ -162,18 +103,7 @@ function PageWrapper(props) {
 				sx={{
 					opacity: scrollTrigger ? "1" : "0",
 					pointerEvents: scrollTrigger ? "all" : "none",
-					position: "fixed",
-					bottom: "24px",
-					right: "24px",
-					color: "#fff",
-					lineHeight: "0",
-					borderRadius: "3px",
-					backgroundColor: "primary.main",
-					boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)",
-					"&:hover": {
-						backgroundColor: "primary.main",
-					},
-					transition: "opacity 0.2s ease",
+					...css.scrollup,
 				}}
 			>
 				<KeyboardArrowUpIcon aria-label="scroll back to top" />

@@ -15,6 +15,8 @@ import {
 } from "../../reducers/notifications";
 import { IconBell, IconImportant } from "../icons";
 
+import { UserNotificationsPopover as css } from "../../styles/styles";
+
 export default function UserNotificationsPopover() {
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [showNotifications, setShowNotifications] = useState(false);
@@ -43,23 +45,6 @@ export default function UserNotificationsPopover() {
 			dispatch(markAllRead());
 		}
 	}
-
-	// styles
-	const css = {
-		badge: {
-			"& .MuiBadge-badge": {
-				fontSize: "0.75rem",
-				transform: "translate(25%, -60%)",
-				filter: "drop-shadow(0px 3px 2px rgba(0,0,0,0.3))",
-			},
-		},
-		list: {
-			overflow: "auto",
-			maxHeight: "500px",
-			maxWidth: "400px",
-			p: 0,
-		},
-	};
 
 	return (
 		<>

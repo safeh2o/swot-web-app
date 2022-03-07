@@ -15,6 +15,8 @@ import { handleServerMessages } from "../../reducers/notifications";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 
+import { ProfileForgotPassword as css } from "../../styles/styles";
+
 export default function ProfileForgotPassword() {
 	const dispatch = useDispatch();
 
@@ -28,37 +30,12 @@ export default function ProfileForgotPassword() {
 
 	const { state, getTextChangeHandler } = useForm({ email: "" });
 
-	// Styles
-	const css = {
-		cardElement: {},
-		form: {
-			"& button": { textTransform: "capitalize" },
-			"& #btnSubmit": {
-				color: "white",
-				mb: 1,
-			},
-			"& #btnReset": {
-				backgroundColor: "#f1f4f7",
-				mb: 1,
-			},
-		},
-	};
-
 	return (
 		<>
 			<Typography
 				component={"h1"}
 				variant="body1"
-				sx={{
-					mb: 2,
-					fontSize: "1.45rem",
-					fontWeight: "400",
-					fontFamily: '"Roboto Condensed", sans-serif',
-					lineHeight: "1.2",
-					letterSpacing: "-0.02em",
-					color: "#747e87",
-					margin: "5px 0 10px 8px",
-				}}
+				sx={{ ...css.sectionHeader }}
 			>
 				Forgot Password
 			</Typography>

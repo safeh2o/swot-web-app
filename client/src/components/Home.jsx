@@ -17,6 +17,8 @@ import { clearViewStack } from "../reducers/view";
 import { IconProfile, IconSignIn, IconArrowHome } from "./icons"; // IconQuestionMark
 import Posts from "./Posts";
 
+import { Home as css } from "../styles/styles";
+
 export default function Home() {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const user = useSelector(userSelectors.user);
@@ -27,89 +29,6 @@ export default function Home() {
 		dispatch(clearViewStack());
 		dispatch(getPosts());
 	}, []);
-
-	// Styles
-	const css = {
-		userPanel: {
-			mb: "60px",
-		},
-		action: {
-			display: "flex",
-			alignSelf: "flex-start",
-			aligItems: "center",
-			flexWrap: "nowrap",
-			flex: "1 0 50%",
-			p: 1,
-			borderRadius: "3px",
-			"& svg": {
-				margin: "16px 8px",
-			},
-			"& h3 ": {
-				alignSelf: "center",
-				margin: 1,
-			},
-		},
-		actionSwot: {
-			flexWrap: { xs: "wrap", sm: "nowrap" },
-			color: "#fff",
-			backgroundColor: "#929eac",
-			"& > *": {
-				display: "flex",
-				maxWidth: { sm: "50%" },
-			},
-			"& p": {
-				m: "auto .5em auto 1em",
-			},
-			"& a": {
-				color: "inherit",
-				fontWeight: "500",
-				textDecoration: "1.5px solid underline",
-				margin: "auto",
-			},
-		},
-		actionGuide: {
-			p: 1,
-			"& p": {
-				mb: ".15em",
-			},
-			"& a": {
-				color: "inherit",
-				fontWeight: "500",
-				textDecoration: "1px underline",
-				margin: "auto",
-			},
-		},
-		cardElement: {
-			overflow: "visible",
-			marginBottom: "30px",
-			"& > .MuiCardContent-root": {
-				p: 2,
-				"&:last-child": {
-					p: 2,
-				},
-			},
-		},
-		news: {
-			mb: 8,
-		},
-		organisations: {
-			"& a[href]": {
-				display: "block",
-				maxWidth: "125px",
-				maxHeight: "125px",
-				"& svg": {
-					maxWidth: "125px",
-					maxHeight: "125px",
-				},
-				"&.wide": {
-					maxWidth: "200px",
-					"& svg": {
-						maxWidth: "200px",
-					},
-				},
-			},
-		},
-	};
 
 	const privilegedContent = () => {
 		return (
@@ -174,16 +93,7 @@ export default function Home() {
 			<Typography
 				component={"h1"}
 				variant="body1"
-				sx={{
-					mb: 2,
-					fontSize: "1.45rem",
-					fontWeight: "400",
-					fontFamily: '"Roboto Condensed", sans-serif',
-					lineHeight: "1.2",
-					letterSpacing: "-0.02em",
-					color: "#747e87",
-					margin: "5px 0 10px 8px",
-				}}
+				sx={{ ...css.sectionHeader }}
 			>
 				{(!isLoggedIn && "Welcome, Guest") ||
 					"Welcome Back, " +
@@ -195,16 +105,7 @@ export default function Home() {
 			<Typography
 				component={"h1"}
 				variant="body1"
-				sx={{
-					mb: 2,
-					fontSize: "1.45rem",
-					fontWeight: "400",
-					fontFamily: '"Roboto Condensed", sans-serif',
-					lineHeight: "1.2",
-					letterSpacing: "-0.02em",
-					color: "#747e87",
-					margin: "5px 0 10px 8px",
-				}}
+				sx={{ ...css.sectionHeader }}
 			>
 				Latest News
 			</Typography>
@@ -222,16 +123,7 @@ export default function Home() {
 			<Typography
 				component={"h1"}
 				variant="body1"
-				sx={{
-					mb: 2,
-					fontSize: "1.45rem",
-					fontWeight: "400",
-					fontFamily: '"Roboto Condensed", sans-serif',
-					lineHeight: "1.2",
-					letterSpacing: "-0.02em",
-					color: "#747e87",
-					margin: "5px 0 10px 8px",
-				}}
+				sx={{ ...css.sectionHeader }}
 			>
 				Organisations
 			</Typography>

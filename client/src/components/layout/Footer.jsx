@@ -1,6 +1,8 @@
 import { Box, Grid } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
+import { Header as css } from "../../styles/styles";
+
 export default function Footer() {
 	return (
 		<>
@@ -9,14 +11,7 @@ export default function Footer() {
 				container
 				alignItems="center"
 				typography="caption"
-				sx={{
-					pl: { xs: 2, md: 4 },
-					pr: { xs: 2, md: 4 },
-					mt: "auto",
-					ml: "auto",
-					mr: "auto",
-					mb: 3,
-				}}
+				sx={{ ...css }}
 			>
 				<Grid item xs={12}>
 					<Box component="span">

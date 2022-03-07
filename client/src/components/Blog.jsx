@@ -5,6 +5,8 @@ import { blogSelectors, getPosts } from "../reducers/posts";
 import { pushView } from "../reducers/view";
 import Posts from "./Posts";
 
+import { Blog as css } from "../styles/styles";
+
 export default function Blog(props) {
 	const posts = useSelector(blogSelectors.posts);
 	const dispatch = useDispatch();
@@ -19,16 +21,7 @@ export default function Blog(props) {
 			<Typography
 				component={"h1"}
 				variant="body1"
-				sx={{
-					mb: 2,
-					fontSize: "1.45rem",
-					fontWeight: "400",
-					fontFamily: '"Roboto Condensed", sans-serif',
-					lineHeight: "1.2",
-					letterSpacing: "-0.02em",
-					color: "#747e87",
-					margin: "5px 0 10px 8px",
-				}}
+				sx={{ ...css.sectionHeader }}
 			>
 				Latest News
 			</Typography>

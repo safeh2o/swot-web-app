@@ -45,7 +45,6 @@ const css = {
 		color: "#fff",
 		backgroundColor: "primary.main",
 		pointerEvents: "none",
-		textDecoration: "underline dotted",
 		textUnderlineOffset: 0,
 		"& .gray": {
 			fill: "#929eac",

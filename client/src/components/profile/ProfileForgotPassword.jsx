@@ -3,18 +3,18 @@ import {
 	Button,
 	Card,
 	CardContent,
-	CardHeader,
-	Divider,
 	FormControl,
 	Grid,
 	TextField,
+	Typography,
 } from "@mui/material";
+import axios from "axios";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import NotificationLine from "../elements/NotificationLine";
 import useForm from "../../hooks/useForm";
 import { handleServerMessages } from "../../reducers/notifications";
-import { useDispatch } from "react-redux";
-import axios from "axios";
+import { ProfileForgotPassword as css } from "../../styles/styles";
+import NotificationLine from "../elements/NotificationLine";
 
 export default function ProfileForgotPassword() {
 	const dispatch = useDispatch();
@@ -29,25 +29,16 @@ export default function ProfileForgotPassword() {
 
 	const { state, getTextChangeHandler } = useForm({ email: "" });
 
-	// Styles
-	const css = {
-		cardElement: {},
-		form: {
-			"& button": { textTransform: "capitalize" },
-			"& #btnSubmit": {
-				color: "white",
-				mb: 1,
-			},
-		},
-	};
-
 	return (
 		<>
+			<Typography
+				component={"h1"}
+				variant="body1"
+				sx={{ ...css.sectionHeader }}
+			>
+				Forgot Password
+			</Typography>
 			<Card elevation={1}>
-				<CardHeader title={"Forgot Password"} />
-
-				<Divider />
-
 				<CardContent>
 					<Box
 						role="form"
@@ -88,7 +79,7 @@ export default function ProfileForgotPassword() {
 								>
 									Submit
 								</Button>
-								<Button fullWidth type="reset">
+								<Button fullWidth type="reset" id="btnReset">
 									Reset
 								</Button>
 								or,&nbsp;<Link to="/signin">Sign in</Link>

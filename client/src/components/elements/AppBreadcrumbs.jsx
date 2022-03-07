@@ -9,6 +9,10 @@ function AppBreadcrumbs(props) {
 	const viewStack = useSelector(viewSelectors.viewStack);
 	const currentView = useSelector(viewSelectors.currentView);
 	useEffect(() => {}, [viewStack]);
+
+	// const location = useLocation();
+	// const path = location.pathname.split(/[/]/);
+
 	return (
 		<Breadcrumbs {...props}>
 			{viewStack.map((view, i) => (

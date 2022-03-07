@@ -1,10 +1,14 @@
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	Divider,
+	Typography,
+} from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { pushView } from "../../reducers/view";
-// icons
-import DownloadIcon from "../icons/Download";
-import PdfIcon from "../icons/Pdf";
-import XlsIcon from "../icons/Xls";
+import { CollectData as css } from "../../styles/styles";
 
 export default function CollectData() {
 	const urlFieldGuide =
@@ -19,204 +23,63 @@ export default function CollectData() {
 
 	return (
 		<>
-			<section
-				id="collect-data"
-				className="content-window bleed-edges rich-text"
+			<Card sx={{ ...css.cardElement, ...css.uploadLocation }}>
+				<CardHeader
+					title={"Guide to Collect Data"}
+					titleTypographyProps={{ variant: "h2", fontWeight: "400" }}
+				/>
+
+				<Divider />
+
+				<CardContent>
+					<Typography>
+						We have provided a handy field guide to help set up a
+						good data collection process at your campsite, and
+						already got a data input template file available for
+						download too.
+					</Typography>
+				</CardContent>
+			</Card>
+
+			<Typography
+				component={"h1"}
+				variant="body1"
+				sx={{ ...css.sectionHeader }}
 			>
-				<header>
-					<div className="content-window-title txt-condensed">
-						Step 1. Field Guide &amp; Data Input
-					</div>
-					<div className="content-window-title-description">
-						<p>
-							We have provided a handy field guide to help set up
-							a good data collection process at your campsite, and
-							already got a data input template file available for
-							download too.
-						</p>
-					</div>
-				</header>
-				<section>
-					<div className="step-1 field-guide">
-						<div className="text">
-							<a
-								className="txt-icon button yellow"
-								href={urlFieldGuide}
-								target="_blank"
-								rel="noreferrer"
-							>
-								<i>
-									<DownloadIcon />
-								</i>
-								<span>Field Data Collection Protocol</span>
-							</a>
-							<div className="label txt-icon rtl">
-								<i>
-									<PdfIcon />
-								</i>
-								<span>.pdf 357kb</span>
-							</div>
-							<div className="rte">
-								<p>
-									Collect field data following our guide to
-									help you and your team to set up a Data
-									Colletion process
-								</p>
-							</div>
-						</div>
+				a. Guides
+			</Typography>
+			<Card sx={{ ...css.cardElement, ...css.uploadLocation }}>
+				<CardContent>
+					<Typography variant="h3">Get Started Guide</Typography>
+				</CardContent>
+				<Divider />
+				<CardContent>
+					<Typography variant="h3">
+						Field Data Collection Protocol
+					</Typography>
+				</CardContent>
+				<Divider />
+			</Card>
 
-						<figure className="image">
-							<img src="#" alt="" />
-						</figure>
-					</div>
-
-					<div className="step-2 data-input-template">
-						<div className="text">
-							<a
-								className="txt-icon button yellow"
-								href={urlDataInputTemplate}
-								target="_blank"
-								rel="noreferrer"
-							>
-								<i>
-									<DownloadIcon />
-								</i>
-								<span>Data Input Template</span>
-							</a>
-							<div className="label txt-icon rtl">
-								<i>
-									<XlsIcon />
-								</i>
-								<span>.xlsx 20kb</span>
-							</div>
-							<div className="rte">
-								<span className="txt-icon notice">
-									<i>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											xmlnsXlink="http://www.w3.org/1999/xlink"
-											viewBox="0 0 40 40"
-										>
-											<circle
-												fill="#929EAC"
-												cx="20"
-												cy="20"
-												r="20"
-											/>
-											<line
-												fill="none"
-												stroke="#FCFCFC"
-												strokeWidth="3"
-												strokeLinecap="round"
-												strokeLinejoin="round"
-												x1="20"
-												y1="10"
-												x2="20"
-												y2="21.1"
-											/>
-											<circle
-												fill="#F6F7F7"
-												cx="20"
-												cy="29.2"
-												r="2.5"
-											/>
-										</svg>
-									</i>
-									<span>
-										Please do not remove any columns or
-										rows.
-									</span>
-								</span>
-								<span className="txt-icon notice">
-									<i>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											xmlnsXlink="http://www.w3.org/1999/xlink"
-											viewBox="0 0 40 40"
-										>
-											<circle
-												fill="#929EAC"
-												cx="20"
-												cy="20"
-												r="20"
-											/>
-											<line
-												fill="none"
-												stroke="#FCFCFC"
-												strokeWidth="3"
-												strokeLinecap="round"
-												strokeLinejoin="round"
-												x1="20"
-												y1="10"
-												x2="20"
-												y2="21.1"
-											/>
-											<circle
-												fill="#F6F7F7"
-												cx="20"
-												cy="29.2"
-												r="2.5"
-											/>
-										</svg>
-									</i>
-									<span>
-										Enter your field data under the correct
-										headings following the instructions on
-										the form and here, paying attention to
-										the units and format of the data.
-									</span>
-								</span>
-								<span className="txt-icon notice">
-									<i>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											xmlnsXlink="http://www.w3.org/1999/xlink"
-											viewBox="0 0 40 40"
-										>
-											<circle
-												fill="#929EAC"
-												cx="20"
-												cy="20"
-												r="20"
-											/>
-											<line
-												fill="none"
-												stroke="#FCFCFC"
-												strokeWidth="3"
-												strokeLinecap="round"
-												strokeLinejoin="round"
-												x1="20"
-												y1="10"
-												x2="20"
-												y2="21.1"
-											/>
-											<circle
-												fill="#F6F7F7"
-												cx="20"
-												cy="29.2"
-												r="2.5"
-											/>
-										</svg>
-									</i>
-									<span>
-										You need Microsoft Office 2007 or a
-										compatible Office suite to view the
-										Excel template.
-									</span>
-								</span>
-							</div>
-						</div>
-
-						<figure className="image show-medium-up">
-							<img
-								src="/assets/tool/collect-data-data-input-template.png"
-								alt=""
-							/>
-						</figure>
-					</div>
-				</section>
-				<footer></footer>
-			</section>
+			<Typography
+				component={"h1"}
+				variant="body1"
+				sx={{ ...css.sectionHeader }}
+			>
+				b. Data Collection Templates
+			</Typography>
+			<Card sx={{ ...css.cardElement, ...css.uploadLocation }}>
+				<CardContent>
+					<Typography variant="h3">Pen and Paper</Typography>
+				</CardContent>
+				<Divider />
+				<CardContent>
+					<Typography variant="h3">
+						Monitoring Forms (KOBO)
+					</Typography>
+				</CardContent>
+				<Divider />
+			</Card>
 		</>
 	);
 }

@@ -4,8 +4,6 @@ import {
 	Button,
 	Card,
 	CardContent,
-	CardHeader,
-	Divider,
 	FormControl,
 	Grid,
 	IconButton,
@@ -13,6 +11,7 @@ import {
 	InputLabel,
 	OutlinedInput,
 	TextField,
+	Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -20,6 +19,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import useForm from "../../hooks/useForm";
 import { handleServerMessages } from "../../reducers/notifications";
+import { ProfileResetPassword as css } from "../../styles/styles";
 
 export default function ProfileResetPassword() {
 	const { key } = useParams();
@@ -62,25 +62,16 @@ export default function ProfileResetPassword() {
 		event.preventDefault();
 	};
 
-	// Styles
-	const css = {
-		cardElement: {},
-		form: {
-			"& button": { textTransform: "capitalize" },
-			"& #btnSubmit": {
-				color: "white",
-				mb: 1,
-			},
-		},
-	};
-
 	return (
 		<>
+			<Typography
+				component={"h1"}
+				variant="body1"
+				sx={{ ...css.sectionHeader }}
+			>
+				Password Reset
+			</Typography>
 			<Card elevation={1}>
-				<CardHeader title={"Password Reset"} />
-
-				<Divider />
-
 				<CardContent>
 					<Box
 						component="form"

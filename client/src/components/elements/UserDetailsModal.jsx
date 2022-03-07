@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import useForm from "../../hooks/useForm";
 import { handleServerMessages } from "../../reducers/notifications";
 import { getUser, userSelectors } from "../../reducers/user";
+import { UserDetailsModal as css } from "../../styles/styles";
 import { IconProfile } from "../icons";
 
 export default function UserDetailsModal() {
@@ -88,33 +89,6 @@ export default function UserDetailsModal() {
 		event.preventDefault();
 	};
 	// END Form Password
-
-	// Styles
-	const css = {
-		dialogueElement: {
-			width: "45ch",
-			maxWidth: "calc(100% - 4rem)",
-			margin: "auto",
-			submissionWrap: {
-				px: 2,
-				pb: 2,
-				"& button": {
-					mr: 1,
-					textTransform: "capitalize",
-				},
-				"& #btnSaveUserDetails": {
-					color: "white",
-				},
-				"& #btnCancelUserDetails": {
-					color: "coral",
-					textDecoration: "underline 1px",
-				},
-				"& #btnResetUserDetails": {
-					marginLeft: "auto",
-				},
-			},
-		},
-	};
 
 	return (
 		<>

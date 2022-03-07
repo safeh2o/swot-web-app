@@ -4,8 +4,6 @@ import {
 	Button,
 	Card,
 	CardContent,
-	CardHeader,
-	Divider,
 	FormControl,
 	Grid,
 	IconButton,
@@ -13,6 +11,7 @@ import {
 	InputLabel,
 	OutlinedInput,
 	TextField,
+	Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
@@ -25,6 +24,7 @@ import {
 	setLoading,
 } from "../../reducers/notifications";
 import { getUser } from "../../reducers/user";
+import { ProfileLogin as css } from "../../styles/styles";
 
 export default function ProfileLogin() {
 	const { state, getTextChangeHandler } = useForm({
@@ -73,25 +73,16 @@ export default function ProfileLogin() {
 		event.preventDefault();
 	};
 
-	// Styles
-	const css = {
-		cardElement: {},
-		form: {
-			"& button": { textTransform: "capitalize" },
-			"& #btnLogIn": {
-				color: "white",
-				mb: 1,
-			},
-		},
-	};
-
 	return (
 		<>
+			<Typography
+				component={"h1"}
+				variant="body1"
+				sx={{ ...css.sectionHeader }}
+			>
+				Log in
+			</Typography>
 			<Card elevation={1}>
-				<CardHeader title={"Log in"} />
-
-				<Divider />
-
 				<CardContent>
 					<Box
 						component="form"

@@ -5,6 +5,7 @@ import {
 	Box,
 	CircularProgress,
 	IconButton,
+	Typography,
 } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
@@ -14,6 +15,7 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { notificationsSelectors } from "../reducers/notifications";
 import { userSelectors } from "../reducers/user";
+import { PageWrapper as css } from "../styles/styles";
 import AppBreadcrumbs from "./elements/AppBreadcrumbs";
 import PublicSnackbar from "./elements/PublicSnackbar";
 import Footer from "./layout/Footer";
@@ -33,63 +35,8 @@ function PageWrapper(props) {
 		"/",
 	].some((path) => url.pathname === path);
 
-	const layoutMetrics = {
-		sidebar: 180,
-		content: 760,
-	};
-
 	const BackToTopAnchor = useRef(null);
 	const scrollTrigger = useScrollTrigger();
-
-	const css = {
-		header: {
-			position: "sticky",
-		},
-		backdrop: {
-			color: "#4369ac",
-			zIndex: (theme) => theme.zIndex.speedDial + 1,
-			backgroundColor: "#fff",
-			"& > *": {
-				color: "inherit",
-			},
-		},
-		breadcrumbs: {
-			typography: "caption",
-			width: "100%",
-			maxWidth:
-				layoutMetrics.content +
-				layoutMetrics.sidebar +
-				((theme) => {
-					return 40;
-				}),
-			py: 2,
-			px: 4,
-			ml: "auto",
-			mr: "auto",
-			"& a": {
-				color: "inherit",
-				textDecorationStyle: "dotted",
-			},
-		},
-		main: {
-			display: "flex",
-			flexDirection: { xs: "Columns", md: "Rows" },
-			justifyContent: "center",
-			px: 2,
-		},
-		nav: {
-			display: { xs: "none", md: "block" },
-			flex: { xs: "1", md: "1 0 33%" },
-			maxWidth: layoutMetrics.sidebar,
-			m: { md: 2 },
-			mr: { md: 3 },
-		},
-		article: {
-			flex: { xs: "1", md: "1 0 66%" },
-			maxWidth: layoutMetrics.content,
-			m: 2,
-		},
-	};
 
 	return (
 		<>
@@ -123,6 +70,13 @@ function PageWrapper(props) {
 				{/* Sidebar */}
 				{isLoggedIn && isToolSideBar && (
 					<Box component="nav" sx={{ ...css.nav }}>
+						<Typography
+							component={"h1"}
+							variant="body1"
+							sx={{ ...css.sectionHeader }}
+						>
+							Tool Menu
+						</Typography>
 						<NavTools />
 					</Box>
 				)}
@@ -148,18 +102,7 @@ function PageWrapper(props) {
 				sx={{
 					opacity: scrollTrigger ? "1" : "0",
 					pointerEvents: scrollTrigger ? "all" : "none",
-					position: "fixed",
-					bottom: "24px",
-					right: "24px",
-					color: "#fff",
-					lineHeight: "0",
-					borderRadius: "3px",
-					backgroundColor: "primary.main",
-					boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)",
-					"&:hover": {
-						backgroundColor: "primary.main",
-					},
-					transition: "opacity 0.2s ease",
+					...css.scrollup,
 				}}
 			>
 				<KeyboardArrowUpIcon aria-label="scroll back to top" />

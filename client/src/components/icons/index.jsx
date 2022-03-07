@@ -3,12 +3,15 @@
 export * from "./Admin";
 // Other
 export { default as Admin } from "./Admin";
-export * from "./Download";
-export { default as Download } from "./Download";
 export * from "./IconAdd";
 export { default as IconAdd } from "./IconAdd";
 export * from "./IconAdmin";
 export { default as IconAdmin } from "./IconAdmin";
+//
+export * from "./IconArrowBack";
+export { default as IconArrowBack } from "./IconArrowBack";
+export * from "./IconArrowHome";
+export { default as IconArrowHome } from "./IconArrowHome";
 export * from "./IconAsterisk";
 export { default as IconAsterisk } from "./IconAsterisk";
 export * from "./IconBell";
@@ -21,10 +24,14 @@ export * from "./IconClose";
 export { default as IconClose } from "./IconClose";
 export * from "./IconDateRange";
 export { default as IconDateRange } from "./IconDateRange";
+export * from "./IconDownload";
+export { default as IconDownload } from "./IconDownload";
 export * from "./IconImportant";
 export { default as IconImportant } from "./IconImportant";
 export * from "./IconInformation";
 export { default as IconInformation } from "./IconInformation";
+export * from "./IconLow";
+export { default as IconLow } from "./IconLow";
 export * from "./IconNavClose";
 export { default as IconNavClose } from "./IconNavClose";
 export * from "./IconNavOpen";
@@ -34,6 +41,10 @@ export * from "./IconProfile";
 export { default as IconProfile } from "./IconProfile";
 // Notifications
 export { default as IconQuestionMark } from "./IconQuestionMark";
+export * from "./IconRowChecked";
+export { default as IconRowChecked } from "./IconRowChecked";
+export * from "./IconRowUnchecked";
+export { default as IconRowUnchecked } from "./IconRowUnchecked";
 export * from "./IconSignIn";
 export { default as IconSignIn } from "./IconSignIn";
 export * from "./IconSignOut";

@@ -1,21 +1,16 @@
 import { Box, Grid } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { Header as css } from "../../styles/styles";
 
 export default function Footer() {
 	return (
 		<>
 			<Grid
+				className="app-footer"
 				container
 				alignItems="center"
 				typography="caption"
-				sx={{
-					pl: { xs: 2, md: 4 },
-					pr: { xs: 2, md: 4 },
-					mt: "auto",
-					ml: "auto",
-					mr: "auto",
-					mb: 3,
-				}}
+				sx={{ ...css }}
 			>
 				<Grid item xs={12}>
 					<Box component="span">
@@ -29,6 +24,10 @@ export default function Footer() {
 					&nbsp;&nbsp;/&nbsp;&nbsp;
 					<NavLink to="/pages/privacy-policy">
 						<span>Privacy Policy</span>
+					</NavLink>
+					&nbsp;&nbsp;/&nbsp;&nbsp;
+					<NavLink to="/pages/cookie-policy">
+						<span>Cookie Policy</span>
 					</NavLink>
 				</Grid>
 			</Grid>

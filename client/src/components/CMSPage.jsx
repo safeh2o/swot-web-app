@@ -1,12 +1,11 @@
+import { Box, Card, CardContent, Typography } from "@mui/material";
 import DOMPurify from "dompurify";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { setLoading } from "../reducers/notifications";
 import { pushView } from "../reducers/view";
-
-import { Card, CardContent, Divider } from "@mui/material";
-import { Box, Typography, Button, SvgIcon } from "@mui/material";
+import { CMSPage as css } from "../styles/styles";
 
 export default function CMSPage(props) {
 	const dispatch = useDispatch();
@@ -42,20 +41,6 @@ export default function CMSPage(props) {
 			dispatch(pushView({ title: page.title, path: `/pages/${slug}` }));
 		}
 	}, [page]);
-
-	// Styles
-	const css = {
-		cardElement: {
-			overflow: "visible",
-			marginBottom: "30px",
-			"& .MuiCardContent-root": {
-				p: 2,
-				"&:last-child": {
-					p: 2,
-				},
-			},
-		},
-	};
 
 	return (
 		<>

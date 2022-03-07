@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import PropTypes from "prop-types";
 import { useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
@@ -8,8 +9,8 @@ import {
 } from "../../constants/defaults";
 import useForm from "../../hooks/useForm";
 import { userSelectors } from "../../reducers/user";
+import { FieldsiteDropdown as css } from "../../styles/styles";
 import LocationDropdown from "./LocationDropdown";
-import { Box } from "@mui/material";
 
 function FieldsiteDropdown(props) {
 	const countries = useSelector(userSelectors.countries);
@@ -36,20 +37,6 @@ function FieldsiteDropdown(props) {
 	useEffect(() => {
 		props.onChange(locations.fieldsite);
 	}, [locations.fieldsite]);
-
-	const css = {
-		display: "grid",
-		gridAutoFlow: {
-			xs: "row",
-			md: "column",
-		},
-		gap: "10px",
-		"& > *": {
-			flex: {
-				xs: "1 0 50%",
-			},
-		},
-	};
 
 	return (
 		<Box sx={{ ...css }}>

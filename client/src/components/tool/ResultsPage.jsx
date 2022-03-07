@@ -7,21 +7,20 @@ import {
 	Checkbox,
 	Divider,
 	Stack,
-	SvgIcon,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import { formatDate } from "../../helpers/dates";
 import { addNotice, setLoading } from "../../reducers/notifications";
-import { userSelectors } from "../../reducers/user";
 import { pushView } from "../../reducers/view";
+import { ResultsPage as css } from "../../styles/styles";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
-import { IconCheck } from "../icons";
+import { IconCheck, IconRowChecked, IconRowUnchecked } from "../icons";
 
 function renderRowSamples(dataset) {
 	return (
@@ -102,71 +101,6 @@ const columns = [
 		renderCell: ({ row }) => renderRowStatus(row),
 	},
 ];
-
-// Styles
-const css = {
-	grid: {
-		border: "none",
-		"& .MuiDataGrid-columnSeparator": {
-			display: "none",
-		},
-		"& .MuiDataGrid-columnHeaders": {
-			backgroundColor: "#fcfcfc",
-		},
-		"& .MuiTablePagination-select": {
-			backgroundColor: "#f8f8f8",
-			borderRadius: "4px",
-		},
-		"& .MuiDataGrid-columnHeaderTitleContainer, & .MuiDataGrid-footerContainer p":
-			{
-				typography: "caption",
-				color: "#929eac",
-				fontWeight: "500",
-				marginBottom: "0",
-			},
-		"& .MuiDataGrid-columnHeaderTitleContainer button, & .MuiDataGrid-columnHeaderTitleContainer .MuiInputBase-root, & .MuiDataGrid-columnHeaderTitleContainer .MuiCheckbox-root":
-			{
-				color: "#929eac",
-			},
-		"& .MuiDataGrid-columnHeaderTitle, & .MuiDataGrid-columnHeaderTitleContainer":
-			{
-				p: 0,
-			},
-		"& .MuiDataGrid-columnHeader:not(:first-of-type)": {
-			borderLeft: "1px solid rgb(230, 230, 230)",
-		},
-		"& .BtnStatus": {
-			justifyContent: "space-between",
-			px: 1,
-			textTransform: "none",
-			textDecoration: "underline dotted 1px",
-			color: "#34d379",
-			backgroundColor: "rgb(248, 248, 248)",
-			"&.waiting": {
-				color: "#fc9170",
-			},
-			"&:hover": {
-				color: "#fff",
-				backgroundColor: "primary.main",
-			},
-		},
-		'& [data-colindex="1"]': {
-			fontWeight: 500,
-			"& a": {
-				color: "inherit",
-				textDecoration: "underline solid transparent",
-				"&:hover": {
-					color: "primary.main",
-					textDecorationColor: "currentColor",
-				},
-			},
-		},
-		"& .MuiCheckbox-root": {
-			color: "#929eac",
-			borderRadius: "3rem",
-		},
-	},
-};
 
 export default function ResultsPage() {
 	const [fieldsite, setFieldsite] = useState(DEFAULT_FIELDSITE);
@@ -257,7 +191,7 @@ export default function ResultsPage() {
 								sx={{
 									color: "#fff",
 									textTransform: "none",
-									backgroundColor: "#4069b1",
+									backgroundColor: "#466FB6",
 									"&[disabled]": {
 										backgroundColor: "#fcfcfc",
 										borderColor: "rgba(0, 0, 0, 0.12)",
@@ -305,23 +239,8 @@ export default function ResultsPage() {
 							),
 							BaseCheckbox: () => (
 								<Checkbox
-									icon={
-										<SvgIcon viewBox="0 0 32 32">
-											<path
-												opacity="0.6"
-												fill="none"
-												stroke="currentColor"
-												strokeWidth="1.5"
-												strokeMiterlimit="10"
-												d="M29,27V5c0-1.1-0.9-2-2-2H5 C3.9,3,3,3.9,3,5v22c0,1.1,0.9,2,2,2h22C28.1,29,29,28.1,29,27z"
-											/>
-										</SvgIcon>
-									}
-									checkedIcon={
-										<SvgIcon viewBox="0 0 32 32">
-											<path d="M27 3H5c-1.1 0-2 .9-2 2v22c0 1.1.9 2 2 2h22c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM13.4 22.7L6.7 16l1.8-1.8 5 5L23.6 9.1l1.8 1.8-12 11.8z"></path>
-										</SvgIcon>
-									}
+									icon={<IconRowUnchecked />}
+									checkedIcon={<IconRowChecked />}
 								/>
 							),
 						}}

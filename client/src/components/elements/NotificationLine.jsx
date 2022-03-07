@@ -8,14 +8,15 @@ import {
 	IconQuestionMark,
 } from "../icons";
 
-import { NotificationLine as css } from "../../styles/styles";
+import { NotificationLineCreator } from "../../styles/styles";
 
 function NotificationLine(props) {
+	const css = NotificationLineCreator(props);
 	return (
 		<Typography
 			component="div"
 			variant="caption"
-			mx={{ ...css }}
+			sx={{ ...css }}
 			{...props}
 			className="notification"
 		>

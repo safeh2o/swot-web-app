@@ -376,6 +376,24 @@ export default function Result() {
 							</Tooltip>
 						</Type>
 					</Box>
+					<Box sx={{ ...css.stat }}>
+						<Type variant="inputValue">? %</Type>
+						<Type variant="inputLabel">
+							Current household water safety
+							<Tooltip
+								title={
+									<>
+										Count of HH samples &gt;= 0.2 mg/L using
+										subset of samples in date range.
+									</>
+								}
+								arrow
+								placement="top"
+							>
+								<IconQuestionMark />
+							</Tooltip>
+						</Type>
+					</Box>
 					<Divider sx={{ ...css.stat.divider }} />
 					<Box
 						sx={{ ...css.stat }}
@@ -399,6 +417,12 @@ export default function Result() {
 							>
 								<IconQuestionMark />
 							</Tooltip>
+						</Type>
+					</Box>
+					<Box sx={{ ...css.stat }}>
+						<Type variant="inputValue">4:35 hrs</Type>
+						<Type variant="inputLabel">
+							Average storage time in dataset
 						</Type>
 					</Box>
 				</CardContent>
@@ -451,36 +475,11 @@ export default function Result() {
 							</Tooltip>
 						</Type>
 					</Box>
-				</CardContent>
-			</Card>
-
-			{/* Household Water Safety Status */}
-			<Card id="result-household-status" sx={{ ...css.cardElement }}>
-				<CardHeader title="Household Water Safety Status" />
-				<Divider />
-				<CardContent>
 					<Box sx={{ ...css.stat }}>
 						<Type variant="inputValue">? %</Type>
 						<Type variant="inputLabel">
-							Current household water safety
-							<Tooltip
-								title={
-									<>
-										Count of HH samples &gt;= 0.2 mg/L using
-										subset of samples in date range.
-									</>
-								}
-								arrow
-								placement="top"
-							>
-								<IconQuestionMark />
-							</Tooltip>
-						</Type>
-					</Box>
-					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">? %</Type>
-						<Type variant="inputLabel">
-							Predicted household water safety
+							Predicted household water safety at this storage
+							time
 							<Tooltip
 								title="Predicted HH safety rate when the FRC target
 									is implemented"

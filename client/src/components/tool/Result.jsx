@@ -110,6 +110,7 @@ export default function Result() {
 			marginBottom: "30px",
 		},
 		cardElement: {
+			fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
 			marginBottom: "15px",
 			//
 
@@ -145,8 +146,11 @@ export default function Result() {
 				fontWeight: 500,
 			},
 			"& .MuiTypography-inputLabel": {
+				display: "block",
 				fontSize: "15px",
 				fontWeight: 400,
+				paddingTop: "5px",
+				paddingBottom: "10px",
 				paddingRight: "20px",
 				"& svg": {
 					width: ".6em",
@@ -227,20 +231,23 @@ export default function Result() {
 			display: "flex",
 			justifyContent: "flex-end",
 			alignItems: "center",
+			mt: 2,
 			mb: 6,
 			"& .btn-download": {
+				flex: 1,
 				color: "#fff",
 				textTransform: "unset",
 				backgroundColor: "primary.main",
 				padding: "10px",
-				marginRight: ".5em",
+				marginRight: "1em",
 				"& svg": {
-					width: ".8em",
-					height: ".8em",
+					width: "1em",
+					height: "1em",
 					marginRight: ".5em",
 				},
 			},
 			"& .btn-reanalyze": {
+				padding: "0 20px",
 				backgroundColor: "#111",
 			},
 		},
@@ -372,7 +379,9 @@ export default function Result() {
 								arrow
 								placement="top"
 							>
-								<IconQuestionMark />
+								<span>
+									<IconQuestionMark />
+								</span>
 							</Tooltip>
 						</Type>
 					</Box>
@@ -390,7 +399,9 @@ export default function Result() {
 								arrow
 								placement="top"
 							>
-								<IconQuestionMark />
+								<span>
+									<IconQuestionMark />
+								</span>
 							</Tooltip>
 						</Type>
 					</Box>
@@ -415,7 +426,9 @@ export default function Result() {
 								arrow
 								placement="top"
 							>
-								<IconQuestionMark />
+								<span>
+									<IconQuestionMark />
+								</span>
 							</Tooltip>
 						</Type>
 					</Box>
@@ -451,7 +464,9 @@ export default function Result() {
 								arrow
 								placement="top"
 							>
-								<IconQuestionMark />
+								<span>
+									<IconQuestionMark />
+								</span>
 							</Tooltip>
 						</Type>
 					</Box>
@@ -471,7 +486,9 @@ export default function Result() {
 								arrow
 								placement="top"
 							>
-								<IconQuestionMark />
+								<span>
+									<IconQuestionMark />
+								</span>
 							</Tooltip>
 						</Type>
 					</Box>
@@ -486,7 +503,9 @@ export default function Result() {
 								arrow
 								placement="top"
 							>
-								<IconQuestionMark />
+								<span>
+									<IconQuestionMark />
+								</span>
 							</Tooltip>
 						</Type>
 					</Box>

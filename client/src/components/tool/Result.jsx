@@ -6,7 +6,6 @@ import {
 	CardContent,
 	CardHeader,
 	Divider,
-	SvgIcon,
 	Tooltip,
 	Typography,
 } from "@mui/material";
@@ -16,6 +15,8 @@ import { useDispatch } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import { pushView } from "../../reducers/view";
+
+import { IconQuestionMark, IconDownload, IconLow, IconCheck } from "../icons";
 
 export default function Result() {
 	const { datasetId } = useParams();
@@ -371,12 +372,7 @@ export default function Result() {
 								arrow
 								placement="top"
 							>
-								<SvgIcon viewBox="0 0 32 32">
-									<path
-										fill="currentColor"
-										d="M16 0C7.2 0 0 7.2 0 16s7.2 16 16 16 16-7.2 16-16S24.8 0 16 0zm.2 26.1c-1.2 0-2.2-.9-2.1-2.1 0-1.1.9-2.1 2.1-2.1 1.1 0 2.1.9 2.1 2.1 0 1.1-.9 2.1-2.1 2.1zm2.4-9.4c-.9.6-.9 1.5-.9 1.5l.2 1.7-3.5.3-.2-1.7c-.1-1 .3-3.2 2.4-4.7.5-.3 1.7-1.5 1.7-2.4 0-1.1-1-2.1-2.3-2.1s-2.3.9-2.3 2.1c0 .2.1.3.2.6l.3.5-3.3 1.5-.3-.5c-.3-.7-.4-1.4-.4-2.1 0-3.1 2.6-5.6 5.8-5.6s5.8 2.7 5.8 5.7c0 2.9-2.9 5-3.2 5.2z"
-									></path>
-								</SvgIcon>
+								<IconQuestionMark />
 							</Tooltip>
 						</Type>
 					</Box>
@@ -388,13 +384,11 @@ export default function Result() {
 						<Type variant="inputValue">
 							{dataset.nSamples}
 							{/* if total samples are less than 100 */}
-							<SvgIcon viewBox="0 0 32 32" className="sup">
-								{dataset.nSamples < 100 ? (
-									<path d="M16,2C8.3,2,2,8.3,2,16s6.3,14,14,14s14-6.3,14-14S23.7,2,16,2z M17.4,23h-2.8v-2.8h2.8V23z M17.4,17.4h-2.8V9h2.8V17.4z" />
-								) : (
-									<path d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm-2.4 20.4-6.3-6.3 1.9-1.8 4.4 4.3 9.1-9.1 1.9 1.9-11 11z" />
-								)}
-							</SvgIcon>
+							{dataset.nSamples < 100 ? (
+								<IconLow className="sup" />
+							) : (
+								<IconCheck className="sup" />
+							)}
 						</Type>
 						<Type variant="inputLabel">
 							Number of Data Samples Sent for Analysis
@@ -403,12 +397,7 @@ export default function Result() {
 								arrow
 								placement="top"
 							>
-								<SvgIcon viewBox="0 0 32 32">
-									<path
-										fill="currentColor"
-										d="M16 0C7.2 0 0 7.2 0 16s7.2 16 16 16 16-7.2 16-16S24.8 0 16 0zm.2 26.1c-1.2 0-2.2-.9-2.1-2.1 0-1.1.9-2.1 2.1-2.1 1.1 0 2.1.9 2.1 2.1 0 1.1-.9 2.1-2.1 2.1zm2.4-9.4c-.9.6-.9 1.5-.9 1.5l.2 1.7-3.5.3-.2-1.7c-.1-1 .3-3.2 2.4-4.7.5-.3 1.7-1.5 1.7-2.4 0-1.1-1-2.1-2.3-2.1s-2.3.9-2.3 2.1c0 .2.1.3.2.6l.3.5-3.3 1.5-.3-.5c-.3-.7-.4-1.4-.4-2.1 0-3.1 2.6-5.6 5.8-5.6s5.8 2.7 5.8 5.7c0 2.9-2.9 5-3.2 5.2z"
-									></path>
-								</SvgIcon>
+								<IconQuestionMark />
 							</Tooltip>
 						</Type>
 					</Box>
@@ -438,12 +427,7 @@ export default function Result() {
 								arrow
 								placement="top"
 							>
-								<SvgIcon viewBox="0 0 32 32">
-									<path
-										fill="currentColor"
-										d="M16 0C7.2 0 0 7.2 0 16s7.2 16 16 16 16-7.2 16-16S24.8 0 16 0zm.2 26.1c-1.2 0-2.2-.9-2.1-2.1 0-1.1.9-2.1 2.1-2.1 1.1 0 2.1.9 2.1 2.1 0 1.1-.9 2.1-2.1 2.1zm2.4-9.4c-.9.6-.9 1.5-.9 1.5l.2 1.7-3.5.3-.2-1.7c-.1-1 .3-3.2 2.4-4.7.5-.3 1.7-1.5 1.7-2.4 0-1.1-1-2.1-2.3-2.1s-2.3.9-2.3 2.1c0 .2.1.3.2.6l.3.5-3.3 1.5-.3-.5c-.3-.7-.4-1.4-.4-2.1 0-3.1 2.6-5.6 5.8-5.6s5.8 2.7 5.8 5.7c0 2.9-2.9 5-3.2 5.2z"
-									></path>
-								</SvgIcon>
+								<IconQuestionMark />
 							</Tooltip>
 						</Type>
 					</Box>
@@ -463,12 +447,7 @@ export default function Result() {
 								arrow
 								placement="top"
 							>
-								<SvgIcon viewBox="0 0 32 32">
-									<path
-										fill="currentColor"
-										d="M16 0C7.2 0 0 7.2 0 16s7.2 16 16 16 16-7.2 16-16S24.8 0 16 0zm.2 26.1c-1.2 0-2.2-.9-2.1-2.1 0-1.1.9-2.1 2.1-2.1 1.1 0 2.1.9 2.1 2.1 0 1.1-.9 2.1-2.1 2.1zm2.4-9.4c-.9.6-.9 1.5-.9 1.5l.2 1.7-3.5.3-.2-1.7c-.1-1 .3-3.2 2.4-4.7.5-.3 1.7-1.5 1.7-2.4 0-1.1-1-2.1-2.3-2.1s-2.3.9-2.3 2.1c0 .2.1.3.2.6l.3.5-3.3 1.5-.3-.5c-.3-.7-.4-1.4-.4-2.1 0-3.1 2.6-5.6 5.8-5.6s5.8 2.7 5.8 5.7c0 2.9-2.9 5-3.2 5.2z"
-									></path>
-								</SvgIcon>
+								<IconQuestionMark />
 							</Tooltip>
 						</Type>
 					</Box>
@@ -494,12 +473,7 @@ export default function Result() {
 								arrow
 								placement="top"
 							>
-								<SvgIcon viewBox="0 0 32 32">
-									<path
-										fill="currentColor"
-										d="M16 0C7.2 0 0 7.2 0 16s7.2 16 16 16 16-7.2 16-16S24.8 0 16 0zm.2 26.1c-1.2 0-2.2-.9-2.1-2.1 0-1.1.9-2.1 2.1-2.1 1.1 0 2.1.9 2.1 2.1 0 1.1-.9 2.1-2.1 2.1zm2.4-9.4c-.9.6-.9 1.5-.9 1.5l.2 1.7-3.5.3-.2-1.7c-.1-1 .3-3.2 2.4-4.7.5-.3 1.7-1.5 1.7-2.4 0-1.1-1-2.1-2.3-2.1s-2.3.9-2.3 2.1c0 .2.1.3.2.6l.3.5-3.3 1.5-.3-.5c-.3-.7-.4-1.4-.4-2.1 0-3.1 2.6-5.6 5.8-5.6s5.8 2.7 5.8 5.7c0 2.9-2.9 5-3.2 5.2z"
-									></path>
-								</SvgIcon>
+								<IconQuestionMark />
 							</Tooltip>
 						</Type>
 					</Box>
@@ -513,12 +487,7 @@ export default function Result() {
 								arrow
 								placement="top"
 							>
-								<SvgIcon viewBox="0 0 32 32">
-									<path
-										fill="currentColor"
-										d="M16 0C7.2 0 0 7.2 0 16s7.2 16 16 16 16-7.2 16-16S24.8 0 16 0zm.2 26.1c-1.2 0-2.2-.9-2.1-2.1 0-1.1.9-2.1 2.1-2.1 1.1 0 2.1.9 2.1 2.1 0 1.1-.9 2.1-2.1 2.1zm2.4-9.4c-.9.6-.9 1.5-.9 1.5l.2 1.7-3.5.3-.2-1.7c-.1-1 .3-3.2 2.4-4.7.5-.3 1.7-1.5 1.7-2.4 0-1.1-1-2.1-2.3-2.1s-2.3.9-2.3 2.1c0 .2.1.3.2.6l.3.5-3.3 1.5-.3-.5c-.3-.7-.4-1.4-.4-2.1 0-3.1 2.6-5.6 5.8-5.6s5.8 2.7 5.8 5.7c0 2.9-2.9 5-3.2 5.2z"
-									></path>
-								</SvgIcon>
+								<IconQuestionMark />
 							</Tooltip>
 						</Type>
 					</Box>
@@ -531,9 +500,7 @@ export default function Result() {
 					href={`/api/results/download?datasetId=${datasetId}`}
 					className="btn-download"
 				>
-					<SvgIcon viewBox="0 0 32 32">
-						<path d="M9.8 14.7c-.4-.4-.5-1-.3-1.5s.7-.8 1.2-.8h3.9V5c0-.7.6-1.3 1.3-1.3s1.3.6 1.3 1.3v7.4h3.9c.5 0 1 .3 1.2.8.2.5.1 1.1-.3 1.5l-5.2 5.2c-.1.1-.3.2-.4.3-.2.1-.3.1-.5.1s-.4 0-.5-.1c-.1-.1-.3-.1-.4-.3l-5.2-5.2zm17.2 3c-.7 0-1.3.6-1.3 1.3v6.7H6.3V19c0-.7-.6-1.3-1.3-1.3s-1.3.6-1.3 1.3v7c0 1.3 1 2.3 2.3 2.3h20c1.3 0 2.3-1 2.3-2.3v-7c0-.7-.6-1.3-1.3-1.3z" />
-					</SvgIcon>{" "}
+					<IconDownload />{" "}
 					<Type component="span">Download Raw Results</Type>
 				</Button>
 				<Button onClick={handleReanalysis}>Reanalyze</Button>

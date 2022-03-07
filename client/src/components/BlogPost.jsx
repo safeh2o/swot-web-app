@@ -12,6 +12,8 @@ import DOMPurify from "dompurify";
 import { DateTime } from "luxon";
 import { object } from "prop-types";
 
+import { IconArrowBack } from "./icons";
+
 export default function BlogPost() {
 	const dispatch = useDispatch();
 	const { slug } = useParams();
@@ -111,20 +113,7 @@ export default function BlogPost() {
 				size="large"
 				sx={{ ...css.buttonBackToResults.wrapper }}
 			>
-				<SvgIcon
-					viewBox="0 0 256 256"
-					sx={{ ...css.buttonBackToResults.icon }}
-				>
-					<rect width="256" height="256" fill="none"></rect>
-					<polyline
-						points="160 208 80 128 160 48"
-						fill="none"
-						stroke="currentColor"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						strokeWidth="16"
-					></polyline>
-				</SvgIcon>
+				<IconArrowBack />
 				<Box sx={{ ...css.buttonBackToResults.text }}>All News</Box>
 			</Button>
 			<Card sx={{ ...css.cardElement }}>

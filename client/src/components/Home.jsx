@@ -5,7 +5,6 @@ import {
 	CardContent,
 	Divider,
 	Grid,
-	SvgIcon,
 	Typography,
 } from "@mui/material";
 import { useEffect } from "react";
@@ -14,7 +13,7 @@ import { Link } from "react-router-dom";
 import { blogSelectors, getPosts } from "../reducers/posts";
 import { userSelectors } from "../reducers/user";
 import { clearViewStack } from "../reducers/view";
-import { IconProfile, IconSignIn } from "./icons"; // IconQuestionMark
+import { IconProfile, IconSignIn, IconArrowHome } from "./icons"; // IconQuestionMark
 import Posts from "./Posts";
 
 export default function Home() {
@@ -145,38 +144,13 @@ export default function Home() {
 							</>
 						)) || (
 							<>
-								<SvgIcon
+								<IconArrowHome
 									viewBox="0 0 256 256"
 									sx={{
 										width: "2.5rem",
 										height: "2.5rem",
 									}}
-								>
-									<rect
-										width="256"
-										height="256"
-										fill="none"
-									></rect>
-									<line
-										x1="216"
-										y1="128"
-										x2="40"
-										y2="128"
-										fill="none"
-										stroke="currentColor"
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="20"
-									></line>
-									<polyline
-										points="112 56 40 128 112 200"
-										fill="none"
-										stroke="currentColor"
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="20"
-									></polyline>
-								</SvgIcon>
+								/>
 								<Typography variant="h3">
 									Use the Tool menu to begin or continue your
 									SWOT Process

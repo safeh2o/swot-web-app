@@ -3,8 +3,8 @@
 export * from "./Admin";
 // Other
 export { default as Admin } from "./Admin";
-export * from "./Download";
-export { default as Download } from "./Download";
+export * from "./IconDownload";
+export { default as IconDownload } from "./IconDownload";
 export * from "./IconAdd";
 export { default as IconAdd } from "./IconAdd";
 export * from "./IconAdmin";
@@ -17,6 +17,8 @@ export * from "./IconCalendar";
 export { default as IconCalendar } from "./IconCalendar";
 export * from "./IconCheck";
 export { default as IconCheck } from "./IconCheck";
+export * from "./IconLow";
+export { default as IconLow } from "./IconLow";
 export * from "./IconClose";
 export { default as IconClose } from "./IconClose";
 export * from "./IconDateRange";
@@ -63,3 +65,9 @@ export * from "./SWOTLogo";
 export { default as SWOTLogo } from "./SWOTLogo";
 export * from "./SWOTLogoCompact";
 export { default as SWOTLogoCompact } from "./SWOTLogoCompact";
+//
+export * from "./IconArrowBack";
+export { default as IconArrowBack } from "./IconArrowBack";
+
+export * from "./IconArrowHome";
+export { default as IconArrowHome } from "./IconArrowHome";

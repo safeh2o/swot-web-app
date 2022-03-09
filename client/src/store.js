@@ -10,10 +10,9 @@ import {
 	REGISTER,
 	REHYDRATE,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
+import storage from "redux-persist/lib/storage";
 import notificationsReducer from "./reducers/notifications";
 import blogReducer from "./reducers/posts";
-import settingsReducer from "./reducers/settings";
 import userReducer from "./reducers/user";
 import viewReducer from "./reducers/view";
 
@@ -21,7 +20,6 @@ const rootReducer = combineReducers({
 	user: userReducer,
 	blog: blogReducer,
 	notifications: notificationsReducer,
-	settings: settingsReducer,
 	view: viewReducer,
 });
 

@@ -1,5 +1,6 @@
 const keystone = require("keystone");
 const User = keystone.list("User");
+const Dataset = keystone.list("Dataset");
 const Enquiry = keystone.list("Enquiry");
 const dataService = require("../../utils/data.service");
 const _ = require("lodash");
@@ -121,12 +122,6 @@ exports.getFieldsites = async function (req, res) {
 	res.json({ fieldsites });
 };
 
-exports.getAreas = async function (req, res) {
-	const areas = await dataService.getUserAreas(req.user._id);
-
-	res.json({ areas });
-};
-
 exports.getFieldsitesByArea = async function (req, res) {
 	if (!req.query.area) {
 		res.sendStatus(400);
@@ -219,11 +214,9 @@ exports.getUserDatasets = async function (req, res) {
 		res.sendStatus(403);
 		return;
 	}
-
-	const datasets = await dataService.getUserDatasets(
-		req.user,
-		req.query.fieldsite
-	);
+	const datasets = await Dataset.model.find({
+		fieldsite: req.query.fieldsite,
+	});
 	res.json({ datasets });
 };
 

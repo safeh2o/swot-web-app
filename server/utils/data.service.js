@@ -4,9 +4,7 @@ const Area = keystone.list("Area");
 const Fieldsite = keystone.list("Fieldsite");
 const mongoose = require("mongoose");
 const Dataset = keystone.list("Dataset");
-const Datapoint = keystone.list("Datapoint");
 const _ = require("lodash");
-const DataTypes = require("./enums").DataTypes;
 
 /**
  * Retrieves a fieldsite record by it's id
@@ -45,50 +43,6 @@ exports.isUserAllowedAccessToDataset = async function (userId, datasetId) {
  */
 exports.getAreaByFieldsite = async function (fieldSiteId) {
 	return Area.model.findOne({ fieldsites: fieldSiteId }).exec();
-};
-
-exports.getIdentifier = function (dataItem) {
-	if (!dataItem || !dataItem.name || !dataItem._id) {
-		throw (
-			"Incorrect dataitem passed - can not produce name/id of " + dataItem
-		);
-	}
-	return `${dataItem.name.replace(/[^0-9a-z]/gi, "").toLowerCase()}-${
-		dataItem._id
-	}`;
-};
-
-exports.sanitizeStr = function (str) {
-	return `${str.replace(/[^0-9a-z]/gi, "")}`;
-};
-
-exports.getIdentifierKeyValue = function (name, id) {
-	if (!name || !id) {
-		throw (
-			"Incorrect dataitem passed - can not produce name/id of " +
-			name +
-			" " +
-			id
-		);
-	}
-	return `${name.replace(/[^0-9a-z]/gi, "").toLowerCase()}-${id}`;
-};
-
-exports.archiveDatasets = async function (datasetIds) {
-	await datasetIds.forEach(async (datasetId) => {
-		console.log(`Archiving dataset ${datasetId}`);
-		await Dataset.model
-			.findOneAndUpdate({ _id: datasetId }, { $set: { archived: true } })
-			.exec();
-	});
-};
-
-exports.getAreasWithFieldsites = async function getAreasWithFieldsites(userId) {
-	return Area.model
-		.find({ users: userId, fieldsites: { $ne: [] } })
-		.populate("users")
-		.populate("fieldsites")
-		.exec();
 };
 
 /**
@@ -162,131 +116,4 @@ exports.getUserCountries = async function (userId) {
 		.sortBy((c) => c.name);
 
 	return userCountries;
-};
-
-exports.createDatapoint = async function createDatapoint(
-	rowObj,
-	fieldsiteId,
-	attachmendId,
-	type = null,
-	overwrite = false
-) {
-	const datapoint = {
-		tsDate: rowObj.ts_datetime,
-		hhDate: rowObj.hh_datetime,
-		tsFrc: rowObj.ts_frc,
-		hhFrc: rowObj.hh_frc,
-		tsCond: rowObj.ts_cond,
-		tsTemp: rowObj.ts_wattemp,
-	};
-
-	if (type == DataTypes.STANDARDIZED) {
-		let duplicatePoints = await Datapoint.model
-			.find({
-				fieldsite: fieldsiteId,
-				tsDate: rowObj.ts_datetime,
-				hhDate: rowObj.hh_datetime,
-			})
-			.exec();
-
-		if (duplicatePoints.length) {
-			if (!overwrite) {
-				return null;
-			} else {
-				duplicatePoints.forEach((existing) => {
-					existing.set({ active: false });
-					existing.save();
-				});
-			}
-		}
-	}
-
-	const datapointModel = new Datapoint.model({
-		...datapoint,
-		attachment: attachmendId,
-		fieldsite: fieldsiteId,
-	});
-
-	if (type == DataTypes.ERRONEOUS) {
-		datapointModel.type = type;
-		datapointModel.active = false;
-		datapointModel.reason = rowObj.reason;
-	}
-
-	datapointModel.save();
-
-	return datapointModel;
-};
-
-exports.updateDatasetBlobInfo = async function (
-	datasetId,
-	rawDataURL,
-	rawBlobName,
-	stdDataURL,
-	stdBlobName
-) {
-	const setQuery = {
-		"file.url": rawDataURL,
-		"file.filename": rawBlobName,
-		"stdFile.url": stdDataURL,
-		"stdFile.filename": stdBlobName,
-		"stdFile.container": process.env.AZURE_STORAGE_CONTAINER_STD,
-	};
-	return Dataset.model
-		.findOneAndUpdate(
-			{ _id: datasetId },
-			{ $set: setQuery },
-			{ strict: false }
-		)
-		.exec();
-};
-
-exports.updateDatasetWithBlobPrefix = async function (
-	datasetId,
-	containerName,
-	prefix
-) {
-	return Dataset.model
-		.findOneAndUpdate(
-			{ _id: datasetId },
-			{
-				$set: {
-					analysisContainer: containerName,
-					analysisBlobPrefix: prefix,
-					archived: false,
-				},
-			}
-		)
-		.exec();
-};
-
-/**
- * Update dataset record with current user's ID
- */
-exports.associateDatasetWithUser = async function (userId, datasetId) {
-	return Dataset.model
-		.findOneAndUpdate(
-			{ _id: datasetId },
-			{ $set: { user: mongoose.Types.ObjectId(userId) } }
-		)
-		.exec();
-};
-
-exports.getUserDatasets = async function (user, fieldsite) {
-	return await Dataset.model.find({ user, fieldsite });
-};
-
-/**
- * Update dataset record with selected fieldsite ID
- */
-exports.associateDatasetWithFieldsite = async function (
-	fieldsiteIdStr,
-	datasetId
-) {
-	return Dataset.model
-		.findOneAndUpdate(
-			{ _id: datasetId },
-			{ $set: { fieldsite: mongoose.Types.ObjectId(fieldsiteIdStr) } }
-		)
-		.exec();
 };

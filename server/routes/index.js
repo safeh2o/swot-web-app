@@ -66,7 +66,6 @@ exports = module.exports = function (app) {
 		keystone.middleware.api,
 		routes.api.results.resolve
 	);
-	app.post("/api/auth/sas", middleware.requireUser, routes.api.auth.getSas);
 	app.get(
 		"/api/results/download",
 		keystone.middleware.api,
@@ -121,11 +120,6 @@ exports = module.exports = function (app) {
 		"/api/contactreasons",
 		keystone.middleware.api,
 		routes.api.forms.getContactReasons
-	);
-	app.get(
-		"/api/user/areas",
-		keystone.middleware.api,
-		routes.api.user.getAreas
 	);
 	app.get(
 		"/api/cms/pages/:slug",

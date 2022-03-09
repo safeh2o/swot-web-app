@@ -1,5 +1,6 @@
 const keystone = require("keystone");
 const Dataset = keystone.list("Dataset");
+const Fieldsite = keystone.list("Fieldsite");
 const dataService = require("../../utils/data.service");
 const azblob = require("@azure/storage-blob");
 const archiver = require("archiver");
@@ -116,7 +117,7 @@ exports.analyzedataset = async function (req, res) {
 		return;
 	}
 
-	const dataset = await Dataset.model.findOne({ _id: datasetId });
+	const dataset = await Dataset.model.findById(datasetId);
 
 	if (!dataset) {
 		res.status(404).send("No dataset found");
@@ -141,7 +142,7 @@ exports.dataset = async function (req, res) {
 	}
 	try {
 		const dataset = await Dataset.model.findById(req.params.datasetId);
-		const fieldsite = await dataService.getFieldsiteById(dataset.fieldsite);
+		const fieldsite = await Fieldsite.model.findById(dataset.fieldsite);
 		const area = await dataService.getAreaByFieldsite(fieldsite.id);
 		const country = await dataService.getCountryByArea(area.id);
 		res.json({

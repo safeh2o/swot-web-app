@@ -6,7 +6,7 @@ import { pushView } from "../reducers/view";
 import { Blog as css } from "../styles/styles";
 import Posts from "./Posts";
 
-export default function Blog(props) {
+export default function Blog() {
 	const posts = useSelector(blogSelectors.posts);
 	const dispatch = useDispatch();
 

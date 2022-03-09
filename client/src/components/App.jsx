@@ -4,7 +4,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import { getSettings } from "../reducers/settings";
 import { getUser, userSelectors } from "../reducers/user";
 import theme from "../theme";
 import Blog from "./Blog";
@@ -40,7 +39,6 @@ export default function App() {
 
 	useEffect(() => {
 		dispatch(getUser());
-		dispatch(getSettings());
 	}, [dispatch]);
 
 	return (

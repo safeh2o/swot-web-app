@@ -21,8 +21,8 @@ import { IconCheck, IconDownload, IconLow, IconQuestionMark } from "../icons";
 export default function Result() {
 	const { datasetId } = useParams();
 	const defaultDataset = {
-		nSamples: 122,
-		validSamples: 76,
+		nSamples: 0,
+		validSamples: 0,
 		dateCreated: "--/--/--",
 		startDate: "--/--/--",
 		endDate: "--/--/--",
@@ -30,7 +30,7 @@ export default function Result() {
 		maxDuration: 0,
 		tsFrc: 0,
 		hhSafety: 0,
-		eo: { reco: 0.6 },
+		eo: { reco: { real: 0, imag: 0 } },
 	};
 	const [dataset, setDataset] = useState(defaultDataset);
 	const [locationData, setLocationData] = useState({
@@ -56,6 +56,7 @@ export default function Result() {
 	};
 
 	useEffect(() => {
+		dispatch(setLoading(true));
 		axios
 			.get(`/api/datasets/${datasetId}`)
 			.then(({ data }) => {
@@ -64,6 +65,9 @@ export default function Result() {
 			})
 			.catch(() => {
 				setDataset(defaultDataset);
+			})
+			.finally(() => {
+				dispatch(setLoading(false));
 			});
 	}, [datasetId]);
 
@@ -80,6 +84,11 @@ export default function Result() {
 		}
 	};
 
+	const reco =
+		dataset?.eo?.reco?.real?.toFixed(2) ||
+		dataset?.eo?.reco?.toFixed(2) ||
+		0;
+
 	const parseDate = (date) => date?.slice(0, 10) || String.fromCharCode(8734);
 
 	// Custom Elements
@@ -87,7 +96,6 @@ export default function Result() {
 
 	return (
 		<>
-			{/* <h4>Coming soon...</h4> */}
 			<Button
 				component={NavLink}
 				to={`/results`}
@@ -162,7 +170,7 @@ export default function Result() {
 
 					<Box sx={{ ...css.stat }}>
 						<Type variant="inputValue">
-							{dataset.maxDuration} hrs
+							{dataset?.maxDuration} hrs
 						</Type>
 						<Type variant="inputLabel">
 							Length of storage time to analyse for
@@ -279,9 +287,7 @@ export default function Result() {
 				<Divider />
 				<CardContent>
 					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">
-							{dataset?.eo?.reco?.toFixed(2)} mg/l
-						</Type>
+						<Type variant="inputValue">{reco} mg/l</Type>
 						<Type variant="inputLabel">
 							SWOT FRC Target Recommendation
 							<Tooltip
@@ -303,7 +309,9 @@ export default function Result() {
 						</Type>
 					</Box>
 					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">? hrs</Type>
+						<Type variant="inputValue">
+							{dataset?.maxDuration} hrs
+						</Type>
 						<Type variant="inputLabel">
 							Duration of protection
 							<Tooltip

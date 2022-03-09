@@ -4,7 +4,6 @@ require("dotenv").config();
 
 // Require keystone
 var keystone = require("keystone");
-var cons = require("consolidate");
 var mongoose = require("mongoose");
 
 function checkConfigKey(configKeyName, configKeyValue) {
@@ -53,12 +52,12 @@ keystone.init({
 	name: "swot-web",
 	brand: "swot-web",
 
-	"signin logo": "./server/assets/swot_logo1.png",
+	"signin logo": "./assets/swot_logo1.png",
 	mongo:
 		process.env.MONGO_DB_CONNECTION_STRING ||
 		"mongodb://localhost/my-project",
 
-	"auto update": true,
+	"auto update": false,
 	session: true,
 	auth: true,
 	"signin url": "/signin",
@@ -67,14 +66,13 @@ keystone.init({
 	"admin path": "admin",
 	"session store": "mongo",
 	"user model": "User",
-
 	compress: true,
 	env: process.env.NODE_ENV || "production",
 	port: 3000,
 });
 
 // Load your project's Models
-keystone.import("./server/models");
+keystone.import("./models");
 
 // Setup common locals for your templates. The following are required for the
 // bundled templates and layouts. Any runtime locals (that should be set uniquely
@@ -92,7 +90,7 @@ keystone.set("locals", {
 keystone.set("mongoose", mongoose);
 
 // Load your project's Routes
-keystone.set("routes", require("./server/routes"));
+keystone.set("routes", require("./routes"));
 
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set("nav", {

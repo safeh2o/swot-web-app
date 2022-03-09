@@ -1,7 +1,7 @@
 {
 	"ext": "js,html",
 	"ignore": "bundle.js",
-	"watch": ["server/", "keystone.js"],
+	"watch": ["./"],
 	"env": {
 		"NODE_ENV": "development"
 	}

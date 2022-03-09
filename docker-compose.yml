@@ -22,4 +22,3 @@ services:
         expose:
             - 3000
         command: "npm start"
-        # env_file: .env

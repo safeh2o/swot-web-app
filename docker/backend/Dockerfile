@@ -7,7 +7,7 @@ COPY ./server/package-lock.json /app
 
 RUN npm ci
 
-COPY . /app
+COPY ./server /app
 
 EXPOSE 3000
 CMD ["npm", "start"]

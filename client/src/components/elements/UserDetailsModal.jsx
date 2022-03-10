@@ -49,6 +49,8 @@ export default function UserDetailsModal() {
 		password2: "",
 	});
 
+	const [showPassword, setShowPassword] = useState(false);
+
 	const handleSubmit = () => {
 		fetch("/api/user/update", {
 			method: "POST",
@@ -64,31 +66,10 @@ export default function UserDetailsModal() {
 			});
 		handleClose();
 	};
-
-	// START Form Password
-	const [values, setValues] = useState({
-		amount: "",
-		password: "",
-		weight: "",
-		weightRange: "",
-		showPassword: false,
-	});
-
-	const handleChange = (prop) => (event) => {
-		setValues({ ...values, [prop]: event.target.value });
+	const handleShowPassword = () => {
+		setShowPassword((showPassword) => !showPassword);
 	};
-
-	const handleClickShowPassword = () => {
-		setValues({
-			...values,
-			showPassword: !values.showPassword,
-		});
-	};
-
-	const handleMouseDownPassword = (event) => {
-		event.preventDefault();
-	};
-	// END Form Password
+	const showPasswordIcon = showPassword ? <VisibilityOff /> : <Visibility />;
 
 	return (
 		<>
@@ -189,42 +170,37 @@ export default function UserDetailsModal() {
 								>
 									<Grid item xs={12}>
 										<FormControl fullWidth>
-											<InputLabel htmlFor="password">
-												Password
-											</InputLabel>
-											<OutlinedInput
-												id="password"
-												name="password"
+											<TextField
+												id="password1"
+												name="password1"
 												type={
-													values.showPassword
+													showPassword
 														? "text"
 														: "password"
 												}
-												value={values.password}
-												onChange={handleChange(
-													"password"
+												value={state.password1}
+												onChange={getTextChangeHandler(
+													"password1"
 												)}
 												minLength="6"
-												endAdornment={
-													<InputAdornment position="end">
-														<IconButton
-															aria-label="toggle password visibility"
-															onClick={
-																handleClickShowPassword
-															}
-															onMouseDown={
-																handleMouseDownPassword
-															}
-															edge="end"
-														>
-															{values.showPassword ? (
-																<VisibilityOff />
-															) : (
-																<Visibility />
-															)}
-														</IconButton>
-													</InputAdornment>
-												}
+												autoComplete="new-password"
+												InputProps={{
+													endAdornment: (
+														<InputAdornment position="end">
+															<IconButton
+																aria-label="toggle password visibility"
+																onClick={
+																	handleShowPassword
+																}
+																edge="end"
+															>
+																{
+																	showPasswordIcon
+																}
+															</IconButton>
+														</InputAdornment>
+													),
+												}}
 												label="Password"
 												size="small"
 											/>
@@ -237,8 +213,12 @@ export default function UserDetailsModal() {
 												name="password2"
 												label="Confirm Password"
 												variant="outlined"
+												value={state.password2}
+												onChange={getTextChangeHandler(
+													"password2"
+												)}
 												type={
-													values.showPassword
+													showPassword
 														? "text"
 														: "password"
 												}
@@ -258,27 +238,14 @@ export default function UserDetailsModal() {
 					<Button
 						id="btnSaveUserDetails"
 						variant="contained"
-						onClick={() => {
-							// handleSubmit();
-							console.log("");
-						}}
+						onClick={handleSubmit}
 					>
 						Save
 					</Button>
-					<Button
-						id="btnCancelUserDetails"
-						onClick={() => {
-							handleClose();
-						}}
-					>
+					<Button id="btnCancelUserDetails" onClick={handleClose}>
 						Cancel
 					</Button>
-					<Button
-						id="btnResetUserDetails"
-						onClick={() => {
-							reset();
-						}}
-					>
+					<Button id="btnResetUserDetails" onClick={reset}>
 						Reset
 					</Button>
 				</DialogActions>

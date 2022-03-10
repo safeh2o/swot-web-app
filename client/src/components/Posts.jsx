@@ -18,9 +18,9 @@ export default function Posts(props) {
 	function articleFromPost(post) {
 		const link = `/blog/${post.slug}`;
 		return (
-			<Card sx={{ ...css.cardElement }}>
+			<Card sx={{ ...css.cardElement }} key={link}>
 				<CardContent>
-					<Box component="article" key={link}>
+					<Box component="article">
 						{post?.image?.secure_url && (
 							<figure>
 								<NavLink to={link}>

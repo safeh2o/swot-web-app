@@ -14,20 +14,20 @@ export const blogSlice = createSlice({
 	extraReducers: {
 		[getPosts.fulfilled]: (state, { payload }) => {
 			state.posts = payload;
-			state.status = "success";
+			state.isLoading = false;
 		},
 		[getPosts.pending]: (state) => {
-			state.status = "loading";
+			state.isLoading = true;
 		},
 		[getPosts.rejected]: (state) => {
-			state.status = "failed";
+			state.isLoading = false;
 		},
 	},
 });
 
 export const blogSelectors = {
 	posts: (state) => state.blog.posts,
-	loadingStatus: (state) => state.blog.status,
+	isLoading: (state) => state.blog.isLoading,
 };
 
 export default blogSlice.reducer;

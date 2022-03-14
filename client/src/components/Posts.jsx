@@ -6,6 +6,7 @@ import {
 	Skeleton,
 	Typography,
 } from "@mui/material";
+import _ from "lodash";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { blogSelectors } from "../reducers/posts";
@@ -13,7 +14,7 @@ import { Posts as css } from "../styles/styles";
 
 export default function Posts(props) {
 	const { data: posts } = props;
-	const blogLoadingStatus = useSelector(blogSelectors.loadingStatus);
+	const blogIsLoading = useSelector(blogSelectors.isLoading);
 
 	function articleFromPost(post) {
 		const link = `/blog/${post.slug}`;
@@ -65,39 +66,6 @@ export default function Posts(props) {
 		);
 	}
 
-	// my own custom times method with a custom api
-	let times = (count, func) => {
-		var i = 0,
-			per,
-			results = [];
-		count = count || 0;
-		func = func || function () {};
-
-		// while i is less than len
-		while (i < count) {
-			per = i / count;
-
-			// call function with a custom api that can be
-			// used via the this keyword
-			results.push(
-				func.call(
-					{
-						i: i,
-						count: count,
-						per: per,
-						bias: 1 - Math.abs(0.5 - per) / 0.5,
-						results: results,
-					},
-					i,
-					count,
-					per
-				)
-			);
-			i += 1;
-		}
-		return results;
-	};
-
 	function blogSkeleton(numPosts) {
 		const post = {
 			title: "Stepping Up: Sanitation specialist develops system",
@@ -107,7 +75,7 @@ export default function Posts(props) {
 			},
 		};
 
-		return times(numPosts, (i) => (
+		return _.times(numPosts, (i) => (
 			<Box component="article" key={i}>
 				{post?.image?.secure_url && (
 					<figure>
@@ -140,7 +108,7 @@ export default function Posts(props) {
 		));
 	}
 
-	return blogLoadingStatus === "success"
-		? posts.map((post) => articleFromPost(post))
-		: blogSkeleton((props.postNumber && props.postNumber) || 3);
+	return blogIsLoading
+		? blogSkeleton((props.postNumber && props.postNumber) || 3)
+		: posts.map((post) => articleFromPost(post));
 }

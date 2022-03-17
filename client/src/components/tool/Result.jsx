@@ -84,10 +84,33 @@ export default function Result() {
 		}
 	};
 
+	const formattedHoursFromSeconds = (seconds) => {
+		if (!seconds) {
+			return "?";
+		}
+		const hours = ~~(seconds / 3600);
+		const minutes = ~~((seconds % 3600) / 60);
+		return `${hours}:${minutes}`;
+	};
+
 	const reco =
 		dataset?.eo?.reco?.real?.toFixed(2) ||
 		dataset?.eo?.reco?.toFixed(2) ||
 		0;
+
+	const storageTimeInHours = formattedHoursFromSeconds(
+		dataset?.ann?.["average_time"]
+	);
+
+	const getPredictedWaterSafetyRange = () => {
+		const riskRange = dataset?.["risk_range"];
+		if (!riskRange) {
+			return "?";
+		}
+
+		const [lo, hi] = riskRange.map((n) => n?.toFixed(0));
+		return `${lo}% - ${hi}%`;
+	};
 
 	const parseDate = (date) => date?.slice(0, 10) || String.fromCharCode(8734);
 
@@ -226,7 +249,9 @@ export default function Result() {
 						</Type>
 					</Box>
 					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">? %</Type>
+						<Type variant="inputValue">
+							{dataset?.["safe_percent"]?.toFixed(0) || "?"}%
+						</Type>
 						<Type variant="inputLabel">
 							Current household water safety
 							<Tooltip
@@ -273,7 +298,9 @@ export default function Result() {
 						</Type>
 					</Box>
 					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">4:35 hrs</Type>
+						<Type variant="inputValue">
+							{storageTimeInHours} hrs
+						</Type>
 						<Type variant="inputLabel">
 							Average storage time in dataset
 						</Type>
@@ -333,7 +360,9 @@ export default function Result() {
 						</Type>
 					</Box>
 					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">? %</Type>
+						<Type variant="inputValue">
+							{getPredictedWaterSafetyRange()}
+						</Type>
 						<Type variant="inputLabel">
 							Predicted household water safety at this storage
 							time

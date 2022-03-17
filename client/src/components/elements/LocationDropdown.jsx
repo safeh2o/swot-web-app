@@ -35,6 +35,7 @@ function LocationDropdown(props) {
 				value.name === "" || option.name === value.name
 			}
 			fullWidth
+			selectOnFocus={false}
 		/>
 	);
 }

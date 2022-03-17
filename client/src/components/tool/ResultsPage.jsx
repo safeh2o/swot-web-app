@@ -107,6 +107,9 @@ export default function ResultsPage() {
 	const [datasets, setDatasets] = useState([]);
 	const [selectedDatasets, setSelectedDatasets] = useState([]);
 	const dispatch = useDispatch();
+	const [resultsSortModel, setResultsSortModel] = useState([
+		{ field: "dateCreated", sort: "desc" },
+	]);
 
 	useEffect(() => {
 		dispatch(pushView({ title: "Results", path: "/results" }));
@@ -221,6 +224,10 @@ export default function ResultsPage() {
 						checkboxSelection
 						onSelectionModelChange={handleSelection}
 						getRowId={(row) => row._id}
+						onSortModelChange={(sortModel) => {
+							setResultsSortModel(sortModel);
+						}}
+						sortModel={resultsSortModel}
 						components={{
 							NoRowsOverlay: () => (
 								<Stack

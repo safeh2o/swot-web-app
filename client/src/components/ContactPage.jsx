@@ -67,7 +67,7 @@ export default function ContactPage() {
 				variant="body1"
 				sx={{ ...css.sectionHeader }}
 			>
-				Get In Touch
+				Get in Touch
 			</Typography>
 			<Card elevation={1}>
 				<CardContent>

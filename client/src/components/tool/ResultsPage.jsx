@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
@@ -237,12 +237,19 @@ export default function ResultsPage() {
 									No Datasets. Please Select a Location Above
 								</Stack>
 							),
-							BaseCheckbox: () => (
-								<Checkbox
-									icon={<IconRowUnchecked />}
-									checkedIcon={<IconRowChecked />}
-								/>
-							),
+							BaseCheckbox: forwardRef(function BaseCheckbox(
+								props,
+								ref
+							) {
+								return (
+									<Checkbox
+										icon={<IconRowUnchecked />}
+										checkedIcon={<IconRowChecked />}
+										ref={ref}
+										{...props}
+									/>
+								);
+							}),
 						}}
 						sx={{ ...css.grid }}
 						disableSelectionOnClick

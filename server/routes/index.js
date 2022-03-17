@@ -72,14 +72,14 @@ exports = module.exports = function (app) {
 		routes.api.results.download
 	);
 	app.post(
-		"/api/results/analyze",
+		"/api/results/analyze-multiple",
 		keystone.middleware.api,
-		routes.api.results.analyze
+		routes.api.results.analyzeMultiple
 	);
 	app.get(
-		"/api/results/analyzedataset",
+		"/api/results/analyze-single",
 		keystone.middleware.api,
-		routes.api.results.analyzedataset
+		routes.api.results.analyzeSingle
 	);
 	app.post(
 		"/api/user/update",

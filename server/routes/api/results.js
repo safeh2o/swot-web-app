@@ -74,7 +74,7 @@ exports.download = async function (req, res) {
 	});
 };
 
-exports.analyze = async function (req, res) {
+exports.analyzeMultiple = async function (req, res) {
 	const { datasetIds } = req.body;
 	if (!datasetIds) {
 		res.status(400).send("No dataset ids given");
@@ -85,9 +85,24 @@ exports.analyze = async function (req, res) {
 		return;
 	}
 
-	const datasets = await Dataset.model
-		.find({ _id: { $in: datasetIds }, user: req.user._id })
-		.exec();
+	const datasets = await Dataset.model.find({ _id: { $in: datasetIds } });
+
+	let allowed = Boolean(req.user);
+	for (const dataset of datasets) {
+		allowed =
+			allowed &&
+			(await dataService.isUserAllowedAccessToDataset(
+				req.user._id,
+				dataset._id
+			));
+	}
+
+	if (!allowed) {
+		res.status(403).send(
+			"User is not allowed access to one or more of the datasets given"
+		);
+		return;
+	}
 
 	if (datasets.length == 0) {
 		res.status(400).send("Unable to find datasets");
@@ -101,7 +116,7 @@ exports.analyze = async function (req, res) {
 	}
 };
 
-exports.analyzedataset = async function (req, res) {
+exports.analyzeSingle = async function (req, res) {
 	const { datasetId } = req.query;
 	if (!datasetId) {
 		res.status(400).send("No dataset id given");
@@ -110,7 +125,10 @@ exports.analyzedataset = async function (req, res) {
 
 	const allowed =
 		req.user &&
-		dataService.isUserAllowedAccessToDataset(req.user._id, datasetId);
+		(await dataService.isUserAllowedAccessToDataset(
+			req.user._id,
+			datasetId
+		));
 
 	if (!allowed) {
 		res.status(403).send("Not allowed");
@@ -140,6 +158,17 @@ exports.dataset = async function (req, res) {
 		res.status(400).send("No dataset id given");
 		return;
 	}
+	const allowed =
+		req.user &&
+		(await dataService.isUserAllowedAccessToDataset(
+			req.user._id,
+			req.params.datasetId
+		));
+	if (!allowed) {
+		res.status(403).send("Not allowed to access dataset");
+		return;
+	}
+
 	try {
 		const dataset = await Dataset.model.findById(req.params.datasetId);
 		const fieldsite = await Fieldsite.model.findById(dataset.fieldsite);

@@ -87,8 +87,9 @@ module.exports = (_env, argv) => {
 			port: 8080,
 			historyApiFallback: true,
 			static: { directory: path.join(__dirname, "public") },
-			onAfterSetupMiddleware: function (devServer) {
+			setupMiddlewares: function (arrayOfMiddlewares, devServer) {
 				devServer.app.disable("x-powered-by");
+				return arrayOfMiddlewares;
 			},
 			proxy: {
 				"/api": "http://0.0.0.0:3000",

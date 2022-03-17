@@ -138,7 +138,9 @@ export default function ResultsPage() {
 	function handleReanalysis() {
 		dispatch(setLoading(true));
 		axios
-			.post("/api/results/analyze", { datasetIds: selectedDatasets })
+			.post("/api/results/analyze-multiple", {
+				datasetIds: selectedDatasets,
+			})
 			.then((res) => {
 				dispatch(addNotice(res.data));
 			})

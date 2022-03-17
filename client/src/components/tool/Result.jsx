@@ -46,7 +46,7 @@ export default function Result() {
 
 	const handleReanalysis = () => {
 		dispatch(setLoading(true));
-		fetch(`/api/results/analyzedataset?datasetId=${datasetId}`)
+		fetch(`/api/results/analyze-single?datasetId=${datasetId}`)
 			.then((res) => res.text())
 			.then((data) => dispatch(addNotice(data)))
 			.catch((err) => dispatch(addError(err)))

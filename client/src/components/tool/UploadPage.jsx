@@ -1,3 +1,4 @@
+import { LoadingButton } from "@mui/lab";
 import {
 	Box,
 	Button,
@@ -13,14 +14,17 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { DropzoneArea } from "material-ui-dropzone";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import { MEGABYTE } from "../../helpers/bitcalc";
 import useForm from "../../hooks/useForm";
-import { addError, addNotice, setLoading } from "../../reducers/notifications";
-import { userSelectors } from "../../reducers/user";
+import {
+	addError,
+	addNotice,
+	notificationsSelectors,
+	setLoading,
+} from "../../reducers/notifications";
 import { pushView } from "../../reducers/view";
 import { UploadData as css } from "../../styles/styles";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
@@ -28,29 +32,20 @@ import NotificationLine from "../elements/NotificationLine";
 import { IconUpload } from "../icons";
 
 const initialState = {
-	response: null,
-	area: null,
-	fieldsite: DEFAULT_FIELDSITE,
 	files: [],
 	overwrite: false,
 };
 
 export default function UploadPage() {
 	const dispatch = useDispatch();
-	const fieldsites = useSelector(userSelectors.fieldsites);
+	const { state, update, reset } = useForm(initialState);
+	const loading = useSelector(notificationsSelectors.loading);
+	const fileInput = useRef(null);
+	const disabled = state.files.length === 0 || !state?.fieldsite?._id;
 
 	useEffect(() => {
 		dispatch(pushView({ title: "Upload", path: "/upload" }));
 	}, []);
-
-	const { state, update, reset } = useForm(initialState);
-	const [disabled, setDisabled] = useState(true);
-	const fileInput = useRef(null);
-
-	useEffect(() => {
-		const isDisabled = state.files.length === 0 || !state.fieldsite._id;
-		setDisabled(isDisabled);
-	}, [state]);
 
 	function getFormData() {
 		const formData = new FormData();
@@ -82,7 +77,7 @@ export default function UploadPage() {
 	};
 
 	const handleFormReset = () => {
-		// fileInput.current.setState({ fileObjects: [] });
+		fileInput.current.setState({ fileObjects: [] });
 		reset();
 	};
 
@@ -101,6 +96,7 @@ export default function UploadPage() {
 			})
 			.finally(() => {
 				dispatch(setLoading(false));
+				handleFormReset();
 			});
 	};
 
@@ -241,7 +237,7 @@ export default function UploadPage() {
 				<CardContent>
 					<Grid container spacing={2}>
 						<Grid item xs={6}>
-							<Button
+							<LoadingButton
 								id="btnSubmit"
 								color="primary"
 								variant="contained"
@@ -250,9 +246,10 @@ export default function UploadPage() {
 									handleFormSubmit();
 								}}
 								disabled={disabled}
+								loading={loading}
 							>
 								Upload
-							</Button>
+							</LoadingButton>
 						</Grid>
 						<Grid item xs={"auto"}>
 							<Button

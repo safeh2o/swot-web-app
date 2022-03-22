@@ -1,6 +1,5 @@
 var keystone = require("keystone");
 var Types = keystone.Field.Types;
-const DataTypes = require("../utils/enums").DataTypes;
 
 /**
  * Datapoint Model
@@ -18,6 +17,7 @@ Datapoint.add({
 		format: dateFormat,
 		label: "Date at Tapstand",
 		initial: true,
+		utc: true,
 	},
 	hhDate: {
 		type: Types.Datetime,
@@ -26,6 +26,7 @@ Datapoint.add({
 		format: dateFormat,
 		label: "Date at Household",
 		initial: true,
+		utc: true,
 	},
 	tsFrc: {
 		type: Types.Number,

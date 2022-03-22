@@ -24,6 +24,11 @@ Fieldsite.relationship({
 	path: "datasets",
 	refPath: "fieldsite",
 });
+Fieldsite.relationship({
+	ref: "Upload",
+	path: "uploads",
+	refPath: "fieldsite",
+});
 
 // Fieldsite.relationship({ref: "User", path: "user", refPath: "managedSites"});
 

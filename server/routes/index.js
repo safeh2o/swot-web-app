@@ -137,4 +137,9 @@ exports = module.exports = function (app) {
 		keystone.middleware.api,
 		routes.api.results.dataset
 	);
+	app.get(
+		"/api/upload/fetchrawdata",
+		keystone.middleware.api,
+		routes.api.upload.fetchRawData
+	);
 };

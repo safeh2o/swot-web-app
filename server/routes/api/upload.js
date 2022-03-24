@@ -1,3 +1,6 @@
+const archiver = require("archiver");
+const azblob = require("@azure/storage-blob");
+const dataService = require("../../utils/data.service");
 const keystone = require("keystone");
 const Dataset = keystone.list("Dataset");
 const Datapoint = keystone.list("Datapoint");
@@ -141,4 +144,67 @@ exports.append = async function (req, res) {
 		await upload.save();
 		res.json({ blobs: uploadBlobResponses, queue: sendMessageResponse });
 	}
+};
+
+exports.fetchRawData = async function (req, res) {
+	const { uploadId } = req.query;
+
+	const allowed =
+		req.user &&
+		(await dataService.isUserAllowedAccessToUpload(req.user._id, uploadId));
+
+	if (!allowed) {
+		res.status(403).send("Insufficient Privilleges");
+		return;
+	} else if (!uploadId) {
+		res.status(400).send("Invalid upload id");
+		return;
+	}
+
+	const containerName = process.env.AZURE_STORAGE_CONTAINER;
+	const prefix = uploadId;
+
+	const containerClient = new azblob.ContainerClient(
+		process.env.AZURE_STORAGE_CONNECTION_STRING,
+		containerName
+	);
+
+	// set up archive
+	const archive = archiver("zip");
+
+	archive.on("error", function (err) {
+		console.log(`Error during download operation`, err);
+		res.send("Error occurred during download operation");
+		return;
+	});
+
+	res.header("Content-Type", "application/zip");
+	res.header("Content-Disposition", `attachment; filename="${uploadId}.zip"`);
+
+	// pipe archive to response
+	archive.pipe(res);
+
+	// start loading archive with blobs
+	for await (const blobItem of containerClient.listBlobsFlat({
+		prefix,
+		delimiter: "",
+	})) {
+		const blobName = blobItem.name;
+		const blobClient = containerClient.getBlobClient(blobName);
+		const blobData = await blobClient.download();
+		archive.append(blobData.readableStreamBody, {
+			name: blobName.split("/").slice(-1)[0],
+		});
+	}
+
+	// close archive to send response
+	archive.finalize(function (err, bytes) {
+		if (err) {
+			throw err;
+		}
+
+		console.log(
+			`Prepared zip file for download in size of ${bytes} total bytes`
+		);
+	});
 };

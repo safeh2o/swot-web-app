@@ -4,6 +4,7 @@ const Area = keystone.list("Area");
 const Fieldsite = keystone.list("Fieldsite");
 const mongoose = require("mongoose");
 const Dataset = keystone.list("Dataset");
+const Upload = keystone.list("Upload");
 const _ = require("lodash");
 
 /**
@@ -36,6 +37,12 @@ exports.isUserAllowedAccessToDataset = async function (userId, datasetId) {
 	});
 
 	return area !== null;
+};
+
+exports.isUserAllowedAccessToUpload = async function (userId, uploadId) {
+	const upload = await Upload.model.findOne({ _id: uploadId, user: userId });
+
+	return upload !== null;
 };
 
 /**

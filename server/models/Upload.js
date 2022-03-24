@@ -54,6 +54,14 @@ Upload.add(
 			type: Types.Text,
 			default: process.env.AZURE_STORAGE_CONTAINER,
 		},
+		rawDataUrl: {
+			type: Types.Url,
+			initial: false,
+			label: "Download Raw Data",
+			watch: true,
+			value: getRawDataUrl,
+			noedit: true,
+		},
 	},
 	"Rewind Fieldsite",
 	{
@@ -95,6 +103,11 @@ Upload.schema.pre("remove", function (next) {
 
 	next();
 });
+function getRawDataUrl() {
+	return `${keystone.get("locals").weburl}api/upload/fetchrawdata?uploadId=${
+		this.id
+	}`;
+}
 
 /**
  * Relationships

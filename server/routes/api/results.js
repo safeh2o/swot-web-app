@@ -10,10 +10,11 @@ exports.download = async function (req, res) {
 
 	const allowed =
 		req.user &&
-		(await dataService.isUserAllowedAccessToDataset(
-			req.user._id,
-			datasetId
-		));
+		(req.user.isAdmin ||
+			(await dataService.isUserAllowedAccessToDataset(
+				req.user._id,
+				datasetId
+			)));
 
 	if (!allowed) {
 		res.status(403).send("Insufficient Privilleges");
@@ -91,10 +92,11 @@ exports.analyzeMultiple = async function (req, res) {
 	for (const dataset of datasets) {
 		allowed =
 			allowed &&
-			(await dataService.isUserAllowedAccessToDataset(
-				req.user._id,
-				dataset._id
-			));
+			(req.user.isAdmin ||
+				(await dataService.isUserAllowedAccessToDataset(
+					req.user._id,
+					dataset._id
+				)));
 	}
 
 	if (!allowed) {
@@ -125,10 +127,11 @@ exports.analyzeSingle = async function (req, res) {
 
 	const allowed =
 		req.user &&
-		(await dataService.isUserAllowedAccessToDataset(
-			req.user._id,
-			datasetId
-		));
+		(req.user.isAdmin ||
+			(await dataService.isUserAllowedAccessToDataset(
+				req.user._id,
+				datasetId
+			)));
 
 	if (!allowed) {
 		res.status(403).send("Not allowed");
@@ -160,10 +163,11 @@ exports.dataset = async function (req, res) {
 	}
 	const allowed =
 		req.user &&
-		(await dataService.isUserAllowedAccessToDataset(
-			req.user._id,
-			req.params.datasetId
-		));
+		(req.user.isAdmin ||
+			(await dataService.isUserAllowedAccessToDataset(
+				req.user._id,
+				req.params.datasetId
+			)));
 	if (!allowed) {
 		res.status(403).send("Not allowed to access dataset");
 		return;

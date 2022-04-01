@@ -98,7 +98,7 @@ Dataset.add(
 );
 
 function getResultsUrl() {
-	return `${keystone.get("locals").weburl}api/results/fetch?datasetId=${
+	return `${keystone.get("locals").weburl}api/results/download?datasetId=${
 		this.id
 	}`;
 }

@@ -151,7 +151,11 @@ exports.fetchRawData = async function (req, res) {
 
 	const allowed =
 		req.user &&
-		(await dataService.isUserAllowedAccessToUpload(req.user._id, uploadId));
+		(req.user.isAdmin ||
+			(await dataService.isUserAllowedAccessToUpload(
+				req.user._id,
+				uploadId
+			)));
 
 	if (!allowed) {
 		res.status(403).send("Insufficient Privilleges");

@@ -94,11 +94,26 @@ Dataset.add(
 			noedit: true,
 			dependsOn: { $ne: { resultsUrl: null } },
 		},
+		stdUrl: {
+			type: Types.Url,
+			initial: false,
+			label: "Download Standardized Input",
+			watch: true,
+			value: getStdUrl,
+			noedit: true,
+			dependsOn: { $ne: { resultsUrl: null } },
+		},
 	}
 );
 
 function getResultsUrl() {
 	return `${keystone.get("locals").weburl}api/results/download?datasetId=${
+		this.id
+	}`;
+}
+
+function getStdUrl() {
+	return `${keystone.get("locals").weburl}api/upload/fetchstddata?datasetId=${
 		this.id
 	}`;
 }

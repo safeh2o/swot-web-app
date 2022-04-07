@@ -212,3 +212,57 @@ exports.fetchRawData = async function (req, res) {
 		);
 	});
 };
+
+exports.fetchStdData = async function (req, res) {
+	const { datasetId } = req.query;
+
+	const allowed =
+		req.user &&
+		(req.user.isAdmin ||
+			(await dataService.isUserAllowedAccessToDataset(
+				req.user._id,
+				datasetId
+			)));
+
+	if (!allowed) {
+		res.status(403).send("Insufficient Privilleges");
+		return;
+	} else if (!datasetId) {
+		res.status(400).send("Invalid dataset id");
+		return;
+	}
+
+	const containerName = process.env.AZURE_STORAGE_CONTAINER_STD;
+	const prefix = datasetId;
+
+	const containerClient = new azblob.ContainerClient(
+		process.env.AZURE_STORAGE_CONNECTION_STRING,
+		containerName
+	);
+
+	res.header("Content-Type", "text/csv");
+	res.header(
+		"Content-Disposition",
+		`attachment; filename="${datasetId}.csv"`
+	);
+
+	let standardFile = containerClient.listBlobsFlat({ prefix });
+	standardFile = (await standardFile.next()).value;
+	if (!standardFile) {
+		console.error(`Could not find standard file for dataset ${datasetId}`);
+		res.status(404).send();
+		return;
+	}
+
+	const blobName = standardFile.name;
+	const blobClient = containerClient.getBlobClient(blobName);
+	const blobData = (await blobClient.download()).readableStreamBody;
+
+	blobData.on("error", function (err) {
+		console.log(`Error during download operation`, err);
+		res.send("Error occurred during download operation");
+		return;
+	});
+
+	blobData.pipe(res);
+};

@@ -142,4 +142,9 @@ exports = module.exports = function (app) {
 		keystone.middleware.api,
 		routes.api.upload.fetchRawData
 	);
+	app.get(
+		"/api/upload/fetchstddata",
+		keystone.middleware.api,
+		routes.api.upload.fetchStdData
+	);
 };

@@ -22,7 +22,6 @@ export default function ProfileForgotPassword() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		axios.post("/api/forgotpassword", state).then((res) => {
-			console.log(res.data);
 			dispatch(handleServerMessages(res.data?.messages));
 		});
 	};

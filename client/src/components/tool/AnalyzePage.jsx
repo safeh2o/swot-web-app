@@ -152,7 +152,6 @@ export default function AnalyzePage() {
 									variant="contained"
 									onClick={() => {
 										selectDate(30);
-										// console.log('');
 									}}
 									sx={{ width: "100%" }}
 								>
@@ -162,7 +161,6 @@ export default function AnalyzePage() {
 									variant="contained"
 									onClick={() => {
 										selectDate(60);
-										// console.log('');
 									}}
 									sx={{ width: "100%" }}
 								>
@@ -172,7 +170,6 @@ export default function AnalyzePage() {
 									variant="contained"
 									onClick={() => {
 										selectAllTimeDate();
-										// console.log('');
 									}}
 									sx={{ width: "100%" }}
 								>
@@ -276,7 +273,6 @@ export default function AnalyzePage() {
 										value={state.duration}
 										onChange={(_e, duration) => {
 											update({ duration });
-											// console.log('');
 										}}
 									/>
 								</Box>
@@ -304,7 +300,6 @@ export default function AnalyzePage() {
 								value={state.confidence}
 								onChange={(_e, confidence) => {
 									update({ confidence });
-									// console.log('');
 								}}
 							>
 								{[
@@ -404,7 +399,6 @@ export default function AnalyzePage() {
 								variant="text"
 								onClick={() => {
 									reset();
-									// console.log('');
 								}}
 							>
 								Reset Fields

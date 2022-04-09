@@ -14,7 +14,7 @@ export default function Footer() {
 						<Box className="project-leads">
 							<a
 								target="_blank"
-								href="http://dighr.yorku.ca/"
+								href="https://www.yorku.ca/dighr/"
 								rel="noreferrer"
 								className={"organisation"}
 							>

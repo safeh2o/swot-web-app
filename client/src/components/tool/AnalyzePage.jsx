@@ -142,6 +142,35 @@ export default function AnalyzePage() {
 				<CardContent>
 					<Grid>
 						<Grid item xs={12}>
+							<LocalizationProvider dateAdapter={AdapterDateFns}>
+								<DateRangePicker
+									startText="Start Date"
+									endText="End Date"
+									className="date-range-picker"
+									value={[state.startDate, state.endDate]}
+									onChange={handleDateChange}
+									renderInput={(startProps, endProps) => (
+										<>
+											<TextField
+												{...startProps}
+												sx={{
+													marginLeft: "auto",
+													maxWidth: "250px",
+												}}
+											/>
+											<Box sx={{ mx: 1 }}> to </Box>
+											<TextField
+												{...endProps}
+												sx={{
+													marginRight: "auto",
+													maxWidth: "250px",
+												}}
+											/>
+										</>
+									)}
+								/>
+							</LocalizationProvider>
+
 							<Stack
 								sx={{ ...css.analyzeDateRange.stackElement }}
 								direction="column"
@@ -149,70 +178,26 @@ export default function AnalyzePage() {
 								alignItems="start"
 							>
 								<Button
-									variant="contained"
-									onClick={() => {
-										selectDate(30);
-									}}
-									sx={{ width: "100%" }}
+									variant="text"
+									onClick={() => selectDate(30)}
 								>
 									Last 30 Days
 								</Button>
 								<Button
-									variant="contained"
-									onClick={() => {
-										selectDate(60);
-									}}
-									sx={{ width: "100%" }}
+									variant="text"
+									onClick={() => selectDate(60)}
 								>
 									Last 60 Days
 								</Button>
 								<Button
-									variant="contained"
-									onClick={() => {
-										selectAllTimeDate();
-									}}
-									sx={{ width: "100%" }}
+									variant="text"
+									onClick={() => selectAllTimeDate()}
 								>
 									All-Time
 								</Button>
 							</Stack>
 
-							<LocalizationProvider dateAdapter={AdapterDateFns}>
-								<DateRangePicker
-									value={[state.startDate, state.endDate]}
-									onChange={handleDateChange}
-									renderInput={(startProps, endProps) => (
-										<>
-											<TextField {...startProps} />
-											<Box sx={{ mx: 1 }}> to </Box>
-											<TextField {...endProps} />
-										</>
-									)}
-									sx={{ width: "100%" }}
-								/>
-							</LocalizationProvider>
-							{/* <DateRangePicker
-								format={"y-MM-dd"}
-								yearPlaceholder={"YYYY"}
-								monthPlaceholder={"M"}
-								dayPlaceholder={"D"}
-								rangeDivider={false}
-								calendarIcon={
-									<>
-										<IconCalendar /> &nbsp; Open Celandar
-									</>
-								}
-								clearIcon={
-									<>
-										<ClearIcon />
-									</>
-								}
-								value={[state.startDate, state.endDate]}
-								onChange={handleDateChange}
-								sx={{ width: "100%" }}
-							/> */}
-
-							<Divider />
+							<Divider className="divider" />
 
 							<NotificationLine type="guide">
 								How does setting the Date Range work?
@@ -223,70 +208,53 @@ export default function AnalyzePage() {
 			</Card>
 
 			<Typography
-				variant="h3"
-				component="div"
-				sx={{
-					mb: 2,
-					color: "#888",
-				}}
+				component={"h1"}
+				variant="body1"
+				sx={{ ...css.sectionHeader }}
 			>
-				<Box component="span">Options for Analysis:</Box>
+				Options for Analysis:
 			</Typography>
 
-			<Card sx={{ ...css.cardElement }}>
-				<Accordion
-					sx={{ ...css.analyzeStorageDuration }}
-					defaultExpanded={true}
-				>
+			<Card sx={{ ...css.analyzeStorageDuration }}>
+				<Accordion defaultExpanded={true}>
 					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 						Duration of Household Storage and Use (Units in Hours)
 					</AccordionSummary>
+					<Divider />
 					<AccordionDetails>
-						<Divider />
-						<Grid sx={{ px: 2 }}>
-							<Grid item xs={12}>
-								<Box
-									sx={{
-										...css.analyzeStorageDuration
-											.sliderWrapper,
-									}}
-								>
-									<Box
-										component="label"
-										htmlFor="HouseholdDuration"
-									>
-										{_.range(3, 27, 3).map((hour) => (
-											<Box component="span" key={hour}>
-												{hour}
-											</Box>
-										))}
+						<Box className="slider_wrap">
+							<Box component="label" htmlFor="HouseholdDuration">
+								{_.range(3, 27, 3).map((hour) => (
+									<Box component="span" key={hour}>
+										{hour}
 									</Box>
-									<Slider
-										name="household-duration"
-										aria-label="Household Duration"
-										marks
-										color="primary"
-										min={3}
-										max={24}
-										step={3}
-										valueLabelDisplay="on"
-										value={state.duration}
-										onChange={(_e, duration) => {
-											update({ duration });
-										}}
-									/>
-								</Box>
+								))}
+							</Box>
+							<Slider
+								name="household-duration"
+								aria-label="Household Duration"
+								marks
+								color="primary"
+								min={3}
+								max={24}
+								step={3}
+								valueLabelDisplay="on"
+								value={state.duration}
+								onChange={(_e, duration) => {
+									update({ duration });
+								}}
+							/>
+						</Box>
 
-								<Divider />
+						<Divider />
 
-								<NotificationLine type="guide">
-									How should I determine the storage time?
-								</NotificationLine>
-							</Grid>
-						</Grid>
+						<NotificationLine type="guide">
+							How should I determine the storage time?
+						</NotificationLine>
 					</AccordionDetails>
 				</Accordion>
-				<Divider />
+			</Card>
+			<Card sx={{ ...css.cardElement }}>
 				<Accordion sx={{ ...css.analyzeConfidenceLevel }}>
 					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 						Modelling Confidence Level (Advanced)
@@ -380,36 +348,28 @@ export default function AnalyzePage() {
 				<Divider />
 
 				<CardContent>
-					<Grid container spacing={2}>
-						<Grid item xs={6}>
-							<Button
-								id="btnSubmit"
-								color="primary"
-								variant="contained"
-								fullWidth
-								onClick={handleFormSubmit}
-								disabled={disabled}
-							>
-								Analyze
-							</Button>
-						</Grid>
-						<Grid item xs={"auto"}>
-							<Button
-								type="reset"
-								variant="text"
-								onClick={() => {
-									reset();
-								}}
-							>
-								Reset Fields
-							</Button>
-						</Grid>
-						<Grid item xs={12}>
-							<NotificationLine type="notice">
-								Make sure all fields are filled out
-							</NotificationLine>
-						</Grid>
-					</Grid>
+					<Box>
+						<Button
+							id="btnSubmit"
+							color="primary"
+							variant="contained"
+							fullWidth
+							onClick={handleFormSubmit}
+							disabled={disabled}
+						>
+							Analyze
+						</Button>
+						<Button
+							type="reset"
+							variant="text"
+							onClick={() => reset()}
+						>
+							Reset Fields
+						</Button>
+					</Box>
+					<NotificationLine type="notice">
+						Make sure all fields are filled out
+					</NotificationLine>
 				</CardContent>
 			</Card>
 		</>

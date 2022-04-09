@@ -2,8 +2,12 @@ export const Common = {
 	cardElement: {
 		overflow: "visible",
 		marginBottom: "30px",
+		boxShadow: 'none',
 		"& h1": {
 			marginBottom: "1em",
+		},
+		"& .MuiCardHeader-root": {
+			p: "10px 16px",
 		},
 		"& .MuiCardContent-root": {
 			p: 2,
@@ -19,34 +23,30 @@ export const Common = {
 		},
 	},
 	cardSubmit: {
-		"& button": { textTransform: "capitalize" },
+		"& button": { textTransform: "capitalize", mb: ".25rem", mr: "1rem" },
 		"& #btnSubmit": {
 			color: "white",
-			mb: 1,
+			maxWidth: "60%"
 		},
 	},
 	//
 	buttonBackToResults: {
+		typography: "caption",
 		display: "block",
-		fontSize: "0.85em",
-		alignItems: "center",
-		justifyContent: "flex-start",
 		backgroundColor: "#3f4549",
 		borderRadius: "2px",
 		color: "#fcfcfc",
-		width: "100%",
 		py: 1,
 		px: 2,
 		mb: 3,
 		"&:hover": {
-			color: "currentColor",
-			backgroundColor: "#eee",
+			backgroundColor: "#555",
 		},
 	},
 	//
 	sectionHeader: {
 		mb: 2,
-		fontSize: "1.45rem",
+		fontSize: "20px",
 		fontWeight: "400",
 		fontFamily: '"Roboto Condensed", sans-serif',
 		lineHeight: "1.2",
@@ -68,17 +68,19 @@ export const UploadData = {
 	uploadDrop: {
 		"& .MuiDropzoneArea-root": {
 			maxWidth: "720px",
-			minHeight: "225px",
-			margin: "16px auto",
+			minHeight: 0,
 			backgroundColor: "#F9F9F9",
-			backgrounImage:
-				"url(\"data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23CCCCCCFF' stroke-width='2' stroke-dasharray='8%2c 8' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e\")",
-			borderRadius: "8px",
+			border: "1px solid dashed #ccc",
+			borderRadius: 0,
 			"& .MuiDropzoneArea-text": {
-				marginTop: "40px",
-				marginBottom: "20px",
+				mt: "10px",
+				mb: "20px",
 			},
 			"& .MuiDropzoneArea-textContainer": {
+				display: "flex",
+				flexDirection: "column-reverse",
+				alignItems: "center",
+				justifyContent: "center",
 				color: "#929eac",
 			},
 			"& .MuiDropzoneArea-icon": {
@@ -86,6 +88,7 @@ export const UploadData = {
 				height: "6rem",
 				color: "#ccc",
 				fill: "#ccc",
+				mt: "20px",
 			},
 			"& .MuiChip-root": {
 				m: 2,
@@ -97,33 +100,46 @@ export const UploadData = {
 			},
 		},
 		"& .notification": {
-			paddingLeft: "20px",
-			paddingBottom: "8px",
+			p: "0.5rem 0 0 0.5rem",
 		},
 		"& .MuiFormGroup-root": {
 			pl: 2,
 		},
+	},
+	uploadOptions: {
+		"& .MuiFormGroup-root": {
+			p: "8px 4px 16px 4px",
+			"& .MuiFormControlLabel-root": {
+				m: 0,
+				"& svg": {
+					width: "24px",
+					height: "24px",
+				},
+				"& .MuiTypography-root": {
+					p: "1px 10px 0 5px",
+				}
+			}
+		},
 		"& .MuiCheckbox-root": {
-			p: 1,
+			p: 0,
 			"& svg": {
 				fill: "#F9F9F9",
+				transform: "scale(1.1)",
 				"& .base": {
-					boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)",
-					filter: "drop-shadow( 1px 1px 1px rgba(0, 0, 0, .1))",
+					boxShadow: "none",
 				},
 			},
 			"&:not(.Mui-checked)": {
 				"& svg": {
-					fill: "#F9F9F9",
-					stroke: "#888",
+					fill: "#ccc",
+					strike: "gray",
 					strokeWidth: "1px",
 				},
 			},
 			"&.Mui-checked": {
 				"& svg": {
 					fill: "#466FB6",
-					stroke: "#305ba8",
-					strokeWidth: "3px",
+					strokeWidth: "1px",
 					"& .check": {
 						fill: "#fff",
 						stroke: "none",
@@ -131,7 +147,7 @@ export const UploadData = {
 				},
 			},
 		},
-	},
+	}
 };
 
 export const AnalyzePage = {
@@ -145,135 +161,46 @@ export const AnalyzePage = {
 			textTransform: "none",
 		},
 		stackElement: {
-			justifyContent: "start",
-			alignContent: "start",
-			maxWidth: "440px",
+			justifyContent: "center",
+			flexDirection: "row",
+			mt: "1.5rem",
 			"& .MuiButton-root": {
 				typography: "caption",
 				fontWeight: "500",
-				color: "white",
 				border: "none",
-				padding: "6px 16px",
-				marginBottom: "8px",
+				padding: ".5rem 1rem",
+				mx: ".25rem",
 				width: "auto",
-				boxShadow: "1px 1px 2px rgba(0,0,0,0.2)",
-				"&:hover": {},
+				minWidth: 0,
+				boxShadow: "none",
+				backgroundColor: "#d5d9df",
+				"&:hover": {
+					backgroundColor: "#d5d9df",
+				},
 			},
 		},
 		"& .title": {
 			color: "#929eac",
+			mb: 1,
 		},
-		// @wojtekmaj/react-daterange-picker
-		"& .react-daterange-picker": {
-			width: "100%",
-			maxWidth: "440px",
-			marginTop: "48px",
-			"& *": {
-				fontFamily: "inherit",
-			},
-			"& .react-daterange-picker__wrapper": {
-				width: "100%",
-				flexWrap: "wrap",
-				border: "none",
-				justifyContent: "start",
-			},
-			"& .react-daterange-picker__inputGroup": {
-				position: "relative",
-				flex: { xs: "0 1 100%", sm: "0 1 45%" },
-				flexWrap: "wrap",
-				padding: 0,
-				height: "auto",
-				backgroundColor: "#f9f9f9",
-				border: "1px solid",
-				borderColor: "rgba(0, 0, 0, 0.23)",
-				borderRadius: "4px",
-				"& .react-date-picker__inputGroup__divider": {
-					typography: { xs: "body1" },
-				},
-				"&::before": {
-					position: "absolute",
-					left: "8px",
-					bottom: "calc(100% + 4px)",
-					typography: "caption",
-					fontWeight: "500",
-					color: "#929eac",
-				},
-				"&:nth-of-type(1)": {
-					marginBottom: { xs: "28px", sm: "16px" },
-					marginRight: { sm: "8px" },
-					"&::before": {
-						content: '"from"',
-					},
-				},
-				"&:not(:nth-of-type(1))::before": {
-					content: '"to"',
-				},
-			},
-			"& .react-daterange-picker__range-divider": {
-				display: "none",
-				flex: { xs: "0 1 100%", sm: "0 1 calc(10% - 4px)" },
-				lineHeight: "0",
-				background: "transparent",
-				padding: "4px 6px",
-				color: "#929eac",
-				textAlign: "center",
-			},
-			"& .react-daterange-picker__calendar-button": {
-				display: "inline-flex",
-				alignItems: "center",
-				padding: "4px",
-				borderRadius: "4px",
-				marginRight: "10px",
-				color: "#929eac",
-				"&:hover": {
-					backgroundColor: "rgb(249, 249, 249)",
-				},
-			},
-			"& .react-daterange-picker__clear-button": {
-				display: "inline-flex",
-				alignItems: "center",
-				order: 2,
-				fontSize: "1rem",
-				color: "#929eac",
-				backgroundColor: "rgb(249, 249, 249)",
-			},
-			"&.react-daterange-picker--closed": {
-				"& .react-daterange-picker__clear-button": {
-					display: "none",
-				},
-			},
-			"&.react-daterange-picker--open": {
-				"& .react-daterange-picker__calendar-button": {
-					backgroundColor: "rgb(249, 249, 249)",
-				},
-			},
-			'& [type="text"], & [type="number"], & .MuiTextField-root': {
-				typography: "body1",
-				fontWeight: "500!important",
-				backgroundColor: "transparent",
-				padding: "16.5px 16px",
-			},
-			"& .react-daterange-picker__wrapper > *": {
-				marginBottom: "16px",
-			},
-			"& .react-daterange-picker__calendar": {
-				"& .react-calendar": {
-					boxShadow:
-						"0px 2px 4px -1px rgba(0,0,0,0.1),0px 1px 4px 0px rgba(0,0,0,0.075),0px 2px 6px 0px rgba(0,0,0,0.05)",
-				},
-			},
-			"& .": {},
+		"& .divider": {
+			mt: "2rem",
 		},
 	},
 	analyzeStorageDuration: {
-		mb: 0,
+		mb: 1,
 		"& .MuiAccordionSummary-root": {
 			typography: "h5",
+			p: "10px 16px",
+		},
+		"& .MuiAccordionDetails-root": {
 			p: 2,
 		},
-		sliderWrapper: {
-			px: 2,
-			my: 2,
+		"& .slider_wrap": {
+			position: "relative",
+			px: 3,
+			mx: "auto",
+			maxWidth: "540px",
 		},
 		"& label": {
 			display: "flex",
@@ -298,8 +225,14 @@ export const AnalyzePage = {
 		},
 		"& .MuiSlider-root": {
 			"& .MuiSlider-valueLabel": {
+				top: "-0.95rem",
+				lineHeight: 1,
 				textAlign: "center",
-				background: "#466FB6",
+				color: "#4a5053",
+				background: "#D5D9DF",
+				"& .MuiSlider-valueLabelCircle span": {
+					fontSize: "150%",
+				},
 				"& .MuiSlider-valueLabelCircle::after": {
 					display: "block",
 					content: '"hrs"',
@@ -309,10 +242,9 @@ export const AnalyzePage = {
 		},
 	},
 	analyzeConfidenceLevel: {
-		boxShadow: "inset 0px 3px 4px rgba(0,0,0,0.075)",
 		"& .MuiAccordionSummary-root": {
 			typography: "h5",
-			p: 2,
+			p: "10px 16px",
 		},
 		"& .MuiAccordionDetails-root": {
 			p: 2,
@@ -353,20 +285,20 @@ export const ResultsPage = {
 			borderRadius: "4px",
 		},
 		"& .MuiDataGrid-columnHeaderTitleContainer, & .MuiDataGrid-footerContainer p":
-			{
-				typography: "caption",
-				color: "#929eac",
-				fontWeight: "500",
-				marginBottom: "0",
-			},
+		{
+			typography: "caption",
+			color: "#929eac",
+			fontWeight: "500",
+			marginBottom: "0",
+		},
 		"& .MuiDataGrid-columnHeaderTitleContainer button, & .MuiDataGrid-columnHeaderTitleContainer .MuiInputBase-root, & .MuiDataGrid-columnHeaderTitleContainer .MuiCheckbox-root":
-			{
-				color: "#929eac",
-			},
+		{
+			color: "#929eac",
+		},
 		"& .MuiDataGrid-columnHeaderTitle, & .MuiDataGrid-columnHeaderTitleContainer":
-			{
-				p: 0,
-			},
+		{
+			p: 0,
+		},
 		"& .MuiDataGrid-columnHeader:not(:first-of-type)": {
 			borderLeft: "1px solid rgb(230, 230, 230)",
 		},
@@ -412,11 +344,10 @@ export const Result = {
 		marginBottom: "30px",
 	},
 	cardElement: {
-		fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
 		marginBottom: "15px",
 		"& .sup": {
 			position: "relative",
-			fontSize: "1.1em",
+			fontSize: "0.95em",
 			top: "0px",
 			marginLeft: "4px",
 		},
@@ -436,12 +367,14 @@ export const Result = {
 	stat: {
 		display: "inline-block",
 		borderLeft: "1.5px solid #eee",
-		padding: "0 20px 10px 10px",
+		p: 1,
 		margin: "5px 0px",
 		//
 		"& .MuiTypography-inputValue": {
 			display: "flex",
-			fontSize: "20px",
+			fontSize: "22px",
+			lineHeight: "34px",
+			letterSpacing: "-0.019em",
 			fontWeight: 500,
 		},
 		"& .MuiTypography-inputLabel": {
@@ -455,7 +388,7 @@ export const Result = {
 				width: ".6em",
 				height: ".6em",
 				verticalAlign: "text-top",
-				color: "#ccc",
+				color: "#aeaeae",
 				marginLeft: "3px",
 			},
 		},
@@ -528,12 +461,12 @@ export const Result = {
 	},
 	resultFiles: {
 		display: "flex",
-		justifyContent: "flex-end",
+		justifyContent: "flex-start",
 		alignItems: "center",
 		mt: 2,
 		mb: 6,
 		"& .btn-download": {
-			flex: 1,
+			flex: "0 1 50%",
 			color: "#fff",
 			textTransform: "unset",
 			backgroundColor: "primary.main",
@@ -592,7 +525,7 @@ export const Posts = {
 };
 
 const layoutMetrics = {
-	sidebar: 170,
+	sidebar: 180,
 	content: 700,
 };
 
@@ -610,35 +543,34 @@ export const PageWrapper = {
 		},
 	},
 	breadcrumbs: {
-		typography: "caption",
-		color: "#aaa",
-		width: "100%",
-		pt: 1,
-		pb: 0,
-		px: 4,
-		ml: "auto",
-		mr: "auto",
+		fontSize: "13px",
+		color: "#bbb",
+		py: 1,
+		px: { xs: 2, md: 4 },
 		"& a": {
 			color: "inherit",
 			textDecorationStyle: "solid",
 		},
+		"& .MuiBreadcrumbs-separator": {
+			mx: "4px",
+		},
 	},
 	main: {
-		display: "flex",
-		flexDirection: { xs: "Columns", md: "Rows" },
+		display: "grid",
+		gridTemplateColumns: { md: "1fr minmax(0, 700px) 1fr" },
+		gridAutoFlow: { xs: "Rows", md: "Columns" },
 		justifyContent: "center",
 		px: 2,
-		width: "100%",
 	},
 	nav: {
 		display: { xs: "none", md: "block" },
-		flex: { xs: "1", md: "1 0 33%" },
-		maxWidth: layoutMetrics.sidebar,
-		m: { md: 2 },
-		mr: { md: 3 },
+		gridColumn: "1/2",
+		width: layoutMetrics.sidebar,
+		padding: '8px 16px 8px',
+		marginLeft: "auto",
 	},
 	article: {
-		flex: { xs: "1", md: "1 0 66%" },
+		gridColumn: { md: "2/3" },
 		maxWidth: layoutMetrics.content,
 		m: 2,
 	},
@@ -693,7 +625,7 @@ export const Home = {
 		"& a": {
 			color: "inherit",
 			fontWeight: "500",
-			textDecoration: "1.5px solid underline",
+			textDecoration: "1px solid underline",
 			margin: "auto",
 		},
 	},
@@ -722,32 +654,15 @@ export const Home = {
 	news: {
 		mb: 8,
 	},
-	organisations: {
-		"& a[href]": {
-			display: "block",
-			maxWidth: "125px",
-			maxHeight: "125px",
-			"& svg": {
-				maxWidth: "125px",
-				maxHeight: "125px",
-			},
-			"&.wide": {
-				maxWidth: "200px",
-				"& svg": {
-					maxWidth: "200px",
-				},
-			},
-		},
-	},
 };
 
 export const ContactPage = {
 	...Common,
 	form: {
 		'& [type="text"], & [type="email"], & [type="phone"], & [type="text"], & .MuiTextField-root':
-			{
-				backgroundColor: "#f9f9f9",
-			},
+		{
+			backgroundColor: "#f9f9f9",
+		},
 		"& button": { textTransform: "capitalize" },
 		"& #btnSubmit": {
 			color: "white",
@@ -804,17 +719,22 @@ export const ProfileLogin = {
 export const NavTools = {
 	...Common,
 	display: "block",
+	color: "#43494d",
 	textUnderlinePosition: "under",
 	backgroundColor: "#fff",
-	borderRadius: "3px",
+	// borderRadius: 0,
 	boxShadow: "none",
 	border: {
 		xs: "1px solid rgba(0, 0, 0, 0.05)",
 		sm: "1px solid transparent",
 	},
-	p: { xs: 1, sm: 0 },
-	m: { xs: "0 0 12px", sm: "0 0 10px 0" },
+	p: 1,
+	mb: 1,
 	transition: "box-shadow 0s ease, background-color 0s ease",
+	"&:not(:last-child)": {
+		borderRight: "1px rgba(0,0,0,0.075) solid",
+		borderBottom: "1px rgba(0,0,0,0.075) solid",
+	},
 	"&:before": {
 		display: { xs: "none", sm: "flex" },
 		content: '"step " attr(step)',
@@ -841,12 +761,18 @@ export const NavTools = {
 		pointerEvents: "none",
 		textUnderlineOffset: 0,
 		"& .gray": {
-			fill: "#929eac",
+			fill: "#fff",
+		},
+		"& .lightgray": {
+			fill: "#fff",
 		},
 		"&:after": {
 			color: "#fff",
 			backgroundColor: "#4a77c6",
 		},
+		"&:before": {
+			color: "#fff",
+		}
 	},
 	"&:not(.active):hover": {
 		backgroundColor: "#f7f8f9",
@@ -864,33 +790,33 @@ export const NavTools = {
 		height: "relative",
 		p: 0,
 		"& > svg": {
-			width: "3rem",
-			height: "3rem",
-			margin: "20px auto 0px",
+			width: "2.5rem",
+			height: "2.5rem",
+			margin: "15px auto 0",
 		},
 	},
 	//
 	label: {
 		display: "block",
 		fontFamily: '"Roboto Condensed", sans-serif',
-		fontSize: "1.1rem",
-		lineHeight: "2",
+		fontSize: "1rem",
+		lineHeight: "1.75",
 		letterSpacing: "-0.005em",
 		textAlign: "center",
 		textTransform: "capitalize",
 		textOverflow: "ellipsis",
 		color: "inherit",
 		overflow: "hidden",
-		transition: "color 0.3s ease",
 	},
 };
 
 export const NavContent = {
 	...Common,
-	display: { xs: "block", sm: "inline-block" },
+	display: "block",
 	"& a": {
 		display: { xs: "block", sm: "inline" },
 		textAlign: "center",
+		color: 'inherit',
 		p: { xs: "4px", sm: 0 },
 		"&.active": {
 			textDecoration: "underline solid 1px",
@@ -908,18 +834,9 @@ export const Header = {
 		display: "flex",
 		justifyContent: "space-between",
 		color: "#fff",
-		px: {
-			xs: 4,
-			md: 2,
-		},
-		mt: {
-			xs: 2,
-			md: 3,
-		},
-		mb: {
-			xs: 1,
-			md: 2,
-		},
+		minHeight: { md: "5.5rem" },
+		px: 2,
+		my: 1,
 		"& .logo": {
 			flexGrow: 0,
 			alignSelf: "flex-end",
@@ -932,12 +849,12 @@ export const Header = {
 				fill: "currentColor",
 				height: "auto",
 			},
-			"& svg.large": {
-				display: { xs: "none", md: "block" },
+			"& .large": {
+				display: { xs: "none", sm: "block" },
 				width: 211,
 			},
-			"& svg.compact": {
-				display: { xs: "block", md: "none" },
+			"& .compact": {
+				display: { xs: "block", sm: "none" },
 				width: 154,
 			},
 		},
@@ -953,22 +870,18 @@ export const Header = {
 		pl: 4,
 		m: 0,
 		//
-		"& a, & button": {
-			"&:hover": {
-				color: "currentColor",
+		"& .signout, & .signin": {
+			display: "flex",
+			textDecoration: "underline solid rgba(255,255,255,0.5)",
+			"&.active": {
+				textDecoration: "underline solid 1px",
 			},
 		},
 		//
 		"& .nav-content": {
-			display: { xs: "none", sm: "flex" },
-			"& a": {
-				typography: "subtitle1",
-				textTransform: "capitalize",
-				m: "3px 6px",
-			},
-			"& .signout": {
-				textDecoration: "underline solid",
-			},
+			display: { xs: "none", md: "flex" },
+			mt: "auto",
+			mb: "4px",
 		},
 		"& .nav-profile": {
 			display: "flex",
@@ -977,41 +890,26 @@ export const Header = {
 			flexBasis: { sm: "100%" },
 			flexWrap: { xs: "wrap", sm: "nowrap" },
 			justifyContent: "end",
-			margin: { xs: "auto 0 5px", sm: "initial" },
-			"& a, & button": {
-				padding: { xs: "0px", sm: "3px" },
-				margin: { xs: "4px", sm: "3px 4px" },
-				borderRadius: "3px",
-				svg: {
-					width: { xs: "1em", sm: ".9em" },
-					height: { xs: "1em", sm: ".9em" },
-				},
-			},
-			"& .signin": {
-				display: "flex",
-				typography: "subtitle1",
-				textTransform: "none",
-				p: 0,
-				m: { xs: "3px 6px", sm: "3px 3px 3px 6px" },
-				"&.active": {
-					textDecoration: "underline solid 1px",
-				},
-				"& svg": {
-					ml: 1,
-					display: { xs: "none", sm: "block" },
-				},
-			},
-			"& .openDrawer": {
-				svg: {
-					width: "1.3em",
-					height: "1.3em",
-				},
+		},
+		"& a, & button": {
+			fontWeight: "400",
+			fontFamily: '"Roboto Condensed", sans-serif',
+			fontSize: "20px",
+			lineHeight: "1.2",
+			letterSpacing: "-0.02em",
+			textTransform: "capitalize",
+			color: "currentColor",
+			p: 0,
+			m: 0,
+			ml: "8px",
+			"&:hover": {
+				color: "currentColor",
 			},
 		},
 	},
 	list: {},
 	setMobileNavOpen: {
-		display: { sm: "none" },
+		display: { xs: "flex", md: "none" },
 		padding: "6px",
 		margin: "0px 1px",
 	},
@@ -1053,7 +951,6 @@ export const Header = {
 		},
 		"& .nav-profile": {
 			justifyContent: "center",
-			mb: 2,
 		},
 		"& .guest": {
 			"& a": {
@@ -1066,12 +963,14 @@ export const Header = {
 
 export const Footer = {
 	...Common,
-	pl: { xs: 2, md: 4 },
-	pr: { xs: 2, md: 4 },
-	mt: "auto",
-	ml: "auto",
-	mr: "auto",
+	textAlign: 'center',
+	px: { xs: 2, md: 4 },
+	m: "auto",
 	mb: 3,
+	"& a": {
+		color: 'inherit',
+		textDecoration: "underline dotted 1px",
+	}
 };
 
 //
@@ -1087,7 +986,7 @@ export const NotificationLineCreator = (props) => ({
 	display: "flex",
 	alignItems: "flex-start",
 	color: "#999",
-	padding: "8px 4px 24px",
+	padding: "12px 4px",
 	typography: "caption",
 	"& > svg": {
 		flex: "0 0 24px",
@@ -1096,15 +995,15 @@ export const NotificationLineCreator = (props) => ({
 			props.type === "guide"
 				? "#FFD75C"
 				: props.type === "check"
-				? "#34d379"
-				: "inherit",
+					? "#34d379"
+					: "inherit",
 		width: "24px",
 		height: "24px",
 	},
 	"& > div": {
 		alignSelf: "center",
 		fontSize: "inherit",
-		padding: "1px 15px 0 10px",
+		padding: "1px 10px 0 5px",
 		maxWidth: "55ch",
 	},
 	//  resets

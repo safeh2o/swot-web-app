@@ -5,9 +5,7 @@ import {
 	Divider,
 	Typography,
 } from "@mui/material";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { pushView } from "../../reducers/view";
 import { CollectData as css } from "../../styles/styles";
 
 export default function CollectData() {
@@ -15,11 +13,6 @@ export default function CollectData() {
 		"https://gitcdn.link/cdn/safeh2o/swot-web-assets/master/SWOT_Field_Data_Protocol_Sep2020.pdf";
 	const urlDataInputTemplate =
 		"https://github.com/safeh2o/swot-web-assets/blob/master/DataInputTemplate_ver2.0.xlsx?raw=true";
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(pushView({ title: "Collect", path: "/collect" }));
-	}, []);
 
 	return (
 		<>

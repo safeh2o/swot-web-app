@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { DropzoneArea } from "material-ui-dropzone";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { MEGABYTE } from "../../helpers/bitcalc";
@@ -25,7 +25,6 @@ import {
 	notificationsSelectors,
 	setLoading,
 } from "../../reducers/notifications";
-import { pushView } from "../../reducers/view";
 import { UploadData as css } from "../../styles/styles";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
@@ -42,10 +41,6 @@ export default function UploadPage() {
 	const loading = useSelector(notificationsSelectors.loading);
 	const fileInput = useRef(null);
 	const disabled = state.files.length === 0 || !state?.fieldsite?._id;
-
-	useEffect(() => {
-		dispatch(pushView({ title: "Upload", path: "/upload" }));
-	}, []);
 
 	function getFormData() {
 		const formData = new FormData();

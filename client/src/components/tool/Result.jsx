@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
-import { pushView } from "../../reducers/view";
 import { Result as css } from "../../styles/styles";
 import { IconCheck, IconDownload, IconLow, IconQuestionMark } from "../icons";
 
@@ -39,10 +38,6 @@ export default function Result() {
 		countryName: "",
 	});
 	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(pushView({ title: datasetId, path: `/results/${datasetId}` }));
-	}, []);
 
 	const handleReanalysis = () => {
 		dispatch(setLoading(true));

@@ -33,7 +33,6 @@ import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import { userSelectors } from "../../reducers/user";
-import { pushView } from "../../reducers/view";
 import { AnalyzePage as css } from "../../styles/styles";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
@@ -48,12 +47,6 @@ const initialState = {
 
 export default function AnalyzePage() {
 	const dispatch = useDispatch();
-	const fieldsites = useSelector(userSelectors.fieldsites);
-
-	useEffect(() => {
-		dispatch(pushView({ title: "Analyze", path: "/analyze" }));
-	}, []);
-
 	const { state, update, reset } = useForm(initialState);
 	const [disabled, setDisabled] = useState(true);
 

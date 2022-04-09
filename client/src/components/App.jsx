@@ -13,9 +13,6 @@ import BlogPost from "./BlogPost";
 import CMSPage from "./CMSPage";
 import ContactPage from "./ContactPage";
 import Home from "./Home";
-// Management Imports
-import Fieldsites from "./manage/Fieldsites";
-import People from "./manage/People.jsx";
 // App + Content Pages
 import PageWrapper from "./PageWrapper";
 import ProfileForgotPassword from "./profile/ProfileForgotPassword";
@@ -64,13 +61,6 @@ export default function App() {
 						element={<PrivateRoute />}
 					>
 						<Route path="" element={<Result />} />
-					</Route>
-
-					<Route path="/fieldsites" element={<PrivateRoute />}>
-						<Route path="" element={<Fieldsites />} />
-					</Route>
-					<Route path="/people" element={<PrivateRoute />}>
-						<Route path="" element={<People />} />
 					</Route>
 
 					<Route path="/signin" element={<ProfileLogin />} />

@@ -19,7 +19,6 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import useForm from "../hooks/useForm";
 import { handleServerMessages, setLoading } from "../reducers/notifications";
-import { pushView } from "../reducers/view";
 import { ContactPage as css } from "../styles/styles";
 import NotificationLine from "./elements/NotificationLine";
 
@@ -37,7 +36,6 @@ export default function ContactPage() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(pushView({ title: "Contact", path: "/contact" }));
 		axios("/api/contactreasons").then(({ data }) => {
 			setContactReasons(data);
 		});

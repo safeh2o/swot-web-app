@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 import { setLoading } from "../reducers/notifications";
-import { pushView } from "../reducers/view";
+import { replaceCrumbTitle } from "../reducers/view";
 import { BlogPost as css } from "../styles/styles";
 import { IconArrowBack } from "./icons";
 
@@ -47,7 +47,7 @@ export default function BlogPost() {
 
 	useEffect(() => {
 		if (page.title) {
-			dispatch(pushView({ title: page.title, path: `/blog/${slug}` }));
+			dispatch(replaceCrumbTitle({ title: page.title, path: slug }));
 		}
 	}, [page]);
 

@@ -2,7 +2,6 @@ import { Typography } from "@mui/material/";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { blogSelectors, getPosts } from "../reducers/posts";
-import { pushView } from "../reducers/view";
 import { Blog as css } from "../styles/styles";
 import Posts from "./Posts";
 
@@ -11,7 +10,6 @@ export default function Blog() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(pushView({ title: "News", path: "/blog" }));
 		dispatch(getPosts());
 	}, []);
 

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { setLoading } from "../reducers/notifications";
-import { pushView } from "../reducers/view";
+import { replaceCrumbTitle } from "../reducers/view";
 import { CMSPage as css } from "../styles/styles";
 
 export default function CMSPage(props) {
@@ -38,7 +38,7 @@ export default function CMSPage(props) {
 
 	useEffect(() => {
 		if (page.title) {
-			dispatch(pushView({ title: page.title, path: `/pages/${slug}` }));
+			dispatch(replaceCrumbTitle({ title: page.title, path: slug }));
 		}
 	}, [page]);
 

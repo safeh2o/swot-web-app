@@ -103,12 +103,12 @@ export default function Result() {
 	);
 
 	const getPredictedWaterSafetyRange = () => {
-		const riskRange = dataset?.["risk_range"];
-		if (!riskRange) {
+		const safetyRange = dataset?.["safety_range"];
+		if (!safetyRange) {
 			return "?";
 		}
 
-		const [lo, hi] = riskRange.map((n) => n?.toFixed(0));
+		const [lo, hi] = safetyRange.map((n) => n?.toFixed(0));
 		return `${lo}% - ${hi}%`;
 	};
 

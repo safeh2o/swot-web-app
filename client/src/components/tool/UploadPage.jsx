@@ -120,6 +120,15 @@ export default function UploadPage() {
 			</NotificationLine>
 
 			<Card sx={{ ...css.cardElement, ...css.uploadDrop }}>
+				<CardHeader
+					title={"Attach files*"}
+					titleTypographyProps={{
+						variant: "body1",
+						fontWeight: "400",
+					}}
+				/>
+
+				<Divider />
 				<CardContent>
 					<DropzoneArea
 						Icon={IconUpload}
@@ -144,27 +153,19 @@ export default function UploadPage() {
 					<NotificationLine type="check">
 						Ensure that you upload a .csv or a .xlsx file
 					</NotificationLine>
+				</CardContent>
+			</Card>
 
-					<Divider
-						sx={{
-							mt: 4,
-							opacity: 0,
-						}}
-					/>
+			<Typography
+				component={"h1"}
+				variant="body1"
+				sx={{ ...css.sectionHeader }}
+			>
+				Options for Upload:
+			</Typography>
 
-					<Typography
-						variant="h4"
-						component="div"
-						sx={{
-							mt: 2,
-							mb: 1,
-							color: "#888",
-							fontWeight: "500",
-						}}
-					>
-						<Box component="span">Options for Upload:</Box>
-					</Typography>
-
+			<Card sx={{ ...css.cardElement, ...css.uploadOptions }}>
+				<CardContent>
 					<FormGroup>
 						<FormControlLabel
 							label="Overwrite Duplicate Entries"
@@ -175,36 +176,6 @@ export default function UploadPage() {
 									onChange={() => {
 										update({ overwrite: !state.overwrite });
 									}}
-									icon={
-										<svg
-											viewBox="0 0 32 32"
-											width="40px"
-											height="40px"
-										>
-											<path
-												className="base"
-												strokeMiterlimit="10"
-												d="M26 29H6c-1.7 0-3-1.3-3-3V6c0-1.7 1.3-3 3-3h20c1.7 0 3 1.3 3 3v20c0 1.7-1.3 3-3 3z"
-											></path>
-										</svg>
-									}
-									checkedIcon={
-										<svg
-											viewBox="0 0 32 32"
-											width="40px"
-											height="40px"
-										>
-											<path
-												className="base"
-												strokeMiterlimit="10"
-												d="M26 29H6c-1.7 0-3-1.3-3-3V6c0-1.7 1.3-3 3-3h20c1.7 0 3 1.3 3 3v20c0 1.7-1.3 3-3 3z"
-											></path>
-											<path
-												className="check"
-												d="M13.5 22.3l-6.2-6.2 1.4-1.3 4.8 4.7 9.8-9.9 1.4 1.4z"
-											></path>
-										</svg>
-									}
 								/>
 							}
 						/>
@@ -230,39 +201,29 @@ export default function UploadPage() {
 				<Divider />
 
 				<CardContent>
-					<Grid container spacing={2}>
-						<Grid item xs={6}>
-							<LoadingButton
-								id="btnSubmit"
-								color="primary"
-								variant="contained"
-								fullWidth
-								onClick={() => {
-									handleFormSubmit();
-								}}
-								disabled={disabled}
-								loading={loading}
-							>
-								Upload
-							</LoadingButton>
-						</Grid>
-						<Grid item xs={"auto"}>
-							<Button
-								type="reset"
-								variant="text"
-								onClick={() => {
-									handleFormReset();
-								}}
-							>
-								Reset Fields
-							</Button>
-						</Grid>
-						<Grid item xs={12}>
-							<NotificationLine type="notice">
-								Make sure all fields are filled out
-							</NotificationLine>
-						</Grid>
-					</Grid>
+					<Box>
+						<Button
+							id="btnSubmit"
+							color="primary"
+							variant="contained"
+							fullWidth
+							onClick={handleFormSubmit}
+							disabled={disabled}
+							loading={loading}
+						>
+							Upload
+						</Button>
+						<Button
+							type="reset"
+							variant="text"
+							onClick={() => handleFormReset()}
+						>
+							Reset Fields
+						</Button>
+					</Box>
+					<NotificationLine type="notice">
+						Make sure all fields are filled out
+					</NotificationLine>
 				</CardContent>
 			</Card>
 		</>

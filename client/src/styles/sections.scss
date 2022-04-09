@@ -1,0 +1,99 @@
+#organisations {
+	width: 100%;
+	text-align: center;
+	padding-bottom: 5rem;
+
+	h2 {
+		margin: 1rem auto;
+	}
+
+	h3 {
+		margin: 1rem auto;
+	}
+
+	.project-leads,
+	.project-funding {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	.project-funding {
+		div {
+			flex-direction: row;
+		}
+	}
+
+	a[href] {
+		display: block;
+		margin: 10px;
+		text-decoration: none;
+
+		img,
+		svg {
+			width: 100px;
+			height: auto;
+			object-fit: none;
+		}
+		&.wide {
+			img,
+			svg {
+				width: 200px;
+			}
+		}
+	}
+}
+
+#connect {
+}
+
+.site-cookies {
+	position: fixed;
+	bottom: 1rem;
+	left: 50%;
+	transform: translateX(-50%);
+
+	color: #fff;
+	box-shadow: 0px 2px 4px rgba(33, 37, 40, 0.19);
+	background: $col-5;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 0.5rem;
+	width: 80%;
+	max-width: 660px;
+	padding: 0.5rem;
+	z-index: 9999;
+
+	.wrap {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+
+		@media (min-width: 720px) {
+			align-items: center;
+		}
+	}
+
+	p {
+		max-width: 50ch;
+		margin: 0;
+		margin-left: 0.5rem;
+	}
+	a {
+		color: inherit;
+		text-decoration: underline 1px dotted;
+	}
+	button {
+		color: $col-5;
+		text-transform: none;
+		background-color: $col-4;
+		padding-left: 1rem;
+		padding-right: 1rem;
+
+		&:hover {
+			background-color: $col-4;
+		}
+	}
+}

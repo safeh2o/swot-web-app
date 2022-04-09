@@ -1,9 +1,6 @@
-// resets
-@import "common/reset-forms";
-@import "common/reset-micro";
+@import "reset-micro";
+@import "base";
 
-// common styles
-@import "common/base";
-@import "layout/layout-main-content"; // content
-// template views - Tool
-@import "views/CollectData"; // CollectData
+@import "var";
+@import "layout";
+@import "sections";

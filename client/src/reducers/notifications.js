@@ -6,37 +6,45 @@ const initialState = {
 	loading: false,
 };
 
+const addMessage = (state, type, content) => {
+	const newMessage = {
+		type,
+		content,
+		timestamp: new Date().toISOString(),
+	};
+	state.messages.unshift(newMessage);
+};
+
+const addErrorToState = (state, content) => {
+	addMessage(state, "error", content);
+};
+
+const addNoticeToState = (state, content) => {
+	addMessage(state, "notice", content);
+};
+
 export const notificationsSlice = createSlice({
 	name: "notifications",
 	initialState,
 	reducers: {
-		addMessage: (state, { payload: { type, content } }) => {
-			state.messages.unshift({ type, content });
-		},
 		addNotice: (state, { payload }) => {
 			if (typeof payload === "string") {
-				state.messages.unshift({ type: "notice", content: payload });
+				addNoticeToState(state, payload);
 			}
 		},
 		addError: (state, { payload }) => {
 			if (typeof payload === "string") {
-				state.messages.unshift({ type: "error", content: payload });
+				addErrorToState(state, payload);
 			}
 		},
 		handleServerMessages: (state, { payload }) => {
 			const notices = payload?.notices || [];
 			const errors = payload?.errors || [];
 			_.forEach(notices, (notice) => {
-				state.messages.unshift({
-					type: "notice",
-					content: notice.toString(),
-				});
+				addNoticeToState(state, notice.toString());
 			});
 			_.forEach(errors, (error) => {
-				state.messages.unshift({
-					type: "error",
-					content: error.toString(),
-				});
+				addErrorToState(state, error.toString());
 			});
 		},
 		clearNotifications: () => initialState,
@@ -63,7 +71,6 @@ export const notificationsSelectors = {
 
 export const {
 	addError,
-	addMessage,
 	addNotice,
 	markAllRead,
 	clearNotifications,

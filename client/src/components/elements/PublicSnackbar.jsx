@@ -2,12 +2,13 @@ import { Alert, Snackbar } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+	clearNotifications,
 	notificationsSelectors,
 	shiftNotification,
 } from "../../reducers/notifications";
 import { userSelectors } from "../../reducers/user";
 
-export default function PublicSnackbar(props) {
+export default function PublicSnackbar() {
 	const dispatch = useDispatch();
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const [alertOpen, setAlertOpen] = useState(false);
@@ -17,19 +18,28 @@ export default function PublicSnackbar(props) {
 		notificationsSelectors.unreadNotifications
 	);
 
-	const handleAlertClose = () => {
+	const handleAlertClose = (_, reason) => {
+		if (!isLoggedIn) {
+			dispatch(clearNotifications());
+		} else if (!reason) {
+			dispatch(shiftNotification());
+		}
 		setAlertOpen(false);
-		dispatch(shiftNotification());
 	};
 
 	useEffect(() => {
-		if (notifications.length && isLoggedIn === false) {
+		if (notifications.length) {
 			const notification = notifications[0];
 			const severity =
 				notification?.type === "notice" ? "success" : "error";
 			setNotificationContent(notification.content);
 			setNotificationSeverity(severity);
-			setAlertOpen(true);
+
+			// checks if the last notification happened within the last 5 seconds; if so, show it
+			const FIVE_SECONDS = 5000;
+			const isNotificationRecent =
+				new Date() - new Date(notification.timestamp) < FIVE_SECONDS;
+			setAlertOpen(isNotificationRecent);
 		}
 	}, [notifications]);
 

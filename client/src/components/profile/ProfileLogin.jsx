@@ -50,12 +50,15 @@ export default function ProfileLogin() {
 				dispatch(handleServerMessages(res.data?.messages));
 			})
 			.catch((err) => {
-				console.error(err);
-				dispatch(
-					addError(
-						"An unknown error occurred, please try again or contact support"
-					)
-				);
+				let message =
+					"An unknown error occurred, please try again or contact support";
+				if (err?.response?.status === 401) {
+					message =
+						"Invalid credentials, please try again or reset your password";
+				} else {
+					console.error(err);
+				}
+				dispatch(addError(message));
 			})
 			.finally(() => {
 				dispatch(setLoading(false));

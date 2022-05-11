@@ -1,6 +1,5 @@
 import { Autocomplete, TextField } from "@mui/material";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { notificationsSelectors } from "../../reducers/notifications";
 
@@ -8,17 +7,6 @@ function LocationDropdown(props) {
 	const isLoading = useSelector(notificationsSelectors.loading);
 
 	const { locations, fieldLabel } = props;
-
-	// useEffect(() => {
-	// 	if (
-	// 		props.value &&
-	// 		!props.value._id &&
-	// 		locations?.length > 0 &&
-	// 		props.onChange
-	// 	) {
-	// 		props.onChange(null, locations[0]);
-	// 	}
-	// }, [locations]);
 
 	return (
 		<Autocomplete

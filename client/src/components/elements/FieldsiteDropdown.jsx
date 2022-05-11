@@ -1,8 +1,7 @@
 import { Box } from "@mui/material";
 import PropTypes from "prop-types";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { useLocation, useSearchParams } from "react-router-dom";
 import {
 	DEFAULT_AREA,
 	DEFAULT_COUNTRY,

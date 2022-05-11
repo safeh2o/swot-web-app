@@ -23,24 +23,10 @@ function FieldsiteDropdown(props) {
 		area: DEFAULT_AREA,
 		fieldsite: DEFAULT_FIELDSITE,
 	});
-	// const [country, setCountry] = useState(DEFAULT_COUNTRY);
-	// const [area, setArea] = useState(DEFAULT_AREA);
-	// const [fieldsite, setFieldsite] = useState(DEFAULT_FIELDSITE);
-	// const [searchParams, setSearchParams] = useSearchParams();
-	// const location = useLocation();
 	const [hashParams, setHashParams] = useHashParams();
 
 	const updateLocations = (newLocations) => {
 		update(newLocations);
-		// if (newLocations.country) {
-		// 	setCountry(newLocations.country);
-		// }
-		// if (newLocations.area) {
-		// 	setArea(newLocations.area);
-		// }
-		// if (newLocations.fieldsite) {
-		// 	setFieldsite(newLocations.fieldsite);
-		// }
 		updateHashStringFromLocations(newLocations);
 	};
 
@@ -60,9 +46,11 @@ function FieldsiteDropdown(props) {
 		props.onChange(locations.fieldsite);
 	}, [locations.fieldsite]);
 
-	const removeFromHash = (key) => {
+	const removeFromHash = (...keys) => {
 		const newHashParams = hashParams;
-		newHashParams.delete(key);
+		for (const key of keys) {
+			newHashParams.delete(key);
+		}
 		setHashParams(newHashParams);
 	};
 
@@ -72,36 +60,39 @@ function FieldsiteDropdown(props) {
 
 	const updateLocationsFromHashString = () => {
 		const countryName = hashParams.get("country");
-		const areaName = hashParams.get("area");
-		const fieldsiteName = hashParams.get("fieldsite");
 		let country = DEFAULT_COUNTRY,
 			area = DEFAULT_AREA,
 			fieldsite = DEFAULT_FIELDSITE;
-		if (countryName) {
+		if (countryName && countryName !== country.name) {
 			const foundCountry = countries.find(
 				(ctr) => ctr?.name === countryName
 			);
 			if (foundCountry) {
 				country = foundCountry;
 			} else {
-				removeFromHash("country");
+				removeFromHash("country", "area", "fieldsite");
 			}
 		}
 		update({ country });
+		const areaName = hashParams.get("area");
 		if (country && areaName) {
-			const foundArea = areas.find((ar) => ar?.name === areaName);
-			if (foundArea) {
+			const foundArea = allAreas.find((ar) => ar?.name === areaName);
+			if (foundArea && country.areas.includes(foundArea._id)) {
 				area = foundArea;
 			} else {
-				removeFromHash("area");
+				removeFromHash("area", "fieldsite");
 			}
 		}
 		update({ area });
+		const fieldsiteName = hashParams.get("fieldsite");
 		if (country && area && fieldsiteName) {
-			const foundFieldsite = fieldsites.find(
+			const foundFieldsite = allFieldsites.find(
 				(fs) => fs?.name === fieldsiteName
 			);
-			if (foundFieldsite) {
+			if (
+				foundFieldsite &&
+				area.fieldsites.includes(foundFieldsite._id)
+			) {
 				fieldsite = foundFieldsite;
 			} else {
 				removeFromHash("fieldsite");

@@ -13,7 +13,6 @@ import axios from "axios";
 import { forwardRef, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { RESULTS_BREADCRUMB } from "../../constants/breadcrumbs";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import { formatDate } from "../../helpers/dates";
 import { addNotice, setLoading } from "../../reducers/notifications";

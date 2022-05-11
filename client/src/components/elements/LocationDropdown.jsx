@@ -9,16 +9,16 @@ function LocationDropdown(props) {
 
 	const { locations, fieldLabel } = props;
 
-	useEffect(() => {
-		if (
-			props.value &&
-			!props.value._id &&
-			locations?.length > 0 &&
-			props.onChange
-		) {
-			props.onChange(null, locations[0]);
-		}
-	}, [locations]);
+	// useEffect(() => {
+	// 	if (
+	// 		props.value &&
+	// 		!props.value._id &&
+	// 		locations?.length > 0 &&
+	// 		props.onChange
+	// 	) {
+	// 		props.onChange(null, locations[0]);
+	// 	}
+	// }, [locations]);
 
 	return (
 		<Autocomplete
@@ -32,7 +32,7 @@ function LocationDropdown(props) {
 			onChange={props.onChange}
 			disableClearable
 			isOptionEqualToValue={(option, value) =>
-				value.name === "" || option.name === value.name
+				value?.name === "" || option?.name === value?.name
 			}
 			fullWidth
 			selectOnFocus={false}

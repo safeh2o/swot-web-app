@@ -11,11 +11,17 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
-import { addError, addNotice, setLoading } from "../../reducers/notifications";
+import {
+	addError,
+	addNotice,
+	notificationsSelectors,
+	setLoading,
+} from "../../reducers/notifications";
 import { Result as css } from "../../styles/styles";
 import { IconCheck, IconDownload, IconLow, IconQuestionMark } from "../icons";
+import NotFound from "../NotFound";
 
 export default function Result() {
 	const { datasetId } = useParams();
@@ -31,13 +37,14 @@ export default function Result() {
 		hhSafety: 0,
 		eo: { reco: { real: 0, imag: 0 } },
 	};
-	const [dataset, setDataset] = useState(defaultDataset);
+	const [dataset, setDataset] = useState();
 	const [locationData, setLocationData] = useState({
 		fieldsiteName: "",
 		areaName: "",
 		countryName: "",
 	});
 	const dispatch = useDispatch();
+	const isLoading = useSelector(notificationsSelectors.loading);
 
 	const handleReanalysis = () => {
 		dispatch(setLoading(true));
@@ -59,7 +66,7 @@ export default function Result() {
 				setLocationData(data.locationData);
 			})
 			.catch(() => {
-				setDataset(defaultDataset);
+				setDataset();
 			})
 			.finally(() => {
 				dispatch(setLoading(false));
@@ -112,7 +119,9 @@ export default function Result() {
 	// Custom Elements
 	const Type = Typography; // extends Typography Component
 
-	return (
+	return !dataset && !isLoading ? (
+		<NotFound />
+	) : (
 		<>
 			<Button
 				component={NavLink}
@@ -197,7 +206,7 @@ export default function Result() {
 
 					<Box sx={{ ...css.stat }}>
 						<Type variant="inputValue">
-							{parseDecayScenario(dataset.confidenceLevel)}
+							{parseDecayScenario(dataset?.confidenceLevel)}
 						</Type>
 						<Type variant="inputLabel">
 							Modelling confidence level
@@ -268,12 +277,12 @@ export default function Result() {
 					<Divider sx={{ ...css.stat.divider }} />
 					<Box
 						sx={{ ...css.stat }}
-						className={dataset.nSamples < 100 ? "low" : "pass"}
+						className={dataset?.nSamples < 100 ? "low" : "pass"}
 					>
 						<Type variant="inputValue">
-							{dataset.nSamples}
+							{dataset?.nSamples}
 							{/* if total samples are less than 100 */}
-							{dataset.nSamples < 100 ? (
+							{dataset?.nSamples < 100 ? (
 								<IconLow className="sup" />
 							) : (
 								<IconCheck className="sup" />

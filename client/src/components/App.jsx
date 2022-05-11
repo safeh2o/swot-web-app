@@ -13,6 +13,7 @@ import BlogPost from "./BlogPost";
 import CMSPage from "./CMSPage";
 import ContactPage from "./ContactPage";
 import Home from "./Home";
+import NotFound from "./NotFound";
 // App + Content Pages
 import PageWrapper from "./PageWrapper";
 import ProfileForgotPassword from "./profile/ProfileForgotPassword";
@@ -79,6 +80,7 @@ export default function App() {
 
 					<Route path="/blog" element={<Blog />} />
 					<Route path="/blog/:slug" element={<BlogPost />} />
+					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</PageWrapper>
 		</ThemeProvider>

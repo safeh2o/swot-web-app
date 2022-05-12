@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import useHashParams from "../../hooks/useHashParams";
 import { NavTools as css } from "../../styles/styles";
 // Icons
 import {
@@ -10,6 +11,11 @@ import {
 } from "../icons";
 
 export default function NavTools() {
+	const [hashParams] = useHashParams();
+	const locationSuffix = hashParams.get("country")
+		? "#" + hashParams.toString()
+		: "";
+
 	const list = [
 		{
 			class: "",
@@ -19,19 +25,19 @@ export default function NavTools() {
 		},
 		{
 			class: "",
-			to: "/upload",
+			to: `/upload${locationSuffix}`,
 			label: "Upload Data",
 			icon: <IconToolUpload />,
 		},
 		{
 			class: "",
-			to: "/analyze",
+			to: `/analyze${locationSuffix}`,
 			label: "Send for Analysis",
 			icon: <IconToolAnalyze />,
 		},
 		{
 			class: "",
-			to: "/results",
+			to: `/results${locationSuffix}`,
 			label: "View Results",
 			icon: <IconToolResult />,
 		},

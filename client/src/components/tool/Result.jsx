@@ -121,13 +121,13 @@ export default function Result() {
 			return "?";
 		}
 		const hours = ~~(seconds / 3600);
-		const minutes = ~~((seconds % 3600) / 60);
+		const minutes = (~~((seconds % 3600) / 60)).toString().padStart(2, 0);
 		return `${hours}:${minutes}`;
 	};
 
 	const reco =
-		(dataset || defaultDataset).eo?.reco?.real?.toFixed(2) ||
-		(dataset || defaultDataset).eo?.reco?.toFixed(2) ||
+		(dataset || defaultDataset).eo?.reco?.real?.toFixed(1) ||
+		(dataset || defaultDataset).eo?.reco?.toFixed(1) ||
 		0;
 
 	const storageTimeInHours = formattedHoursFromSeconds(

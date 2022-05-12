@@ -27,12 +27,11 @@ import axios from "axios";
 import _ from "lodash";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
-import { userSelectors } from "../../reducers/user";
 import { AnalyzePage as css } from "../../styles/styles";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
@@ -93,6 +92,7 @@ export default function AnalyzePage() {
 			})
 			.finally(() => {
 				dispatch(setLoading(false));
+				update({ startDate: null, endDate: null });
 			});
 	}
 

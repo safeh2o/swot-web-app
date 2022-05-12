@@ -21,6 +21,17 @@ export const viewSlice = createSlice({
 		popViewsTo: (state, { payload: level }) => {
 			state.viewStack = state.viewStack.slice(0, level);
 		},
+		replaceCrumb: (state, { payload }) => {
+			let crumbs = payload;
+			if (!Array.isArray(payload)) {
+				crumbs = [payload];
+			}
+
+			state.viewStack.pop();
+			for (const crumb of crumbs) {
+				state.viewStack.push(crumb);
+			}
+		},
 		inferBreadcrumbs: (state, { payload: paths }) => {
 			const newStack = [];
 			if (paths?.length && paths[paths.length - 1] !== "") {
@@ -42,7 +53,7 @@ export const viewSelectors = {
 	viewStack: (state) => state.view.viewStack,
 };
 
-export const { inferBreadcrumbs, replaceCrumbTitle, popViewsTo } =
+export const { inferBreadcrumbs, replaceCrumbTitle, popViewsTo, replaceCrumb } =
 	viewSlice.actions;
 
 export default viewSlice.reducer;

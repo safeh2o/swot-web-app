@@ -19,6 +19,7 @@ import {
 	notificationsSelectors,
 	setLoading,
 } from "../../reducers/notifications";
+import { replaceCrumb } from "../../reducers/view";
 import { Result as css } from "../../styles/styles";
 import { IconCheck, IconDownload, IconLow, IconQuestionMark } from "../icons";
 import NotFound from "../NotFound";
@@ -36,6 +37,9 @@ export default function Result() {
 		tsFrc: 0,
 		hhSafety: 0,
 		eo: { reco: { real: 0, imag: 0 } },
+		ann: { average_time: 3600 },
+		safety_range: [0, 1],
+		safe_percent: 99.99,
 	};
 	const [dataset, setDataset] = useState();
 	const [locationData, setLocationData] = useState({
@@ -64,6 +68,32 @@ export default function Result() {
 			.then(({ data }) => {
 				setDataset(data.dataset);
 				setLocationData(data.locationData);
+				const { countryName, areaName, fieldsiteName } =
+					data.locationData;
+				const searchParams = new URLSearchParams();
+				searchParams.append("country", countryName);
+				const countryParams = searchParams.toString();
+				searchParams.append("area", areaName);
+				const areaParams = searchParams.toString();
+				searchParams.append("fieldsite", fieldsiteName);
+				const fieldsiteParams = searchParams.toString();
+				dispatch(
+					replaceCrumb([
+						{
+							path: `/results#${countryParams}`,
+							title: countryName,
+						},
+						{ path: `/results#${areaParams}`, title: areaName },
+						{
+							path: `/results#${fieldsiteParams}`,
+							title: fieldsiteName,
+						},
+						{
+							path: "#",
+							title: parseDate(data.dataset?.dateCreated),
+						},
+					])
+				);
 			})
 			.catch(() => {
 				setDataset();
@@ -96,16 +126,16 @@ export default function Result() {
 	};
 
 	const reco =
-		dataset?.eo?.reco?.real?.toFixed(2) ||
-		dataset?.eo?.reco?.toFixed(2) ||
+		(dataset || defaultDataset).eo?.reco?.real?.toFixed(2) ||
+		(dataset || defaultDataset).eo?.reco?.toFixed(2) ||
 		0;
 
 	const storageTimeInHours = formattedHoursFromSeconds(
-		dataset?.ann?.["average_time"]
+		(dataset || defaultDataset).ann?.["average_time"]
 	);
 
 	const getPredictedWaterSafetyRange = () => {
-		const safetyRange = dataset?.["safety_range"];
+		const safetyRange = (dataset || defaultDataset)["safety_range"];
 		if (!safetyRange) {
 			return "?";
 		}
@@ -166,7 +196,7 @@ export default function Result() {
 				<CardContent>
 					<Box sx={{ ...css.stat }}>
 						<Type variant="inputValue">
-							{parseDate(dataset?.dateCreated)}
+							{parseDate((dataset || defaultDataset).dateCreated)}
 						</Type>
 						<Type variant="inputLabel">Date of Analysis</Type>
 					</Box>
@@ -176,7 +206,9 @@ export default function Result() {
 					<Box sx={{ ...css.stat }}>
 						<Box sx={{ ...css.stat.range }}>
 							<Type variant="inputValue">
-								{parseDate(dataset?.startDate)}{" "}
+								{parseDate(
+									(dataset || defaultDataset).startDate
+								)}{" "}
 							</Type>
 							<Type
 								component="span"
@@ -185,7 +217,7 @@ export default function Result() {
 								to
 							</Type>
 							<Type variant="inputValue">
-								{parseDate(dataset?.endDate)}
+								{parseDate((dataset || defaultDataset).endDate)}
 							</Type>
 						</Box>
 						<Type variant="inputLabel">
@@ -197,7 +229,7 @@ export default function Result() {
 
 					<Box sx={{ ...css.stat }}>
 						<Type variant="inputValue">
-							{dataset?.maxDuration} hrs
+							{(dataset || defaultDataset).maxDuration} hrs
 						</Type>
 						<Type variant="inputLabel">
 							Length of storage time to analyse for
@@ -206,7 +238,9 @@ export default function Result() {
 
 					<Box sx={{ ...css.stat }}>
 						<Type variant="inputValue">
-							{parseDecayScenario(dataset?.confidenceLevel)}
+							{parseDecayScenario(
+								(dataset || defaultDataset).confidenceLevel
+							)}
 						</Type>
 						<Type variant="inputLabel">
 							Modelling confidence level
@@ -225,7 +259,9 @@ export default function Result() {
 					<Box sx={{ ...css.stat }}>
 						<Box sx={{ ...css.stat.range }}>
 							<Type variant="inputValue">
-								{parseDate(dataset?.firstSample)}
+								{parseDate(
+									(dataset || defaultDataset).firstSample
+								)}
 							</Type>
 							<Type
 								component="span"
@@ -234,7 +270,9 @@ export default function Result() {
 								to
 							</Type>
 							<Type variant="inputValue">
-								{parseDate(dataset?.lastSample)}
+								{parseDate(
+									(dataset || defaultDataset).lastSample
+								)}
 							</Type>
 						</Box>
 						<Type variant="inputLabel">
@@ -254,7 +292,10 @@ export default function Result() {
 					</Box>
 					<Box sx={{ ...css.stat }}>
 						<Type variant="inputValue">
-							{dataset?.["safe_percent"]?.toFixed(0) || "?"}%
+							{(dataset || defaultDataset)[
+								"safe_percent"
+							]?.toFixed(0) || "?"}
+							%
 						</Type>
 						<Type variant="inputLabel">
 							Current household water safety
@@ -277,12 +318,16 @@ export default function Result() {
 					<Divider sx={{ ...css.stat.divider }} />
 					<Box
 						sx={{ ...css.stat }}
-						className={dataset?.nSamples < 100 ? "low" : "pass"}
+						className={
+							(dataset || defaultDataset).nSamples < 100
+								? "low"
+								: "pass"
+						}
 					>
 						<Type variant="inputValue">
-							{dataset?.nSamples}
+							{(dataset || defaultDataset).nSamples}
 							{/* if total samples are less than 100 */}
-							{dataset?.nSamples < 100 ? (
+							{(dataset || defaultDataset).nSamples < 100 ? (
 								<IconLow className="sup" />
 							) : (
 								<IconCheck className="sup" />
@@ -341,7 +386,7 @@ export default function Result() {
 					</Box>
 					<Box sx={{ ...css.stat }}>
 						<Type variant="inputValue">
-							{dataset?.maxDuration} hrs
+							{(dataset || defaultDataset).maxDuration} hrs
 						</Type>
 						<Type variant="inputLabel">
 							Duration of protection

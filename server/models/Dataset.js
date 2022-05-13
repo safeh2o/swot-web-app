@@ -64,6 +64,8 @@ Dataset.add(
 		},
 		archived: { type: Types.Boolean, index: true, default: false },
 		isComplete: { type: Types.Boolean, index: true, default: false },
+		eo_message: { type: Types.Textarea, noedit: true, initial: false },
+		ann_message: { type: Types.Textarea, noedit: true, initial: false },
 	},
 	"Redo Analysis",
 	{

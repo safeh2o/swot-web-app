@@ -37,6 +37,17 @@ export { default as IconNavClose } from "./IconNavClose";
 export * from "./IconNavOpen";
 export { default as IconNavOpen } from "./IconNavOpen";
 export * from "./IconProfile";
+export { default as IconSelect } from "./IconSelect";
+export * from "./IconSelect";
+// Social
+export { default as IconTwitter } from "./IconTwitter";
+export * from "./IconTwitter";
+export { default as IconYoutube } from "./IconYoutube";
+export * from "./IconYoutube";
+export { default as IconLinkedin } from "./IconLinkedin";
+export * from "./IconLinkedin";
+export { default as IconEnvelope } from "./IconEnvelope";
+export * from "./IconEnvelope";
 // Header
 export { default as IconProfile } from "./IconProfile";
 // Notifications

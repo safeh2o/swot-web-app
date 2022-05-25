@@ -1,0 +1,176 @@
+.site-footer {
+	text-align: center;
+	color: #fff;
+	background-color: #294f93;
+	margin-top: auto;
+
+	> svg {
+		fill: #294f93;
+		background-color: #dbdfe4;
+	}
+
+	> section {
+		padding: 1.5rem 1.5rem 2rem 1.5rem;
+		width: 100%;
+		max-width: $max-width;
+		margin: 0 auto;
+
+		@media (min-width: $md) {
+			padding: 2rem;
+			padding-top: 0;
+		}
+	}
+
+	.title {
+		font-weight: 700;
+		letter-spacing: -0.01em;
+		margin-bottom: 0.5rem;
+	}
+
+	.logos {
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+		flex-wrap: wrap;
+		a {
+			margin: 1rem;
+		}
+		img {
+			max-width: 70px;
+
+			@media (min-width: $md) {
+				max-width: 100px;
+			}
+		}
+		img.dwb,
+		img.achmea,
+		img.grandchallenges {
+			width: auto;
+			max-width: none;
+			height: 33px;
+		}
+		img.dwb,
+		img.grandchallenges {
+			height: 65px;
+		}
+	}
+
+	.social-networks {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		a {
+			$size: 2.25rem;
+
+			display: block;
+			color: #294f93;
+			line-height: $size;
+			width: $size;
+			height: $size;
+			margin: 0.5rem 0.45rem;
+		}
+		img,
+		svg {
+			width: 100%;
+			height: 100%;
+		}
+		.youtube,
+		.linkedin,
+		.twitter {
+			background-color: #fff;
+			border-radius: 5rem;
+		}
+	}
+
+	.nav-legal {
+		font-size: 15px;
+		line-height: 1.85;
+
+		.divider {
+			margin: 0.25rem 0.5rem;
+		}
+		a {
+			text-decoration: underline dotted;
+		}
+	}
+}
+
+.site-cookies {
+	position: sticky;
+	bottom: 0;
+	z-index: 100;
+
+	color: #fff;
+	background: $col-5;
+	padding: 1rem 2rem;
+
+	.wrap {
+		display: grid;
+		grid-auto-flow: column;
+		justify-content: center;
+		gap: 0.75rem;
+
+		max-width: 880px;
+		margin: 0 auto;
+
+		@media (min-width: $md) {
+			justify-content: space-between;
+			align-items: center;
+		}
+		@media (max-width: $md) {
+			text-align: center;
+			grid-auto-flow: row;
+			grid-auto-rows: minmax(0, max-content);
+			.user-input {
+				justify-content: center;
+			}
+		}
+	}
+
+	p {
+		margin: 0;
+	}
+	a {
+		color: inherit;
+		text-decoration: underline 1px dotted rgba(#fff, 0.35);
+	}
+	.user-input {
+		display: flex;
+		align-items: center;
+	}
+	button {
+		padding: 0.5rem 1.5rem;
+		border-radius: 2px;
+		text-transform: capitalize;
+
+		white-space: nowrap;
+		transition: all 0.35s ease;
+
+		&.accept {
+			position: relative;
+			color: inherit;
+			margin-left: 0.5rem;
+
+			background-color: #5c906a;
+			border: 2px solid #679874;
+			box-shadow: 0 0 0 0 #5c906a;
+
+			&:hover {
+				box-shadow: 0 0 0 3px #5c906a;
+				border-color: transparent;
+			}
+		}
+
+		&.needed {
+			color: inherit;
+			opacity: 0.8;
+			background-color: transparent;
+			text-decoration: underline 1px dotted rgba(#fff, 0.35);
+		}
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}

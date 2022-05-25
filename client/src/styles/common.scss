@@ -1,0 +1,215 @@
+.breadcrumbs {
+	grid-column: 1/-1;
+	font-size: "13px";
+	color: "#bbb";
+	padding: 0.5rem 1.5rem;
+
+	@media (min-width: $md) {
+		padding-left: 2.5rem;
+		padding-right: 2.5rem;
+	}
+	a {
+		color: "inherit";
+		text-decoration-style: "solid";
+	}
+	.MuiBreadcrumbs-separator {
+		margin: 0 0.25rem;
+	}
+}
+
+section {
+	ul,
+	ol {
+		--space: 0.5em;
+		--width: 2em;
+		list-style: none;
+		list-style-position: outside;
+		padding-left: var(--width);
+		margin-bottom: calc(0.25rem * var(--line-height));
+	}
+	ul,
+	ol {
+		li {
+			counter-increment: ol-counter;
+			position: relative;
+			padding: 0;
+			margin-left: 0em;
+			margin-bottom: calc(0.25rem * var(--line-height));
+			&::before {
+				display: inline-block;
+
+				position: absolute;
+				right: 100%;
+
+				text-align: center;
+				width: var(--width);
+				height: var(--lineHeight);
+			}
+		}
+	}
+	ul {
+		li {
+			&::before {
+				content: "▪";
+				transform: scale(1.5);
+			}
+		}
+	}
+
+	ol {
+		li {
+			&::before {
+				content: counter(ol-counter) ". ";
+				font-weight: 500;
+				font-variant-numeric: tabular-nums;
+			}
+		}
+	}
+}
+
+.btn {
+	position: relative;
+	display: inline-block;
+	font-size: 0.875rem;
+	font-weight: 500;
+	letter-spacing: -0.01em;
+	text-transform: uppercase;
+	color: inherit;
+	background-color: #f2c148;
+	padding: 0.9em 1.35em;
+	border-radius: 4px;
+	box-shadow: 0 0 0 0px $col-4;
+
+	transition: all 0.25s ease;
+
+	&.compact {
+		padding: 0.25em 0.75em;
+	}
+
+	// &::before {
+	// 	content: "";
+	// 	position: absolute;
+	// 	top: 0;
+	// 	left: 0;
+	// 	z-index: 0;
+	// 	width: 100%;
+	// 	height: 100%;
+	// 	background-color: inherit;
+	// 	border-radius: inherit;
+
+	// 	transition: all 0.25s ease 0.015s;
+	// }
+	&:hover {
+		box-shadow: 0 0 0 3px $col-4;
+		&::before {
+			// transform: scale(1.05, 1.15);
+			text-decoration: none;
+		}
+		span {
+			// transform: scale(1.015);
+			// font-weight: 600;
+			// border-bottom-color: currentColor;
+		}
+	}
+	&:active,
+	&:active:focus {
+		&::before {
+			box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+		}
+	}
+	i {
+		display: block;
+		line-height: 0;
+	}
+	span {
+		position: relative;
+		z-index: 1;
+		transition: all 0.15s ease;
+
+		display: block;
+		border-top: transparent 1px solid;
+		border-bottom: transparent 1px solid;
+	}
+}
+
+.icon-txt {
+	display: grid;
+	grid-auto-columns: minmax(0, max-content);
+	grid-auto-flow: column;
+	align-items: flex-start;
+	gap: 0.5em;
+	min-width: 0px;
+	max-width: 100%;
+
+	> svg,
+	> img,
+	.icon {
+		position: relative;
+		width: calc(1rem * var(--line-height));
+		height: calc(1rem * var(--line-height));
+		flex: 1 0 auto;
+
+		> * {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	.center {
+	}
+}
+
+.notification {
+	@extend .icon-txt;
+
+	margin-top: 1rem;
+	margin-bottom: 0.5rem;
+
+	a {
+		text-decoration: underline;
+	}
+}
+
+.page-up {
+	position: fixed;
+	bottom: 2rem;
+	right: 1rem;
+}
+
+.form-content {
+	display: grid;
+	gap: 1rem;
+	margin-bottom: 1rem;
+	input,
+	.MuiOutlinedInput-root {
+		background-color: lighten($col-3, 5%);
+	}
+}
+.form-submit {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	margin-top: 2rem;
+
+	a {
+		text-decoration: underline;
+	}
+
+	button {
+		cursor: pointer;
+	}
+
+	#btnSubmit {
+		margin-right: 1rem;
+	}
+
+	#btnLogIn,
+	#btnSubmit {
+		flex: 1;
+		max-width: 350px;
+	}
+
+	.notification {
+		flex-basis: 100%;
+	}
+}

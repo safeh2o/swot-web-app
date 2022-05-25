@@ -1,6 +1,15 @@
-@import "reset-micro";
-@import "base";
-
 @import "var";
+
+@import "reset";
+@import "type";
+
+@import "common";
+
 @import "layout";
+
+@import "layout/layout-header.scss";
+@import "layout/layout-footer.scss";
+
+@import "layout/layout-tool.scss";
+
 @import "sections";

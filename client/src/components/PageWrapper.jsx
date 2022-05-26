@@ -31,13 +31,13 @@ function PageWrapper(props) {
 		"/analyze",
 		"/results",
 		"/",
-	].some((path) => url.pathname === path);
+	].some((path) => url.pathname.includes(path));
 
-	const isGuestPage = ["/not-found", "/"].some(
-		(path) => url.pathname === path
+	const isGuestPage = ["/not-found", "/"].some((path) =>
+		url.pathname.includes(path)
 	);
 
-	const isBlogPage = ["/blog"].some((path) => url.pathname === path);
+	const isBlogPage = ["/blog"].some((path) => url.pathname.includes(path));
 
 	const BackToTopAnchor = useRef(null);
 	const scrollTrigger = useScrollTrigger();

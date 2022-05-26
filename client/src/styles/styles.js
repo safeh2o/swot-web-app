@@ -350,8 +350,8 @@ export const Result = {
 	hr: {
 		borderColor: "rgba(0,0,0,0.05)",
 		borderWidth: "2px",
-		marginTop: "30px",
-		marginBottom: "30px",
+		marginTop: 1,
+		marginBottom: 1,
 	},
 	cardElement: {
 		marginBottom: "15px",

@@ -4,6 +4,16 @@
 	background-color: #294f93;
 	margin-top: auto;
 
+	.section-title,
+	.section-subtitle {
+		// margin-top: calc(var(--line-height) * 1rem);
+
+		font-size: 2.25rem;
+		@media (min-width: $md) {
+			font-size: 2.25rem;
+		}
+	}
+
 	> svg {
 		fill: #294f93;
 		background-color: #dbdfe4;

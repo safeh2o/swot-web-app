@@ -1,12 +1,12 @@
 import {
-	Card,
-	CardContent,
-	CardHeader,
+	Box,
 	Divider,
-	Typography,
+	Accordion,
+	AccordionSummary,
+	AccordionDetails,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { CollectData as css } from "../../styles/styles";
+
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function CollectData() {
 	const urlFieldGuide =
@@ -16,63 +16,156 @@ export default function CollectData() {
 
 	return (
 		<>
-			<Card sx={{ ...css.cardElement, ...css.uploadLocation }}>
-				<CardHeader
-					title={"Guide to Collect Data"}
-					titleTypographyProps={{ variant: "h2", fontWeight: "400" }}
-				/>
+			<section>
+				<div className="section-wrap">
+					<Box component="form" className="app-card rte">
+						<Box component={"h1"} className="section-subtitle">
+							Collecting Data
+						</Box>
 
-				<Divider />
+						<Divider sx={{ my: 1 }} />
 
-				<CardContent>
-					<Typography>
-						We have provided a handy field guide to help set up a
-						good data collection process at your campsite, and
-						already got a data input template file available for
-						download too.
-					</Typography>
-				</CardContent>
-			</Card>
+						<Box component={"h2"}>Forms</Box>
 
-			<Typography
-				component={"h1"}
-				variant="body1"
-				sx={{ ...css.sectionHeader }}
-			>
-				a. Guides
-			</Typography>
-			<Card sx={{ ...css.cardElement, ...css.uploadLocation }}>
-				<CardContent>
-					<Typography variant="h3">Get Started Guide</Typography>
-				</CardContent>
-				<Divider />
-				<CardContent>
-					<Typography variant="h3">
-						Field Data Collection Protocol
-					</Typography>
-				</CardContent>
-				<Divider />
-			</Card>
+						<Box component={"ul"}>
+							<Box component={"li"}>
+								<Box
+									component={"figure"}
+									className="image"
+								></Box>
+								<Box className="content">
+									<a href={urlFieldGuide}>Field Protocol</a>
+								</Box>
+							</Box>
+							<Box component={"li"}>
+								<Box
+									component={"figure"}
+									className="image"
+								></Box>
+								<Box className="content">
+									KOBO Monitoring Forms
+								</Box>
+							</Box>
+							<Box component={"li"}>
+								<Box
+									component={"figure"}
+									className="image"
+								></Box>
+								<Box className="content">
+									Pen and Paper Forms
+								</Box>
+							</Box>
+						</Box>
 
-			<Typography
-				component={"h1"}
-				variant="body1"
-				sx={{ ...css.sectionHeader }}
-			>
-				b. Data Collection Templates
-			</Typography>
-			<Card sx={{ ...css.cardElement, ...css.uploadLocation }}>
-				<CardContent>
-					<Typography variant="h3">Pen and Paper</Typography>
-				</CardContent>
-				<Divider />
-				<CardContent>
-					<Typography variant="h3">
-						Monitoring Forms (KOBO)
-					</Typography>
-				</CardContent>
-				<Divider />
-			</Card>
+						<Divider sx={{ my: 1 }} />
+
+						<Box component={"h2"}>Guides</Box>
+
+						<Box component={"article"}>
+							<Box component={"figure"} className="image"></Box>
+							<Box className="content">
+								How to Collect Data (Video)
+							</Box>
+						</Box>
+
+						<Box component={"article"}>
+							<Box component={"figure"} className="image"></Box>
+							<Box className="content">QuickStart Guide</Box>
+						</Box>
+
+						<Divider sx={{ my: 1 }} />
+
+						<Box component={"h2"}>Demo Datasets</Box>
+
+						<Box component={"ul"}>
+							<Box component={"li"}>
+								<Box
+									component={"figure"}
+									className="image"
+								></Box>
+								<Box className="content">
+									<a href={urlDataInputTemplate}>
+										Microsoft XLS
+									</a>
+								</Box>
+							</Box>
+						</Box>
+
+						<Divider sx={{ my: 1 }} />
+					</Box>
+					{/*  */}
+					<Box component="form" className="app-card rte">
+						<Box component={"h2"}>Frequently Asked Questions</Box>
+
+						<Box>
+							<Accordion className="content">
+								<AccordionSummary
+									expandIcon={<ExpandMoreIcon />}
+								>
+									What equipment do we need to use in the
+									field for data collection?
+								</AccordionSummary>
+								<Divider />
+								<AccordionDetails>
+									Lorem ipsum dolor sit amet, consectetur
+									adipiscing elit. Curabitur et viverra arcu.
+									Vestibulum ante ipsum primis in faucibus
+									orci luctus et ultrices posuere cubilia
+									curae; Sed quis tristique neque. Morbi
+									blandit quis massa vitae molestie.
+								</AccordionDetails>
+							</Accordion>
+							<Accordion className="content">
+								<AccordionSummary
+									expandIcon={<ExpandMoreIcon />}
+								>
+									How many measurements do we need to take to
+									get an analysis from the SWOT?
+								</AccordionSummary>
+								<Divider />
+								<AccordionDetails>
+									In luctus risus ex, id blandit mi tincidunt
+									sed. Donec sollicitudin rutrum nulla id
+									ultrices. Suspendisse sollicitudin augue
+									nisl, at porta nisl ultrices in.
+								</AccordionDetails>
+							</Accordion>
+							<Accordion className="content">
+								<AccordionSummary
+									expandIcon={<ExpandMoreIcon />}
+								>
+									What human resources are required for the
+									SWOT?
+								</AccordionSummary>
+								<Divider />
+								<AccordionDetails>
+									Nullam eleifend tincidunt fringilla.
+									Curabitur semper ante sit amet dolor
+									efficitur placerat a eget turpis. Proin non
+									convallis felis. Etiam mi mauris, imperdiet
+									ut nisi non, placerat molestie est.
+								</AccordionDetails>
+							</Accordion>
+							<Accordion className="content">
+								<AccordionSummary
+									expandIcon={<ExpandMoreIcon />}
+								>
+									Who do we contact if we have a problem with
+									data entry?
+								</AccordionSummary>
+								<Divider />
+								<AccordionDetails>
+									Nullam eleifend tincidunt fringilla.
+									Curabitur semper ante sit amet dolor
+									efficitur placerat a eget turpis. Proin non
+									convallis felis. Etiam mi mauris, imperdiet
+									ut nisi non, placerat molestie est.
+								</AccordionDetails>
+							</Accordion>
+						</Box>
+					</Box>
+				</div>
+			</section>
 		</>
 	);
 }

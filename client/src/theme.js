@@ -127,54 +127,54 @@ let theme = createTheme({
 				},
 			},
 		},
-		MuiAccordionDetails: {
-			styleOverrides: {
-				root: {
-					padding: "0",
-					flexDirection: "column",
-				},
-			},
-		},
-		MuiAccordion: {
-			styleOverrides: {
-				root: {
-					zIndex: 0,
-					borderRadius: 0,
-					boxShadow: 'none',
-					"&:before": {
-						display: "none",
-					},
-					"&.Mui-expanded": {
-						margin: 0,
-						'& .MuiAccordionSummary-root': {
-							minHeight: 'auto'
-						}
-					},
-				},
-				content: {
-					margin: 0,
-					"&.Mui-expanded": {
-						margin: 0,
-					},
-				},
-			},
-		},
-		MuiAccordionSummary: {
-			styleOverrides: {
-				root: {
-					margin: 0,
-				},
-				content: {
-					margin: 0,
-					"&.Mui-expanded": {
-						margin: 0,
-					},
-				},
-				expandIcon: {
-					padding: "0 12px 0 0",
-				},
-			},
-		},
+		// MuiAccordionDetails: {
+		// 	styleOverrides: {
+		// 		root: {
+		// 			padding: "0",
+		// 			flexDirection: "column",
+		// 		},
+		// 	},
+		// },
+		// MuiAccordion: {
+		// 	styleOverrides: {
+		// 		root: {
+		// 			zIndex: 0,
+		// 			borderRadius: 0,
+		// 			boxShadow: 'none',
+		// 			"&:before": {
+		// 				display: "none",
+		// 			},
+		// 			"&.Mui-expanded": {
+		// 				margin: 0,
+		// 				'& .MuiAccordionSummary-root': {
+		// 					minHeight: 'auto'
+		// 				}
+		// 			},
+		// 		},
+		// 		content: {
+		// 			margin: 0,
+		// 			"&.Mui-expanded": {
+		// 				margin: 0,
+		// 			},
+		// 		},
+		// 	},
+		// },
+		// MuiAccordionSummary: {
+		// 	styleOverrides: {
+		// 		root: {
+		// 			margin: 0,
+		// 		},
+		// 		content: {
+		// 			margin: 0,
+		// 			"&.Mui-expanded": {
+		// 				margin: 0,
+		// 			},
+		// 		},
+		// 		expandIcon: {
+		// 			padding: "0 12px 0 0",
+		// 		},
+		// 	},
+		// },
 		MuiSlider: {
 			styleOverrides: {
 				root: {

@@ -15,7 +15,7 @@ main.page-tool {
 	}
 
 	.section-wrap {
-		padding: 1.5rem 0rem;
+		padding: 1.5rem 0rem 3rem;
 	}
 }
 
@@ -30,7 +30,7 @@ main.page-tool {
 		gap: 0.5rem;
 		align-self: flex-start;
 
-		margin: 3rem 0;
+		margin: 1.5rem 0rem 3rem;
 	}
 }
 
@@ -67,7 +67,8 @@ main.page-tool {
 	}
 	//
 	&.active {
-		background-color: #fff;
+		background-color: #f4f4f4;
+		border-radius: 6px;
 		pointer-events: none;
 
 		svg {

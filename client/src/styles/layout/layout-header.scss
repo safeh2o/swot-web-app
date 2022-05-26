@@ -156,6 +156,9 @@ ul[class*="menu-"] {
 			justify-content: space-between;
 			grid-auto-columns: minmax(0, max-content);
 			grid-auto-flow: column;
+
+			font: inherit;
+			text-underline-offset: 2px;
 			color: white;
 			padding: 0.65rem;
 			white-space: nowrap;

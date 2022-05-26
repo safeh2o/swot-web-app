@@ -2,10 +2,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
 	Box,
 	Button,
-	Card,
-	CardContent,
 	FormControl,
-	Grid,
 	IconButton,
 	InputAdornment,
 	InputLabel,
@@ -24,7 +21,6 @@ import {
 	setLoading,
 } from "../../reducers/notifications";
 import { getUser } from "../../reducers/user";
-import { ProfileLogin as css } from "../../styles/styles";
 
 export default function ProfileLogin() {
 	const { state, getTextChangeHandler } = useForm({
@@ -78,92 +74,77 @@ export default function ProfileLogin() {
 
 	return (
 		<>
-			<Typography
-				component={"h1"}
-				variant="body1"
-				sx={{ ...css.sectionHeader }}
-			>
-				Log in
-			</Typography>
-			<Card elevation={1}>
-				<CardContent>
+			<section>
+				<div className="section-wrap compact">
+					<h1 className="section-subtitle">Sign in</h1>
 					<Box
 						component="form"
-						sx={{ ...css.form }}
+						className="app-card"
 						onSubmit={handleSubmit}
 					>
-						<Grid container direction="row" spacing={2}>
-							<Grid item xs={12}>
-								<FormControl fullWidth>
-									<TextField
-										margin="dense"
-										id="email"
-										label="Email Address"
-										type="email"
-										variant="outlined"
-										value={state.email}
-										onChange={getTextChangeHandler("email")}
-									/>
-								</FormControl>
-							</Grid>
-							<Grid item xs={12}>
-								<FormControl fullWidth>
-									<InputLabel htmlFor="password">
-										Password
-									</InputLabel>
-									<OutlinedInput
-										id="password"
-										name="password"
-										type={
-											showPassword ? "text" : "password"
-										}
-										minLength="6"
-										endAdornment={
-											<InputAdornment position="end">
-												<IconButton
-													aria-label="toggle password visibility"
-													onClick={
-														handleClickShowPassword
-													}
-													onMouseDown={
-														handleMouseDownPassword
-													}
-													edge="end"
-												>
-													{showPassword ? (
-														<VisibilityOff />
-													) : (
-														<Visibility />
-													)}
-												</IconButton>
-											</InputAdornment>
-										}
-										autoComplete="password"
-										label="Password"
-										value={state.password}
-										onChange={getTextChangeHandler(
-											"password"
-										)}
-									/>
-								</FormControl>
-							</Grid>
-							<Grid item xs={12}>
-								<Button
-									id="btnLogIn"
-									variant="contained"
-									fullWidth
-									type="submit"
-								>
-									Log In
-								</Button>
-								<Link to="/forgotpassword">
-									Forgot password?
-								</Link>
-							</Grid>
-						</Grid>
+						<Box className="form-content">
+							<FormControl fullWidth>
+								<TextField
+									margin="dense"
+									id="email"
+									label="Email Address"
+									type="email"
+									variant="outlined"
+									value={state.email}
+									onChange={getTextChangeHandler("email")}
+								/>
+							</FormControl>
+							<FormControl fullWidth>
+								<InputLabel htmlFor="password">
+									Password
+								</InputLabel>
+								<OutlinedInput
+									id="password"
+									name="password"
+									type={showPassword ? "text" : "password"}
+									minLength="6"
+									endAdornment={
+										<InputAdornment position="end">
+											<IconButton
+												aria-label="toggle password visibility"
+												onClick={
+													handleClickShowPassword
+												}
+												onMouseDown={
+													handleMouseDownPassword
+												}
+												edge="end"
+											>
+												{showPassword ? (
+													<VisibilityOff />
+												) : (
+													<Visibility />
+												)}
+											</IconButton>
+										</InputAdornment>
+									}
+									autoComplete="password"
+									label="Password"
+									value={state.password}
+									onChange={getTextChangeHandler("password")}
+								/>
+							</FormControl>
+						</Box>
+						<Box className="form-submit">
+							<Button
+								id="btnSubmit"
+								className="btn"
+								type="submit"
+							>
+								Log In
+							</Button>
+							<Link className="small" to="/forgotpassword">
+								Forgot password?
+							</Link>
+						</Box>
 					</Box>
-				</CardContent>
-			</Card>
+				</div>
+			</section>
 		</>
 	);
 }

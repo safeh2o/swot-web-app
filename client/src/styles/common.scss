@@ -67,7 +67,8 @@ section {
 	}
 }
 
-.btn {
+.btn,
+.MuiButton-root.btn {
 	position: relative;
 	display: inline-block;
 	font-size: 0.875rem;
@@ -101,6 +102,7 @@ section {
 	// }
 	&:hover {
 		box-shadow: 0 0 0 3px $col-4;
+		background-color: #f2c148;
 		&::before {
 			// transform: scale(1.05, 1.15);
 			text-decoration: none;
@@ -122,8 +124,6 @@ section {
 		line-height: 0;
 	}
 	span {
-		position: relative;
-		z-index: 1;
 		transition: all 0.15s ease;
 
 		display: block;

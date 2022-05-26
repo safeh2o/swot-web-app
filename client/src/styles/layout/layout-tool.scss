@@ -51,7 +51,7 @@ main.page-tool {
 
 	&:before {
 		display: flex;
-		content: "step" attr(step);
+		content: "step " attr(step);
 		position: absolute;
 		top: 10px;
 		right: 10px;
@@ -69,9 +69,17 @@ main.page-tool {
 	&.active {
 		background-color: #fff;
 		pointer-events: none;
+
+		svg {
+			color: #bac3cc !important;
+		}
 	}
 	&:not(.active):hover {
-		background-color: #f7f8f9;
+		background-color: #ebeff3;
+
+		svg {
+			color: #bac3cc !important;
+		}
 	}
 	//
 	.wrap {
@@ -87,6 +95,7 @@ main.page-tool {
 
 		& > svg {
 			color: #272d37;
+			color: #a4b0bc;
 			width: 2.5rem;
 			height: 2.5rem;
 			margin: 15px auto 0;
@@ -98,7 +107,7 @@ main.page-tool {
 		font-family: "Roboto Condensed", sans-serif;
 		font-size: 1rem;
 		line-height: 1.75;
-		font-weight: 700;
+		// font-weight: 700;
 		letter-spacing: -0.005em;
 		text-align: center;
 		text-transform: capitalize;

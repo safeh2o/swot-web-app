@@ -4,7 +4,6 @@ import {
 	Drawer,
 	IconButton,
 	Skeleton,
-	Stack,
 	Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -12,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { markAllRead, setLoading } from "../../reducers/notifications";
 import { userSelectors } from "../../reducers/user";
-import { Header as css } from "../../styles/styles";
 import UserDetailsModal from "../elements/UserDetailsModal";
 import UserNotificationsPopover from "../elements/UserNotificationsPopover";
 import {
@@ -25,8 +23,6 @@ import {
 	SWOTLogo,
 	SWOTLogoCompact,
 } from "../icons";
-import NavContent from "./NavContent";
-import NavTools from "./NavTools";
 
 export default function Header() {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);

@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import _ from 'lodash';
 import { NavLink } from "react-router-dom";
 import { markAllRead, setLoading } from "../../reducers/notifications";
 import { userSelectors } from "../../reducers/user";
@@ -22,6 +21,7 @@ import {
 	IconNavOpen,
 	IconProfile,
 	IconSignOut,
+	IconSelect,
 	SWOTLogo,
 	SWOTLogoCompact,
 } from "../icons";
@@ -81,137 +81,199 @@ export default function Header() {
 		);
 	}
 
-	return (
-		<>
-			<Box component="nav" sx={{ ...css.nav }}>
-				<Box to={"/"} component={NavLink} className="logo">
-					<SWOTLogo className="large" />
-					<SWOTLogoCompact className="compact" />
-				</Box>
-
-				{/* Large Screens */}
-				<Box component="ul" sx={{ ...css.ul }}>
-					{(userLoadingStatus === "success" && (
-						<>
-							{/* content based nav */}
-							<Stack
-								className="nav-content"
-								direction="row"
-								alignItems="center"
-								component="li"
-							>
-								<NavContent />
-								{/* User signout */}
-								{isLoggedIn && (
-									<Button
-										href="/admin/signout"
-										tabIndex={-1}
-										onClick={handleSignout}
-										className="signout"
-									>
-										Logout
-									</Button>
-								)}
-							</Stack>
-
-							{/* profile based nav */}
-							<Stack
-								className="nav-profile large"
-								direction="row"
-								alignItems="center"
-								component="li"
-							>
-								{isLoggedIn ? (
-									<>
-										{/* User Settings */}
-										<UserDetailsModal />
-
-										{/* User Notifications */}
-										<UserNotificationsPopover />
-
-										{/* Administration */}
-										{user.isAdmin && (
-											<IconButton
-												href="/admin"
-												tabIndex={-1}
-											>
-												<IconAdmin />
-											</IconButton>
-										)}
-									</>
-								) : (
-									<>
-										{/* User signin */}
-										<NavLink
-											to="/signin"
-											tabIndex={-1}
-											className={({ isActive }) =>
-												isActive
-													? "active signin"
-													: "signin"
-											}
-										>
-											Log in <IconProfile />
-										</NavLink>
-									</>
-								)}
-
-								{/* open mobile nav */}
-								<IconButton
-									component="a"
-									onClick={() => setMobileNavOpen(true)}
-									sx={{ ...css.setMobileNavOpen }}
-									className={"openDrawer"}
-								>
-									{(mobileNavOpen && <IconNavClose />) || (
-										<IconNavOpen />
-									)}
-								</IconButton>
-							</Stack>
-						</>
-					)) || (
-						<>
-							{headerSkeleton("Safe")}
-							{headerSkeleton("Water")}
-							{headerSkeleton("Optimization")}
-							{headerSkeleton("space")}
-							{headerSkeletonCircle()}
-							{headerSkeletonCircle()}
-						</>
-					)}
-				</Box>
-
-				{/* Compact Screens */}
-				<Drawer
-					anchor="left"
-					open={mobileNavOpen}
-					onClose={() => setMobileNavOpen(false)}
-					sx={{ ...css.drawerElement }}
-				>
-					<Box
-						role="presentation"
-						onClick={() => setMobileNavOpen(false)}
-						onKeyUp={() => setMobileNavOpen(false)}
-					>
-						{/* User signout */}
+	function headerMenuItems() {
+		return (
+			<>
+				{(userLoadingStatus === "success" && (
+					<>
 						{isLoggedIn && (
-							<>
+							<li className="sign-out">
 								<Button
 									href="/admin/signout"
 									tabIndex={-1}
 									onClick={handleSignout}
 									className="signout"
 								>
-									Logout
-									<IconSignOut />
+									<span>Sign Out</span>
+									<i>
+										<IconSignOut />
+									</i>
 								</Button>
-								<NavTools />
+							</li>
+						)}
+						<li className="dropdown" tabIndex="0">
+							<span>
+								<span>About</span>
+								<i className="select">
+									<IconSelect />
+								</i>
+							</span>
+							<ul>
+								<li>
+									<a
+										href="https://live.safeh2o.app/how-it-works.html"
+										target="_blank"
+										rel="noreferrer"
+									>
+										How it Works
+									</a>
+								</li>
+								<li>
+									<a
+										href="https://live.safeh2o.app/research.html"
+										target="_blank"
+										rel="noreferrer"
+									>
+										Research
+									</a>
+								</li>
+								<li>
+									<a
+										href="https://live.safeh2o.app/our-story.html"
+										target="_blank"
+										rel="noreferrer"
+									>
+										Our Story
+									</a>
+								</li>
+								<li>
+									<a
+										href="https://live.safeh2o.app/team.html"
+										target="_blank"
+										rel="noreferrer"
+									>
+										Team
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<NavLink to="https://app.safeh2o.app/">
+								<span>Get Started</span>
+							</NavLink>
+						</li>
+						<li>
+							<NavLink
+								className={({ isActive }) =>
+									isActive ? "active" : undefined
+								}
+								to="/contact"
+							>
+								Contact
+							</NavLink>
+						</li>
+						<li>
+							<NavLink
+								className={({ isActive }) =>
+									isActive ? "active" : undefined
+								}
+								to="/blog"
+							>
+								News
+							</NavLink>
+						</li>
+					</>
+				)) || (
+					<>
+						{headerSkeleton("Safe")}
+						{headerSkeleton("Water")}
+						{headerSkeleton("Optimization")}
+						{headerSkeleton("space")}
+						{headerSkeletonCircle()}
+						{headerSkeletonCircle()}
+					</>
+				)}
+			</>
+		);
+	}
+
+	return (
+		<>
+			<nav role="navigation">
+				<NavLink to={"/"} className="menu-brand">
+					<SWOTLogo className="large" />
+					<SWOTLogoCompact className="compact" />
+				</NavLink>
+
+				{/* open mobile nav */}
+				<button
+					onClick={() => setMobileNavOpen(true)}
+					className="menu-open"
+					aria-controls="menu"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
+				>
+					{(mobileNavOpen && <IconNavClose />) || <IconNavOpen />}
+				</button>
+
+				<div id="menu-actions">
+					<ul className="menu-actions-ul">
+						{isLoggedIn ? (
+							<>
+								<li>
+									<UserDetailsModal />
+								</li>
+								<li>
+									<UserNotificationsPopover />
+								</li>
+								{user.isAdmin && (
+									<li>
+										<IconButton href="/admin" tabIndex={-1}>
+											<span>Field Admin</span>
+											<i>
+												<IconAdmin />
+											</i>
+										</IconButton>
+									</li>
+								)}
+							</>
+						) : (
+							<>
+								<li className="sign-in">
+									<NavLink
+										to="/signin"
+										tabIndex={-1}
+										className={({ isActive }) =>
+											isActive
+												? "active signin"
+												: "signin"
+										}
+									>
+										<span>Sign in</span>
+										<i>
+											<IconProfile />
+										</i>
+									</NavLink>
+								</li>
 							</>
 						)}
-						<NavContent className={isLoggedIn ? "user" : "guest"} />
+					</ul>
+				</div>
+
+				<div id="menu-main">
+					<ul className="menu-mainmenu-open-ul">
+						{headerMenuItems()}
+					</ul>
+				</div>
+
+				<Drawer
+					className="test"
+					component={"div"}
+					anchor="left"
+					open={mobileNavOpen}
+					onClose={() => setMobileNavOpen(false)}
+				>
+					<Box
+						component={"ul"}
+						className="menu-main-ul"
+						role="presentation"
+						onClick={() => setMobileNavOpen(false)}
+						onKeyUp={() => setMobileNavOpen(false)}
+					>
+						{headerMenuItems()}
 					</Box>
 				</Drawer>
-			</Box>
+			</nav>
 		</>
 	);
 }

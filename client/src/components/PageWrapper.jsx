@@ -41,11 +41,9 @@ function PageWrapper(props) {
 	return (
 		<>
 			{/* Header */}
-			<Slide appear={false} direction="down" in={!scrollTrigger}>
-				<AppBar sx={{ ...css.header }}>
-					<Header />
-				</AppBar>
-			</Slide>
+			<Box component={"header"} className="site-header">
+				<Header />
+			</Box>
 
 			<Box ref={BackToTopAnchor} component="span"></Box>
 

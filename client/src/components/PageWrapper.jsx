@@ -25,13 +25,19 @@ function PageWrapper(props) {
 	const isLoading = useSelector(notificationsSelectors.loading);
 
 	let url = useLocation();
-	const isToolSideBar = [
+	const isToolPage = [
 		"/collect",
 		"/upload",
 		"/analyze",
 		"/results",
 		"/",
 	].some((path) => url.pathname === path);
+
+	const isGuestPage = ["/not-found", "/"].some(
+		(path) => url.pathname === path
+	);
+
+	const isBlogPage = ["/blog"].some((path) => url.pathname === path);
 
 	const BackToTopAnchor = useRef(null);
 	const scrollTrigger = useScrollTrigger();
@@ -58,27 +64,26 @@ function PageWrapper(props) {
 				<CircularProgress />
 			</Backdrop>
 
-			{/* Breadcrumbs */}
-			<AppBreadcrumbs sx={{ ...css.breadcrumbs }} />
-
 			{/* Content Wrapper */}
-			<Box component={"main"} sx={{ ...css.main }}>
+			<Box
+				component={"main"}
+				className={
+					(isBlogPage && "page-blog") ||
+					(isToolPage && "page-tool") ||
+					(!isBlogPage && !isToolPage && "page") ||
+					null
+				}
+			>
+				{/* Breadcrumbs */}
+				{!isGuestPage && <AppBreadcrumbs />}
 				{/* Sidebar */}
-				{isLoggedIn && isToolSideBar && (
-					<Box component="nav" sx={{ ...css.nav }}>
-						<Typography
-							component={"h1"}
-							variant="body1"
-							sx={{ ...css.sectionHeader }}
-						>
-							Tool Menu
-						</Typography>
+				{isLoggedIn && isToolPage && (
+					<Box component="nav" className="nav-tool">
 						<NavTools />
 					</Box>
 				)}
-				<Box component={"article"} sx={{ ...css.article }}>
-					{props.children}
-				</Box>
+				{/* Content */}
+				{props.children}
 				<PublicSnackbar />
 			</Box>
 

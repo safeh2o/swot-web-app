@@ -188,10 +188,13 @@ export const AnalyzePage = {
 		},
 	},
 	analyzeStorageDuration: {
-		mb: 1,
+		m: 0,
+		backgroundColor: "transparent",
+		border: "none",
+		boxShadow: "none",
 		"& .MuiAccordionSummary-root": {
-			typography: "h5",
-			p: "10px 16px",
+			fontWeight: 600,
+			p: 0,
 		},
 		"& .MuiAccordionDetails-root": {
 			p: 2,
@@ -242,9 +245,16 @@ export const AnalyzePage = {
 		},
 	},
 	analyzeConfidenceLevel: {
+		m: 0,
+		backgroundColor: "transparent",
+		border: "none",
+		boxShadow: "none",
 		"& .MuiAccordionSummary-root": {
-			typography: "h5",
-			p: "10px 16px",
+			fontWeight: 600,
+			p: 0
+		},
+		"&::before": {
+			display: "none",
 		},
 		"& .MuiAccordionDetails-root": {
 			p: 2,

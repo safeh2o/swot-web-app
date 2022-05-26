@@ -1,13 +1,11 @@
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {
-	AppBar,
 	Backdrop,
 	Box,
 	CircularProgress,
 	IconButton,
 	Typography,
 } from "@mui/material";
-import Slide from "@mui/material/Slide";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import PropTypes from "prop-types";
 import { useRef } from "react";

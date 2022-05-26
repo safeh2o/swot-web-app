@@ -14,8 +14,6 @@ import {
 	Grid,
 	IconButton,
 	InputAdornment,
-	InputLabel,
-	OutlinedInput,
 	TextField,
 	Typography,
 } from "@mui/material";
@@ -74,7 +72,10 @@ export default function UserDetailsModal() {
 	return (
 		<>
 			<IconButton onClick={handleOpen} tabIndex={-1}>
-				<IconProfile />
+				<span>Profile</span>
+				<i>
+					<IconProfile />
+				</i>
 			</IconButton>
 
 			<Dialog

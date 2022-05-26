@@ -8,7 +8,7 @@ import {
 	viewSelectors,
 } from "../../reducers/view";
 
-function AppBreadcrumbs(props) {
+function AppBreadcrumbs() {
 	const dispatch = useDispatch();
 	const viewStack = useSelector(viewSelectors.viewStack);
 	const currentView = viewStack?.[viewStack.length - 1];
@@ -19,7 +19,7 @@ function AppBreadcrumbs(props) {
 	}, [location]);
 
 	return (
-		<Breadcrumbs {...props}>
+		<Breadcrumbs className="breadcrumbs small">
 			{viewStack.slice(0, -1).map((view, i) => (
 				<Link
 					key={view.path}

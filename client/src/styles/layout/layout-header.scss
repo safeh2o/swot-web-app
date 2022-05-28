@@ -281,9 +281,9 @@ ul[class*="menu-"] {
 
 #menu-main {
 	.sign-out {
-		text-transform: capitalize;
 		position: relative;
 		span {
+			text-transform: capitalize;
 			text-decoration: underline 1px dotted rgba(#fff, 0.4);
 		}
 		@media (min-width: $md) {

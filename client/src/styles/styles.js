@@ -378,7 +378,7 @@ export const Result = {
 		display: "inline-block",
 		borderLeft: "1.5px solid #eee",
 		p: 1,
-		px: 2,
+		px: { xs: 1, sm: 2 },
 		margin: "5px 0px",
 		//
 		"& .MuiTypography-inputValue": {

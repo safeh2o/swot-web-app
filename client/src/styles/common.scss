@@ -200,8 +200,14 @@ section {
 .form-submit {
 	display: flex;
 	align-items: center;
-	flex-wrap: wrap;
-	margin-top: 2rem;
+	flex-direction: column;
+	margin-top: 1rem;
+
+	@media (min-width: $md) {
+		flex-direction: row;
+		flex-wrap: wrap;
+		margin-top: 2rem;
+	}
 
 	a {
 		text-decoration: underline;
@@ -214,12 +220,17 @@ section {
 	#btnSubmit {
 		text-align: center;
 		text-decoration: none;
-		margin-right: 1rem;
+		margin-bottom: 0.5rem;
+
+		@media (min-width: $md) {
+			margin-right: 1rem;
+			margin-bottom: 0;
+		}
 	}
 
 	#btnLogIn,
 	#btnSubmit {
-		flex: 1;
+		flex: 1 0 auto;
 		max-width: 350px;
 	}
 

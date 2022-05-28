@@ -34,7 +34,7 @@ body.overflow-hidden {
 		justify-content: space-between;
 
 		font-family: "Roboto Condensed", sans-serif;
-		font-size: 21px;
+		font-size: 22px;
 		color: #fff;
 		margin-right: auto;
 		margin-left: auto;
@@ -79,9 +79,9 @@ body.overflow-hidden {
 	}
 
 	@media (min-width: $md) {
-		padding: 1.75rem 0 0.5rem 0;
+		padding: 1.75rem 0 0.75rem 0;
 		> * {
-			height: 75px;
+			height: 5.25rem;
 		}
 	}
 }
@@ -142,6 +142,12 @@ ul[class*="menu-"] {
 }
 
 ul[class*="menu-"] {
+	> li {
+		> .active,
+		&:hover > :not(ul) {
+			box-shadow: 0px 7px 0 0 $col-4;
+		}
+	}
 	li {
 		> a,
 		> button,
@@ -153,22 +159,23 @@ ul[class*="menu-"] {
 			grid-auto-columns: minmax(0, max-content);
 			grid-auto-flow: column;
 
+			border-radius: 0;
+
 			font: inherit;
 			text-underline-offset: 2px;
 			color: white;
-			padding: 0.65rem;
+			padding: 0.8rem 1rem;
 			white-space: nowrap;
 		}
 		&:hover {
 			> a,
 			> button > span {
 				opacity: 0.85;
-				text-decoration: underline 1px solid rgba(255, 255, 255, 0.5);
-				text-underline-offset: 3px;
 			}
 		}
 		ul {
 			padding-left: 1.5rem;
+			list-style: none;
 		}
 	}
 
@@ -209,6 +216,7 @@ ul[class*="menu-"] {
 	}
 
 	.dropdown {
+		text-align: center;
 		@media (min-width: $md) {
 			position: relative;
 			> a,
@@ -226,7 +234,7 @@ ul[class*="menu-"] {
 				top: 100%;
 				left: 50%;
 				transform: translateX(-50%) translateY(-5px);
-				padding: 0rem 0.5rem;
+				padding: 0rem 0.5rem 0.5rem;
 				min-width: 230px;
 				background-color: $col-1;
 
@@ -234,6 +242,11 @@ ul[class*="menu-"] {
 					white-space: nowrap;
 					&:not(:last-child) {
 						border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+					}
+					> .active,
+					&:hover > :not(ul) {
+						// box-shadow: -7px 0px 0 0 $col-4;
+						background-color: lighten($col-1, 10%);
 					}
 				}
 				a {
@@ -253,6 +266,9 @@ ul[class*="menu-"] {
 			&:hover,
 			&:focus,
 			&:active {
+				i.select {
+					color: $col-4;
+				}
 				> ul {
 					pointer-events: all;
 					opacity: 1;
@@ -265,15 +281,13 @@ ul[class*="menu-"] {
 
 #menu-main {
 	.sign-out {
-		@media (min-width: $md) {
-			order: 2;
-		}
 		text-transform: capitalize;
 		position: relative;
 		span {
 			text-decoration: underline 1px dotted rgba(#fff, 0.4);
 		}
 		@media (min-width: $md) {
+			order: 2;
 			margin-left: 0.5rem;
 			&::before {
 				content: "";

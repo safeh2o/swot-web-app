@@ -1,0 +1,257 @@
+main.page-blog {
+	.section-wrap.post {
+	}
+}
+
+.posts {
+	.posts-filters {
+	}
+	[class*="categories-"] {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		> * {
+			display: flex;
+			text-decoration: none;
+			border: none;
+		}
+	}
+	.categories-blog {
+		margin-bottom: 0.2rem;
+		> * {
+			display: flex;
+			text-transform: uppercase;
+			letter-spacing: 0;
+			font-weight: 500;
+			background-color: lighten(#dbdfe4, 5%);
+			border-radius: 4px;
+			padding: 0.25rem 0.65rem;
+			margin: 0 0.4rem 0.4rem 0;
+		}
+
+		.divider {
+			padding: 0.25rem 0;
+			background-color: transparent;
+		}
+
+		.active {
+			color: #f1f7fd;
+			background-color: $col-text;
+		}
+	}
+	.categories-post {
+		flex-basis: 100%;
+		> *:not(.divider) {
+			background-color: darken(#dbdfe4, 2.5%);
+			border-radius: 4px;
+			padding: 0rem 0.5rem;
+			margin: 0 0.4rem 0 0;
+		}
+
+		.divider {
+			color: #94a3bf;
+			padding: 0 0.25rem 0 0;
+		}
+
+		.active {
+			color: #f1f7fd;
+			background-color: #848c94;
+		}
+	}
+	.posts-count {
+		color: lighten($col-text, 15%);
+	}
+}
+.post,
+.posts {
+	position: relative;
+	//
+	.intro {
+		margin-bottom: 2rem;
+	}
+	.content {
+		display: grid;
+		grid-auto-columns: minmax(0%, max-content);
+		gap: 2rem;
+	}
+	//
+	header {
+		display: flex;
+		flex-wrap: wrap;
+		time {
+			color: lighten($col-text, 15%);
+		}
+	}
+	figure {
+		height: auto;
+		margin: 0 auto;
+
+		a,
+		img {
+			display: block;
+			max-width: 100%;
+		}
+
+		& + div {
+			margin-top: 0.5rem;
+		}
+	}
+	.post-title {
+		margin-top: calc(var(--line-height) * 0.25rem);
+		margin-bottom: 0;
+
+		transition: all 0.25s ease;
+
+		&:hover {
+			color: $col-1;
+		}
+	}
+	.post-text {
+		display: block;
+		margin-top: 0.25rem;
+	}
+	a {
+		border-bottom: 1px dotted rgba(0, 0, 0, 0.3);
+	}
+	hr {
+		border: none;
+		border-top: 1px solid currentColor;
+		background-color: none;
+		opacity: 0.2;
+		margin: calc(var(--line-height) * 0.25rem) 0;
+	}
+	.divider {
+		padding: 0 0.5rem;
+	}
+	hr {
+	}
+}
+.post {
+	.image-post {
+		margin-bottom: 0;
+		@media (min-width: $md) {
+			margin-right: 5%;
+		}
+		img {
+			width: auto;
+			height: auto;
+			max-width: 100%;
+			max-height: 480px;
+			margin-left: auto;
+			margin-right: 0;
+		}
+	}
+	.details-post {
+		border-top: 4px solid #4069b1;
+		border-bottom: 4px solid #294f93;
+		padding-top: 1rem;
+		padding-bottom: 3rem;
+		margin-top: 0;
+		> * {
+			max-width: 720px;
+		}
+	}
+	.post-title,
+	.section-title {
+		margin-top: 0.5rem;
+		margin-bottom: 2rem;
+	}
+}
+.posts {
+	article {
+		display: grid;
+		grid-auto-flow: row;
+		gap: 1.5rem;
+		padding-bottom: 2rem;
+		border-bottom: 2px solid darken(#dbdfe4, 5%);
+
+		@media (min-width: $md) {
+			justify-content: flex-start;
+			grid-auto-flow: column;
+		}
+
+		.details-post {
+			align-self: center;
+		}
+	}
+	.post-title {
+		font-weight: 700;
+	}
+	figure {
+		position: relative;
+		width: 150px;
+		height: auto;
+		margin: 0 auto;
+
+		&::after {
+			content: "";
+			display: block;
+			padding-bottom: 100%;
+			width: 100%;
+		}
+
+		a,
+		img {
+			position: absolute;
+			display: block;
+			width: 100%;
+			height: 100%;
+		}
+
+		@media (min-width: $sm) {
+			grid-column: 1/2;
+			width: 222px;
+		}
+	}
+}
+.post,
+.posts {
+	.posts-footer {
+		display: flex;
+		flex-wrap: wrap;
+
+		text-align: center;
+		margin-bottom: 4rem;
+
+		.btn.back {
+			color: #294f93;
+			padding-top: 1.25rem;
+		}
+
+		.btn {
+			background-color: lighten($col-3, 8%);
+			border: 1px solid darken($col-3, 5%);
+			box-shadow: 0 0 0 0 darken($col-3, 5%);
+
+			&:hover {
+				box-shadow: 0 0 0 3px darken($col-3, 5%);
+			}
+		}
+
+		.pages {
+			flex-basis: 100%;
+			margin-bottom: 0.5rem;
+
+			a {
+				display: inline-block;
+				font-size: 1rem;
+				line-height: 2rem;
+				vertical-align: middle;
+				background-color: lighten($col-3, 8%);
+				text-decoration: none;
+				border: none;
+				padding: 0 1rem;
+				margin: 0.25rem;
+				border-radius: 6px;
+				border: 1px solid darken($col-3, 10%);
+
+				cursor: pointer;
+
+				&.active {
+					font-weight: 500;
+					background-color: darken($col-3, 10%);
+				}
+			}
+		}
+	}
+}

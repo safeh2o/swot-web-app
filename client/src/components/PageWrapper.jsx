@@ -25,16 +25,15 @@ function PageWrapper(props) {
 	const isLoading = useSelector(notificationsSelectors.loading);
 
 	let url = useLocation();
-	const isToolPage = [
-		"/collect",
-		"/upload",
-		"/analyze",
-		"/results",
-		"/",
-	].some((path) => url.pathname.includes(path));
 
-	const isGuestPage = ["/not-found", "/"].some((path) =>
-		url.pathname.includes(path)
+	const isHome = url.pathname === "/";
+
+	const isToolPage = ["/collect", "/upload", "/analyze", "/results"].some(
+		(path) => url.pathname.includes(path)
+	);
+
+	const isPublicPage = ["/not-found", "/"].some(
+		(path) => url.pathname === path
 	);
 
 	const isBlogPage = ["/blog"].some((path) => url.pathname.includes(path));
@@ -69,15 +68,15 @@ function PageWrapper(props) {
 				component={"main"}
 				className={
 					(isBlogPage && "page-blog") ||
-					(isToolPage && "page-tool") ||
+					((isToolPage || isHome) && isLoggedIn && "page-tool") ||
 					(!isBlogPage && !isToolPage && "page") ||
 					null
 				}
 			>
 				{/* Breadcrumbs */}
-				{!isGuestPage && <AppBreadcrumbs />}
+				{!isPublicPage && <AppBreadcrumbs />}
 				{/* Sidebar */}
-				{isLoggedIn && isToolPage && (
+				{isLoggedIn && (isToolPage || isHome) && (
 					<Box component="nav" className="nav-tool">
 						<NavTools />
 					</Box>

@@ -44,35 +44,31 @@ export default function CMSPage(props) {
 
 	return (
 		<>
-			<Card sx={{ ...css.cardElement }}>
-				<CardContent>
-					<Box component="article">
+			<section>
+				<div className="section-wrap post">
+					<article>
 						{page.image && page.image.secure_url && (
 							<Box component={"figure"} sx={{ mb: 2 }}>
 								<img src={page.image.secure_url} alt="" />
 							</Box>
 						)}
-						<Typography
-							component={"h3"}
-							variant="h3"
-							gutterBottom
-							color="primary"
-							sx={{ display: "block", fontWeight: "500" }}
-						>
-							{page.title || "Loading..."}
-						</Typography>
-						<div
-							variant="body1"
-							dangerouslySetInnerHTML={{
-								__html: DOMPurify.sanitize(
-									page.content.extended ||
-										"Content is loading..."
-								),
-							}}
-						></div>
-					</Box>
-				</CardContent>
-			</Card>
+						<div>
+							<h2 className="section-title">
+								{page.title || "Loading..."}
+							</h2>
+							<div
+								variant="body1"
+								dangerouslySetInnerHTML={{
+									__html: DOMPurify.sanitize(
+										page.content.extended ||
+											"Content is loading..."
+									),
+								}}
+							></div>
+						</div>
+					</article>
+				</div>
+			</section>
 		</>
 	);
 }

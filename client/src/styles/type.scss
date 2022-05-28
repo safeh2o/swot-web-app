@@ -70,28 +70,50 @@ h6 {
 
 h1,
 .h1 {
+	font-family: "Roboto Condensed", sans-serif;
+	font-weight: 400;
 	font-size: 2rem;
-	line-height: 2.5rem;
+	letter-spacing: -0.021em;
+	line-height: 1.316em;
+	margin-top: calc(var(--line-height) * 0.75rem);
+	margin-bottom: calc(var(--line-height) * 0.45rem);
+
+	@media (min-width: $md) {
+		font-size: 2.25rem;
+	}
 }
 
 h2,
 .h2 {
-	font-size: 1.2rem;
+	font-family: "Roboto Condensed", sans-serif;
+	font-weight: 700;
+	font-size: 1.6rem;
+	line-height: 1.316em;
+	letter-spacing: -0.019em;
 
-	@media (min-width: 840px) {
-		font-size: 1.3rem;
+	@media (min-width: $md) {
+		font-size: 1.75rem;
 	}
 }
 
 h3,
 .h3 {
-	font-size: 1.125rem;
+	font-family: "Roboto Condensed", sans-serif;
+	font-weight: 400;
+	font-size: 1.35rem;
+	line-height: 1.316em;
+	letter-spacing: -0.019em;
+
+	@media (min-width: $md) {
+		font-size: 1.5rem;
+	}
 }
 
 h4,
 h5,
 h6 {
-	font-size: 1rem;
+	font-size: 1.15rem;
+	font-weight: 500;
 }
 
 .section-title,

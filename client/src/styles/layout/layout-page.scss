@@ -1,0 +1,16 @@
+main.page {
+	.section-wrap {
+		margin-bottom: 5rem;
+	}
+	hr {
+		border: none;
+		border-top: 1px solid currentColor;
+		background-color: none;
+		opacity: 0.2;
+		margin: calc(var(--line-height) * 1rem) 0;
+
+		&.hide {
+			opacity: 0;
+		}
+	}
+}

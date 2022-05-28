@@ -1,6 +1,5 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import PropTypes from "prop-types";
-import { NotificationLineCreator } from "../../styles/styles";
 import {
 	IconAsterisk,
 	IconCheck,
@@ -10,14 +9,11 @@ import {
 } from "../icons";
 
 function NotificationLine(props) {
-	const css = NotificationLineCreator(props);
 	return (
-		<Typography
+		<Box
 			component="div"
-			variant="caption"
-			sx={{ ...css }}
 			{...props}
-			className="notification"
+			className={"notification " + props.type}
 		>
 			{props.type === "guide" && <IconQuestionMark />}
 			{props.type === "tip" && <IconInformation />}
@@ -25,7 +21,7 @@ function NotificationLine(props) {
 			{props.type === "footnote" && <IconAsterisk />}
 			{props.type === "check" && <IconCheck />}
 			<Box component="div">{props.children}</Box>
-		</Typography>
+		</Box>
 	);
 }
 

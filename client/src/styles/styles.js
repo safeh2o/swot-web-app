@@ -378,6 +378,7 @@ export const Result = {
 		display: "inline-block",
 		borderLeft: "1.5px solid #eee",
 		p: 1,
+		px: 2,
 		margin: "5px 0px",
 		//
 		"& .MuiTypography-inputValue": {
@@ -404,6 +405,7 @@ export const Result = {
 		},
 		divider: {
 			opacity: 0,
+			m: 0
 		},
 		range: {
 			display: "flex",

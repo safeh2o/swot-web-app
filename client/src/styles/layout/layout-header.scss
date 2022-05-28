@@ -96,7 +96,7 @@ body.overflow-hidden {
 	background-color: #fff;
 	margin-left: 0.5rem;
 	margin-right: 0.5rem;
-	margin-top: auto;
+	margin: auto 0.75rem auto 0;
 
 	* {
 		pointer-events: none;
@@ -105,11 +105,11 @@ body.overflow-hidden {
 	svg {
 		content: "";
 		display: inline-block;
-		width: 70%;
-		height: 70%;
+		width: 80%;
+		height: 80%;
 		vertical-align: middle;
 		color: $col-1;
-		margin: auto auto 0.3rem auto;
+		margin: auto;
 	}
 
 	@media (min-width: $md) {
@@ -118,10 +118,6 @@ body.overflow-hidden {
 
 	@media (max-width: #{$sm - 0.1px}) {
 		height: 3rem;
-
-		svg {
-			margin: auto;
-		}
 	}
 }
 
@@ -453,7 +449,7 @@ ul[class*="menu-"] {
 	@media (max-width: #{$md - 0.1px}) {
 		$btnSize: 2.5rem;
 		height: 3rem;
-		margin: auto 0 0;
+		margin: auto 0.75rem auto 0;
 
 		a,
 		button {

@@ -116,9 +116,9 @@ export default function AnalyzePage() {
 					<Box className="app-card">
 						<Box component={"h2"}>Provide a Date Range *</Box>
 
-						<Divider sx={{ mb: 3, mt: 1 }} />
+						<Divider sx={{ mb: 2, mt: 1 }} />
 
-						<Box sx={{ maxWidth: "80%", mx: "auto" }}>
+						<Box className="tool-date-range">
 							<LocalizationProvider dateAdapter={AdapterDateFns}>
 								<DateRangePicker
 									startText="Start Date"
@@ -147,7 +147,7 @@ export default function AnalyzePage() {
 							</LocalizationProvider>
 							<Stack
 								flexDirection={"row"}
-								className="tool-date-range"
+								className="date-range-buttons"
 							>
 								<button onClick={() => selectDate(30)}>
 									Last 30 Days
@@ -161,8 +161,6 @@ export default function AnalyzePage() {
 							</Stack>
 						</Box>
 
-						<Divider sx={{ my: 2, mb: 2 }} />
-
 						<NotificationLine type="guide">
 							How does setting the Date Range work?
 						</NotificationLine>
@@ -170,27 +168,22 @@ export default function AnalyzePage() {
 					<Box className="app-card">
 						<Box component={"h2"}>Options for Analysis:</Box>
 
-						<Divider
-							sx={{
-								my: 1,
-								borderBottomWidth: "3px",
-							}}
-						/>
+						<Divider sx={{ mb: 2, mt: 1 }} />
 
 						<Accordion
 							defaultExpanded={true}
-							sx={{ ...css.analyzeStorageDuration }}
+							className="tool-accordion"
 						>
 							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 								Duration of Household Storage and Use (Units in
 								Hours)
 							</AccordionSummary>
 							<AccordionDetails>
-								<Divider sx={{ my: 1, opacity: 0 }} />
-								<Box className="slider_wrap">
+								<Box className="tool-household-storage">
 									<Box
 										component="label"
 										htmlFor="HouseholdDuration"
+										className="household-storage-labels"
 									>
 										{_.range(3, 27, 3).map((hour) => (
 											<Box component="span" key={hour}>
@@ -201,6 +194,7 @@ export default function AnalyzePage() {
 									<Slider
 										name="household-duration"
 										aria-label="Household Duration"
+										className="household-storage-slider"
 										marks
 										color="primary"
 										min={3}
@@ -222,20 +216,26 @@ export default function AnalyzePage() {
 						<Divider
 							sx={{
 								my: 1,
+								mx: -2,
 								borderBottomWidth: "3px",
 							}}
 						/>
 
-						<Accordion sx={{ ...css.analyzeConfidenceLevel }}>
+						<Accordion className="tool-accordion">
 							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 								Modelling Confidence Level (Advanced)
 							</AccordionSummary>
 							<AccordionDetails>
-								<FormControl component="fieldset">
+								<FormControl
+									component="fieldset"
+									fullWidth
+									className="tool-modeling-confidence-level"
+								>
 									<RadioGroup
 										aria-label="confidence"
 										name="confidence"
 										value={state.confidence}
+										className="modeling-confidence-level-radio-group"
 										onChange={(_e, confidence) => {
 											update({ confidence });
 										}}
@@ -261,11 +261,7 @@ export default function AnalyzePage() {
 													<Radio
 														color="primary"
 														icon={
-															<svg
-																viewBox="0 0 32 32"
-																width="2.5rem"
-																height="2.5rem"
-															>
+															<svg viewBox="0 0 32 32">
 																<circle
 																	cx="16"
 																	cy="16"
@@ -275,11 +271,7 @@ export default function AnalyzePage() {
 															</svg>
 														}
 														checkedIcon={
-															<svg
-																viewBox="0 0 32 32"
-																width="2.5rem"
-																height="2.5rem"
-															>
+															<svg viewBox="0 0 32 32">
 																<circle
 																	cx="16"
 																	cy="16"
@@ -301,13 +293,6 @@ export default function AnalyzePage() {
 								</NotificationLine>
 							</AccordionDetails>
 						</Accordion>
-
-						<Divider
-							sx={{
-								my: 1,
-								borderBottomWidth: "3px",
-							}}
-						/>
 					</Box>
 					<Box className="app-card">
 						<Box className="form-submit">

@@ -192,12 +192,19 @@ export const AnalyzePage = {
 		backgroundColor: "transparent",
 		border: "none",
 		boxShadow: "none",
+		color: "currentColor",
 		"& .MuiAccordionSummary-root": {
 			fontWeight: 600,
 			p: 0,
 		},
+		"&::before": {
+			display: "none",
+		},
+		"& .MuiAccordionSummary-expandIconWrapper": {
+			fontSize: "2.5rem"
+		},
 		"& .MuiAccordionDetails-root": {
-			p: 2,
+			p: 0,
 		},
 		"& .slider_wrap": {
 			position: "relative",
@@ -249,6 +256,7 @@ export const AnalyzePage = {
 		backgroundColor: "transparent",
 		border: "none",
 		boxShadow: "none",
+		color: "currentColor",
 		"& .MuiAccordionSummary-root": {
 			fontWeight: 600,
 			p: 0
@@ -256,13 +264,16 @@ export const AnalyzePage = {
 		"&::before": {
 			display: "none",
 		},
+		"& .MuiAccordionSummary-expandIconWrapper": {
+			fontSize: "2.5rem"
+		},
 		"& .MuiAccordionDetails-root": {
-			p: 2,
+			p: 0,
 		},
-		"& .MuiFormControl-root": {
-			pl: 2,
-			mb: 2,
-		},
+		// "& .MuiFormControl-root": {
+		// 	pl: 2,
+		// 	mb: 2,
+		// },
 		"& .MuiRadio-root": {
 			"& svg": {
 				fill: "#F9F9F9",

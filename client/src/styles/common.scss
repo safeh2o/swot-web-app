@@ -148,8 +148,8 @@ section {
 	> img,
 	.icon {
 		position: relative;
-		width: calc(1rem * var(--line-height));
-		height: calc(1rem * var(--line-height));
+		width: calc(1em * var(--line-height));
+		height: calc(1em * var(--line-height));
 		flex: 1 0 auto;
 
 		> * {

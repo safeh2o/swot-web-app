@@ -13,7 +13,7 @@ function NotificationLine(props) {
 		<Box
 			component="div"
 			{...props}
-			className={"notification " + props.type}
+			className={"notification small " + props.type}
 		>
 			{props.type === "guide" && <IconQuestionMark />}
 			{props.type === "tip" && <IconInformation />}

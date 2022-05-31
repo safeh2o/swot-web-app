@@ -1,9 +1,7 @@
-import { createTheme, responsiveFontSizes } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 const SliderThumbBoxShadow =
 	"0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)";
-
-const CardShadow = '0px 2px 2px -1px rgba(0,0,0,0.1),0px 1px 2px 0px rgba(0,0,0,0.1),0px 1px 3px 0px rgba(0,0,0,0.075)';
 
 const family = '"Inter", "Roboto", "Helvetica", "Arial", sans-serif';
 
@@ -108,73 +106,6 @@ let theme = createTheme({
 				},
 			},
 		},
-		MuiCard: {
-			styleOverrides: {
-				root: {
-					boxShadow: 'none',
-				},
-			},
-		},
-		MuiCardHeader: {
-			styleOverrides: {
-				root: {
-					// '& .MuiTypography-root': {
-					// 	fontSize: '1.15rem',
-					// 	letterSpacing: '-0.014em',
-					// 	lineHeight: '1.416',
-					// 	fontWeight: 400,
-					// }
-				},
-			},
-		},
-		// MuiAccordionDetails: {
-		// 	styleOverrides: {
-		// 		root: {
-		// 			padding: "0",
-		// 			flexDirection: "column",
-		// 		},
-		// 	},
-		// },
-		// MuiAccordion: {
-		// 	styleOverrides: {
-		// 		root: {
-		// 			zIndex: 0,
-		// 			borderRadius: 0,
-		// 			boxShadow: 'none',
-		// 			"&:before": {
-		// 				display: "none",
-		// 			},
-		// 			"&.Mui-expanded": {
-		// 				margin: 0,
-		// 				'& .MuiAccordionSummary-root': {
-		// 					minHeight: 'auto'
-		// 				}
-		// 			},
-		// 		},
-		// 		content: {
-		// 			margin: 0,
-		// 			"&.Mui-expanded": {
-		// 				margin: 0,
-		// 			},
-		// 		},
-		// 	},
-		// },
-		// MuiAccordionSummary: {
-		// 	styleOverrides: {
-		// 		root: {
-		// 			margin: 0,
-		// 		},
-		// 		content: {
-		// 			margin: 0,
-		// 			"&.Mui-expanded": {
-		// 				margin: 0,
-		// 			},
-		// 		},
-		// 		expandIcon: {
-		// 			padding: "0 12px 0 0",
-		// 		},
-		// 	},
-		// },
 		MuiSlider: {
 			styleOverrides: {
 				root: {

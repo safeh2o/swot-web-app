@@ -11,33 +11,33 @@ export default function Posts(props) {
 	function articleFromPost(post) {
 		const link = `/blog/${post.slug}`;
 		return (
-			<>
-				<article key={link}>
-					{post?.image?.secure_url && (
-						<figure className="image-post">
-							<NavLink to={link}>
-								<img src={post?.image?.secure_url} alt="" />
-							</NavLink>
-						</figure>
-					)}
-					<div className="details-post">
-						<header className="text-sm">
-							<time>{post.publishedDate}</time>
-							{post.categories && post.categories.length > 0 && (
-								<span className="categories-post">
-									<span className="divider">in</span>
-									<a>{post.categories.map((cat) => cat)}</a>
-								</span>
-							)}
-						</header>
-						<h1 className="post-title">
-							<NavLink to={link}>{post.title}</NavLink>
-						</h1>
-						<div className="post-text">{post.content.brief}</div>
-						<hr />
-					</div>
-				</article>
-			</>
+			<article key={link}>
+				{post?.image?.secure_url && (
+					<figure className="image-post">
+						<NavLink to={link}>
+							<img src={post?.image?.secure_url} alt="" />
+						</NavLink>
+					</figure>
+				)}
+				<div className="details-post">
+					<header className="text-sm">
+						<time>{post.publishedDate}</time>
+						{post.categories && post.categories.length > 0 && (
+							<span className="categories-post">
+								<span className="divider">in</span>
+								{post.categories.map((cat, i) => (
+									<a key={"cat-" + i}>{{ cat }}</a>
+								))}
+							</span>
+						)}
+					</header>
+					<h1 className="post-title">
+						<NavLink to={link}>{post.title}</NavLink>
+					</h1>
+					<div className="post-text">{post.content.brief}</div>
+					<hr />
+				</div>
+			</article>
 		);
 	}
 

@@ -25,10 +25,6 @@ section {
 		list-style: none;
 		list-style-position: outside;
 		padding-left: var(--width);
-		margin-bottom: calc(0.25rem * var(--line-height));
-	}
-	ul,
-	ol {
 		margin-bottom: calc(1rem * var(--line-height));
 		li {
 			counter-increment: ol-counter;

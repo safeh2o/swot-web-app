@@ -107,10 +107,9 @@ export const Result = {
 			paddingBottom: "10px",
 			paddingRight: "20px",
 			"& svg": {
-				width: ".6em",
-				height: ".6em",
-				verticalAlign: "text-top",
-				color: "#aeaeae",
+				width: "1.15em",
+				height: "1.15em",
+				color: "#a3b5c0",
 				marginLeft: "3px",
 			},
 		},

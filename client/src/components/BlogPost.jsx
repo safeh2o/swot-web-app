@@ -44,6 +44,7 @@ export default function BlogPost() {
 
 	const formatPublishTime = (string) => {
 		const dt = DateTime.fromISO(string);
+		console.log(string);
 		const f = {
 			month: "long",
 			day: "numeric",
@@ -65,7 +66,10 @@ export default function BlogPost() {
 							</figure>
 						)}
 						<div className="details-post">
-							<header className="text-sm">
+							<h1 className="section-title h3">
+								<span>{page.title || "Loading..."}</span>
+							</h1>
+							<header className="post-meta text-sm">
 								<time>
 									{formatPublishTime(page.publishedDate)}
 								</time>
@@ -87,9 +91,6 @@ export default function BlogPost() {
 										)}
 								</span>
 							</header>
-							<h1 className="section-title h3">
-								<span>{page.title || "Loading..."}</span>
-							</h1>
 							<div className="post-text">
 								<div
 									dangerouslySetInnerHTML={{

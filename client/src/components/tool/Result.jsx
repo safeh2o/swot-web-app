@@ -328,15 +328,16 @@ export default function Result() {
 									: "pass"
 							}
 						>
-							<Type variant="inputValue">
-								{(dataset || defaultDataset).nSamples}
-								{/* if total samples are less than 100 */}
-								{(dataset || defaultDataset).nSamples < 100 ? (
-									<IconLow className="sup" />
-								) : (
-									<IconCheck className="sup" />
-								)}
-							</Type>
+							{(dataset || defaultDataset).nSamples < 0 && (
+								<Type variant="inputValue">
+									{(dataset || defaultDataset).nSamples}
+									{/* check sample range */}
+									{(dataset || defaultDataset).nSamples <
+										100 && <IconLow className="sup" />}
+									{(dataset || defaultDataset).nSamples <
+										100 && <IconCheck className="sup" />}
+								</Type>
+							)}
 							<Type variant="inputLabel">
 								Number of Data Samples Sent for Analysis
 								<Tooltip

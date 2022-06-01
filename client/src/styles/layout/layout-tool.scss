@@ -417,9 +417,11 @@ main.page-tool {
 	}
 }
 
+a.MuiButton-root,
 button.MuiButton-root,
 *.MuiButton-root {
 	font: inherit;
+	text-transform: none;
 	.MuiSvgIcon-root {
 		width: calc(var(--line-height) * 1rem);
 		height: calc(var(--line-height) * 1rem);

@@ -53,12 +53,12 @@ function PageWrapper(props) {
 			{/* Loading Screen */}
 			<Backdrop
 				open={isLoading}
-				sx={{ ...css.backdrop }}
 				transitionDuration={{
 					appear: 0,
 					enter: 550,
 					exit: 750,
 				}}
+				className="backdrop"
 			>
 				<CircularProgress />
 			</Backdrop>
@@ -70,7 +70,7 @@ function PageWrapper(props) {
 					(isBlogPage && "page-blog") ||
 					((isToolPage || isHome) && isLoggedIn && "page-tool") ||
 					(!isBlogPage && !isToolPage && "page") ||
-					null
+					undefined
 				}
 			>
 				{/* Breadcrumbs */}
@@ -102,8 +102,8 @@ function PageWrapper(props) {
 				sx={{
 					opacity: scrollTrigger ? "1" : "0",
 					pointerEvents: scrollTrigger ? "all" : "none",
-					...css.scrollup,
 				}}
+				className="scrollup"
 			>
 				<KeyboardArrowUpIcon aria-label="scroll back to top" />
 			</IconButton>

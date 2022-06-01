@@ -170,7 +170,7 @@ export default function UploadPage() {
 								fullWidth
 								onClick={handleFormSubmit}
 								disabled={disabled}
-								loading={loading}
+								loading={loading || undefined}
 								className="btn"
 							>
 								Upload

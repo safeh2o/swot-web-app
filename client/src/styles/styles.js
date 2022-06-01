@@ -150,45 +150,6 @@ export const UploadData = {
 	}
 };
 
-export const AnalyzePage = {
-	...Common,
-	analyzeLocation: {
-		marginBottom: "0",
-	},
-	analyzeDateRange: {
-		zIndex: 10,
-		"& .MuiButton-root": {
-			textTransform: "none",
-		},
-		stackElement: {
-			justifyContent: "center",
-			flexDirection: "row",
-			mt: "1.5rem",
-			"& .MuiButton-root": {
-				typography: "caption",
-				fontWeight: "500",
-				border: "none",
-				padding: ".5rem 1rem",
-				mx: ".25rem",
-				width: "auto",
-				minWidth: 0,
-				boxShadow: "none",
-				backgroundColor: "#d5d9df",
-				"&:hover": {
-					backgroundColor: "#d5d9df",
-				},
-			},
-		},
-		"& .title": {
-			color: "#929eac",
-			mb: 1,
-		},
-		"& .divider": {
-			mt: "2rem",
-		},
-	},
-};
-
 export const ResultsPage = {
 	...Common,
 	grid: {

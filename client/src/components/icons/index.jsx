@@ -19,6 +19,8 @@ export { default as IconBell } from "./IconBell";
 export * from "./IconCalendar";
 export { default as IconCalendar } from "./IconCalendar";
 export * from "./IconCheck";
+export { default as IconWrong } from "./IconWrong";
+export * from "./IconWrong";
 export { default as IconCheck } from "./IconCheck";
 export * from "./IconClose";
 export { default as IconClose } from "./IconClose";

@@ -138,7 +138,7 @@ export default function UploadPage() {
 
 						<Divider sx={{ my: 1 }} />
 
-						<FormGroup>
+						<FormGroup className="tool-overwrite-duplicate-entries">
 							<FormControlLabel
 								label="Overwrite Duplicate Entries"
 								control={

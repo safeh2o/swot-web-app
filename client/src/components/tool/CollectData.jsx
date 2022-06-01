@@ -98,7 +98,7 @@ export default function CollectData() {
 						<Box component={"h2"}>Frequently Asked Questions</Box>
 
 						<Box>
-							<Accordion className="content">
+							<Accordion className="content tool-accordion">
 								<AccordionSummary
 									expandIcon={<ExpandMoreIcon />}
 								>
@@ -115,7 +115,7 @@ export default function CollectData() {
 									blandit quis massa vitae molestie.
 								</AccordionDetails>
 							</Accordion>
-							<Accordion className="content">
+							<Accordion className="content tool-accordion">
 								<AccordionSummary
 									expandIcon={<ExpandMoreIcon />}
 								>
@@ -130,7 +130,7 @@ export default function CollectData() {
 									nisl, at porta nisl ultrices in.
 								</AccordionDetails>
 							</Accordion>
-							<Accordion className="content">
+							<Accordion className="content tool-accordion">
 								<AccordionSummary
 									expandIcon={<ExpandMoreIcon />}
 								>
@@ -146,7 +146,7 @@ export default function CollectData() {
 									ut nisi non, placerat molestie est.
 								</AccordionDetails>
 							</Accordion>
-							<Accordion className="content">
+							<Accordion className="content tool-accordion">
 								<AccordionSummary
 									expandIcon={<ExpandMoreIcon />}
 								>

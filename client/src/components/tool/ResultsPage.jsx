@@ -7,10 +7,14 @@ import { Link } from "react-router-dom";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import { formatDate } from "../../helpers/dates";
 import { addNotice, setLoading } from "../../reducers/notifications";
-import { ResultsPage as css } from "../../styles/styles";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
-import { IconCheck, IconRowChecked, IconRowUnchecked } from "../icons";
+import {
+	IconCheck,
+	IconRowChecked,
+	IconRowUnchecked,
+	IconWrong,
+} from "../icons";
 
 function renderRowSamples(dataset) {
 	return (
@@ -30,7 +34,7 @@ function renderRowStatus(dataset) {
 		return (
 			<Button
 				className={"BtnStatus waiting"}
-				endIcon={<IconCheck />}
+				endIcon={<IconWrong />}
 				size="small"
 				fullWidth
 				disabled
@@ -157,24 +161,15 @@ export default function ResultsPage() {
 
 					<Box className="app-card">
 						<Button
-							variant="contained"
-							size="small"
-							sx={{
-								color: "#fff",
-								textTransform: "none",
-								backgroundColor: "#466FB6",
-								"&[disabled]": {
-									backgroundColor: "#fcfcfc",
-									borderColor: "rgba(0, 0, 0, 0.12)",
-								},
-							}}
+							className="btn reanalyze"
 							disabled={!selectedDatasets.length}
 							onClick={handleReanalysis}
 						>
 							Reanalyze Selected
 						</Button>
-						<Divider sx={{ my: 3, mb: 2 }} />
+						<Divider sx={{ mt: 1, opacity: 0 }} />
 						<DataGrid
+							className="tool-data-grid"
 							autoHeight
 							rows={datasets}
 							columns={columns}
@@ -218,7 +213,6 @@ export default function ResultsPage() {
 									);
 								}),
 							}}
-							sx={{ ...css.grid }}
 							disableSelectionOnClick
 						/>
 					</Box>

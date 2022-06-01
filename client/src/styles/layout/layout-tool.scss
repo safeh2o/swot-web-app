@@ -126,6 +126,16 @@ main.page-tool {
 	grid-auto-flow: column;
 }
 
+.MuiDropzoneArea-root,
+.tool-drop-zone {
+	svg.MuiDropzoneArea-icon {
+		color: $col-3;
+		.accent {
+			fill: $col-2;
+		}
+	}
+}
+
 .tool-date-range {
 	max-width: 540px;
 	margin: 0 auto;

@@ -22,7 +22,7 @@ import {
 } from "../../reducers/notifications";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
-import { IconToolUpload } from "../icons";
+import { IconToolUpload, IconRowUnchecked, IconRowChecked } from "../icons";
 
 const initialState = {
 	files: [],
@@ -150,12 +150,12 @@ export default function UploadPage() {
 												overwrite: !state.overwrite,
 											});
 										}}
+										icon={<IconRowUnchecked />}
+										checkedIcon={<IconRowChecked />}
 									/>
 								}
 							/>
 						</FormGroup>
-
-						<Divider sx={{ my: 1 }} />
 
 						<NotificationLine type="guide">
 							Duplicates are rows with the same dates and times

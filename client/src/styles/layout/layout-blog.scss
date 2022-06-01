@@ -53,9 +53,6 @@
 			background-color: #848c94;
 		}
 	}
-	.posts-count {
-		color: lighten($col-text, 15%);
-	}
 }
 .post,
 .posts {
@@ -180,10 +177,6 @@ main.page-blog {
 		.details-post {
 			align-self: center;
 		}
-
-		hr {
-			opacity: 0;
-		}
 	}
 	.post-title {
 		font-weight: 700;
@@ -217,6 +210,9 @@ main.page-blog {
 }
 .post,
 .posts {
+	hr {
+		opacity: 0;
+	}
 	.posts-footer {
 		display: flex;
 		flex-wrap: wrap;

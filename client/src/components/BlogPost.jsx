@@ -70,9 +70,11 @@ export default function BlogPost() {
 								<span>{page.title || "Loading..."}</span>
 							</h1>
 							<header className="post-meta text-sm">
-								<time>
-									{formatPublishTime(page.publishedDate)}
-								</time>
+								{page.publishedDate && (
+									<time>
+										{formatPublishTime(page.publishedDate)}
+									</time>
+								)}
 								<span className="categories-post">
 									{page.categories &&
 										page.categories.length > 0 && (
@@ -91,17 +93,17 @@ export default function BlogPost() {
 										)}
 								</span>
 							</header>
-							<div className="post-text">
-								<div
-									dangerouslySetInnerHTML={{
-										__html: DOMPurify.sanitize(
-											page.content.extended !== null
-												? page.content.extended
-												: "Content is loading..."
-										),
-									}}
-								></div>
-							</div>
+							{page.publishedDate && (
+								<div className="post-text">
+									<div
+										dangerouslySetInnerHTML={{
+											__html: DOMPurify.sanitize(
+												page.content.extended
+											),
+										}}
+									></div>
+								</div>
+							)}
 							<hr />
 						</div>
 					</article>

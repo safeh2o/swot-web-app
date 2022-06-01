@@ -416,3 +416,11 @@ main.page-tool {
 		}
 	}
 }
+
+.MuiButton-root {
+	font: inherit;
+	.MuiSvgIcon-root {
+		width: calc(var(--line-height) * 1rem);
+		height: calc(var(--line-height) * 1rem);
+	}
+}

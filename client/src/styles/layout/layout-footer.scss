@@ -146,10 +146,17 @@
 		text-decoration: underline 1px dotted rgba(#fff, 0.35);
 	}
 	.user-input {
-		display: flex;
+		display: grid;
+		gap: 1rem;
 		align-items: center;
+		grid-auto-flow: row;
+
+		@media (min-width: $sm) {
+			grid-auto-flow: column;
+		}
 	}
-	button {
+	button,
+	button.MuiButton-root {
 		padding: 0.5rem 1.5rem;
 		border-radius: 2px;
 		text-transform: capitalize;
@@ -160,7 +167,6 @@
 		&.accept {
 			position: relative;
 			color: inherit;
-			margin-left: 0.5rem;
 
 			background-color: #5c906a;
 			border: 2px solid #679874;
@@ -174,7 +180,7 @@
 
 		&.needed {
 			color: inherit;
-			opacity: 0.8;
+			opacity: 0.6;
 			background-color: transparent;
 			text-decoration: underline 1px dotted rgba(#fff, 0.35);
 		}

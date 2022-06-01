@@ -22,7 +22,12 @@ import {
 	IconSelect,
 	SWOTLogo,
 	SWOTLogoCompact,
+	IconToolCollect,
+	IconToolUpload,
+	IconToolAnalyze,
+	IconToolResult,
 } from "../icons";
+import useHashParams from "../../hooks/useHashParams";
 
 export default function Header() {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
@@ -77,6 +82,11 @@ export default function Header() {
 		);
 	}
 
+	const [hashParams] = useHashParams();
+	const locationSuffix = hashParams.get("country")
+		? "#" + hashParams.toString()
+		: "";
+
 	function headerMenuItems() {
 		return (
 			<>
@@ -104,49 +114,95 @@ export default function Header() {
 									<IconSelect />
 								</i>
 							</span>
-							<ul>
-								<li>
-									<a
-										href="https://live.safeh2o.app/how-it-works.html"
-										target="_blank"
-										rel="noreferrer"
-									>
-										How it Works
-									</a>
-								</li>
-								<li>
-									<a
-										href="https://live.safeh2o.app/research.html"
-										target="_blank"
-										rel="noreferrer"
-									>
-										Research
-									</a>
-								</li>
-								<li>
-									<a
-										href="https://live.safeh2o.app/our-story.html"
-										target="_blank"
-										rel="noreferrer"
-									>
-										Our Story
-									</a>
-								</li>
-								<li>
-									<a
-										href="https://live.safeh2o.app/team.html"
-										target="_blank"
-										rel="noreferrer"
-									>
-										Team
-									</a>
-								</li>
-							</ul>
+							<div className="children">
+								<ul>
+									<li>
+										<a
+											href="https://live.safeh2o.app/how-it-works.html"
+											target="_blank"
+											rel="noreferrer"
+										>
+											How it Works
+										</a>
+									</li>
+									<li>
+										<a
+											href="https://live.safeh2o.app/research.html"
+											target="_blank"
+											rel="noreferrer"
+										>
+											Research
+										</a>
+									</li>
+									<li>
+										<a
+											href="https://live.safeh2o.app/our-story.html"
+											target="_blank"
+											rel="noreferrer"
+										>
+											Our Story
+										</a>
+									</li>
+									<li>
+										<a
+											href="https://live.safeh2o.app/team.html"
+											target="_blank"
+											rel="noreferrer"
+										>
+											Team
+										</a>
+									</li>
+								</ul>
+							</div>
 						</li>
-						<li>
+						<li className="dropdown">
 							<NavLink to="https://app.safeh2o.app/">
 								<span>Get Started</span>
 							</NavLink>
+							<div className="children mobile">
+								<ul>
+									{[
+										{
+											class: "",
+											to: "/collect",
+											label: "Collect Data",
+											icon: <IconToolCollect />,
+										},
+										{
+											class: "",
+											to: `/upload${locationSuffix}`,
+											label: "Upload Data",
+											icon: <IconToolUpload />,
+										},
+										{
+											class: "",
+											to: `/analyze${locationSuffix}`,
+											label: "Send for Analysis",
+											icon: <IconToolAnalyze />,
+										},
+										{
+											class: "",
+											to: `/results${locationSuffix}`,
+											label: "View Results",
+											icon: <IconToolResult />,
+										},
+									].map((listitem, i) => (
+										<li key={"" + i}>
+											<NavLink
+												className={listitem.class}
+												to={listitem.to}
+												key={listitem.label}
+												step={i + 1}
+											>
+												{listitem.label}
+												{listitem.icon && (
+													<i>{listitem.icon}</i>
+												)}
+											</NavLink>
+										</li>
+									))}
+								</ul>
+							</div>
 						</li>
 						<li>
 							<NavLink
@@ -247,9 +303,7 @@ export default function Header() {
 				</div>
 
 				<div id="menu-main">
-					<ul className="menu-mainmenu-open-ul">
-						{headerMenuItems()}
-					</ul>
+					<ul className="menu-main-ul">{headerMenuItems()}</ul>
 				</div>
 
 				<Drawer

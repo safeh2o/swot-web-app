@@ -18,75 +18,87 @@ export default function CollectData() {
 		<>
 			<section>
 				<div className="section-wrap">
-					<Box component="form" className="app-card rte">
+					<Box className="app-card">
 						<Box component={"h1"} className="section-subtitle">
 							Collecting Data
 						</Box>
 
 						<Divider sx={{ my: 1 }} />
 
-						<Box component={"h2"}>Forms</Box>
+						<Box className="rte">
+							<Box component={"h2"}>Forms</Box>
 
-						<Box component={"ul"}>
-							<Box component={"li"}>
-								<Box
-									component={"figure"}
-									className="image"
-								></Box>
-								<Box className="content">
-									<a href={urlFieldGuide}>Field Protocol</a>
+							<Box component={"ul"}>
+								<Box component={"li"}>
+									<Box
+										component={"figure"}
+										className="image"
+									></Box>
+									<Box className="content">
+										<a href={urlFieldGuide}>
+											Field Protocol
+										</a>
+									</Box>
+								</Box>
+								<Box component={"li"}>
+									<Box
+										component={"figure"}
+										className="image"
+									></Box>
+									<Box className="content">
+										KOBO Monitoring Forms
+									</Box>
+								</Box>
+								<Box component={"li"}>
+									<Box
+										component={"figure"}
+										className="image"
+									></Box>
+									<Box className="content">
+										Pen and Paper Forms
+									</Box>
 								</Box>
 							</Box>
-							<Box component={"li"}>
+
+							<Divider sx={{ my: 1 }} />
+
+							<Box component={"h2"}>Guides</Box>
+
+							<Box component={"article"}>
 								<Box
 									component={"figure"}
 									className="image"
 								></Box>
 								<Box className="content">
-									KOBO Monitoring Forms
+									How to Collect Data (Video)
 								</Box>
 							</Box>
-							<Box component={"li"}>
+
+							<Box component={"article"}>
 								<Box
 									component={"figure"}
 									className="image"
 								></Box>
-								<Box className="content">
-									Pen and Paper Forms
-								</Box>
+								<Box className="content">QuickStart Guide</Box>
 							</Box>
 						</Box>
 
 						<Divider sx={{ my: 1 }} />
 
-						<Box component={"h2"}>Guides</Box>
+						<Box className="rte">
+							<Box component={"h2"}>Demo Datasets</Box>
 
-						<Box component={"article"}>
-							<Box component={"figure"} className="image"></Box>
-							<Box className="content">
-								How to Collect Data (Video)
-							</Box>
-						</Box>
-
-						<Box component={"article"}>
-							<Box component={"figure"} className="image"></Box>
-							<Box className="content">QuickStart Guide</Box>
-						</Box>
-
-						<Divider sx={{ my: 1 }} />
-
-						<Box component={"h2"}>Demo Datasets</Box>
-
-						<Box component={"ul"}>
-							<Box component={"li"}>
-								<Box
-									component={"figure"}
-									className="image"
-								></Box>
-								<Box className="content">
-									<a href={urlDataInputTemplate}>
-										Microsoft XLS
-									</a>
+							<Box component={"ul"}>
+								<Box component={"li"}>
+									<Box
+										component={"figure"}
+										className="image"
+									></Box>
+									<Box className="content">
+										<a href={urlDataInputTemplate}>
+											Microsoft XLS
+										</a>
+									</Box>
 								</Box>
 							</Box>
 						</Box>
@@ -94,7 +106,7 @@ export default function CollectData() {
 						<Divider sx={{ my: 1 }} />
 					</Box>
 					{/*  */}
-					<Box component="form" className="app-card rte">
+					<Box className="app-card">
 						<Box component={"h2"}>Frequently Asked Questions</Box>
 
 						<Box>

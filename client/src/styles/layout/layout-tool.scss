@@ -118,15 +118,12 @@ main.page-home {
 	//
 	&.active {
 		background-color: #fdfdfe;
-		border-radius: 6px;
+		border-radius: 9px 0 0 9px;
 		pointer-events: none;
 
 		svg {
-			// color: #949ea8 !important;
+			color: #23292f;
 		}
-	}
-	&:not(.active) {
-		// color: #272d37;
 	}
 	&:not(.active):hover {
 		background-color: #ebeff3;
@@ -146,7 +143,29 @@ main.page-home {
 .tool-locations {
 	display: grid;
 	gap: 0.5rem;
-	grid-auto-flow: column;
+	grid-auto-flow: row;
+
+	@media (min-width: $md) {
+		grid-auto-flow: column;
+	}
+
+	> :nth-child(2),
+	> :nth-child(3) {
+		opacity: 0.7;
+		> * {
+			pointer-events: none;
+		}
+	}
+
+	> :nth-child(1).chosen,
+	> :nth-child(2).chosen {
+		& + * {
+			opacity: 1;
+			> * {
+				pointer-events: all;
+			}
+		}
+	}
 }
 
 .MuiDropzoneArea-root,
@@ -231,6 +250,8 @@ main.page-home {
 					margin-bottom: 0.25rem;
 					span {
 						font-size: 2.25rem;
+						margin: 0.25rem 0;
+						display: block;
 					}
 				}
 				&::before {
@@ -241,6 +262,7 @@ main.page-home {
 					display: block;
 					content: "hours";
 					color: #4a5053;
+					font-weight: 400;
 				}
 			}
 		}

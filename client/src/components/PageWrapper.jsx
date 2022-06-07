@@ -1,11 +1,5 @@
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import {
-	Backdrop,
-	Box,
-	CircularProgress,
-	IconButton,
-	Typography,
-} from "@mui/material";
+import { Backdrop, Box, CircularProgress, IconButton } from "@mui/material";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import PropTypes from "prop-types";
 import { useRef } from "react";
@@ -13,7 +7,6 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { notificationsSelectors } from "../reducers/notifications";
 import { userSelectors } from "../reducers/user";
-import { PageWrapper as css } from "../styles/styles";
 import AppBreadcrumbs from "./elements/AppBreadcrumbs";
 import PublicSnackbar from "./elements/PublicSnackbar";
 import Footer from "./layout/Footer";
@@ -65,10 +58,12 @@ function PageWrapper(props) {
 			<Box
 				component={"main"}
 				className={{
-					home: isHome,
+					user: isLoggedIn,
+					guest: !isLoggedIn,
+					"page-home": isHome,
 					"page-blog": isBlogPage,
 					"page-tool": (isToolPage || isHome) && isLoggedIn,
-					page: !isBlogPage && !isToolPage,
+					"page-cms": !isBlogPage && !isToolPage && !isHome,
 				}}
 			>
 				{/* Breadcrumbs */}

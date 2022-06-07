@@ -274,7 +274,7 @@ export default function Result() {
 									}
 									arrow
 									placement="top"
-									leaveDelay="350"
+									leaveDelay={750}
 									leaveTouchDelay={750}
 								>
 									<span>
@@ -310,7 +310,7 @@ export default function Result() {
 									}
 									arrow
 									placement="top"
-									leaveDelay="350"
+									leaveDelay={750}
 									leaveTouchDelay={750}
 								>
 									<span>
@@ -358,7 +358,7 @@ export default function Result() {
 									}
 									arrow
 									placement="top"
-									leaveDelay="350"
+									leaveDelay={750}
 									leaveTouchDelay={750}
 								>
 									<span>
@@ -390,7 +390,7 @@ export default function Result() {
 									}
 									arrow
 									placement="top"
-									leaveDelay="350"
+									leaveDelay={750}
 									leaveTouchDelay={750}
 								>
 									<span>
@@ -423,7 +423,7 @@ export default function Result() {
 									}
 									arrow
 									placement="top"
-									leaveDelay="350"
+									leaveDelay={750}
 									leaveTouchDelay={750}
 								>
 									<span>
@@ -449,7 +449,7 @@ export default function Result() {
 									}
 									arrow
 									placement="top"
-									leaveDelay="350"
+									leaveDelay={750}
 									leaveTouchDelay={750}
 								>
 									<span>
@@ -470,7 +470,7 @@ export default function Result() {
 									is implemented"
 									arrow
 									placement="top"
-									leaveDelay="350"
+									leaveDelay={750}
 									leaveTouchDelay={750}
 								>
 									<span>

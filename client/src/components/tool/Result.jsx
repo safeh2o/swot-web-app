@@ -275,7 +275,7 @@ export default function Result() {
 									arrow
 									placement="top"
 									leaveDelay="350"
-									leaveTouchDelay="750"
+									leaveTouchDelay={750}
 								>
 									<span>
 										<IconQuestionMark />
@@ -311,7 +311,7 @@ export default function Result() {
 									arrow
 									placement="top"
 									leaveDelay="350"
-									leaveTouchDelay="750"
+									leaveTouchDelay={750}
 								>
 									<span>
 										<IconQuestionMark />
@@ -359,7 +359,7 @@ export default function Result() {
 									arrow
 									placement="top"
 									leaveDelay="350"
-									leaveTouchDelay="750"
+									leaveTouchDelay={750}
 								>
 									<span>
 										<IconQuestionMark />
@@ -391,7 +391,7 @@ export default function Result() {
 									arrow
 									placement="top"
 									leaveDelay="350"
-									leaveTouchDelay="750"
+									leaveTouchDelay={750}
 								>
 									<span>
 										<IconQuestionMark />
@@ -424,7 +424,7 @@ export default function Result() {
 									arrow
 									placement="top"
 									leaveDelay="350"
-									leaveTouchDelay="750"
+									leaveTouchDelay={750}
 								>
 									<span>
 										<IconQuestionMark />
@@ -450,7 +450,7 @@ export default function Result() {
 									arrow
 									placement="top"
 									leaveDelay="350"
-									leaveTouchDelay="750"
+									leaveTouchDelay={750}
 								>
 									<span>
 										<IconQuestionMark />
@@ -471,7 +471,7 @@ export default function Result() {
 									arrow
 									placement="top"
 									leaveDelay="350"
-									leaveTouchDelay="750"
+									leaveTouchDelay={750}
 								>
 									<span>
 										<IconQuestionMark />

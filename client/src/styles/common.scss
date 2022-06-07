@@ -197,12 +197,11 @@ section {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-	margin-top: 1rem;
+	margin-top: 0;
 
 	@media (min-width: $md) {
 		flex-direction: row;
 		flex-wrap: wrap;
-		margin-top: 2rem;
 	}
 
 	a {

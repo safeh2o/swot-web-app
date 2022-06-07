@@ -17,7 +17,7 @@ export default function Footer() {
 							rel="noreferrer"
 						>
 							<img
-								src="/assets/organisations/YorkULogo_DIGITAL_Ver_RGB_REV.png"
+								src="./assets/organisations/YorkULogo_DIGITAL_Ver_RGB_REV.png"
 								alt=" logo"
 								width="200"
 								height="200"
@@ -29,7 +29,7 @@ export default function Footer() {
 							rel="noreferrer"
 						>
 							<img
-								src="/assets/organisations/dighr_black_on_white.png"
+								src="./assets/organisations/dighr_black_on_white.png"
 								alt=" logo"
 								width="200"
 								height="200"
@@ -41,7 +41,7 @@ export default function Footer() {
 							rel="noreferrer"
 						>
 							<img
-								src="/assets/organisations/dwb_compact.svg"
+								src="./assets/organisations/dwb_compact.svg"
 								alt=" logo"
 								width="1599.6"
 								height="465.8"

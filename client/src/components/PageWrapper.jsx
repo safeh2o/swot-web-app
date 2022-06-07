@@ -32,9 +32,7 @@ function PageWrapper(props) {
 		(path) => url.pathname.includes(path)
 	);
 
-	const isPublicPage = ["/not-found", "/"].some(
-		(path) => url.pathname === path
-	);
+	const isNotFound = url.pathname === "/not-found";
 
 	const isBlogPage = ["/blog"].some((path) => url.pathname.includes(path));
 
@@ -74,7 +72,7 @@ function PageWrapper(props) {
 				}
 			>
 				{/* Breadcrumbs */}
-				{!isPublicPage && <AppBreadcrumbs />}
+				{!isNotFound && <AppBreadcrumbs />}
 				{/* Sidebar */}
 				{isLoggedIn && (isToolPage || isHome) && (
 					<Box component="nav" className="nav-tool">

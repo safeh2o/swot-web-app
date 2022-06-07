@@ -22,11 +22,10 @@ export default function Blog() {
 						</h1>
 						<div className="posts-filters text-sm">
 							<div className="categories-blog">
-								<a className="active">All Posts</a>
+								<a className="active">Announcements</a>
 								<span className="divider">...</span>
-								<a>Announcements</a>
 								<a>Resources</a>
-								<a>Support & Guides</a>
+								<a>Support &amp; Guides</a>
 							</div>
 						</div>
 						<div className="posts-count text-sm">

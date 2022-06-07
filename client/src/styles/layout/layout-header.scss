@@ -147,7 +147,7 @@ ul[class*="menu-"] {
 		> button,
 		> span {
 			display: grid;
-			gap: 0.3rem;
+			gap: 0.25rem;
 			align-items: center;
 			justify-content: space-between;
 			grid-auto-columns: minmax(0, max-content);
@@ -160,6 +160,10 @@ ul[class*="menu-"] {
 			color: white;
 			padding: 0.8rem 1rem;
 			white-space: nowrap;
+
+			@media (min-width: $md) {
+				gap: 0.5rem;
+			}
 		}
 		&:hover {
 			> a,
@@ -213,10 +217,6 @@ ul[class*="menu-"] {
 		text-align: center;
 		@media (min-width: $md) {
 			position: relative;
-			> a,
-			> span {
-				padding-right: 0.25rem;
-			}
 			> span {
 				cursor: default;
 			}
@@ -390,7 +390,7 @@ ul.menu-main-ul {
 }
 
 #menu-actions {
-	font-size: 1.15rem;
+	font-size: 1.2rem;
 
 	ul {
 		flex-direction: row;
@@ -461,6 +461,9 @@ ul.menu-main-ul {
 			span {
 				line-height: 1;
 				border-bottom: 1px dotted;
+				@media (min-width: $md) {
+					margin: auto 0 0.125em;
+				}
 			}
 		}
 		@media (max-width: #{$md - 0.1px}) {
@@ -484,7 +487,7 @@ ul.menu-main-ul {
 	@media (max-width: #{$md - 0.1px}) {
 		$btnSize: 2.5rem;
 		height: 3rem;
-		margin: auto 0.75rem 0 0;
+		margin: auto 1.5rem 0 0;
 
 		a,
 		button {

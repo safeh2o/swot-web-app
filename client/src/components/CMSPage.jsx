@@ -1,13 +1,12 @@
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import DOMPurify from "dompurify";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { setLoading } from "../reducers/notifications";
 import { replaceCrumbTitle } from "../reducers/view";
-import { CMSPage as css } from "../styles/styles";
 
-export default function CMSPage(props) {
+export default function CMSPage() {
 	const dispatch = useDispatch();
 	const { slug } = useParams();
 	const defaultPage = {

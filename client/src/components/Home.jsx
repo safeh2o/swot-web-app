@@ -26,7 +26,7 @@ export default function Home() {
 					{isLoggedIn && (
 						<>
 							<Box className="cards">
-								<Box className="card rte">
+								<Box className="card rte tool">
 									<h2 className="title">Tool</h2>
 									<div className="text">
 										Use the Tool to begin or continue your

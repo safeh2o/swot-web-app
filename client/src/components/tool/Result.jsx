@@ -485,9 +485,9 @@ export default function Result() {
 						<Divider sx={{ my: 1 }} />
 						<Box component={"figure"}>
 							<img src="https://images.unsplash.com/photo-1543286386-2e659306cd6c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80" />
-							<Box component={"figurecaption"}>
+							{/* <Box component={"figurecaption"}>
 								Figure Caption
-							</Box>
+							</Box> */}
 						</Box>
 					</Box>
 					<Divider sx={{ ...css.hr }} />

@@ -156,7 +156,7 @@ export default function Header() {
 							</div>
 						</li>
 						<li className="dropdown">
-							<NavLink to="https://app.safeh2o.app/">
+							<NavLink to={"/"}>
 								<span>Get Started</span>
 							</NavLink>
 							<div className="children mobile">
@@ -209,7 +209,7 @@ export default function Header() {
 								className={({ isActive }) =>
 									isActive ? "active" : undefined
 								}
-								to="/contact"
+								to={"/contact"}
 							>
 								Contact
 							</NavLink>
@@ -219,7 +219,7 @@ export default function Header() {
 								className={({ isActive }) =>
 									isActive ? "active" : undefined
 								}
-								to="/blog"
+								to={"/blog"}
 							>
 								News
 							</NavLink>
@@ -286,9 +286,7 @@ export default function Header() {
 										to="/signin"
 										tabIndex={-1}
 										className={({ isActive }) =>
-											isActive
-												? "active signin"
-												: "signin"
+											isActive ? "active" : undefined
 										}
 									>
 										<span>Sign in</span>

@@ -141,8 +141,8 @@ section {
 
 		.card {
 			position: relative;
-			background-color: #fff;
-			border: 1px solid $col-2;
+			background-color: #f9fafc;
+			border: 1px #b8c2d4 solid;
 			border-radius: 5px;
 
 			padding: 2rem 2rem 5.875rem;
@@ -158,6 +158,17 @@ section {
 				position: absolute;
 				bottom: 2rem;
 				left: 2rem;
+
+				display: block;
+
+				svg {
+					width: 2em;
+					height: 2em;
+				}
+			}
+
+			&.tool {
+				background-color: #eef1f5;
 			}
 		}
 	}
@@ -251,5 +262,17 @@ section {
 		color: inherit;
 		text-align: center;
 		text-decoration: none;
+		padding: 0.9em 2em;
+
+		justify-self: center;
+
+		i {
+			margin-bottom: 0.5rem;
+		}
+
+		svg {
+			width: 2.25em;
+			height: 2.25em;
+		}
 	}
 }

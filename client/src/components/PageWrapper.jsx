@@ -64,12 +64,12 @@ function PageWrapper(props) {
 			{/* Content Wrapper */}
 			<Box
 				component={"main"}
-				className={
-					(isBlogPage && "page-blog") ||
-					((isToolPage || isHome) && isLoggedIn && "page-tool") ||
-					(!isBlogPage && !isToolPage && "page") ||
-					undefined
-				}
+				className={{
+					home: isHome,
+					"page-blog": isBlogPage,
+					"page-tool": (isToolPage || isHome) && isLoggedIn,
+					page: !isBlogPage && !isToolPage,
+				}}
 			>
 				{/* Breadcrumbs */}
 				{!isNotFound && <AppBreadcrumbs />}

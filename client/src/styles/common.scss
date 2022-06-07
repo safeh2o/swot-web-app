@@ -21,11 +21,11 @@ section {
 	ul,
 	ol {
 		--space: 0.5em;
-		--width: 2em;
+		--width: 3em;
 		list-style: none;
 		list-style-position: outside;
 		padding-left: var(--width);
-		margin-bottom: calc(1rem * var(--line-height));
+		margin-bottom: calc(1.5rem * var(--line-height));
 		li {
 			counter-increment: ol-counter;
 			position: relative;

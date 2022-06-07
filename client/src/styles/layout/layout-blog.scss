@@ -90,7 +90,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		time {
-			color: $col-1;
+			color: #555f70;
 		}
 	}
 	figure {
@@ -159,10 +159,10 @@ main.page-blog {
 		}
 	}
 	.details-post {
-		border-top: 4px solid #dbdfe4;
-		border-bottom: 4px solid #294f93;
+		border-bottom: 4px solid #ccd2d9;
 		padding-top: 1rem;
-		padding-bottom: 3rem;
+		padding-top: calc(1rem * var(--line-height));
+		padding-bottom: calc(1rem * var(--line-height));
 		margin-top: 0;
 		> * {
 			max-width: 720px;
@@ -174,10 +174,12 @@ main.page-blog {
 		margin-bottom: 0;
 	}
 	.post-meta {
+		border-top: 6px solid #ccd2d9;
+		padding-top: calc(0.5rem * var(--line-height));
 		margin-bottom: calc(1rem * var(--line-height));
 		margin-top: calc(0.75rem * var(--line-height));
 
-		color: $col-1;
+		color: #555f70;
 	}
 }
 .posts {
@@ -244,7 +246,7 @@ main.page-blog {
 		margin-bottom: 4rem;
 
 		.btn.back {
-			color: #294f93;
+			// color: #294f93;
 			padding-top: 1.25rem;
 		}
 
@@ -253,9 +255,12 @@ main.page-blog {
 			border: 1px solid darken($col-3, 5%);
 			box-shadow: 0 0 0 0 darken($col-3, 5%);
 
-			svg {
-				width: 2.5rem;
-				height: 2.5rem;
+			i {
+				margin-bottom: calc(0.25rem * var(--line-height));
+				svg {
+					width: 2rem;
+					height: 2rem;
+				}
 			}
 
 			&:hover {

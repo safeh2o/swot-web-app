@@ -60,7 +60,7 @@ export default function BlogPost() {
 			<section>
 				<div className="section-wrap post">
 					<article>
-						{page.image && page.image.secure_url && (
+						{page?.image?.secure_url && (
 							<figure className="image-post">
 								<img src={page.image.secure_url} alt="" />
 							</figure>
@@ -104,7 +104,6 @@ export default function BlogPost() {
 									></div>
 								</div>
 							)}
-							<hr />
 						</div>
 					</article>
 					<footer className="posts-footer">

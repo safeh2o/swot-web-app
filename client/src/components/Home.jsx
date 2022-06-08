@@ -30,7 +30,7 @@ export default function Home() {
 										</p>
 										<ol className="tool-menu-mobile con">
 											<li>
-												<NavLink to={"/"}>
+												<NavLink to={"/collect"}>
 													Planning &amp; Data
 													Collection
 													<i>
@@ -47,7 +47,7 @@ export default function Home() {
 												</NavLink>
 											</li>
 											<li>
-												<NavLink to={"/"}>
+												<NavLink to={"/upload"}>
 													Uploading Data
 													<i>
 														<SvgIcon
@@ -63,7 +63,7 @@ export default function Home() {
 												</NavLink>
 											</li>
 											<li>
-												<NavLink to={"/"}>
+												<NavLink to={"/analyze"}>
 													Running Your Analysis
 													<i>
 														<SvgIcon
@@ -79,7 +79,7 @@ export default function Home() {
 												</NavLink>
 											</li>
 											<li>
-												<NavLink to={"/"}>
+												<NavLink to={"/results"}>
 													Obtain Results
 													<i>
 														<SvgIcon

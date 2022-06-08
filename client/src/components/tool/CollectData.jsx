@@ -166,8 +166,6 @@ export default function CollectData() {
 								</ul>
 							</div>
 						</div>
-
-						<Divider sx={{ my: 1 }} />
 					</div>
 					{/*  */}
 					<div className="tool-footer">

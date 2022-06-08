@@ -150,10 +150,14 @@ main {
 .tool-footer,
 #home-profile .cards {
 	display: grid;
-	grid-template-columns: minmax(0, 50%) minmax(0, 50%);
+	grid-template-columns: minmax(0, 100%);
 	gap: calc(var(--line-height) * 1rem);
 
 	align-items: stretch;
+
+	@media (min-width: $sm) {
+		grid-template-columns: minmax(0, 50%) minmax(0, 50%);
+	}
 
 	.card {
 		position: relative;

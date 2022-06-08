@@ -10,19 +10,14 @@ export default function Home() {
 
 	return (
 		<>
-			<h1 className="section-subtitle home">
-				{(isLoggedIn &&
-					"Welcome Back, " +
-						(user.name.first ? user.name.first : "User")) ||
-					"Welcome Visitor,"}
-			</h1>
 			<section id="home-profile">
-				<div
-					className={
-						(!isLoggedIn && "section-wrap compact") ||
-						"section-wrap"
-					}
-				>
+				<div className="section-wrap compact">
+					<h1 className="section-subtitle home">
+						{(isLoggedIn &&
+							"Welcome Back, " +
+								(user.name.first ? user.name.first : "User")) ||
+							"Welcome Visitor,"}
+					</h1>
 					{isLoggedIn && (
 						<>
 							<Box className="cards">

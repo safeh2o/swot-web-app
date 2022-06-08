@@ -6,10 +6,8 @@ export default function Footer() {
 	return (
 		<>
 			<footer component={"section"} className="site-footer">
-				<section>
-					<h3 className="section-subtitle">
-						A free and open-source tool by
-					</h3>
+				<section className="rte">
+					<h2>A free and open-source tool by</h2>
 					<div className="logos">
 						<a
 							target="_blank"
@@ -49,8 +47,8 @@ export default function Footer() {
 						</a>
 					</div>
 				</section>
-				<section>
-					<div className="section-subtitle">Follow Us</div>
+				<section className="rte">
+					<h2>Follow Us</h2>
 					<div className="social-networks">
 						<a
 							className="linkedin"

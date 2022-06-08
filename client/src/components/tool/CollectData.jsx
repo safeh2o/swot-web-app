@@ -151,18 +151,20 @@ export default function CollectData() {
 						<Divider sx={{ my: 1 }} />
 
 						<div className="rte">
-							<h2>c. Demo Datasets</h2>
+							<div className="tool-datasets">
+								<h2>c. Demo Datasets</h2>
 
-							<ul>
-								<li>
-									<figure className="image"></figure>
-									<div className="content">
-										<a href={urlDataInputTemplate}>
-											Microsoft XLS
-										</a>
-									</div>
-								</li>
-							</ul>
+								<ul>
+									<li>
+										<figure className="image"></figure>
+										<div className="content">
+											<a href={urlDataInputTemplate}>
+												Microsoft XLS
+											</a>
+										</div>
+									</li>
+								</ul>
+							</div>
 						</div>
 
 						<Divider sx={{ my: 1 }} />

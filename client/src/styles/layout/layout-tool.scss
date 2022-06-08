@@ -113,6 +113,14 @@ main.page-tool {
 }
 
 .tool-guides,
+.tool-forms,
+.tool-datasets {
+	h2 {
+		font-weight: 700;
+	}
+}
+
+.tool-guides,
 .tool-forms {
 	figure.image {
 		position: relative;
@@ -189,6 +197,9 @@ main.page-tool {
 			}
 		}
 	}
+}
+
+.tool-datasets {
 }
 
 .tool-locations {

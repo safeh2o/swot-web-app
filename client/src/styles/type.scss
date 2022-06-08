@@ -195,8 +195,8 @@ strong {
 }
 
 section {
-	ul,
-	ol {
+	ul:not(.flat),
+	ol:not(.flat) {
 		--space: 0.5em;
 		--width: 3em;
 		list-style: none;
@@ -226,7 +226,7 @@ section {
 			}
 		}
 	}
-	ul {
+	ul:not(.flat) {
 		li {
 			&::before {
 				content: "▪";
@@ -235,7 +235,7 @@ section {
 		}
 	}
 
-	ol {
+	ol:not(.flat) {
 		> li {
 			&::before {
 				content: counter(ol-counter) ". ";
@@ -243,5 +243,11 @@ section {
 				font-variant-numeric: tabular-nums;
 			}
 		}
+	}
+	ul.flat,
+	ol.flat {
+		padding: 0;
+		margin: 0;
+		list-style: none;
 	}
 }

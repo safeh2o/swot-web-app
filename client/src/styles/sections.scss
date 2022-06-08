@@ -70,14 +70,8 @@ main {
 	padding: 0.75rem 1rem 1rem 1rem;
 	border-radius: 6px;
 
-	.section-title,
-	.section-subtitle {
-		margin-top: calc(var(--line-height) * 1rem);
-
-		font-size: 2.25rem;
-		@media (min-width: $md) {
-			font-size: 2.25rem;
-		}
+	&:first-child {
+		border-radius: 0 6px 6px;
 	}
 
 	.sub-section {
@@ -85,17 +79,30 @@ main {
 	}
 }
 
+.section-title.home,
+.section-subtitle.home,
+.app-card .section-title,
+.app-card .section-subtitle {
+	margin-top: calc(var(--line-height) * 1rem);
+
+	font-size: 2.25rem;
+	@media (min-width: $md) {
+		font-size: 2.25rem;
+	}
+}
+
 #home-profile {
 	.options {
 		display: grid;
-		gap: 1rem;
+		gap: calc(var(--line-height) * 1rem);
 
 		.option {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			background-color: #eff2f5;
+			background-color: #fdfeff;
+			border: 1px #b8c2d4 solid;
 			padding: 1rem;
 
 			i {
@@ -133,69 +140,71 @@ main {
 				}
 			}
 			&.contact {
-				i svg {
-					fill: darken(#eff2f5, 5%);
+				i {
+					color: currentColor;
 				}
 			}
 		}
 	}
-	.cards {
-		display: grid;
-		grid-template-columns: minmax(0, 50%) minmax(0, 50%);
-		gap: 1.5rem;
+}
+.tool-footer,
+#home-profile .cards {
+	display: grid;
+	grid-template-columns: minmax(0, 50%) minmax(0, 50%);
+	gap: calc(var(--line-height) * 1rem);
 
-		align-items: stretch;
+	align-items: stretch;
 
-		// @media (min-width: $md) {
-		// 	grid-template-columns: minmax(0, 33.333%) minmax(0, 33.333%) minmax(
-		// 			0,
-		// 			33.333%
-		// 		);
-		// }
+	.card {
+		position: relative;
 
-		.card {
-			position: relative;
+		text-transform: none;
+		background-color: #fdfeff;
+		border: 1px #b8c2d4 solid;
+		box-shadow: 0 0 0 0 #ccd2d9;
+		border-radius: 7px;
 
-			text-transform: none;
-			background-color: #fdfeff;
-			border: 1px #b8c2d4 solid;
-			box-shadow: 0 0 0 0 #ccd2d9;
-			border-radius: 5px;
+		padding: 2rem 2rem 5.875rem;
 
-			padding: 2rem 2rem 5.875rem;
+		transition: all 0.2s ease;
 
-			transition: all 0.2s ease;
-
-			&:not(.tool) {
-				* {
-					pointer-events: none;
-				}
-
-				&:hover {
-					cursor: pointer;
-					color: #626a79;
-					box-shadow: 0 0 0 5px #ccd2d9;
-				}
+		&:not(.tool) {
+			* {
+				pointer-events: none;
 			}
 
-			&.tool {
-				background-color: #eef1f5;
-				border-radius: 0;
+			&:hover {
+				cursor: pointer;
+				color: #626a79;
+				box-shadow: 0 0 0 5px #ccd2d9;
+			}
+		}
+
+		&.tool {
+			background-color: #eef1f5;
+			border-radius: 0 7px 7px 0;
+
+			@media (min-width: $md) {
+				border-radius: 0 7px 7px 0;
 			}
 
-			.title {
-				font-weight: 700;
-				margin: 0;
-				margin-bottom: 1rem;
+			@media (min-width: $md) {
+				border-radius: 0 7px 7px 0;
 			}
-			i {
-				position: absolute;
-				bottom: 2rem;
-				left: 2rem;
+		}
 
-				display: block;
-				line-height: 0;
-			}
+		.title {
+			font-weight: 700;
+			margin: 0;
+			margin-bottom: 1rem;
+		}
+		i {
+			position: absolute;
+			bottom: 2rem;
+			left: 2rem;
+
+			display: block;
+			line-height: 0;
 		}
 	}
 }

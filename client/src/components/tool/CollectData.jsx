@@ -1,12 +1,4 @@
-import {
-	Box,
-	Divider,
-	Accordion,
-	AccordionSummary,
-	AccordionDetails,
-} from "@mui/material";
-
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Divider, SvgIcon } from "@mui/material";
 
 export default function CollectData() {
 	const urlFieldGuide =
@@ -18,164 +10,202 @@ export default function CollectData() {
 		<>
 			<section>
 				<div className="section-wrap">
-					<Box className="app-card">
-						<Box component={"h1"} className="section-subtitle">
-							Collecting Data
-						</Box>
+					<div className="app-card">
+						<h1 className="section-subtitle">Collecting Data</h1>
 
 						<Divider sx={{ my: 1 }} />
 
-						<Box className="rte">
-							<Box component={"h2"}>Forms</Box>
+						<div className="rte">
+							<div className="tool-guides">
+								<h2>a. Guides</h2>
+								<ul className="flat">
+									<li>
+										<figure className="image">
+											<a
+												href={urlFieldGuide}
+												target="_blank"
+												rel="noreferrer"
+											></a>
+											<img
+												src={
+													"assets/tool/collect/thumb-protocol.png"
+												}
+											/>
+										</figure>
+										<div className="content">
+											<h3>Field Protocol</h3>
+											<p>
+												Overview of team equipments
+												needs, and data collection
+												procedures
+											</p>
+											<a
+												href={urlFieldGuide}
+												target="_blank"
+												rel="noreferrer"
+											>
+												Download .pdf
+											</a>
+										</div>
+									</li>
+									<li>
+										<figure className="image">
+											<a
+												href="https://youtu.be/gCLWzPoBqCk"
+												target="_blank"
+												rel="noreferrer"
+											></a>
+											<img
+												src={
+													"assets/tool/collect/thumb-how-to-video.png"
+												}
+											/>
+										</figure>
+										<div className="content">
+											<h3>How to Collect Data (Video)</h3>
+											<p>
+												This video gives an overview of
+												how to use the SWOT, from
+												planning and data collection, to
+												uploading data and running your
+												first analysis.
+											</p>
 
-							<Box component={"ul"}>
-								<Box component={"li"}>
-									<Box
-										component={"figure"}
-										className="image"
-									></Box>
-									<Box className="content">
-										<a href={urlFieldGuide}>
-											Field Protocol
-										</a>
-									</Box>
-								</Box>
-								<Box component={"li"}>
-									<Box
-										component={"figure"}
-										className="image"
-									></Box>
-									<Box className="content">
-										KOBO Monitoring Forms
-									</Box>
-								</Box>
-								<Box component={"li"}>
-									<Box
-										component={"figure"}
-										className="image"
-									></Box>
-									<Box className="content">
-										Pen and Paper Forms
-									</Box>
-								</Box>
-							</Box>
-
+											<a
+												href={
+													"https://youtu.be/gCLWzPoBqCk"
+												}
+												target="_blank"
+												rel="noreferrer"
+											>
+												Watch (Youtube)
+											</a>
+										</div>
+									</li>
+								</ul>
+								<article>
+									<figure className="image"></figure>
+									<div className="content"></div>
+								</article>
+							</div>
 							<Divider sx={{ my: 1 }} />
-
-							<Box component={"h2"}>Guides</Box>
-
-							<Box component={"article"}>
-								<Box
-									component={"figure"}
-									className="image"
-								></Box>
-								<Box className="content">
-									How to Collect Data (Video)
-								</Box>
-							</Box>
-
-							<Box component={"article"}>
-								<Box
-									component={"figure"}
-									className="image"
-								></Box>
-								<Box className="content">QuickStart Guide</Box>
-							</Box>
-						</Box>
+							<div className="tool-forms">
+								<h2>b. Forms</h2>
+								<ul className="flat">
+									<li>
+										<figure className="image">
+											<a
+												href={urlFieldGuide}
+												target="_blank"
+												rel="noreferrer"
+											></a>
+											<img
+												src={
+													"assets/tool/collect/thumb-manual-monitoring-forms.png"
+												}
+											/>
+										</figure>
+										<div className="content">
+											<h3>
+												<storng>Pen and Paper</storng>
+											</h3>
+											{/* <p></p> */}
+											<a
+												href={urlFieldGuide}
+												target="_blank"
+												rel="noreferrer"
+											>
+												Download .pdf
+											</a>
+										</div>
+									</li>
+									<li>
+										<figure className="image">
+											<a
+												href={urlFieldGuide}
+												target="_blank"
+												rel="noreferrer"
+											></a>
+											<img
+												src={
+													"assets/tool/collect/thumb-kobo-monitoring-forms.png"
+												}
+											/>
+										</figure>
+										<div className="content">
+											<h3>KOBO Monitoring</h3>
+											{/* <p></p> */}
+											<a
+												href={urlFieldGuide}
+												target="_blank"
+												rel="noreferrer"
+											>
+												Download .pdf
+											</a>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
 
 						<Divider sx={{ my: 1 }} />
 
-						<Box className="rte">
-							<Box component={"h2"}>Demo Datasets</Box>
+						<div className="rte">
+							<h2>c. Demo Datasets</h2>
 
-							<Box component={"ul"}>
-								<Box component={"li"}>
-									<Box
-										component={"figure"}
-										className="image"
-									></Box>
-									<Box className="content">
+							<ul>
+								<li>
+									<figure className="image"></figure>
+									<div className="content">
 										<a href={urlDataInputTemplate}>
 											Microsoft XLS
 										</a>
-									</Box>
-								</Box>
-							</Box>
-						</Box>
+									</div>
+								</li>
+							</ul>
+						</div>
 
 						<Divider sx={{ my: 1 }} />
-					</Box>
+					</div>
 					{/*  */}
-					<Box className="app-card">
-						<Box component={"h2"}>Frequently Asked Questions</Box>
-
-						<Box>
-							<Accordion className="content tool-accordion">
-								<AccordionSummary
-									expandIcon={<ExpandMoreIcon />}
+					<div className="tool-footer">
+						<div className="card rte">
+							<h2 className="title">Technical Blogs</h2>
+							<div className="text">
+								In-depth information on reading your collection
+								data, as you continue to monitor your
+								fieldsite(s)
+							</div>
+							<i>
+								<SvgIcon
+									xmlns="http://www.w3.org/2000/svg"
+									width="40px"
+									height="40px"
+									fill="#000000"
+									viewBox="0 0 256 256"
 								>
-									What equipment do we need to use in the
-									field for data collection?
-								</AccordionSummary>
-								<Divider />
-								<AccordionDetails>
-									Lorem ipsum dolor sit amet, consectetur
-									adipiscing elit. Curabitur et viverra arcu.
-									Vestibulum ante ipsum primis in faucibus
-									orci luctus et ultrices posuere cubilia
-									curae; Sed quis tristique neque. Morbi
-									blandit quis massa vitae molestie.
-								</AccordionDetails>
-							</Accordion>
-							<Accordion className="content tool-accordion">
-								<AccordionSummary
-									expandIcon={<ExpandMoreIcon />}
+									<path d="M221.7,133.7l-72,72A8.3,8.3,0,0,1,144,208a8.5,8.5,0,0,1-3.1-.6A8,8,0,0,1,136,200V136H40a8,8,0,0,1,0-16h96V56a8,8,0,0,1,4.9-7.4,8.4,8.4,0,0,1,8.8,1.7l72,72A8.1,8.1,0,0,1,221.7,133.7Z"></path>
+								</SvgIcon>
+							</i>
+						</div>
+						<div className="card rte">
+							<h2 className="title">FAQ&lsquo;s</h2>
+							<div className="text">
+								Frequently asked questions
+							</div>
+							<i>
+								<SvgIcon
+									xmlns="http://www.w3.org/2000/svg"
+									width="40px"
+									height="40px"
+									fill="#000000"
+									viewBox="0 0 256 256"
 								>
-									How many measurements do we need to take to
-									get an analysis from the SWOT?
-								</AccordionSummary>
-								<Divider />
-								<AccordionDetails>
-									In luctus risus ex, id blandit mi tincidunt
-									sed. Donec sollicitudin rutrum nulla id
-									ultrices. Suspendisse sollicitudin augue
-									nisl, at porta nisl ultrices in.
-								</AccordionDetails>
-							</Accordion>
-							<Accordion className="content tool-accordion">
-								<AccordionSummary
-									expandIcon={<ExpandMoreIcon />}
-								>
-									What human resources are required for the
-									SWOT?
-								</AccordionSummary>
-								<Divider />
-								<AccordionDetails>
-									Nullam eleifend tincidunt fringilla.
-									Curabitur semper ante sit amet dolor
-									efficitur placerat a eget turpis. Proin non
-									convallis felis. Etiam mi mauris, imperdiet
-									ut nisi non, placerat molestie est.
-								</AccordionDetails>
-							</Accordion>
-							<Accordion className="content tool-accordion">
-								<AccordionSummary
-									expandIcon={<ExpandMoreIcon />}
-								>
-									Who do we contact if we have a problem with
-									data entry?
-								</AccordionSummary>
-								<Divider />
-								<AccordionDetails>
-									Nullam eleifend tincidunt fringilla.
-									Curabitur semper ante sit amet dolor
-									efficitur placerat a eget turpis. Proin non
-									convallis felis. Etiam mi mauris, imperdiet
-									ut nisi non, placerat molestie est.
-								</AccordionDetails>
-							</Accordion>
-						</Box>
-					</Box>
+									<path d="M221.7,133.7l-72,72A8.3,8.3,0,0,1,144,208a8.5,8.5,0,0,1-3.1-.6A8,8,0,0,1,136,200V136H40a8,8,0,0,1,0-16h96V56a8,8,0,0,1,4.9-7.4,8.4,8.4,0,0,1,8.8,1.7l72,72A8.1,8.1,0,0,1,221.7,133.7Z"></path>
+								</SvgIcon>
+							</i>
+						</div>
+					</div>
 				</div>
 			</section>
 		</>

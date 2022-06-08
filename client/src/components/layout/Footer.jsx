@@ -95,7 +95,7 @@ export default function Footer() {
 					</nav>
 				</section>
 			</footer>
-			<div className="site-cookies medium">
+			<div className="site-cookie-policy medium">
 				<div className="wrap">
 					<p>
 						This website uses cookies. To learn more, visit our{" "}

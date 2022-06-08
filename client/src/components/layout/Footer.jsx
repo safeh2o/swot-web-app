@@ -17,7 +17,7 @@ export default function Footer() {
 							rel="noreferrer"
 						>
 							<img
-								src="./assets/organisations/YorkULogo_DIGITAL_Ver_RGB_REV.png"
+								src="assets/organisations/YorkULogo_DIGITAL_Ver_RGB_REV.png"
 								alt=" logo"
 								width="200"
 								height="200"
@@ -29,7 +29,7 @@ export default function Footer() {
 							rel="noreferrer"
 						>
 							<img
-								src="./assets/organisations/dighr_black_on_white.png"
+								src="assets/organisations/dighr_black_on_white.png"
 								alt=" logo"
 								width="200"
 								height="200"
@@ -41,7 +41,7 @@ export default function Footer() {
 							rel="noreferrer"
 						>
 							<img
-								src="./assets/organisations/dwb_compact.svg"
+								src="assets/organisations/dwb_compact.svg"
 								alt=" logo"
 								width="1599.6"
 								height="465.8"
@@ -97,11 +97,14 @@ export default function Footer() {
 					</nav>
 				</section>
 			</footer>
-			<div className="site-cookies">
-				<div className="wrap small">
+			<div className="site-cookies medium">
+				<div className="wrap">
 					<p>
 						This website uses cookies. To learn more, visit our{" "}
-						<a href="/cookie-policy.php">Cookies Policy</a>.
+						<NavLink to="/pages/cookie-policy">
+							Cookie Policy
+						</NavLink>
+						.
 					</p>
 					<span className="user-input">
 						<Button className="needed">Accept Nessesary</Button>

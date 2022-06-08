@@ -57,11 +57,6 @@ main.page-home {
 	}
 }
 
-*.MuiSvgIcon-root {
-	// font: inherit !important;
-	font-size: inherit !important;
-}
-
 .nav-tool a {
 	position: relative;
 	display: block;
@@ -407,7 +402,6 @@ main.page-home {
 		margin: 0;
 	}
 	.MuiAccordionSummary-root {
-		font-weight: 600;
 		min-height: 0;
 		padding: 0;
 
@@ -426,7 +420,7 @@ main.page-home {
 		}
 	}
 	.MuiAccordionSummary-expandIconWrapper {
-		font-size: 2.5rem;
+		font-size: 2rem;
 	}
 	.MuiAccordionDetails-root {
 		padding: 0;
@@ -472,10 +466,15 @@ main.page-home {
 	}
 }
 
-svg.MuiSelect-icon {
-	top: calc(50% - 1em);
-	width: 2em;
-	height: 2em;
+// div.MuiAutocomplete-endAdornment,
+// svg.MuiSelect-icon {
+// 	top: calc(50% - (var(--line-height) * 0.5em));
+// 	font-size: calc(var(--line-height) * 1em);
+// }
+
+.MuiSvgIcon-root,
+svg.MuiSvgIcon-root {
+	// font-size: calc(1em * var(--line-height));
 }
 
 a.MuiButton-root,
@@ -484,7 +483,6 @@ button.MuiButton-root,
 	font: inherit;
 	text-transform: none;
 	.MuiSvgIcon-root {
-		width: calc(var(--line-height) * 1rem);
-		height: calc(var(--line-height) * 1rem);
+		font-size: calc(1em * var(--line-height));
 	}
 }

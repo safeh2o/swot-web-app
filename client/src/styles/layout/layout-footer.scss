@@ -6,12 +6,8 @@
 
 	.section-title,
 	.section-subtitle {
-		// margin-top: calc(var(--line-height) * 1rem);
-
-		font-size: 2.25rem;
-		@media (min-width: $md) {
-			font-size: 2.25rem;
-		}
+		font-size: 2rem;
+		letter-spacing: -0.015em;
 	}
 
 	> svg {
@@ -94,9 +90,6 @@
 	}
 
 	.nav-legal {
-		font-size: 15px;
-		line-height: 1.85;
-
 		.divider {
 			margin: 0.25rem 0.5rem;
 		}
@@ -113,7 +106,7 @@
 
 	color: #fff;
 	background: $col-5;
-	padding: 1rem 2rem;
+	padding: calc(var(--line-height) * 0.5rem) calc(var(--line-height) * 2rem);
 
 	.wrap {
 		display: grid;

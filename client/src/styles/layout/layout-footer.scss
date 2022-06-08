@@ -89,6 +89,9 @@
 	}
 
 	.nav-legal {
+		font-size: 15px;
+		line-height: 1.85;
+
 		.divider {
 			margin: 0.25rem 0.5rem;
 		}
@@ -98,7 +101,7 @@
 	}
 }
 
-.site-cookies {
+.site-cookie-policy {
 	position: sticky;
 	bottom: 0;
 	z-index: 100;

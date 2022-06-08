@@ -1,7 +1,7 @@
 main {
 	section {
 		&:last-child {
-			margin-bottom: 4rem;
+			padding-bottom: 4rem;
 		}
 	}
 }
@@ -41,15 +41,19 @@ main {
 	line-height: 1.1;
 	letter-spacing: -0.0175em;
 
-	margin-bottom: calc(var(--line-height) * 0.5rem);
-	margin-top: calc(var(--line-height) * 0.75rem);
-
 	@media (min-width: $md) {
 		font-size: 3.25rem;
 		margin-top: calc(var(--line-height) * 2.25rem);
 	}
 }
+.section-title {
+	margin-bottom: calc(var(--line-height) * 1rem);
+	margin-top: calc(var(--line-height) * 1.25rem);
+}
 .section-subtitle {
+	margin-bottom: calc(var(--line-height) * 0.5rem);
+	margin-top: calc(var(--line-height) * 0.75rem);
+
 	font-size: 2.25rem;
 	@media (min-width: $md) {
 		font-size: 3rem;
@@ -128,6 +132,11 @@ main {
 					font-weight: 700;
 				}
 			}
+			&.contact {
+				i svg {
+					fill: darken(#eff2f5, 5%);
+				}
+			}
 		}
 	}
 	.cards {
@@ -164,6 +173,7 @@ main {
 
 				&:hover {
 					cursor: pointer;
+					color: #626a79;
 					box-shadow: 0 0 0 5px #ccd2d9;
 				}
 			}
@@ -184,11 +194,7 @@ main {
 				left: 2rem;
 
 				display: block;
-
-				svg {
-					width: 2em;
-					height: 2em;
-				}
+				line-height: 0;
 			}
 		}
 	}
@@ -293,6 +299,75 @@ main {
 		svg {
 			width: 2.25em;
 			height: 2.25em;
+		}
+	}
+}
+
+#page-terms-of-use,
+#page-privacy-policy,
+#page-cookie-policy {
+	background-color: #dbdfe4;
+}
+#page-cookie-policy {
+	hr {
+		opacity: 0;
+		margin: 2rem 0;
+
+		& + h3 {
+			margin-bottom: 2rem;
+		}
+	}
+	table {
+		table-layout: auto;
+		width: 100%;
+
+		thead {
+			font-weight: 500;
+
+			td {
+				border-bottom: 3px solid #ccc;
+			}
+		}
+
+		td {
+			&:nth-child(1) {
+				width: 20%;
+			}
+
+			&:nth-child(2) {
+				width: 15%;
+			}
+
+			&:nth-child(3) {
+				width: 35%;
+			}
+
+			&:nth-child(4) {
+				width: 20%;
+			}
+
+			&:nth-child(5) {
+				width: 10%;
+			}
+		}
+
+		tr {
+			&:not(:last-child) td {
+				border-bottom: 1px solid #ccc;
+			}
+		}
+
+		td {
+			padding: 10px;
+		}
+
+		td,
+		input {
+			vertical-align: top;
+		}
+
+		p {
+			margin-bottom: 0.5rem;
 		}
 	}
 }

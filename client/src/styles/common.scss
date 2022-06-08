@@ -17,55 +17,6 @@
 	}
 }
 
-section {
-	ul,
-	ol {
-		--space: 0.5em;
-		--width: 3em;
-		list-style: none;
-		list-style-position: outside;
-		padding-left: var(--width);
-		margin-bottom: calc(1.5rem * var(--line-height));
-		li {
-			counter-increment: ol-counter;
-			position: relative;
-			padding: 0;
-			margin-left: 0em;
-			&:not(:last-child) {
-				margin-bottom: calc(0.25rem * var(--line-height));
-			}
-			&::before {
-				display: inline-block;
-
-				position: absolute;
-				right: 100%;
-
-				text-align: center;
-				width: var(--width);
-				height: var(--lineHeight);
-			}
-		}
-	}
-	ul {
-		li {
-			&::before {
-				content: "▪";
-				transform: scale(1.5);
-			}
-		}
-	}
-
-	ol {
-		li {
-			&::before {
-				content: counter(ol-counter) ". ";
-				font-weight: 500;
-				font-variant-numeric: tabular-nums;
-			}
-		}
-	}
-}
-
 .btn,
 .MuiButton-root.btn {
 	position: relative;
@@ -144,8 +95,9 @@ section {
 	> img,
 	.icon {
 		position: relative;
-		width: calc(1em * var(--line-height));
-		height: calc(1em * var(--line-height));
+		font-size: calc(1em * var(--line-height));
+		width: 1em;
+		height: 1em;
 		flex: 1 0 auto;
 
 		> * {
@@ -236,6 +188,7 @@ section {
 
 img {
 	max-width: 100%;
+	height: auto;
 }
 .backdrop {
 	color: #4369ac;

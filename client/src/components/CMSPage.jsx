@@ -43,7 +43,7 @@ export default function CMSPage() {
 
 	return (
 		<>
-			<section>
+			<section id={"page-" + slug}>
 				<div className="section-wrap post">
 					<article>
 						{page.image && page.image.secure_url && (
@@ -56,7 +56,7 @@ export default function CMSPage() {
 								{page.title || "Loading..."}
 							</h2>
 							<div
-								variant="body1"
+								className="rte"
 								dangerouslySetInnerHTML={{
 									__html: DOMPurify.sanitize(
 										page.content.extended ||

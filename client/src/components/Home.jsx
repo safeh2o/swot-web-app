@@ -47,8 +47,8 @@ export default function Home() {
 								<Box className="card rte">
 									<h2 className="title">Quickstart Guide</h2>
 									<div className="text">
-										Download our guide for a quick overview
-										of the app and how to ...
+										Overview of the SWOT, from data
+										collection to reading results.
 									</div>
 									<i>
 										<SvgIcon
@@ -65,8 +65,8 @@ export default function Home() {
 								<Box className="card rte">
 									<h2 className="title">Technical Blogs</h2>
 									<div className="text">
-										In-depth information about your
-										collection data as you continue to
+										In-depth information on reading your
+										collection data, as you continue to
 										monitor your fieldsite(s)
 									</div>
 									<i>
@@ -84,7 +84,7 @@ export default function Home() {
 								<Box className="card rte">
 									<h2 className="title">FAQ&lsquo;s</h2>
 									<div className="text">
-										Go over out Frequently asked questions
+										Frequently asked questions
 									</div>
 									<i>
 										<SvgIcon
@@ -125,7 +125,7 @@ export default function Home() {
 							</>
 						)) || (
 							<>
-								<Box className="option">
+								<Box className="option contact">
 									<i>
 										<IconEnvelope />
 									</i>

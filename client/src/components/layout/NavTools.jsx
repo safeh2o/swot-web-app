@@ -1,7 +1,6 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import useHashParams from "../../hooks/useHashParams";
-import { NavTools as css } from "../../styles/styles";
 // Icons
 import {
 	IconToolAnalyze,
@@ -46,27 +45,23 @@ export default function NavTools() {
 	return (
 		<>
 			{list.map((listitem, index) => (
-				<Button
-					component={NavLink}
+				<NavLink
 					className={listitem.class}
 					to={listitem.to}
 					key={listitem.label}
-					LinkComponent={"a"}
-					sx={{ ...css }}
-					disableRipple={true}
 					step={index + 1}
 				>
-					<Box component="span" sx={{ ...css.wrap }}>
+					<Box component="span" className="wrap">
 						{listitem.icon && (
-							<Box component="span" sx={{ ...css.icon }}>
+							<Box component="span" className="icon">
 								{listitem.icon}
 							</Box>
 						)}
-						<Typography component="span" sx={{ ...css.label }}>
+						<Box component="span" className="label">
 							{listitem.label}
-						</Typography>
+						</Box>
 					</Box>
-				</Button>
+				</NavLink>
 			))}
 		</>
 	);

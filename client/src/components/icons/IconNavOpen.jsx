@@ -6,25 +6,11 @@ function IconNavOpen(props) {
 			<path
 				fill="none"
 				stroke="currentColor"
-				strokeMiterlimit="10"
 				strokeWidth="3"
-				d="M6 7L26 7"
-			></path>
-			<path
-				fill="none"
-				stroke="currentColor"
 				strokeMiterlimit="10"
-				strokeWidth="3"
-				d="M6 25L26 25"
-			></path>
-			<path
-				fill="none"
-				stroke="currentColor"
-				strokeMiterlimit="10"
-				strokeWidth="3"
-				d="M6 16L26 16"
-			></path>
-			<path fill="none" d="M0 0H32V32H0z"></path>
+				d="M7 5.7h18M7 26.3h18M7 16h18"
+			/>
+			<path fill="none" d="M0 0h32v32H0V0z" />
 		</SvgIcon>
 	);
 }

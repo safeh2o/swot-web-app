@@ -1,166 +1,114 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { IconYoutube, IconTwitter, IconLinkedin } from "../icons";
 
 export default function Footer() {
 	return (
 		<>
-			<Box component={"footer"} className="site-footer">
-				<Box component={"section"} id="organisations">
-					<Box className="wrap">
-						<Typography component={"h2"} className="section-title">
-							The SWOT is a free and open-source tool brought to
-							you by:
-						</Typography>
-						<Box className="project-leads">
-							<a
-								target="_blank"
-								href="https://www.yorku.ca/dighr/"
-								rel="noreferrer"
-								className={"organisation"}
-							>
-								<img
-									src="/assets/organisations/dighr.svg"
-									alt=" logo"
-									width="200"
-									height="200"
-								/>
-							</a>
-							<a
-								target="_blank"
-								href="https://humanitariangrandchallenge.org/"
-								rel="noreferrer"
-								className={"organisation"}
-							>
-								<img
-									src="/assets/organisations/hgc.svg"
-									alt=" logo"
-									width="540"
-									height="540"
-								/>
-							</a>
-							<a
-								target="_blank"
-								href="https://www.doctorswithoutborders.ca/"
-								rel="noreferrer"
-								className={"organisation wide"}
-							>
-								<img
-									src="/assets/organisations/dwb.svg"
-									alt=" logo"
-									width="1599.6"
-									height="465.8"
-								/>
-							</a>
-						</Box>
-						{/* <Typography component={"h2"} className="section-title">
-							With support from:
-						</Typography>
-						<Box className="project-funding">
-							<div>
-								<a
-									className="wide"
-									target="_blank"
-									href="https://www.achmea.nl/en/foundation"
-									rel="noreferrer"
-								>
-									<img
-										src="./public/assets/organisations/achmea.svg"
-										alt=" logo"
-										width="560"
-										height="106"
-									/>
-								</a>
-								<a
-									className="wide"
-									target="_blank"
-									href="https://www.grandchallenges.ca/programs/creating-hope-conflict/"
-									rel="noreferrer"
-								>
-									<img
-										src="./public/assets/organisations/grandchallenges.svg"
-										alt=" logo"
-										width="321.7"
-										height="97.5"
-									/>
-								</a>
-							</div>
-						</Box> */}
-					</Box>
-				</Box>
-				<Box component={"section"} id="connect">
-					<Typography component={"h2"} className="section-title">
-						Follow Us
-					</Typography>
-					<Grid
-						spacing={3}
-						container
-						justifyContent={"center"}
-						alignItems="center"
-					>
-						<Grid item>
-							<a
-								href="https://www.linkedin.com/company/dighr/"
-								target="_blank"
-								rel="noreferrer"
-							>
-								<span>LinkedIn</span>
-							</a>
-						</Grid>
-						<Grid item>
-							<a
-								href="https://twitter.com/safeh2oapp"
-								target="_blank"
-								rel="noreferrer"
-							>
-								<span>Twitter</span>
-							</a>
-						</Grid>
-						<Grid item>
-							<a
-								href="https://www.youtube.com/channel/UCAoYWw3iKSpFZspbMGhMq7g"
-								target="_blank"
-								rel="noreferrer"
-							>
-								<span>YouTube</span>
-							</a>
-						</Grid>
-					</Grid>
-				</Box>
-				<Box component={"section"} id="colophon">
-					<Box component="span">
-						&copy; {new Date().getFullYear()} Safe Water
-						Optimization Tool{" "}
-					</Box>
-					&nbsp;&nbsp;|&nbsp;&nbsp;
-					<NavLink to="/pages/terms-of-use">
-						<span>Terms of Use</span>
-					</NavLink>
-					&nbsp;&nbsp;|&nbsp;&nbsp;
-					<NavLink to="/pages/privacy-policy">
-						<span>Privacy Policy</span>
-					</NavLink>
-					&nbsp;&nbsp;|&nbsp;&nbsp;
-					<NavLink to="/pages/cookie-policy">
-						<span>Cookie Policy</span>
-					</NavLink>
-				</Box>
-			</Box>
-			<Box className="site-cookies">
-				<Box className="wrap">
-					<Typography component={"p"}>
-						This website uses cookies. To learn more, visit our{" "}
-						<NavLink
-							className="sticky-cookies-popup-policies"
-							to="/pages/cookie-policy"
+			<footer component={"section"} className="site-footer">
+				<section>
+					<h3 className="section-subtitle">
+						A free and open-source tool by
+					</h3>
+					<div className="logos">
+						<a
+							target="_blank"
+							href="http://yorku.ca/"
+							rel="noreferrer"
 						>
-							{" "}
+							<img
+								src="./assets/organisations/YorkULogo_DIGITAL_Ver_RGB_REV.png"
+								alt=" logo"
+								width="200"
+								height="200"
+							/>
+						</a>
+						<a
+							target="_blank"
+							href="http://dighr.yorku.ca/"
+							rel="noreferrer"
+						>
+							<img
+								src="./assets/organisations/dighr_black_on_white.png"
+								alt=" logo"
+								width="200"
+								height="200"
+							/>
+						</a>
+						<a
+							target="_blank"
+							href="https://www.doctorswithoutborders.ca/"
+							rel="noreferrer"
+						>
+							<img
+								src="./assets/organisations/dwb_compact.svg"
+								alt=" logo"
+								width="1599.6"
+								height="465.8"
+							/>
+						</a>
+					</div>
+				</section>
+				<section>
+					<div className="section-subtitle">Follow Us</div>
+					<div className="social-networks">
+						<a
+							className="linkedin"
+							target="_blank"
+							href="http://linkedin.com/"
+							rel="noreferrer"
+						>
+							<IconLinkedin />
+						</a>
+						<a
+							className="twitter"
+							target="_blank"
+							href="https://www.twitter.com/"
+							rel="noreferrer"
+						>
+							<IconTwitter />
+						</a>
+						<a
+							className="youtube"
+							target="_blank"
+							href="https://youtube.com/"
+							rel="noreferrer"
+						>
+							<IconYoutube />
+						</a>
+					</div>
+				</section>
+				<section>
+					<nav className="nav-legal">
+						<span>
+							&copy; {new Date().getFullYear()} Safe Water
+							Optimization Tool
+						</span>
+						<span className="divider">|</span>
+						<NavLink to="/pages/terms-of-use">Terms of Use</NavLink>
+						<span className="divider">|</span>
+						<NavLink to="/pages/privacy-policy">
+							Privacy Policy
+						</NavLink>
+						<span className="divider">|</span>
+						<NavLink to="/pages/cookie-policy">
 							Cookie Policy
 						</NavLink>
-						.
-					</Typography>
-					<Button>Accept</Button>
-				</Box>
-			</Box>
+					</nav>
+				</section>
+			</footer>
+			<div className="site-cookies">
+				<div className="wrap small">
+					<p>
+						This website uses cookies. To learn more, visit our{" "}
+						<a href="/cookie-policy.php">Cookies Policy</a>.
+					</p>
+					<span className="user-input">
+						<Button className="needed">Accept Nessesary</Button>
+						<Button className="accept btn">Accept All</Button>
+					</span>
+				</div>
+			</div>
 		</>
 	);
 }

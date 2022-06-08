@@ -1,18 +1,8 @@
-// Frontend Imports
-import {
-	Box,
-	Button,
-	Card,
-	CardContent,
-	CardHeader,
-	Divider,
-	Tooltip,
-	Typography,
-} from "@mui/material";
+import { Box, Button, Divider, Tooltip, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
 	addError,
 	addNotice,
@@ -21,7 +11,7 @@ import {
 } from "../../reducers/notifications";
 import { replaceCrumb } from "../../reducers/view";
 import { Result as css } from "../../styles/styles";
-import { IconCheck, IconDownload, IconLow, IconQuestionMark } from "../icons";
+import { IconCheck, IconLow, IconQuestionMark } from "../icons";
 import NotFound from "../NotFound";
 
 export default function Result() {
@@ -153,294 +143,370 @@ export default function Result() {
 		<NotFound />
 	) : (
 		<>
-			<Button
-				component={NavLink}
-				to={`/results`}
-				sx={{ ...css.buttonBackToResults }}
-			>
-				Back to All Results
-			</Button>
-
-			{/* Location */}
-			<Card id="result-location" sx={{ ...css.cardElement }}>
-				<CardHeader title="Location" />
-				<Divider />
-				<CardContent>
-					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">
-							{locationData.countryName}
-						</Type>
-						<Type variant="inputLabel">Country</Type>
-					</Box>
-
-					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">
-							{locationData.areaName}
-						</Type>
-						<Type variant="inputLabel">Area</Type>
-					</Box>
-
-					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">
-							{locationData.fieldsiteName}
-						</Type>
-						<Type variant="inputLabel">Fieldsite</Type>
-					</Box>
-				</CardContent>
-			</Card>
-
-			{/* Analysis Requested */}
-			<Card id="result-analysis-requested" sx={{ ...css.cardElement }}>
-				<CardHeader title="Analysis Requested" />
-				<Divider />
-				<CardContent>
-					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">
-							{parseDate((dataset || defaultDataset).dateCreated)}
-						</Type>
-						<Type variant="inputLabel">Date of Analysis</Type>
-					</Box>
-
-					<Divider sx={{ ...css.stat.divider }} />
-
-					<Box sx={{ ...css.stat }}>
-						<Box sx={{ ...css.stat.range }}>
+			<section>
+				<div className="section-wrap">
+					<Box className="app-card">
+						<Box component={"h2"}>Analysis Location</Box>
+						<Divider sx={{ my: 1 }} />
+						<Box sx={{ ...css.stat }}>
 							<Type variant="inputValue">
-								{parseDate(
-									(dataset || defaultDataset).startDate
-								)}{" "}
+								{locationData.countryName}
 							</Type>
-							<Type
-								component="span"
-								sx={{ ...css.stat.range.seperator }}
-							>
-								to
-							</Type>
-							<Type variant="inputValue">
-								{parseDate((dataset || defaultDataset).endDate)}
-							</Type>
+							<Type variant="inputLabel">Country</Type>
 						</Box>
-						<Type variant="inputLabel">
-							Date Range of Analysis Requested
-						</Type>
+
+						<Box sx={{ ...css.stat }}>
+							<Type variant="inputValue">
+								{locationData.areaName}
+							</Type>
+							<Type variant="inputLabel">Area</Type>
+						</Box>
+
+						<Box sx={{ ...css.stat }}>
+							<Type variant="inputValue">
+								{locationData.fieldsiteName}
+							</Type>
+							<Type variant="inputLabel">Fieldsite</Type>
+						</Box>
 					</Box>
-
-					<Divider sx={{ ...css.stat.divider }} />
-
-					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">
-							{(dataset || defaultDataset).maxDuration} hrs
-						</Type>
-						<Type variant="inputLabel">
-							Length of storage time to analyse for
-						</Type>
-					</Box>
-
-					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">
-							{parseDecayScenario(
-								(dataset || defaultDataset).confidenceLevel
-							)}
-						</Type>
-						<Type variant="inputLabel">
-							Modelling confidence level
-						</Type>
-					</Box>
-				</CardContent>
-			</Card>
-
-			<Divider sx={{ ...css.hr }} />
-
-			{/* Dataset Summary */}
-			<Card id="result-dataset-summary" sx={{ ...css.cardElement }}>
-				<CardHeader title="Dataset Summary" />
-				<Divider />
-				<CardContent>
-					<Box sx={{ ...css.stat }}>
-						<Box sx={{ ...css.stat.range }}>
+					<Box id="result-analysis-requested" className="app-card">
+						<Box component={"h2"}>Analysis Requested</Box>
+						<Divider sx={{ my: 1 }} />
+						<Box sx={{ ...css.stat }}>
 							<Type variant="inputValue">
 								{parseDate(
-									(dataset || defaultDataset).firstSample
+									(dataset || defaultDataset).dateCreated
 								)}
 							</Type>
-							<Type
-								component="span"
-								sx={{ ...css.stat.range.seperator }}
-							>
-								to
-							</Type>
-							<Type variant="inputValue">
-								{parseDate(
-									(dataset || defaultDataset).lastSample
-								)}
+							<Type variant="inputLabel">Date of Analysis</Type>
+						</Box>
+
+						<Divider sx={{ ...css.stat.divider }} />
+
+						<Box sx={{ ...css.stat }}>
+							<Box sx={{ ...css.stat.range }}>
+								<Type variant="inputValue">
+									{parseDate(
+										(dataset || defaultDataset).startDate
+									)}{" "}
+								</Type>
+								<Type
+									component="span"
+									sx={{ ...css.stat.range.seperator }}
+								>
+									to
+								</Type>
+								<Type variant="inputValue">
+									{parseDate(
+										(dataset || defaultDataset).endDate
+									)}
+								</Type>
+							</Box>
+							<Type variant="inputLabel">
+								Date Range of Analysis Requested
 							</Type>
 						</Box>
-						<Type variant="inputLabel">
-							Date Range Analyzed{" "}
-							<Tooltip
-								title="Date of the earliest sample found, to the date of
-							the latest sample found, in the dataset that is
-							actually sent for analysis."
-								arrow
-								placement="top"
-							>
-								<span>
-									<IconQuestionMark />
-								</span>
-							</Tooltip>
-						</Type>
-					</Box>
-					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">
-							{(dataset || defaultDataset)[
-								"safe_percent"
-							]?.toFixed(0) || "?"}
-							%
-						</Type>
-						<Type variant="inputLabel">
-							Current household water safety
-							<Tooltip
-								title={
-									<>
-										Count of HH samples &gt;= 0.2 mg/L using
-										subset of samples in date range.
-									</>
-								}
-								arrow
-								placement="top"
-							>
-								<span>
-									<IconQuestionMark />
-								</span>
-							</Tooltip>
-						</Type>
-					</Box>
-					<Divider sx={{ ...css.stat.divider }} />
-					<Box
-						sx={{ ...css.stat }}
-						className={
-							(dataset || defaultDataset).nSamples < 100
-								? "low"
-								: "pass"
-						}
-					>
-						<Type variant="inputValue">
-							{(dataset || defaultDataset).nSamples}
-							{/* if total samples are less than 100 */}
-							{(dataset || defaultDataset).nSamples < 100 ? (
-								<IconLow className="sup" />
-							) : (
-								<IconCheck className="sup" />
-							)}
-						</Type>
-						<Type variant="inputLabel">
-							Number of Data Samples Sent for Analysis
-							<Tooltip
-								title="This is total number of the data records found for that date range."
-								arrow
-								placement="top"
-							>
-								<span>
-									<IconQuestionMark />
-								</span>
-							</Tooltip>
-						</Type>
-					</Box>
-					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">
-							{storageTimeInHours} hrs
-						</Type>
-						<Type variant="inputLabel">
-							Average storage time in dataset
-						</Type>
-					</Box>
-				</CardContent>
-			</Card>
 
-			{/* SWOT FRC Target */}
-			<Card id="result-frc-target" sx={{ ...css.cardElement }}>
-				<CardHeader title="SWOT FRC Target" />
-				<Divider />
-				<CardContent>
-					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">{reco} mg/l</Type>
-						<Type variant="inputLabel">
-							SWOT FRC Target Recommendation
-							<Tooltip
-								title={
-									<>
-										You should aim for this FRC value at the
-										tapstand in order to ensure water is
-										safe to drink after storing in the home.{" "}
-										<a href="/contact">learn more</a>
-									</>
-								}
-								arrow
-								placement="top"
-							>
-								<span>
-									<IconQuestionMark />
-								</span>
-							</Tooltip>
-						</Type>
+						<Divider sx={{ ...css.stat.divider }} />
+
+						<Box sx={{ ...css.stat }}>
+							<Type variant="inputValue">
+								{(dataset || defaultDataset).maxDuration} hrs
+							</Type>
+							<Type variant="inputLabel">
+								Length of storage time to analyse for
+							</Type>
+						</Box>
+
+						<Box sx={{ ...css.stat }}>
+							<Type variant="inputValue">
+								{parseDecayScenario(
+									(dataset || defaultDataset).confidenceLevel
+								)}
+							</Type>
+							<Type variant="inputLabel">
+								Modelling confidence level
+							</Type>
+						</Box>
 					</Box>
-					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">
-							{(dataset || defaultDataset).maxDuration} hrs
-						</Type>
-						<Type variant="inputLabel">
-							Duration of protection
-							<Tooltip
-								title={
-									<>
-										You should aim for this FRC value at the
-										tapstand in order to ensure water is
-										safe to drink after storing in the home.{" "}
-										<a href="/contact">learn more</a>
-									</>
-								}
-								arrow
-								placement="top"
-							>
-								<span>
-									<IconQuestionMark />
-								</span>
-							</Tooltip>
-						</Type>
+					<Divider sx={{ ...css.hr }} />
+					<Box id="result-dataset-summary" className="app-card">
+						<Box component={"h2"}>Dataset Summary</Box>
+						<Divider sx={{ my: 1 }} />
+						<Box sx={{ ...css.stat }}>
+							<Box sx={{ ...css.stat.range }}>
+								<Type variant="inputValue">
+									{parseDate(
+										(dataset || defaultDataset).firstSample
+									)}
+								</Type>
+								<Type
+									component="span"
+									sx={{ ...css.stat.range.seperator }}
+								>
+									to
+								</Type>
+								<Type variant="inputValue">
+									{parseDate(
+										(dataset || defaultDataset).lastSample
+									)}
+								</Type>
+							</Box>
+							<Type variant="inputLabel">
+								Date Range Analyzed{" "}
+								<Tooltip
+									title={
+										<>
+											Date of the oldest and most recent
+											samples sent for analysis. This
+											range may be shorter than the
+											specified date range as any invalid
+											rows are removed before being sent
+											for analysis.
+											<hr />
+											<a
+												href="/contact"
+												className="btn compact"
+											>
+												learn more
+											</a>
+										</>
+									}
+									arrow
+									placement="top"
+									leaveDelay={750}
+									leaveTouchDelay={750}
+								>
+									<span>
+										<IconQuestionMark />
+									</span>
+								</Tooltip>
+							</Type>
+						</Box>
+						<Box sx={{ ...css.stat }}>
+							<Type variant="inputValue">
+								{(dataset || defaultDataset)[
+									"safe_percent"
+								]?.toFixed(0) || "?"}
+								%
+							</Type>
+							<Type variant="inputLabel">
+								Current household water safety
+								<Tooltip
+									title={
+										<>
+											Percentage of household samples in
+											the analyzed dataset with a
+											protective free chlorine residual
+											(0.2 mg/L)
+											<hr />
+											<a
+												href="/contact"
+												className="btn compact"
+											>
+												learn more
+											</a>
+										</>
+									}
+									arrow
+									placement="top"
+									leaveDelay={750}
+									leaveTouchDelay={750}
+								>
+									<span>
+										<IconQuestionMark />
+									</span>
+								</Tooltip>
+							</Type>
+						</Box>
+						<Divider sx={{ ...css.stat.divider }} />
+						<Box
+							sx={{ ...css.stat }}
+							className={
+								(dataset || defaultDataset).nSamples < 100
+									? "low"
+									: "pass"
+							}
+						>
+							{(dataset || defaultDataset).nSamples < 0 && (
+								<Type variant="inputValue">
+									{(dataset || defaultDataset).nSamples}
+									{/* check sample range */}
+									{(dataset || defaultDataset).nSamples <
+										100 && <IconLow className="sup" />}
+									{(dataset || defaultDataset).nSamples <
+										100 && <IconCheck className="sup" />}
+								</Type>
+							)}
+							<Type variant="inputLabel">
+								Number of Data Samples Sent for Analysis
+								<Tooltip
+									title={
+										<>
+											Total number of valid paired samples
+											found in the date range. If this
+											number is not what you expected, you
+											should check your dataset for errors
+											<hr />
+											<a
+												href="/contact"
+												className="btn compact"
+											>
+												learn more
+											</a>
+										</>
+									}
+									arrow
+									placement="top"
+									leaveDelay={750}
+									leaveTouchDelay={750}
+								>
+									<span>
+										<IconQuestionMark />
+									</span>
+								</Tooltip>
+							</Type>
+						</Box>
+						<Box sx={{ ...css.stat }}>
+							<Type variant="inputValue">
+								{storageTimeInHours} hrs
+							</Type>
+							<Type variant="inputLabel">
+								Average storage time in dataset
+								<Tooltip
+									title={
+										<>
+											Mean elapsed time between each
+											tapstand and household sample in the
+											analyzed dataset.
+											<hr />
+											<a
+												href="/contact"
+												className="btn compact"
+											>
+												learn more
+											</a>
+										</>
+									}
+									arrow
+									placement="top"
+									leaveDelay={750}
+									leaveTouchDelay={750}
+								>
+									<span>
+										<IconQuestionMark />
+									</span>
+								</Tooltip>
+							</Type>
+						</Box>
 					</Box>
-					<Box sx={{ ...css.stat }}>
-						<Type variant="inputValue">
-							{getPredictedWaterSafetyRange()}
-						</Type>
-						<Type variant="inputLabel">
-							Predicted household water safety at this storage
-							time
-							<Tooltip
-								title="Predicted HH safety rate when the FRC target
+					<Box id="result-frc-target" className="app-card">
+						<Box component={"h2"}>SWOT FRC Target</Box>
+						<Divider sx={{ my: 1 }} />
+						<Box sx={{ ...css.stat }}>
+							<Type variant="inputValue">{reco} mg/l</Type>
+							<Type variant="inputLabel">
+								SWOT FRC Target Recommendation
+								<Tooltip
+									title={
+										<>
+											Aim for at least this FRC
+											concentration at the tapstand
+											<hr />
+											<a
+												href="/contact"
+												className="btn compact"
+											>
+												learn more
+											</a>
+										</>
+									}
+									arrow
+									placement="top"
+									leaveDelay={750}
+									leaveTouchDelay={750}
+								>
+									<span>
+										<IconQuestionMark />
+									</span>
+								</Tooltip>
+							</Type>
+						</Box>
+						<Box sx={{ ...css.stat }}>
+							<Type variant="inputValue">
+								{(dataset || defaultDataset).maxDuration} hrs
+							</Type>
+							<Type variant="inputLabel">
+								Duration of protection
+								<Tooltip
+									title={
+										<>
+											Duration of protection associated
+											with the FRC target above. For a
+											longer or shorter storage time, a
+											new analysis should be run.
+										</>
+									}
+									arrow
+									placement="top"
+									leaveDelay={750}
+									leaveTouchDelay={750}
+								>
+									<span>
+										<IconQuestionMark />
+									</span>
+								</Tooltip>
+							</Type>
+						</Box>
+						<Box sx={{ ...css.stat }}>
+							<Type variant="inputValue">
+								{getPredictedWaterSafetyRange()}
+							</Type>
+							<Type variant="inputLabel">
+								Predicted household water safety at this storage
+								time
+								<Tooltip
+									title="Predicted HH safety rate when the FRC target
 									is implemented"
-								arrow
-								placement="top"
-							>
-								<span>
-									<IconQuestionMark />
-								</span>
-							</Tooltip>
-						</Type>
+									arrow
+									placement="top"
+									leaveDelay={750}
+									leaveTouchDelay={750}
+								>
+									<span>
+										<IconQuestionMark />
+									</span>
+								</Tooltip>
+							</Type>
+						</Box>
 					</Box>
-				</CardContent>
-			</Card>
-
-			{/* Download Options */}
-			<Box id="result-files" sx={{ ...css.resultFiles }}>
-				<Button
-					href={`/api/results/download?datasetId=${datasetId}`}
-					className="btn-download"
-				>
-					<IconDownload />{" "}
-					<Type component="span">Download Raw Results</Type>
-				</Button>
-				<Button onClick={handleReanalysis}>Reanalyze</Button>
-			</Box>
+					<Box id="result-frc-target" className="app-card">
+						<Box component={"h2"}>FRC Target Over Time</Box>
+						<Divider sx={{ my: 1 }} />
+						<Box component={"figure"}>
+							<img src="https://images.unsplash.com/photo-1543286386-2e659306cd6c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80" />
+							{/* <Box component={"figurecaption"}>
+								Figure Caption
+							</Box> */}
+						</Box>
+					</Box>
+					<Divider sx={{ ...css.hr }} />
+					<Box className="app-card">
+						<Box className="form-submit">
+							<Button
+								id="btnSubmit"
+								className="btn"
+								href={`/api/results/download?datasetId=${datasetId}`}
+							>
+								<Box component="span">Download Raw Results</Box>
+							</Button>
+							<button onClick={handleReanalysis}>
+								Reanalyze
+							</button>
+						</Box>
+					</Box>
+				</div>
+			</section>
 		</>
 	);
 }

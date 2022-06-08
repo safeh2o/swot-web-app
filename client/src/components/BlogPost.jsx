@@ -1,11 +1,4 @@
-import {
-	Box,
-	Button,
-	Card,
-	CardContent,
-	Divider,
-	Typography,
-} from "@mui/material";
+import { SvgIcon } from "@mui/material";
 import DOMPurify from "dompurify";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
@@ -13,8 +6,6 @@ import { useDispatch } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 import { setLoading } from "../reducers/notifications";
 import { replaceCrumbTitle } from "../reducers/view";
-import { BlogPost as css } from "../styles/styles";
-import { IconArrowBack } from "./icons";
 
 export default function BlogPost() {
 	const dispatch = useDispatch();
@@ -53,6 +44,7 @@ export default function BlogPost() {
 
 	const formatPublishTime = (string) => {
 		const dt = DateTime.fromISO(string);
+		console.log(string);
 		const f = {
 			month: "long",
 			day: "numeric",
@@ -65,64 +57,73 @@ export default function BlogPost() {
 
 	return (
 		<>
-			<Button
-				to={`/blog`}
-				component={NavLink}
-				size="large"
-				sx={{ ...css.buttonBackToResults.wrapper }}
-			>
-				<IconArrowBack />
-				<Box sx={{ ...css.buttonBackToResults.text }}>All News</Box>
-			</Button>
-			<Card sx={{ ...css.cardElement }}>
-				<CardContent>
-					<Box component="article">
-						{page.image && page.image.secure_url && (
-							<Box component={"figure"} sx={{ mb: 2 }}>
+			<section>
+				<div className="section-wrap post">
+					<article>
+						{page?.image?.secure_url && (
+							<figure className="image-post">
 								<img src={page.image.secure_url} alt="" />
-							</Box>
+							</figure>
 						)}
-						<Typography
-							component={"h1"}
-							variant="h1"
-							gutterBottom
-							color="primary"
-							sx={{ display: "block", fontWeight: "500" }}
-						>
-							{page.title || "Loading..."}
-						</Typography>
-						<Typography variant="body1" component={"div"}>
-							<div
-								dangerouslySetInnerHTML={{
-									__html: DOMPurify.sanitize(
-										page.content.extended !== null
-											? page.content.extended
-											: "Content is loading..."
-									),
-								}}
-							></div>
-						</Typography>
-						<Divider sx={{ mb: 1 }} />
-						<Typography
-							component="time"
-							variant="caption"
-							sx={{ color: "#999" }}
-						>
-							{formatPublishTime(page.publishedDate)}
-						</Typography>
-						{page.categories && page.categories.length > 0 && (
-							<Typography
-								component="div"
-								variant="caption"
-								sx={{ color: "#999" }}
-							>
-								Categories: &nbsp;{" "}
-								{page.categories.map((cat) => cat)}
-							</Typography>
-						)}
-					</Box>
-				</CardContent>
-			</Card>
+						<div className="details-post">
+							<h1 className="section-title h3">
+								<span>{page.title || "Loading..."}</span>
+							</h1>
+							<header className="post-meta text-sm">
+								{page.publishedDate && (
+									<time>
+										{formatPublishTime(page.publishedDate)}
+									</time>
+								)}
+								<span className="categories-post">
+									{page.categories &&
+										page.categories.length > 0 && (
+											<>
+												<span className="divider">
+													in
+												</span>
+												{page.categories.map(
+													(cat, i) => (
+														<a key={"cat-" + i}>
+															{cat}
+														</a>
+													)
+												)}
+											</>
+										)}
+								</span>
+							</header>
+							{page.publishedDate && (
+								<div className="post-text">
+									<div
+										dangerouslySetInnerHTML={{
+											__html: DOMPurify.sanitize(
+												page.content.extended
+											),
+										}}
+									></div>
+								</div>
+							)}
+						</div>
+					</article>
+					<footer className="posts-footer">
+						<NavLink className="btn back" to={"/blog"}>
+							<i>
+								<SvgIcon
+									xmlns="http://www.w3.org/2000/svg"
+									width="40px"
+									height="40px"
+									fill="#000000"
+									viewBox="0 0 256 256"
+								>
+									<path d="M224,128a8,8,0,0,1-8,8H120v64a8,8,0,0,1-4.9,7.4,8.5,8.5,0,0,1-3.1.6,8.3,8.3,0,0,1-5.7-2.3l-72-72a8.1,8.1,0,0,1,0-11.4l72-72a8.4,8.4,0,0,1,8.8-1.7A8,8,0,0,1,120,56v64h96A8,8,0,0,1,224,128Z"></path>
+								</SvgIcon>
+							</i>
+							<span>All Articles</span>
+						</NavLink>
+					</footer>
+				</div>
+			</section>
 		</>
 	);
 }

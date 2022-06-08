@@ -53,8 +53,11 @@ export default function UserNotificationsPopover() {
 				onClick={() => toggleNotifications(true)}
 				ref={notificationsRef}
 			>
+				<span>Notifications</span>
 				<Badge
+					className="badge"
 					badgeContent={unreadCount}
+					component={"i"}
 					color="warning"
 					sx={{ ...css.badge }}
 				>

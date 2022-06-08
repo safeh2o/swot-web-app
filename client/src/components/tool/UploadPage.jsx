@@ -2,15 +2,10 @@ import { LoadingButton } from "@mui/lab";
 import {
 	Box,
 	Button,
-	Card,
-	CardContent,
-	CardHeader,
 	Checkbox,
 	Divider,
 	FormControlLabel,
 	FormGroup,
-	Grid,
-	Typography,
 } from "@mui/material";
 import axios from "axios";
 import { DropzoneArea } from "material-ui-dropzone";
@@ -25,10 +20,9 @@ import {
 	notificationsSelectors,
 	setLoading,
 } from "../../reducers/notifications";
-import { UploadData as css } from "../../styles/styles";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
-import { IconUpload } from "../icons";
+import { IconToolUpload, IconRowUnchecked, IconRowChecked } from "../icons";
 
 const initialState = {
 	files: [],
@@ -97,135 +91,103 @@ export default function UploadPage() {
 
 	return (
 		<>
-			<Card sx={{ ...css.cardElement, ...css.uploadLocation }}>
-				<CardHeader
-					title={"Upload your Data"}
-					titleTypographyProps={{ variant: "h2", fontWeight: "400" }}
-				/>
-
-				<Divider />
-
-				<CardContent>
-					<FieldsiteDropdown
-						onChange={(value) => {
-							update({ fieldsite: value });
-						}}
-					/>
-				</CardContent>
-			</Card>
-
-			<NotificationLine type="notice">
-				Is your location missing? &nbsp;{" "}
-				<Link to="/contact">Get in Touch</Link>
-			</NotificationLine>
-
-			<Card sx={{ ...css.cardElement, ...css.uploadDrop }}>
-				<CardHeader
-					title={"Attach files*"}
-					titleTypographyProps={{
-						variant: "body1",
-						fontWeight: "400",
-					}}
-				/>
-
-				<Divider />
-				<CardContent>
-					<DropzoneArea
-						Icon={IconUpload}
-						onChange={handleFileChange}
-						maxFileSize={50 * MEGABYTE}
-						acceptedFiles={[
-							".csv",
-							"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-							"application/vnd.ms-excel",
-						]}
-						filesLimit={5}
-						useChipsForPreview
-						showPreviewsInDropzone={true}
-						showPreviews={false}
-						previewText={getPreviewText()}
-						ref={fileInput}
-					/>
-
-					<NotificationLine type="check">
-						Ensure all required columns have data...
-					</NotificationLine>
-					<NotificationLine type="check">
-						Ensure that you upload a .csv or a .xlsx file
-					</NotificationLine>
-				</CardContent>
-			</Card>
-
-			<Typography
-				component={"h1"}
-				variant="body1"
-				sx={{ ...css.sectionHeader }}
-			>
-				Options for Upload:
-			</Typography>
-
-			<Card sx={{ ...css.cardElement, ...css.uploadOptions }}>
-				<CardContent>
-					<FormGroup>
-						<FormControlLabel
-							label="Overwrite Duplicate Entries"
-							control={
-								<Checkbox
-									name="overwriteCheck"
-									checked={state && state.overwrite}
-									onChange={() => {
-										update({ overwrite: !state.overwrite });
-									}}
-								/>
-							}
+			<section>
+				<div className="section-wrap">
+					<Box className="app-card">
+						<Box component={"h1"} className="section-subtitle">
+							Upload Your Data
+						</Box>
+						<Divider sx={{ my: 3, mb: 2 }} />
+						<FieldsiteDropdown
+							onChange={(value) => {
+								update({ fieldsite: value });
+							}}
 						/>
-					</FormGroup>
-
-					<Divider />
-
-					<NotificationLine type="guide">
-						Duplicates are rows with the same dates and times
-					</NotificationLine>
-				</CardContent>
-			</Card>
-
-			<Card sx={{ ...css.cardElement, ...css.cardSubmit }}>
-				<CardHeader
-					title={"Confirm and Submit"}
-					titleTypographyProps={{
-						variant: "body1",
-						fontWeight: "400",
-					}}
-				/>
-
-				<Divider />
-
-				<CardContent>
-					<Box>
-						<Button
-							id="btnSubmit"
-							color="primary"
-							variant="contained"
-							fullWidth
-							onClick={handleFormSubmit}
-							disabled={disabled}
-							loading={loading}
-						>
-							Upload
-						</Button>
-						<Button
-							type="reset"
-							variant="text"
-							onClick={() => handleFormReset()}
-						>
-							Reset Fields
-						</Button>
+						<NotificationLine type="notice">
+							Is your location missing?{" "}
+							<Link to="/contact">Get in Touch</Link>
+						</NotificationLine>
 					</Box>
-					<NotificationLine type="notice">
-						Make sure all fields are filled out
-					</NotificationLine>
-				</CardContent>
-			</Card>
+					<Box className="app-card">
+						<DropzoneArea
+							Icon={IconToolUpload}
+							onChange={handleFileChange}
+							maxFileSize={50 * MEGABYTE}
+							acceptedFiles={[
+								".csv",
+								"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+								"application/vnd.ms-excel",
+							]}
+							filesLimit={5}
+							useChipsForPreview
+							showPreviewsInDropzone={true}
+							showPreviews={false}
+							previewText={getPreviewText()}
+							ref={fileInput}
+						/>
+
+						<NotificationLine type="check">
+							Ensure all required columns have data...
+						</NotificationLine>
+						<NotificationLine type="check">
+							Ensure that you upload a .csv or a .xlsx file
+						</NotificationLine>
+					</Box>
+					<Box className="app-card">
+						<Box component={"h2"}>Options for Upload:</Box>
+
+						<Divider sx={{ my: 1 }} />
+
+						<FormGroup className="tool-overwrite-duplicate-entries">
+							<FormControlLabel
+								label="Overwrite Duplicate Entries"
+								control={
+									<Checkbox
+										name="overwriteCheck"
+										checked={state && state.overwrite}
+										onChange={() => {
+											update({
+												overwrite: !state.overwrite,
+											});
+										}}
+										icon={<IconRowUnchecked />}
+										checkedIcon={<IconRowChecked />}
+									/>
+								}
+							/>
+						</FormGroup>
+
+						<NotificationLine type="guide">
+							Duplicates are rows with the same dates and times
+						</NotificationLine>
+					</Box>
+					<Box className="app-card">
+						<Box className="form-submit">
+							<Button
+								id="btnSubmit"
+								color="primary"
+								variant="contained"
+								fullWidth
+								onClick={handleFormSubmit}
+								disabled={disabled}
+								loading={loading || undefined}
+								className="btn"
+							>
+								Upload
+							</Button>
+							<button
+								type="reset"
+								onClick={() => handleFormReset()}
+							>
+								Reset Fields
+							</button>
+							<NotificationLine type="notice">
+								Make sure all fields are filled out
+							</NotificationLine>
+						</Box>
+					</Box>
+				</div>
+			</section>
 		</>
 	);
 }

@@ -1,0 +1,514 @@
+$btnSize: 2.75rem;
+
+body.overflow-hidden {
+	overflow: hidden;
+}
+
+.site-header {
+	position: sticky;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 1030;
+
+	padding-left: 1rem;
+	padding-right: 1rem;
+	margin: 0;
+
+	background-color: $col-1;
+
+	.scrolling & {
+		transition: box-shadow 0.4s ease;
+		box-shadow: 0px 3px 0px 0px rgba(39, 45, 55, 0.22);
+	}
+
+	@media (min-width: $md) {
+		padding-left: 2rem;
+		padding-right: 2rem;
+	}
+
+	nav {
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: space-between;
+
+		font-family: "Roboto Condensed", sans-serif;
+		font-size: 22px;
+		color: #fff;
+		margin-right: auto;
+		margin-left: auto;
+
+		@media (min-width: $md) {
+			position: relative;
+			align-items: flex-end;
+		}
+	}
+}
+
+.menu-brand {
+	color: #fff;
+	padding: 0.75rem 0 0.5rem 0;
+	margin-right: auto;
+	transition: all 0.15s ease;
+
+	> * {
+		width: auto;
+		height: 3.5rem;
+		margin-bottom: 0;
+		transition: all 0.25s ease;
+	}
+
+	> *:nth-child(1) {
+		display: none;
+	}
+	> *:nth-child(2) {
+		display: block;
+	}
+
+	@media (min-width: $sm) {
+		> *:nth-child(1) {
+			display: block;
+		}
+		> *:nth-child(2) {
+			display: none;
+		}
+		> * {
+			height: 4.4rem;
+		}
+	}
+
+	@media (min-width: $md) {
+		padding: 1.75rem 0 0.75rem 0;
+		> * {
+			height: 5rem;
+		}
+	}
+}
+
+.menu-open {
+	display: flex;
+	order: 2;
+	padding: 0;
+	width: 2.5rem;
+	height: 3.25rem;
+
+	background-color: #fff;
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+	margin: auto 0.75rem 0 0;
+
+	* {
+		pointer-events: none;
+	}
+
+	svg {
+		content: "";
+		display: inline-block;
+		width: 80%;
+		height: 80%;
+		vertical-align: middle;
+		color: $col-1;
+		margin: auto;
+	}
+
+	@media (min-width: $md) {
+		display: none;
+	}
+
+	@media (max-width: #{$sm - 0.1px}) {
+		height: 3rem;
+	}
+}
+
+div[id*="menu-"] {
+	display: flex;
+	-ms-flex-preferred-size: auto;
+	flex-basis: auto;
+	align-items: center;
+}
+
+ul[class*="menu-"] {
+	display: flex;
+	list-style: none;
+	padding-left: 0;
+	margin: 0;
+	flex-direction: column;
+
+	@media (min-width: $md) {
+		flex-direction: row;
+		margin-left: auto;
+	}
+}
+
+ul[class*="menu-"] {
+	li {
+		> a,
+		> button,
+		> span {
+			display: grid;
+			gap: 0.25rem;
+			align-items: center;
+			justify-content: space-between;
+			grid-auto-columns: minmax(0, max-content);
+			grid-auto-flow: column;
+
+			border-radius: 0;
+
+			font: inherit;
+			text-underline-offset: 2px;
+			color: white;
+			padding: 0.8rem 1rem;
+			white-space: nowrap;
+
+			@media (min-width: $md) {
+				gap: 0.5rem;
+			}
+		}
+		&:hover {
+			> a,
+			> button > span {
+				opacity: 0.85;
+			}
+		}
+		ul {
+			padding-left: 1.5rem;
+			list-style: none;
+		}
+	}
+
+	i {
+		width: 1.45rem;
+		height: 1.45rem;
+		line-height: 1;
+
+		@media (min-width: $md) {
+			width: 1.65rem;
+			height: 1.65rem;
+		}
+
+		&.select {
+			display: none;
+			width: 1.25rem;
+			height: 1.25rem;
+			margin: 0;
+
+			@media (min-width: $md) {
+				display: block;
+			}
+		}
+
+		&:not(.select) {
+			// order: -1;
+		}
+	}
+
+	svg {
+		width: 100%;
+		height: 100%;
+		color: currentColor;
+
+		.accent {
+			fill: #6bd1f9;
+		}
+	}
+
+	.dropdown {
+		text-align: center;
+		@media (min-width: $md) {
+			position: relative;
+			> span {
+				cursor: default;
+			}
+			.children {
+				position: absolute;
+				top: 100%;
+				left: 50%;
+				transform: translateX(-50%);
+				pointer-events: none;
+				min-width: 230px;
+				overflow: hidden;
+
+				&.mobile {
+					display: none;
+				}
+
+				ul {
+					display: block;
+					padding: 0rem 0.5rem 0.5rem;
+					background-color: $col-1;
+
+					transform: translateY(-100%);
+					transition: all 0.25s ease;
+
+					li {
+						white-space: nowrap;
+						&:not(:last-child) {
+							border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+						}
+						> .active,
+						&:hover > :not(ul) {
+							background-color: lighten($col-1, 10%);
+						}
+					}
+					a {
+						font-size: 1.05rem;
+						font-weight: 400;
+						letter-spacing: 0.0095em;
+						text-transform: uppercase;
+						justify-content: center;
+
+						i {
+							svg {
+								transform: scale(1.2);
+								transform-origin: left center;
+							}
+						}
+					}
+				}
+			}
+			&:hover,
+			&:focus,
+			&:active {
+				i.select {
+					color: $col-4;
+				}
+				.children {
+					pointer-events: all;
+					opacity: 1;
+					> ul {
+						transform: translateY(0%);
+					}
+				}
+			}
+		}
+	}
+}
+
+#menu-main {
+	.sign-out {
+		position: relative;
+		span {
+			text-transform: capitalize;
+			text-decoration: underline 1px dotted rgba(#fff, 0.4);
+		}
+		@media (min-width: $md) {
+			order: 2;
+			margin-left: 0.5rem;
+			&::before {
+				content: "";
+
+				position: absolute;
+				top: 50%;
+				left: -0.25rem;
+				transform: translateY(-50%);
+
+				display: block;
+				height: 1.25em;
+				border-left: 2px solid rgba(#fff, 0.4);
+			}
+			i {
+				display: none;
+			}
+		}
+	}
+	button.menu-close {
+		display: none;
+		background-color: transparent;
+		border: none;
+
+		cursor: pointer;
+
+		&:active {
+			background-color: rgba(0, 0, 0, 0.03);
+		}
+	}
+	@media (max-width: #{$md - 0.1px}) {
+		display: none;
+	}
+}
+
+ul.menu-main-ul {
+	@media (min-width: $md) {
+		> li {
+			> .active,
+			&:hover > :not(ul):not(div) {
+				box-shadow: 0px 7px 0 0 $col-4;
+			}
+			> :not(ul) {
+				transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1)
+						0ms,
+					box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+					border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+					color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+			}
+		}
+	}
+	@media (max-width: #{$md - 0.1px}) {
+		position: relative;
+		z-index: 2;
+		width: 100vw;
+		height: 100%;
+		max-width: 300px;
+		background-color: #98a0b1;
+		border-left: 1px solid $col-2;
+		flex-direction: column;
+
+		padding: 1.5rem 0 3rem;
+
+		pointer-events: all;
+		overflow-y: auto;
+
+		a,
+		li > span {
+			padding: 1.25rem 1.4rem;
+			border-top: 1px solid lighten(#98a0b1, 10%);
+		}
+
+		> li:first-child > a,
+		> li:first-child > span {
+			border-color: transparent;
+		}
+
+		.dropdown {
+			a {
+				padding: 0.5rem 1.4rem;
+			}
+			> a,
+			> span {
+				padding-top: 1.25rem;
+			}
+			ul {
+				padding-bottom: 1.25rem;
+				a {
+					padding-left: 0.75rem;
+					border-color: transparent;
+				}
+			}
+		}
+	}
+}
+
+#menu-actions {
+	font-size: 1.2rem;
+
+	ul {
+		flex-direction: row;
+	}
+
+	ul > li:not(.sign-in) {
+		&:not(:hover) {
+			a,
+			button {
+				> span:first-child {
+					border: 0;
+					clip: rect(0 0 0 0);
+					height: auto;
+					margin: 0;
+					overflow: hidden;
+					padding: 0;
+					position: absolute;
+					width: 1px;
+					white-space: nowrap;
+				}
+			}
+		}
+
+		&:hover {
+			a,
+			button {
+				position: relative;
+				opacity: 1;
+				> span {
+					position: absolute;
+					top: 100%;
+					left: 50%;
+					transform: translateX(-50%) translateY(8px);
+
+					display: block;
+					font-size: 1rem;
+					color: $col-1;
+					background-color: #fff;
+					padding: 0 0.5rem;
+
+					&::before {
+						content: "";
+						position: absolute;
+						top: -4px;
+						left: 50%;
+						transform: translateX(-50%) rotate(-45deg);
+						width: 8px;
+						height: 8px;
+						background-color: inherit;
+					}
+				}
+			}
+		}
+	}
+
+	a,
+	button {
+		cursor: pointer;
+		border: none;
+		background-color: transparent;
+		i {
+			display: grid;
+		}
+	}
+
+	.sign-in {
+		a {
+			span {
+				line-height: 1;
+				border-bottom: 1px dotted;
+				@media (min-width: $md) {
+					margin: auto 0 0.125em;
+				}
+			}
+		}
+		@media (max-width: #{$md - 0.1px}) {
+			span {
+				display: block;
+			}
+		}
+	}
+
+	@media (min-width: $md) {
+		position: absolute;
+		top: 1rem;
+		right: 0.5rem;
+		margin: 0;
+		a,
+		button {
+			padding: 0.4rem;
+		}
+	}
+
+	@media (max-width: #{$md - 0.1px}) {
+		$btnSize: 2.5rem;
+		height: 3rem;
+		margin: auto 1.5rem 0 0;
+
+		a,
+		button {
+			padding: 0;
+			> span {
+				display: none;
+			}
+			i {
+				width: $btnSize;
+				height: $btnSize;
+
+				svg {
+					width: 65%;
+					height: 65%;
+					margin: auto;
+				}
+			}
+		}
+	}
+}
+
+.MuiDrawer-paperAnchorLeft {
+	width: auto;
+}

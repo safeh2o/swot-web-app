@@ -8,7 +8,6 @@ html {
 *:after {
 	box-sizing: inherit;
 }
-
 * {
 	font: inherit;
 	line-height: inherit;
@@ -121,4 +120,17 @@ a,
 a:active,
 a:visited {
 	text-decoration: none;
+}
+input,
+textarea,
+select,
+button {
+	color: inherit;
+	font: inherit;
+	letter-spacing: inherit;
+	background-color: transparent;
+	border: none;
+}
+button * {
+	pointer-events: none;
 }

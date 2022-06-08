@@ -1,13 +1,4 @@
-import {
-	Box,
-	Button,
-	Card,
-	CardContent,
-	CardHeader,
-	Checkbox,
-	Divider,
-	Stack,
-} from "@mui/material";
+import { Box, Button, Checkbox, Divider, Stack } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import { forwardRef, useEffect, useState } from "react";
@@ -16,10 +7,14 @@ import { Link } from "react-router-dom";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import { formatDate } from "../../helpers/dates";
 import { addNotice, setLoading } from "../../reducers/notifications";
-import { ResultsPage as css } from "../../styles/styles";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
-import { IconCheck, IconRowChecked, IconRowUnchecked } from "../icons";
+import {
+	IconCheck,
+	IconRowChecked,
+	IconRowUnchecked,
+	IconWrong,
+} from "../icons";
 
 function renderRowSamples(dataset) {
 	return (
@@ -39,7 +34,7 @@ function renderRowStatus(dataset) {
 		return (
 			<Button
 				className={"BtnStatus waiting"}
-				endIcon={<IconCheck />}
+				endIcon={<IconWrong />}
 				size="small"
 				fullWidth
 				disabled
@@ -146,120 +141,83 @@ export default function ResultsPage() {
 
 	return (
 		<>
-			<Card elevation={1}>
-				<CardHeader
-					title={"View Results"}
-					titleTypographyProps={{ variant: "h2", fontWeight: "400" }}
-				/>
-
-				<Divider />
-
-				<CardContent
-					sx={{
-						p: 2,
-						"&:last-child": {
-							p: 2,
-						},
-					}}
-				>
-					<FieldsiteDropdown
-						onChange={(value) => {
-							setFieldsite(value);
-						}}
-					/>
-				</CardContent>
-			</Card>
-
-			<NotificationLine type="notice">
-				Is your location missing? &nbsp;{" "}
-				<Link to="/contact">Get in Touch</Link>
-			</NotificationLine>
-
-			<Card elevation={1}>
-				<CardHeader
-					title={
-						<Box
-							sx={{
-								display: "flex",
-								alignItems: "center",
-								justifyContent: "flex-start",
-							}}
-						>
-							<Button
-								variant="contained"
-								size="small"
-								sx={{
-									color: "#fff",
-									textTransform: "none",
-									backgroundColor: "#466FB6",
-									"&[disabled]": {
-										backgroundColor: "#fcfcfc",
-										borderColor: "rgba(0, 0, 0, 0.12)",
-									},
-								}}
-								disabled={!selectedDatasets.length}
-								onClick={handleReanalysis}
-							>
-								Reanalyze Selected
-							</Button>
+			<section>
+				<div className="section-wrap">
+					<Box className="app-card">
+						<Box component={"h1"} className="section-subtitle">
+							View Results
 						</Box>
-					}
-				/>
+						<Divider sx={{ my: 3, mb: 2 }} />
+						<FieldsiteDropdown
+							onChange={(value) => {
+								setFieldsite(value);
+							}}
+						/>
+						<NotificationLine type="notice">
+							Is your location missing?{" "}
+							<Link to="/contact">Get in Touch</Link>
+						</NotificationLine>
+					</Box>
 
-				<Divider />
-				<CardContent
-					sx={{
-						p: 0,
-					}}
-				>
-					<DataGrid
-						autoHeight
-						rows={datasets}
-						columns={columns}
-						headerHeight={45}
-						rowHeight={60}
-						checkboxSelection
-						onSelectionModelChange={handleSelection}
-						getRowId={(row) => row._id}
-						onSortModelChange={(sortModel) => {
-							setResultsSortModel(sortModel);
-						}}
-						sortModel={resultsSortModel}
-						components={{
-							NoRowsOverlay: () => (
-								<Stack
-									height="100%"
-									alignItems="center"
-									justifyContent="center"
-									sx={{
-										typography: "caption",
-										color: "#929eac",
-										p: 4,
-										minHeight: "200px",
-									}}
-								>
-									No Datasets. Please Select a Location Above
-								</Stack>
-							),
-							BaseCheckbox: forwardRef(function BaseCheckbox(
-								props,
-								ref
-							) {
-								return (
-									<Checkbox
-										icon={<IconRowUnchecked />}
-										checkedIcon={<IconRowChecked />}
-										ref={ref}
-										{...props}
-									/>
-								);
-							}),
-						}}
-						sx={{ ...css.grid }}
-						disableSelectionOnClick
-					/>
-				</CardContent>
-			</Card>
+					<Box className="app-card">
+						<Button
+							className="btn reanalyze"
+							disabled={!selectedDatasets.length}
+							onClick={handleReanalysis}
+						>
+							Reanalyze Selected
+						</Button>
+						<Divider sx={{ mt: 1, opacity: 0 }} />
+						<DataGrid
+							className="tool-data-grid"
+							autoHeight
+							rows={datasets}
+							columns={columns}
+							headerHeight={45}
+							rowHeight={60}
+							checkboxSelection
+							onSelectionModelChange={handleSelection}
+							getRowId={(row) => row._id}
+							onSortModelChange={(sortModel) => {
+								setResultsSortModel(sortModel);
+							}}
+							sortModel={resultsSortModel}
+							components={{
+								NoRowsOverlay: () => (
+									<Stack
+										height="100%"
+										alignItems="center"
+										justifyContent="center"
+										sx={{
+											typography: "caption",
+											color: "#929eac",
+											p: 4,
+											minHeight: "200px",
+										}}
+									>
+										No Datasets. Please Select a Location
+										Above
+									</Stack>
+								),
+								BaseCheckbox: forwardRef(function BaseCheckbox(
+									props,
+									ref
+								) {
+									return (
+										<Checkbox
+											icon={<IconRowUnchecked />}
+											checkedIcon={<IconRowChecked />}
+											ref={ref}
+											{...props}
+										/>
+									);
+								}),
+							}}
+							disableSelectionOnClick
+						/>
+					</Box>
+				</div>
+			</section>
 		</>
 	);
 }

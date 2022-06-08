@@ -1,0 +1,268 @@
+.breadcrumbs {
+	grid-column: 1/-1;
+	font-size: "13px";
+	color: "#bbb";
+	padding: 0.5rem 1.5rem;
+
+	@media (min-width: $md) {
+		padding-left: 2.5rem;
+		padding-right: 2.5rem;
+	}
+	a {
+		color: "inherit";
+		text-decoration-style: "solid";
+	}
+	.MuiBreadcrumbs-separator {
+		margin: 0 0.25rem;
+	}
+}
+
+section {
+	ul,
+	ol {
+		--space: 0.5em;
+		--width: 3em;
+		list-style: none;
+		list-style-position: outside;
+		padding-left: var(--width);
+		margin-bottom: calc(1.5rem * var(--line-height));
+		li {
+			counter-increment: ol-counter;
+			position: relative;
+			padding: 0;
+			margin-left: 0em;
+			&:not(:last-child) {
+				margin-bottom: calc(0.25rem * var(--line-height));
+			}
+			&::before {
+				display: inline-block;
+
+				position: absolute;
+				right: 100%;
+
+				text-align: center;
+				width: var(--width);
+				height: var(--lineHeight);
+			}
+		}
+	}
+	ul {
+		li {
+			&::before {
+				content: "▪";
+				transform: scale(1.5);
+			}
+		}
+	}
+
+	ol {
+		li {
+			&::before {
+				content: counter(ol-counter) ". ";
+				font-weight: 500;
+				font-variant-numeric: tabular-nums;
+			}
+		}
+	}
+}
+
+.btn,
+.MuiButton-root.btn {
+	position: relative;
+	display: inline-block;
+	font-size: 0.875rem;
+	font-weight: 500;
+	letter-spacing: -0.01em;
+	text-transform: uppercase;
+	color: inherit;
+	background-color: #f2c148;
+	padding: 0.9em 1.35em;
+	border-radius: 4px;
+	box-shadow: 0 0 0 0px $col-4;
+
+	transition: all 0.25s ease;
+
+	&.compact {
+		padding: 0.25em 0.75em;
+	}
+
+	// &::before {
+	// 	content: "";
+	// 	position: absolute;
+	// 	top: 0;
+	// 	left: 0;
+	// 	z-index: 0;
+	// 	width: 100%;
+	// 	height: 100%;
+	// 	background-color: inherit;
+	// 	border-radius: inherit;
+
+	// 	transition: all 0.25s ease 0.015s;
+	// }
+	&:hover {
+		box-shadow: 0 0 0 3px $col-4;
+		background-color: #f2c148;
+		&::before {
+			// transform: scale(1.05, 1.15);
+			text-decoration: none;
+		}
+		span {
+			// transform: scale(1.015);
+			// font-weight: 600;
+			// border-bottom-color: currentColor;
+		}
+	}
+	&:active,
+	&:active:focus {
+		&::before {
+			box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+		}
+	}
+	i {
+		display: block;
+		line-height: 0;
+	}
+	span {
+		transition: all 0.15s ease;
+
+		display: block;
+		border-top: transparent 1px solid;
+		border-bottom: transparent 1px solid;
+	}
+}
+
+.icon-txt {
+	display: grid;
+	grid-auto-columns: minmax(0, max-content);
+	grid-auto-flow: column;
+	align-items: flex-start;
+	gap: 0.5em;
+	min-width: 0px;
+	max-width: 100%;
+
+	> svg,
+	> img,
+	.icon {
+		position: relative;
+		width: calc(1em * var(--line-height));
+		height: calc(1em * var(--line-height));
+		flex: 1 0 auto;
+
+		> * {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	.center {
+	}
+}
+
+.notification {
+	@extend .icon-txt;
+
+	margin-top: 1rem;
+	margin-bottom: 0.5rem;
+
+	a {
+		text-decoration: underline;
+	}
+}
+
+.page-up {
+	position: fixed;
+	bottom: 2rem;
+	right: 1rem;
+}
+
+.form-content {
+	display: grid;
+	gap: 1rem;
+	margin-bottom: 1rem;
+	input,
+	.MuiOutlinedInput-root {
+		background-color: lighten($col-3, 5%);
+	}
+	> * {
+		grid-column: 1 / 3;
+	}
+	.col-2:nth-child(even) {
+		grid-column: 2 / 3;
+	}
+	.col-2:nth-child(odd) {
+		grid-column: 1 / 2;
+	}
+}
+.form-submit {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	margin-top: 0;
+
+	@media (min-width: $md) {
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	a {
+		text-decoration: underline;
+	}
+
+	button {
+		cursor: pointer;
+	}
+
+	#btnSubmit {
+		text-align: center;
+		text-decoration: none;
+		margin-bottom: 0.5rem;
+
+		@media (min-width: $md) {
+			margin-right: 1rem;
+			margin-bottom: 0;
+		}
+	}
+
+	#btnLogIn,
+	#btnSubmit {
+		flex: 1 0 auto;
+		max-width: 350px;
+	}
+
+	.notification {
+		flex-basis: 100%;
+	}
+}
+
+img {
+	max-width: 100%;
+}
+.backdrop {
+	color: #4369ac;
+	background-color: #fff;
+	& > * {
+		color: inherit;
+	}
+}
+
+.scrollup {
+	position: fixed !important;
+	bottom: 3.5rem;
+	right: 1.5rem;
+	padding: 3px;
+	color: #fff !important;
+	line-height: 0;
+	border-radius: 3px;
+	background-color: $col-1 !important;
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+	z-index: 9999 !important;
+
+	svg {
+		width: 2rem;
+		height: 2rem;
+	}
+
+	&:hover {
+		background-color: $col-1;
+	}
+}

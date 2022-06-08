@@ -1,0 +1,191 @@
+/* Type + Scaling */
+$font-size: 16px;
+$letter-spacing: -0.011em;
+$line-height: 1.375;
+$font-weight: 400;
+
+$sans: "Inter", "Helvetica", Arial, sans-serif;
+
+:root {
+	--font-size: 16px;
+	--letter-spacing: -0.011em;
+	--line-height: 1.375;
+	--font-weight: 400;
+}
+
+html {
+	text-rendering: optimizeLegibility;
+
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	-ms-text-size-adjust: 100%;
+	-moz-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+
+	// -- Font Settings
+
+	font-kerning: normal;
+	-moz-font-kerning: normal;
+	-webkit-font-kerning: normal;
+
+	font-feature-settings: "kern";
+	-webkit-font-feature-settings: "kern" 1, "kern";
+	-moz-font-feature-settings: "kern=1";
+
+	-webkit-font-smoothing: subpixel-antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-moz-osx-font-smoothing: auto;
+
+	// -- Font Size
+
+	font-family: $sans;
+	font-size: var(--font-size, 16px);
+	letter-spacing: var(--letter-spacing, -0.011em);
+	line-height: var(--line-height, 1.375);
+	font-weight: var(--font-weight, 400);
+}
+
+.small {
+	font-size: 0.875rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: $sans;
+	font-weight: 400;
+	line-height: var(--line-height, 1.375);
+	letter-spacing: -0.022em;
+	margin-bottom: 0;
+
+	strong,
+	b {
+		font-weight: inherit;
+	}
+}
+
+h1,
+.h1 {
+	font-family: "Roboto Condensed", sans-serif;
+	font-weight: 400;
+	font-size: 2rem;
+	letter-spacing: -0.021em;
+	line-height: 1.316em;
+	margin-top: calc(var(--line-height) * 0.75rem);
+	margin-bottom: calc(var(--line-height) * 0.45rem);
+
+	@media (min-width: $md) {
+		font-size: 2.25rem;
+	}
+}
+
+h2,
+.h2 {
+	font-family: "Roboto Condensed", sans-serif;
+	font-weight: 700;
+	font-size: 1.6rem;
+	line-height: 1.316em;
+	letter-spacing: -0.019em;
+
+	@media (min-width: $md) {
+		font-size: 1.75rem;
+	}
+}
+
+h3,
+.h3 {
+	font-family: "Roboto Condensed", sans-serif;
+	font-weight: 400;
+	font-size: 1.35rem;
+	line-height: 1.316em;
+	letter-spacing: -0.019em;
+
+	@media (min-width: $md) {
+		font-size: 1.5rem;
+	}
+}
+
+h4,
+h5,
+h6 {
+	font-size: 1.15rem;
+	font-weight: 500;
+}
+
+.section-title,
+.section-header {
+	font-family: "Roboto Condensed", sans-serif;
+	margin-bottom: 1rem;
+	font-size: 20px;
+	font-weight: "400";
+	line-height: "1.2";
+	letter-spacing: "-0.02em";
+	color: "#747e87";
+	margin: "5px 0 10px 8px";
+}
+
+.txt-condensed {
+	font-family: "Roboto Condensed", sans-serif;
+	font-weight: 400;
+}
+
+p {
+	&:not(:last-child) {
+		margin-bottom: calc(1rem * var(--line-height));
+	}
+}
+
+a {
+	color: inherit;
+}
+
+b,
+strong {
+	font-weight: 500;
+}
+
+.rte,
+.post-text {
+	*:not(h1):not(h2):not(h3):not(h4) {
+		letter-spacing: -0.015em;
+	}
+	a {
+		text-decoration: underline 1px;
+	}
+	h2,
+	.h2 {
+		margin-top: calc(1.5rem * var(--line-height));
+		margin-bottom: calc(0.25rem * var(--line-height));
+
+		@media (min-width: $md) {
+			font-size: 1.75rem;
+		}
+	}
+	h3,
+	.h3 {
+		margin-bottom: calc(0.25rem * var(--line-height));
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: "Roboto Condensed", sans-serif;
+		font-weight: 400;
+	}
+	h4,
+	h5,
+	h6 {
+		font-family: "Roboto Condensed", sans-serif;
+		font-weight: 500;
+
+		margin-top: calc(0.75rem * var(--line-height));
+		margin-bottom: calc(0.75rem * var(--line-height));
+	}
+}

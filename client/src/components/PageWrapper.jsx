@@ -1,13 +1,5 @@
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import {
-	AppBar,
-	Backdrop,
-	Box,
-	CircularProgress,
-	IconButton,
-	Typography,
-} from "@mui/material";
-import Slide from "@mui/material/Slide";
+import { Backdrop, Box, CircularProgress, IconButton } from "@mui/material";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import PropTypes from "prop-types";
 import { useRef } from "react";
@@ -15,7 +7,6 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { notificationsSelectors } from "../reducers/notifications";
 import { userSelectors } from "../reducers/user";
-import { PageWrapper as css } from "../styles/styles";
 import AppBreadcrumbs from "./elements/AppBreadcrumbs";
 import PublicSnackbar from "./elements/PublicSnackbar";
 import Footer from "./layout/Footer";
@@ -27,13 +18,16 @@ function PageWrapper(props) {
 	const isLoading = useSelector(notificationsSelectors.loading);
 
 	let url = useLocation();
-	const isToolSideBar = [
-		"/collect",
-		"/upload",
-		"/analyze",
-		"/results",
-		"/",
-	].some((path) => url.pathname === path);
+
+	const isHome = url.pathname === "/";
+
+	const isToolPage = ["/collect", "/upload", "/analyze", "/results"].some(
+		(path) => url.pathname.includes(path)
+	);
+
+	const isNotFound = url.pathname === "/not-found";
+
+	const isBlogPage = ["/blog"].some((path) => url.pathname.includes(path));
 
 	const BackToTopAnchor = useRef(null);
 	const scrollTrigger = useScrollTrigger();
@@ -41,48 +35,47 @@ function PageWrapper(props) {
 	return (
 		<>
 			{/* Header */}
-			<Slide appear={false} direction="down" in={!scrollTrigger}>
-				<AppBar sx={{ ...css.header }}>
-					<Header />
-				</AppBar>
-			</Slide>
+			<Box component={"header"} className="site-header">
+				<Header />
+			</Box>
 
 			<Box ref={BackToTopAnchor} component="span"></Box>
 
 			{/* Loading Screen */}
 			<Backdrop
 				open={isLoading}
-				sx={{ ...css.backdrop }}
 				transitionDuration={{
 					appear: 0,
 					enter: 550,
 					exit: 750,
 				}}
+				className="backdrop"
 			>
 				<CircularProgress />
 			</Backdrop>
 
-			{/* Breadcrumbs */}
-			<AppBreadcrumbs sx={{ ...css.breadcrumbs }} />
-
 			{/* Content Wrapper */}
-			<Box component={"main"} sx={{ ...css.main }}>
+			<Box
+				component={"main"}
+				className={{
+					user: isLoggedIn,
+					guest: !isLoggedIn,
+					"page-home": isHome,
+					"page-blog": isBlogPage,
+					"page-tool": (isToolPage || isHome) && isLoggedIn,
+					"page-cms": !isBlogPage && !isToolPage && !isHome,
+				}}
+			>
+				{/* Breadcrumbs */}
+				{!isNotFound && <AppBreadcrumbs />}
 				{/* Sidebar */}
-				{isLoggedIn && isToolSideBar && (
-					<Box component="nav" sx={{ ...css.nav }}>
-						<Typography
-							component={"h1"}
-							variant="body1"
-							sx={{ ...css.sectionHeader }}
-						>
-							Tool Menu
-						</Typography>
+				{isLoggedIn && (isToolPage || isHome) && (
+					<Box component="nav" className="nav-tool">
 						<NavTools />
 					</Box>
 				)}
-				<Box component={"article"} sx={{ ...css.article }}>
-					{props.children}
-				</Box>
+				{/* Content */}
+				{props.children}
 				<PublicSnackbar />
 			</Box>
 
@@ -102,8 +95,8 @@ function PageWrapper(props) {
 				sx={{
 					opacity: scrollTrigger ? "1" : "0",
 					pointerEvents: scrollTrigger ? "all" : "none",
-					...css.scrollup,
 				}}
+				className="scrollup"
 			>
 				<KeyboardArrowUpIcon aria-label="scroll back to top" />
 			</IconButton>

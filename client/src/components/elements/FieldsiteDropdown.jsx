@@ -10,7 +10,6 @@ import {
 import useForm from "../../hooks/useForm";
 import useHashParams from "../../hooks/useHashParams";
 import { userSelectors } from "../../reducers/user";
-import { FieldsiteDropdown as css } from "../../styles/styles";
 import LocationDropdown from "./LocationDropdown";
 
 function FieldsiteDropdown(props) {
@@ -118,7 +117,7 @@ function FieldsiteDropdown(props) {
 	};
 
 	return (
-		<Box sx={{ ...css }}>
+		<Box className="tool-locations">
 			<LocationDropdown
 				value={locations.country}
 				onChange={(_event, value) => {

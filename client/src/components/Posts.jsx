@@ -1,16 +1,8 @@
-import {
-	Box,
-	Card,
-	CardContent,
-	Divider,
-	Skeleton,
-	Typography,
-} from "@mui/material";
+import { Box, Divider, Skeleton, Typography } from "@mui/material";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { blogSelectors } from "../reducers/posts";
-import { Posts as css } from "../styles/styles";
 
 export default function Posts(props) {
 	const { data: posts } = props;
@@ -19,50 +11,33 @@ export default function Posts(props) {
 	function articleFromPost(post) {
 		const link = `/blog/${post.slug}`;
 		return (
-			<Card sx={{ ...css.cardElement }} key={link}>
-				<CardContent>
-					<Box component="article">
-						{post?.image?.secure_url && (
-							<figure>
-								<NavLink to={link}>
-									<img src={post?.image?.secure_url} alt="" />
-								</NavLink>
-							</figure>
+			<article key={link}>
+				{post?.image?.secure_url && (
+					<figure className="image-post">
+						<NavLink to={link}>
+							<img src={post?.image?.secure_url} alt="" />
+						</NavLink>
+					</figure>
+				)}
+				<div className="details-post">
+					<header className="text-sm">
+						<time>{post.publishedDate}</time>
+						{post.categories && post.categories.length > 0 && (
+							<span className="categories-post">
+								<span className="divider">in</span>
+								{post.categories.map((cat, i) => (
+									<a key={"cat-" + i}>{{ cat }}</a>
+								))}
+							</span>
 						)}
-						<Typography
-							component={NavLink}
-							to={link}
-							variant="h3"
-							gutterBottom
-							color="primary"
-							sx={{ display: "block", fontWeight: "500" }}
-						>
-							{post.title}
-						</Typography>
-						<Typography
-							variant="body1"
-							gutterBottom
-							component="div"
-						>
-							{post.content.brief}
-						</Typography>
-						<Divider
-							sx={{
-								borderColor: "primary.main",
-								my: 1,
-								opacity: 0.1,
-							}}
-						/>
-						<Typography
-							component="time"
-							variant="caption"
-							sx={{ color: "#999" }}
-						>
-							{post.publishedDate}
-						</Typography>
-					</Box>
-				</CardContent>
-			</Card>
+					</header>
+					<h1 className="post-title">
+						<NavLink to={link}>{post.title}</NavLink>
+					</h1>
+					<div className="post-text">{post.content.brief}</div>
+					<hr />
+				</div>
+			</article>
 		);
 	}
 

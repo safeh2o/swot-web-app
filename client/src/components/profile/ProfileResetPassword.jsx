@@ -1,17 +1,13 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
 	Box,
-	Button,
-	Card,
-	CardContent,
 	FormControl,
-	Grid,
 	IconButton,
 	InputAdornment,
 	InputLabel,
 	OutlinedInput,
+	Button,
 	TextField,
-	Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -19,7 +15,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import useForm from "../../hooks/useForm";
 import { handleServerMessages } from "../../reducers/notifications";
-import { ProfileResetPassword as css } from "../../styles/styles";
 
 export default function ProfileResetPassword() {
 	const { key } = useParams();
@@ -64,90 +59,72 @@ export default function ProfileResetPassword() {
 
 	return (
 		<>
-			<Typography
-				component={"h1"}
-				variant="body1"
-				sx={{ ...css.sectionHeader }}
-			>
-				Password Reset
-			</Typography>
-			<Card elevation={1}>
-				<CardContent>
+			<section>
+				<div className="section-wrap compact">
+					<h1 className="section-subtitle">Reset Password</h1>
 					<Box
 						component="form"
+						className="app-card"
 						onSubmit={handleSubmit}
-						sx={{ ...css.form }}
 					>
-						<Grid container direction="row" spacing={2}>
-							<Grid item xs={12}>
-								<FormControl fullWidth sx={{ mb: 1 }}>
-									<InputLabel htmlFor="password">
-										Password
-									</InputLabel>
-									<OutlinedInput
-										type={
-											showPassword ? "text" : "password"
-										}
-										minLength="6"
-										endAdornment={
-											<InputAdornment position="end">
-												<IconButton
-													aria-label="toggle password visibility"
-													onClick={
-														handleClickShowPassword
-													}
-													onMouseDown={
-														handleMouseDownPassword
-													}
-													edge="end"
-												>
-													{showPassword ? (
-														<VisibilityOff />
-													) : (
-														<Visibility />
-													)}
-												</IconButton>
-											</InputAdornment>
-										}
-										autoComplete="new-password"
-										label="New Password"
-										onChange={getTextChangeHandler(
-											"password"
-										)}
-										required
-									/>
-								</FormControl>
-								<FormControl fullWidth>
-									<TextField
-										label="Confirm Password"
-										type={
-											showPassword ? "text" : "password"
-										}
-										variant="outlined"
-										onChange={getTextChangeHandler(
-											"confirmPassword"
-										)}
-										required
-									/>
-								</FormControl>
-							</Grid>
-							<Grid item xs={12}>
-								<Button
-									id="btnSubmit"
-									variant="contained"
-									fullWidth
-									type="submit"
-								>
-									Submit
-								</Button>
-								<Button fullWidth type="reset">
-									Reset
-								</Button>
-							</Grid>
-						</Grid>
+						<Box className="form-content">
+							<FormControl fullWidth sx={{ mb: 1 }}>
+								<InputLabel htmlFor="password">
+									Password
+								</InputLabel>
+								<OutlinedInput
+									type={showPassword ? "text" : "password"}
+									minLength="6"
+									endAdornment={
+										<InputAdornment position="end">
+											<IconButton
+												aria-label="toggle password visibility"
+												onClick={
+													handleClickShowPassword
+												}
+												onMouseDown={
+													handleMouseDownPassword
+												}
+												edge="end"
+											>
+												{showPassword ? (
+													<VisibilityOff />
+												) : (
+													<Visibility />
+												)}
+											</IconButton>
+										</InputAdornment>
+									}
+									autoComplete="new-password"
+									label="New Password"
+									onChange={getTextChangeHandler("password")}
+									required
+								/>
+							</FormControl>
+							<FormControl fullWidth>
+								<TextField
+									label="Confirm Password"
+									type={showPassword ? "text" : "password"}
+									variant="outlined"
+									onChange={getTextChangeHandler(
+										"confirmPassword"
+									)}
+									required
+								/>
+							</FormControl>
+						</Box>
+						<Box className="form-submit">
+							<Button
+								type="submit"
+								id="btnSubmit"
+								className="btn"
+							>
+								Submit
+							</Button>
+						</Box>
 					</Box>
-				</CardContent>
-			</Card>
+				</div>
+			</section>
 		</>
 	);
 }

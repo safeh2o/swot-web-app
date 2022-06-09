@@ -1,7 +1,8 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { DateRangePicker, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import { Box, Divider, Slider, Stack, TextField } from "@mui/material";
+import { Box, Divider, Slider, Stack, TextField, Tooltip } from "@mui/material";
+import { IconQuestionMark } from "../icons";
 import {
 	Accordion,
 	AccordionDetails,
@@ -159,10 +160,32 @@ export default function AnalyzePage() {
 								</button>
 							</Stack>
 						</Box>
-
-						<NotificationLine type="guide">
-							How does setting the Date Range work?
-						</NotificationLine>
+						<Tooltip
+							className="tip-full icon-txt small"
+							title={
+								<>
+									Aenean a diam in mauris rutrum ultricies in
+									imperdiet ipsum. Praesent ipsum elit,
+									commodo bibendum mattis eget, facilisis ac
+									nisl.
+									<hr />
+									<a href="/contact" className="btn compact">
+										learn more
+									</a>
+								</>
+							}
+							arrow
+							placement="top"
+							leaveDelay={750}
+							leaveTouchDelay={750}
+						>
+							<span>
+								<IconQuestionMark />
+								<span>
+									How does setting the Date Range work?
+								</span>
+							</span>
+						</Tooltip>
 					</Box>
 					<Box className="app-card">
 						<Box component={"h2"}>Options for Analysis:</Box>
@@ -206,9 +229,37 @@ export default function AnalyzePage() {
 										}}
 									/>
 								</Box>
-								<NotificationLine type="guide">
-									How should I determine the storage time?
-								</NotificationLine>
+								<Tooltip
+									className="tip-full icon-txt small"
+									title={
+										<>
+											Aenean a diam in mauris rutrum
+											ultricies in imperdiet ipsum.
+											Praesent ipsum elit, commodo
+											bibendum mattis eget, facilisis ac
+											nisl.
+											<hr />
+											<a
+												href="/contact"
+												className="btn compact"
+											>
+												learn more
+											</a>
+										</>
+									}
+									arrow
+									placement="top"
+									leaveDelay={750}
+									leaveTouchDelay={750}
+								>
+									<span>
+										<IconQuestionMark />
+										<span>
+											How should I determine the storage
+											time?
+										</span>
+									</span>
+								</Tooltip>
 							</AccordionDetails>
 						</Accordion>
 
@@ -287,9 +338,36 @@ export default function AnalyzePage() {
 										))}
 									</RadioGroup>
 								</FormControl>
-								<NotificationLine type="guide">
-									Which scenario should I choose?
-								</NotificationLine>
+								<Tooltip
+									className="tip-full icon-txt small"
+									title={
+										<>
+											Aenean a diam in mauris rutrum
+											ultricies in imperdiet ipsum.
+											Praesent ipsum elit, commodo
+											bibendum mattis eget, facilisis ac
+											nisl.
+											<hr />
+											<a
+												href="/contact"
+												className="btn compact"
+											>
+												learn more
+											</a>
+										</>
+									}
+									arrow
+									placement="top"
+									leaveDelay={750}
+									leaveTouchDelay={750}
+								>
+									<span>
+										<IconQuestionMark />
+										<span>
+											Which scenario should I choose?
+										</span>
+									</span>
+								</Tooltip>
 							</AccordionDetails>
 						</Accordion>
 					</Box>
@@ -303,6 +381,7 @@ export default function AnalyzePage() {
 								onClick={handleFormSubmit}
 								disabled={disabled}
 								className="btn"
+								disableRipple={true}
 							>
 								Analyze
 							</Button>

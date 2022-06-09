@@ -274,6 +274,11 @@ main.page-tool {
 	padding-right: 2rem;
 	margin: 2.75rem auto 0;
 
+	svg.MuiSvgIcon-root {
+		font-size: calc(1em * var(--line-height));
+		margin-left: 0.25rem;
+	}
+
 	.household-storage-labels {
 		display: flex;
 		justify-content: space-between;
@@ -332,6 +337,10 @@ main.page-tool {
 }
 
 .tool-modeling-confidence-level {
+	svg.MuiSvgIcon-root {
+		font-size: calc(1em * var(--line-height));
+		margin-left: 0.25rem;
+	}
 	.modeling-confidence-level-radio-group {
 		color: #929eac;
 		font-weight: 500;
@@ -372,14 +381,9 @@ main.page-tool {
 }
 
 .tool-overwrite-duplicate-entries {
-	.MuiDropzoneArea-icon {
-		color: #dbdfe4;
-		width: 2rem;
-		height: 2rem;
-
-		.accent {
-			color: #aeb5bf;
-		}
+	svg.MuiSvgIcon-root {
+		font-size: calc(1em * var(--line-height));
+		margin-left: 0.25rem;
 	}
 }
 
@@ -539,9 +543,9 @@ main.page-tool {
 // 	font-size: calc(var(--line-height) * 1em);
 // }
 
-.MuiSvgIcon-root,
-svg.MuiSvgIcon-root {
-	// font-size: calc(1em * var(--line-height));
+.tip-full {
+	display: inline-grid;
+	margin: calc(0.5em * var(--line-height)) 0;
 }
 
 a.MuiButton-root,

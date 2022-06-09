@@ -6,6 +6,7 @@ import {
 	Divider,
 	FormControlLabel,
 	FormGroup,
+	Tooltip,
 } from "@mui/material";
 import axios from "axios";
 import { DropzoneArea } from "material-ui-dropzone";
@@ -22,7 +23,12 @@ import {
 } from "../../reducers/notifications";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
-import { IconToolUpload, IconRowUnchecked, IconRowChecked } from "../icons";
+import {
+	IconToolUpload,
+	IconRowUnchecked,
+	IconRowChecked,
+	IconQuestionMark,
+} from "../icons";
 
 const initialState = {
 	files: [],
@@ -140,7 +146,22 @@ export default function UploadPage() {
 
 						<FormGroup className="tool-overwrite-duplicate-entries">
 							<FormControlLabel
-								label="Overwrite Duplicate Entries"
+								label={
+									<>
+										Overwrite Duplicate Entries
+										<Tooltip
+											title="Duplicates are rows with the same dates and times"
+											arrow
+											placement="top"
+											leaveDelay={750}
+											leaveTouchDelay={750}
+										>
+											<span>
+												<IconQuestionMark />
+											</span>
+										</Tooltip>
+									</>
+								}
 								control={
 									<Checkbox
 										name="overwriteCheck"
@@ -156,10 +177,6 @@ export default function UploadPage() {
 								}
 							/>
 						</FormGroup>
-
-						<NotificationLine type="guide">
-							Duplicates are rows with the same dates and times
-						</NotificationLine>
 					</Box>
 					<Box className="app-card">
 						<Box className="form-submit">
@@ -172,6 +189,7 @@ export default function UploadPage() {
 								disabled={disabled}
 								loading={loading || undefined}
 								className="btn"
+								disableRipple={true}
 							>
 								Upload
 							</Button>

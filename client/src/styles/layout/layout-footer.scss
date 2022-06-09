@@ -34,7 +34,7 @@
 
 	.logos {
 		display: flex;
-		align-items: flex-end;
+		align-items: center;
 		justify-content: center;
 		flex-wrap: wrap;
 		a {
@@ -57,6 +57,11 @@
 		img.dwb,
 		img.grandchallenges {
 			height: 65px;
+		}
+		img.wide {
+			width: auto;
+			max-width: none;
+			height: 70px;
 		}
 	}
 

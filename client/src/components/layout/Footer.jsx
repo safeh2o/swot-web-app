@@ -39,10 +39,11 @@ export default function Footer() {
 							rel="noreferrer"
 						>
 							<img
-								src="assets/organisations/dwb_compact.svg"
+								src="assets/organisations/dwb.svg"
 								alt=" logo"
 								width="1599.6"
 								height="465.8"
+								className="wide"
 							/>
 						</a>
 					</div>

@@ -35,7 +35,7 @@ export default function CollectData() {
 										<div className="content">
 											<h3>Field Protocol</h3>
 											<p>
-												Overview of team equipments
+												Overview of your teams equipment
 												needs, and data collection
 												procedures
 											</p>

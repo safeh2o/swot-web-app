@@ -497,6 +497,7 @@ export default function Result() {
 								id="btnSubmit"
 								className="btn"
 								href={`/api/results/download?datasetId=${datasetId}`}
+								disableRipple={true}
 							>
 								<Box component="span">Download Raw Results</Box>
 							</Button>

@@ -6,10 +6,8 @@ export default function Footer() {
 	return (
 		<>
 			<footer component={"section"} className="site-footer">
-				<section>
-					<h3 className="section-subtitle">
-						A free and open-source tool by
-					</h3>
+				<section className="rte">
+					<h2>A free and open-source tool by</h2>
 					<div className="logos">
 						<a
 							target="_blank"
@@ -17,7 +15,7 @@ export default function Footer() {
 							rel="noreferrer"
 						>
 							<img
-								src="./assets/organisations/YorkULogo_DIGITAL_Ver_RGB_REV.png"
+								src="assets/organisations/YorkULogo_DIGITAL_Ver_RGB_REV.png"
 								alt=" logo"
 								width="200"
 								height="200"
@@ -29,7 +27,7 @@ export default function Footer() {
 							rel="noreferrer"
 						>
 							<img
-								src="./assets/organisations/dighr_black_on_white.png"
+								src="assets/organisations/dighr_black_on_white.png"
 								alt=" logo"
 								width="200"
 								height="200"
@@ -41,7 +39,7 @@ export default function Footer() {
 							rel="noreferrer"
 						>
 							<img
-								src="./assets/organisations/dwb_compact.svg"
+								src="assets/organisations/dwb_compact.svg"
 								alt=" logo"
 								width="1599.6"
 								height="465.8"
@@ -49,8 +47,8 @@ export default function Footer() {
 						</a>
 					</div>
 				</section>
-				<section>
-					<div className="section-subtitle">Follow Us</div>
+				<section className="rte">
+					<h2>Follow Us</h2>
 					<div className="social-networks">
 						<a
 							className="linkedin"
@@ -97,11 +95,14 @@ export default function Footer() {
 					</nav>
 				</section>
 			</footer>
-			<div className="site-cookies">
-				<div className="wrap small">
+			<div className="site-cookie-policy medium">
+				<div className="wrap">
 					<p>
 						This website uses cookies. To learn more, visit our{" "}
-						<a href="/cookie-policy.php">Cookies Policy</a>.
+						<NavLink to="/pages/cookie-policy">
+							Cookie Policy
+						</NavLink>
+						.
 					</p>
 					<span className="user-input">
 						<Button className="needed">Accept Nessesary</Button>

@@ -186,6 +186,9 @@ ul[class*="menu-"] {
 			width: 1.65rem;
 			height: 1.65rem;
 		}
+		svg {
+			font-size: inherit;
+		}
 
 		&.select {
 			display: none;
@@ -197,20 +200,12 @@ ul[class*="menu-"] {
 				display: block;
 			}
 		}
-
-		&:not(.select) {
-			// order: -1;
-		}
 	}
 
 	svg {
 		width: 100%;
 		height: 100%;
 		color: currentColor;
-
-		.accent {
-			fill: #6bd1f9;
-		}
 	}
 
 	.dropdown {

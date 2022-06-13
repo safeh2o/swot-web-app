@@ -1,17 +1,12 @@
 import {
 	Box,
 	Button,
-	Card,
-	CardContent,
-	Divider,
 	FormControl,
 	FormHelperText,
-	Grid,
 	InputLabel,
 	MenuItem,
 	Select,
 	TextField,
-	Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -19,7 +14,6 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import useForm from "../hooks/useForm";
 import { handleServerMessages, setLoading } from "../reducers/notifications";
-import { ContactPage as css } from "../styles/styles";
 import NotificationLine from "./elements/NotificationLine";
 
 export default function ContactPage() {

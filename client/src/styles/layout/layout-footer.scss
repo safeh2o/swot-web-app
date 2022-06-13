@@ -2,16 +2,11 @@
 	text-align: center;
 	color: #fff;
 	background-color: #294f93;
+	padding-top: calc(var(--line-height) * 1rem);
 	margin-top: auto;
 
-	.section-title,
-	.section-subtitle {
-		// margin-top: calc(var(--line-height) * 1rem);
-
-		font-size: 2.25rem;
-		@media (min-width: $md) {
-			font-size: 2.25rem;
-		}
+	h2 {
+		font-weight: 700;
 	}
 
 	> svg {
@@ -106,14 +101,14 @@
 	}
 }
 
-.site-cookies {
+.site-cookie-policy {
 	position: sticky;
 	bottom: 0;
 	z-index: 100;
 
 	color: #fff;
 	background: $col-5;
-	padding: 1rem 2rem;
+	padding: calc(var(--line-height) * 0.5rem) calc(var(--line-height) * 2rem);
 
 	.wrap {
 		display: grid;

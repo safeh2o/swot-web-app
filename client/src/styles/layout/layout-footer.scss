@@ -38,7 +38,7 @@
 		justify-content: center;
 		flex-wrap: wrap;
 		a {
-			margin: 1rem;
+			margin: 1rem 1.25rem;
 		}
 		img {
 			max-width: 70px;
@@ -107,43 +107,35 @@
 }
 
 .site-cookie-policy {
-	position: sticky;
+	position: fixed;
 	bottom: 0;
+	left: 0;
 	z-index: 100;
 
-	color: #fff;
-	background: $col-5;
-	padding: calc(var(--line-height) * 0.5rem) calc(var(--line-height) * 2rem);
+	max-width: 100%;
+	padding: calc(var(--line-height) * 0.5rem);
 
 	.wrap {
 		display: grid;
-		grid-auto-flow: column;
+		grid-auto-flow: row;
+		align-items: center;
 		justify-content: center;
 		gap: 0.75rem;
 
-		max-width: 880px;
-		margin: 0 auto;
-
-		@media (min-width: $md) {
-			justify-content: space-between;
-			align-items: center;
-		}
-		@media (max-width: $md) {
-			text-align: center;
-			grid-auto-flow: row;
-			grid-auto-rows: minmax(0, max-content);
-			.user-input {
-				justify-content: center;
-			}
-		}
+		color: #fff;
+		background: $col-5;
+		border-radius: 5px;
+		padding: calc(var(--line-height) * 0.35rem);
+		margin: auto;
 	}
 
 	p {
+		padding-right: 3rem;
 		margin: 0;
 	}
 	a {
 		color: inherit;
-		text-decoration: underline 1px dotted rgba(#fff, 0.35);
+		text-decoration: underline 1px rgba(#fff, 0.35);
 	}
 	.user-input {
 		display: grid;
@@ -157,7 +149,7 @@
 	}
 	button,
 	button.MuiButton-root {
-		padding: 0.5rem 1.5rem;
+		padding: 0.5rem 0.75rem;
 		border-radius: 2px;
 		text-transform: capitalize;
 
@@ -182,7 +174,12 @@
 			color: inherit;
 			opacity: 0.6;
 			background-color: transparent;
-			text-decoration: underline 1px dotted rgba(#fff, 0.35);
+			text-decoration: underline 1px rgba(#fff, 0.35);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+
+			&:hover {
+				text-decoration-color: #fff;
+			}
 		}
 
 		&:hover {

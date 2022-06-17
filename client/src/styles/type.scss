@@ -1,16 +1,15 @@
 /* Type + Scaling */
-$font-size: 16px;
-$letter-spacing: -0.011em;
-$line-height: 1.375;
-$font-weight: 400;
-
 $sans: "Inter", "Helvetica", Arial, sans-serif;
 
 :root {
-	--font-size: 16px;
+	--font-size: 14px;
 	--letter-spacing: -0.011em;
 	--line-height: 1.375;
 	--font-weight: 400;
+
+	@media (min-width: 1080px) {
+		--font-size: 16px;
+	}
 }
 
 html {

@@ -150,6 +150,7 @@ export default function UploadPage() {
 									<>
 										Overwrite Duplicate Entries
 										<Tooltip
+											className="tip-full icon-txt small"
 											title="Duplicates are rows with the same dates and times"
 											arrow
 											placement="top"

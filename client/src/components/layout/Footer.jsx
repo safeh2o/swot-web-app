@@ -96,10 +96,12 @@ export default function Footer() {
 					</nav>
 				</section>
 			</footer>
-			<div className="site-cookie-policy medium">
+			<div className="site-cookie-policy small">
 				<div className="wrap">
 					<p>
-						This website uses cookies. To learn more, visit our{" "}
+						This website uses cookies.
+						<br />
+						To learn more, visit our{" "}
 						<NavLink to="/pages/cookie-policy">
 							Cookie Policy
 						</NavLink>

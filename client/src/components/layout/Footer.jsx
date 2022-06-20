@@ -1,8 +1,58 @@
 import { Button } from "@mui/material";
+import { useContext, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
+import AppContext from "../../contexts/AppContext";
 import { IconYoutube, IconTwitter, IconLinkedin } from "../icons";
 
+const COOKIE_NAME = "cookie_consent";
+const TWO_WEEKS = 14 * 24 * 60 * 60 * 1000;
+
 export default function Footer() {
+	const cookieBannerRef = useRef(null);
+	const { gtag: gaMeasurementId } = useContext(AppContext);
+
+	useEffect(() => {
+		if (cookieBannerRef.current) {
+			if (userHasConsented()) {
+				hideCookieBanner();
+			}
+		}
+	}, [cookieBannerRef]);
+
+	function hideCookieBanner() {
+		cookieBannerRef.current.style.display = "none";
+	}
+
+	function acceptCookies() {
+		const d = new Date();
+		d.setTime(d.getTime() + TWO_WEEKS);
+		let expires = "expires=" + d.toUTCString();
+		document.cookie = COOKIE_NAME + "=true;" + expires + ";path=/";
+		hideCookieBanner();
+	}
+
+	function rejectCookies() {
+		window[`ga-disable-${gaMeasurementId}`] = true;
+		hideCookieBanner();
+	}
+
+	function getCookie() {
+		const allCookies = document.cookie.split("; ");
+		for (const cookieString of allCookies) {
+			const firstEqual = cookieString.indexOf("=");
+			if (cookieString.substring(0, firstEqual) === COOKIE_NAME) {
+				return cookieString.substring(firstEqual + 1);
+			}
+		}
+
+		return null;
+	}
+
+	function userHasConsented() {
+		const consentCookie = getCookie();
+		return consentCookie?.toLowerCase() === "true";
+	}
+
 	return (
 		<>
 			<footer component={"section"} className="site-footer">
@@ -95,7 +145,7 @@ export default function Footer() {
 					</nav>
 				</section>
 			</footer>
-			<div className="site-cookie-policy medium">
+			<div className="site-cookie-policy medium" ref={cookieBannerRef}>
 				<div className="wrap">
 					<p>
 						This website uses cookies. To learn more, visit our{" "}
@@ -105,8 +155,12 @@ export default function Footer() {
 						.
 					</p>
 					<span className="user-input">
-						<Button className="needed">Accept Nessesary</Button>
-						<Button className="accept btn">Accept All</Button>
+						<Button className="needed" onClick={rejectCookies}>
+							Accept Necessary
+						</Button>
+						<Button className="accept btn" onClick={acceptCookies}>
+							Accept All
+						</Button>
 					</span>
 				</div>
 			</div>

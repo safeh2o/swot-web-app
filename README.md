@@ -6,6 +6,7 @@ Safe Water Optimization Tool Web Application
 
 ## Run Development Server
 
+-   Install Yarn with `npm i --location=global yarn`
 -   Install server dependencies with `cd server` then `npm ci`
 -   Install frontend dependencies with `cd client` then `npm ci`
 -   Run the application with `npm run dev` from the base directory or if you're using VS Code, simply press F5 to also attach a debugger

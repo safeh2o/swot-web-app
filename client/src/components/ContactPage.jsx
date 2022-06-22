@@ -195,6 +195,7 @@ export default function ContactPage() {
 									type="submit"
 									disabled={disabled}
 									onClick={handleSubmit}
+									disableRipple={true}
 								>
 									Submit
 								</Button>

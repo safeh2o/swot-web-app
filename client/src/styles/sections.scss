@@ -9,55 +9,47 @@ main {
 	position: relative;
 
 	display: grid;
-	grid-auto-columns: minmax(0%, 100%);
 	grid-auto-rows: minmax(0%, max-content);
 	gap: calc(var(--line-height) * 1rem);
 	width: 100%;
 	height: auto;
 	margin: 0 auto;
 
-	padding-left: 1.5rem;
-	padding-right: 1.5rem;
-
+	padding-left: 2.5rem;
+	padding-right: 2.5rem;
 	max-width: $max-width-small;
-
 	@media (min-width: $md) {
-		padding-left: 2rem;
-		padding-right: 2rem;
-		padding-bottom: 1rem;
-
 		max-width: $max-width;
 	}
 
 	&.compact {
-		max-width: 640px;
+		max-width: $max-width-small;
 	}
 }
 .section-title,
 .section-subtitle {
 	font-family: "Roboto Condensed", sans-serif;
 	font-weight: 700;
-	font-size: 2.75rem;
+	font-size: 2.25rem;
 	line-height: 1.1;
 	letter-spacing: -0.0175em;
 
+	margin-bottom: calc(var(--line-height) * 1rem);
+	margin-top: calc(var(--line-height) * 2rem);
+
 	@media (min-width: $md) {
-		font-size: 3.25rem;
-		margin-top: calc(var(--line-height) * 2.25rem);
+		font-size: 2.5rem;
+	}
+}
+.section-subtitle {
+	font-size: 2rem;
+	@media (min-width: $md) {
+		font-size: 2.25rem;
 	}
 }
 .section-title {
 	margin-bottom: calc(var(--line-height) * 1rem);
 	margin-top: calc(var(--line-height) * 1.25rem);
-}
-.section-subtitle {
-	margin-bottom: calc(var(--line-height) * 0.5rem);
-	margin-top: calc(var(--line-height) * 0.75rem);
-
-	font-size: 2.25rem;
-	@media (min-width: $md) {
-		font-size: 3rem;
-	}
 }
 
 .app-cards {
@@ -67,11 +59,12 @@ main {
 
 .app-card {
 	background-color: #fdfdfe;
-	padding: 0.75rem 1rem 1rem 1rem;
+	padding: 1rem;
 	border-radius: 6px;
 
 	&:first-child {
-		border-radius: 0 6px 6px;
+		border-radius: 0 0 6px 6px;
+		border-top: 1px #b8c2d4 solid;
 	}
 
 	.sub-section {
@@ -151,12 +144,21 @@ main {
 #home-profile .cards {
 	display: grid;
 	grid-template-columns: minmax(0, 100%);
-	gap: calc(var(--line-height) * 1rem);
+	gap: calc(var(--line-height) * 1rem) calc(var(--line-height) * 0.75rem);
 
 	align-items: stretch;
 
-	@media (min-width: $sm) {
+	@media (min-width: $sm) and (max-width: $md) {
+		grid-template-columns: repeat(3, minmax(0, 33.333%));
+
+		.card.tool {
+			grid-column: 1/-1;
+		}
+	}
+
+	@media (min-width: $md) {
 		grid-template-columns: minmax(0, 50%) minmax(0, 50%);
+		gap: calc(var(--line-height) * 1rem);
 	}
 
 	.card {
@@ -168,10 +170,10 @@ main {
 		box-shadow: 0 0 0 0 #ccd2d9;
 		border-radius: 7px;
 
-		padding: 2rem 2rem 3.5rem;
+		padding: 1.5rem 5.5rem 1.5rem 1.25rem;
 
-		@media (min-width: $md) {
-			padding: 2rem 2rem 5.875rem;
+		@media (min-width: $sm) {
+			padding: 2rem 2rem 4.5rem;
 		}
 
 		transition: all 0.2s ease;
@@ -210,17 +212,17 @@ main {
 					&::before {
 						display: none;
 					}
-					padding-left: 2rem;
 					a {
 						text-decoration: none;
 					}
-					svg {
+					i {
 						position: absolute;
 						top: 50%;
-						left: calc(var(--line-height) * -0.5rem);
+						right: 1rem;
 						transform: translateY(-50%);
 
-						color: #b8c2d4;
+						// color: #b8c2d4;
+						line-height: 0;
 					}
 				}
 			}
@@ -231,6 +233,7 @@ main {
 			}
 
 			@media (max-width: $md) {
+				padding: 1.5rem 1.25rem;
 				border-radius: 7px;
 
 				.tool-menu-mobile {
@@ -241,6 +244,10 @@ main {
 			@media (min-width: $md) {
 				border-radius: 0 7px 7px 0;
 
+				p {
+					margin: 0;
+				}
+
 				> i {
 					display: block;
 				}
@@ -250,18 +257,26 @@ main {
 		.title {
 			font-weight: 700;
 			margin: 0;
-			margin-bottom: 1rem;
+			margin-bottom: 0.5rem;
+
+			@media (min-width: $md) {
+				margin-bottom: 0.75rem;
+			}
 		}
 		> i {
 			position: absolute;
-			bottom: 1rem;
-			left: 2rem;
+			bottom: 50%;
+			right: 2rem;
+			transform: translateY(50%);
 
 			display: block;
 			line-height: 0;
 
-			@media (min-width: $md) {
-				bottom: 2rem;
+			@media (min-width: $sm) {
+				bottom: 1.5rem;
+				left: 2rem;
+				right: auto;
+				transform: none;
 			}
 		}
 	}

@@ -89,10 +89,11 @@ export default function Footer() {
 							rel="noreferrer"
 						>
 							<img
-								src="assets/organisations/dwb_compact.svg"
+								src="assets/organisations/dwb.svg"
 								alt=" logo"
 								width="1599.6"
 								height="465.8"
+								className="wide"
 							/>
 						</a>
 					</div>
@@ -145,10 +146,12 @@ export default function Footer() {
 					</nav>
 				</section>
 			</footer>
-			<div className="site-cookie-policy medium" ref={cookieBannerRef}>
+			<div className="site-cookie-policy small" ref={cookieBannerRef}>
 				<div className="wrap">
 					<p>
-						This website uses cookies. To learn more, visit our{" "}
+						This website uses cookies.
+						<br />
+						To learn more, visit our{" "}
 						<NavLink to="/pages/cookie-policy">
 							Cookie Policy
 						</NavLink>

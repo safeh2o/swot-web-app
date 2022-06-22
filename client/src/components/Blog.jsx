@@ -20,15 +20,14 @@ export default function Blog() {
 							News, <br />
 							Technical Blog
 						</h1>
-						<div className="posts-filters text-sm">
+						<div className="posts-filters small">
 							<div className="categories-blog">
 								<a className="active">Announcements</a>
-								<span className="divider">...</span>
 								<a>Resources</a>
 								<a>Support &amp; Guides</a>
 							</div>
 						</div>
-						<div className="posts-count text-sm">
+						<div className="posts-count small">
 							<span>Showing 1 to 10 of 11 posts.</span>
 						</div>
 					</div>

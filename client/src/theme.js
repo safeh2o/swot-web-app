@@ -111,26 +111,6 @@ let theme = createTheme({
 				root: {
 					height: '18px',
 					zIndex: 1,
-					'&::before': {
-						content: '""',
-						position: 'absolute',
-						top: 'calc(50% - 9px)',
-						right: '100%',
-						zIndex: -1,
-						height: 'inherit',
-						width: '8px',
-						backgroundColor: '#466FB6'
-					},
-					'&::after': {
-						content: '""',
-						position: 'absolute',
-						top: 'calc(50% - 9px)',
-						left: '100%',
-						zIndex: -1,
-						height: 'inherit',
-						width: '8px',
-						backgroundColor: '#d5d9df'
-					}
 				},
 				thumb: {
 					transform: "scale(1)",

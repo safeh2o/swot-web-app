@@ -274,8 +274,9 @@ export default function Result() {
 									}
 									arrow
 									placement="top"
-									leaveDelay={750}
-									leaveTouchDelay={750}
+									leaveDelay={500}
+									enterDelay={300}
+									leaveTouchDelay={500}
 								>
 									<span>
 										<IconQuestionMark />
@@ -310,8 +311,9 @@ export default function Result() {
 									}
 									arrow
 									placement="top"
-									leaveDelay={750}
-									leaveTouchDelay={750}
+									leaveDelay={500}
+									enterDelay={300}
+									leaveTouchDelay={500}
 								>
 									<span>
 										<IconQuestionMark />
@@ -358,8 +360,9 @@ export default function Result() {
 									}
 									arrow
 									placement="top"
-									leaveDelay={750}
-									leaveTouchDelay={750}
+									leaveDelay={500}
+									enterDelay={300}
+									leaveTouchDelay={500}
 								>
 									<span>
 										<IconQuestionMark />
@@ -390,8 +393,9 @@ export default function Result() {
 									}
 									arrow
 									placement="top"
-									leaveDelay={750}
-									leaveTouchDelay={750}
+									leaveDelay={500}
+									enterDelay={300}
+									leaveTouchDelay={500}
 								>
 									<span>
 										<IconQuestionMark />
@@ -423,8 +427,9 @@ export default function Result() {
 									}
 									arrow
 									placement="top"
-									leaveDelay={750}
-									leaveTouchDelay={750}
+									leaveDelay={500}
+									enterDelay={300}
+									leaveTouchDelay={500}
 								>
 									<span>
 										<IconQuestionMark />
@@ -449,8 +454,9 @@ export default function Result() {
 									}
 									arrow
 									placement="top"
-									leaveDelay={750}
-									leaveTouchDelay={750}
+									leaveDelay={500}
+									enterDelay={300}
+									leaveTouchDelay={500}
 								>
 									<span>
 										<IconQuestionMark />
@@ -470,8 +476,9 @@ export default function Result() {
 									is implemented"
 									arrow
 									placement="top"
-									leaveDelay={750}
-									leaveTouchDelay={750}
+									leaveDelay={500}
+									enterDelay={300}
+									leaveTouchDelay={500}
 								>
 									<span>
 										<IconQuestionMark />
@@ -497,6 +504,7 @@ export default function Result() {
 								id="btnSubmit"
 								className="btn"
 								href={`/api/results/download?datasetId=${datasetId}`}
+								disableRipple={true}
 							>
 								<Box component="span">Download Raw Results</Box>
 							</Button>

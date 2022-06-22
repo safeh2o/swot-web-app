@@ -92,21 +92,6 @@ export default function Header() {
 			<>
 				{(userLoadingStatus === "success" && (
 					<>
-						{isLoggedIn && (
-							<li className="sign-out">
-								<Button
-									href="/admin/signout"
-									tabIndex={-1}
-									onClick={handleSignout}
-									className="signout"
-								>
-									<span>Sign Out</span>
-									<i>
-										<IconSignOut />
-									</i>
-								</Button>
-							</li>
-						)}
 						<li className="dropdown" tabIndex="0">
 							<span>
 								<span>About</span>
@@ -278,6 +263,19 @@ export default function Header() {
 										</IconButton>
 									</li>
 								)}
+								<li className="sign-out">
+									<IconButton
+										href="/admin/signout"
+										tabIndex={-1}
+										onClick={handleSignout}
+										className="signout"
+									>
+										<span>Sign Out</span>
+										<i>
+											<IconSignOut />
+										</i>
+									</IconButton>
+								</li>
 							</>
 						) : (
 							<>

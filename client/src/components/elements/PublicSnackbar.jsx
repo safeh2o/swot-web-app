@@ -48,11 +48,12 @@ export default function PublicSnackbar() {
 			open={alertOpen}
 			autoHideDuration={3000}
 			onClose={handleAlertClose}
+			anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+			className="tool-alerts"
 		>
 			<Alert
 				onClose={handleAlertClose}
 				severity={notificationSeverity}
-				sx={{ width: "100%" }}
 				elevation={6}
 				variant="filled"
 			>

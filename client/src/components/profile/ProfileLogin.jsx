@@ -135,6 +135,7 @@ export default function ProfileLogin() {
 								id="btnSubmit"
 								className="btn"
 								type="submit"
+								disableRipple={true}
 							>
 								Log In
 							</Button>

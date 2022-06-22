@@ -32,7 +32,7 @@ import {
 
 const initialState = {
 	files: [],
-	overwrite: false,
+	overwrite: true,
 };
 
 export default function UploadPage() {

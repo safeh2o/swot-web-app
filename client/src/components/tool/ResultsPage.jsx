@@ -1,4 +1,11 @@
-import { Box, Button, Checkbox, Divider, Stack } from "@mui/material";
+import {
+	Box,
+	Button,
+	Checkbox,
+	Divider,
+	IconButton,
+	Stack,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import { forwardRef, useEffect, useState } from "react";
@@ -32,28 +39,26 @@ function renderRowSamples(dataset) {
 function renderRowStatus(dataset) {
 	if (!dataset?.status?.ann?.success || !dataset?.status?.eo?.success) {
 		return (
-			<Button
+			<IconButton
 				className={"BtnStatus waiting"}
-				endIcon={<IconWrong />}
 				size="small"
 				fullWidth
 				disabled
 			>
-				Not Ready
-			</Button>
+				<IconWrong />
+			</IconButton>
 		);
 	} else {
 		return (
-			<Button
+			<IconButton
 				className={"BtnStatus"}
 				component={Link}
 				to={`/results/${dataset._id}`}
-				endIcon={<IconCheck />}
 				size="small"
 				fullWidth
 			>
-				Ready
-			</Button>
+				<IconCheck />
+			</IconButton>
 		);
 	}
 }
@@ -64,6 +69,8 @@ const columns = [
 		headerName: "Date Generated",
 		type: "date",
 		flex: 0.3,
+		align: "left",
+		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
 	},
 	{
@@ -71,6 +78,8 @@ const columns = [
 		headerName: "Start Date",
 		type: "date",
 		flex: 0.2,
+		align: "left",
+		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
 	},
 	{
@@ -78,20 +87,24 @@ const columns = [
 		headerName: "End Date",
 		type: "date",
 		flex: 0.2,
+		align: "left",
+		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
 	},
-	{
-		field: "samples",
-		headerName: "Samples",
-		description: "Number of valid samples during the dataset date range",
-		type: "number",
-		flex: 0.1,
-		renderCell: ({ row }) => renderRowSamples(row),
-	},
+	// {
+	// 	field: "samples",
+	// 	headerName: "Samples",
+	// 	description: "Number of valid samples during the dataset date range",
+	// 	type: "number",
+	// 	flex: 0.1,
+	// 	renderCell: ({ row }) => renderRowSamples(row),
+	// },
 	{
 		field: "status",
 		headerName: "Status",
 		flex: 0.2,
+		align: "center",
+		headerAlign: "center",
 		renderCell: ({ row }) => renderRowStatus(row),
 	},
 ];

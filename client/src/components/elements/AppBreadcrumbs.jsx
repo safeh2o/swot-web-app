@@ -19,7 +19,7 @@ function AppBreadcrumbs() {
 	}, [location]);
 
 	return (
-		<Breadcrumbs className="breadcrumbs small">
+		<Breadcrumbs className="breadcrumbs small" separator={"→"}>
 			{viewStack.slice(0, -1).map((view, i) => (
 				<Link
 					key={view.path}

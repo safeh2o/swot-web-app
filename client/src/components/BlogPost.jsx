@@ -69,7 +69,7 @@ export default function BlogPost() {
 							<h1 className="section-title h3">
 								<span>{page.title || "Loading..."}</span>
 							</h1>
-							<header className="post-meta text-sm">
+							<header className="post-meta small">
 								{page.publishedDate && (
 									<time>
 										{formatPublishTime(page.publishedDate)}

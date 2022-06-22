@@ -16,9 +16,7 @@
 		}
 		.posts-count {
 			text-align: center;
-			border-top: 6px solid #ccd2d9;
-			padding-top: 0.5rem;
-			margin-top: 1rem;
+			padding-top: 0.25rem;
 		}
 		[class*="categories-"] {
 			display: flex;
@@ -36,17 +34,17 @@
 
 			> * {
 				display: flex;
-				margin: 0 0.4rem 0.4rem 0;
+				margin: 0 0.4rem 0.4rem;
 			}
 
 			a {
 				text-transform: uppercase;
 				letter-spacing: 0;
 				font-size: 1rem;
-				line-height: 2rem;
+				line-height: 1.65;
 				background-color: #f2f4f5;
 				text-decoration: none;
-				padding: 0 1rem;
+				padding: 0 0.75rem;
 				border-radius: 6px;
 				border: 1px solid #bec5ce;
 			}
@@ -148,6 +146,9 @@
 		}
 	}
 	.post {
+		article {
+			border-top: 4px solid #ccd2d9;
+		}
 		.image-post {
 			margin: 0;
 			img {
@@ -174,10 +175,10 @@
 			margin-bottom: 0;
 		}
 		.post-meta {
-			border-top: 6px solid #ccd2d9;
-			padding-top: calc(0.5rem * var(--line-height));
+			border-bottom: 6px solid #ccd2d9;
+			padding-bottom: calc(2rem * var(--line-height));
 			margin-bottom: calc(1rem * var(--line-height));
-			margin-top: calc(0.75rem * var(--line-height));
+			margin-top: calc(0.5rem * var(--line-height));
 
 			color: #555f70;
 		}
@@ -204,6 +205,7 @@
 			}
 		}
 		.post-title {
+			line-height: 1.2;
 			font-weight: 700;
 		}
 		figure {
@@ -243,7 +245,7 @@
 			flex-wrap: wrap;
 
 			text-align: center;
-			margin-bottom: 4rem;
+			margin-top: 2rem;
 
 			.btn.back {
 				// color: #294f93;
@@ -270,7 +272,6 @@
 
 			.pages {
 				flex-basis: 100%;
-				margin-bottom: 0.5rem;
 
 				a {
 					display: inline-block;

@@ -1,16 +1,15 @@
 /* Type + Scaling */
-$font-size: 16px;
-$letter-spacing: -0.011em;
-$line-height: 1.375;
-$font-weight: 400;
-
 $sans: "Inter", "Helvetica", Arial, sans-serif;
 
 :root {
-	--font-size: 16px;
+	--font-size: 14px;
 	--letter-spacing: -0.011em;
 	--line-height: 1.375;
 	--font-weight: 400;
+
+	@media (min-width: 1080px) {
+		--font-size: 16px;
+	}
 }
 
 html {
@@ -118,18 +117,6 @@ h5,
 h6 {
 	font-size: 1.15rem;
 	font-weight: 500;
-}
-
-.section-title,
-.section-header {
-	font-family: "Roboto Condensed", sans-serif;
-	margin-bottom: 1rem;
-	font-size: 20px;
-	font-weight: "400";
-	line-height: "1.2";
-	letter-spacing: "-0.02em";
-	color: "#747e87";
-	margin: "5px 0 10px 8px";
 }
 
 .txt-condensed {

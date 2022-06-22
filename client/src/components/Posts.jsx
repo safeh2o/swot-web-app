@@ -20,7 +20,7 @@ export default function Posts(props) {
 					</figure>
 				)}
 				<div className="details-post">
-					<header className="text-sm">
+					<header className="small">
 						<time>{post.publishedDate}</time>
 						{post.categories && post.categories.length > 0 && (
 							<span className="categories-post">
@@ -51,34 +51,24 @@ export default function Posts(props) {
 		};
 
 		return _.times(numPosts, (i) => (
-			<Box component="article" key={i}>
-				{post?.image?.secure_url && (
-					<figure>
-						<Skeleton component="img" />
-					</figure>
-				)}
-				<Skeleton>
-					<Typography component={"span"} variant="h2" gutterBottom>
-						{post.title}
-					</Typography>
-				</Skeleton>
-				<Skeleton>
-					<Typography variant="body1" component="div" gutterBottom>
-						{post.content.brief}
-					</Typography>
-				</Skeleton>
-				<Skeleton>
-					<Typography variant="caption" component="time">
-						{post.publishedDate}
-					</Typography>
-				</Skeleton>
-				<Divider
-					sx={{
-						borderColor: "primary.main",
-						my: 3,
-						opacity: 0.2,
-					}}
-				/>
+			<Box component="article" key={i} className="image-post">
+				<figure>
+					<Skeleton component="img" />
+				</figure>
+				<div className="details-post">
+					<Skeleton>
+						<header className="small">
+							<time>{post.publishedDate}</time>
+						</header>
+					</Skeleton>
+					<Skeleton>
+						<h1 className="post-title">{post.title}</h1>
+					</Skeleton>
+					<Skeleton>
+						<div className="post-text">{post.content.brief}</div>
+					</Skeleton>
+					<hr />
+				</div>
 			</Box>
 		));
 	}

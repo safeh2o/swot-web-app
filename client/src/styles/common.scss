@@ -1,7 +1,10 @@
-.breadcrumbs {
+.breadcrumbs,
+.MuiBreadcrumbs-root.breadcrumbs {
 	grid-column: 1/-1;
-	font-size: "13px";
-	color: "#bbb";
+	font-size: 14px;
+	letter-spacing: -0.006em;
+	line-height: 20px;
+	color: #848d9e;
 	padding: 0.5rem 1.5rem;
 
 	@media (min-width: $md) {
@@ -106,7 +109,8 @@
 		}
 	}
 
-	.center {
+	&.inline {
+		display: inline-grid;
 	}
 }
 
@@ -168,10 +172,12 @@
 		text-align: center;
 		text-decoration: none;
 		margin-bottom: 0.5rem;
+		min-width: 66.666%;
 
 		@media (min-width: $md) {
 			margin-right: 1rem;
 			margin-bottom: 0;
+			min-width: none;
 		}
 	}
 
@@ -191,8 +197,9 @@ img {
 	height: auto;
 }
 .backdrop {
+	z-index: 9999999;
 	color: #4369ac;
-	background-color: #fff;
+	background-color: rgba(255, 255, 255, 0.75) !important;
 	& > * {
 		color: inherit;
 	}

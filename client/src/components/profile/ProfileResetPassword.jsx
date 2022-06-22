@@ -118,6 +118,7 @@ export default function ProfileResetPassword() {
 								type="submit"
 								id="btnSubmit"
 								className="btn"
+								disableRipple={true}
 							>
 								Submit
 							</Button>

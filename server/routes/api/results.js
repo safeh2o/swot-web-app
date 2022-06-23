@@ -2,7 +2,7 @@ const keystone = require("keystone");
 const Dataset = keystone.list("Dataset");
 const Fieldsite = keystone.list("Fieldsite");
 const dataService = require("../../utils/data.service");
-const azblob = require("@azure/storage-blob");
+const { ContainerClient, BlobClient } = require("@azure/storage-blob");
 const archiver = require("archiver");
 
 exports.download = async function (req, res) {
@@ -27,7 +27,7 @@ exports.download = async function (req, res) {
 	const containerName = process.env.AZURE_STORAGE_CONTAINER_RESULTS;
 	const prefix = datasetId;
 
-	const containerClient = new azblob.ContainerClient(
+	const containerClient = new ContainerClient(
 		process.env.AZURE_STORAGE_CONNECTION_STRING,
 		containerName
 	);
@@ -178,6 +178,16 @@ exports.dataset = async function (req, res) {
 		const fieldsite = await Fieldsite.model.findById(dataset.fieldsite);
 		const area = await dataService.getAreaByFieldsite(fieldsite.id);
 		const country = await dataService.getCountryByArea(area.id);
+		const targetImgBlobName = `${req.params.datasetId}/eo/targets.png`;
+		const targetImgSasKey = await dataService.getSas(
+			process.env.AZURE_STORAGE_CONTAINER_RESULTS,
+			targetImgBlobName
+		);
+		const targetImgBlob = new BlobClient(
+			process.env.AZURE_STORAGE_CONNECTION_STRING,
+			process.env.AZURE_STORAGE_CONTAINER_RESULTS,
+			targetImgBlobName
+		);
 		res.json({
 			dataset,
 			locationData: {
@@ -185,6 +195,7 @@ exports.dataset = async function (req, res) {
 				areaName: area.name,
 				countryName: country.name,
 			},
+			targetImgUrl: `${targetImgBlob.url}?${targetImgSasKey}`,
 		});
 	} catch (ex) {
 		console.error(ex);

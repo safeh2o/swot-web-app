@@ -1,4 +1,3 @@
-import { LoadingButton } from "@mui/lab";
 import {
 	Box,
 	Button,
@@ -76,15 +75,15 @@ export default function UploadPage() {
 		reset();
 	};
 
-	const handleFormSubmit = (e) => {
+	const handleFormSubmit = () => {
 		dispatch(setLoading(true));
 		const formData = getFormData();
 		axios
 			.post("/api/upload/append", formData)
-			.then((res) => {
+			.then(() => {
 				dispatch(addNotice("Upload successful"));
 			})
-			.catch((err) => {
+			.catch(() => {
 				dispatch(
 					addError("Error occurred while trying to upload files")
 				);

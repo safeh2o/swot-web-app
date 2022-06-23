@@ -6,6 +6,11 @@ const mongoose = require("mongoose");
 const Dataset = keystone.list("Dataset");
 const Upload = keystone.list("Upload");
 const _ = require("lodash");
+const {
+	generateBlobSASQueryParameters,
+	BlobSASPermissions,
+	StorageSharedKeyCredential,
+} = require("@azure/storage-blob");
 
 /**
  * Retrieves a fieldsite record by it's id
@@ -123,4 +128,21 @@ exports.getUserCountries = async function (userId) {
 		.sortBy((c) => c.name);
 
 	return userCountries;
+};
+
+exports.getSas = async function (containerName, blobName) {
+	// Generate service level SAS for a blob
+	const blobSAS = generateBlobSASQueryParameters(
+		{
+			containerName,
+			blobName,
+			permissions: BlobSASPermissions.parse("r"),
+			expiresOn: new Date(new Date().valueOf() + 86400),
+		},
+		new StorageSharedKeyCredential(
+			process.env.AZURE_STORAGE_ACCOUNT,
+			process.env.AZURE_STORAGE_ACCESS_KEY
+		)
+	);
+	return blobSAS.toString();
 };

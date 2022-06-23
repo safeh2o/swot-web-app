@@ -63,7 +63,17 @@ Dataset.add(
 			default: "optimumDecay",
 		},
 		archived: { type: Types.Boolean, index: true, default: false },
-		isComplete: { type: Types.Boolean, index: true, default: false },
+		completionStatus: {
+			type: Types.Select,
+			options: [
+				{ value: "complete", label: "Complete" },
+				{ value: "inProgress", label: "In Progress" },
+				{ value: "failed", label: "Failed" },
+			],
+			index: true,
+			default: "inProgress",
+			initial: false,
+		},
 		eo_message: {
 			type: Types.Textarea,
 			noedit: true,

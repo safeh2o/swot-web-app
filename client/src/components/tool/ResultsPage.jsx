@@ -22,6 +22,7 @@ import {
 	IconRowUnchecked,
 	IconWrong,
 } from "../icons";
+import PendingIcon from "@mui/icons-material/Pending";
 
 function renderRowSamples(dataset) {
 	return (
@@ -37,7 +38,7 @@ function renderRowSamples(dataset) {
 }
 
 function renderRowStatus(dataset) {
-	if (!dataset?.status?.ann?.success || !dataset?.status?.eo?.success) {
+	if (dataset?.completionStatus === "inProgress") {
 		return (
 			<IconButton
 				className={"BtnStatus waiting"}
@@ -45,10 +46,21 @@ function renderRowStatus(dataset) {
 				fullWidth
 				disabled
 			>
+				<PendingIcon />
+			</IconButton>
+		);
+	} else if (dataset?.completionStatus === "failed") {
+		return (
+			<IconButton
+				className={"BtnStatus failed"}
+				size="small"
+				fullWidth
+				disabled
+			>
 				<IconWrong />
 			</IconButton>
 		);
-	} else {
+	} else if (dataset?.completionStatus === "complete") {
 		return (
 			<IconButton
 				className={"BtnStatus"}

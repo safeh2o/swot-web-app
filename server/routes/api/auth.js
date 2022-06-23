@@ -1,10 +1,4 @@
-const {
-	generateBlobSASQueryParameters,
-	BlobServiceClient,
-	BlobSASPermissions,
-} = require("@azure/storage-blob");
 const keystone = require("keystone");
-const Dataset = keystone.list("Dataset");
 
 exports.signin = async function (req, res) {
 	if (req.user) {

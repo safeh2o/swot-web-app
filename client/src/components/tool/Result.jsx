@@ -32,6 +32,7 @@ export default function Result() {
 		safe_percent: 99.99,
 	};
 	const [dataset, setDataset] = useState();
+	const [targetImgUrl, setTargetImgUrl] = useState("");
 	const [locationData, setLocationData] = useState({
 		fieldsiteName: "",
 		areaName: "",
@@ -58,6 +59,7 @@ export default function Result() {
 			.then(({ data }) => {
 				setDataset(data.dataset);
 				setLocationData(data.locationData);
+				setTargetImgUrl(data.targetImgUrl);
 				const { countryName, areaName, fieldsiteName } =
 					data.locationData;
 				const searchParams = new URLSearchParams();
@@ -330,16 +332,16 @@ export default function Result() {
 									: "pass"
 							}
 						>
-							{(dataset || defaultDataset).nSamples < 0 && (
-								<Type variant="inputValue">
-									{(dataset || defaultDataset).nSamples}
-									{/* check sample range */}
-									{(dataset || defaultDataset).nSamples <
-										100 && <IconLow className="sup" />}
-									{(dataset || defaultDataset).nSamples <
-										100 && <IconCheck className="sup" />}
-								</Type>
-							)}
+							<Type variant="inputValue">
+								{(dataset || defaultDataset).nSamples}
+								{/* check sample range */}
+								{(dataset || defaultDataset).nSamples < 100 && (
+									<IconLow className="sup" />
+								)}
+								{(dataset || defaultDataset).nSamples >=
+									100 && <IconCheck className="sup" />}
+							</Type>
+
 							<Type variant="inputLabel">
 								Number of Data Samples Sent for Analysis
 								<Tooltip
@@ -491,7 +493,12 @@ export default function Result() {
 						<Box component={"h2"}>FRC Target Over Time</Box>
 						<Divider sx={{ my: 1 }} />
 						<Box component={"figure"}>
-							<img src="https://images.unsplash.com/photo-1543286386-2e659306cd6c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80" />
+							<img
+								src={
+									targetImgUrl ||
+									"https://images.unsplash.com/photo-1543286386-2e659306cd6c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80"
+								}
+							/>
 							{/* <Box component={"figurecaption"}>
 								Figure Caption
 							</Box> */}

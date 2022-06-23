@@ -456,6 +456,9 @@ main.page-tool {
 		}
 
 		&.waiting {
+			color: #fabc05;
+		}
+		&.failed {
 			color: #fc9170;
 		}
 	}

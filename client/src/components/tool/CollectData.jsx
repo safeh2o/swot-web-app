@@ -28,7 +28,7 @@ export default function CollectData() {
 											></a>
 											<img
 												src={
-													"assets/tool/collect/thumb-protocol.png"
+													"/assets/tool/collect/thumb-protocol.png"
 												}
 											/>
 										</figure>
@@ -57,7 +57,7 @@ export default function CollectData() {
 											></a>
 											<img
 												src={
-													"assets/tool/collect/thumb-how-to-video.png"
+													"/assets/tool/collect/thumb-how-to-video.png"
 												}
 											/>
 										</figure>
@@ -101,7 +101,7 @@ export default function CollectData() {
 											></a>
 											<img
 												src={
-													"assets/tool/collect/thumb-manual-monitoring-forms.png"
+													"/assets/tool/collect/thumb-manual-monitoring-forms.png"
 												}
 											/>
 										</figure>
@@ -128,7 +128,7 @@ export default function CollectData() {
 											></a>
 											<img
 												src={
-													"assets/tool/collect/thumb-kobo-monitoring-forms.png"
+													"/assets/tool/collect/thumb-kobo-monitoring-forms.png"
 												}
 											/>
 										</figure>

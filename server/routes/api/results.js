@@ -5,6 +5,15 @@ const dataService = require("../../utils/data.service");
 const { ContainerClient, BlobClient } = require("@azure/storage-blob");
 const archiver = require("archiver");
 
+class MissingModelError extends Error {
+	constructor(modelName, modelId, relationshipModel, relatedModelId) {
+		const message = relationshipModel
+			? `Missing ${modelName} with a relation to ${relationshipModel} with ID ${relatedModelId}`
+			: `Missing ${modelName} with ID ${modelId}`;
+		super(message);
+	}
+}
+
 exports.download = async function (req, res) {
 	const { datasetId } = req.query;
 
@@ -175,9 +184,26 @@ exports.dataset = async function (req, res) {
 
 	try {
 		const dataset = await Dataset.model.findById(req.params.datasetId);
+		if (!dataset) {
+			throw new MissingModelError("Dataset", req.params.datasetId);
+		}
 		const fieldsite = await Fieldsite.model.findById(dataset.fieldsite);
+		if (!fieldsite) {
+			throw new MissingModelError("Fieldsite", dataset.fieldsite);
+		}
 		const area = await dataService.getAreaByFieldsite(fieldsite.id);
+		if (!area) {
+			throw new MissingModelError(
+				"Area",
+				null,
+				"Fieldsite",
+				fieldsite.id
+			);
+		}
 		const country = await dataService.getCountryByArea(area.id);
+		if (!country) {
+			throw new MissingModelError("Country", null, "Area", area.id);
+		}
 		const targetImgBlobName = `${req.params.datasetId}/eo/targets.png`;
 		const targetImgSasKey = await dataService.getSas(
 			process.env.AZURE_STORAGE_CONTAINER_RESULTS,

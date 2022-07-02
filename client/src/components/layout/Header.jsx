@@ -178,6 +178,7 @@ export default function Header() {
 												to={listitem.to}
 												key={listitem.label}
 												step={i + 1}
+												end
 											>
 												{listitem.label}
 												{listitem.icon && (

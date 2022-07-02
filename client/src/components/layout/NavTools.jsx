@@ -50,13 +50,12 @@ export default function NavTools() {
 					to={listitem.to}
 					key={listitem.label}
 					step={index + 1}
+					end
 				>
 					<Box component="span" className="wrap">
-						{listitem.icon && (
-							<Box component="span" className="icon">
-								{listitem.icon}
-							</Box>
-						)}
+						<Box component="span" className="icon">
+							{listitem.icon}
+						</Box>
 						<Box component="span" className="label">
 							{listitem.label}
 						</Box>

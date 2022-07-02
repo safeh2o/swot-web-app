@@ -122,14 +122,18 @@ export default function Result() {
 		(dataset || defaultDataset).eo?.reco?.toFixed(1) ||
 		0;
 
+	const recoInRange = reco >= 0.2 && reco <= 2;
+
+	const frcRecommendation = recoInRange ? `${reco} mg/l` : "Out of range";
+
 	const storageTimeInHours = formattedHoursFromSeconds(
 		(dataset || defaultDataset).ann?.["average_time"]
 	);
 
+	const safetyRange = (dataset || defaultDataset)["safety_range"];
 	const getPredictedWaterSafetyRange = () => {
-		const safetyRange = (dataset || defaultDataset)["safety_range"];
-		if (!safetyRange) {
-			return "?";
+		if (!safetyRange || !recoInRange) {
+			return "N/A";
 		}
 
 		const [lo, hi] = safetyRange.map((n) => n?.toFixed(0));
@@ -410,7 +414,9 @@ export default function Result() {
 						<Box component={"h2"}>SWOT FRC Target</Box>
 						<Divider sx={{ my: 1 }} />
 						<Box sx={{ ...css.stat }}>
-							<Type variant="inputValue">{reco} mg/l</Type>
+							<Type variant="inputValue">
+								{frcRecommendation}
+							</Type>
 							<Type variant="inputLabel">
 								SWOT FRC Target Recommendation
 								<Tooltip
@@ -499,9 +505,6 @@ export default function Result() {
 									"https://images.unsplash.com/photo-1543286386-2e659306cd6c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80"
 								}
 							/>
-							{/* <Box component={"figurecaption"}>
-								Figure Caption
-							</Box> */}
 						</Box>
 					</Box>
 					<Divider sx={{ ...css.hr }} />

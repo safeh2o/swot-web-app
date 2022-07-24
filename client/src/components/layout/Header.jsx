@@ -205,7 +205,7 @@ export default function Header() {
 								className={({ isActive }) =>
 									isActive ? "active" : undefined
 								}
-								to={"/blog"}
+								to={"/blog?category=Announcements"}
 							>
 								News
 							</NavLink>

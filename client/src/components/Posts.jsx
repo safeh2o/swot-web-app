@@ -1,12 +1,13 @@
-import { Box, Divider, Skeleton, Typography } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { blogSelectors } from "../reducers/posts";
 
 export default function Posts(props) {
-	const { data: posts } = props;
+	const { posts, start, end } = props;
 	const blogIsLoading = useSelector(blogSelectors.isLoading);
+	const allPostCategories = useSelector(blogSelectors.postCategories);
 
 	function articleFromPost(post) {
 		const link = `/blog/${post.slug}`;
@@ -26,7 +27,10 @@ export default function Posts(props) {
 							<span className="categories-post">
 								<span className="divider">in</span>
 								{post.categories.map((cat, i) => (
-									<a key={"cat-" + i}>{{ cat }}</a>
+									<a key={"cat-" + i}>
+										{allPostCategories?.byId?.[cat]?.name ||
+											""}
+									</a>
 								))}
 							</span>
 						)}
@@ -42,7 +46,7 @@ export default function Posts(props) {
 	}
 
 	function blogSkeleton(numPosts) {
-		const post = {
+		const samplePost = {
 			title: "Stepping Up: Sanitation specialist develops system",
 			publishedDate: "November 25, 2020",
 			content: {
@@ -60,14 +64,16 @@ export default function Posts(props) {
 				<div className="details-post">
 					<Skeleton>
 						<header className="small">
-							<time>{post.publishedDate}</time>
+							<time>{samplePost.publishedDate}</time>
 						</header>
 					</Skeleton>
 					<Skeleton>
-						<h1 className="post-title">{post.title}</h1>
+						<h1 className="post-title">{samplePost.title}</h1>
 					</Skeleton>
 					<Skeleton>
-						<div className="post-text">{post.content.brief}</div>
+						<div className="post-text">
+							{samplePost.content.brief}
+						</div>
 					</Skeleton>
 					<hr />
 				</div>
@@ -76,6 +82,6 @@ export default function Posts(props) {
 	}
 
 	return blogIsLoading
-		? blogSkeleton((props.postNumber && props.postNumber) || 3)
-		: posts.map((post) => articleFromPost(post));
+		? blogSkeleton(5)
+		: posts.slice(start - 1, end).map((post) => articleFromPost(post));
 }

@@ -5,6 +5,16 @@ export const getPosts = createAsyncThunk("blog/getPosts", async () => {
 	return res;
 });
 
+export const getPostCategories = createAsyncThunk(
+	"blog/getPostCategories",
+	async () => {
+		const res = await fetch("/api/cms/post-categories").then((res) =>
+			res.json()
+		);
+		return res;
+	}
+);
+
 export const blogSlice = createSlice({
 	name: "blog",
 	initialState: {
@@ -22,11 +32,22 @@ export const blogSlice = createSlice({
 		[getPosts.rejected]: (state) => {
 			state.isLoading = false;
 		},
+		[getPostCategories.fulfilled]: (state, { payload }) => {
+			state.postCategories = payload;
+			state.isLoading = false;
+		},
+		[getPostCategories.pending]: (state) => {
+			state.isLoading = true;
+		},
+		[getPostCategories.rejected]: (state) => {
+			state.isLoading = false;
+		},
 	},
 });
 
 export const blogSelectors = {
 	posts: (state) => state.blog.posts,
+	postCategories: (state) => state.blog.postCategories,
 	isLoading: (state) => state.blog.isLoading,
 };
 

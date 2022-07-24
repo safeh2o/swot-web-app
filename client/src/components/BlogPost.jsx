@@ -2,13 +2,15 @@ import { SvgIcon } from "@mui/material";
 import DOMPurify from "dompurify";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 import { setLoading } from "../reducers/notifications";
+import { blogSelectors } from "../reducers/posts";
 import { replaceCrumbTitle } from "../reducers/view";
 
 export default function BlogPost() {
 	const dispatch = useDispatch();
+	const allPostCategories = useSelector(blogSelectors.postCategories);
 	const { slug } = useParams();
 	const defaultPage = {
 		title: "",
@@ -83,9 +85,12 @@ export default function BlogPost() {
 													in
 												</span>
 												{page.categories.map(
-													(cat, i) => (
+													(categoryId, i) => (
 														<a key={"cat-" + i}>
-															{cat}
+															{allPostCategories
+																?.byId?.[
+																categoryId
+															]?.name || ""}
 														</a>
 													)
 												)}

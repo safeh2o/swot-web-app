@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import _ from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,21 +11,26 @@ export default function Blog() {
 	const posts = useSelector(blogSelectors.posts);
 	const dispatch = useDispatch();
 	const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
-	const [postRange, setPostRange] = useState([0, DEFAULT_PAGE_SIZE - 1]);
+	const [postRange, setPostRange] = useState([1, DEFAULT_PAGE_SIZE]);
 	const [numPages, setNumPages] = useState(1);
 	let [searchParams, setSearchParams] = useSearchParams();
+	const currentPageNumber = searchParams.get("page")
+		? parseInt(searchParams.get("page"))
+		: 1;
 
 	useEffect(() => {
 		dispatch(getPosts());
 	}, []);
 
 	useEffect(() => {
-		const pageNumber = searchParams.get("page");
-		if (!pageNumber) {
-			searchParams.set("page", 1);
+		if (!currentPageNumber) {
+			setPageNumber(1);
 		} else {
-			const startRange = (pageNumber - 1) * pageSize;
-			const endRange = pageNumber * pageSize;
+			const startRange = (currentPageNumber - 1) * pageSize + 1;
+			const endRange = Math.min(
+				currentPageNumber * pageSize,
+				posts?.length || Infinity
+			);
 			setPostRange([startRange, endRange]);
 		}
 	}, [searchParams]);
@@ -36,6 +40,13 @@ export default function Blog() {
 			setNumPages(Math.ceil(posts.length / pageSize));
 		}
 	}, [posts]);
+
+	function setPageNumber(pageNumber) {
+		setSearchParams({
+			...Object.fromEntries(searchParams),
+			page: pageNumber,
+		});
+	}
 
 	return (
 		<>
@@ -55,8 +66,8 @@ export default function Blog() {
 						</div>
 						<div className="posts-count small">
 							<span>
-								Showing {postRange[0] + 1} to {postRange[1] + 1}{" "}
-								of {posts?.length || "..."} posts.
+								Showing {postRange[0]} to {postRange[1]} of{" "}
+								{posts?.length || "..."} posts.
 							</span>
 						</div>
 					</div>
@@ -70,28 +81,37 @@ export default function Blog() {
 					</div>
 					<footer className="posts-footer">
 						<div className="pages">
-							<a href="blog.php" target="_blank">
-								Previous
-							</a>
-							{_.range(1, numPages).map((pageNumber) => (
-								<>
-									<Button
-										onClick={() =>
-											searchParams.set("page", pageNumber)
-										}
-									>
-										{pageNumber}
-									</Button>
-								</>
+							{currentPageNumber > 1 && (
+								<a
+									onClick={() =>
+										setPageNumber(currentPageNumber - 1)
+									}
+								>
+									Previous
+								</a>
+							)}
+							{_.range(1, numPages + 1).map((pageNumber) => (
+								<a
+									onClick={() => setPageNumber(pageNumber)}
+									key={pageNumber}
+									className={
+										pageNumber == currentPageNumber
+											? "active"
+											: ""
+									}
+								>
+									{pageNumber}
+								</a>
 							))}
-							{/* <a className="active">1</a>
-							<a>2</a>
-							<a>3</a>
-							<span>...</span>
-							<a>last</a> */}
-							<a href="blog.php" target="_blank">
-								Next
-							</a>
+							{currentPageNumber < numPages && (
+								<a
+									onClick={() =>
+										setPageNumber(currentPageNumber + 1)
+									}
+								>
+									Next
+								</a>
+							)}
 						</div>
 					</footer>
 				</div>

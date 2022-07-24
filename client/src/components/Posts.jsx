@@ -1,11 +1,11 @@
-import { Box, Divider, Skeleton, Typography } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { blogSelectors } from "../reducers/posts";
 
 export default function Posts(props) {
-	const { posts } = props;
+	const { posts, start, end } = props;
 	const blogIsLoading = useSelector(blogSelectors.isLoading);
 
 	function articleFromPost(post) {
@@ -79,5 +79,5 @@ export default function Posts(props) {
 
 	return blogIsLoading
 		? blogSkeleton(5)
-		: posts.map((post) => articleFromPost(post));
+		: posts.slice(start - 1, end - 1).map((post) => articleFromPost(post));
 }

@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import { blogSelectors } from "../reducers/posts";
 
 export default function Posts(props) {
-	const { data: posts } = props;
+	const { posts } = props;
 	const blogIsLoading = useSelector(blogSelectors.isLoading);
 
 	function articleFromPost(post) {
@@ -42,7 +42,7 @@ export default function Posts(props) {
 	}
 
 	function blogSkeleton(numPosts) {
-		const post = {
+		const samplePost = {
 			title: "Stepping Up: Sanitation specialist develops system",
 			publishedDate: "November 25, 2020",
 			content: {
@@ -60,14 +60,16 @@ export default function Posts(props) {
 				<div className="details-post">
 					<Skeleton>
 						<header className="small">
-							<time>{post.publishedDate}</time>
+							<time>{samplePost.publishedDate}</time>
 						</header>
 					</Skeleton>
 					<Skeleton>
-						<h1 className="post-title">{post.title}</h1>
+						<h1 className="post-title">{samplePost.title}</h1>
 					</Skeleton>
 					<Skeleton>
-						<div className="post-text">{post.content.brief}</div>
+						<div className="post-text">
+							{samplePost.content.brief}
+						</div>
 					</Skeleton>
 					<hr />
 				</div>
@@ -76,6 +78,6 @@ export default function Posts(props) {
 	}
 
 	return blogIsLoading
-		? blogSkeleton((props.postNumber && props.postNumber) || 3)
+		? blogSkeleton(5)
 		: posts.map((post) => articleFromPost(post));
 }

@@ -1,15 +1,41 @@
-import { useEffect } from "react";
+import { Button } from "@mui/material";
+import _ from "lodash";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 import { blogSelectors, getPosts } from "../reducers/posts";
 import Posts from "./Posts";
+
+const DEFAULT_PAGE_SIZE = 10;
 
 export default function Blog() {
 	const posts = useSelector(blogSelectors.posts);
 	const dispatch = useDispatch();
+	const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
+	const [postRange, setPostRange] = useState([0, DEFAULT_PAGE_SIZE - 1]);
+	const [numPages, setNumPages] = useState(1);
+	let [searchParams, setSearchParams] = useSearchParams();
 
 	useEffect(() => {
 		dispatch(getPosts());
 	}, []);
+
+	useEffect(() => {
+		const pageNumber = searchParams.get("page");
+		if (!pageNumber) {
+			searchParams.set("page", 1);
+		} else {
+			const startRange = (pageNumber - 1) * pageSize;
+			const endRange = pageNumber * pageSize;
+			setPostRange([startRange, endRange]);
+		}
+	}, [searchParams]);
+
+	useEffect(() => {
+		if (posts?.length) {
+			setNumPages(Math.ceil(posts.length / pageSize));
+		}
+	}, [posts]);
 
 	return (
 		<>
@@ -28,22 +54,41 @@ export default function Blog() {
 							</div>
 						</div>
 						<div className="posts-count small">
-							<span>Showing 1 to 10 of 11 posts.</span>
+							<span>
+								Showing {postRange[0] + 1} to {postRange[1] + 1}{" "}
+								of {posts?.length || "..."} posts.
+							</span>
 						</div>
 					</div>
 					<div className="content">
-						<Posts type={"news"} data={posts} postNumber={5} />
+						<Posts
+							type={"news"}
+							posts={posts}
+							start={postRange[0]}
+							end={postRange[1]}
+						/>
 					</div>
 					<footer className="posts-footer">
 						<div className="pages">
 							<a href="blog.php" target="_blank">
 								Previous
 							</a>
-							<a className="active">1</a>
+							{_.range(1, numPages).map((pageNumber) => (
+								<>
+									<Button
+										onClick={() =>
+											searchParams.set("page", pageNumber)
+										}
+									>
+										{pageNumber}
+									</Button>
+								</>
+							))}
+							{/* <a className="active">1</a>
 							<a>2</a>
 							<a>3</a>
 							<span>...</span>
-							<a>last</a>
+							<a>last</a> */}
 							<a href="blog.php" target="_blank">
 								Next
 							</a>

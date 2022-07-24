@@ -2,25 +2,35 @@ import _ from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { blogSelectors, getPosts } from "../reducers/posts";
+import { blogSelectors, getPostCategories, getPosts } from "../reducers/posts";
 import Posts from "./Posts";
 
 const DEFAULT_PAGE_SIZE = 10;
 
 export default function Blog() {
-	const posts = useSelector(blogSelectors.posts);
+	const allPosts = useSelector(blogSelectors.posts);
+	const allPostCategories = useSelector(blogSelectors.postCategories);
+	const [posts, setPosts] = useState(allPosts);
 	const dispatch = useDispatch();
 	const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
 	const [postRange, setPostRange] = useState([1, DEFAULT_PAGE_SIZE]);
 	const [numPages, setNumPages] = useState(1);
 	let [searchParams, setSearchParams] = useSearchParams();
+	const currentCategory = searchParams.get("category");
 	const currentPageNumber = searchParams.get("page")
 		? parseInt(searchParams.get("page"))
 		: 1;
 
 	useEffect(() => {
 		dispatch(getPosts());
+		dispatch(getPostCategories());
 	}, []);
+
+	useEffect(() => {
+		if (!posts) {
+			setPosts(allPosts);
+		}
+	}, [allPosts]);
 
 	useEffect(() => {
 		if (!currentPageNumber) {
@@ -33,7 +43,22 @@ export default function Blog() {
 			);
 			setPostRange([startRange, endRange]);
 		}
-	}, [searchParams]);
+	}, [currentPageNumber, currentCategory, posts]);
+
+	useEffect(() => {
+		const currentCategoryId =
+			allPostCategories?.byName?.[currentCategory]?._id;
+		if (currentCategoryId) {
+			setPosts(
+				allPosts.filter((post) =>
+					post.categories.includes(currentCategoryId)
+				)
+			);
+		} else {
+			setPosts(allPosts);
+		}
+		setPageNumber(1);
+	}, [currentCategory]);
 
 	useEffect(() => {
 		if (posts?.length) {
@@ -41,11 +66,19 @@ export default function Blog() {
 		}
 	}, [posts]);
 
-	function setPageNumber(pageNumber) {
+	function updateSearchParams(items) {
 		setSearchParams({
 			...Object.fromEntries(searchParams),
-			page: pageNumber,
+			...items,
 		});
+	}
+
+	function setPageNumber(pageNumber) {
+		updateSearchParams({ page: pageNumber });
+	}
+
+	function setCategory(categoryName) {
+		updateSearchParams({ category: categoryName });
 	}
 
 	return (
@@ -59,9 +92,23 @@ export default function Blog() {
 						</h1>
 						<div className="posts-filters small">
 							<div className="categories-blog">
-								<a className="active">Announcements</a>
-								<a>Resources</a>
-								<a>Support &amp; Guides</a>
+								{Object.keys(allPostCategories?.byName).map(
+									(categoryName) => (
+										<a
+											key={categoryName}
+											className={
+												currentCategory == categoryName
+													? "active"
+													: ""
+											}
+											onClick={() => {
+												setCategory(categoryName);
+											}}
+										>
+											{categoryName}
+										</a>
+									)
+								)}
 							</div>
 						</div>
 						<div className="posts-count small">

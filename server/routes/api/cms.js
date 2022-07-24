@@ -1,6 +1,7 @@
 const keystone = require("keystone");
 const Page = keystone.list("Page");
 const Post = keystone.list("Post");
+const PostCategory = keystone.list("PostCategory");
 
 exports.pages = async function (req, res) {
 	if (!req.params.slug) {
@@ -40,6 +41,18 @@ exports.post = async function (req, res) {
 	// Page.model.findOne({})
 };
 
+exports.postCategories = async function (req, res) {
+	let categories = await PostCategory.model.find();
+	categories = categories.map((category) => category.toJSON());
+	const byName = {};
+	const byId = {};
+	categories.forEach((category) => {
+		byName[category.name] = category;
+		byId[category._id] = category;
+	});
+	return res.json({ byName, byId });
+};
+
 exports.posts = async function (req, res) {
 	let posts = await Post.model
 		.find(
@@ -50,6 +63,7 @@ exports.posts = async function (req, res) {
 				publishedDate: 1,
 				title: 1,
 				content: 1,
+				categories: 1,
 			}
 		)
 		.exec();

@@ -7,6 +7,7 @@ import { blogSelectors } from "../reducers/posts";
 export default function Posts(props) {
 	const { posts, start, end } = props;
 	const blogIsLoading = useSelector(blogSelectors.isLoading);
+	const allPostCategories = useSelector(blogSelectors.postCategories);
 
 	function articleFromPost(post) {
 		const link = `/blog/${post.slug}`;
@@ -26,7 +27,10 @@ export default function Posts(props) {
 							<span className="categories-post">
 								<span className="divider">in</span>
 								{post.categories.map((cat, i) => (
-									<a key={"cat-" + i}>{{ cat }}</a>
+									<a key={"cat-" + i}>
+										{allPostCategories?.byId?.[cat]?.name ||
+											""}
+									</a>
 								))}
 							</span>
 						)}
@@ -79,5 +83,5 @@ export default function Posts(props) {
 
 	return blogIsLoading
 		? blogSkeleton(5)
-		: posts.slice(start - 1, end - 1).map((post) => articleFromPost(post));
+		: posts.slice(start - 1, end).map((post) => articleFromPost(post));
 }

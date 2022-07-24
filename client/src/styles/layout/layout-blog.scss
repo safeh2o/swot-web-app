@@ -42,6 +42,7 @@
 				padding: 0 0.75rem;
 				border-radius: 6px;
 				border: 1px solid #bec5ce;
+				cursor: pointer;
 			}
 
 			.divider {
@@ -126,6 +127,8 @@
 		a {
 			text-decoration: underline 1px dotted rgba(0, 0, 0, 0.3);
 			text-underline-offset: 2px;
+			margin: 0 0.4rem 0 0;
+			padding: 0rem 0.5rem;
 		}
 		hr {
 			border: none;

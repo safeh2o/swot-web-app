@@ -21,12 +21,7 @@ import {
 } from "../../reducers/notifications";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
-import {
-	IconToolUpload,
-	IconRowUnchecked,
-	IconRowChecked,
-	IconQuestionMark,
-} from "../icons";
+import { IconRowChecked, IconRowUnchecked, IconToolUpload } from "../icons";
 
 const initialState = {
 	files: [],

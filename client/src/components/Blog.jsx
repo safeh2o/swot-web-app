@@ -1,15 +1,85 @@
-import { useEffect } from "react";
+import _ from "lodash";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { blogSelectors, getPosts } from "../reducers/posts";
+import { useSearchParams } from "react-router-dom";
+import { blogSelectors, getPostCategories, getPosts } from "../reducers/posts";
 import Posts from "./Posts";
 
+const DEFAULT_PAGE_SIZE = 10;
+
 export default function Blog() {
-	const posts = useSelector(blogSelectors.posts);
+	const allPosts = useSelector(blogSelectors.posts);
+	const allPostCategories = useSelector(blogSelectors.postCategories);
+	const [posts, setPosts] = useState(allPosts);
 	const dispatch = useDispatch();
+	const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
+	const [postRange, setPostRange] = useState([1, DEFAULT_PAGE_SIZE]);
+	const [numPages, setNumPages] = useState(1);
+	let [searchParams, setSearchParams] = useSearchParams();
+	const currentCategory = searchParams.get("category");
+	const currentPageNumber = searchParams.get("page")
+		? parseInt(searchParams.get("page"))
+		: 1;
 
 	useEffect(() => {
 		dispatch(getPosts());
+		dispatch(getPostCategories());
 	}, []);
+
+	useEffect(() => {
+		if (!posts) {
+			setPosts(allPosts);
+		}
+	}, [allPosts]);
+
+	useEffect(() => {
+		if (!currentPageNumber) {
+			setPageNumber(1);
+		} else {
+			const startRange = (currentPageNumber - 1) * pageSize + 1;
+			const endRange = Math.min(
+				currentPageNumber * pageSize,
+				posts?.length || Infinity
+			);
+			setPostRange([startRange, endRange]);
+		}
+	}, [currentPageNumber, currentCategory, posts]);
+
+	useEffect(() => {
+		const currentCategoryId =
+			allPostCategories?.byName?.[currentCategory]?._id;
+		if (currentCategoryId) {
+			setPosts(
+				allPosts.filter((post) =>
+					post.categories.includes(currentCategoryId)
+				)
+			);
+		} else {
+			setPosts(allPosts);
+		}
+		setPageNumber(1);
+	}, [currentCategory]);
+
+	useEffect(() => {
+		if (posts?.length) {
+			setNumPages(Math.ceil(posts.length / pageSize));
+		}
+	}, [posts]);
+
+	function updateSearchParams(items) {
+		setSearchParams({
+			...Object.fromEntries(searchParams),
+			...items,
+		});
+	}
+
+	function setPageNumber(pageNumber) {
+		updateSearchParams({ page: pageNumber });
+	}
+
+	function setCategory(categoryName) {
+		updateSearchParams({ category: categoryName });
+	}
 
 	return (
 		<>
@@ -22,31 +92,73 @@ export default function Blog() {
 						</h1>
 						<div className="posts-filters small">
 							<div className="categories-blog">
-								<a className="active">Announcements</a>
-								<a>Resources</a>
-								<a>Support &amp; Guides</a>
+								{Object.keys(allPostCategories?.byName).map(
+									(categoryName) => (
+										<a
+											key={categoryName}
+											className={
+												currentCategory == categoryName
+													? "active"
+													: ""
+											}
+											onClick={() => {
+												setCategory(categoryName);
+											}}
+										>
+											{categoryName}
+										</a>
+									)
+								)}
 							</div>
 						</div>
 						<div className="posts-count small">
-							<span>Showing 1 to 10 of 11 posts.</span>
+							<span>
+								Showing {postRange[0]} to {postRange[1]} of{" "}
+								{posts?.length || "..."} posts.
+							</span>
 						</div>
 					</div>
 					<div className="content">
-						<Posts type={"news"} data={posts} postNumber={5} />
+						<Posts
+							type={"news"}
+							posts={posts}
+							start={postRange[0]}
+							end={postRange[1]}
+						/>
 					</div>
 					<footer className="posts-footer">
 						<div className="pages">
-							<a href="blog.php" target="_blank">
-								Previous
-							</a>
-							<a className="active">1</a>
-							<a>2</a>
-							<a>3</a>
-							<span>...</span>
-							<a>last</a>
-							<a href="blog.php" target="_blank">
-								Next
-							</a>
+							{currentPageNumber > 1 && (
+								<a
+									onClick={() =>
+										setPageNumber(currentPageNumber - 1)
+									}
+								>
+									Previous
+								</a>
+							)}
+							{_.range(1, numPages + 1).map((pageNumber) => (
+								<a
+									onClick={() => setPageNumber(pageNumber)}
+									key={pageNumber}
+									className={
+										pageNumber == currentPageNumber
+											? "active"
+											: ""
+									}
+								>
+									{pageNumber}
+								</a>
+							))}
+							{currentPageNumber < numPages && (
+								<a
+									onClick={() =>
+										setPageNumber(currentPageNumber + 1)
+									}
+								>
+									Next
+								</a>
+							)}
 						</div>
 					</footer>
 				</div>

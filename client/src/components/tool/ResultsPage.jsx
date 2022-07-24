@@ -178,9 +178,27 @@ export default function ResultsPage() {
 								setFieldsite(value);
 							}}
 						/>
-						<NotificationLine type="notice">
-							Is your location missing?{" "}
-							<Link to="/contact">Get in Touch</Link>
+						<NotificationLine
+							tip={{
+								content: (
+									<>
+										<div>
+											Please contact us if the field site
+											you are working in does not appear
+										</div>
+										<Link
+											to="/contact"
+											className="btn compact"
+										>
+											contact form
+										</Link>
+									</>
+								),
+								context: "children",
+							}}
+							type="notice"
+						>
+							<span>Is your location missing?</span>
 						</NotificationLine>
 					</Box>
 

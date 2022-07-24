@@ -108,9 +108,27 @@ export default function AnalyzePage() {
 								update({ fieldsite: value });
 							}}
 						/>
-						<NotificationLine type="notice">
-							Is your location missing?{" "}
-							<Link to="/contact">Get in Touch</Link>
+						<NotificationLine
+							tip={{
+								content: (
+									<>
+										<div>
+											Please contact us if the field site
+											you are working in does not appear
+										</div>
+										<Link
+											to="/contact"
+											className="btn compact"
+										>
+											contact form
+										</Link>
+									</>
+								),
+								context: "children",
+							}}
+							type="notice"
+						>
+							<span>Is your location missing?</span>
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
@@ -160,33 +178,24 @@ export default function AnalyzePage() {
 								</button>
 							</Stack>
 						</Box>
-						<Tooltip
-							className="notification small inline"
-							title={
-								<>
-									Aenean a diam in mauris rutrum ultricies in
-									imperdiet ipsum. Praesent ipsum elit,
-									commodo bibendum mattis eget, facilisis ac
-									nisl.
-									<hr />
-									<a href="/contact" className="btn compact">
-										learn more
-									</a>
-								</>
-							}
-							arrow
-							placement="top"
-							leaveDelay={500}
-							enterDelay={300}
-							leaveTouchDelay={500}
+						<NotificationLine
+							tip={{
+								content: (
+									<>
+										Select the start and end dates for the
+										period you would like to send for
+										analysis, or select
+										&lsquo;all-time&rsquo; to use the whole
+										dataset
+									</>
+								),
+								context: "icon",
+							}}
+							type="guide"
+							orientation="reverse"
 						>
-							<span>
-								<IconQuestionMark />
-								<span>
-									How does setting the Date Range work?
-								</span>
-							</span>
-						</Tooltip>
+							<span>How does setting the Date Range work</span>
+						</NotificationLine>
 					</Box>
 					<Box className="app-card">
 						<Box component={"h2"}>Options for Analysis:</Box>
@@ -230,38 +239,36 @@ export default function AnalyzePage() {
 										}}
 									/>
 								</Box>
-								<Tooltip
-									className="notification small inline"
-									title={
-										<>
-											Aenean a diam in mauris rutrum
-											ultricies in imperdiet ipsum.
-											Praesent ipsum elit, commodo
-											bibendum mattis eget, facilisis ac
-											nisl.
-											<hr />
-											<a
-												href="/contact"
-												className="btn compact"
-											>
-												learn more
-											</a>
-										</>
-									}
-									arrow
-									placement="top"
-									leaveDelay={500}
-									enterDelay={300}
-									leaveTouchDelay={500}
+
+								<NotificationLine
+									tip={{
+										content: (
+											<>
+												The FRC Target Recommendation
+												will be determined based on the
+												typical amount of time people in
+												your field site are storing
+												water. Longer storage times will
+												require higher levels of FRC to
+												keep water protected.
+												<hr />
+												<a
+													href="/blog"
+													className="btn compact"
+												>
+													learn more
+												</a>
+											</>
+										),
+										context: "icon",
+									}}
+									type="guide"
+									orientation="reverse"
 								>
 									<span>
-										<IconQuestionMark />
-										<span>
-											How should I determine the storage
-											time?
-										</span>
+										How should I determine the storage time
 									</span>
-								</Tooltip>
+								</NotificationLine>
 							</AccordionDetails>
 						</Accordion>
 
@@ -340,37 +347,27 @@ export default function AnalyzePage() {
 										))}
 									</RadioGroup>
 								</FormControl>
-								<Tooltip
-									className="notification small inline"
-									title={
-										<>
-											Aenean a diam in mauris rutrum
-											ultricies in imperdiet ipsum.
-											Praesent ipsum elit, commodo
-											bibendum mattis eget, facilisis ac
-											nisl.
-											<hr />
-											<a
-												href="/contact"
-												className="btn compact"
-											>
-												learn more
-											</a>
-										</>
-									}
-									arrow
-									placement="top"
-									leaveDelay={500}
-									enterDelay={300}
-									leaveTouchDelay={500}
+								<NotificationLine
+									tip={{
+										content: (
+											<>
+												Neeed Text
+												<hr />
+												<a
+													href="/blog"
+													className="btn compact"
+												>
+													learn more
+												</a>
+											</>
+										),
+										context: "icon",
+									}}
+									type="guide"
+									orientation="reverse"
 								>
-									<span>
-										<IconQuestionMark />
-										<span>
-											Which scenario should I choose?
-										</span>
-									</span>
-								</Tooltip>
+									<span>Which scenario should I choose</span>
+								</NotificationLine>
 							</AccordionDetails>
 						</Accordion>
 					</Box>
@@ -392,7 +389,10 @@ export default function AnalyzePage() {
 								Reset Fields
 							</button>
 							<NotificationLine type="notice">
-								Make sure all fields are filled out
+								<span>
+									Check that all fields have been completed
+									before moving to the next step
+								</span>
 							</NotificationLine>
 						</Box>
 					</Box>

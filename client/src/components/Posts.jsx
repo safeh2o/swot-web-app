@@ -52,9 +52,11 @@ export default function Posts(props) {
 
 		return _.times(numPosts, (i) => (
 			<Box component="article" key={i} className="image-post">
-				<figure>
-					<Skeleton component="img" />
-				</figure>
+				{i < 1 && (
+					<figure>
+						<Skeleton component="img" />
+					</figure>
+				)}
 				<div className="details-post">
 					<Skeleton>
 						<header className="small">

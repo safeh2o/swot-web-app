@@ -318,6 +318,22 @@ main {
 			max-width: none;
 		}
 		&::before {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			z-index: 10;
+			transform: translate(-50%, -50%);
+			content: "?";
+			display: block;
+			font-size: 9rem;
+			font-weight: 700;
+			color: #dbdfe4;
+
+			@media (min-width: $md) {
+				transform: translate(-50%, -50%) rotate(10deg);
+			}
+		}
+		&::after {
 			content: "";
 			display: block;
 			width: 100%;
@@ -338,7 +354,7 @@ main {
 		@supports (aspect-ratio: 1/1) {
 			aspect-ratio: 1/1;
 			padding-bottom: 0;
-			&::before {
+			&::after {
 				display: none;
 			}
 
@@ -364,23 +380,25 @@ main {
 
 	hr {
 		grid-column: 1/-1;
+		margin: 1rem 0;
 	}
 
 	.btn {
+		display: inline-block;
 		color: inherit;
 		text-align: center;
 		text-decoration: none;
-		padding: 0.9em 2em;
+		padding: 0.5em 1em;
 
 		justify-self: center;
 
 		i {
-			margin-bottom: 0.5rem;
+			margin-bottom: 0.25rem;
 		}
 
 		svg {
-			width: 2.25em;
-			height: 2.25em;
+			width: 1.5em;
+			height: 1.5em;
 		}
 	}
 }

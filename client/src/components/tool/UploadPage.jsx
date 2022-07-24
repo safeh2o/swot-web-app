@@ -212,8 +212,9 @@ export default function UploadPage() {
 							tip={{
 								content: (
 									<>
-										Duplicates are rows with the same dates
-										and times
+										If checked, existing paired samples will
+										be replaced with new rows that have
+										identical tapstand datetimes
 									</>
 								),
 								context: "icon",
@@ -221,7 +222,10 @@ export default function UploadPage() {
 							type="guide"
 							orientation="reverse"
 						>
-							<span>What&apos;s this</span>
+							<span>
+								Duplicates are rows with the same dates and
+								times
+							</span>
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">

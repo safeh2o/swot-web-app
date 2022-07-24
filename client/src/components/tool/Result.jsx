@@ -454,10 +454,19 @@ export default function Result() {
 								<Tooltip
 									title={
 										<>
-											Duration of protection associated
-											with the FRC target above. For a
-											longer or shorter storage time, a
-											new analysis should be run.
+											The predicted amount of time that
+											water will remain protected after
+											collection, if the FRC target
+											recommendation is achieved. For a
+											different storage time, re-run the
+											analysis.
+											<hr />
+											<a
+												href="/contact"
+												className="btn compact"
+											>
+												learn more
+											</a>
 										</>
 									}
 									arrow
@@ -480,8 +489,22 @@ export default function Result() {
 								Predicted household water safety at this storage
 								time
 								<Tooltip
-									title="Predicted HH safety rate when the FRC target
-									is implemented"
+									title={
+										<>
+											The predicted percentage of
+											households that would have a
+											protective free chlorine residual at
+											the given storage time if the FRC
+											target recommendation is achieved.
+											<hr />
+											<a
+												href="/contact"
+												className="btn compact"
+											>
+												learn more
+											</a>
+										</>
+									}
 									arrow
 									placement="top"
 									leaveDelay={500}

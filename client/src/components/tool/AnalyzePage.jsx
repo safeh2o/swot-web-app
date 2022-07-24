@@ -351,7 +351,14 @@ export default function AnalyzePage() {
 									tip={{
 										content: (
 											<>
-												Neeed Text
+												The optimum decay scenario
+												presents the best estimate of
+												the decay phenomena at your
+												site. The maximum and minimum
+												give an envelope of
+												approximately a 95% confidence
+												interval around the optimum
+												decay scenario.
 												<hr />
 												<a
 													href="/blog"

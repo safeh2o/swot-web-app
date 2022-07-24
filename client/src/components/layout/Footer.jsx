@@ -89,10 +89,10 @@ export default function Footer() {
 							rel="noreferrer"
 						>
 							<img
-								src="/assets/organisations/dwb.svg"
+								src="/assets/organisations/dwb_full.svg"
 								alt=" logo"
-								width="1599.6"
-								height="465.8"
+								width="1600"
+								height="466"
 								className="wide"
 							/>
 						</a>
@@ -101,18 +101,18 @@ export default function Footer() {
 				<section className="rte">
 					<h2>Follow Us</h2>
 					<div className="social-networks">
-						<a
+						{/* <a
 							className="linkedin"
 							target="_blank"
 							href="http://linkedin.com/"
 							rel="noreferrer"
 						>
 							<IconLinkedin />
-						</a>
+						</a> */}
 						<a
 							className="twitter"
 							target="_blank"
-							href="https://www.twitter.com/"
+							href="https://twitter.com/safeh2oapp"
 							rel="noreferrer"
 						>
 							<IconTwitter />
@@ -120,7 +120,7 @@ export default function Footer() {
 						<a
 							className="youtube"
 							target="_blank"
-							href="https://youtube.com/"
+							href="https://www.youtube.com/channel/UCAoYWw3iKSpFZspbMGhMq7g/videos"
 							rel="noreferrer"
 						>
 							<IconYoutube />

@@ -5,7 +5,6 @@ import {
 	Divider,
 	FormControlLabel,
 	FormGroup,
-	Tooltip,
 } from "@mui/material";
 import axios from "axios";
 import { DropzoneArea } from "material-ui-dropzone";
@@ -108,9 +107,27 @@ export default function UploadPage() {
 								update({ fieldsite: value });
 							}}
 						/>
-						<NotificationLine type="notice">
-							Is your location missing?{" "}
-							<Link to="/contact">Get in Touch</Link>
+						<NotificationLine
+							tip={{
+								content: (
+									<>
+										<div>
+											Please contact us if the field site
+											you are working in does not appear
+										</div>
+										<Link
+											to="/contact"
+											className="btn compact"
+										>
+											contact form
+										</Link>
+									</>
+								),
+								context: "children",
+							}}
+							type="notice"
+						>
+							<span>Is your location missing?</span>
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
@@ -131,11 +148,41 @@ export default function UploadPage() {
 							ref={fileInput}
 						/>
 
-						<NotificationLine type="check">
-							Ensure all required columns have data...
+						<NotificationLine
+							tip={{
+								content: (
+									<>
+										Required columns are ts_datetime,
+										ts_frc, hh_datetime and hh_frc
+									</>
+								),
+								context: "icon",
+							}}
+							type="guide"
+							orientation="reverse"
+						>
+							<span>
+								Ensure all required columns have data...
+							</span>
 						</NotificationLine>
-						<NotificationLine type="check">
-							Ensure that you upload a .csv or a .xlsx file
+
+						<NotificationLine
+							tip={{
+								content: (
+									<>
+										File format should be Microsoft Excel
+										Spreadsheet (.xlsx) or Comma-Separated
+										Values (.csv) file
+									</>
+								),
+								context: "icon",
+							}}
+							type="guide"
+							orientation="reverse"
+						>
+							<span>
+								Ensure that you upload a .csv or a .xlsx file
+							</span>
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
@@ -161,22 +208,21 @@ export default function UploadPage() {
 								}
 							/>
 						</FormGroup>
-						<Tooltip
-							className="notification small"
-							title={
-								"Duplicates are rows with the same dates and times"
-							}
-							arrow
-							placement="top"
-							leaveDelay={500}
-							enterDelay={300}
-							leaveTouchDelay={500}
+						<NotificationLine
+							tip={{
+								content: (
+									<>
+										Duplicates are rows with the same dates
+										and times
+									</>
+								),
+								context: "icon",
+							}}
+							type="guide"
+							orientation="reverse"
 						>
-							<span>
-								<IconQuestionMark />
-								<span>What&apos;s this?</span>
-							</span>
-						</Tooltip>
+							<span>What&apos;s this</span>
+						</NotificationLine>
 					</Box>
 					<Box className="app-card">
 						<Box className="form-submit">
@@ -200,7 +246,10 @@ export default function UploadPage() {
 								Reset Fields
 							</button>
 							<NotificationLine type="notice">
-								Make sure all fields are filled out
+								<span>
+									Check that all fields have been completed
+									before moving to the next step
+								</span>
 							</NotificationLine>
 						</Box>
 					</Box>

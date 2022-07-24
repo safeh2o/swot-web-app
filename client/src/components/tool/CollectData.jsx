@@ -107,7 +107,7 @@ export default function CollectData() {
 										</figure>
 										<div className="content">
 											<h3>
-												<storng>Pen and Paper</storng>
+												<strong>Pen and Paper</strong>
 											</h3>
 											{/* <p></p> */}
 											<a

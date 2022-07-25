@@ -92,23 +92,23 @@ export default function Blog() {
 						</h1>
 						<div className="posts-filters small">
 							<div className="categories-blog">
-								{Object.keys(allPostCategories?.byName).map(
-									(categoryName) => (
-										<a
-											key={categoryName}
-											className={
-												currentCategory == categoryName
-													? "active"
-													: ""
-											}
-											onClick={() => {
-												setCategory(categoryName);
-											}}
-										>
-											{categoryName}
-										</a>
-									)
-								)}
+								{Object.keys(
+									allPostCategories?.byName || []
+								).map((categoryName) => (
+									<a
+										key={categoryName}
+										className={
+											currentCategory == categoryName
+												? "active"
+												: ""
+										}
+										onClick={() => {
+											setCategory(categoryName);
+										}}
+									>
+										{categoryName}
+									</a>
+								))}
 							</div>
 						</div>
 						<div className="posts-count small">

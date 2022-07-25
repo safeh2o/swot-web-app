@@ -1,4 +1,4 @@
-import { Box, Skeleton } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -52,32 +52,40 @@ export default function Posts(props) {
 			content: {
 				brief: "This is part of Stepping Up, a series introducing Canadians to their country’s new sources of inspiration and leadership.",
 			},
+			categoryNames: ["Announcements"],
 		};
 
 		return _.times(numPosts, (i) => (
-			<Box component="article" key={i} className="image-post">
-				{i < 1 && (
-					<figure>
-						<Skeleton component="img" />
-					</figure>
-				)}
-				<div className="details-post">
-					<Skeleton>
+			<>
+				<article key={i}>
+					<div className="details-post">
 						<header className="small">
-							<time>{samplePost.publishedDate}</time>
+							<Skeleton>
+								<time>{samplePost.publishedDate}</time>
+							</Skeleton>
+							<span className="categories-post">
+								<Skeleton>
+									<span className="divider">in</span>
+									{samplePost.categoryNames.map((cat, j) => (
+										<a key={"cat-" + j}>{cat}</a>
+									))}
+								</Skeleton>
+							</span>
 						</header>
-					</Skeleton>
-					<Skeleton>
-						<h1 className="post-title">{samplePost.title}</h1>
-					</Skeleton>
-					<Skeleton>
-						<div className="post-text">
-							{samplePost.content.brief}
-						</div>
-					</Skeleton>
-					<hr />
-				</div>
-			</Box>
+						<Skeleton>
+							<h1 className="post-title">
+								<NavLink to="#">{samplePost.title}</NavLink>
+							</h1>
+						</Skeleton>
+						<Skeleton width="100%">
+							<div className="post-text">
+								{samplePost.content.brief}
+							</div>
+						</Skeleton>
+						<hr />
+					</div>
+				</article>
+			</>
 		));
 	}
 

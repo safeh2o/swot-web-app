@@ -14,7 +14,6 @@ function NotificationLineIcons(type) {
 }
 
 function NotificationLine(props) {
-	console.log(props.type, props.tip?.context);
 	return (
 		<Box
 			component="div"

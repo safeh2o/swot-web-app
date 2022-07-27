@@ -46,7 +46,6 @@ export default function BlogPost() {
 
 	const formatPublishTime = (string) => {
 		const dt = DateTime.fromISO(string);
-		console.log(string);
 		const f = {
 			month: "long",
 			day: "numeric",

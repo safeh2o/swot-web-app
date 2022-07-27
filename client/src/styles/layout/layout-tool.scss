@@ -260,6 +260,7 @@ main.page-tool {
 		flex-direction: row;
 		margin-top: 1rem;
 		button {
+			cursor: pointer;
 			font-weight: 500;
 			border: none;
 			padding: 0.5rem 1rem;
@@ -270,7 +271,8 @@ main.page-tool {
 			background-color: #d5d9df;
 			border-radius: 4px;
 			&:hover {
-				background-color: #d5d9df;
+				transition: all 0.2s ease-in;
+				background-color: #dfd5d9;
 			}
 		}
 	}

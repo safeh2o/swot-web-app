@@ -127,6 +127,7 @@ exports = module.exports = function (app) {
 		routes.api.cms.pages
 	);
 	app.get("/api/cms/posts", keystone.middleware.api, routes.api.cms.posts);
+	app.get("/api/cms/faqs", keystone.middleware.api, routes.api.cms.faqs);
 	app.get(
 		"/api/cms/post-categories",
 		keystone.middleware.api,

@@ -35,7 +35,6 @@ function AppBreadcrumbs() {
 				component="span"
 				sx={{
 					display: "block",
-					maxWidth: "12ch",
 					textOverflow: "ellipsis",
 					whiteSpace: "nowrap",
 					overflow: "hidden",

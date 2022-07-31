@@ -8,6 +8,7 @@ export const PATH_MAP = {
 	blog: "News",
 	signin: "Sign In",
 	forgotpassword: "Forgot Password",
+	faq: "Frequently Asked Questions",
 };
 
 export const IGNORED_PATHS = new Set(["pages"]);

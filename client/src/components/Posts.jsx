@@ -2,7 +2,7 @@ import { Skeleton } from "@mui/material";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { blogSelectors } from "../reducers/posts";
+import { blogSelectors } from "../reducers/blog";
 
 export default function Posts(props) {
 	const { posts, start, end } = props;
@@ -56,36 +56,34 @@ export default function Posts(props) {
 		};
 
 		return _.times(numPosts, (i) => (
-			<>
-				<article key={i}>
-					<div className="details-post">
-						<header className="small">
-							<Skeleton>
-								<time>{samplePost.publishedDate}</time>
-							</Skeleton>
-							<span className="categories-post">
-								<Skeleton>
-									<span className="divider">in</span>
-									{samplePost.categoryNames.map((cat, j) => (
-										<a key={"cat-" + j}>{cat}</a>
-									))}
-								</Skeleton>
-							</span>
-						</header>
+			<article key={i}>
+				<div className="details-post">
+					<header className="small">
 						<Skeleton>
-							<h1 className="post-title">
-								<NavLink to="#">{samplePost.title}</NavLink>
-							</h1>
+							<time>{samplePost.publishedDate}</time>
 						</Skeleton>
-						<Skeleton width="100%">
-							<div className="post-text">
-								{samplePost.content.brief}
-							</div>
-						</Skeleton>
-						<hr />
-					</div>
-				</article>
-			</>
+						<span className="categories-post">
+							<Skeleton>
+								<span className="divider">in</span>
+								{samplePost.categoryNames.map((cat, j) => (
+									<a key={"cat-" + j}>{cat}</a>
+								))}
+							</Skeleton>
+						</span>
+					</header>
+					<Skeleton>
+						<h1 className="post-title">
+							<NavLink to="#">{samplePost.title}</NavLink>
+						</h1>
+					</Skeleton>
+					<Skeleton width="100%">
+						<div className="post-text">
+							{samplePost.content.brief}
+						</div>
+					</Skeleton>
+					<hr />
+				</div>
+			</article>
 		));
 	}
 

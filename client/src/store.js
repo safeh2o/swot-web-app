@@ -12,7 +12,8 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import notificationsReducer from "./reducers/notifications";
-import blogReducer from "./reducers/posts";
+import blogReducer from "./reducers/blog";
+import faqReducer from "./reducers/faq";
 import userReducer from "./reducers/user";
 import viewReducer from "./reducers/view";
 
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
 	blog: blogReducer,
 	notifications: notificationsReducer,
 	view: viewReducer,
+	faq: faqReducer,
 });
 
 const persistConfig = {

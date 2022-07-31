@@ -27,7 +27,7 @@ function PageWrapper(props) {
 
 	const isNotFound = url.pathname === "/not-found";
 
-	const isBlogPage = ["/blog"].some((path) => url.pathname.includes(path));
+	const isBlogPage = ["/blog", "/faq"].includes(url.pathname);
 
 	const BackToTopAnchor = useRef(null);
 	const scrollTrigger = useScrollTrigger();

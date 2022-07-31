@@ -2,35 +2,25 @@ import _ from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { blogSelectors, getPostCategories, getPosts } from "../reducers/blog";
-import Posts from "./Posts";
+import { faqSelectors, getFAQs } from "../reducers/faq";
+import FAQList from "./FAQList";
 
 const DEFAULT_PAGE_SIZE = 10;
 
-export default function Blog() {
-	const allPosts = useSelector(blogSelectors.posts);
-	const allPostCategories = useSelector(blogSelectors.postCategories);
-	const [posts, setPosts] = useState(allPosts);
+export default function FAQ() {
+	const FAQs = useSelector(faqSelectors.FAQs);
 	const dispatch = useDispatch();
 	const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
-	const [postRange, setPostRange] = useState([1, DEFAULT_PAGE_SIZE]);
+	const [FAQRange, setFAQRange] = useState([1, DEFAULT_PAGE_SIZE]);
 	const [numPages, setNumPages] = useState(1);
 	let [searchParams, setSearchParams] = useSearchParams();
-	const currentCategory = searchParams.get("category");
 	const currentPageNumber = searchParams.get("page")
 		? parseInt(searchParams.get("page"))
 		: 1;
 
 	useEffect(() => {
-		dispatch(getPosts());
-		dispatch(getPostCategories());
+		dispatch(getFAQs());
 	}, []);
-
-	useEffect(() => {
-		if (!posts) {
-			setPosts(allPosts);
-		}
-	}, [allPosts]);
 
 	useEffect(() => {
 		if (!currentPageNumber) {
@@ -39,32 +29,17 @@ export default function Blog() {
 			const startRange = (currentPageNumber - 1) * pageSize + 1;
 			const endRange = Math.min(
 				currentPageNumber * pageSize,
-				posts?.length || Infinity
+				FAQs?.length || Infinity
 			);
-			setPostRange([startRange, endRange]);
+			setFAQRange([startRange, endRange]);
 		}
-	}, [currentPageNumber, currentCategory, posts]);
+	}, [currentPageNumber, FAQs]);
 
 	useEffect(() => {
-		const currentCategoryId =
-			allPostCategories?.byName?.[currentCategory]?._id;
-		if (currentCategoryId) {
-			setPosts(
-				allPosts.filter((post) =>
-					post.categories.includes(currentCategoryId)
-				)
-			);
-		} else {
-			setPosts(allPosts);
+		if (FAQs?.length) {
+			setNumPages(Math.ceil(FAQs.length / pageSize));
 		}
-		setPageNumber(1);
-	}, [currentCategory]);
-
-	useEffect(() => {
-		if (posts?.length) {
-			setNumPages(Math.ceil(posts.length / pageSize));
-		}
-	}, [posts]);
+	}, [FAQs]);
 
 	function updateSearchParams(items) {
 		setSearchParams(
@@ -80,53 +55,25 @@ export default function Blog() {
 		updateSearchParams({ page: pageNumber });
 	}
 
-	function setCategory(categoryName) {
-		updateSearchParams({ category: categoryName });
-	}
-
 	return (
 		<>
 			<section>
 				<div className="section-wrap posts">
 					<div className="intro">
 						<h1 className="section-subtitle">
-							News, <br />
-							Technical Blog
+							Frequently Asked Questions
 						</h1>
-						<div className="posts-filters small">
-							<div className="categories-blog">
-								{Object.keys(
-									allPostCategories?.byName || []
-								).map((categoryName) => (
-									<a
-										key={categoryName}
-										className={
-											currentCategory == categoryName
-												? "active"
-												: ""
-										}
-										onClick={() => {
-											setCategory(categoryName);
-										}}
-									>
-										{categoryName}
-									</a>
-								))}
-							</div>
-						</div>
-						<div className="posts-count small">
+
+						<div className="FAQs-count small">
 							<span>
-								Showing {postRange[0]} to {postRange[1]} of{" "}
-								{posts?.length ?? "..."} posts.
+								Showing {FAQRange[0]} to {FAQRange[1]} of{" "}
+								{FAQs?.length ?? "..."} FAQs.
 							</span>
 						</div>
 					</div>
 					<div className="content">
-						<Posts
-							type={"news"}
-							posts={posts}
-							start={postRange[0]}
-							end={postRange[1]}
+						<FAQList
+							FAQs={FAQs.slice(FAQRange[0] - 1, FAQRange[1])}
 						/>
 					</div>
 					<footer className="posts-footer">

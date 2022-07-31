@@ -12,6 +12,7 @@ import BlogPost from "./BlogPost";
 // Admin Imports
 import CMSPage from "./CMSPage";
 import ContactPage from "./ContactPage";
+import FAQ from "./FAQ";
 import Home from "./Home";
 import NotFound from "./NotFound";
 // App + Content Pages
@@ -78,6 +79,7 @@ export default function App() {
 					<Route path="/contact" element={<ContactPage />} />
 					<Route path="/pages/:slug" element={<CMSPage />} />
 
+					<Route path="/faq" element={<FAQ />} />
 					<Route path="/blog" element={<Blog />} />
 					<Route path="/blog/:slug" element={<BlogPost />} />
 					<Route path="*" element={<NotFound />} />

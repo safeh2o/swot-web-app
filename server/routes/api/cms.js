@@ -2,6 +2,7 @@ const keystone = require("keystone");
 const Page = keystone.list("Page");
 const Post = keystone.list("Post");
 const PostCategory = keystone.list("PostCategory");
+const FAQ = keystone.list("FAQ");
 
 exports.pages = async function (req, res) {
 	if (!req.params.slug) {
@@ -75,4 +76,20 @@ exports.posts = async function (req, res) {
 	}
 
 	return res.json(posts);
+};
+
+exports.faqs = async function (req, res) {
+	let FAQs = await FAQ.model
+		.find(
+			{ state: "published" },
+			{
+				title: 1,
+				content: 1,
+			}
+		)
+		.exec();
+
+	FAQs = FAQs.map((FAQ) => FAQ.toJSON());
+
+	return res.json(FAQs);
 };

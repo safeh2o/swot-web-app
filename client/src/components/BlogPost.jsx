@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 import { setLoading } from "../reducers/notifications";
-import { blogSelectors } from "../reducers/posts";
+import { blogSelectors } from "../reducers/blog";
 import { replaceCrumbTitle } from "../reducers/view";
 
 export default function BlogPost() {

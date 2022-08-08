@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-const AppContext = createContext({ user: null });
+const AppContext = createContext({ currentCommitSha: "", gtag: "" });
 AppContext.displayName = "AppContext";
 
 export default AppContext;

@@ -10,6 +10,7 @@ module.exports = (_env, argv) => {
 			template: "src/index.ejs",
 			inject: "body",
 			gtag: process.env.GOOGLE_ANALYTICS_GTAG,
+			currentCommitSha: process.env.CURRENT_COMMIT_SHA,
 			filename: "index.html",
 		}),
 	];

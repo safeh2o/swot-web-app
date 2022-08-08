@@ -16,6 +16,7 @@ import blogReducer from "./reducers/blog";
 import faqReducer from "./reducers/faq";
 import userReducer from "./reducers/user";
 import viewReducer from "./reducers/view";
+import settingsReducer from "./reducers/settings";
 
 const rootReducer = combineReducers({
 	user: userReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
 	notifications: notificationsReducer,
 	view: viewReducer,
 	faq: faqReducer,
+	settings: settingsReducer,
 });
 
 const persistConfig = {

@@ -1,10 +1,14 @@
 // React Imports
 // App Theme Styling
 import { ThemeProvider } from "@mui/material/styles";
+import { useContext } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import AppContext from "../contexts/AppContext";
+import { setLastSeenCommitSha, settingsSelectors } from "../reducers/settings";
 import { getUser, userSelectors } from "../reducers/user";
+import { persistor } from "../store";
 import theme from "../theme";
 import Blog from "./Blog";
 // Archival Imports
@@ -31,6 +35,13 @@ import UploadPage from "./tool/UploadPage";
 export default function App() {
 	const dispatch = useDispatch();
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
+	const currentCommitSha = useContext(AppContext).currentCommitSha;
+	const lastSeenCommitSha = useSelector(settingsSelectors.lastSeenCommitSha);
+	if (currentCommitSha !== lastSeenCommitSha) {
+		console.log("App was recently updated, refreshing state");
+		persistor.purge();
+		dispatch(setLastSeenCommitSha(currentCommitSha));
+	}
 
 	function PrivateRoute() {
 		return isLoggedIn === true ? <Outlet /> : <Navigate to={"/signin"} />;

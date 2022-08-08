@@ -4,6 +4,7 @@
 FROM node:16.13.0-alpine as build
 
 ARG GOOGLE_ANALYTICS_GTAG
+ARG CURRENT_COMMIT_SHA
 WORKDIR /app/client
 COPY ./client/package.json ./
 COPY ./client/package-lock.json ./

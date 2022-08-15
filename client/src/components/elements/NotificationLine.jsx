@@ -2,65 +2,42 @@ import { Box, Tooltip } from "@mui/material";
 import PropTypes from "prop-types";
 
 function NotificationLineIcons(type) {
-	return (
-		<>
-			{type === "guide" && "?"}
-			{type === "tip" && "i"}
-			{type === "notice" && "!"}
-			{type === "footnote" && "*"}
-			{type === "check" && "✔"}
-		</>
-	);
+	const mapping = {
+		guide: "?",
+		tip: "i",
+		notice: "!",
+		footnote: "*",
+		check: "✔",
+	};
+
+	return mapping[type];
 }
 
 function NotificationLine(props) {
+	const iconElement = (
+		<span className="icon">
+			<span>{NotificationLineIcons(props.type)}</span>
+		</span>
+	);
+
 	return (
 		<Box
 			component="div"
 			{...props}
-			className={"notification small " + props.orientation}
+			className={"notification small " + props?.orientation}
 		>
-			{(props.tip?.content && props.tip?.context === "icon" && (
-				<>
-					<Tooltip
-						title={<>{props.tip?.content}</>}
-						arrow
-						placement="top"
-						leaveDelay={500}
-						enterDelay={300}
-						leaveTouchDelay={500}
-					>
-						<>
-							<span className="icon">
-								<span>{NotificationLineIcons(props.type)}</span>
-							</span>
-						</>
-					</Tooltip>
-				</>
-			)) || (
-				<>
-					<span className="icon">
-						<span>{NotificationLineIcons(props.type)}</span>
-					</span>
-				</>
-			)}
-
-			<Box component="div">
-				{(props.tip?.content && (
-					<>
-						<Tooltip
-							title={<>{props.tip?.content}</>}
-							arrow
-							placement="top"
-							leaveDelay={500}
-							enterDelay={300}
-							leaveTouchDelay={500}
-						>
-							{props.children}
-						</Tooltip>
-					</>
-				)) || <>{props.children}</>}
-			</Box>
+			{props?.tip?.context !== "icon" && iconElement}
+			<Tooltip
+				title={props.tip?.content || ""}
+				arrow
+				placement="top"
+				leaveDelay={500}
+				enterDelay={300}
+				leaveTouchDelay={500}
+			>
+				{props?.tip?.context === "icon" ? iconElement : props?.children}
+			</Tooltip>
+			{props?.tip?.context === "icon" && props?.children}
 		</Box>
 	);
 }

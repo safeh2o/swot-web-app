@@ -63,7 +63,7 @@ export default function CollectData() {
 											/>
 										</figure>
 										<div className="content">
-											<h3>How to Collect Data (Video)</h3>
+											<h3>How to Collect Data</h3>
 											<p>
 												This video gives an overview of
 												how to use the SWOT, from
@@ -71,16 +71,49 @@ export default function CollectData() {
 												uploading data and running your
 												first analysis.
 											</p>
+											<h4>
+												<strong>Video Chapters</strong>
+											</h4>
+											<ol>
+												<li>
+													<a
+														href={
+															"https://youtu.be/gCLWzPoBqCk?t=126"
+														}
+														target="_blank"
+														rel="noreferrer"
+														className="chapter-link"
+													>
+														Equipment
+													</a>
+												</li>
 
-											<a
-												href={
-													"https://youtu.be/gCLWzPoBqCk"
-												}
-												target="_blank"
-												rel="noreferrer"
-											>
-												Watch (Youtube)
-											</a>
+												<li>
+													<a
+														href={
+															"https://youtu.be/gCLWzPoBqCk?t=165"
+														}
+														target="_blank"
+														rel="noreferrer"
+														className="chapter-link"
+													>
+														Staff &amp;
+														Communications
+													</a>
+												</li>
+												<li>
+													<a
+														href={
+															"https://youtu.be/gCLWzPoBqCk?t=226"
+														}
+														target="_blank"
+														rel="noreferrer"
+														className="chapter-link"
+													>
+														Collection Methods
+													</a>
+												</li>
+											</ol>
 										</div>
 									</li>
 								</ul>

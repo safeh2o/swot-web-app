@@ -132,6 +132,7 @@ p {
 
 a {
 	color: inherit;
+	text-underline-offset: 0.1em;
 }
 
 b,
@@ -146,7 +147,6 @@ strong {
 	}
 	a {
 		text-decoration: underline 1px;
-		text-underline-offset: 1px;
 	}
 	h2,
 	.h2 {

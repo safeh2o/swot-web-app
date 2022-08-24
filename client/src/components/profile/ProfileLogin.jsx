@@ -76,7 +76,7 @@ export default function ProfileLogin() {
 		<>
 			<section>
 				<div className="section-wrap compact">
-					<h1 className="section-subtitle">Sign in</h1>
+					<h1 className="section-subtitle user">Sign in</h1>
 					<Box
 						component="form"
 						className="app-card"

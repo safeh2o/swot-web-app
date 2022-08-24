@@ -48,6 +48,8 @@ export { default as IconYoutube } from "./IconYoutube";
 export * from "./IconYoutube";
 export { default as IconLinkedin } from "./IconLinkedin";
 export * from "./IconLinkedin";
+export { default as IconGithub } from "./IconGithub";
+export * from "./IconGithub";
 export { default as IconEnvelope } from "./IconEnvelope";
 export * from "./IconEnvelope";
 // Header

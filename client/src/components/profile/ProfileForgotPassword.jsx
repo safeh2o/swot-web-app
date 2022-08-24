@@ -22,7 +22,7 @@ export default function ProfileForgotPassword() {
 		<>
 			<section>
 				<div className="section-wrap compact">
-					<h1 className="section-subtitle">Forgot Password</h1>
+					<h1 className="section-subtitle user">Forgot Password</h1>
 					<Box
 						component="form"
 						className="app-card"

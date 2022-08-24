@@ -61,7 +61,7 @@ export default function ProfileResetPassword() {
 		<>
 			<section>
 				<div className="section-wrap compact">
-					<h1 className="section-subtitle">Reset Password</h1>
+					<h1 className="section-subtitle user">Reset Password</h1>
 					<Box
 						component="form"
 						className="app-card"

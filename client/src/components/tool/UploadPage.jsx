@@ -217,10 +217,7 @@ export default function UploadPage() {
 							type="guide"
 							orientation="reverse"
 						>
-							<span>
-								Duplicates are rows with the same dates and
-								times
-							</span>
+							<span>What&apos;s this</span>
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">

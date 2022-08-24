@@ -128,18 +128,18 @@ export default function Home() {
 						{(!isLoggedIn && (
 							<>
 								<div className="option request">
-									<i>
+									<Link to="/contact" className="i">
 										<IconProfile />
-									</i>
+									</Link>
 									<Typography component={"p"}>
 										<Link to="/contact">Request</Link> an
 										account.
 									</Typography>
 								</div>
 								<div className="option">
-									<i>
+									<Link to="/signin" className="i">
 										<IconSignIn />
-									</i>
+									</Link>
 									<p>
 										<Link to="/signin">Sign in</Link> to
 										your account.
@@ -149,9 +149,9 @@ export default function Home() {
 						)) || (
 							<>
 								<div className="option contact">
-									<i>
+									<Link to="/contact" className="i">
 										<IconEnvelope />
-									</i>
+									</Link>
 									<p>
 										Need help?{" "}
 										<Link to="/contact">Contact Us</Link>

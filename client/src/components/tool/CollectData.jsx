@@ -21,18 +21,20 @@ export default function CollectData() {
 								<h2>a. Guides</h2>
 								<ul className="flat">
 									<li>
-										<figure className="image">
-											<a
-												href={urlFieldGuide}
-												target="_blank"
-												rel="noreferrer"
-											></a>
-											<img
-												src={
-													"/assets/tool/collect/thumb-protocol.png"
-												}
-											/>
-										</figure>
+										<a
+											href={urlFieldGuide}
+											target="_blank"
+											rel="noreferrer"
+										>
+											<figure className="image">
+												<img
+													src={
+														"/assets/tool/collect/thumb-protocol.png"
+													}
+													alt="field protocol thumbnail"
+												/>
+											</figure>
+										</a>
 										<div className="content">
 											<h3>Field Protocol</h3>
 											<p>
@@ -50,18 +52,20 @@ export default function CollectData() {
 										</div>
 									</li>
 									<li>
-										<figure className="image">
-											<a
-												href="https://youtu.be/gCLWzPoBqCk"
-												target="_blank"
-												rel="noreferrer"
-											></a>
-											<img
-												src={
-													"/assets/tool/collect/thumb-how-to-video.png"
-												}
-											/>
-										</figure>
+										<a
+											href="https://youtu.be/gCLWzPoBqCk"
+											target="_blank"
+											rel="noreferrer"
+										>
+											<figure className="image">
+												<img
+													src={
+														"/assets/tool/collect/thumb-how-to-video.png"
+													}
+													alt="data collection thumbnail"
+												/>
+											</figure>
+										</a>
 										<div className="content">
 											<h3>How to Collect Data</h3>
 											<p>
@@ -127,18 +131,20 @@ export default function CollectData() {
 								<h2>b. Forms</h2>
 								<ul className="flat">
 									<li>
-										<figure className="image">
-											<a
-												href={urlFieldGuide}
-												target="_blank"
-												rel="noreferrer"
-											></a>
-											<img
-												src={
-													"/assets/tool/collect/thumb-manual-monitoring-forms.png"
-												}
-											/>
-										</figure>
+										<a
+											href={urlFieldGuide}
+											target="_blank"
+											rel="noreferrer"
+										>
+											<figure className="image">
+												<img
+													src={
+														"/assets/tool/collect/thumb-manual-monitoring-forms.png"
+													}
+													alt="pen and paper forms thumbnail"
+												/>
+											</figure>
+										</a>
 										<div className="content">
 											<h3>
 												<strong>Pen and Paper</strong>
@@ -154,18 +160,20 @@ export default function CollectData() {
 										</div>
 									</li>
 									<li>
-										<figure className="image">
-											<a
-												href={urlFieldGuide}
-												target="_blank"
-												rel="noreferrer"
-											></a>
-											<img
-												src={
-													"/assets/tool/collect/thumb-kobo-monitoring-forms.png"
-												}
-											/>
-										</figure>
+										<a
+											href={urlFieldGuide}
+											target="_blank"
+											rel="noreferrer"
+										>
+											<figure className="image">
+												<img
+													src={
+														"/assets/tool/collect/thumb-kobo-monitoring-forms.png"
+													}
+													alt="kobo monitoring forms thumbnail"
+												/>
+											</figure>
+										</a>
 										<div className="content">
 											<h3>KOBO Monitoring</h3>
 											{/* <p></p> */}

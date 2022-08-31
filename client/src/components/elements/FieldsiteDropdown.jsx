@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import PropTypes from "prop-types";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import {
 	DEFAULT_AREA,
@@ -32,31 +32,30 @@ function FieldsiteDropdown(props) {
 		return allAreas.filter(
 			(area) => locations?.country?.areas?.indexOf(area._id) >= 0
 		);
-	}, [locations.country]);
+	}, [locations.country, allAreas]);
 	const fieldsites = useMemo(() => {
 		return allFieldsites.filter(
 			(fieldsite) =>
 				locations?.area?.fieldsites?.indexOf(fieldsite._id) >= 0
 		);
-	}, [locations.area]);
+	}, [locations.area, allFieldsites]);
 
 	useEffect(() => {
 		props.onChange(locations.fieldsite);
-	}, [locations.fieldsite]);
+	}, [locations.fieldsite, props]);
 
-	const removeFromHash = (...keys) => {
-		const newHashParams = hashParams;
-		for (const key of keys) {
-			newHashParams.delete(key);
-		}
-		setHashParams(newHashParams);
-	};
+	const removeFromHash = useCallback(
+		(...keys) => {
+			const newHashParams = hashParams;
+			for (const key of keys) {
+				newHashParams.delete(key);
+			}
+			setHashParams(newHashParams);
+		},
+		[hashParams, setHashParams]
+	);
 
-	useEffect(() => {
-		updateLocationsFromHashString();
-	}, [hashParams]);
-
-	const updateLocationsFromHashString = () => {
+	const updateLocationsFromHashString = useCallback(() => {
 		const countryName = hashParams.get("country");
 		let country = DEFAULT_COUNTRY,
 			area = DEFAULT_AREA,
@@ -97,7 +96,17 @@ function FieldsiteDropdown(props) {
 			}
 		}
 		update({ fieldsite });
-	};
+	}, [
+		allAreas,
+		allFieldsites,
+		countries,
+		hashParams,
+		removeFromHash,
+		update,
+	]);
+	useEffect(() => {
+		updateLocationsFromHashString();
+	}, [hashParams, updateLocationsFromHashString]);
 
 	const updateHashStringFromLocations = (newLocations) => {
 		const params = hashParams;

@@ -19,7 +19,7 @@ const useHashParams = () => {
 		return () => {
 			window.removeEventListener("hashchange", handleHashChange);
 		};
-	}, [window.location]);
+	}, []);
 
 	return [hashParams, setHashParams];
 };

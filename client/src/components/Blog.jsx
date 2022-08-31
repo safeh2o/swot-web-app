@@ -30,7 +30,7 @@ export default function Blog() {
 		if (!posts) {
 			setPosts(allPosts);
 		}
-	}, [allPosts]);
+	}, [allPosts, posts]);
 
 	useEffect(() => {
 		if (!currentPageNumber) {
@@ -43,7 +43,7 @@ export default function Blog() {
 			);
 			setPostRange([startRange, endRange]);
 		}
-	}, [currentPageNumber, currentCategory, posts]);
+	}, [currentPageNumber, currentCategory, posts, pageSize, setPageNumber]);
 
 	useEffect(() => {
 		const currentCategoryId =

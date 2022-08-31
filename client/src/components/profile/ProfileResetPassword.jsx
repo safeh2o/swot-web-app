@@ -31,7 +31,7 @@ export default function ProfileResetPassword() {
 		axios.get("/api/user/resetkey", { params: { key } }).then((res) => {
 			dispatch(handleServerMessages(res.data?.messages));
 		});
-	}, [key]);
+	}, [key, dispatch]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();

@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { faqSelectors, getFAQs } from "../reducers/faq";
@@ -10,7 +10,7 @@ const DEFAULT_PAGE_SIZE = 10;
 export default function FAQ() {
 	const FAQs = useSelector(faqSelectors.FAQs);
 	const dispatch = useDispatch();
-	const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
+	const [pageSize] = useState(DEFAULT_PAGE_SIZE);
 	const [FAQRange, setFAQRange] = useState([1, DEFAULT_PAGE_SIZE]);
 	const [numPages, setNumPages] = useState(1);
 	let [searchParams, setSearchParams] = useSearchParams();
@@ -18,9 +18,29 @@ export default function FAQ() {
 		? parseInt(searchParams.get("page"))
 		: 1;
 
+	const updateSearchParams = useCallback(
+		(items) => {
+			setSearchParams(
+				{
+					...Object.fromEntries(searchParams),
+					...items,
+				},
+				{ replace: true }
+			);
+		},
+		[searchParams, setSearchParams]
+	);
+
+	const setPageNumber = useCallback(
+		(pageNumber) => {
+			updateSearchParams({ page: pageNumber });
+		},
+		[updateSearchParams]
+	);
+
 	useEffect(() => {
 		dispatch(getFAQs());
-	}, []);
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (!currentPageNumber) {
@@ -33,27 +53,13 @@ export default function FAQ() {
 			);
 			setFAQRange([startRange, endRange]);
 		}
-	}, [currentPageNumber, FAQs]);
+	}, [currentPageNumber, FAQs, pageSize, setPageNumber]);
 
 	useEffect(() => {
 		if (FAQs?.length) {
 			setNumPages(Math.ceil(FAQs.length / pageSize));
 		}
-	}, [FAQs]);
-
-	function updateSearchParams(items) {
-		setSearchParams(
-			{
-				...Object.fromEntries(searchParams),
-				...items,
-			},
-			{ replace: true }
-		);
-	}
-
-	function setPageNumber(pageNumber) {
-		updateSearchParams({ page: pageNumber });
-	}
+	}, [FAQs, pageSize]);
 
 	return (
 		<>
@@ -79,35 +85,35 @@ export default function FAQ() {
 					<footer className="posts-footer">
 						<div className="pages">
 							{currentPageNumber > 1 && (
-								<a
+								<span
 									onClick={() =>
 										setPageNumber(currentPageNumber - 1)
 									}
 								>
 									Previous
-								</a>
+								</span>
 							)}
 							{_.range(1, numPages + 1).map((pageNumber) => (
-								<a
+								<span
 									onClick={() => setPageNumber(pageNumber)}
 									key={pageNumber}
 									className={
-										pageNumber == currentPageNumber
+										pageNumber === currentPageNumber
 											? "active"
 											: ""
 									}
 								>
 									{pageNumber}
-								</a>
+								</span>
 							))}
 							{currentPageNumber < numPages && (
-								<a
+								<span
 									onClick={() =>
 										setPageNumber(currentPageNumber + 1)
 									}
 								>
 									Next
-								</a>
+								</span>
 							)}
 						</div>
 					</footer>

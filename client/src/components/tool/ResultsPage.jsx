@@ -24,19 +24,6 @@ import {
 } from "../icons";
 import PendingIcon from "@mui/icons-material/Pending";
 
-function renderRowSamples(dataset) {
-	return (
-		<Box
-			component="span"
-			sx={{
-				color: dataset.samples < 100 && "#fc9170",
-			}}
-		>
-			{dataset.samples}
-		</Box>
-	);
-}
-
 function renderRowStatus(dataset) {
 	if (dataset?.completionStatus === "inProgress") {
 		return (
@@ -144,7 +131,7 @@ export default function ResultsPage() {
 		} else {
 			setDatasets([]);
 		}
-	}, [fieldsite]);
+	}, [fieldsite, dispatch]);
 
 	function handleSelection(selectionModel) {
 		setSelectedDatasets(selectionModel || []);

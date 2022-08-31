@@ -1,3 +1,4 @@
-.git
-node_modules
-azure-pipelines.yml
+**/.git
+**/node_modules
+**/azure-pipelines.yml
+**/build

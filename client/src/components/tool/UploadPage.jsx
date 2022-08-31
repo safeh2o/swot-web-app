@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { MEGABYTE } from "../../helpers/bitcalc";
 import useForm from "../../hooks/useForm";
+import Dropzone from "react-dropzone";
 import {
 	addError,
 	addNotice,
@@ -126,7 +127,7 @@ export default function UploadPage() {
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
-						<DropzoneArea
+						{/* <DropzoneArea
 							Icon={IconToolUpload}
 							onChange={handleFileChange}
 							maxFileSize={50 * MEGABYTE}
@@ -141,7 +142,25 @@ export default function UploadPage() {
 							showPreviews={false}
 							previewText={getPreviewText()}
 							ref={fileInput}
-						/>
+						/> */}
+
+						<Dropzone
+							onDrop={(acceptedFiles) =>
+								console.log(acceptedFiles)
+							}
+						>
+							{({ getRootProps, getInputProps }) => (
+								<section>
+									<div {...getRootProps()}>
+										<input {...getInputProps()} />
+										<p>
+											Drag 'n' drop some files here, or
+											click to select files
+										</p>
+									</div>
+								</section>
+							)}
+						</Dropzone>
 
 						<NotificationLine
 							tip={{

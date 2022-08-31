@@ -1,8 +1,8 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { DateRangePicker, LocalizationProvider } from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import { Box, Divider, Slider, Stack, TextField, Tooltip } from "@mui/material";
-import { IconQuestionMark } from "../icons";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { DateRangePicker } from "@mui/x-date-pickers-pro";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { Box, Divider, Slider, Stack, TextField } from "@mui/material";
 import {
 	Accordion,
 	AccordionDetails,
@@ -137,10 +137,14 @@ export default function AnalyzePage() {
 						<Divider sx={{ mb: 2, mt: 1 }} />
 
 						<Box className="tool-date-range">
-							<LocalizationProvider dateAdapter={AdapterDateFns}>
+							<LocalizationProvider
+								dateAdapter={AdapterDateFns}
+								localeText={{
+									start: "Start Date",
+									end: "End Date",
+								}}
+							>
 								<DateRangePicker
-									startText="Start Date"
-									endText="End Date"
 									className="date-range-picker"
 									value={[state.startDate, state.endDate]}
 									onChange={handleDateChange}

@@ -12,7 +12,7 @@ export default function Blog() {
 	const allPostCategories = useSelector(blogSelectors.postCategories);
 	const [posts, setPosts] = useState(allPosts);
 	const dispatch = useDispatch();
-	const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
+	const [pageSize] = useState(DEFAULT_PAGE_SIZE);
 	const [postRange, setPostRange] = useState([1, DEFAULT_PAGE_SIZE]);
 	const [numPages, setNumPages] = useState(1);
 	let [searchParams, setSearchParams] = useSearchParams();
@@ -24,7 +24,7 @@ export default function Blog() {
 	useEffect(() => {
 		dispatch(getPosts());
 		dispatch(getPostCategories());
-	}, []);
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (!posts) {
@@ -64,7 +64,7 @@ export default function Blog() {
 		if (posts?.length) {
 			setNumPages(Math.ceil(posts.length / pageSize));
 		}
-	}, [posts]);
+	}, [posts, pageSize]);
 
 	function updateSearchParams(items) {
 		setSearchParams(

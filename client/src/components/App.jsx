@@ -31,6 +31,7 @@ import CollectData from "./tool/CollectData";
 import Result from "./tool/Result";
 import ResultsPage from "./tool/ResultsPage";
 import UploadPage from "./tool/UploadPage";
+import "../styles/site.scss";
 
 export default function App() {
 	const dispatch = useDispatch();

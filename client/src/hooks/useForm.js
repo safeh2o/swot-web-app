@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useCallback, useReducer } from "react";
 
 function reducer(prevState, updates) {
 	return {
@@ -10,13 +10,24 @@ function reducer(prevState, updates) {
 const useForm = (initialValues) => {
 	const [state, dispatch] = useReducer(reducer, initialValues);
 
-	function update(updates) {
-		dispatch(updates);
-	}
+	const update = useCallback(
+		(updates) => {
+			let updateRequired = false;
+			for (const key in updates) {
+				if (updates[key] !== state[key]) {
+					updateRequired = true;
+				}
+			}
+			if (updateRequired) {
+				dispatch(updates);
+			}
+		},
+		[state]
+	);
 
-	function reset() {
-		dispatch(initialValues);
-	}
+	const reset = () => {
+		update(initialValues);
+	};
 
 	function getTextChangeHandler(fieldName) {
 		return (e) => {

@@ -24,39 +24,16 @@ import {
 } from "../icons";
 import PendingIcon from "@mui/icons-material/Pending";
 
-function renderRowSamples(dataset) {
-	return (
-		<Box
-			component="span"
-			sx={{
-				color: dataset.samples < 100 && "#fc9170",
-			}}
-		>
-			{dataset.samples}
-		</Box>
-	);
-}
-
 function renderRowStatus(dataset) {
 	if (dataset?.completionStatus === "inProgress") {
 		return (
-			<IconButton
-				className={"BtnStatus waiting"}
-				size="small"
-				fullWidth
-				disabled
-			>
+			<IconButton className={"BtnStatus waiting"} size="small" disabled>
 				<PendingIcon />
 			</IconButton>
 		);
 	} else if (dataset?.completionStatus === "failed") {
 		return (
-			<IconButton
-				className={"BtnStatus failed"}
-				size="small"
-				fullWidth
-				disabled
-			>
+			<IconButton className={"BtnStatus failed"} size="small" disabled>
 				<IconWrong />
 			</IconButton>
 		);
@@ -67,7 +44,6 @@ function renderRowStatus(dataset) {
 				component={Link}
 				to={`/results/${dataset._id}`}
 				size="small"
-				fullWidth
 			>
 				<IconCheck />
 			</IconButton>
@@ -144,7 +120,7 @@ export default function ResultsPage() {
 		} else {
 			setDatasets([]);
 		}
-	}, [fieldsite]);
+	}, [fieldsite, dispatch]);
 
 	function handleSelection(selectionModel) {
 		setSelectedDatasets(selectionModel || []);

@@ -15,6 +15,7 @@ import {
 } from "../../reducers/notifications";
 import { UserNotificationsPopover as css } from "../../styles/styles";
 import { IconBell, IconImportant } from "../icons";
+import _ from "lodash";
 
 export default function UserNotificationsPopover() {
 	const [anchorEl, setAnchorEl] = useState(null);

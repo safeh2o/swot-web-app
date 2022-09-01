@@ -1,5 +1,5 @@
 import { Box, Breadcrumbs } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -13,10 +13,14 @@ function AppBreadcrumbs() {
 	const viewStack = useSelector(viewSelectors.viewStack);
 	const currentView = viewStack?.[viewStack.length - 1];
 	const location = useLocation();
-	const paths = location.pathname.split("/").slice(1);
+	const paths = useMemo(
+		() => location.pathname.split("/").slice(1),
+		[location]
+	);
+
 	useEffect(() => {
 		dispatch(inferBreadcrumbs(paths));
-	}, [location]);
+	}, [dispatch, paths]);
 
 	return (
 		<Breadcrumbs className="breadcrumbs small" separator={"→"}>

@@ -1,14 +1,8 @@
-import {
-	Box,
-	Button,
-	Drawer,
-	IconButton,
-	Skeleton,
-	Typography,
-} from "@mui/material";
+import { Box, Drawer, IconButton, Skeleton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import useHashParams from "../../hooks/useHashParams";
 import { markAllRead, setLoading } from "../../reducers/notifications";
 import { userSelectors } from "../../reducers/user";
 import UserDetailsModal from "../elements/UserDetailsModal";
@@ -18,16 +12,15 @@ import {
 	IconNavClose,
 	IconNavOpen,
 	IconProfile,
-	IconSignOut,
 	IconSelect,
+	IconSignOut,
+	IconToolAnalyze,
+	IconToolCollect,
+	IconToolResult,
+	IconToolUpload,
 	SWOTLogo,
 	SWOTLogoCompact,
-	IconToolCollect,
-	IconToolUpload,
-	IconToolAnalyze,
-	IconToolResult,
 } from "../icons";
-import useHashParams from "../../hooks/useHashParams";
 
 export default function Header() {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
@@ -47,7 +40,7 @@ export default function Header() {
 			setWaitingForSignout(false);
 			dispatch(setLoading(false));
 		}
-	}, [waitingForSignout]);
+	}, [waitingForSignout, dispatch, isLoggedIn]);
 
 	const handleSignout = () => {
 		dispatch(markAllRead());
@@ -304,7 +297,7 @@ export default function Header() {
 				</div>
 
 				<Drawer
-					className="test"
+					className="sidebar-drawer"
 					component={"div"}
 					anchor="left"
 					open={mobileNavOpen}

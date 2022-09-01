@@ -1,5 +1,4 @@
 import { Autocomplete, TextField } from "@mui/material";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { notificationsSelectors } from "../../reducers/notifications";
 
@@ -28,12 +27,5 @@ function LocationDropdown(props) {
 		/>
 	);
 }
-
-LocationDropdown.propTypes = {
-	value: PropTypes.object.isRequired,
-	onChange: PropTypes.func.isRequired,
-	fieldLabel: PropTypes.string,
-	locations: PropTypes.array,
-};
 
 export default LocationDropdown;

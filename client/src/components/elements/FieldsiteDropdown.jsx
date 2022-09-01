@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-import PropTypes from "prop-types";
 import { useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -22,6 +21,7 @@ function FieldsiteDropdown(props) {
 		fieldsite: DEFAULT_FIELDSITE,
 	});
 	const [hashParams, setHashParams] = useHashParams();
+	const { onChange: onFieldsiteChange } = props;
 
 	const updateLocations = (newLocations) => {
 		update(newLocations);
@@ -32,31 +32,27 @@ function FieldsiteDropdown(props) {
 		return allAreas.filter(
 			(area) => locations?.country?.areas?.indexOf(area._id) >= 0
 		);
-	}, [locations.country]);
+	}, [locations.country, allAreas]);
 	const fieldsites = useMemo(() => {
 		return allFieldsites.filter(
 			(fieldsite) =>
-				locations?.area?.fieldsites?.indexOf(fieldsite._id) >= 0
+				locations?.area?.fieldsites?.indexOf(fieldsite?._id) >= 0
 		);
-	}, [locations.area]);
+	}, [locations.area, allFieldsites]);
 
 	useEffect(() => {
-		props.onChange(locations.fieldsite);
-	}, [locations.fieldsite]);
-
-	const removeFromHash = (...keys) => {
-		const newHashParams = hashParams;
-		for (const key of keys) {
-			newHashParams.delete(key);
-		}
-		setHashParams(newHashParams);
-	};
+		onFieldsiteChange(locations.fieldsite);
+	}, [locations.fieldsite, onFieldsiteChange]);
 
 	useEffect(() => {
-		updateLocationsFromHashString();
-	}, [hashParams]);
+		const removeFromHash = (...keys) => {
+			const newHashParams = hashParams;
+			for (const key of keys) {
+				newHashParams.delete(key);
+			}
+			setHashParams(newHashParams);
+		};
 
-	const updateLocationsFromHashString = () => {
 		const countryName = hashParams.get("country");
 		let country = DEFAULT_COUNTRY,
 			area = DEFAULT_AREA,
@@ -89,7 +85,7 @@ function FieldsiteDropdown(props) {
 			);
 			if (
 				foundFieldsite &&
-				area.fieldsites.includes(foundFieldsite._id)
+				area.fieldsites.includes(foundFieldsite?._id)
 			) {
 				fieldsite = foundFieldsite;
 			} else {
@@ -97,7 +93,7 @@ function FieldsiteDropdown(props) {
 			}
 		}
 		update({ fieldsite });
-	};
+	}, [allAreas, allFieldsites, countries, hashParams, setHashParams, update]);
 
 	const updateHashStringFromLocations = (newLocations) => {
 		const params = hashParams;
@@ -152,9 +148,5 @@ function FieldsiteDropdown(props) {
 		</Box>
 	);
 }
-
-FieldsiteDropdown.propTypes = {
-	onChange: PropTypes.func.isRequired,
-};
 
 export default FieldsiteDropdown;

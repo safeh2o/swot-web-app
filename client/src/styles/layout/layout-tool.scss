@@ -245,11 +245,72 @@ main.page-tool {
 .MuiDropzoneArea-root,
 .tool-drop-zone {
 	svg.MuiDropzoneArea-icon {
+		width: 51px;
+		height: 51px;
 		color: $col-3;
 		.accent {
 			fill: $col-2;
 		}
 	}
+}
+
+@keyframes MuiDropzoneArea-keyframes-progress {
+	0% {
+		background-position: 0 0;
+	}
+	100% {
+		background-position: -70px 0;
+	}
+}
+@-webkit-keyframes MuiDropzoneArea-keyframes-progress {
+	0% {
+		background-position: 0 0;
+	}
+	100% {
+		background-position: -70px 0;
+	}
+}
+.MuiDropzoneArea-root {
+	width: 100%;
+	border: dashed;
+	cursor: pointer;
+	overflow: hidden;
+	position: relative;
+	box-sizing: border-box;
+	min-height: 250px;
+	border-color: rgba(0, 0, 0, 0.12);
+	border-radius: 4px;
+	background-color: #fff;
+}
+.MuiDropzoneArea-active {
+	border: solid;
+	animation: MuiDropzoneArea-keyframes-progress 2s linear infinite !important;
+	border-color: rgb(107, 139, 196);
+	background-size: 150% 100%;
+	background-image: repeating-linear-gradient(
+		-45deg,
+		#fff,
+		#fff 25px,
+		rgba(0, 0, 0, 0.12) 25px,
+		rgba(0, 0, 0, 0.12) 50px
+	);
+}
+.MuiDropzoneArea-invalid {
+	border-color: #d32f2f;
+	background-image: repeating-linear-gradient(
+		-45deg,
+		#ef5350,
+		#ef5350 25px,
+		#c62828 25px,
+		#c62828 50px
+	);
+}
+.MuiDropzoneArea-textContainer {
+	text-align: center;
+}
+.MuiDropzoneArea-text {
+	margin-top: 24px;
+	margin-bottom: 24px;
 }
 
 .tool-date-range {

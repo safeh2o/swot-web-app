@@ -27,23 +27,13 @@ import PendingIcon from "@mui/icons-material/Pending";
 function renderRowStatus(dataset) {
 	if (dataset?.completionStatus === "inProgress") {
 		return (
-			<IconButton
-				className={"BtnStatus waiting"}
-				size="small"
-				fullWidth
-				disabled
-			>
+			<IconButton className={"BtnStatus waiting"} size="small" disabled>
 				<PendingIcon />
 			</IconButton>
 		);
 	} else if (dataset?.completionStatus === "failed") {
 		return (
-			<IconButton
-				className={"BtnStatus failed"}
-				size="small"
-				fullWidth
-				disabled
-			>
+			<IconButton className={"BtnStatus failed"} size="small" disabled>
 				<IconWrong />
 			</IconButton>
 		);
@@ -54,7 +44,6 @@ function renderRowStatus(dataset) {
 				component={Link}
 				to={`/results/${dataset._id}`}
 				size="small"
-				fullWidth
 			>
 				<IconCheck />
 			</IconButton>

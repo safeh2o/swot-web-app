@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const useHashParams = () => {
-	const setHashParams = (newHashParams) => {
+	const setHashParams = useCallback((newHashParams) => {
 		window.location.hash = newHashParams;
-	};
+	}, []);
 	const [hashParams, updateLocalHashParams] = useState(
 		new URLSearchParams(window.location.hash.substring(1))
 	);

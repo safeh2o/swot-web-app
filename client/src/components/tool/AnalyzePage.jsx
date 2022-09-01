@@ -19,14 +19,13 @@ import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
 
 const initialState = {
-	fieldsite: DEFAULT_FIELDSITE,
+	fieldsite: null,
 	startDate: null,
 	endDate: null,
 	duration: 3,
@@ -41,7 +40,7 @@ export default function AnalyzePage() {
 	useEffect(() => {
 		const { fieldsite, startDate, endDate, duration, confidence } = state;
 		setDisabled(
-			!fieldsite._id ||
+			!fieldsite?._id ||
 				(!startDate && !endDate) ||
 				!duration ||
 				!confidence

@@ -2,18 +2,20 @@ import {
 	Box,
 	Button,
 	Checkbox,
+	Chip,
 	Divider,
 	FormControlLabel,
 	FormGroup,
+	Input,
+	Typography,
 } from "@mui/material";
 import axios from "axios";
-import { DropzoneArea } from "material-ui-dropzone";
-import { useRef } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { MEGABYTE } from "../../helpers/bitcalc";
 import useForm from "../../hooks/useForm";
-import Dropzone from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import {
 	addError,
 	addNotice,
@@ -25,21 +27,47 @@ import NotificationLine from "../elements/NotificationLine";
 import { IconRowChecked, IconRowUnchecked, IconToolUpload } from "../icons";
 
 const initialState = {
-	files: [],
 	overwrite: true,
+	fieldsite: null,
 };
 
 export default function UploadPage() {
 	const dispatch = useDispatch();
 	const { state, update, reset } = useForm(initialState);
 	const loading = useSelector(notificationsSelectors.loading);
-	const fileInput = useRef(null);
-	const disabled = state.files.length === 0 || !state?.fieldsite?._id;
+	const [draggingOver, setDraggingOver] = useState(false);
+	const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+		onDrop: () => {
+			setDraggingOver(false);
+		},
+		onDragOver: () => {
+			setDraggingOver(true);
+		},
+		onDragLeave: () => {
+			setDraggingOver(false);
+		},
+		maxFiles: 5,
+		accept: {
+			"text/csv": [".csv"],
+			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+				[".xlsx"],
+			"application/vnd.ms-excel": [".xls"],
+		},
+		multiple: true,
+		maxSize: 50 * MEGABYTE,
+		minSize: 1,
+	});
+	const [removedFileIndices, setRemovedFileIndices] = useState({});
+	const files = acceptedFiles.filter((_, i) => !removedFileIndices[i]);
+	const disabled = files.length === 0 || !state?.fieldsite?._id;
+
+	useEffect(() => {
+		setRemovedFileIndices({});
+	}, [acceptedFiles]);
 
 	function getFormData() {
 		const formData = new FormData();
 		const {
-			files,
 			overwrite,
 			fieldsite: { _id: fieldsiteId },
 		} = state;
@@ -52,21 +80,12 @@ export default function UploadPage() {
 		return formData;
 	}
 
-	function getPreviewText() {
-		if (!state || !state.files) {
-			return "No files selected!";
-		}
-		return `${state.files.length} file${
-			state.files.length > 1 ? "s" : ""
-		} selected:`;
-	}
-
-	const handleFileChange = (files) => {
-		update({ files });
-	};
-
 	const handleFormReset = () => {
-		fileInput.current.setState({ fileObjects: [] });
+		const removedFiles = {};
+		for (let i = 0; i < acceptedFiles.length; i++) {
+			removedFiles[i] = true;
+		}
+		setRemovedFileIndices(removedFiles);
 		reset();
 	};
 
@@ -87,6 +106,13 @@ export default function UploadPage() {
 				dispatch(setLoading(false));
 				handleFormReset();
 			});
+	};
+
+	const getDeleteHandler = (i) => () => {
+		setRemovedFileIndices((removedFileIndices) => ({
+			...removedFileIndices,
+			[i]: true,
+		}));
 	};
 
 	return (
@@ -127,40 +153,32 @@ export default function UploadPage() {
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
-						{/* <DropzoneArea
-							Icon={IconToolUpload}
-							onChange={handleFileChange}
-							maxFileSize={50 * MEGABYTE}
-							acceptedFiles={[
-								".csv",
-								"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-								"application/vnd.ms-excel",
-							]}
-							filesLimit={5}
-							useChipsForPreview
-							showPreviewsInDropzone={true}
-							showPreviews={false}
-							previewText={getPreviewText()}
-							ref={fileInput}
-						/> */}
-
-						<Dropzone
-							onDrop={(acceptedFiles) =>
-								console.log(acceptedFiles)
-							}
+						<Box
+							className={`MuiDropzoneArea-root${
+								draggingOver ? " MuiDropzoneArea-active" : ""
+							}`}
+							{...getRootProps()}
 						>
-							{({ getRootProps, getInputProps }) => (
-								<section>
-									<div {...getRootProps()}>
-										<input {...getInputProps()} />
-										<p>
-											Drag 'n' drop some files here, or
-											click to select files
-										</p>
-									</div>
-								</section>
-							)}
-						</Dropzone>
+							<section>
+								<Input {...getInputProps()} />
+								<Box className="MuiDropzoneArea-textContainer MuiDropzoneArea-text">
+									<Typography>
+										Drag and drop a file here or click
+									</Typography>
+									<IconToolUpload className="MuiDropzoneArea-icon" />
+								</Box>
+								{acceptedFiles.map((file, i) =>
+									removedFileIndices[i] ? undefined : (
+										<Chip
+											key={i}
+											label={file?.name}
+											variant="outlined"
+											onDelete={getDeleteHandler(i)}
+										/>
+									)
+								)}
+							</section>
+						</Box>
 
 						<NotificationLine
 							tip={{

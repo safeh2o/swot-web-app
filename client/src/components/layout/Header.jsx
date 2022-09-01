@@ -297,7 +297,7 @@ export default function Header() {
 				</div>
 
 				<Drawer
-					className="test"
+					className="sidebar-drawer"
 					component={"div"}
 					anchor="left"
 					open={mobileNavOpen}

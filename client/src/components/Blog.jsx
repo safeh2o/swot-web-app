@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { blogSelectors, getPostCategories, getPosts } from "../reducers/blog";
@@ -12,7 +12,7 @@ export default function Blog() {
 	const allPostCategories = useSelector(blogSelectors.postCategories);
 	const [posts, setPosts] = useState(allPosts);
 	const dispatch = useDispatch();
-	const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
+	const [pageSize] = useState(DEFAULT_PAGE_SIZE);
 	const [postRange, setPostRange] = useState([1, DEFAULT_PAGE_SIZE]);
 	const [numPages, setNumPages] = useState(1);
 	let [searchParams, setSearchParams] = useSearchParams();
@@ -21,16 +21,34 @@ export default function Blog() {
 		? parseInt(searchParams.get("page"))
 		: 1;
 
+	const updateSearchParams = useCallback(
+		(items) => {
+			setSearchParams(
+				{
+					...Object.fromEntries(searchParams),
+					...items,
+				},
+				{ replace: true }
+			);
+		},
+		[searchParams, setSearchParams]
+	);
+	const setPageNumber = useCallback(
+		(pageNumber) => {
+			updateSearchParams({ page: pageNumber });
+		},
+		[updateSearchParams]
+	);
 	useEffect(() => {
 		dispatch(getPosts());
 		dispatch(getPostCategories());
-	}, []);
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (!posts) {
 			setPosts(allPosts);
 		}
-	}, [allPosts]);
+	}, [allPosts, posts]);
 
 	useEffect(() => {
 		if (!currentPageNumber) {
@@ -43,7 +61,7 @@ export default function Blog() {
 			);
 			setPostRange([startRange, endRange]);
 		}
-	}, [currentPageNumber, currentCategory, posts]);
+	}, [currentPageNumber, currentCategory, posts, pageSize, setPageNumber]);
 
 	useEffect(() => {
 		const currentCategoryId =
@@ -58,27 +76,13 @@ export default function Blog() {
 			setPosts(allPosts);
 		}
 		setPageNumber(1);
-	}, [currentCategory]);
+	}, [currentCategory, allPosts, setPageNumber, allPostCategories?.byName]);
 
 	useEffect(() => {
 		if (posts?.length) {
 			setNumPages(Math.ceil(posts.length / pageSize));
 		}
-	}, [posts]);
-
-	function updateSearchParams(items) {
-		setSearchParams(
-			{
-				...Object.fromEntries(searchParams),
-				...items,
-			},
-			{ replace: true }
-		);
-	}
-
-	function setPageNumber(pageNumber) {
-		updateSearchParams({ page: pageNumber });
-	}
+	}, [posts, pageSize]);
 
 	function setCategory(categoryName) {
 		updateSearchParams({ category: categoryName });
@@ -98,10 +102,10 @@ export default function Blog() {
 								{Object.keys(
 									allPostCategories?.byName || []
 								).map((categoryName) => (
-									<a
+									<span
 										key={categoryName}
 										className={
-											currentCategory == categoryName
+											currentCategory === categoryName
 												? "active"
 												: ""
 										}
@@ -110,7 +114,7 @@ export default function Blog() {
 										}}
 									>
 										{categoryName}
-									</a>
+									</span>
 								))}
 							</div>
 						</div>
@@ -132,35 +136,35 @@ export default function Blog() {
 					<footer className="posts-footer">
 						<div className="pages">
 							{currentPageNumber > 1 && (
-								<a
+								<span
 									onClick={() =>
 										setPageNumber(currentPageNumber - 1)
 									}
 								>
 									Previous
-								</a>
+								</span>
 							)}
 							{_.range(1, numPages + 1).map((pageNumber) => (
-								<a
+								<span
 									onClick={() => setPageNumber(pageNumber)}
 									key={pageNumber}
 									className={
-										pageNumber == currentPageNumber
+										pageNumber === currentPageNumber
 											? "active"
 											: ""
 									}
 								>
 									{pageNumber}
-								</a>
+								</span>
 							))}
 							{currentPageNumber < numPages && (
-								<a
+								<span
 									onClick={() =>
 										setPageNumber(currentPageNumber + 1)
 									}
 								>
 									Next
-								</a>
+								</span>
 							)}
 						</div>
 					</footer>

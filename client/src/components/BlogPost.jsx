@@ -1,7 +1,7 @@
 import { SvgIcon } from "@mui/material";
 import DOMPurify from "dompurify";
 import { DateTime } from "luxon";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 import { setLoading } from "../reducers/notifications";
@@ -12,10 +12,13 @@ export default function BlogPost() {
 	const dispatch = useDispatch();
 	const allPostCategories = useSelector(blogSelectors.postCategories);
 	const { slug } = useParams();
-	const defaultPage = {
-		title: "",
-		content: { extended: null },
-	};
+	const defaultPage = useMemo(
+		() => ({
+			title: "",
+			content: { extended: null },
+		}),
+		[]
+	);
 	const [page, setPage] = useState(defaultPage);
 	useEffect(() => {
 		dispatch(setLoading(true));
@@ -36,13 +39,13 @@ export default function BlogPost() {
 			.finally(() => {
 				dispatch(setLoading(false));
 			});
-	}, [slug]);
+	}, [slug, defaultPage, dispatch]);
 
 	useEffect(() => {
 		if (page.title) {
 			dispatch(replaceCrumbTitle({ title: page.title, path: slug }));
 		}
-	}, [page]);
+	}, [page, slug, dispatch]);
 
 	const formatPublishTime = (string) => {
 		const dt = DateTime.fromISO(string);
@@ -85,12 +88,12 @@ export default function BlogPost() {
 												</span>
 												{page.categories.map(
 													(categoryId, i) => (
-														<a key={"cat-" + i}>
+														<span key={"cat-" + i}>
 															{allPostCategories
 																?.byId?.[
 																categoryId
 															]?.name || ""}
-														</a>
+														</span>
 													)
 												)}
 											</>

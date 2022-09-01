@@ -93,7 +93,7 @@ export default function Result() {
 			.finally(() => {
 				dispatch(setLoading(false));
 			});
-	}, [datasetId]);
+	}, [datasetId, dispatch]);
 
 	const parseDecayScenario = (scenarioKey) => {
 		switch (scenarioKey) {
@@ -142,9 +142,6 @@ export default function Result() {
 
 	const parseDate = (date) => date?.slice(0, 10) || String.fromCharCode(8734);
 
-	// Custom Elements
-	const Type = Typography; // extends Typography Component
-
 	return !dataset && !isLoading ? (
 		<NotFound />
 	) : (
@@ -155,84 +152,90 @@ export default function Result() {
 						<Box component={"h2"}>Analysis Location</Box>
 						<Divider sx={{ my: 1 }} />
 						<Box sx={{ ...css.stat }}>
-							<Type variant="inputValue">
+							<Typography variant="inputValue">
 								{locationData.countryName}
-							</Type>
-							<Type variant="inputLabel">Country</Type>
+							</Typography>
+							<Typography variant="inputLabel">
+								Country
+							</Typography>
 						</Box>
 
 						<Box sx={{ ...css.stat }}>
-							<Type variant="inputValue">
+							<Typography variant="inputValue">
 								{locationData.areaName}
-							</Type>
-							<Type variant="inputLabel">Area</Type>
+							</Typography>
+							<Typography variant="inputLabel">Area</Typography>
 						</Box>
 
 						<Box sx={{ ...css.stat }}>
-							<Type variant="inputValue">
+							<Typography variant="inputValue">
 								{locationData.fieldsiteName}
-							</Type>
-							<Type variant="inputLabel">Fieldsite</Type>
+							</Typography>
+							<Typography variant="inputLabel">
+								Fieldsite
+							</Typography>
 						</Box>
 					</Box>
 					<Box id="result-analysis-requested" className="app-card">
 						<Box component={"h2"}>Analysis Requested</Box>
 						<Divider sx={{ my: 1 }} />
 						<Box sx={{ ...css.stat }}>
-							<Type variant="inputValue">
+							<Typography variant="inputValue">
 								{parseDate(
 									(dataset || defaultDataset).dateCreated
 								)}
-							</Type>
-							<Type variant="inputLabel">Date of Analysis</Type>
+							</Typography>
+							<Typography variant="inputLabel">
+								Date of Analysis
+							</Typography>
 						</Box>
 
 						<Divider sx={{ ...css.stat.divider }} />
 
 						<Box sx={{ ...css.stat }}>
 							<Box sx={{ ...css.stat.range }}>
-								<Type variant="inputValue">
+								<Typography variant="inputValue">
 									{parseDate(
 										(dataset || defaultDataset).startDate
 									)}{" "}
-								</Type>
-								<Type
+								</Typography>
+								<Typography
 									component="span"
 									sx={{ ...css.stat.range.seperator }}
 								>
 									to
-								</Type>
-								<Type variant="inputValue">
+								</Typography>
+								<Typography variant="inputValue">
 									{parseDate(
 										(dataset || defaultDataset).endDate
 									)}
-								</Type>
+								</Typography>
 							</Box>
-							<Type variant="inputLabel">
+							<Typography variant="inputLabel">
 								Date Range of Analysis Requested
-							</Type>
+							</Typography>
 						</Box>
 
 						<Divider sx={{ ...css.stat.divider }} />
 
 						<Box sx={{ ...css.stat }}>
-							<Type variant="inputValue">
+							<Typography variant="inputValue">
 								{(dataset || defaultDataset).maxDuration} hrs
-							</Type>
-							<Type variant="inputLabel">
+							</Typography>
+							<Typography variant="inputLabel">
 								Length of storage time to analyse for
-							</Type>
+							</Typography>
 						</Box>
 
 						<Box sx={{ ...css.stat }}>
-							<Type variant="inputValue">
+							<Typography variant="inputValue">
 								{parseDecayScenario(
 									(dataset || defaultDataset).confidenceLevel
 								)}
-							</Type>
-							<Type variant="inputLabel">
+							</Typography>
+							<Typography variant="inputLabel">
 								Modelling confidence level
-							</Type>
+							</Typography>
 						</Box>
 					</Box>
 					<Divider sx={{ ...css.hr }} />
@@ -241,24 +244,24 @@ export default function Result() {
 						<Divider sx={{ my: 1 }} />
 						<Box sx={{ ...css.stat }}>
 							<Box sx={{ ...css.stat.range }}>
-								<Type variant="inputValue">
+								<Typography variant="inputValue">
 									{parseDate(
 										(dataset || defaultDataset).firstSample
 									)}
-								</Type>
-								<Type
+								</Typography>
+								<Typography
 									component="span"
 									sx={{ ...css.stat.range.seperator }}
 								>
 									to
-								</Type>
-								<Type variant="inputValue">
+								</Typography>
+								<Typography variant="inputValue">
 									{parseDate(
 										(dataset || defaultDataset).lastSample
 									)}
-								</Type>
+								</Typography>
 							</Box>
-							<Type variant="inputLabel">
+							<Typography variant="inputLabel">
 								Date Range Analyzed{" "}
 								<Tooltip
 									title={
@@ -288,16 +291,16 @@ export default function Result() {
 										<IconQuestionMark />
 									</span>
 								</Tooltip>
-							</Type>
+							</Typography>
 						</Box>
 						<Box sx={{ ...css.stat }}>
-							<Type variant="inputValue">
+							<Typography variant="inputValue">
 								{(dataset || defaultDataset)[
 									"safe_percent"
 								]?.toFixed(0) || "?"}
 								%
-							</Type>
-							<Type variant="inputLabel">
+							</Typography>
+							<Typography variant="inputLabel">
 								Current household water safety
 								<Tooltip
 									title={
@@ -325,7 +328,7 @@ export default function Result() {
 										<IconQuestionMark />
 									</span>
 								</Tooltip>
-							</Type>
+							</Typography>
 						</Box>
 						<Divider sx={{ ...css.stat.divider }} />
 						<Box
@@ -336,7 +339,7 @@ export default function Result() {
 									: "pass"
 							}
 						>
-							<Type variant="inputValue">
+							<Typography variant="inputValue">
 								{(dataset || defaultDataset).nSamples}
 								{/* check sample range */}
 								{(dataset || defaultDataset).nSamples < 100 && (
@@ -344,9 +347,9 @@ export default function Result() {
 								)}
 								{(dataset || defaultDataset).nSamples >=
 									100 && <IconCheck className="sup" />}
-							</Type>
+							</Typography>
 
-							<Type variant="inputLabel">
+							<Typography variant="inputLabel">
 								Number of Data Samples Sent for Analysis
 								<Tooltip
 									title={
@@ -374,13 +377,13 @@ export default function Result() {
 										<IconQuestionMark />
 									</span>
 								</Tooltip>
-							</Type>
+							</Typography>
 						</Box>
 						<Box sx={{ ...css.stat }}>
-							<Type variant="inputValue">
+							<Typography variant="inputValue">
 								{storageTimeInHours} hrs
-							</Type>
-							<Type variant="inputLabel">
+							</Typography>
+							<Typography variant="inputLabel">
 								Average storage time in dataset
 								<Tooltip
 									title={
@@ -407,17 +410,17 @@ export default function Result() {
 										<IconQuestionMark />
 									</span>
 								</Tooltip>
-							</Type>
+							</Typography>
 						</Box>
 					</Box>
 					<Box id="result-frc-target" className="app-card">
 						<Box component={"h2"}>SWOT FRC Target</Box>
 						<Divider sx={{ my: 1 }} />
 						<Box sx={{ ...css.stat }}>
-							<Type variant="inputValue">
+							<Typography variant="inputValue">
 								{frcRecommendation}
-							</Type>
-							<Type variant="inputLabel">
+							</Typography>
+							<Typography variant="inputLabel">
 								SWOT FRC Target Recommendation
 								<Tooltip
 									title={
@@ -443,13 +446,13 @@ export default function Result() {
 										<IconQuestionMark />
 									</span>
 								</Tooltip>
-							</Type>
+							</Typography>
 						</Box>
 						<Box sx={{ ...css.stat }}>
-							<Type variant="inputValue">
+							<Typography variant="inputValue">
 								{(dataset || defaultDataset).maxDuration} hrs
-							</Type>
-							<Type variant="inputLabel">
+							</Typography>
+							<Typography variant="inputLabel">
 								Duration of protection
 								<Tooltip
 									title={
@@ -479,13 +482,13 @@ export default function Result() {
 										<IconQuestionMark />
 									</span>
 								</Tooltip>
-							</Type>
+							</Typography>
 						</Box>
 						<Box sx={{ ...css.stat }}>
-							<Type variant="inputValue">
+							<Typography variant="inputValue">
 								{getPredictedWaterSafetyRange()}
-							</Type>
-							<Type variant="inputLabel">
+							</Typography>
+							<Typography variant="inputLabel">
 								Predicted household water safety at this storage
 								time
 								<Tooltip
@@ -515,7 +518,7 @@ export default function Result() {
 										<IconQuestionMark />
 									</span>
 								</Tooltip>
-							</Type>
+							</Typography>
 						</Box>
 					</Box>
 					<Box id="result-frc-target" className="app-card">
@@ -527,6 +530,7 @@ export default function Result() {
 									targetImgUrl ||
 									"https://images.unsplash.com/photo-1543286386-2e659306cd6c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80"
 								}
+								alt="graph of frg target over time"
 							/>
 						</Box>
 					</Box>

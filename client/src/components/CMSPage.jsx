@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import DOMPurify from "dompurify";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { setLoading } from "../reducers/notifications";
@@ -9,10 +9,13 @@ import { replaceCrumbTitle } from "../reducers/view";
 export default function CMSPage() {
 	const dispatch = useDispatch();
 	const { slug } = useParams();
-	const defaultPage = {
-		title: "",
-		content: { extended: "" },
-	};
+	const defaultPage = useMemo(
+		() => ({
+			title: "",
+			content: { extended: "" },
+		}),
+		[]
+	);
 	const [page, setPage] = useState(defaultPage);
 	useEffect(() => {
 		dispatch(setLoading(true));
@@ -33,13 +36,13 @@ export default function CMSPage() {
 			.finally(() => {
 				dispatch(setLoading(false));
 			});
-	}, [slug]);
+	}, [slug, defaultPage, dispatch]);
 
 	useEffect(() => {
 		if (page.title) {
 			dispatch(replaceCrumbTitle({ title: page.title, path: slug }));
 		}
-	}, [page]);
+	}, [page, slug, dispatch]);
 
 	return (
 		<>

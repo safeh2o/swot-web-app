@@ -33,7 +33,7 @@
 		"start": "node keystone.js",
 		"dev": "concurrently -k \"npm:watch:*\"",
 		"watch:server": "nodemon -L keystone.js",
-		"watch:client": "cd ../client && npm run-script watch",
+		"watch:client": "cd ../client && npm start",
 		"test": "test"
 	}
 }

@@ -1,8 +1,8 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { DateRangePicker, LocalizationProvider } from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import { Box, Divider, Slider, Stack, TextField, Tooltip } from "@mui/material";
-import { IconQuestionMark } from "../icons";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { DateRangePicker } from "@mui/x-date-pickers-pro";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { Box, Divider, Slider, Stack, TextField } from "@mui/material";
 import {
 	Accordion,
 	AccordionDetails,
@@ -19,14 +19,13 @@ import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
 
 const initialState = {
-	fieldsite: DEFAULT_FIELDSITE,
+	fieldsite: null,
 	startDate: null,
 	endDate: null,
 	duration: 3,
@@ -41,7 +40,7 @@ export default function AnalyzePage() {
 	useEffect(() => {
 		const { fieldsite, startDate, endDate, duration, confidence } = state;
 		setDisabled(
-			!fieldsite._id ||
+			!fieldsite?._id ||
 				(!startDate && !endDate) ||
 				!duration ||
 				!confidence
@@ -137,10 +136,14 @@ export default function AnalyzePage() {
 						<Divider sx={{ mb: 2, mt: 1 }} />
 
 						<Box className="tool-date-range">
-							<LocalizationProvider dateAdapter={AdapterDateFns}>
+							<LocalizationProvider
+								dateAdapter={AdapterDateFns}
+								localeText={{
+									start: "Start Date",
+									end: "End Date",
+								}}
+							>
 								<DateRangePicker
-									startText="Start Date"
-									endText="End Date"
 									className="date-range-picker"
 									value={[state.startDate, state.endDate]}
 									onChange={handleDateChange}

@@ -8,7 +8,6 @@ import {
 	InputLabel,
 	OutlinedInput,
 	TextField,
-	Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";

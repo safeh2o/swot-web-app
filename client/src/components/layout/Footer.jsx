@@ -13,7 +13,8 @@ export default function Footer() {
 
 	useEffect(() => {
 		if (cookieBannerRef.current) {
-			if (userHasConsented()) {
+			const userHasConsented = getCookie()?.toLowerCase() === "true";
+			if (userHasConsented) {
 				hideCookieBanner();
 			}
 		}
@@ -46,11 +47,6 @@ export default function Footer() {
 		}
 
 		return null;
-	}
-
-	function userHasConsented() {
-		const consentCookie = getCookie();
-		return consentCookie?.toLowerCase() === "true";
 	}
 
 	return (

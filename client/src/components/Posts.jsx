@@ -27,10 +27,10 @@ export default function Posts(props) {
 							<span className="categories-post">
 								<span className="divider">in</span>
 								{post.categories.map((cat, i) => (
-									<a key={"cat-" + i}>
+									<span key={"cat-" + i}>
 										{allPostCategories?.byId?.[cat]?.name ||
 											""}
-									</a>
+									</span>
 								))}
 							</span>
 						)}
@@ -66,7 +66,7 @@ export default function Posts(props) {
 							<Skeleton>
 								<span className="divider">in</span>
 								{samplePost.categoryNames.map((cat, j) => (
-									<a key={"cat-" + j}>{cat}</a>
+									<span key={"cat-" + j}>{cat}</span>
 								))}
 							</Skeleton>
 						</span>

@@ -39,14 +39,8 @@ export default function ProfileForgotPassword() {
 									onChange={getTextChangeHandler("email")}
 								/>
 							</FormControl>
-							<NotificationLine
-								type="notice"
-								sx={{
-									paddingTop: "0px",
-									paddingBottom: "0px",
-								}}
-							>
-								Enter the email you registered with.
+							<NotificationLine type="notice">
+								Enter the email you registered with
 							</NotificationLine>
 						</Box>
 						<Box className="form-submit">

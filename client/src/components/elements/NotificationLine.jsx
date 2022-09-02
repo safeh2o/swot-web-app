@@ -35,9 +35,13 @@ function NotificationLine(props) {
 				enterDelay={300}
 				leaveTouchDelay={500}
 			>
-				{props?.tip?.context === "icon" ? iconElement : props?.children}
+				{props?.tip?.context === "icon" ? (
+					iconElement
+				) : (
+					<span>{props?.children}</span>
+				)}
 			</Tooltip>
-			{props?.tip?.context === "icon" && props?.children}
+			{props?.tip?.context === "icon" && <span>{props?.children}</span>}
 		</Box>
 	);
 }

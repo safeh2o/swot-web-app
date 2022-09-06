@@ -2,9 +2,7 @@ import { RootState } from "./../store";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const getUser = createAsyncThunk("user/getUser", async () => {
-	const res: { user: any } = await fetch("/api/user/me").then((res) =>
-		res.json()
-	);
+	const res = await fetch("/api/user/me").then((res) => res.json());
 	return res;
 });
 

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import useHashParams from "../../hooks/useHashParams";
 import { markAllRead, setLoading } from "../../reducers/notifications";
-import { userSelectors } from "../../reducers/user";
+import { getUser, userSelectors } from "../../reducers/user";
 import UserDetailsModal from "../elements/UserDetailsModal";
 import UserNotificationsPopover from "../elements/UserNotificationsPopover";
 import {
@@ -45,6 +45,9 @@ export default function Header() {
 	const handleSignout = () => {
 		dispatch(markAllRead());
 		setWaitingForSignout(true);
+		fetch("/api/signout").then(() => {
+			dispatch(getUser());
+		});
 	};
 
 	function headerSkeleton(text) {
@@ -259,7 +262,6 @@ export default function Header() {
 								)}
 								<li className="sign-out">
 									<IconButton
-										href="/admin/signout"
 										tabIndex={-1}
 										onClick={handleSignout}
 										className="signout"

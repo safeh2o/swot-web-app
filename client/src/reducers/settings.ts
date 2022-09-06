@@ -1,3 +1,4 @@
+import { RootState } from "./../store";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = { lastSeenCommitSha: "" };
@@ -14,10 +15,9 @@ export const settingsSlice = createSlice({
 });
 
 export const settingsSelectors = {
-	lastSeenCommitSha: (state) => state.settings.lastSeenCommitSha,
+	lastSeenCommitSha: (state: RootState) => state.settings.lastSeenCommitSha,
 };
 
-export const { addSetting, clearSettings, setLastSeenCommitSha } =
-	settingsSlice.actions;
+export const { clearSettings, setLastSeenCommitSha } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

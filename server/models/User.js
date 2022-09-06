@@ -64,7 +64,7 @@ User.schema.post("save", function () {
 	Area.model.updateMany(
 		{ _id: { $in: this.area } },
 		{ $push: { users: this._id } },
-		(err, res) => {
+		(err) => {
 			if (err) {
 				console.error(
 					`Error adding user ${this.name.full} to area during creation.`,

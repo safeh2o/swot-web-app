@@ -31,6 +31,6 @@ exports.signin = async function (req, res) {
 
 exports.signout = async function (req, res) {
 	keystone.session.signout(req, res, () => {
-		res.redirect("/");
+		res.status(200).send();
 	});
 };

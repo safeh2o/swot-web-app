@@ -1,7 +1,19 @@
+import { RootState } from "./../store";
 import { createSlice } from "@reduxjs/toolkit";
 import { IGNORED_PATHS, PATH_MAP } from "../constants/breadcrumbs";
 
-const initialState = {
+type Path = keyof typeof PATH_MAP;
+
+type Crumb = {
+	path: Path;
+	title: string;
+};
+
+type ViewState = {
+	viewStack: Crumb[];
+};
+
+const initialState: ViewState = {
 	viewStack: [],
 };
 
@@ -32,7 +44,7 @@ export const viewSlice = createSlice({
 				state.viewStack.push(crumb);
 			}
 		},
-		inferBreadcrumbs: (state, { payload: paths }) => {
+		inferBreadcrumbs: (state, { payload: paths }: { payload: Path[] }) => {
 			const newStack = [];
 			if (paths?.length && paths[paths.length - 1] !== "") {
 				paths.unshift("");
@@ -50,7 +62,7 @@ export const viewSlice = createSlice({
 });
 
 export const viewSelectors = {
-	viewStack: (state) => state.view.viewStack,
+	viewStack: (state: RootState) => state.view.viewStack,
 };
 
 export const { inferBreadcrumbs, replaceCrumbTitle, popViewsTo, replaceCrumb } =

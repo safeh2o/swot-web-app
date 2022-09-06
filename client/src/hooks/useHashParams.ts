@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 const useHashParams = () => {
-	const setHashParams = useCallback((newHashParams) => {
+	const setHashParams = useCallback((newHashParams: string) => {
 		window.location.hash = newHashParams;
 	}, []);
 	const [hashParams, updateLocalHashParams] = useState(

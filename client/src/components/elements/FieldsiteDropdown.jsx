@@ -11,15 +11,17 @@ import useHashParams from "../../hooks/useHashParams";
 import { userSelectors } from "../../reducers/user";
 import LocationDropdown from "./LocationDropdown";
 
+const initialState = {
+	country: DEFAULT_COUNTRY,
+	area: DEFAULT_AREA,
+	fieldsite: DEFAULT_FIELDSITE,
+};
+
 function FieldsiteDropdown(props) {
 	const countries = useSelector(userSelectors.countries);
 	const allAreas = useSelector(userSelectors.areas);
 	const allFieldsites = useSelector(userSelectors.fieldsites);
-	const { state: locations, update } = useForm({
-		country: DEFAULT_COUNTRY,
-		area: DEFAULT_AREA,
-		fieldsite: DEFAULT_FIELDSITE,
-	});
+	const { state: locations, update } = useForm(initialState);
 	const [hashParams, setHashParams] = useHashParams();
 	const { onChange: onFieldsiteChange } = props;
 

@@ -1,25 +1,45 @@
+import { RootState } from "./../store";
 import { createSlice } from "@reduxjs/toolkit";
 import _ from "lodash";
 
-const initialState = {
+type NotificationsState = {
+	messages: Message[];
+	loading: boolean;
+};
+
+type MessageType = "notice" | "error";
+
+type Message = {
+	type: MessageType;
+	content: string;
+	timestamp: string;
+	read: boolean;
+};
+
+const initialState: NotificationsState = {
 	messages: [],
 	loading: false,
 };
 
-const addMessage = (state, type, content) => {
+const addMessage = (
+	state: NotificationsState,
+	type: MessageType,
+	content: string
+) => {
 	const newMessage = {
 		type,
 		content,
 		timestamp: new Date().toISOString(),
+		read: false,
 	};
 	state.messages.unshift(newMessage);
 };
 
-const addErrorToState = (state, content) => {
+const addErrorToState = (state: NotificationsState, content: string) => {
 	addMessage(state, "error", content);
 };
 
-const addNoticeToState = (state, content) => {
+const addNoticeToState = (state: NotificationsState, content: string) => {
 	addMessage(state, "notice", content);
 };
 
@@ -63,10 +83,10 @@ export const notificationsSlice = createSlice({
 });
 
 export const notificationsSelectors = {
-	notifications: (state) => state.notifications.messages,
-	unreadNotifications: (state) =>
+	notifications: (state: RootState) => state.notifications.messages,
+	unreadNotifications: (state: RootState) =>
 		_.filter(state.notifications.messages, (n) => n.read !== true),
-	loading: (state) => state.notifications.loading,
+	loading: (state: RootState) => state.notifications.loading,
 };
 
 export const {

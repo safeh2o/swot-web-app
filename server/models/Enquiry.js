@@ -84,7 +84,7 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 	// staff email
 	const msgToStaff = {
 		to: process.env.SUPPORT_EMAIL,
-		from: `SWOT Support <${process.env.FROM_EMAIL}>`,
+		from: `SWOT Support <${process.env.SUPPORT_EMAIL}>`,
 		templateId: process.env.SENDGRID_STAFF_CONTACT_TEMPLATE_ID,
 		dynamicTemplateData: {
 			name: this.name.full,
@@ -112,7 +112,7 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 	// guest email
 	const msgToGuest = {
 		to: this.email,
-		from: `SWOT Support <${process.env.FROM_EMAIL}>`,
+		from: `SWOT Support <${process.env.SUPPORT_EMAIL}>`,
 		templateId: process.env.SENDGRID_GUEST_CONTACT_TEMPLATE_ID,
 	};
 	sgMail

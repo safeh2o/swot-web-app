@@ -1,5 +1,4 @@
 var keystone = require("keystone");
-const User = keystone.list("User");
 var Types = keystone.Field.Types;
 const sgMail = require("@sendgrid/mail");
 

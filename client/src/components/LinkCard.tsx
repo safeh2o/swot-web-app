@@ -1,18 +1,31 @@
-import PropTypes from "prop-types";
 import { Link, SvgIcon } from "@mui/material";
+import { ReactElement } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
-export default function LinkCard(props) {
+interface LinkCardProps {
+	href?: string;
+	title: string;
+	children?: ReactElement;
+	csr?: boolean;
+}
+
+export default function LinkCard({
+	title = "",
+	csr = true,
+	href = "#",
+	children,
+}: LinkCardProps) {
 	return (
 		<Link
-			component={RouterLink}
-			to={props.href || "#"}
+			component={csr ? RouterLink : Link}
+			to={csr ? href : undefined}
+			href={csr ? undefined : href}
 			underline="none"
 			color="inherit"
 		>
 			<div className="card rte">
-				<h2 className="title">{props.title}</h2>
-				<div className="text">{props.children}</div>
+				<h2 className="title">{title}</h2>
+				{children && <div className="text">{children}</div>}
 				<i>
 					<SvgIcon
 						xmlns="http://www.w3.org/2000/svg"
@@ -28,9 +41,3 @@ export default function LinkCard(props) {
 		</Link>
 	);
 }
-
-LinkCard.propTypes = {
-	title: PropTypes.string.isRequired,
-	href: PropTypes.string,
-	children: PropTypes.any,
-};

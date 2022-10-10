@@ -1,4 +1,12 @@
-import { Box, Drawer, IconButton, Skeleton, Typography } from "@mui/material";
+import {
+	Box,
+	Drawer,
+	IconButton,
+	Link,
+	Skeleton,
+	Typography,
+} from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -223,6 +231,25 @@ export default function Header() {
 
 	return (
 		<>
+			{window.location.hostname === "live.safeh2o.app" && (
+				<Grid
+					container
+					display="flex"
+					justifyContent="center"
+					mt={2}
+					sx={{ backgroundColor: "lightyellow" }}
+					py={2}
+				>
+					<Grid>
+						<Typography>
+							You are currently on v2 of SWOT.{" "}
+							<Link href="https://live-v1.safeh2o.app">
+								Are you looking for v1?
+							</Link>
+						</Typography>
+					</Grid>
+				</Grid>
+			)}
 			<nav role="navigation">
 				<NavLink to={"/"} className="menu-brand">
 					<SWOTLogo className="large" />

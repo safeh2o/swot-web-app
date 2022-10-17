@@ -100,7 +100,11 @@ export default function Home() {
 										</ol>
 									</div>
 								</div>
-								<LinkCard title="Quickstart Guide">
+								<LinkCard
+									title="Quickstart Guide"
+									href="/assets/tool/SWOT_Quickstart.pdf"
+									csr={false}
+								>
 									Overview of the SWOT, from data collection
 									to reading results.
 								</LinkCard>

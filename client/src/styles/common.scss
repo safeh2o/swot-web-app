@@ -72,6 +72,27 @@
 			box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
 		}
 	}
+
+	&.clear,
+	&.clear:hover,
+	&.clear:active {
+		background-color: transparent;
+		box-shadow: none;
+		border: none;
+		outline: none;
+	}
+	&.reset,
+	&.reset:hover,
+	&.reset:active {
+		color: coral;
+		background-color: transparent;
+		box-shadow: none;
+		border: none;
+		outline: none;
+	}
+	&.reset:hover {
+		text-decoration: underline;
+	}
 	i {
 		display: block;
 		line-height: 0;
@@ -152,6 +173,11 @@
 
 	margin-top: 1rem;
 	margin-bottom: 0.5rem;
+
+	&.inline {
+		padding: 0;
+		margin: 0;
+	}
 
 	a {
 		text-decoration: underline;

@@ -1,32 +1,32 @@
 .site-footer {
+	position: relative;
+	z-index: 10;
 	text-align: center;
 	color: #fff;
-	background-color: #294f93;
+	background-color: $col-1;
+	padding-top: 1.5rem;
 	margin-top: auto;
 
 	h2 {
 		font-weight: 700;
+		margin: 0;
 	}
 
 	> svg {
-		fill: #294f93;
+		display: none;
+		fill: $col-1;
 		background-color: #dbdfe4;
 	}
 
 	> section {
-		padding: 1.5rem 1.5rem 2rem 1.5rem;
+		padding: 1.5rem;
 		width: 100%;
 		max-width: $max-width;
 		margin: 0 auto;
-
-		@media (min-width: $md) {
-			padding: 2rem;
-			padding-top: 0;
-		}
 	}
 
 	.title {
-		font-weight: 700;
+		font-weight: 600;
 		letter-spacing: -0.01em;
 		margin-bottom: 0.5rem;
 	}
@@ -38,6 +38,9 @@
 		flex-wrap: wrap;
 		a {
 			margin: 1rem 1.25rem;
+		}
+		a:last-child {
+			align-self: center;
 		}
 		img {
 			max-width: 70px;
@@ -67,6 +70,11 @@
 			max-width: none;
 			max-height: 90px;
 		}
+		img.dwb {
+			width: auto;
+			max-width: none;
+			height: 50px;
+		}
 	}
 
 	.social-networks {
@@ -78,7 +86,7 @@
 			$size: 2.25rem;
 
 			display: block;
-			color: #294f93;
+			color: $col-1;
 			line-height: $size;
 			width: $size;
 			height: $size;
@@ -89,12 +97,17 @@
 			width: 100%;
 			height: 100%;
 		}
+		.linkedin {
+			display: none;
+		}
 		.youtube,
 		.linkedin,
-		.twitter,
-		.github {
+		.twitter {
 			background-color: #fff;
 			border-radius: 5rem;
+		}
+		.github {
+			color: #fff;
 		}
 	}
 

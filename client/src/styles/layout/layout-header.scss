@@ -22,7 +22,7 @@ body.overflow-hidden {
 		box-shadow: 0px 3px 0px 0px rgba(39, 45, 55, 0.22);
 	}
 
-	@media (min-width: $md) {
+	@media (min-width: $sm) {
 		padding-left: 2rem;
 		padding-right: 2rem;
 	}
@@ -33,13 +33,15 @@ body.overflow-hidden {
 		align-items: center;
 		justify-content: space-between;
 
-		font-family: "Roboto Condensed", sans-serif;
-		font-size: 1.45rem;
+		font-family: "Acumin", "Roboto Condensed", sans-serif;
+		font-size: 1.485rem;
+		line-height: 1;
+		letter-spacing: normal;
 		color: #fff;
 		margin-right: auto;
 		margin-left: auto;
 
-		@media (min-width: $md) {
+		@media (min-width: $sm) {
 			position: relative;
 			align-items: flex-end;
 		}

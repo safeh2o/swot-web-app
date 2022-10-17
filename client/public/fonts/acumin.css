@@ -1,0 +1,35 @@
+@font-face {
+	font-family: "acumin";
+	src: url("AcuminProCond-Regular.woff2") format("woff2"),
+		url("AcuminProCond-Regular.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+@font-face {
+	font-family: "acumin";
+	src: url("AcuminProCond-Medium.woff2") format("woff2"),
+		url("AcuminProCond-Medium.woff") format("woff");
+	font-weight: 500;
+	font-style: normal;
+	font-display: block;
+}
+
+@font-face {
+	font-family: "acumin";
+	src: url("AcuminProCond-Semibold.woff2") format("woff2"),
+		url("AcuminProCond-Semibold.woff") format("woff");
+	font-weight: 600;
+	font-style: normal;
+	font-display: block;
+}
+
+@font-face {
+	font-family: "acumin";
+	src: url("AcuminProCond-Bold.woff2") format("woff2"),
+		url("AcuminProCond-Bold.woff") format("woff");
+	font-weight: 900;
+	font-style: normal;
+	font-display: block;
+}

@@ -53,7 +53,7 @@ export default function Footer() {
 		<>
 			<footer component={"section"} className="site-footer">
 				<section className="rte">
-					<h2>A free and open-source tool by</h2>
+					<h3 className="title">A free and open-source tool by</h3>
 					<div className="logos">
 						<a
 							target="_blank"
@@ -95,16 +95,8 @@ export default function Footer() {
 					</div>
 				</section>
 				<section className="rte">
-					<h2>Follow Us</h2>
+					<h3 className="title">Follow Us</h3>
 					<div className="social-networks">
-						{/* <a
-							className="linkedin"
-							target="_blank"
-							href="http://linkedin.com/"
-							rel="noreferrer"
-						>
-							<IconLinkedin />
-						</a> */}
 						<a
 							className="twitter"
 							target="_blank"
@@ -131,24 +123,18 @@ export default function Footer() {
 						</a>
 					</div>
 				</section>
-				<section>
-					<nav className="nav-legal">
-						<span>
-							&copy; {new Date().getFullYear()} Safe Water
-							Optimization Tool
-						</span>
-						<span className="divider">|</span>
-						<NavLink to="/pages/terms-of-use">Terms of Use</NavLink>
-						<span className="divider">|</span>
-						<NavLink to="/pages/privacy-policy">
-							Privacy Policy
-						</NavLink>
-						<span className="divider">|</span>
-						<NavLink to="/pages/cookie-policy">
-							Cookie Policy
-						</NavLink>
-					</nav>
-				</section>
+				<nav className="nav-legal">
+					<span>
+						&copy; {new Date().getFullYear()} Safe Water
+						Optimization Tool
+					</span>
+					<span className="divider">|</span>
+					<NavLink to="/pages/terms-of-use">Terms of Use</NavLink>
+					<span className="divider">|</span>
+					<NavLink to="/pages/privacy-policy">Privacy Policy</NavLink>
+					<span className="divider">|</span>
+					<NavLink to="/pages/cookie-policy">Cookie Policy</NavLink>
+				</nav>
 			</footer>
 			<div className="site-cookie-policy small" ref={cookieBannerRef}>
 				<div className="wrap">

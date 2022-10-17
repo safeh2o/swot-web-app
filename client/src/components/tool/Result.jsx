@@ -238,7 +238,7 @@ export default function Result() {
 							</Typography>
 						</Box>
 					</Box>
-					<Divider sx={{ ...css.hr }} />
+					{/* <Divider sx={{ ...css.hr }} /> */}
 					<Box id="result-dataset-summary" className="app-card">
 						<Box component={"h2"}>Dataset Summary</Box>
 						<Divider sx={{ my: 1 }} />

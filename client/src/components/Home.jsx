@@ -23,11 +23,13 @@ export default function Home() {
 						<>
 							<div className="cards">
 								<div className="card rte tool">
-									<h2 className="title">Tool</h2>
+									<h2 className="title">
+										Start using the SWOT
+									</h2>
 									<div className="text">
 										<p>
-											Use the Tool to begin or continue
-											your SWOT Process;
+											Start at step 1 or pick up where you
+											left off
 										</p>
 										<ol className="tool-menu-mobile con">
 											<li>
@@ -97,28 +99,20 @@ export default function Home() {
 											</li>
 										</ol>
 									</div>
-									<i>
-										<SvgIcon
-											xmlns="http://www.w3.org/2000/svg"
-											width="40px"
-											height="40px"
-											fill="#000000"
-											viewBox="0 0 256 256"
-										>
-											<path d="M224,128a8,8,0,0,1-8,8H120v64a8,8,0,0,1-4.9,7.4,8.5,8.5,0,0,1-3.1.6,8.3,8.3,0,0,1-5.7-2.3l-72-72a8.1,8.1,0,0,1,0-11.4l72-72a8.4,8.4,0,0,1,8.8-1.7A8,8,0,0,1,120,56v64h96A8,8,0,0,1,224,128Z"></path>
-										</SvgIcon>
-									</i>
 								</div>
 								<LinkCard title="Quickstart Guide">
 									Overview of the SWOT, from data collection
 									to reading results.
 								</LinkCard>
-								<LinkCard title="Technical Blogs" href="/blog">
-									In-depth information on reading your
-									collection data, as you continue to monitor
-									your fieldsite(s)
+								<LinkCard
+									title="Technical Resources"
+									href="/blog"
+								>
+									Detailed guidance on how to use the
+									SWOT—from field data collection to
+									interpretation of results.
 								</LinkCard>
-								<LinkCard title="FAQ's" href="/faq">
+								<LinkCard title="FAQs" href="/faq">
 									Frequently asked questions
 								</LinkCard>
 							</div>

@@ -231,25 +231,27 @@ export default function Header() {
 
 	return (
 		<>
-			{window.location.hostname === "live.safeh2o.app" && (
-				<Grid
-					container
-					display="flex"
-					justifyContent="center"
-					mt={2}
-					sx={{ backgroundColor: "lightyellow" }}
-					py={2}
-				>
-					<Grid>
-						<Typography>
-							You are currently on v2 of SWOT.{" "}
-							<Link href="https://live-v1.safeh2o.app">
-								Are you looking for v1?
-							</Link>
-						</Typography>
-					</Grid>
+			<Grid
+				container
+				display="flex"
+				justifyContent="center"
+				mt={2}
+				sx={{ backgroundColor: "lightyellow" }}
+				py={2}
+			>
+				<Grid>
+					<Typography>
+						We are launching our new and improved Safe Water
+						Optimization Tool Version 2 on November 8th, 2022. To
+						learn more and register for our launch event,{" "}
+						<Link href="https://www.yorku.ca/dighr/events/swot-v2-launch/">
+							click here
+						</Link>
+						.
+					</Typography>
 				</Grid>
-			)}
+			</Grid>
+
 			<nav role="navigation">
 				<NavLink to={"/"} className="menu-brand">
 					<SWOTLogo className="large" />

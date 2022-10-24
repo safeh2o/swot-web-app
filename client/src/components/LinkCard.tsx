@@ -1,4 +1,4 @@
-import { Link, SvgIcon } from "@mui/material";
+import { Link } from "@mui/material";
 import { ReactElement } from "react";
 import { Link as RouterLink } from "react-router-dom";
 

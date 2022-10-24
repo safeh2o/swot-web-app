@@ -65,11 +65,11 @@ export default function BlogPost() {
 				<div className="section-wrap post">
 					<article>
 						{page?.image?.secure_url && (
-							<figure className="image-post">
+							<figure className="post-image">
 								<img src={page.image.secure_url} alt="" />
 							</figure>
 						)}
-						<div className="details-post">
+						<div className="post-details">
 							<h1 className="section-title h3">
 								<span>{page.title || "Loading..."}</span>
 							</h1>

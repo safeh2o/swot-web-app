@@ -3,7 +3,7 @@
 	z-index: 10;
 	text-align: center;
 	color: #fff;
-	background-color: $col-1;
+	background-color: var(--col-1);
 	padding-top: 1.5rem;
 	margin-top: auto;
 
@@ -14,7 +14,7 @@
 
 	> svg {
 		display: none;
-		fill: $col-1;
+		fill: var(--col-1);
 		background-color: #dbdfe4;
 	}
 
@@ -33,7 +33,7 @@
 
 	.logos {
 		display: flex;
-		align-items: flex-end;
+		align-items: center;
 		justify-content: center;
 		flex-wrap: wrap;
 		a {
@@ -55,6 +55,9 @@
 			width: auto;
 			max-width: none;
 			height: 33px;
+		}
+		img.dighr-logo {
+			max-width: 95px;
 		}
 		img.dwb,
 		img.grandchallenges {
@@ -86,7 +89,7 @@
 			$size: 2.25rem;
 
 			display: block;
-			color: $col-1;
+			color: var(--col-1);
 			line-height: $size;
 			width: $size;
 			height: $size;

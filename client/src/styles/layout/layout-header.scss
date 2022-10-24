@@ -170,7 +170,10 @@ ul[class*="menu-"] {
 		&:hover {
 			> a,
 			> button > span {
-				opacity: 0.85;
+				display: block;
+				position: relative;
+				z-index: 3;
+				// opacity: 0.85;
 			}
 		}
 		ul {
@@ -397,7 +400,7 @@ ul.menu-main-ul {
 		&:not(:hover) {
 			a,
 			button {
-				> span:first-child {
+				> .label {
 					border: 0;
 					clip: rect(0 0 0 0);
 					height: auto;
@@ -415,8 +418,7 @@ ul.menu-main-ul {
 			a,
 			button {
 				position: relative;
-				opacity: 1;
-				> span {
+				> .label {
 					position: absolute;
 					top: 100%;
 					left: 50%;
@@ -426,7 +428,7 @@ ul.menu-main-ul {
 					font-size: 1rem;
 					color: $col-1;
 					background-color: #fff;
-					padding: 0 0.5rem;
+					padding: 0.25rem;
 
 					&::before {
 						content: "";
@@ -436,7 +438,7 @@ ul.menu-main-ul {
 						transform: translateX(-50%) rotate(-45deg);
 						width: 8px;
 						height: 8px;
-						background-color: inherit;
+						background-color: #fff;
 					}
 				}
 			}

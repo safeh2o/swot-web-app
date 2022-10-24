@@ -17,12 +17,12 @@ export default function FAQList(props) {
 		const sampleFAQ = {
 			title: "Stepping Up: Sanitation specialist develops system",
 			content:
-				"This is part of Stepping Up, a series introducing Canadians to their country’s new sources of inspiration and leadership.",
+				"This is part of Stepping Up, a series introducing Canadians to their country's new sources of inspiration and leadership.",
 		};
 
 		return _.times(numFAQs, (i) => (
 			<article key={i}>
-				<div className="details-FAQ">
+				<div className="post faq">
 					<Skeleton>
 						<h1 className="FAQ-title">{sampleFAQ.title}</h1>
 					</Skeleton>

@@ -231,7 +231,7 @@ export default function Header() {
 
 	return (
 		<>
-			<Grid
+			{/* <Grid
 				container
 				display="flex"
 				justifyContent="center"
@@ -250,7 +250,7 @@ export default function Header() {
 						.
 					</Typography>
 				</Grid>
-			</Grid>
+			</Grid> */}
 
 			<nav role="navigation">
 				<NavLink to={"/"} className="menu-brand">
@@ -282,7 +282,9 @@ export default function Header() {
 								{user.isAdmin && (
 									<li>
 										<IconButton href="/admin" tabIndex={-1}>
-											<span>Field Admin</span>
+											<span className="label">
+												Field Admin
+											</span>
 											<i>
 												<IconAdmin />
 											</i>
@@ -295,7 +297,7 @@ export default function Header() {
 										onClick={handleSignout}
 										className="signout"
 									>
-										<span>Sign Out</span>
+										<span className="label">Sign Out</span>
 										<i>
 											<IconSignOut />
 										</i>
@@ -312,7 +314,7 @@ export default function Header() {
 											isActive ? "active" : undefined
 										}
 									>
-										<span>Sign in</span>
+										<span className="label">Sign in</span>
 										<i>
 											<IconProfile />
 										</i>

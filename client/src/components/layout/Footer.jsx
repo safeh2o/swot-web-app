@@ -61,7 +61,8 @@ export default function Footer() {
 							rel="noreferrer"
 						>
 							<img
-								src="/assets/organisations/YorkULogo_DIGITAL_Ver_RGB_REV.png"
+								src="/assets/organisations/YorkULogo_Full_Format.png"
+								className="wide"
 								alt=" logo"
 								width="200"
 								height="200"

@@ -72,7 +72,7 @@ export default function UserDetailsModal() {
 	return (
 		<>
 			<IconButton onClick={handleOpen} tabIndex={-1}>
-				<span>Profile</span>
+				<span className="label">Profile</span>
 				<i>
 					<IconProfile />
 				</i>

@@ -46,18 +46,18 @@ export default function CMSPage() {
 
 	return (
 		<>
-			<section id={"page-" + slug}>
-				<div className="section-wrap post">
-					<article>
-						{page.image && page.image.secure_url && (
-							<Box component={"figure"} sx={{ mb: 2 }}>
-								<img src={page.image.secure_url} alt="" />
-							</Box>
-						)}
-						<div>
-							<h2 className="section-title">
+			<article id={"page-" + slug}>
+				<section>
+					<div className="section-wrap">
+						<div class="intro">
+							<h1 class="section-title">
 								{page.title || "Loading..."}
-							</h2>
+							</h1>
+							{page.image && page.image.secure_url && (
+								<Box component={"figure"} sx={{ mb: 2 }}>
+									<img src={page.image.secure_url} alt="" />
+								</Box>
+							)}
 							<div
 								className="rte"
 								dangerouslySetInnerHTML={{
@@ -68,9 +68,9 @@ export default function CMSPage() {
 								}}
 							></div>
 						</div>
-					</article>
-				</div>
-			</section>
+					</div>
+				</section>
+			</article>
 		</>
 	);
 }

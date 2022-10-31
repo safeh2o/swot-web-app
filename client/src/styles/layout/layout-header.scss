@@ -167,15 +167,6 @@ ul[class*="menu-"] {
 				gap: 0.5rem;
 			}
 		}
-		&:hover {
-			> a,
-			> button > span {
-				display: block;
-				position: relative;
-				z-index: 3;
-				// opacity: 0.85;
-			}
-		}
 		ul {
 			padding-left: 1.5rem;
 			list-style: none;

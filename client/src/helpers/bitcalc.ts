@@ -2,6 +2,6 @@ export const KILOBYTE = 1000;
 export const MEGABYTE = 1000000;
 export const GIGABYTE = 1000000000;
 
-export function calculateFileInMb(file) {
+export function calculateFileInMb(file: File) {
 	return file.size / MEGABYTE;
 }

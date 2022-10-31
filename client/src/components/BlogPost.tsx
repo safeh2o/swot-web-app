@@ -1,28 +1,29 @@
 import { SvgIcon } from "@mui/material";
 import DOMPurify from "dompurify";
-import { DateTime } from "luxon";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
-import { setLoading } from "../reducers/notifications";
 import { blogSelectors } from "../reducers/blog";
+import { setLoading } from "../reducers/notifications";
 import { replaceCrumbTitle } from "../reducers/view";
 
 export default function BlogPost() {
 	const dispatch = useDispatch();
 	const allPostCategories = useSelector(blogSelectors.postCategories);
 	const { slug } = useParams();
-	const defaultPage = useMemo(
-		() => ({
-			title: "",
-			content: { extended: null },
-		}),
-		[]
-	);
+	const defaultPage: {
+		title: string;
+		content: { extended: string };
+		image?: { secure_url: string };
+		publishedDate?: string;
+		categories?: string[];
+	} = {
+		title: "",
+		content: { extended: "" },
+	};
 	const [page, setPage] = useState(defaultPage);
 	useEffect(() => {
 		dispatch(setLoading(true));
-		setPage(defaultPage);
 		fetch(`/api/cms/posts/${slug}`)
 			.then((res) => res.json())
 			.then((json) => {
@@ -39,7 +40,7 @@ export default function BlogPost() {
 			.finally(() => {
 				dispatch(setLoading(false));
 			});
-	}, [slug, defaultPage, dispatch]);
+	}, [slug, dispatch]);
 
 	useEffect(() => {
 		if (page.title) {
@@ -47,16 +48,17 @@ export default function BlogPost() {
 		}
 	}, [page, slug, dispatch]);
 
-	const formatPublishTime = (string) => {
-		const dt = DateTime.fromISO(string);
-		const f = {
+	const formatPublishTime = (isoTime: string) => {
+		const publishTime = new Date(isoTime);
+		const localeOptions: Intl.DateTimeFormatOptions = {
 			month: "long",
 			day: "numeric",
 			year: "numeric",
 			hour: "numeric",
 			minute: "2-digit",
 		};
-		return dt.toLocaleString(f);
+
+		return publishTime.toLocaleString(undefined, localeOptions);
 	};
 
 	return (

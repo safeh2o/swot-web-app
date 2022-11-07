@@ -90,18 +90,15 @@ export default function Blog() {
 
 	return (
 		<>
-			<section>
-				<div className="section-wrap posts">
-					<div className="intro">
-						<h1 className="section-subtitle">
-							News, <br />
-							Technical Blog
-						</h1>
-						<div className="posts-filters small">
-							<div className="categories-blog">
-								{Object.keys(
-									allPostCategories?.byName || []
-								).map((categoryName) => (
+			<div className="blog-header">
+				<div className="blog-header-wrap">
+					<h1 className="section-subtitle">
+						News &amp; Technical Blog
+					</h1>
+					<div className="posts-filters small">
+						<div className="categories-blog">
+							{Object.keys(allPostCategories?.byName || []).map(
+								(categoryName) => (
 									<span
 										key={categoryName}
 										className={
@@ -115,16 +112,20 @@ export default function Blog() {
 									>
 										{categoryName}
 									</span>
-								))}
-							</div>
-						</div>
-						<div className="posts-count small">
-							<span>
-								Showing {postRange[0]} to {postRange[1]} of{" "}
-								{posts?.length ?? "..."} posts.
-							</span>
+								)
+							)}
 						</div>
 					</div>
+					<div className="posts-count small">
+						<span>
+							Showing {postRange[0]} to {postRange[1]} of{" "}
+							{posts?.length ?? "..."} posts.
+						</span>
+					</div>
+				</div>
+			</div>
+			<section>
+				<div className="section-wrap posts">
 					<div className="content">
 						<Posts
 							type={"news"}

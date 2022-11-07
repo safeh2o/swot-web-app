@@ -1,8 +1,83 @@
 .page-blog {
 	.posts,
-	.post {
+	.post,
+	.blog-header-wrap {
 		max-width: $max-width-small;
 		margin: 0 auto;
+	}
+	> nav {
+		background-color: #bec5ce;
+	}
+	.blog-header {
+		margin-bottom: 2.5rem;
+		background-color: #c9d1db;
+
+		.blog-header-wrap {
+			padding-left: 2.5rem;
+			padding-right: 2.5rem;
+			padding-bottom: 1.25rem;
+		}
+	}
+
+	[class*="categories-"] {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		> * {
+			display: flex;
+			text-decoration: none;
+			border: none;
+		}
+	}
+	.categories-blog {
+		margin-bottom: 0.2rem;
+
+		> * {
+			display: flex;
+			flex: 1;
+			margin: 0 0.8rem 0.4rem 0;
+		}
+
+		a,
+		span {
+			text-transform: uppercase;
+			letter-spacing: 0;
+			font-size: 1rem;
+			line-height: 1.65;
+			background-color: #bec5ce;
+			text-decoration: none;
+			padding: 0.5rem 0.75rem;
+			border: 1px solid #bec5ce;
+			cursor: pointer;
+		}
+
+		.divider {
+			padding: 0.25rem 0;
+			background-color: transparent;
+		}
+
+		.active {
+			background-color: #f2f4f5;
+			border-color: transparent;
+		}
+	}
+	.categories-post {
+		> *:not(.divider) {
+			background-color: darken(#dbdfe4, 2.5%);
+			border-radius: 4px;
+			padding: 0rem 0.5rem;
+			margin: 0 0.4rem 0 0;
+		}
+
+		.divider {
+			color: #94a3bf;
+			padding: 0 0.25rem 0 0;
+		}
+
+		.active {
+			color: #f1f7fd;
+			background-color: #848c94;
+		}
 	}
 	.posts {
 		.posts-filters,
@@ -13,68 +88,6 @@
 		}
 		.posts-count {
 			padding-top: 0.25rem;
-		}
-		[class*="categories-"] {
-			display: flex;
-			flex-wrap: wrap;
-			align-items: baseline;
-			> * {
-				display: flex;
-				text-decoration: none;
-				border: none;
-			}
-		}
-		.categories-blog {
-			margin-bottom: 0.2rem;
-
-			> * {
-				display: flex;
-				margin: 0 0.8rem 0.4rem 0;
-			}
-
-			a,
-			span {
-				text-transform: uppercase;
-				letter-spacing: 0;
-				font-size: 1rem;
-				line-height: 1.65;
-				background-color: #f2f4f5;
-				text-decoration: none;
-				padding: 0 0.75rem;
-				border-radius: 6px;
-				border: 1px solid #bec5ce;
-				cursor: pointer;
-			}
-
-			.divider {
-				padding: 0.25rem 0;
-				background-color: transparent;
-			}
-
-			.active {
-				color: #f1f7fd;
-				background-color: $col-text;
-				border-color: transparent;
-			}
-		}
-		.categories-post {
-			flex-basis: 100%;
-			> *:not(.divider) {
-				background-color: darken(#dbdfe4, 2.5%);
-				border-radius: 4px;
-				padding: 0rem 0.5rem;
-				margin: 0 0.4rem 0 0;
-			}
-
-			.divider {
-				color: #94a3bf;
-				padding: 0 0.25rem 0 0;
-			}
-
-			.active {
-				color: #f1f7fd;
-				background-color: #848c94;
-			}
 		}
 	}
 	.post,
@@ -95,6 +108,7 @@
 			flex-wrap: wrap;
 			time {
 				color: #555f70;
+				margin-right: 0.25rem;
 			}
 		}
 		figure {

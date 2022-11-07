@@ -63,20 +63,22 @@ export default function FAQ() {
 
 	return (
 		<>
+			<div className="blog-header">
+				<div className="blog-header-wrap">
+					<h1 className="section-subtitle">
+						Frequently Asked Questions
+					</h1>
+
+					<div className="FAQs-count small">
+						<span>
+							Showing {FAQRange[0]} to {FAQRange[1]} of{" "}
+							{FAQs?.length ?? "..."} FAQs.
+						</span>
+					</div>
+				</div>
+			</div>
 			<section>
 				<div className="section-wrap posts faq">
-					<div className="intro">
-						<h1 className="section-subtitle">
-							Frequently Asked Questions
-						</h1>
-
-						{/* <div className="FAQs-count small">
-							<span>
-								Showing {FAQRange[0]} to {FAQRange[1]} of{" "}
-								{FAQs?.length ?? "..."} FAQs.
-							</span>
-						</div> */}
-					</div>
 					<div className="content">
 						<FAQList
 							FAQs={FAQs.slice(FAQRange[0] - 1, FAQRange[1])}

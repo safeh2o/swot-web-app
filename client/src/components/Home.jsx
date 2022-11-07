@@ -106,11 +106,11 @@ export default function Home() {
 									csr={false}
 								>
 									Overview of the SWOT, from data collection
-									to reading results.
+									to reading results. (.pdf)
 								</LinkCard>
 								<LinkCard
 									title="Technical Resources"
-									href="/blog"
+									href="/blog?page=1&category=Support+%26+Guides"
 								>
 									Detailed guidance on how to use the
 									SWOT—from field data collection to

@@ -37,7 +37,7 @@ function NotificationLine(props) {
 			>
 				{props?.tip?.context === "icon" ? iconElement : props?.children}
 			</Tooltip>
-			{props?.tip?.context === "icon" && props?.children}
+			{props?.tip?.context === "icon" && <span>{props?.children}</span>}
 		</Box>
 	);
 }

@@ -120,7 +120,7 @@ export default function CollectData() {
 									</li>
 									<li>
 										<a
-											href={urlFieldGuide}
+											href={"#"}
 											target="_blank"
 											rel="noreferrer"
 										>
@@ -181,13 +181,15 @@ export default function CollectData() {
 									</li>
 									<li>
 										<a
-											href={urlFieldGuide}
+											href={"#"}
 											target="_blank"
 											rel="noreferrer"
 										>
 											<figure className="image">
 												<img
-													src={"#"}
+													src={
+														"/assets/tool/collect/thumb-example-dataset.png"
+													}
 													alt="Example datasets thumbnail"
 												/>
 											</figure>
@@ -219,7 +221,10 @@ export default function CollectData() {
 					</div>
 					{/*  */}
 					<div className="tool-footer">
-						<LinkCard title="Technical Resources" href="/blog">
+						<LinkCard
+							title="Technical Resources"
+							href="/blog?page=1&category=Support+%26+Guides"
+						>
 							In-depth information on reading your collection
 							data, as you continue to monitor your fieldsite(s)
 						</LinkCard>

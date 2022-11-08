@@ -49,8 +49,8 @@ export default function CMSPage() {
 			<article id={"page-" + slug}>
 				<section>
 					<div className="section-wrap">
-						<div class="intro">
-							<h1 class="section-title">
+						<div className="intro">
+							<h1 className="section-title">
 								{page.title || "Loading..."}
 							</h1>
 							{page.image && page.image.secure_url && (

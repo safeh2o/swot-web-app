@@ -1,8 +1,12 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { DateRangePicker } from "@mui/x-date-pickers-pro";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { Box, Divider, Slider, Stack, TextField } from "@mui/material";
+import {
+	Box,
+	Divider,
+	Slider,
+	Stack,
+	TextField,
+	Unstable_Grid2 as Grid,
+} from "@mui/material";
 import {
 	Accordion,
 	AccordionDetails,
@@ -13,6 +17,8 @@ import {
 	Radio,
 	RadioGroup,
 } from "@mui/material/";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import axios from "axios";
 import _ from "lodash";
 import { DateTime } from "luxon";
@@ -84,15 +90,6 @@ export default function AnalyzePage() {
 			});
 	}
 
-	function handleDateChange(newRange) {
-		let startDate = null,
-			endDate = null;
-		if (newRange) {
-			[startDate, endDate] = newRange;
-		}
-		update({ startDate, endDate });
-	}
-
 	return (
 		<>
 			<section>
@@ -143,28 +140,55 @@ export default function AnalyzePage() {
 									end: "End Date",
 								}}
 							>
-								<DateRangePicker
-									className="date-range-picker"
-									value={[state.startDate, state.endDate]}
-									onChange={handleDateChange}
-									renderInput={(startProps, endProps) => (
-										<>
+								<Grid
+									direction="row"
+									container
+									alignItems="center"
+								>
+									<DatePicker
+										label="Start Date"
+										value={state.startDate}
+										onChange={(startDate) => {
+											const newDates = {
+												startDate,
+											};
+											if (startDate > state.endDate) {
+												newDates["endDate"] = null;
+											}
+											update(newDates);
+										}}
+										renderInput={(params) => (
 											<TextField
-												{...startProps}
+												{...params}
 												sx={{
 													flex: 1,
 												}}
 											/>
-											<Box sx={{ mx: 1 }}> to </Box>
+										)}
+									/>
+									<Box sx={{ mx: 1 }}> to </Box>
+									<DatePicker
+										label="End Date"
+										value={state.endDate}
+										onChange={(endDate) => {
+											const newDates = {
+												endDate,
+											};
+											if (endDate < state.startDate) {
+												newDates["startDate"] = null;
+											}
+											update(newDates);
+										}}
+										renderInput={(params) => (
 											<TextField
-												{...endProps}
+												{...params}
 												sx={{
 													flex: 1,
 												}}
 											/>
-										</>
-									)}
-								/>
+										)}
+									/>
+								</Grid>
 							</LocalizationProvider>
 							<Stack
 								flexDirection={"row"}

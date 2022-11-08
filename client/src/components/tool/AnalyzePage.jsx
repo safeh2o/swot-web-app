@@ -133,13 +133,7 @@ export default function AnalyzePage() {
 						<Divider sx={{ mb: 2, mt: 1 }} />
 
 						<Box className="tool-date-range">
-							<LocalizationProvider
-								dateAdapter={AdapterDateFns}
-								localeText={{
-									start: "Start Date",
-									end: "End Date",
-								}}
-							>
+							<LocalizationProvider dateAdapter={AdapterDateFns}>
 								<Grid
 									direction="row"
 									container
@@ -165,6 +159,7 @@ export default function AnalyzePage() {
 												}}
 											/>
 										)}
+										inputFormat="dd/MM/yyyy"
 									/>
 									<Box sx={{ mx: 1 }}> to </Box>
 									<DatePicker
@@ -187,6 +182,7 @@ export default function AnalyzePage() {
 												}}
 											/>
 										)}
+										inputFormat="dd/MM/yyyy"
 									/>
 								</Grid>
 							</LocalizationProvider>

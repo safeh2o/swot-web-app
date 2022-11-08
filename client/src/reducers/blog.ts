@@ -18,13 +18,13 @@ export const getPostCategories = createAsyncThunk(
 
 type BlogState = {
 	posts: any[];
-	postCategories: any[];
+	postCategories: { byName: any; byId: any };
 	isLoading: boolean;
 };
 
 const initialState: BlogState = {
 	posts: [],
-	postCategories: [],
+	postCategories: { byName: {}, byId: {} },
 	isLoading: false,
 };
 

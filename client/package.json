@@ -63,6 +63,7 @@
 		]
 	},
 	"devDependencies": {
+		"@types/dompurify": "^2.3.4",
 		"@types/lodash": "^4.14.184",
 		"@types/luxon": "^3.0.0",
 		"cross-env": "^7.0.3",

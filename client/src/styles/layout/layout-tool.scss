@@ -85,8 +85,8 @@ main.page-tool {
 	//
 	.label {
 		display: block;
-		font-family: "Roboto Condensed", sans-serif;
-		font-size: 1rem;
+		font-family: "Acumin", "Roboto Condensed", sans-serif;
+		font-size: 1.1rem;
 		line-height: 1.75;
 		// font-weight: 700;
 		letter-spacing: -0.005em;
@@ -142,13 +142,13 @@ main.page-tool {
 			z-index: 2;
 		}
 		img {
-			line-height: 0;
+			aspect-ratio: 1/1;
+			display: block;
+			line-height: initial;
 			text-transform: none;
 			background-color: #b8c2d4;
 			border: 1px #b8c2d4 solid;
 			box-shadow: 0 0 0 0 #ccd2d9;
-			border-radius: 7px;
-
 			transition: all 0.2s ease;
 		}
 
@@ -161,15 +161,18 @@ main.page-tool {
 }
 
 .tool-guides {
-	ul {
+	> ul {
+		display: grid;
+		grid-auto-flow: row;
+		grid-auto-rows: minmax(0, 1fr);
 		> li {
 			display: grid;
 			gap: calc(0.75em * var(--line-height));
-			align-items: center;
+			align-items: flex-start;
 			justify-content: flex-start;
-			padding: calc(0.5em * var(--line-height))
-				calc(1em * var(--line-height));
-			margin-bottom: calc(0.25em * var(--line-height));
+			padding: calc(0.5em * var(--line-height)) 0;
+			margin: 0;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
 			@media (min-width: $sm) {
 				grid-auto-flow: column;
@@ -320,6 +323,7 @@ main.page-tool {
 	}
 	.date-range-buttons {
 		display: flex;
+		align-items: center;
 		justify-content: center;
 		flex-direction: row;
 		margin-top: 1rem;
@@ -381,6 +385,9 @@ main.page-tool {
 			width: 3rem;
 			margin-top: -1.5rem;
 			margin-left: -1.5rem;
+
+			box-shadow: none;
+
 			.MuiSlider-valueLabel {
 				top: -1rem;
 				line-height: 1;
@@ -389,6 +396,8 @@ main.page-tool {
 				background: #fff;
 				border: 1px #d1d1d1 solid;
 				min-width: 3.75rem;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
 				.MuiSlider-valueLabelCircle {
 					margin-bottom: 0.25rem;
 					span {
@@ -420,10 +429,7 @@ main.page-tool {
 	.modeling-confidence-level-radio-group {
 		color: #929eac;
 		font-weight: 500;
-		max-width: 540px;
-		margin: 0 auto;
-		flex-direction: row;
-		justify-content: space-evenly;
+		justify-content: flex-start;
 		> * {
 			margin: 0.5rem 1rem 0.5rem 0.5rem;
 		}
@@ -457,6 +463,9 @@ main.page-tool {
 }
 
 .tool-overwrite-duplicate-entries {
+	label {
+		align-items: center;
+	}
 	svg.MuiSvgIcon-root {
 		font-size: calc(1em * var(--line-height));
 	}

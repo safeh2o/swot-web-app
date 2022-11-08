@@ -180,6 +180,48 @@ export default function UploadPage() {
 							</section>
 						</Box>
 
+						<FormGroup
+							row
+							sx={{ alignItems: "center", mt: 1 }}
+							className="tool-overwrite-duplicate-entries"
+						>
+							<FormControlLabel
+								label={"Overwrite Duplicate Entries"}
+								control={
+									<Checkbox
+										name="overwriteCheck"
+										checked={state && state.overwrite}
+										onChange={() => {
+											update({
+												overwrite: !state.overwrite,
+											});
+										}}
+										icon={<IconRowUnchecked />}
+										checkedIcon={<IconRowChecked />}
+									/>
+								}
+								sx={{ mr: 0 }}
+							/>
+							<NotificationLine
+								tip={{
+									content: (
+										<>
+											If checked, existing paired samples
+											will be replaced with new rows that
+											have identical tapstand datetimes
+										</>
+									),
+									context: "icon",
+								}}
+								type="guide"
+								orientation="reverse inline"
+							>
+								<span></span>
+							</NotificationLine>
+						</FormGroup>
+
+						<Divider sx={{ mt: 3 }} />
+
 						<NotificationLine
 							tip={{
 								content: (
@@ -193,9 +235,7 @@ export default function UploadPage() {
 							type="guide"
 							orientation="reverse"
 						>
-							<span>
-								Ensure all required columns have data...
-							</span>
+							<span>Ensure all required columns have data</span>
 						</NotificationLine>
 
 						<NotificationLine
@@ -218,46 +258,6 @@ export default function UploadPage() {
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
-						<Box component={"h2"}>Options for Upload:</Box>
-
-						<Divider sx={{ my: 1 }} />
-
-						<FormGroup className="tool-overwrite-duplicate-entries">
-							<FormControlLabel
-								label={"Overwrite Duplicate Entries"}
-								control={
-									<Checkbox
-										name="overwriteCheck"
-										checked={state && state.overwrite}
-										onChange={() => {
-											update({
-												overwrite: !state.overwrite,
-											});
-										}}
-										icon={<IconRowUnchecked />}
-										checkedIcon={<IconRowChecked />}
-									/>
-								}
-							/>
-						</FormGroup>
-						<NotificationLine
-							tip={{
-								content: (
-									<>
-										If checked, existing paired samples will
-										be replaced with new rows that have
-										identical tapstand datetimes
-									</>
-								),
-								context: "icon",
-							}}
-							type="guide"
-							orientation="reverse"
-						>
-							<span>What&apos;s this</span>
-						</NotificationLine>
-					</Box>
-					<Box className="app-card">
 						<Box className="form-submit">
 							<Button
 								id="btnSubmit"
@@ -273,6 +273,7 @@ export default function UploadPage() {
 								Upload
 							</Button>
 							<button
+								className="btn reset"
 								type="reset"
 								onClick={() => handleFormReset()}
 							>
@@ -280,8 +281,10 @@ export default function UploadPage() {
 							</button>
 							<NotificationLine type="notice">
 								<span>
-									Check that all fields have been completed
-									before moving to the next step
+									Once you hit upload we will check your file
+									has all the information we need and we will
+									send you an email when your data is ready to
+									analyze.
 								</span>
 							</NotificationLine>
 						</Box>

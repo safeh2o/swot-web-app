@@ -6,9 +6,22 @@ $col-5: #272d37;
 $col-text: #4f5e78;
 $col-text: #365996;
 
-$sm: 640px;
+:root {
+	--col-1: #365996;
+	--col-2: #92a4c4;
+	--col-3: #dbdfe4;
+	--col-4: #f3c22b;
+	--col-5: #272d37;
+	--col-text: #4f5e78;
+	--col-text: #365996;
+}
+
+$sm: 720px;
 $md: 960px;
 $lg: 1280px;
+
+$max-width: 840px;
+$max-width-small: 720px;
 
 $max-width: 960px;
 $max-width-small: 720px;

@@ -231,27 +231,6 @@ export default function Header() {
 
 	return (
 		<>
-			<Grid
-				container
-				display="flex"
-				justifyContent="center"
-				mt={2}
-				sx={{ backgroundColor: "lightyellow" }}
-				py={2}
-			>
-				<Grid>
-					<Typography>
-						We are launching our new and improved Safe Water
-						Optimization Tool Version 2 on November 8th, 2022. To
-						learn more and register for our launch event,{" "}
-						<Link href="https://www.yorku.ca/dighr/events/swot-v2-launch/">
-							click here
-						</Link>
-						.
-					</Typography>
-				</Grid>
-			</Grid>
-
 			<nav role="navigation">
 				<NavLink to={"/"} className="menu-brand">
 					<SWOTLogo className="large" />
@@ -282,7 +261,9 @@ export default function Header() {
 								{user.isAdmin && (
 									<li>
 										<IconButton href="/admin" tabIndex={-1}>
-											<span>Field Admin</span>
+											<span className="label">
+												Field Admin
+											</span>
 											<i>
 												<IconAdmin />
 											</i>
@@ -295,7 +276,7 @@ export default function Header() {
 										onClick={handleSignout}
 										className="signout"
 									>
-										<span>Sign Out</span>
+										<span className="label">Sign Out</span>
 										<i>
 											<IconSignOut />
 										</i>
@@ -312,7 +293,7 @@ export default function Header() {
 											isActive ? "active" : undefined
 										}
 									>
-										<span>Sign in</span>
+										<span className="label">Sign in</span>
 										<i>
 											<IconProfile />
 										</i>

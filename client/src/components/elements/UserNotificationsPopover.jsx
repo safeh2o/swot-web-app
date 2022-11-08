@@ -54,7 +54,7 @@ export default function UserNotificationsPopover() {
 				onClick={() => toggleNotifications(true)}
 				ref={notificationsRef}
 			>
-				<span>Notifications</span>
+				<span className="label">Notifications</span>
 				<Badge
 					className="badge"
 					badgeContent={unreadCount}

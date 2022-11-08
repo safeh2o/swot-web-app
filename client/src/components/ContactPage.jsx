@@ -200,6 +200,7 @@ export default function ContactPage() {
 									Submit
 								</Button>
 								<Button
+									className="btn reset"
 									variant="text"
 									type="reset"
 									onClick={() => {

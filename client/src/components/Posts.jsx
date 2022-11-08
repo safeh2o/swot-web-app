@@ -13,14 +13,14 @@ export default function Posts(props) {
 		const link = `/blog/${post.slug}`;
 		return (
 			<article key={link}>
-				{post?.image?.secure_url && (
-					<figure className="image-post">
+				{/* {post?.image?.secure_url && (
+					<figure className="post-image">
 						<NavLink to={link}>
 							<img src={post?.image?.secure_url} alt="" />
 						</NavLink>
 					</figure>
-				)}
-				<div className="details-post">
+				)} */}
+				<div className="post-details">
 					<header className="small">
 						<time>{post.publishedDate}</time>
 						{post.categories && post.categories.length > 0 && (
@@ -57,7 +57,7 @@ export default function Posts(props) {
 
 		return _.times(numPosts, (i) => (
 			<article key={i}>
-				<div className="details-post">
+				<div className="post-details">
 					<header className="small">
 						<Skeleton>
 							<time>{samplePost.publishedDate}</time>

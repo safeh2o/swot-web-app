@@ -131,7 +131,7 @@ export default function AnalyzePage() {
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
-						<Box component={"h2"}>Provide a Date Range *</Box>
+						<Box component={"h2"}>Select date range of data</Box>
 
 						<Divider sx={{ mb: 2, mt: 1 }} />
 
@@ -170,13 +170,22 @@ export default function AnalyzePage() {
 								flexDirection={"row"}
 								className="date-range-buttons"
 							>
-								<button onClick={() => selectDate(30)}>
+								<button
+									className={"btn"}
+									onClick={() => selectDate(30)}
+								>
 									Last 30 Days
 								</button>
-								<button onClick={() => selectDate(60)}>
+								<button
+									className={"btn"}
+									onClick={() => selectDate(60)}
+								>
 									Last 60 Days
 								</button>
-								<button onClick={() => selectAllTimeDate()}>
+								<button
+									className={"btn"}
+									onClick={() => selectAllTimeDate()}
+								>
 									All-Time
 								</button>
 							</Stack>
@@ -195,9 +204,8 @@ export default function AnalyzePage() {
 								context: "icon",
 							}}
 							type="guide"
-							orientation="reverse"
 						>
-							<span>How does setting the Date Range work</span>
+							<span>How does setting the Date Range work?</span>
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
@@ -210,8 +218,7 @@ export default function AnalyzePage() {
 							className="tool-accordion"
 						>
 							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-								Duration of Household Storage and Use (Units in
-								Hours)
+								Duration of household storage and use (in hours)
 							</AccordionSummary>
 							<AccordionDetails>
 								<Box className="tool-household-storage">
@@ -266,10 +273,9 @@ export default function AnalyzePage() {
 										context: "icon",
 									}}
 									type="guide"
-									orientation="reverse"
 								>
 									<span>
-										How should I determine the storage time
+										How should I determine the storage time?
 									</span>
 								</NotificationLine>
 							</AccordionDetails>
@@ -278,6 +284,7 @@ export default function AnalyzePage() {
 						<Divider
 							sx={{
 								my: 1,
+								mb: 2,
 								mx: -2,
 								borderBottomWidth: "3px",
 							}}
@@ -374,9 +381,8 @@ export default function AnalyzePage() {
 										context: "icon",
 									}}
 									type="guide"
-									orientation="reverse"
 								>
-									<span>Which scenario should I choose</span>
+									<span>Which scenario should I choose?</span>
 								</NotificationLine>
 							</AccordionDetails>
 						</Accordion>
@@ -395,13 +401,18 @@ export default function AnalyzePage() {
 							>
 								Analyze
 							</Button>
-							<button type="reset" onClick={() => reset()}>
+							<button
+								className="btn reset"
+								type="reset"
+								onClick={() => reset()}
+							>
 								Reset Fields
 							</button>
 							<NotificationLine type="notice">
 								<span>
-									Check that all fields have been completed
-									before moving to the next step
+									Once you hit analyze your dataset will be
+									processed, we will send you an email once
+									your results are ready to view.
 								</span>
 							</NotificationLine>
 						</Box>

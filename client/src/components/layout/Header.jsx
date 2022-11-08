@@ -99,7 +99,7 @@ export default function Header() {
 								<ul>
 									<li>
 										<a
-											href="https://live.safeh2o.app/how-it-works.html"
+											href="https://safeh2o.app/how-it-works.html"
 											target="_blank"
 											rel="noreferrer"
 										>
@@ -108,7 +108,7 @@ export default function Header() {
 									</li>
 									<li>
 										<a
-											href="https://live.safeh2o.app/research.html"
+											href="https://safeh2o.app/research.html"
 											target="_blank"
 											rel="noreferrer"
 										>
@@ -117,7 +117,7 @@ export default function Header() {
 									</li>
 									<li>
 										<a
-											href="https://live.safeh2o.app/our-story.html"
+											href="https://safeh2o.app/our-story.html"
 											target="_blank"
 											rel="noreferrer"
 										>
@@ -126,7 +126,7 @@ export default function Header() {
 									</li>
 									<li>
 										<a
-											href="https://live.safeh2o.app/team.html"
+											href="https://safeh2o.app/team.html"
 											target="_blank"
 											rel="noreferrer"
 										>

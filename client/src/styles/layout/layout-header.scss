@@ -22,7 +22,7 @@ body.overflow-hidden {
 		box-shadow: 0px 3px 0px 0px rgba(39, 45, 55, 0.22);
 	}
 
-	@media (min-width: $md) {
+	@media (min-width: $sm) {
 		padding-left: 2rem;
 		padding-right: 2rem;
 	}
@@ -33,13 +33,15 @@ body.overflow-hidden {
 		align-items: center;
 		justify-content: space-between;
 
-		font-family: "Roboto Condensed", sans-serif;
-		font-size: 1.45rem;
+		font-family: "Acumin", "Roboto Condensed", sans-serif;
+		font-size: 1.485rem;
+		line-height: 1;
+		letter-spacing: normal;
 		color: #fff;
 		margin-right: auto;
 		margin-left: auto;
 
-		@media (min-width: $md) {
+		@media (min-width: $sm) {
 			position: relative;
 			align-items: flex-end;
 		}
@@ -163,12 +165,6 @@ ul[class*="menu-"] {
 
 			@media (min-width: $md) {
 				gap: 0.5rem;
-			}
-		}
-		&:hover {
-			> a,
-			> button > span {
-				opacity: 0.85;
 			}
 		}
 		ul {
@@ -395,7 +391,7 @@ ul.menu-main-ul {
 		&:not(:hover) {
 			a,
 			button {
-				> span:first-child {
+				> .label {
 					border: 0;
 					clip: rect(0 0 0 0);
 					height: auto;
@@ -413,8 +409,7 @@ ul.menu-main-ul {
 			a,
 			button {
 				position: relative;
-				opacity: 1;
-				> span {
+				> .label {
 					position: absolute;
 					top: 100%;
 					left: 50%;
@@ -424,7 +419,7 @@ ul.menu-main-ul {
 					font-size: 1rem;
 					color: $col-1;
 					background-color: #fff;
-					padding: 0 0.5rem;
+					padding: 0.25rem;
 
 					&::before {
 						content: "";
@@ -434,7 +429,7 @@ ul.menu-main-ul {
 						transform: translateX(-50%) rotate(-45deg);
 						width: 8px;
 						height: 8px;
-						background-color: inherit;
+						background-color: #fff;
 					}
 				}
 			}

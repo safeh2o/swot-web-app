@@ -8,6 +8,7 @@ import {
 import _ from "lodash";
 import { useSelector } from "react-redux";
 import { blogSelectors } from "../reducers/blog";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function FAQList(props) {
 	const { FAQs } = props;
@@ -17,17 +18,17 @@ export default function FAQList(props) {
 		const sampleFAQ = {
 			title: "Stepping Up: Sanitation specialist develops system",
 			content:
-				"This is part of Stepping Up, a series introducing Canadians to their country’s new sources of inspiration and leadership.",
+				"This is part of Stepping Up, a series introducing Canadians to their country's new sources of inspiration and leadership.",
 		};
 
 		return _.times(numFAQs, (i) => (
 			<article key={i}>
-				<div className="details-FAQ">
+				<div className="post-details">
 					<Skeleton>
-						<h1 className="FAQ-title">{sampleFAQ.title}</h1>
+						<h1 className="post-title h2">{sampleFAQ.title}</h1>
 					</Skeleton>
 					<Skeleton width="100%">
-						<div className="FAQ-text">{sampleFAQ.content}</div>
+						<div className="post-text">{sampleFAQ.content}</div>
 					</Skeleton>
 					<hr />
 				</div>
@@ -39,13 +40,13 @@ export default function FAQList(props) {
 		? FAQSkeleton(5)
 		: FAQs.map((FAQ, i) => (
 				<article key={i}>
-					<Box className="details-FAQ">
-						<Accordion>
-							<AccordionSummary>
-								<h1 className="FAQ-title">{FAQ.title}</h1>
+					<Box className="post-details">
+						<Accordion className="faq-accordion">
+							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+								<h1 className="post-title h2">{FAQ.title}</h1>
 							</AccordionSummary>
 							<AccordionDetails>
-								<div className="FAQ-text">{FAQ.content}</div>
+								<div className="post-text">{FAQ.content}</div>
 							</AccordionDetails>
 						</Accordion>
 

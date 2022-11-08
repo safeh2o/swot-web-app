@@ -67,6 +67,7 @@ exports.posts = async function (req, res) {
 				categories: 1,
 			}
 		)
+		.sort({ publishedDate: -1 })
 		.exec();
 
 	posts = posts.map((post) => post.toJSON());

@@ -75,8 +75,13 @@ export default function Blog() {
 		} else {
 			setPosts(allPosts);
 		}
-		setPageNumber(1);
-	}, [currentCategory, allPosts, setPageNumber, allPostCategories?.byName]);
+	}, [currentCategory, allPosts, allPostCategories?.byName]);
+
+	useEffect(() => {
+		if (currentPageNumber > numPages) {
+			setPageNumber(1);
+		}
+	}, [currentCategory, setPageNumber, numPages, currentPageNumber]);
 
 	useEffect(() => {
 		if (posts?.length) {

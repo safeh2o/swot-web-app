@@ -119,20 +119,14 @@ export default function CollectData() {
 										</div>
 									</li>
 									<li>
-										<a
-											href={"#"}
-											target="_blank"
-											rel="noreferrer"
-										>
-											<figure className="image">
-												<img
-													src={
-														"/assets/tool/collect/thumb-kobo-monitoring-forms.png"
-													}
-													alt="monitoring forms thumbnail"
-												/>
-											</figure>
-										</a>
+										<figure className="image">
+											<img
+												src={
+													"/assets/tool/collect/thumb-kobo-monitoring-forms.png"
+												}
+												alt="monitoring forms thumbnail"
+											/>
+										</figure>
 										<div className="content">
 											<h2>
 												<strong>
@@ -146,7 +140,9 @@ export default function CollectData() {
 											<ol>
 												<li>
 													<a
-														href={"#"}
+														href={
+															"/data/forms/Pen_Paper_Forms.pdf"
+														}
 														target="_blank"
 														rel="noreferrer"
 														className="chapter-link"
@@ -157,7 +153,9 @@ export default function CollectData() {
 												</li>
 												<li>
 													<a
-														href={"#"}
+														href={
+															"/data/forms/Kobo_ODK_Forms.xlsx"
+														}
 														target="_blank"
 														rel="noreferrer"
 														className="chapter-link"
@@ -165,9 +163,11 @@ export default function CollectData() {
 														Kobo / ODK forms (.xls)
 													</a>
 												</li>
-												<li>
+												{/* <li>
 													<a
-														href={"#"}
+														href={
+															"/data/forms/Guidance_Digital_Data_Collection.pdf"
+														}
 														target="_blank"
 														rel="noreferrer"
 														className="chapter-link"
@@ -175,25 +175,19 @@ export default function CollectData() {
 														Guidance for digital
 														data collection (.pdf)
 													</a>
-												</li>
+												</li> */}
 											</ol>
 										</div>
 									</li>
 									<li>
-										<a
-											href={"#"}
-											target="_blank"
-											rel="noreferrer"
-										>
-											<figure className="image">
-												<img
-													src={
-														"/assets/tool/collect/thumb-example-dataset.png"
-													}
-													alt="Example datasets thumbnail"
-												/>
-											</figure>
-										</a>
+										<figure className="image">
+											<img
+												src={
+													"/assets/tool/collect/thumb-example-dataset.png"
+												}
+												alt="Example datasets thumbnail"
+											/>
+										</figure>
 										<div className="content">
 											<h2>Example datasets</h2>
 											<p>
@@ -204,13 +198,19 @@ export default function CollectData() {
 											</p>
 											<ul>
 												<li>
-													<a href="#">Banladesh</a>
+													<a href="/data/template/demo_bangladesh.xlsx">
+														Bangladesh
+													</a>
 												</li>
 												<li>
-													<a href="#">Tanzania</a>
+													<a href="/data/template/demo_Tanzania.xlsx">
+														Tanzania
+													</a>
 												</li>
 												<li>
-													<a href="#">Nigeria</a>
+													<a href="/data/template/demo_nigeria.xlsx">
+														Nigeria
+													</a>
 												</li>
 											</ul>
 										</div>

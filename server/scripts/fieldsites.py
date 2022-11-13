@@ -1,13 +1,11 @@
 # for every fieldsite, get all linked datasets, and consolidate the std files into one
 
-import pymongo
 import json
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
+import pymongo
 
-MONGO_DB_CONNECTION_STRING = os.getenv("MONGO_DB_CONNECTION_STRING")
+MONGO_DB_CONNECTION_STRING = input("Enter MongoDB connection string: ")
 
 current_fieldsites = {}
 client = pymongo.MongoClient(MONGO_DB_CONNECTION_STRING)
@@ -29,11 +27,12 @@ for dataset in datasets.find({"fieldsite": {"$in": list(current_fieldsites.keys(
     fieldsite = current_fieldsites[dataset["fieldsite"]]
     fieldsite["standardizedData"] += data
 
+os.makedirs("jsonOutputs", exist_ok=True)
 ser_fieldsites = {}
 for k, v in current_fieldsites.items():
     str_id = str(k)
     fieldsite_name = v["name"]
-    with open("output/" + fieldsite_name + ".json", "w") as fp:
+    with open("jsonOutputs/" + fieldsite_name + ".json", "w") as fp:
         json.dump(v, fp)
 
 print("Done")

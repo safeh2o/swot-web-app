@@ -2,10 +2,7 @@ import { Divider } from "@mui/material";
 import LinkCard from "../LinkCard";
 
 export default function CollectData() {
-	const urlFieldGuide =
-		"https://gitcdn.link/cdn/safeh2o/swot-web-assets/master/SWOT_Field_Data_Protocol_Sep2020.pdf";
-	// const urlDataInputTemplate =
-	// 	"https://github.com/safeh2o/swot-web-assets/blob/master/DataInputTemplate_ver2.0.xlsx?raw=true";
+	const urlFieldGuide = "/assets/tool/SWOT_Field_Data_Protocol_Sep2020.pdf";
 
 	return (
 		<>

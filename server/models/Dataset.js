@@ -13,7 +13,6 @@ var Dataset = new keystone.List("Dataset", {
 
 Dataset.add(
 	{
-		// description: { type: Types.Textarea, initial: true, index: true },
 		dateCreated: {
 			type: Types.Datetime,
 			utc: false,
@@ -63,6 +62,13 @@ Dataset.add(
 			default: "optimumDecay",
 		},
 		archived: { type: Types.Boolean, index: true, default: false },
+		lastAnalyzed: {
+			type: Types.Datetime,
+			utc: false,
+			initial: false,
+			index: true,
+			label: "Last Analysis Date",
+		},
 		completionStatus: {
 			type: Types.Select,
 			options: [
@@ -155,6 +161,7 @@ Dataset.schema.methods.runAnalysis = async function () {
 	const queueClient = QueueServiceClient.fromConnectionString(
 		AZURE_STORAGE_CONNECTION_STRING
 	).getQueueClient(AZURE_STORAGE_QUEUE_ANALYZE);
+	queueClient.createIfNotExists();
 	const sendMessageResponse = await queueClient.sendMessage(
 		Buffer.from(
 			JSON.stringify({
@@ -164,6 +171,10 @@ Dataset.schema.methods.runAnalysis = async function () {
 			})
 		).toString("base64")
 	);
+
+	this.lastAnalyzed = new Date();
+	this.save();
+
 	return sendMessageResponse;
 };
 

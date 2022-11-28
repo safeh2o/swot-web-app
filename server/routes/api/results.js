@@ -2,7 +2,7 @@ const keystone = require("keystone");
 const Dataset = keystone.list("Dataset");
 const Fieldsite = keystone.list("Fieldsite");
 const dataService = require("../../utils/data.service");
-const { ContainerClient, BlobClient } = require("@azure/storage-blob");
+const { ContainerClient } = require("@azure/storage-blob");
 const archiver = require("archiver");
 
 class MissingModelError extends Error {
@@ -205,12 +205,7 @@ exports.dataset = async function (req, res) {
 			throw new MissingModelError("Country", null, "Area", area.id);
 		}
 		const targetImgBlobName = `${req.params.datasetId}/eo/targets.png`;
-		const targetImgSasKey = await dataService.getSas(
-			process.env.AZURE_STORAGE_CONTAINER_RESULTS,
-			targetImgBlobName
-		);
-		const targetImgBlob = new BlobClient(
-			process.env.AZURE_STORAGE_CONNECTION_STRING,
+		const targetImgUrl = await dataService.getSas(
 			process.env.AZURE_STORAGE_CONTAINER_RESULTS,
 			targetImgBlobName
 		);
@@ -221,7 +216,7 @@ exports.dataset = async function (req, res) {
 				areaName: area.name,
 				countryName: country.name,
 			},
-			targetImgUrl: `${targetImgBlob.url}?${targetImgSasKey}`,
+			targetImgUrl,
 		});
 	} catch (ex) {
 		console.error(ex);

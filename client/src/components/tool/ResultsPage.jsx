@@ -1,3 +1,5 @@
+import AlarmIcon from "@mui/icons-material/Alarm";
+import PendingIcon from "@mui/icons-material/Pending";
 import {
 	Box,
 	Button,
@@ -12,7 +14,7 @@ import { forwardRef, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
-import { formatDate } from "../../helpers/dates";
+import { addHours, formatDate } from "../../helpers/dates";
 import { addNotice, setLoading } from "../../reducers/notifications";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
@@ -22,31 +24,61 @@ import {
 	IconRowUnchecked,
 	IconWrong,
 } from "../icons";
-import PendingIcon from "@mui/icons-material/Pending";
 
 function renderRowStatus(dataset) {
 	if (dataset?.completionStatus === "inProgress") {
-		return (
-			<IconButton className={"BtnStatus waiting"} size="small" disabled>
-				<PendingIcon />
-			</IconButton>
-		);
+		if (
+			!dataset.lastAnalyzed ||
+			new Date(dataset.lastAnalyzed) < addHours(new Date(), -6)
+		) {
+			return (
+				<Box title="Timed Out">
+					<IconButton
+						className={"BtnStatus timeout"}
+						size="small"
+						disabled
+					>
+						<AlarmIcon />
+					</IconButton>
+				</Box>
+			);
+		} else {
+			return (
+				<Box title="In Progress">
+					<IconButton
+						className={"BtnStatus waiting"}
+						size="small"
+						disabled
+					>
+						<PendingIcon />
+					</IconButton>
+				</Box>
+			);
+		}
 	} else if (dataset?.completionStatus === "failed") {
 		return (
-			<IconButton className={"BtnStatus failed"} size="small" disabled>
-				<IconWrong />
-			</IconButton>
+			<Box title="Failed">
+				<IconButton
+					className={"BtnStatus failed"}
+					size="small"
+					disabled
+				>
+					<IconWrong />
+				</IconButton>
+			</Box>
 		);
 	} else if (dataset?.completionStatus === "complete") {
 		return (
-			<IconButton
-				className={"BtnStatus"}
-				component={Link}
-				to={`/results/${dataset._id}`}
-				size="small"
-			>
-				<IconCheck />
-			</IconButton>
+			<Box title="Complete">
+				<IconButton
+					className={"BtnStatus"}
+					component={Link}
+					to={`/results/${dataset._id}`}
+					size="small"
+				>
+					<IconCheck />
+				</IconButton>
+			</Box>
 		);
 	}
 }

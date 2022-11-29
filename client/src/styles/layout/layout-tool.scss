@@ -533,6 +533,9 @@ main.page-tool {
 		&.waiting {
 			color: #fabc05;
 		}
+		&.timeout {
+			color: #0000ff;
+		}
 		&.failed {
 			color: #fc9170;
 		}

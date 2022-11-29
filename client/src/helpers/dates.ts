@@ -6,3 +6,7 @@ export function formatDate(value: string) {
 	}
 	return DateTime.fromISO(value).toLocaleString();
 }
+
+export function addHours(date: Date, numHours: number) {
+	return new Date(date.valueOf() + 60 * 60 * 1000 * numHours);
+}

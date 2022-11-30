@@ -14,8 +14,8 @@ var FAQ = new keystone.List("FAQ", {
 FAQ.add({
 	title: { type: Types.Text, required: true, initial: true },
 	content: {
-		type: Types.Textarea,
-		height: 150,
+		type: Types.Html,
+		wysiwyg: true,
 		initial: true,
 	},
 	state: {

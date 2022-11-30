@@ -9,7 +9,7 @@ import _ from "lodash";
 import { useSelector } from "react-redux";
 import { blogSelectors } from "../reducers/blog";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import { sanitize } from "dompurify";
 export default function FAQList(props) {
 	const { FAQs } = props;
 	const isLoading = useSelector(blogSelectors.isLoading);
@@ -46,7 +46,13 @@ export default function FAQList(props) {
 								<h1 className="post-title h2">{FAQ.title}</h1>
 							</AccordionSummary>
 							<AccordionDetails>
-								<div className="post-text">{FAQ.content}</div>
+								<div className="post-text">
+									<div
+										dangerouslySetInnerHTML={{
+											__html: sanitize(FAQ.content),
+										}}
+									></div>
+								</div>
 							</AccordionDetails>
 						</Accordion>
 

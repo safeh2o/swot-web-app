@@ -8,7 +8,12 @@ import {
 	IconButton,
 	Stack,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import {
+	DataGrid,
+	GridColumns,
+	GridSelectionModel,
+	GridSortModel,
+} from "@mui/x-data-grid";
 import axios from "axios";
 import { forwardRef, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -25,7 +30,7 @@ import {
 	IconWrong,
 } from "../icons";
 
-function renderRowStatus(dataset) {
+function renderRowStatus(dataset: any) {
 	if (dataset?.completionStatus === "inProgress") {
 		if (
 			!dataset.lastAnalyzed ||
@@ -83,21 +88,32 @@ function renderRowStatus(dataset) {
 	}
 }
 
-const columns = [
+const columns: GridColumns = [
 	{
 		field: "dateCreated",
 		headerName: "Date Generated",
 		type: "date",
-		flex: 0.3,
+		flex: 11,
 		align: "left",
 		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
 	},
 	{
+		field: "userFullName",
+		headerName: "User",
+		description: "Number of valid samples during the dataset date range",
+		type: "string",
+		flex: 15,
+		renderCell: ({ value }) => {
+			return <span title={value}>{value}</span>;
+		},
+		valueGetter: (params) => Object.values(params.row.user.name).join(", "),
+	},
+	{
 		field: "startDate",
 		headerName: "Start Date",
 		type: "date",
-		flex: 0.2,
+		flex: 11,
 		align: "left",
 		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
@@ -106,23 +122,45 @@ const columns = [
 		field: "endDate",
 		headerName: "End Date",
 		type: "date",
-		flex: 0.2,
+		flex: 11,
 		align: "left",
 		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
 	},
-	// {
-	// 	field: "samples",
-	// 	headerName: "Samples",
-	// 	description: "Number of valid samples during the dataset date range",
-	// 	type: "number",
-	// 	flex: 0.1,
-	// 	renderCell: ({ row }) => renderRowSamples(row),
-	// },
 	{
-		field: "status",
-		headerName: "Status",
-		flex: 0.2,
+		field: "maxDuration",
+		headerName: "Duration",
+		type: "number",
+		flex: 5,
+		align: "center",
+		headerAlign: "center",
+		valueGetter: (params) => {
+			console.log(params);
+			return params.row.maxDuration;
+		},
+	},
+	{
+		field: "decayScenario",
+		headerName: "Decay Scenario",
+		flex: 5,
+		align: "left",
+		headerAlign: "center",
+		valueGetter: (params) => {
+			switch (params.row.confidenceLevel) {
+				case "optimumDecay":
+					return "Optimum Decay";
+				case "maxDecay":
+					return "Maximum Decay";
+				case "minDecay":
+					return "Minimum Decay";
+			}
+		},
+		renderCell: ({ value }) => <span title={value}>{value}</span>,
+	},
+	{
+		field: "Status",
+		headerName: "",
+		flex: 5,
 		align: "center",
 		headerAlign: "center",
 		renderCell: ({ row }) => renderRowStatus(row),
@@ -132,9 +170,9 @@ const columns = [
 export default function ResultsPage() {
 	const [fieldsite, setFieldsite] = useState(DEFAULT_FIELDSITE);
 	const [datasets, setDatasets] = useState([]);
-	const [selectedDatasets, setSelectedDatasets] = useState([]);
+	const [selectedDatasets, setSelectedDatasets] = useState<any[]>([]);
 	const dispatch = useDispatch();
-	const [resultsSortModel, setResultsSortModel] = useState([
+	const [resultsSortModel, setResultsSortModel] = useState<GridSortModel>([
 		{ field: "dateCreated", sort: "desc" },
 	]);
 
@@ -154,7 +192,7 @@ export default function ResultsPage() {
 		}
 	}, [fieldsite, dispatch]);
 
-	function handleSelection(selectionModel) {
+	function handleSelection(selectionModel: GridSelectionModel) {
 		setSelectedDatasets(selectionModel || []);
 	}
 
@@ -182,7 +220,7 @@ export default function ResultsPage() {
 						</Box>
 						<Divider sx={{ my: 3, mb: 2 }} />
 						<FieldsiteDropdown
-							onChange={(value) => {
+							onChange={(value: any) => {
 								setFieldsite(value);
 							}}
 						/>

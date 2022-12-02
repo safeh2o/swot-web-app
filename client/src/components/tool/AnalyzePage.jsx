@@ -229,7 +229,7 @@ export default function AnalyzePage() {
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
-						<Box component={"h2"}>Options for Analysis:</Box>
+						<Box component={"h2"}>Options for analysis:</Box>
 
 						<Divider sx={{ mb: 2, mt: 1 }} />
 
@@ -312,7 +312,7 @@ export default function AnalyzePage() {
 
 						<Accordion className="tool-accordion">
 							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-								Modelling Confidence Level (Advanced)
+								Decay scenario (advanced)
 							</AccordionSummary>
 							<AccordionDetails>
 								<FormControl

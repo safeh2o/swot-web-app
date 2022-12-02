@@ -234,7 +234,7 @@ export default function Result() {
 								)}
 							</Typography>
 							<Typography variant="inputLabel">
-								Modelling confidence level
+								Decay scenario
 							</Typography>
 						</Box>
 					</Box>

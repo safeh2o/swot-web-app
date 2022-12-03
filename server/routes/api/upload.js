@@ -77,6 +77,7 @@ exports.append = async function (req, res) {
 	const containerClient = blobServiceClient.getContainerClient(
 		AZURE_STORAGE_CONTAINER
 	);
+	containerClient.createIfNotExists();
 
 	const upload = new Upload.model({
 		user: userId,

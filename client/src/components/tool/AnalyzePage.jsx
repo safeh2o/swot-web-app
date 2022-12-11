@@ -218,7 +218,11 @@ export default function AnalyzePage() {
 										period you would like to send for
 										analysis, or select
 										&lsquo;all-time&rsquo; to use the whole
-										dataset
+										dataset. Select "Last 30 days" if you
+										would like to filter datapoints 30 days
+										from today, or all-time if you would
+										like to use all datapoints for this
+										fieldsite
 									</>
 								),
 								context: "icon",

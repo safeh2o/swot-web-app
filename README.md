@@ -1,6 +1,6 @@
 # swot-web-app
 
-[![Build Status](https://dev.azure.com/safeh2o/SWOT/_apis/build/status/safeh2o.swot-web-app?branchName=master)](https://dev.azure.com/safeh2o/SWOT/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://dev.azure.com/safeh2o/SWOT/_apis/build/status/safeh2o.swot-web-app?branchName=main)](https://dev.azure.com/safeh2o/SWOT/_build/latest?definitionId=1&branchName=main)
 
 Safe Water Optimization Tool Web Application
 

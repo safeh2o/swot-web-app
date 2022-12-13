@@ -33,42 +33,17 @@ exports.analyze = async function (req, res) {
 		return;
 	}
 
-	let dataset;
+	const dataset = new Dataset.model({
+		fieldsite: fieldsiteId,
+		user: req.user._id,
+		startDate: req.body.startDate ? startDate : null,
+		endDate,
+		maxDuration,
+		confidenceLevel,
+		dateCreated: new Date(),
+		lastAnalyzed: new Date(),
+	});
 
-	if (req.body.startDate) {
-		dataset = new Dataset.model({
-			fieldsite: fieldsiteId,
-			user: req.user._id,
-			startDate,
-			endDate,
-			maxDuration,
-			confidenceLevel,
-			dateCreated: new Date(),
-		});
-	} else {
-		dataset = new Dataset.model({
-			fieldsite: fieldsiteId,
-			user: req.user._id,
-			startDate: null,
-			endDate,
-			maxDuration,
-			confidenceLevel,
-			dateCreated: new Date(),
-		});
-	}
-
-	// const queueClient = QueueServiceClient.fromConnectionString(
-	// 	AZURE_STORAGE_CONNECTION_STRING
-	// ).getQueueClient(AZURE_STORAGE_QUEUE_ANALYZE);
-	// const sendMessageResponse = await queueClient.sendMessage(
-	// 	Buffer.from(
-	// 		JSON.stringify({
-	// 			datasetId: dataset.id,
-	// 			maxDuration,
-	// 			confidenceLevel,
-	// 		})
-	// 	).toString("base64")
-	// );
 	await dataset.save();
 	const response = dataset.runAnalysis();
 
@@ -102,6 +77,7 @@ exports.append = async function (req, res) {
 	const containerClient = blobServiceClient.getContainerClient(
 		AZURE_STORAGE_CONTAINER
 	);
+	containerClient.createIfNotExists();
 
 	const upload = new Upload.model({
 		user: userId,
@@ -127,6 +103,7 @@ exports.append = async function (req, res) {
 	const queueClient = QueueServiceClient.fromConnectionString(
 		AZURE_STORAGE_CONNECTION_STRING
 	).getQueueClient(AZURE_STORAGE_QUEUE_STANDARDIZE);
+	queueClient.createIfNotExists();
 	const sendMessageResponse = await queueClient
 		.sendMessage(
 			Buffer.from(

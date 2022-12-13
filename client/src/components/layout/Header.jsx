@@ -1,12 +1,4 @@
-import {
-	Box,
-	Drawer,
-	IconButton,
-	Link,
-	Skeleton,
-	Typography,
-} from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { Box, Drawer, IconButton, Skeleton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -107,7 +99,7 @@ export default function Header() {
 								<ul>
 									<li>
 										<a
-											href="https://live.safeh2o.app/how-it-works.html"
+											href="https://safeh2o.app/how-it-works.html"
 											target="_blank"
 											rel="noreferrer"
 										>
@@ -116,7 +108,7 @@ export default function Header() {
 									</li>
 									<li>
 										<a
-											href="https://live.safeh2o.app/research.html"
+											href="https://safeh2o.app/research.html"
 											target="_blank"
 											rel="noreferrer"
 										>
@@ -125,7 +117,7 @@ export default function Header() {
 									</li>
 									<li>
 										<a
-											href="https://live.safeh2o.app/our-story.html"
+											href="https://safeh2o.app/our-story.html"
 											target="_blank"
 											rel="noreferrer"
 										>
@@ -134,7 +126,7 @@ export default function Header() {
 									</li>
 									<li>
 										<a
-											href="https://live.safeh2o.app/team.html"
+											href="https://safeh2o.app/team.html"
 											target="_blank"
 											rel="noreferrer"
 										>
@@ -231,27 +223,6 @@ export default function Header() {
 
 	return (
 		<>
-			{/* <Grid
-				container
-				display="flex"
-				justifyContent="center"
-				mt={2}
-				sx={{ backgroundColor: "lightyellow" }}
-				py={2}
-			>
-				<Grid>
-					<Typography>
-						We are launching our new and improved Safe Water
-						Optimization Tool Version 2 on November 8th, 2022. To
-						learn more and register for our launch event,{" "}
-						<Link href="https://www.yorku.ca/dighr/events/swot-v2-launch/">
-							click here
-						</Link>
-						.
-					</Typography>
-				</Grid>
-			</Grid> */}
-
 			<nav role="navigation">
 				<NavLink to={"/"} className="menu-brand">
 					<SWOTLogo className="large" />

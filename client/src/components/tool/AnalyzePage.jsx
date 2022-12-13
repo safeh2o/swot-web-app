@@ -1,8 +1,12 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { DateRangePicker } from "@mui/x-date-pickers-pro";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { Box, Divider, Slider, Stack, TextField } from "@mui/material";
+import {
+	Box,
+	Divider,
+	Slider,
+	Stack,
+	TextField,
+	Unstable_Grid2 as Grid,
+} from "@mui/material";
 import {
 	Accordion,
 	AccordionDetails,
@@ -13,6 +17,8 @@ import {
 	Radio,
 	RadioGroup,
 } from "@mui/material/";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import axios from "axios";
 import _ from "lodash";
 import { DateTime } from "luxon";
@@ -84,15 +90,6 @@ export default function AnalyzePage() {
 			});
 	}
 
-	function handleDateChange(newRange) {
-		let startDate = null,
-			endDate = null;
-		if (newRange) {
-			[startDate, endDate] = newRange;
-		}
-		update({ startDate, endDate });
-	}
-
 	return (
 		<>
 			<section>
@@ -136,35 +133,58 @@ export default function AnalyzePage() {
 						<Divider sx={{ mb: 2, mt: 1 }} />
 
 						<Box className="tool-date-range">
-							<LocalizationProvider
-								dateAdapter={AdapterDateFns}
-								localeText={{
-									start: "Start Date",
-									end: "End Date",
-								}}
-							>
-								<DateRangePicker
-									className="date-range-picker"
-									value={[state.startDate, state.endDate]}
-									onChange={handleDateChange}
-									renderInput={(startProps, endProps) => (
-										<>
+							<LocalizationProvider dateAdapter={AdapterDateFns}>
+								<Grid
+									direction="row"
+									container
+									alignItems="center"
+								>
+									<DatePicker
+										label="Start Date"
+										value={state.startDate}
+										onChange={(startDate) => {
+											const newDates = {
+												startDate,
+											};
+											if (startDate > state.endDate) {
+												newDates["endDate"] = null;
+											}
+											update(newDates);
+										}}
+										renderInput={(params) => (
 											<TextField
-												{...startProps}
+												{...params}
 												sx={{
 													flex: 1,
 												}}
 											/>
-											<Box sx={{ mx: 1 }}> to </Box>
+										)}
+										inputFormat="dd/MM/yyyy"
+									/>
+									<Box sx={{ mx: 1 }}> to </Box>
+									<DatePicker
+										label="End Date"
+										value={state.endDate}
+										onChange={(endDate) => {
+											const newDates = {
+												endDate,
+											};
+											if (endDate < state.startDate) {
+												newDates["startDate"] = null;
+											}
+											update(newDates);
+										}}
+										renderInput={(params) => (
 											<TextField
-												{...endProps}
+												{...params}
 												sx={{
 													flex: 1,
 												}}
 											/>
-										</>
-									)}
-								/>
+										)}
+										inputFormat="dd/MM/yyyy"
+									/>
+								</Grid>
 							</LocalizationProvider>
 							<Stack
 								flexDirection={"row"}
@@ -198,7 +218,11 @@ export default function AnalyzePage() {
 										period you would like to send for
 										analysis, or select
 										&lsquo;all-time&rsquo; to use the whole
-										dataset
+										dataset. Select "Last 30 days" if you
+										would like to filter datapoints 30 days
+										from today, or all-time if you would
+										like to use all datapoints for this
+										fieldsite
 									</>
 								),
 								context: "icon",
@@ -209,7 +233,7 @@ export default function AnalyzePage() {
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
-						<Box component={"h2"}>Options for Analysis:</Box>
+						<Box component={"h2"}>Options for analysis:</Box>
 
 						<Divider sx={{ mb: 2, mt: 1 }} />
 
@@ -292,7 +316,7 @@ export default function AnalyzePage() {
 
 						<Accordion className="tool-accordion">
 							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-								Modelling Confidence Level (Advanced)
+								Decay Scenario (advanced)
 							</AccordionSummary>
 							<AccordionDetails>
 								<FormControl
@@ -351,7 +375,11 @@ export default function AnalyzePage() {
 														}
 													/>
 												}
-												label={listitem.label}
+												label={
+													<span className="label">
+														{listitem.label}
+													</span>
+												}
 												disableTypography
 											/>
 										))}

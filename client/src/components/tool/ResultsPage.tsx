@@ -1,3 +1,5 @@
+import AlarmIcon from "@mui/icons-material/Alarm";
+import PendingIcon from "@mui/icons-material/Pending";
 import {
 	Box,
 	Button,
@@ -6,13 +8,18 @@ import {
 	IconButton,
 	Stack,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import {
+	DataGrid,
+	GridColumns,
+	GridSelectionModel,
+	GridSortModel,
+} from "@mui/x-data-grid";
 import axios from "axios";
 import { forwardRef, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
-import { formatDate } from "../../helpers/dates";
+import { addHours, formatDate } from "../../helpers/dates";
 import { addNotice, setLoading } from "../../reducers/notifications";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
@@ -22,75 +29,138 @@ import {
 	IconRowUnchecked,
 	IconWrong,
 } from "../icons";
-import PendingIcon from "@mui/icons-material/Pending";
 
-function renderRowStatus(dataset) {
+function renderRowStatus(dataset: any) {
 	if (dataset?.completionStatus === "inProgress") {
-		return (
-			<IconButton className={"BtnStatus waiting"} size="small" disabled>
-				<PendingIcon />
-			</IconButton>
-		);
+		if (
+			!dataset.lastAnalyzed ||
+			new Date(dataset.lastAnalyzed) < addHours(new Date(), -6)
+		) {
+			return (
+				<Box title="Timed Out">
+					<IconButton
+						className={"BtnStatus timeout"}
+						size="small"
+						disabled
+					>
+						<AlarmIcon />
+					</IconButton>
+				</Box>
+			);
+		} else {
+			return (
+				<Box title="In Progress">
+					<IconButton
+						className={"BtnStatus waiting"}
+						size="small"
+						disabled
+					>
+						<PendingIcon />
+					</IconButton>
+				</Box>
+			);
+		}
 	} else if (dataset?.completionStatus === "failed") {
 		return (
-			<IconButton className={"BtnStatus failed"} size="small" disabled>
-				<IconWrong />
-			</IconButton>
+			<Box title="Failed">
+				<IconButton
+					className={"BtnStatus failed"}
+					size="small"
+					disabled
+				>
+					<IconWrong />
+				</IconButton>
+			</Box>
 		);
 	} else if (dataset?.completionStatus === "complete") {
 		return (
-			<IconButton
-				className={"BtnStatus"}
-				component={Link}
-				to={`/results/${dataset._id}`}
-				size="small"
-			>
-				<IconCheck />
-			</IconButton>
+			<Box title="Complete">
+				<IconButton
+					className={"BtnStatus"}
+					component={Link}
+					to={`/results/${dataset._id}`}
+					size="small"
+				>
+					<IconCheck />
+				</IconButton>
+			</Box>
 		);
 	}
 }
 
-const columns = [
+const columns: GridColumns = [
 	{
 		field: "dateCreated",
-		headerName: "Date Generated",
+		headerName: "Generated",
 		type: "date",
-		flex: 0.3,
+		flex: 10,
 		align: "left",
 		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
 	},
 	{
+		field: "userFullName",
+		headerName: "User",
+		description: "Number of valid samples during the dataset date range",
+		type: "string",
+		flex: 8,
+		renderCell: ({ value }) => {
+			return <span title={value}>{value}</span>;
+		},
+		valueGetter: (params) => Object.values(params.row.user.name).join(", "),
+	},
+	{
 		field: "startDate",
-		headerName: "Start Date",
+		headerName: "Start",
 		type: "date",
-		flex: 0.2,
+		flex: 9,
 		align: "left",
 		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
 	},
 	{
 		field: "endDate",
-		headerName: "End Date",
+		headerName: "End",
 		type: "date",
-		flex: 0.2,
+		flex: 9,
 		align: "left",
 		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
 	},
-	// {
-	// 	field: "samples",
-	// 	headerName: "Samples",
-	// 	description: "Number of valid samples during the dataset date range",
-	// 	type: "number",
-	// 	flex: 0.1,
-	// 	renderCell: ({ row }) => renderRowSamples(row),
-	// },
 	{
-		field: "status",
-		headerName: "Status",
-		flex: 0.2,
+		field: "maxDuration",
+		headerName: "Duration",
+		type: "number",
+		flex: 7,
+		align: "center",
+		headerAlign: "left",
+		valueGetter: (params) => {
+			console.log(params);
+			return params.row.maxDuration;
+		},
+	},
+	{
+		field: "decayScenario",
+		headerName: "Decay Scenario",
+		flex: 11,
+		align: "left",
+		headerAlign: "left",
+		valueGetter: (params) => {
+			switch (params.row.confidenceLevel) {
+				case "optimumDecay":
+					return "Optimum Decay";
+				case "maxDecay":
+					return "Maximum Decay";
+				case "minDecay":
+					return "Minimum Decay";
+			}
+		},
+		renderCell: ({ value }) => <span title={value}>{value}</span>,
+	},
+	{
+		field: "Status",
+		headerName: "",
+		flex: 3,
 		align: "center",
 		headerAlign: "center",
 		renderCell: ({ row }) => renderRowStatus(row),
@@ -100,9 +170,9 @@ const columns = [
 export default function ResultsPage() {
 	const [fieldsite, setFieldsite] = useState(DEFAULT_FIELDSITE);
 	const [datasets, setDatasets] = useState([]);
-	const [selectedDatasets, setSelectedDatasets] = useState([]);
+	const [selectedDatasets, setSelectedDatasets] = useState<any[]>([]);
 	const dispatch = useDispatch();
-	const [resultsSortModel, setResultsSortModel] = useState([
+	const [resultsSortModel, setResultsSortModel] = useState<GridSortModel>([
 		{ field: "dateCreated", sort: "desc" },
 	]);
 
@@ -122,7 +192,7 @@ export default function ResultsPage() {
 		}
 	}, [fieldsite, dispatch]);
 
-	function handleSelection(selectionModel) {
+	function handleSelection(selectionModel: GridSelectionModel) {
 		setSelectedDatasets(selectionModel || []);
 	}
 
@@ -150,7 +220,7 @@ export default function ResultsPage() {
 						</Box>
 						<Divider sx={{ my: 3, mb: 2 }} />
 						<FieldsiteDropdown
-							onChange={(value) => {
+							onChange={(value: any) => {
 								setFieldsite(value);
 							}}
 						/>

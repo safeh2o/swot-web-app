@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import DOMPurify from "dompurify";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { setLoading } from "../reducers/notifications";
@@ -9,17 +9,17 @@ import { replaceCrumbTitle } from "../reducers/view";
 export default function CMSPage() {
 	const dispatch = useDispatch();
 	const { slug } = useParams();
-	const defaultPage = useMemo(
-		() => ({
-			title: "",
-			content: { extended: "" },
-		}),
-		[]
-	);
+	const defaultPage: {
+		title: string;
+		content: { extended: string };
+		image?: { secure_url: "" };
+	} = {
+		title: "",
+		content: { extended: "" },
+	};
 	const [page, setPage] = useState(defaultPage);
 	useEffect(() => {
 		dispatch(setLoading(true));
-		setPage(defaultPage);
 		fetch(`/api/cms/pages/${slug}`)
 			.then((res) => res.json())
 			.then((json) => {
@@ -36,7 +36,7 @@ export default function CMSPage() {
 			.finally(() => {
 				dispatch(setLoading(false));
 			});
-	}, [slug, defaultPage, dispatch]);
+	}, [slug, dispatch]);
 
 	useEffect(() => {
 		if (page.title) {
@@ -49,8 +49,8 @@ export default function CMSPage() {
 			<article id={"page-" + slug}>
 				<section>
 					<div className="section-wrap">
-						<div class="intro">
-							<h1 class="section-title">
+						<div className="intro">
+							<h1 className="section-title">
 								{page.title || "Loading..."}
 							</h1>
 							{page.image && page.image.secure_url && (

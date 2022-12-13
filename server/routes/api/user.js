@@ -214,9 +214,11 @@ exports.getUserDatasets = async function (req, res) {
 		res.sendStatus(403);
 		return;
 	}
-	const datasets = await Dataset.model.find({
-		fieldsite: req.query.fieldsite,
-	});
+	const datasets = await Dataset.model
+		.find({
+			fieldsite: req.query.fieldsite,
+		})
+		.populate({ path: "user", select: "name" });
 	res.json({ datasets });
 };
 

@@ -65,7 +65,7 @@ export default function BlogPost() {
 		<>
 			<section>
 				<div className="section-wrap post">
-					<article>
+					<article className="app-card">
 						{page?.image?.secure_url && (
 							<figure className="post-image">
 								<img src={page.image.secure_url} alt="" />

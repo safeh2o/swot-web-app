@@ -87,10 +87,11 @@ main.page-tool {
 	//
 	.label {
 		display: block;
-		font-family: "Acumin", "Roboto Condensed", sans-serif;
+		font-family: "Acumin Pro Ex Cond Semi Bd", "Roboto Condensed",
+			sans-serif;
 		font-size: 1.2rem;
 		line-height: 1.2;
-		letter-spacing: -0.005em;
+		letter-spacing: normal;
 		text-align: center;
 		text-transform: capitalize;
 		text-overflow: ellipsis;

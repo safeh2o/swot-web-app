@@ -343,10 +343,12 @@ export default function Result() {
 								{(dataset || defaultDataset).nSamples}
 								{/* check sample range */}
 								{(dataset || defaultDataset).nSamples < 100 && (
-									<IconLow className="sup" />
+									<IconLow className="icon-sup icon-low" />
 								)}
 								{(dataset || defaultDataset).nSamples >=
-									100 && <IconCheck className="sup" />}
+									100 && (
+									<IconCheck className="icon-sup icon-pass" />
+								)}
 							</Typography>
 
 							<Typography variant="inputLabel">

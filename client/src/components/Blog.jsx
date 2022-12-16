@@ -98,7 +98,8 @@ export default function Blog() {
 			<div className="blog-header">
 				<div className="blog-header-wrap">
 					<h1 className="section-subtitle">
-						News &amp; Technical Blog
+						SWOT News <br />
+						&amp; Technical Resources
 					</h1>
 					<div className="posts-filters small">
 						<div className="categories-blog">

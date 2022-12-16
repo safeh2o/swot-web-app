@@ -91,9 +91,9 @@ function renderRowStatus(dataset: any) {
 const columns: GridColumns = [
 	{
 		field: "dateCreated",
-		headerName: "Date Generated",
+		headerName: "Generated",
 		type: "date",
-		flex: 11,
+		flex: 10,
 		align: "left",
 		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
@@ -103,7 +103,7 @@ const columns: GridColumns = [
 		headerName: "User",
 		description: "Number of valid samples during the dataset date range",
 		type: "string",
-		flex: 15,
+		flex: 8,
 		renderCell: ({ value }) => {
 			return <span title={value}>{value}</span>;
 		},
@@ -111,18 +111,18 @@ const columns: GridColumns = [
 	},
 	{
 		field: "startDate",
-		headerName: "Start Date",
+		headerName: "Start",
 		type: "date",
-		flex: 11,
+		flex: 9,
 		align: "left",
 		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
 	},
 	{
 		field: "endDate",
-		headerName: "End Date",
+		headerName: "End",
 		type: "date",
-		flex: 11,
+		flex: 9,
 		align: "left",
 		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
@@ -131,9 +131,9 @@ const columns: GridColumns = [
 		field: "maxDuration",
 		headerName: "Duration",
 		type: "number",
-		flex: 5,
+		flex: 7,
 		align: "center",
-		headerAlign: "center",
+		headerAlign: "left",
 		valueGetter: (params) => {
 			console.log(params);
 			return params.row.maxDuration;
@@ -142,9 +142,9 @@ const columns: GridColumns = [
 	{
 		field: "decayScenario",
 		headerName: "Decay Scenario",
-		flex: 5,
+		flex: 11,
 		align: "left",
-		headerAlign: "center",
+		headerAlign: "left",
 		valueGetter: (params) => {
 			switch (params.row.confidenceLevel) {
 				case "optimumDecay":
@@ -160,7 +160,7 @@ const columns: GridColumns = [
 	{
 		field: "Status",
 		headerName: "",
-		flex: 5,
+		flex: 3,
 		align: "center",
 		headerAlign: "center",
 		renderCell: ({ row }) => renderRowStatus(row),

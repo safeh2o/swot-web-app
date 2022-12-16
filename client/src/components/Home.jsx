@@ -105,8 +105,8 @@ export default function Home() {
 									href="/assets/tool/SWOT_Quickstart.pdf"
 									csr={false}
 								>
-									Overview of the SWOT, from data collection
-									to reading results. (.pdf)
+									Quick PDF guide on how to get started using
+									the tool.
 								</LinkCard>
 								<LinkCard
 									title="Technical Resources"

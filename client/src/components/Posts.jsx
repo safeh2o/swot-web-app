@@ -12,7 +12,7 @@ export default function Posts(props) {
 	function articleFromPost(post) {
 		const link = `/blog/${post.slug}`;
 		return (
-			<article key={link}>
+			<article key={link} className="app-card">
 				{/* {post?.image?.secure_url && (
 					<figure className="post-image">
 						<NavLink to={link}>

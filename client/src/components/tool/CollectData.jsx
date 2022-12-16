@@ -39,9 +39,9 @@ export default function CollectData() {
 												collection
 											</h2>
 											<p>
-												Overview of your teams equipment
-												needs, and data collection
-												procedures
+												Step-by-step instructions on
+												planning data collection and FRC
+												monitoring procedures.
 											</p>
 											<a
 												href={urlFieldGuide}
@@ -160,7 +160,7 @@ export default function CollectData() {
 														Kobo / ODK forms (.xls)
 													</a>
 												</li>
-												{/* <li>
+												<li>
 													<a
 														href={
 															"/data/forms/Guidance_Digital_Data_Collection.pdf"
@@ -172,7 +172,7 @@ export default function CollectData() {
 														Guidance for digital
 														data collection (.pdf)
 													</a>
-												</li> */}
+												</li>
 											</ol>
 										</div>
 									</li>

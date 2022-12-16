@@ -316,7 +316,7 @@ export default function AnalyzePage() {
 
 						<Accordion className="tool-accordion">
 							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-								Decay scenario (advanced)
+								Decay Scenario (advanced)
 							</AccordionSummary>
 							<AccordionDetails>
 								<FormControl
@@ -375,7 +375,11 @@ export default function AnalyzePage() {
 														}
 													/>
 												}
-												label={listitem.label}
+												label={
+													<span className="label">
+														{listitem.label}
+													</span>
+												}
 												disableTypography
 											/>
 										))}

@@ -7,24 +7,6 @@ export const Result = {
 	},
 	cardElement: {
 		marginBottom: "15px",
-		"& .sup": {
-			position: "relative",
-			fontSize: "0.95em",
-			top: "0px",
-			marginLeft: "4px",
-		},
-		"& .low": {
-			borderLeftColor: "#CC6633",
-			"& .MuiTypography-inputValue": {
-				color: "#CC6633",
-			},
-		},
-		"& .pass": {
-			borderLeftColor: "#679289",
-			"& .MuiTypography-inputValue": {
-				color: "#679289",
-			},
-		},
 	},
 	stat: {
 		display: "inline-block",

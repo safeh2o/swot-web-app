@@ -159,7 +159,7 @@ export default function UploadPage() {
 							}`}
 							{...getRootProps()}
 						>
-							<section>
+							<Box component={"section"}>
 								<Input {...getInputProps()} />
 								<Box className="MuiDropzoneArea-textContainer MuiDropzoneArea-text">
 									<Typography>
@@ -167,17 +167,19 @@ export default function UploadPage() {
 									</Typography>
 									<IconToolUpload className="MuiDropzoneArea-icon" />
 								</Box>
-								{acceptedFiles.map((file, i) =>
-									removedFileIndices[i] ? undefined : (
-										<Chip
-											key={i}
-											label={file?.name}
-											variant="outlined"
-											onDelete={getDeleteHandler(i)}
-										/>
-									)
-								)}
-							</section>
+								<Box className="MuiDropzoneArea-file-list">
+									{acceptedFiles.map((file, i) =>
+										removedFileIndices[i] ? undefined : (
+											<Chip
+												key={i}
+												label={file?.name}
+												variant="outlined"
+												onDelete={getDeleteHandler(i)}
+											/>
+										)
+									)}
+								</Box>
+							</Box>
 						</Box>
 
 						<FormGroup

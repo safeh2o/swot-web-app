@@ -8,7 +8,7 @@ function IconToolResult(props) {
 			/>
 			<path fill="none" d="M0 0h32v32H0z" />
 			<path
-				fill="#ff89b2"
+				// fill="#ff89b2"
 				className="accent"
 				d="m26.5 15.9-6.1-5.8-8.6 1.8L4.3 5l2-2.2 6.4 5.9 8.6-1.9 7.3 6.9z"
 			/>

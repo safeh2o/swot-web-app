@@ -11,6 +11,7 @@ var User = new keystone.List("User");
 User.add(
 	{
 		name: { type: Types.Name, required: true, index: true },
+		phone: { type: Types.Text, required: false, initial: true },
 		email: {
 			type: Types.Email,
 			initial: true,

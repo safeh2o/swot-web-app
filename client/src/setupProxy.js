@@ -4,14 +4,14 @@ module.exports = function (app) {
 	app.use(
 		"/admin",
 		createProxyMiddleware({
-			target: "http://localhost:3000",
+			target: "http://127.0.0.1:3000",
 			changeOrigin: true,
 		})
 	);
 	app.use(
 		"/api",
 		createProxyMiddleware({
-			target: "http://localhost:3000",
+			target: "http://127.0.0.1:3000",
 			changeOrigin: true,
 		})
 	);

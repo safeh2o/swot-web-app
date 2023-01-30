@@ -14,6 +14,8 @@ import { Result as css } from "../../styles/styles";
 import { IconCheck, IconLow, IconQuestionMark } from "../icons";
 import NotFound from "../NotFound";
 
+type ConfidenceLevelType = "minDecay" | "maxDecay" | "optimumDecay";
+
 export default function Result() {
 	const { datasetId } = useParams();
 	const defaultDataset = {
@@ -26,10 +28,13 @@ export default function Result() {
 		maxDuration: 0,
 		tsFrc: 0,
 		hhSafety: 0,
-		eo: { reco: { real: 0, imag: 0 } },
+		eo: { reco: 0 },
 		ann: { average_time: 3600 },
 		safety_range: [0, 1],
 		safe_percent: 99.99,
+		confidenceLevel: "optimumDecay" as ConfidenceLevelType,
+		firstSample: "--/--/--",
+		lastSample: "--/--/--",
 	};
 	const [dataset, setDataset] = useState();
 	const [targetImgUrl, setTargetImgUrl] = useState("");
@@ -88,14 +93,14 @@ export default function Result() {
 				);
 			})
 			.catch(() => {
-				setDataset();
+				setDataset(undefined);
 			})
 			.finally(() => {
 				dispatch(setLoading(false));
 			});
 	}, [datasetId, dispatch]);
 
-	const parseDecayScenario = (scenarioKey) => {
+	const parseDecayScenario = (scenarioKey: ConfidenceLevelType) => {
 		switch (scenarioKey) {
 			case "minDecay":
 				return "Minimum Decay Scenario";
@@ -108,19 +113,16 @@ export default function Result() {
 		}
 	};
 
-	const formattedHoursFromSeconds = (seconds) => {
+	const formattedHoursFromSeconds = (seconds: number) => {
 		if (!seconds) {
 			return "?";
 		}
 		const hours = ~~(seconds / 3600);
-		const minutes = (~~((seconds % 3600) / 60)).toString().padStart(2, 0);
+		const minutes = (~~((seconds % 3600) / 60)).toString().padStart(2, "0");
 		return `${hours}:${minutes}`;
 	};
 
-	const reco =
-		(dataset || defaultDataset).eo?.reco?.real?.toFixed(1) ||
-		(dataset || defaultDataset).eo?.reco?.toFixed(1) ||
-		0;
+	const reco = (dataset || defaultDataset).eo?.reco?.toFixed(1) || 0;
 
 	const recoInRange = reco >= 0.2 && reco <= 2;
 
@@ -140,7 +142,8 @@ export default function Result() {
 		return `${lo}% - ${hi}%`;
 	};
 
-	const parseDate = (date) => date?.slice(0, 10) || String.fromCharCode(8734);
+	const parseDate = (date: string) =>
+		date?.slice(0, 10) || String.fromCharCode(8734);
 
 	return !dataset && !isLoading ? (
 		<NotFound />

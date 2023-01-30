@@ -107,7 +107,11 @@ const columns: GridColumns = [
 		renderCell: ({ value }) => {
 			return <span title={value}>{value}</span>;
 		},
-		valueGetter: (params) => Object.values(params.row.user.name).join(", "),
+		valueGetter: ({
+			row: {
+				user: { name },
+			},
+		}) => name?.first?.slice(0, 1) + ". " + name?.last,
 	},
 	{
 		field: "startDate",

@@ -7,6 +7,7 @@ import {
 	Divider,
 	IconButton,
 	Stack,
+	Tooltip,
 } from "@mui/material";
 import {
 	DataGrid,
@@ -88,6 +89,16 @@ function renderRowStatus(dataset: any) {
 	}
 }
 
+const HeaderCellWithTooltip =
+	(tooltipText: string) =>
+	({ colDef: { headerName } }: { colDef: { headerName?: string } }) => {
+		return (
+			<Tooltip title={tooltipText} placement="top" arrow>
+				<span>{headerName}</span>
+			</Tooltip>
+		);
+	};
+
 const columns: GridColumns = [
 	{
 		field: "dateCreated",
@@ -97,6 +108,7 @@ const columns: GridColumns = [
 		align: "left",
 		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
+		renderHeader: HeaderCellWithTooltip("Date the dataset was generated"),
 	},
 	{
 		field: "userFullName",
@@ -112,6 +124,9 @@ const columns: GridColumns = [
 				user: { name },
 			},
 		}) => name?.first?.slice(0, 1) + ". " + name?.last,
+		renderHeader: HeaderCellWithTooltip(
+			"The name of the user who ran the analysis"
+		),
 	},
 	{
 		field: "startDate",
@@ -121,6 +136,9 @@ const columns: GridColumns = [
 		align: "left",
 		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
+		renderHeader: HeaderCellWithTooltip(
+			"The date of the earliest sample of the dataset"
+		),
 	},
 	{
 		field: "endDate",
@@ -130,6 +148,9 @@ const columns: GridColumns = [
 		align: "left",
 		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
+		renderHeader: HeaderCellWithTooltip(
+			"The date of the latest sample of the dataset"
+		),
 	},
 	{
 		field: "maxDuration",
@@ -139,9 +160,11 @@ const columns: GridColumns = [
 		align: "center",
 		headerAlign: "left",
 		valueGetter: (params) => {
-			console.log(params);
 			return params.row.maxDuration;
 		},
+		renderHeader: HeaderCellWithTooltip(
+			"Duration of household storage and use (in hours)"
+		),
 	},
 	{
 		field: "decayScenario",
@@ -160,6 +183,9 @@ const columns: GridColumns = [
 			}
 		},
 		renderCell: ({ value }) => <span title={value}>{value}</span>,
+		renderHeader: HeaderCellWithTooltip(
+			"The model used to estimate the FRC decay"
+		),
 	},
 	{
 		field: "Status",
@@ -168,6 +194,9 @@ const columns: GridColumns = [
 		align: "center",
 		headerAlign: "center",
 		renderCell: ({ row }) => renderRowStatus(row),
+		renderHeader: HeaderCellWithTooltip(
+			"The completion status of the analysis"
+		),
 	},
 ];
 

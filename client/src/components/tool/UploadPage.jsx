@@ -11,11 +11,11 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { MEGABYTE } from "../../helpers/bitcalc";
 import useForm from "../../hooks/useForm";
-import { useDropzone } from "react-dropzone";
 import {
 	addError,
 	addNotice,

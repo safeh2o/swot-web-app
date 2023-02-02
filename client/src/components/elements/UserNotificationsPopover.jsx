@@ -7,6 +7,7 @@ import {
 	Popover,
 	Typography,
 } from "@mui/material";
+import _ from "lodash";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -15,7 +16,6 @@ import {
 } from "../../reducers/notifications";
 import { UserNotificationsPopover as css } from "../../styles/styles";
 import { IconBell, IconImportant } from "../icons";
-import _ from "lodash";
 
 export default function UserNotificationsPopover() {
 	const [anchorEl, setAnchorEl] = useState(null);

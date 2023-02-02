@@ -1,6 +1,8 @@
-import { RootState } from "./../store";
-import { createSlice } from "@reduxjs/toolkit";
-import _ from "lodash";
+import _ from 'lodash';
+
+import { createSlice } from '@reduxjs/toolkit';
+
+import { RootState } from '../store';
 
 type NotificationsState = {
 	messages: Message[];

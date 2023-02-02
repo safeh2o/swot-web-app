@@ -1,10 +1,12 @@
-import { Box } from "@mui/material";
-import DOMPurify from "dompurify";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
-import { setLoading } from "../reducers/notifications";
-import { replaceCrumbTitle } from "../reducers/view";
+import DOMPurify from 'dompurify';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
+import { Box } from '@mui/material';
+
+import { setLoading } from '../reducers/notifications';
+import { replaceCrumbTitle } from '../reducers/view';
 
 export default function CMSPage() {
 	const dispatch = useDispatch();

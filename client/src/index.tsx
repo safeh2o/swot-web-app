@@ -2,10 +2,11 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
+
 import App from "./components/App";
-import AppContext from "./contexts/AppContext";
 // import reportWebVitals from "./reportWebVitals";
 import ScrollToTop from "./components/ScrollToTop";
+import AppContext from "./contexts/AppContext";
 import { persistor, store } from "./store";
 
 const root = ReactDOM.createRoot(document.getElementById("app") as HTMLElement);

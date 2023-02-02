@@ -1,37 +1,39 @@
 // React Imports
+import '../styles/site.scss';
+
+import { useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+
 // App Theme Styling
-import { ThemeProvider } from "@mui/material/styles";
-import { useContext } from "react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import AppContext from "../contexts/AppContext";
-import { setLastSeenCommitSha, settingsSelectors } from "../reducers/settings";
-import { getUser, userSelectors } from "../reducers/user";
-import { persistor } from "../store";
-import theme from "../theme";
-import Blog from "./Blog";
+import { ThemeProvider } from '@mui/material/styles';
+
+import AppContext from '../contexts/AppContext';
+import { setLastSeenCommitSha, settingsSelectors } from '../reducers/settings';
+import { getUser, userSelectors } from '../reducers/user';
+import { persistor } from '../store';
+import theme from '../theme';
+import Blog from './Blog';
 // Archival Imports
-import BlogPost from "./BlogPost";
+import BlogPost from './BlogPost';
 // Admin Imports
-import CMSPage from "./CMSPage";
-import ContactPage from "./ContactPage";
-import FAQ from "./FAQ";
-import Home from "./Home";
-import NotFound from "./NotFound";
+import CMSPage from './CMSPage';
+import ContactPage from './ContactPage';
+import FAQ from './FAQ';
+import Home from './Home';
+import NotFound from './NotFound';
 // App + Content Pages
-import PageWrapper from "./PageWrapper";
-import ProfileForgotPassword from "./profile/ProfileForgotPassword";
+import PageWrapper from './PageWrapper';
+import ProfileForgotPassword from './profile/ProfileForgotPassword';
 // Admin Imports
-import ProfileLogin from "./profile/ProfileLogin";
-import ProfileResetPassword from "./profile/ProfileResetPassword";
-import AnalyzePage from "./tool/AnalyzePage";
+import ProfileLogin from './profile/ProfileLogin';
+import ProfileResetPassword from './profile/ProfileResetPassword';
+import AnalyzePage from './tool/AnalyzePage';
 // Tool Imports
-import CollectData from "./tool/CollectData";
-import Result from "./tool/Result";
-import ResultsPage from "./tool/ResultsPage";
-import UploadPage from "./tool/UploadPage";
-import "../styles/site.scss";
+import CollectData from './tool/CollectData';
+import Result from './tool/Result';
+import ResultsPage from './tool/ResultsPage';
+import UploadPage from './tool/UploadPage';
 
 export default function App() {
 	const dispatch = useDispatch();

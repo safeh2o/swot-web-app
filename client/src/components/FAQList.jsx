@@ -1,3 +1,4 @@
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
 	Accordion,
 	AccordionDetails,
@@ -5,11 +6,10 @@ import {
 	Box,
 	Skeleton,
 } from "@mui/material";
+import { sanitize } from "dompurify";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 import { blogSelectors } from "../reducers/blog";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { sanitize } from "dompurify";
 export default function FAQList(props) {
 	const { FAQs } = props;
 	const isLoading = useSelector(blogSelectors.isLoading);

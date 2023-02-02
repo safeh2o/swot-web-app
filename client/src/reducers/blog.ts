@@ -1,5 +1,6 @@
-import { RootState } from "./../store";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+import { RootState } from '../store';
 
 export const getPosts = createAsyncThunk("blog/getPosts", async () => {
 	const res = await fetch("/api/cms/posts").then((res) => res.json());

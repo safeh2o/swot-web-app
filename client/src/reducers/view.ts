@@ -1,6 +1,7 @@
-import { RootState } from "./../store";
-import { createSlice } from "@reduxjs/toolkit";
-import { IGNORED_PATHS, PATH_MAP } from "../constants/breadcrumbs";
+import { createSlice } from '@reduxjs/toolkit';
+
+import { IGNORED_PATHS, PATH_MAP } from '../constants/breadcrumbs';
+import { RootState } from '../store';
 
 type Path = keyof typeof PATH_MAP;
 

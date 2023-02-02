@@ -1,5 +1,5 @@
-import { createTheme } from "@mui/material/styles";
-import { TypographyStyleOptions } from "@mui/material/styles/createTypography";
+import { createTheme } from '@mui/material/styles';
+import { TypographyStyleOptions } from '@mui/material/styles/createTypography';
 
 declare module "@mui/material/styles" {
 	interface TypographyVariants {

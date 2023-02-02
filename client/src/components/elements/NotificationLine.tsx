@@ -1,5 +1,4 @@
 import { Box, Tooltip } from "@mui/material";
-import PropTypes from "prop-types";
 
 type NotificationIconType = "guide" | "tip" | "notice" | "footnote" | "check";
 

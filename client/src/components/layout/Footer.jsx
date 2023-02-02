@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import { useContext, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import AppContext from "../../contexts/AppContext";
-import { IconTwitter, IconYoutube, IconGithub } from "../icons";
+import { IconGithub, IconTwitter, IconYoutube } from "../icons";
 
 const COOKIE_NAME = "cookie_consent";
 const TWO_WEEKS = 14 * 24 * 60 * 60 * 1000;

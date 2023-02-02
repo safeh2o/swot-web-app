@@ -2,7 +2,7 @@ import { SvgIcon, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { userSelectors } from "../reducers/user";
-import { IconEnvelope, IconSignIn, IconProfile } from "./icons";
+import { IconEnvelope, IconProfile, IconSignIn } from "./icons";
 import LinkCard from "./LinkCard";
 
 export default function Home() {

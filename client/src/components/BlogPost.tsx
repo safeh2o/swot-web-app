@@ -1,11 +1,13 @@
-import { SvgIcon } from "@mui/material";
-import DOMPurify from "dompurify";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useParams } from "react-router-dom";
-import { blogSelectors } from "../reducers/blog";
-import { setLoading } from "../reducers/notifications";
-import { replaceCrumbTitle } from "../reducers/view";
+import DOMPurify from 'dompurify';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useParams } from 'react-router-dom';
+
+import { SvgIcon } from '@mui/material';
+
+import { blogSelectors } from '../reducers/blog';
+import { setLoading } from '../reducers/notifications';
+import { replaceCrumbTitle } from '../reducers/view';
 
 export default function BlogPost() {
 	const dispatch = useDispatch();

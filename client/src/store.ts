@@ -1,22 +1,17 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 import {
-	FLUSH,
-	PAUSE,
-	PERSIST,
-	persistReducer,
-	persistStore,
-	PURGE,
-	REGISTER,
-	REHYDRATE,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import notificationsReducer from "./reducers/notifications";
-import blogReducer from "./reducers/blog";
-import faqReducer from "./reducers/faq";
-import userReducer from "./reducers/user";
-import viewReducer from "./reducers/view";
-import settingsReducer from "./reducers/settings";
+    FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
+import { configureStore } from '@reduxjs/toolkit';
+
+import blogReducer from './reducers/blog';
+import faqReducer from './reducers/faq';
+import notificationsReducer from './reducers/notifications';
+import settingsReducer from './reducers/settings';
+import userReducer from './reducers/user';
+import viewReducer from './reducers/view';
 
 const rootReducer = combineReducers({
 	user: userReducer,

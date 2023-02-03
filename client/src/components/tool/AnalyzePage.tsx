@@ -24,21 +24,33 @@ import _ from "lodash";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
+import { ConfidenceLevelType } from "../../types";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
 
-const initialState = {
-	fieldsite: null,
-	startDate: null,
-	endDate: null,
-	duration: 3,
-	confidence: "optimumDecay",
+type AnalyzeFormType = {
+	fieldsite: null | string;
+	startDate: null | Date;
+	endDate: null | Date;
+	duration: number;
+	confidence: ConfidenceLevelType;
 };
 
 export default function AnalyzePage() {
+	const location = useLocation();
+	const locationState = location.state as Partial<AnalyzeFormType>;
+
+	const initialState: AnalyzeFormType = {
+		fieldsite: locationState?.fieldsite || null,
+		startDate: locationState?.startDate || null,
+		endDate: locationState?.endDate || null,
+		duration: locationState?.duration || 3,
+		confidence: locationState?.confidence || "optimumDecay",
+	};
+
 	const dispatch = useDispatch();
 	const { state, update, reset } = useForm(initialState);
 	const [disabled, setDisabled] = useState(true);
@@ -53,7 +65,7 @@ export default function AnalyzePage() {
 		);
 	}, [state]);
 
-	function selectDate(delta) {
+	function selectDate(delta: number) {
 		update({
 			startDate: DateTime.now()
 				.minus({
@@ -100,7 +112,7 @@ export default function AnalyzePage() {
 						</Box>
 						<Divider sx={{ my: 3, mb: 2 }} />
 						<FieldsiteDropdown
-							onChange={(value) => {
+							onChange={(value: string) => {
 								update({ fieldsite: value });
 							}}
 						/>
@@ -143,9 +155,10 @@ export default function AnalyzePage() {
 										label="Start Date"
 										value={state.startDate}
 										onChange={(startDate) => {
-											const newDates = {
-												startDate,
-											};
+											const newDates: Partial<AnalyzeFormType> =
+												{
+													startDate,
+												};
 											if (startDate > state.endDate) {
 												newDates["endDate"] = null;
 											}
@@ -166,9 +179,10 @@ export default function AnalyzePage() {
 										label="End Date"
 										value={state.endDate}
 										onChange={(endDate) => {
-											const newDates = {
-												endDate,
-											};
+											const newDates: Partial<AnalyzeFormType> =
+												{
+													endDate,
+												};
 											if (endDate < state.startDate) {
 												newDates["startDate"] = null;
 											}
@@ -269,7 +283,9 @@ export default function AnalyzePage() {
 										valueLabelDisplay="on"
 										value={state.duration}
 										onChange={(_e, duration) => {
-											update({ duration });
+											update({
+												duration: duration as number,
+											});
 										}}
 									/>
 								</Box>
@@ -330,7 +346,10 @@ export default function AnalyzePage() {
 										value={state.confidence}
 										className="modeling-confidence-level-radio-group"
 										onChange={(_e, confidence) => {
-											update({ confidence });
+											update({
+												confidence:
+													confidence as ConfidenceLevelType,
+											});
 										}}
 									>
 										{[

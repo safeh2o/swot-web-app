@@ -1,4 +1,4 @@
-export const PATH_MAP = {
+export const PATH_MAP: Record<string, string> = {
 	"": "Home",
 	collect: "Collect",
 	upload: "Upload",

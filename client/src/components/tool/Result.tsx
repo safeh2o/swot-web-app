@@ -1,24 +1,25 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Box, Button, Divider, Tooltip, Typography } from "@mui/material";
 
+import useLocationSuffix from "../../hooks/useLocationSuffix";
 import {
-	addError,
-	addNotice,
 	notificationsSelectors,
 	setLoading,
 } from "../../reducers/notifications";
 import { replaceCrumb } from "../../reducers/view";
 import { Result as css } from "../../styles/styles";
+import { ConfidenceLevelType } from "../../types";
 import { IconCheck, IconLow, IconQuestionMark } from "../icons";
 import NotFound from "../NotFound";
 
-type ConfidenceLevelType = "minDecay" | "maxDecay" | "optimumDecay";
-
 export default function Result() {
+	const locationSuffix = useLocationSuffix();
+
+	const navigate = useNavigate();
 	const { datasetId } = useParams();
 	const defaultDataset = {
 		nSamples: 0,
@@ -38,7 +39,7 @@ export default function Result() {
 		firstSample: "--/--/--",
 		lastSample: "--/--/--",
 	};
-	const [dataset, setDataset] = useState();
+	const [dataset, setDataset] = useState<typeof defaultDataset>();
 	const [targetImgUrl, setTargetImgUrl] = useState("");
 	const [locationData, setLocationData] = useState({
 		fieldsiteName: "",
@@ -48,15 +49,27 @@ export default function Result() {
 	const dispatch = useDispatch();
 	const isLoading = useSelector(notificationsSelectors.loading);
 
+	function dateStringToUTC(date: string | undefined) {
+		if (!date) {
+			return null;
+		}
+		const localDate = new Date(date);
+		return new Date(
+			localDate.getUTCFullYear(),
+			localDate.getUTCMonth(),
+			localDate.getUTCDate()
+		);
+	}
+
 	const handleReanalysis = () => {
-		dispatch(setLoading(true));
-		fetch(`/api/results/analyze-single?datasetId=${datasetId}`)
-			.then((res) => res.text())
-			.then((data) => dispatch(addNotice(data)))
-			.catch((err) => dispatch(addError(err)))
-			.finally(() => {
-				dispatch(setLoading(false));
-			});
+		navigate(`/analyze#${locationSuffix}`, {
+			state: {
+				duration: dataset?.maxDuration,
+				confidence: dataset?.confidenceLevel,
+				startDate: dateStringToUTC(dataset?.startDate),
+				endDate: dateStringToUTC(dataset?.endDate),
+			},
+		});
 	};
 
 	useEffect(() => {

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from "react";
 
 const useHashParams = () => {
 	const setHashParams = useCallback((newHashParams: string) => {
@@ -21,7 +21,12 @@ const useHashParams = () => {
 		};
 	}, []);
 
-	return [hashParams, setHashParams];
+	const retVal: [URLSearchParams, (newHashParams: string) => void] = [
+		hashParams,
+		setHashParams,
+	];
+
+	return retVal;
 };
 
 export default useHashParams;

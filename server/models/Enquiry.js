@@ -96,6 +96,7 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 			viewLink,
 			inquiryTimestamp: this._.createdAt.format(),
 		},
+		replyTo: this.email,
 	};
 	sgMail
 		.send(msgToStaff)

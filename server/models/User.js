@@ -12,6 +12,7 @@ User.add(
 	{
 		name: { type: Types.Name, required: true, index: true },
 		phone: { type: Types.Text, required: false, initial: true },
+		organisation: { type: Types.Text, required: false, initial: false },
 		email: {
 			type: Types.Email,
 			initial: true,

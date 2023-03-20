@@ -37,7 +37,11 @@ function PageWrapper(props) {
 	const currentView = viewStack?.[viewStack.length - 1];
 
 	useEffect(() => {
-		document.title = `SWOT - ${currentView.title}`;
+		if (currentView?.title) {
+			document.title = `SWOT - ${currentView.title}`;
+		} else {
+			document.title = "Safe Water Optimization Tool";
+		}
 	}, [currentView]);
 
 	return (

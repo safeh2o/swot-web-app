@@ -220,12 +220,7 @@
 		.post-title {
 			color: #344563;
 			line-height: 1.2;
-			font-weight: 700;
 			letter-spacing: normal;
-
-			@media (min-width: $md) {
-				font-size: 2.75rem;
-			}
 		}
 		figure {
 			position: relative;

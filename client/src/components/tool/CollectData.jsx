@@ -35,8 +35,8 @@ export default function CollectData() {
 										</a>
 										<div className="content">
 											<h2>
-												Protocol for field data
-												collection
+												Protocol for Field Data
+												Collection
 											</h2>
 											<p>
 												Step-by-step instructions on

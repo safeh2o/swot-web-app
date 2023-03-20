@@ -140,7 +140,7 @@ export default function AnalyzePage() {
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
-						<Box component={"h2"}>Select date range of data</Box>
+						<Box component={"h2"}>Select Date Range of Data</Box>
 
 						<Divider sx={{ mb: 2, mt: 1 }} />
 
@@ -247,7 +247,7 @@ export default function AnalyzePage() {
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
-						<Box component={"h2"}>Options for analysis:</Box>
+						<Box component={"h2"}>Options for Analysis:</Box>
 
 						<Divider sx={{ mb: 2, mt: 1 }} />
 
@@ -332,7 +332,7 @@ export default function AnalyzePage() {
 
 						<Accordion className="tool-accordion">
 							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-								Decay Scenario (advanced)
+								Decay Scenario (Advanced)
 							</AccordionSummary>
 							<AccordionDetails>
 								<FormControl

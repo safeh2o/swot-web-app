@@ -204,7 +204,7 @@ export default function Result() {
 								)}
 							</Typography>
 							<Typography variant="inputLabel">
-								Date of Analysis
+								Date of analysis
 							</Typography>
 						</Box>
 
@@ -230,7 +230,7 @@ export default function Result() {
 								</Typography>
 							</Box>
 							<Typography variant="inputLabel">
-								Date Range of Analysis Requested
+								Date range of analysis requested
 							</Typography>
 						</Box>
 
@@ -241,7 +241,7 @@ export default function Result() {
 								{(dataset || defaultDataset).maxDuration} hrs
 							</Typography>
 							<Typography variant="inputLabel">
-								Length of storage time to analyse for
+								Duration of household storage and use
 							</Typography>
 						</Box>
 

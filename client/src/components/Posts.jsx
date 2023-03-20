@@ -20,7 +20,7 @@ export default function Posts(props) {
 						</NavLink>
 					</figure>
 				)} */}
-				<div className="post-details">
+				<div className="post-details rte">
 					<header className="small">
 						<time>{post.publishedDate}</time>
 						{post.categories && post.categories.length > 0 && (
@@ -35,9 +35,9 @@ export default function Posts(props) {
 							</span>
 						)}
 					</header>
-					<h1 className="post-title">
+					<h2 className="post-title">
 						<NavLink to={link}>{post.title}</NavLink>
-					</h1>
+					</h2>
 					<div className="post-text">{post.content.brief}</div>
 					<hr />
 				</div>

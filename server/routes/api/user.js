@@ -109,6 +109,7 @@ exports.createFromEnquiry = async function (req, res) {
 		email: enquiry.email,
 		password: enquiry.email,
 		phone: enquiry.phone,
+		organisation: enquiry.organisation,
 		isAdmin: false,
 		welcome: true,
 	});

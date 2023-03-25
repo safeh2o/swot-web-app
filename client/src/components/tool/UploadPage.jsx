@@ -12,16 +12,11 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { MEGABYTE } from "../../helpers/bitcalc";
 import useForm from "../../hooks/useForm";
-import {
-	addError,
-	addNotice,
-	notificationsSelectors,
-	setLoading,
-} from "../../reducers/notifications";
+import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
 import { IconRowChecked, IconRowUnchecked, IconToolUpload } from "../icons";
@@ -34,7 +29,6 @@ const initialState = {
 export default function UploadPage() {
 	const dispatch = useDispatch();
 	const { state, update, reset } = useForm(initialState);
-	const loading = useSelector(notificationsSelectors.loading);
 	const [draggingOver, setDraggingOver] = useState(false);
 	const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
 		onDrop: () => {

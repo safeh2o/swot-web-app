@@ -268,7 +268,6 @@ export default function UploadPage() {
 								fullWidth
 								onClick={handleFormSubmit}
 								disabled={disabled}
-								loading={loading || undefined}
 								className="btn"
 								disableRipple={true}
 							>

@@ -40,7 +40,8 @@ export default function ContactPage() {
 		setDisabled(!name || !email || !reason, !organisation);
 	}, [state]);
 
-	function handleSubmit() {
+	function handleSubmit(e) {
+		e.preventDefault();
 		dispatch(setLoading(true));
 		axios
 			.post("/api/contact", state)

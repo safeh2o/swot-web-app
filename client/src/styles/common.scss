@@ -40,19 +40,6 @@
 		padding: 0.25em 0.75em;
 	}
 
-	// &::before {
-	// 	content: "";
-	// 	position: absolute;
-	// 	top: 0;
-	// 	left: 0;
-	// 	z-index: 0;
-	// 	width: 100%;
-	// 	height: 100%;
-	// 	background-color: inherit;
-	// 	border-radius: inherit;
-
-	// 	transition: all 0.25s ease 0.015s;
-	// }
 	&:hover {
 		box-shadow: 0 0 0 3px $col-4;
 		background-color: #f3c22b;

@@ -42,6 +42,7 @@
 			align-self: center;
 		}
 		img {
+			display: block;
 			max-width: 70px;
 
 			@media (min-width: $md) {
@@ -54,9 +55,6 @@
 			width: auto;
 			max-width: none;
 			height: 33px;
-		}
-		img.dighr-logo {
-			max-width: 95px;
 		}
 		img.dwb,
 		img.grandchallenges {

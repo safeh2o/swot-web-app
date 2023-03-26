@@ -126,7 +126,7 @@ export default function Footer() {
 				</section>
 				<nav className="nav-legal">
 					<span>
-						&copy; {new Date().getFullYear()} Safe Water
+						&copy; {new Date().getFullYear()} &ndash; Safe Water
 						Optimization Tool
 					</span>
 					<span className="divider">|</span>

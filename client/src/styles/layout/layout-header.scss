@@ -455,6 +455,8 @@ ul.menu-main-ul {
 			span {
 				line-height: 1;
 				border-bottom: 1px dotted;
+				align-self: center;
+
 				@media (min-width: $md) {
 					margin: auto 0 0.125em;
 				}

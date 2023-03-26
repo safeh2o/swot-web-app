@@ -28,7 +28,7 @@ main {
 }
 .section-title,
 .section-subtitle {
-	font-family: "Acumin Pro Ex Cond Bd", "Roboto Condensed", sans-serif;
+	font-family: "Roboto Condensed", "Acumin Cond", sans-serif;
 	// font-weight: 700;
 	font-size: 2.25rem;
 	line-height: 1.1;
@@ -233,8 +233,7 @@ main {
 			border-radius: 0 7px 7px 0;
 
 			.tool-menu-mobile {
-				font-family: "Acumin Pro Ex Cond Bd", "Acumin",
-					"Roboto Condensed", sans-serif;
+				font-family: "Roboto Condensed", "Acumin Cond", sans-serif;
 				font-size: 1.2rem;
 				padding: 0;
 				margin: 0;
@@ -294,7 +293,7 @@ main {
 		}
 
 		.title {
-			font-weight: 700;
+			font-weight: 500;
 			margin: 0;
 			margin-bottom: 0.5rem;
 

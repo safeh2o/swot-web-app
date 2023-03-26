@@ -28,7 +28,6 @@ export default function Header() {
 	const userLoadingStatus = useSelector(userSelectors.loadingStatus);
 
 	const [waitingForSignout, setWaitingForSignout] = useState(false);
-
 	const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
 	const dispatch = useDispatch();
@@ -86,60 +85,60 @@ export default function Header() {
 	function headerMenuItems() {
 		return (
 			<>
-				{(userLoadingStatus === "success" && (
-					<>
-						<li className="dropdown" tabIndex="0">
-							<span>
-								<span>About</span>
-								<i className="select">
-									<IconSelect />
-								</i>
-							</span>
-							<div className="children">
-								<ul>
-									<li>
-										<a
-											href="https://safeh2o.app/how-it-works.html"
-											target="_blank"
-											rel="noreferrer"
-										>
-											How it Works
-										</a>
-									</li>
-									<li>
-										<a
-											href="https://safeh2o.app/research.html"
-											target="_blank"
-											rel="noreferrer"
-										>
-											Research
-										</a>
-									</li>
-									<li>
-										<a
-											href="https://safeh2o.app/our-story.html"
-											target="_blank"
-											rel="noreferrer"
-										>
-											Our Story
-										</a>
-									</li>
-									<li>
-										<a
-											href="https://safeh2o.app/team.html"
-											target="_blank"
-											rel="noreferrer"
-										>
-											Team
-										</a>
-									</li>
-								</ul>
-							</div>
-						</li>
-						<li className="dropdown">
-							<NavLink to={"/"}>
-								<span>Get Started</span>
-							</NavLink>
+				<li className="dropdown" tabIndex="0">
+					<span>
+						<span>About</span>
+						<i className="select">
+							<IconSelect />
+						</i>
+					</span>
+					<div className="children">
+						<ul>
+							<li>
+								<a
+									href="https://safeh2o.app/how-it-works.html"
+									target="_blank"
+									rel="noreferrer"
+								>
+									How it Works
+								</a>
+							</li>
+							<li>
+								<a
+									href="https://safeh2o.app/research.html"
+									target="_blank"
+									rel="noreferrer"
+								>
+									Research
+								</a>
+							</li>
+							<li>
+								<a
+									href="https://safeh2o.app/our-story.html"
+									target="_blank"
+									rel="noreferrer"
+								>
+									Our Story
+								</a>
+							</li>
+							<li>
+								<a
+									href="https://safeh2o.app/team.html"
+									target="_blank"
+									rel="noreferrer"
+								>
+									Team
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li className="dropdown">
+					<NavLink to={"/"}>
+						<span>Get Started</span>
+					</NavLink>
+					{userLoadingStatus === "success" && (
+						<>
 							<div className="children mobile">
 								<ul>
 									{[
@@ -185,38 +184,29 @@ export default function Header() {
 									))}
 								</ul>
 							</div>
-						</li>
-						<li>
-							<NavLink
-								className={({ isActive }) =>
-									isActive ? "active" : undefined
-								}
-								to={"/contact"}
-							>
-								Contact
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								className={({ isActive }) =>
-									isActive ? "active" : undefined
-								}
-								to={"/blog?category=Announcements"}
-							>
-								News
-							</NavLink>
-						</li>
-					</>
-				)) || (
-					<>
-						{headerSkeleton("Safe")}
-						{headerSkeleton("Water")}
-						{headerSkeleton("Optimization")}
-						{headerSkeleton("space")}
-						{headerSkeletonCircle()}
-						{headerSkeletonCircle()}
-					</>
-				)}
+						</>
+					)}
+				</li>
+				<li>
+					<NavLink
+						className={({ isActive }) =>
+							isActive ? "active" : undefined
+						}
+						to={"/contact"}
+					>
+						Contact
+					</NavLink>
+				</li>
+				<li>
+					<NavLink
+						className={({ isActive }) =>
+							isActive ? "active" : undefined
+						}
+						to={"/blog?category=Announcements"}
+					>
+						News
+					</NavLink>
+				</li>
 			</>
 		);
 	}

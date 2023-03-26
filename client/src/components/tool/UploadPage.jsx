@@ -120,9 +120,7 @@ export default function UploadPage() {
 			<section>
 				<div className="section-wrap">
 					<Box className="app-card">
-						<Box component={"h1"} className="section-subtitle">
-							Upload Your Data
-						</Box>
+						<h1 className="section-subtitle">Upload Your Data</h1>
 						<Divider sx={{ my: 3, mb: 2 }} />
 						<FieldsiteDropdown
 							onChange={(value) => {

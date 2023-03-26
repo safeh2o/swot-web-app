@@ -250,9 +250,7 @@ export default function ResultsPage() {
 			<section>
 				<div className="section-wrap">
 					<Box className="app-card">
-						<Box component={"h1"} className="section-subtitle">
-							View Results
-						</Box>
+						<h1 className="section-subtitle">View Results</h1>
 						<Divider sx={{ my: 3, mb: 2 }} />
 						<FieldsiteDropdown
 							onChange={(value: any) => {

@@ -107,9 +107,7 @@ export default function AnalyzePage() {
 			<section>
 				<div className="section-wrap">
 					<Box className="app-card">
-						<Box component={"h1"} className="section-subtitle">
-							Send for Analysis
-						</Box>
+						<h1 className="section-subtitle">Send for Analysis</h1>
 						<Divider sx={{ my: 3, mb: 2 }} />
 						<FieldsiteDropdown
 							onChange={(value: string) => {

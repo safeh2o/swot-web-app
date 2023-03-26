@@ -73,10 +73,10 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: $sans;
-	font-weight: 500;
+	font-family: "Roboto Condensed", "Acumin Cond", sans-serif;
+	font-weight: 400;
 	line-height: var(--line-height, 1.375);
-	letter-spacing: normal;
+	letter-spacing: -0.01em;
 	margin-bottom: 0;
 
 	strong,
@@ -102,11 +102,8 @@ h1,
 
 h2,
 .h2 {
-	font-family: "Roboto Condensed", "Acumin Cond", sans-serif;
-	font-weight: 500;
 	font-size: 1.5rem;
 	line-height: 1.316em;
-	letter-spacing: normal;
 
 	@media (min-width: $md) {
 		font-size: 1.6rem;
@@ -115,11 +112,8 @@ h2,
 
 h3,
 .h3 {
-	font-family: "Roboto Condensed", "Acumin Cond", sans-serif;
-	font-weight: 500;
 	font-size: 1.35rem;
 	line-height: 1.316em;
-	letter-spacing: normal;
 
 	@media (min-width: $md) {
 		font-size: 1.45rem;
@@ -130,12 +124,6 @@ h4,
 h5,
 h6 {
 	font-size: 1.15rem;
-	font-weight: 500;
-}
-
-.txt-condensed {
-	font-family: "Roboto Condensed", "Acumin Cond", sans-serif;
-	font-weight: 500;
 }
 
 p {
@@ -193,63 +181,5 @@ strong {
 
 		margin-top: calc(0.75rem * var(--line-height));
 		margin-bottom: calc(0.75rem * var(--line-height));
-	}
-}
-
-section {
-	ul:not(.flat),
-	ol:not(.flat) {
-		--space: 0.5em;
-		--width: 3em;
-		list-style: none;
-		list-style-position: outside;
-		padding-left: var(--width);
-		margin-bottom: calc(1.5rem * var(--line-height));
-		ul {
-			margin-top: calc(0.25rem * var(--line-height));
-		}
-		li {
-			counter-increment: ol-counter;
-			position: relative;
-			padding: 0;
-			margin-left: 0em;
-			&:not(:last-child) {
-				margin-bottom: calc(0.25rem * var(--line-height));
-			}
-			&::before {
-				display: inline-block;
-
-				position: absolute;
-				right: 100%;
-
-				text-align: center;
-				width: var(--width);
-				height: var(--lineHeight);
-			}
-		}
-	}
-	ul:not(.flat) {
-		li {
-			&::before {
-				content: "▪";
-				transform: scale(1.5);
-			}
-		}
-	}
-
-	ol:not(.flat) {
-		> li {
-			&::before {
-				content: counter(ol-counter) ". ";
-				font-weight: 500;
-				font-variant-numeric: tabular-nums;
-			}
-		}
-	}
-	ul.flat,
-	ol.flat {
-		padding: 0;
-		margin: 0;
-		list-style: none;
 	}
 }

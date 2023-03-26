@@ -243,6 +243,33 @@
 	}
 }
 
+ul,
+ol {
+	--space: 0.5em;
+	--width: 30px;
+	list-style-position: outside;
+	padding-left: var(--width);
+	margin-bottom: calc(0.25rem * var(--line-height));
+	ul {
+		margin-top: calc(0.25rem * var(--line-height));
+	}
+	li {
+		counter-increment: ol-counter;
+		position: relative;
+		padding: 0;
+		margin-left: 0em;
+		&:not(:last-child) {
+			margin-bottom: calc(0.25rem * var(--line-height));
+		}
+	}
+}
+ul {
+	list-style: square;
+}
+ol {
+	list-style: decimal;
+}
+
 img {
 	max-width: 100%;
 	height: auto;

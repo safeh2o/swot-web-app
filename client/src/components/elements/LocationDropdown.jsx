@@ -9,7 +9,10 @@ function LocationDropdown(props) {
 
 	return (
 		<Autocomplete
-			className={(props.value.name !== "" && "chosen") || "disabled"}
+			className={
+				(props.value.name !== "" ? "chosen" : "empty-location") ||
+				"disabled"
+			}
 			options={locations || []}
 			getOptionLabel={(option) => option.name || ""}
 			renderInput={(params) => (

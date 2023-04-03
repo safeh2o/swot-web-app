@@ -2,11 +2,12 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Backdrop, Box, CircularProgress, IconButton } from "@mui/material";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import PropTypes from "prop-types";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { notificationsSelectors } from "../reducers/notifications";
 import { userSelectors } from "../reducers/user";
+import { viewSelectors } from "../reducers/view";
 import AppBreadcrumbs from "./elements/AppBreadcrumbs";
 import PublicSnackbar from "./elements/PublicSnackbar";
 import Footer from "./layout/Footer";
@@ -31,6 +32,17 @@ function PageWrapper(props) {
 
 	const BackToTopAnchor = useRef(null);
 	const scrollTrigger = useScrollTrigger();
+
+	const viewStack = useSelector(viewSelectors.viewStack);
+	const currentView = viewStack?.[viewStack.length - 1];
+
+	useEffect(() => {
+		if (currentView?.title) {
+			document.title = `SWOT - ${currentView.title}`;
+		} else {
+			document.title = "Safe Water Optimization Tool";
+		}
+	}, [currentView]);
 
 	return (
 		<>

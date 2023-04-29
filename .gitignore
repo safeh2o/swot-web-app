@@ -331,6 +331,7 @@ ASALocalRun/
 .mfractor/
 
 *.env
+.env.*.local
 .envrc
 **/.DS_Store
 build

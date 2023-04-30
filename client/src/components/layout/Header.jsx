@@ -223,17 +223,6 @@ export default function Header() {
 
 	return (
 		<>
-			<div>
-				<Typography
-					position="absolute"
-					top="50%"
-					left="50%"
-					color="white"
-					variant="h1"
-				>
-					The SWOT is under maintenance
-				</Typography>
-			</div>
 			<nav role="navigation">
 				<NavLink to={"/"} className="menu-brand">
 					<SWOTLogo className="large" />

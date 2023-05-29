@@ -8,7 +8,6 @@
 	margin-top: auto;
 
 	h2 {
-		font-weight: 700;
 		margin: 0;
 	}
 
@@ -26,8 +25,6 @@
 	}
 
 	.title {
-		font-weight: 600;
-		letter-spacing: normal;
 		margin-bottom: 0.5rem;
 	}
 
@@ -43,6 +40,7 @@
 			align-self: center;
 		}
 		img {
+			display: block;
 			max-width: 70px;
 
 			@media (min-width: $md) {
@@ -55,9 +53,6 @@
 			width: auto;
 			max-width: none;
 			height: 33px;
-		}
-		img.dighr-logo {
-			max-width: 95px;
 		}
 		img.dwb,
 		img.grandchallenges {
@@ -120,8 +115,7 @@
 		border-top: 1px solid rgba(255, 255, 255, 0.2);
 		padding-bottom: 1rem;
 
-		font-size: 15px;
-		line-height: 1.85;
+		font-size: 13px;
 
 		.divider {
 			margin: 0.25rem 0.5rem;

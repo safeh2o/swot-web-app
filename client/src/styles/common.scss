@@ -290,3 +290,44 @@ img {
 		background-color: $col-1;
 	}
 }
+
+[id*="page-"] section {
+	$list-indentation: 1.5em;
+
+	ul,
+	ol {
+		list-style-position: outside;
+		padding-left: calc(1.5rem * var(--line-height));
+		margin-bottom: calc(1.5rem * var(--line-height));
+
+		li {
+			padding: 0;
+			margin-left: 0em;
+			margin-bottom: calc(0.25rem * var(--line-height));
+		}
+	}
+
+	ol {
+		list-style: none;
+		counter-reset: ol-counter;
+
+		> li {
+			counter-increment: ol-counter;
+			position: relative;
+
+			&::before {
+				content: counter(ol-counter) ".\00a0\00a0";
+				position: absolute;
+				right: 100%;
+				width: auto;
+				height: auto;
+			}
+		}
+	}
+
+	ul:not(.inline) {
+		list-style: square;
+		counter-reset: ol-counter;
+		padding-left: $list-indentation;
+	}
+}

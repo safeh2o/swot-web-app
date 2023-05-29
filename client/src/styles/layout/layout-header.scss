@@ -15,7 +15,7 @@ body.overflow-hidden {
 	padding-right: 1rem;
 	margin: 0;
 
-	background-color: $col-1;
+	background-color: var(--col-1);
 
 	.scrolling & {
 		transition: box-shadow 0.4s ease;
@@ -189,7 +189,7 @@ ul[class*="menu-"] {
 			height: 1.25rem;
 			margin: 0;
 
-			@media (min-width: $md) {
+			@media (min-width: $sm) {
 				display: block;
 			}
 		}
@@ -203,7 +203,7 @@ ul[class*="menu-"] {
 
 	.dropdown {
 		text-align: center;
-		@media (min-width: $md) {
+		@media (min-width: $sm) {
 			position: relative;
 			> span {
 				cursor: default;
@@ -211,10 +211,9 @@ ul[class*="menu-"] {
 			.children {
 				position: absolute;
 				top: 100%;
-				left: 50%;
-				transform: translateX(-50%);
+				left: 0;
 				pointer-events: none;
-				min-width: 230px;
+				min-width: 180px;
 				overflow: hidden;
 
 				&.mobile {
@@ -223,7 +222,7 @@ ul[class*="menu-"] {
 
 				ul {
 					display: block;
-					padding: 0rem 0.5rem 0.5rem;
+					padding: 0;
 					background-color: var(--col-1);
 
 					transform: translateY(-100%);
@@ -241,12 +240,8 @@ ul[class*="menu-"] {
 						}
 					}
 					a {
-						font-size: 1.3rem;
-						line-height: 1.65;
-						font-weight: 400;
-						letter-spacing: 0.0095em;
 						text-transform: capitalize;
-						padding: 0.4rem 1rem;
+						padding: 0.65rem 1rem;
 
 						i {
 							svg {
@@ -319,6 +314,8 @@ ul[class*="menu-"] {
 }
 
 ul.menu-main-ul {
+	list-style: none;
+	list-style-type: none;
 	> li > a,
 	> li > span {
 		font-family: "Barlow Condensed", "Roboto Condensed", sans-serif;

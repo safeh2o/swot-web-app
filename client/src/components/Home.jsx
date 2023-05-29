@@ -103,6 +103,7 @@ export default function Home() {
 								<LinkCard
 									title="Quickstart Guide"
 									href="/assets/tool/SWOT_Quickstart.pdf"
+									target="_blank"
 									csr={false}
 								>
 									Quick PDF guide on how to get started using

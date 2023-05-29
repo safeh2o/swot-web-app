@@ -8,12 +8,14 @@ interface LinkCardProps {
 	title: string;
 	children?: ReactElement;
 	csr?: boolean;
+	target?: string;
 }
 
 export default function LinkCard({
 	title = "",
 	csr = true,
 	href = "#",
+	target = "_self",
 	children,
 }: LinkCardProps) {
 	return (
@@ -23,6 +25,7 @@ export default function LinkCard({
 			href={csr ? undefined : href}
 			underline="none"
 			color="inherit"
+			target={target}
 		>
 			<div className="card rte">
 				<h2 className="title">{title}</h2>

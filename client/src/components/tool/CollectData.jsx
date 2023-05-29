@@ -35,8 +35,8 @@ export default function CollectData() {
 										</a>
 										<div className="content">
 											<h2>
-												Protocol for field data
-												collection
+												Protocol for Field Data
+												Collection
 											</h2>
 											<p>
 												Step-by-step instructions on
@@ -186,7 +186,7 @@ export default function CollectData() {
 											/>
 										</figure>
 										<div className="content">
-											<h2>Example datasets</h2>
+											<h2>Example Datasets</h2>
 											<p>
 												Just wanting to test the tool?
 												Download these datasets from our

@@ -139,7 +139,7 @@ export default function UploadPage() {
 										</Link>
 									</>
 								),
-								context: "children",
+								context: "icon",
 							}}
 							type="notice"
 						>

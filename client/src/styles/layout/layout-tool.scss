@@ -87,11 +87,9 @@ main.page-tool {
 	//
 	.label {
 		display: block;
-		font-family: "Acumin Pro Ex Cond Semi Bd", "Roboto Condensed",
-			sans-serif;
+		font-family: "Barlow Condensed", "Roboto Condensed", sans-serif;
 		font-size: 1.2rem;
 		line-height: 1.2;
-		letter-spacing: normal;
 		text-align: center;
 		text-transform: capitalize;
 		text-overflow: ellipsis;
@@ -254,7 +252,6 @@ main.page-tool {
 	}
 
 	.empty-location {
-		
 	}
 }
 

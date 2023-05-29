@@ -46,14 +46,12 @@ main {
 	}
 
 	.section-title {
-		font-size: 3rem;
-		font-weight: 600;
-
-		margin-top: calc(var(--line-height) * 3rem);
+		font-size: 3.5rem;
+		margin-top: calc(var(--line-height) * 2.5rem);
 	}
 
 	.section-subtitle {
-		font-size: 2.5rem;
+		font-size: 3.5rem;
 		margin-top: calc(var(--line-height) * 2.5rem);
 	}
 }
@@ -83,22 +81,8 @@ main {
 .section-subtitle.user,
 .app-card .section-title,
 .app-card .section-subtitle {
-	margin-top: calc(var(--line-height) * 1rem);
-	margin-bottom: calc(var(--line-height) * 0.75rem);
-
 	& + hr {
 		margin-top: calc(var(--line-height) * 0.75rem);
-	}
-
-	font-size: 2.25rem;
-	@media (min-width: $md) {
-		font-size: 2.25rem;
-	}
-}
-
-#home-profile {
-	.section-wrap {
-		padding: 0;
 	}
 }
 

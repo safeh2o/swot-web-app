@@ -161,7 +161,7 @@ ul[class*="menu-"] {
 		&:hover {
 			> a,
 			> button > span {
-				opacity: 0.85;
+				opacity: 1;
 			}
 		}
 		ul {
@@ -425,6 +425,7 @@ ul.menu-main-ul {
 					color: $col-1;
 					background-color: #fff;
 					padding: 0.25rem;
+					box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 
 					&::before {
 						content: "";

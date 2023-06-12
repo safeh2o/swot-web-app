@@ -8,6 +8,7 @@ export const PATH_MAP: Record<string, string> = {
 	blog: "News",
 	signin: "Sign In",
 	forgotpassword: "Forgot Password",
+	resetpassword: "Reset Password",
 	faq: "Frequently Asked Questions",
 };
 

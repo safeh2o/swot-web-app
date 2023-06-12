@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import useForm from "../../hooks/useForm";
 import { handleServerMessages } from "../../reducers/notifications";
+import { replaceCrumb } from "../../reducers/view";
 
 export default function ProfileResetPassword() {
 	const { key } = useParams();
@@ -28,6 +29,7 @@ export default function ProfileResetPassword() {
 	const [showPassword, setShowPassword] = useState(false);
 
 	useEffect(() => {
+		dispatch(replaceCrumb([]));
 		axios.get("/api/user/resetkey", { params: { key } }).then((res) => {
 			dispatch(handleServerMessages(res.data?.messages));
 		});

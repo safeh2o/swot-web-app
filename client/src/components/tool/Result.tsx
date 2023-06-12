@@ -137,9 +137,10 @@ export default function Result() {
 		return `${hours}:${minutes}`;
 	};
 
-	const reco = (dataset || defaultDataset).eo?.reco?.toFixed(1) || 0;
+	const recoValue = (dataset || defaultDataset).eo?.reco ?? 0;
+	const reco = recoValue.toFixed(1);
 
-	const recoInRange = reco >= 0.2 && reco <= 2;
+	const recoInRange = recoValue >= 0.2 && recoValue <= 2;
 
 	const frcRecommendation = recoInRange ? `${reco} mg/l` : "Out of range";
 

@@ -275,7 +275,7 @@ export default function ResultsPage() {
 										</Link>
 									</>
 								),
-								context: "children",
+								context: "icon",
 							}}
 							type="notice"
 						>

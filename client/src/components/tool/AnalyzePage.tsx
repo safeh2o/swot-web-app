@@ -132,7 +132,7 @@ export default function AnalyzePage() {
 										</Link>
 									</>
 								),
-								context: "children",
+								context: "icon",
 							}}
 							type="notice"
 						>
@@ -140,7 +140,7 @@ export default function AnalyzePage() {
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
-						<Box component={"h2"}>Select date range of data</Box>
+						<Box component={"h2"}>Select Date Range of Data</Box>
 
 						<Divider sx={{ mb: 2, mt: 1 }} />
 
@@ -242,12 +242,13 @@ export default function AnalyzePage() {
 								context: "icon",
 							}}
 							type="guide"
+							orientation="reverse"
 						>
 							<span>How does setting the Date Range work?</span>
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
-						<Box component={"h2"}>Options for analysis:</Box>
+						<Box component={"h2"}>Options for Analysis:</Box>
 
 						<Divider sx={{ mb: 2, mt: 1 }} />
 
@@ -313,6 +314,7 @@ export default function AnalyzePage() {
 										context: "icon",
 									}}
 									type="guide"
+									orientation="reverse"
 								>
 									<span>
 										How should I determine the storage time?

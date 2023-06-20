@@ -15,7 +15,7 @@ body.overflow-hidden {
 	padding-right: 1rem;
 	margin: 0;
 
-	background-color: $col-1;
+	background-color: var(--col-1);
 
 	.scrolling & {
 		transition: box-shadow 0.4s ease;
@@ -33,11 +33,6 @@ body.overflow-hidden {
 		align-items: center;
 		justify-content: space-between;
 
-		font-family: "Acumin Pro Ex Cond Semi Bd", "Roboto Condensed",
-			sans-serif;
-		font-size: 1.485rem;
-		line-height: 1;
-		letter-spacing: 0.03em;
 		color: #fff;
 		margin-right: auto;
 		margin-left: auto;
@@ -166,7 +161,7 @@ ul[class*="menu-"] {
 		&:hover {
 			> a,
 			> button > span {
-				opacity: 0.85;
+				opacity: 1;
 			}
 		}
 		ul {
@@ -194,7 +189,7 @@ ul[class*="menu-"] {
 			height: 1.25rem;
 			margin: 0;
 
-			@media (min-width: $md) {
+			@media (min-width: $sm) {
 				display: block;
 			}
 		}
@@ -208,7 +203,7 @@ ul[class*="menu-"] {
 
 	.dropdown {
 		text-align: center;
-		@media (min-width: $md) {
+		@media (min-width: $sm) {
 			position: relative;
 			> span {
 				cursor: default;
@@ -216,10 +211,9 @@ ul[class*="menu-"] {
 			.children {
 				position: absolute;
 				top: 100%;
-				left: 50%;
-				transform: translateX(-50%);
+				left: 0;
 				pointer-events: none;
-				min-width: 230px;
+				min-width: 180px;
 				overflow: hidden;
 
 				&.mobile {
@@ -228,7 +222,7 @@ ul[class*="menu-"] {
 
 				ul {
 					display: block;
-					padding: 0rem 0.5rem 0.5rem;
+					padding: 0;
 					background-color: var(--col-1);
 
 					transform: translateY(-100%);
@@ -246,12 +240,8 @@ ul[class*="menu-"] {
 						}
 					}
 					a {
-						font-size: 1.3rem;
-						line-height: 1.65;
-						font-weight: 400;
-						letter-spacing: 0.0095em;
 						text-transform: capitalize;
-						padding: 0.4rem 1rem;
+						padding: 0.65rem 1rem;
 
 						i {
 							svg {
@@ -324,6 +314,16 @@ ul[class*="menu-"] {
 }
 
 ul.menu-main-ul {
+	list-style: none;
+	list-style-type: none;
+	> li > a,
+	> li > span {
+		font-family: "Barlow Condensed", "Roboto Condensed", sans-serif;
+		font-size: 1.55rem;
+		font-weight: 500;
+		line-height: 1;
+		letter-spacing: 0.009em;
+	}
 	@media (min-width: $md) {
 		> li {
 			> .active,
@@ -425,6 +425,7 @@ ul.menu-main-ul {
 					color: $col-1;
 					background-color: #fff;
 					padding: 0.25rem;
+					box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 
 					&::before {
 						content: "";

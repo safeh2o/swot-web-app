@@ -205,7 +205,7 @@ export default function Result() {
 								)}
 							</Typography>
 							<Typography variant="inputLabel">
-								Date of Analysis
+								Date of analysis
 							</Typography>
 						</Box>
 

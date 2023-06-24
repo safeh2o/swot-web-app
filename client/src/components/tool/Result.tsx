@@ -15,6 +15,7 @@ import { Result as css } from "../../styles/styles";
 import { ConfidenceLevelType } from "../../types";
 import { IconCheck, IconLow, IconQuestionMark } from "../icons";
 import NotFound from "../NotFound";
+import LineChart from "../LineChart";
 
 export default function Result() {
 	const locationSuffix = useLocationSuffix();
@@ -41,6 +42,7 @@ export default function Result() {
 	};
 	const [dataset, setDataset] = useState<typeof defaultDataset>();
 	const [targetImgUrl, setTargetImgUrl] = useState("");
+	const [targetFigureJson, setTargetFigureJson] = useState("");
 	const [locationData, setLocationData] = useState({
 		fieldsiteName: "",
 		areaName: "",
@@ -80,6 +82,7 @@ export default function Result() {
 				setDataset(data.dataset);
 				setLocationData(data.locationData);
 				setTargetImgUrl(data.targetImgUrl);
+				setTargetFigureJson(data.targetFigureJson);
 				const { countryName, areaName, fieldsiteName } =
 					data.locationData;
 				const searchParams = new URLSearchParams();
@@ -542,17 +545,13 @@ export default function Result() {
 							</Typography>
 						</Box>
 					</Box>
-					<Box id="result-frc-target" className="app-card">
+					<Box id="result-frc-target-over-time" className="app-card">
 						<Box component={"h2"}>FRC Target Over Time</Box>
 						<Divider sx={{ my: 1 }} />
-						<Box component={"figure"}>
-							<img
-								src={
-									targetImgUrl ||
-									"https://images.unsplash.com/photo-1543286386-2e659306cd6c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80"
-								}
-								alt="graph of frg target over time"
-							/>
+						<Box component={"figure"} height={300}>
+							{targetFigureJson && (
+								<LineChart chartData={targetFigureJson} />
+							)}
 						</Box>
 					</Box>
 					<Divider sx={{ ...css.hr }} />

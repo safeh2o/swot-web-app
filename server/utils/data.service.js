@@ -1,3 +1,4 @@
+const csv = require("fast-csv");
 const keystone = require("keystone");
 const Country = keystone.list("Country");
 const Area = keystone.list("Area");
@@ -138,4 +139,40 @@ exports.getSas = async function (containerName, blobName) {
 	});
 
 	return blobSAS;
+};
+
+const getBlob = async function (containerName, blobName) {
+	const blobClient = new BlobClient(
+		process.env.AZURE_STORAGE_CONNECTION_STRING,
+		containerName,
+		blobName
+	);
+
+	const buffer = await blobClient.downloadToBuffer();
+
+	return buffer.toString();
+};
+
+function convertCSVStringToJSON(csvString) {
+	const jsonObjects = [];
+
+	return new Promise((resolve, reject) => {
+		csv.parseString(csvString, { headers: true })
+			.on("data", (data) => {
+				jsonObjects.push(data);
+			})
+			.on("end", () => {
+				resolve(jsonObjects);
+			})
+			.on("error", (error) => {
+				reject(error);
+			});
+	});
+}
+
+exports.getCsvBlobAsJson = async function (containerName, blobName) {
+	const csvContents = await getBlob(containerName, blobName);
+	const jsonContents = await convertCSVStringToJSON(csvContents);
+
+	return jsonContents;
 };

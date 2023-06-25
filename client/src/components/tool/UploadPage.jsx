@@ -6,11 +6,12 @@ import {
 	Divider,
 	FormControlLabel,
 	FormGroup,
-	Input,
-	Typography,
 } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import _ from "lodash";
+import { useRef, useState } from "react";
+import { Importer, ImporterField } from "react-csv-importer";
+import "react-csv-importer/dist/index.css";
 import { useDropzone } from "react-dropzone";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -19,7 +20,7 @@ import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
-import { IconRowChecked, IconRowUnchecked, IconToolUpload } from "../icons";
+import { IconRowChecked, IconRowUnchecked } from "../icons";
 
 const initialState = {
 	overwrite: true,
@@ -29,17 +30,9 @@ const initialState = {
 export default function UploadPage() {
 	const dispatch = useDispatch();
 	const { state, update, reset } = useForm(initialState);
-	const [draggingOver, setDraggingOver] = useState(false);
-	const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-		onDrop: () => {
-			setDraggingOver(false);
-		},
-		onDragOver: () => {
-			setDraggingOver(true);
-		},
-		onDragLeave: () => {
-			setDraggingOver(false);
-		},
+	const [uploads, setUploads] = useState({});
+	const currentFile = useRef();
+	const { acceptedFiles } = useDropzone({
 		maxFiles: 5,
 		accept: {
 			"text/csv": [".csv"],
@@ -51,13 +44,13 @@ export default function UploadPage() {
 		maxSize: 50 * MEGABYTE,
 		minSize: 1,
 	});
-	const [removedFileIndices, setRemovedFileIndices] = useState({});
-	const files = acceptedFiles.filter((_, i) => !removedFileIndices[i]);
-	const disabled = files.length === 0 || !state?.fieldsite?._id;
-
-	useEffect(() => {
-		setRemovedFileIndices({});
-	}, [acceptedFiles]);
+	const fieldNames = useRef([]);
+	const uploadedFilenames = Object.keys(uploads);
+	const [pendingUpload, setPendingUpload] = useState(false);
+	const disabled =
+		pendingUpload ||
+		uploadedFilenames.length === 0 ||
+		!state?.fieldsite?._id;
 
 	function getFormData() {
 		const formData = new FormData();
@@ -66,8 +59,17 @@ export default function UploadPage() {
 			fieldsite: { _id: fieldsiteId },
 		} = state;
 		formData.append("fieldsite", fieldsiteId);
-		files.forEach((file) => {
-			formData.append("files[]", file, file.name);
+		uploadedFilenames.forEach((filename) => {
+			const rows = uploads[filename];
+			let csvContent = fieldNames.current.join(",") + "\n";
+			for (const row of rows) {
+				csvContent +=
+					fieldNames.current
+						.map((fieldName) => row[fieldName])
+						.join(",") + "\n";
+			}
+			const blob = new Blob([csvContent]);
+			formData.append("files[]", blob, filename);
 		});
 		formData.append("overwrite", overwrite);
 
@@ -79,7 +81,7 @@ export default function UploadPage() {
 		for (let i = 0; i < acceptedFiles.length; i++) {
 			removedFiles[i] = true;
 		}
-		setRemovedFileIndices(removedFiles);
+		setUploads({});
 		reset();
 	};
 
@@ -102,11 +104,8 @@ export default function UploadPage() {
 			});
 	};
 
-	const getDeleteHandler = (i) => () => {
-		setRemovedFileIndices((removedFileIndices) => ({
-			...removedFileIndices,
-			[i]: true,
-		}));
+	const removeUpload = (filename) => {
+		setUploads((uploads) => _.omit(uploads, filename));
 	};
 
 	return (
@@ -147,33 +146,64 @@ export default function UploadPage() {
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
-						<Box
-							className={`MuiDropzoneArea-root${
-								draggingOver ? " MuiDropzoneArea-active" : ""
-							}`}
-							{...getRootProps()}
+						<Importer
+							dataHandler={async (rows) => {
+								setUploads((uploads) => {
+									const prevRows =
+										uploads[currentFile.current] || [];
+									return {
+										...uploads,
+										[currentFile.current]: [
+											...prevRows,
+											...rows,
+										],
+									};
+								});
+							}}
+							chunkSize={100000}
+							defaultNoHeader={false}
+							restartable={true}
+							onStart={({ file, fields }) => {
+								fieldNames.current = fields;
+								currentFile.current = file.name;
+								setPendingUpload(true);
+							}}
+							onComplete={() => {
+								setPendingUpload(false);
+							}}
 						>
-							<Box component={"section"}>
-								<Input {...getInputProps()} />
-								<Box className="MuiDropzoneArea-textContainer MuiDropzoneArea-text">
-									<Typography>
-										Drag and drop a file here or click
-									</Typography>
-									<IconToolUpload className="MuiDropzoneArea-icon" />
-								</Box>
-								<Box className="MuiDropzoneArea-file-list">
-									{acceptedFiles.map((file, i) =>
-										removedFileIndices[i] ? undefined : (
-											<Chip
-												key={i}
-												label={file?.name}
-												variant="outlined"
-												onDelete={getDeleteHandler(i)}
-											/>
-										)
-									)}
-								</Box>
-							</Box>
+							<ImporterField
+								name="ts_datetime"
+								label="Tapstand Time"
+							/>
+							<ImporterField name="ts_frc" label="Tapstand FRC" />
+							<ImporterField
+								name="ts_wattemp"
+								label="Tapstand Water Temperature"
+							/>
+							<ImporterField
+								name="ts_cond"
+								label="Tapstand Conductivity"
+							/>
+							<ImporterField
+								name="hh_datetime"
+								label="Household Time"
+							/>
+							<ImporterField
+								name="hh_frc"
+								label="Household FRC"
+							/>
+						</Importer>
+
+						<Box className="UploadArea-file-list">
+							{uploadedFilenames.map((filename, i) => (
+								<Chip
+									key={i}
+									label={filename}
+									variant="outlined"
+									onDelete={() => removeUpload(filename)}
+								/>
+							))}
 						</Box>
 
 						<FormGroup

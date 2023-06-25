@@ -26,6 +26,7 @@
 		"lodash": "^4.17.21",
 		"luxon": "^2.1.1",
 		"react": "^18.2.0",
+		"react-csv-importer": "^0.8.1",
 		"react-dom": "^18.2.0",
 		"react-draggable": "^4.4.4",
 		"react-dropzone": "^14.2.2",

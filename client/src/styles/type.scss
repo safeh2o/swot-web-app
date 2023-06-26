@@ -188,7 +188,7 @@ section {
 	ul:not(.flat) {
 		li {
 			&::before {
-				content: "\25AA";
+				// content: "\25AA";
 				transform: scale(1.5);
 			}
 		}

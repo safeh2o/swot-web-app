@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import { ChangeEvent, useCallback, useReducer } from 'react';
+import _ from "lodash";
+import { useCallback, useReducer } from "react";
 
 export default function useForm<FormStateType>(initialValues: FormStateType) {
 	type FieldName = keyof FormStateType;
@@ -26,7 +26,7 @@ export default function useForm<FormStateType>(initialValues: FormStateType) {
 	};
 
 	function getTextChangeHandler(fieldName: FieldName) {
-		return (e: ChangeEvent<HTMLInputElement>) => {
+		return (e: { target: { value: any } }) => {
 			update({ [fieldName]: e.target.value } as UpdateType);
 		};
 	}

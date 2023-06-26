@@ -3,13 +3,53 @@ import _ from "lodash";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { blogSelectors } from "../reducers/blog";
+import {
+	ReactElement,
+	JSXElementConstructor,
+	ReactFragment,
+	ReactPortal,
+	ReactNode,
+} from "react";
 
-export default function Posts(props) {
+export default function Posts(props: { posts: any; start: any; end: any }) {
 	const { posts, start, end } = props;
 	const blogIsLoading = useSelector(blogSelectors.isLoading);
 	const allPostCategories = useSelector(blogSelectors.postCategories);
 
-	function articleFromPost(post) {
+	function articleFromPost(post: {
+		slug: any;
+		publishedDate:
+			| string
+			| number
+			| boolean
+			| ReactElement<any, string | JSXElementConstructor<any>>
+			| ReactFragment
+			| ReactPortal
+			| null
+			| undefined;
+		categories: any[];
+		title:
+			| string
+			| number
+			| boolean
+			| ReactElement<any, string | JSXElementConstructor<any>>
+			| ReactFragment
+			| ReactPortal
+			| ((props: { isActive: boolean }) => ReactNode)
+			| null
+			| undefined;
+		content: {
+			brief:
+				| string
+				| number
+				| boolean
+				| ReactElement<any, string | JSXElementConstructor<any>>
+				| ReactFragment
+				| ReactPortal
+				| null
+				| undefined;
+		};
+	}) {
 		const link = `/blog/${post.slug}`;
 		return (
 			<article key={link} className="app-card">
@@ -26,12 +66,14 @@ export default function Posts(props) {
 						{post.categories && post.categories.length > 0 && (
 							<span className="categories-post">
 								<span className="divider">in</span>
-								{post.categories.map((cat, i) => (
-									<span key={"cat-" + i}>
-										{allPostCategories?.byId?.[cat]?.name ||
-											""}
-									</span>
-								))}
+								{post.categories.map(
+									(cat: string | number, i: number) => (
+										<span key={"cat-" + i}>
+											{allPostCategories?.byId?.[cat]
+												?.name || ""}
+										</span>
+									)
+								)}
 							</span>
 						)}
 					</header>
@@ -45,7 +87,7 @@ export default function Posts(props) {
 		);
 	}
 
-	function blogSkeleton(numPosts) {
+	function blogSkeleton(numPosts: number) {
 		const samplePost = {
 			title: "Stepping Up: Sanitation specialist develops system",
 			publishedDate: "November 25, 2020",
@@ -89,5 +131,5 @@ export default function Posts(props) {
 
 	return blogIsLoading
 		? blogSkeleton(5)
-		: posts.slice(start - 1, end).map((post) => articleFromPost(post));
+		: posts.slice(start - 1, end).map((post: any) => articleFromPost(post));
 }

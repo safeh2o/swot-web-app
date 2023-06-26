@@ -1,15 +1,13 @@
-import { Button } from "@mui/material";
-import { useContext, useEffect, useRef } from "react";
+import { Box, Button } from "@mui/material";
+import { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
-import AppContext from "../../contexts/AppContext";
 import { IconGithub, IconTwitter, IconYoutube } from "../icons";
 
 const COOKIE_NAME = "cookie_consent";
 const TWO_WEEKS = 14 * 24 * 60 * 60 * 1000;
 
 export default function Footer() {
-	const cookieBannerRef = useRef(null);
-	const { gtag: gaMeasurementId } = useContext(AppContext);
+	const cookieBannerRef = useRef<HTMLElement>(null);
 
 	useEffect(() => {
 		if (cookieBannerRef.current) {
@@ -21,7 +19,9 @@ export default function Footer() {
 	}, [cookieBannerRef]);
 
 	function hideCookieBanner() {
-		cookieBannerRef.current.style.display = "none";
+		if (cookieBannerRef.current?.style) {
+			cookieBannerRef.current.style.display = "none";
+		}
 	}
 
 	function acceptCookies() {
@@ -33,7 +33,7 @@ export default function Footer() {
 	}
 
 	function rejectCookies() {
-		window[`ga-disable-${gaMeasurementId}`] = true;
+		(window as any)["ga-disable-GA_MEASUREMENT_ID"] = true;
 		hideCookieBanner();
 	}
 
@@ -51,7 +51,7 @@ export default function Footer() {
 
 	return (
 		<>
-			<footer component={"section"} className="site-footer">
+			<footer className="site-footer">
 				<section className="rte">
 					<h3 className="title">A free and open-source tool by</h3>
 					<div className="logos">
@@ -137,7 +137,7 @@ export default function Footer() {
 					<NavLink to="/pages/cookie-policy">Cookie Policy</NavLink>
 				</nav>
 			</footer>
-			<div className="site-cookie-policy small" ref={cookieBannerRef}>
+			<Box className="site-cookie-policy small" ref={cookieBannerRef}>
 				<div className="wrap">
 					<p>
 						This website uses cookies.
@@ -157,7 +157,7 @@ export default function Footer() {
 						</Button>
 					</span>
 				</div>
-			</div>
+			</Box>
 		</>
 	);
 }

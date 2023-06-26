@@ -8,13 +8,15 @@ import {
 } from "@mui/material";
 import { sanitize } from "dompurify";
 import _ from "lodash";
+import { Key } from "react";
 import { useSelector } from "react-redux";
 import { blogSelectors } from "../reducers/blog";
-export default function FAQList(props) {
+
+export default function FAQList(props: { FAQs: any }) {
 	const { FAQs } = props;
 	const isLoading = useSelector(blogSelectors.isLoading);
 
-	function FAQSkeleton(numFAQs) {
+	function FAQSkeleton(numFAQs: number) {
 		const sampleFAQ = {
 			title: "Stepping Up: Sanitation specialist develops system",
 			content:
@@ -38,26 +40,38 @@ export default function FAQList(props) {
 
 	return isLoading
 		? FAQSkeleton(5)
-		: FAQs.map((FAQ, i) => (
-				<article key={i}>
-					<Box className="post-details">
-						<Accordion className="faq-accordion">
-							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-								<h1 className="post-title h2">{FAQ.title}</h1>
-							</AccordionSummary>
-							<AccordionDetails>
-								<div className="post-text">
-									<div
-										dangerouslySetInnerHTML={{
-											__html: sanitize(FAQ.content),
-										}}
-									></div>
-								</div>
-							</AccordionDetails>
-						</Accordion>
+		: FAQs.map(
+				(
+					FAQ: {
+						title: string;
+						content: string;
+					},
+					i: Key | null | undefined
+				) => (
+					<article key={i}>
+						<Box className="post-details">
+							<Accordion className="faq-accordion">
+								<AccordionSummary
+									expandIcon={<ExpandMoreIcon />}
+								>
+									<h1 className="post-title h2">
+										{FAQ.title}
+									</h1>
+								</AccordionSummary>
+								<AccordionDetails>
+									<div className="post-text">
+										<div
+											dangerouslySetInnerHTML={{
+												__html: sanitize(FAQ.content),
+											}}
+										></div>
+									</div>
+								</AccordionDetails>
+							</Accordion>
 
-						<hr />
-					</Box>
-				</article>
-		  ));
+							<hr />
+						</Box>
+					</article>
+				)
+		  );
 }

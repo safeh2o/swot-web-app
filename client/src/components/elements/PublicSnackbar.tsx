@@ -1,4 +1,4 @@
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, Snackbar, AlertColor } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,13 +12,17 @@ export default function PublicSnackbar() {
 	const dispatch = useDispatch();
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const [alertOpen, setAlertOpen] = useState(false);
-	const [notificationSeverity, setNotificationSeverity] = useState("success");
+	const [notificationSeverity, setNotificationSeverity] =
+		useState<AlertColor>("success");
 	const [notificationContent, setNotificationContent] = useState("");
 	const notifications = useSelector(
 		notificationsSelectors.unreadNotifications
 	);
 
-	const handleAlertClose = (_, reason) => {
+	const handleAlertClose = (
+		_: Event | React.SyntheticEvent,
+		reason?: any
+	) => {
 		if (!isLoggedIn) {
 			dispatch(clearNotifications());
 		} else if (!reason) {
@@ -38,7 +42,9 @@ export default function PublicSnackbar() {
 			// checks if the last notification happened within the last 5 seconds; if so, show it
 			const FIVE_SECONDS = 5000;
 			const isNotificationRecent =
-				new Date() - new Date(notification.timestamp) < FIVE_SECONDS;
+				new Date().getTime() -
+					new Date(notification.timestamp).getTime() <
+				FIVE_SECONDS;
 			setAlertOpen(isNotificationRecent);
 		}
 	}, [notifications]);

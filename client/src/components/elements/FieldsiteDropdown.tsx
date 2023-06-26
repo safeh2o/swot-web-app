@@ -17,7 +17,7 @@ const initialState = {
 	fieldsite: DEFAULT_FIELDSITE,
 };
 
-function FieldsiteDropdown(props) {
+function FieldsiteDropdown(props: { onChange: any }) {
 	const countries = useSelector(userSelectors.countries);
 	const allAreas = useSelector(userSelectors.areas);
 	const allFieldsites = useSelector(userSelectors.fieldsites);
@@ -25,7 +25,13 @@ function FieldsiteDropdown(props) {
 	const [hashParams, setHashParams] = useHashParams();
 	const { onChange: onFieldsiteChange } = props;
 
-	const updateLocations = (newLocations) => {
+	const updateLocations = (
+		newLocations: Partial<{
+			country: any;
+			area: any;
+			fieldsite: any;
+		}>
+	) => {
 		update(newLocations);
 		updateHashStringFromLocations(newLocations);
 	};
@@ -47,18 +53,18 @@ function FieldsiteDropdown(props) {
 	}, [locations.fieldsite, onFieldsiteChange]);
 
 	useEffect(() => {
-		const removeFromHash = (...keys) => {
+		const removeFromHash = (...keys: string[]) => {
 			const newHashParams = hashParams;
 			for (const key of keys) {
 				newHashParams.delete(key);
 			}
-			setHashParams(newHashParams);
+			setHashParams(newHashParams.toString());
 		};
 
 		const countryName = hashParams.get("country");
-		let country = DEFAULT_COUNTRY,
-			area = DEFAULT_AREA,
-			fieldsite = DEFAULT_FIELDSITE;
+		let country: any = DEFAULT_COUNTRY,
+			area: any = DEFAULT_AREA,
+			fieldsite: any = DEFAULT_FIELDSITE;
 		if (countryName && countryName !== country.name) {
 			const foundCountry = countries.find(
 				(ctr) => ctr?.name === countryName
@@ -97,7 +103,11 @@ function FieldsiteDropdown(props) {
 		update({ fieldsite });
 	}, [allAreas, allFieldsites, countries, hashParams, setHashParams, update]);
 
-	const updateHashStringFromLocations = (newLocations) => {
+	const updateHashStringFromLocations = (newLocations: {
+		country?: any;
+		area?: any;
+		fieldsite?: any;
+	}) => {
 		const params = hashParams;
 		const country = newLocations.country || locations.country;
 		const area = newLocations.area || locations.area;
@@ -111,7 +121,7 @@ function FieldsiteDropdown(props) {
 		if (fieldsite?.name) {
 			params.set("fieldsite", fieldsite.name);
 		}
-		setHashParams(params);
+		setHashParams(params.toString());
 	};
 
 	return (

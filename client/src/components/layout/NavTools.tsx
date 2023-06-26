@@ -49,7 +49,7 @@ export default function NavTools() {
 					className={listitem.class}
 					to={listitem.to}
 					key={listitem.label}
-					step={index + 1}
+					title={(index + 1).toString()}
 					end
 				>
 					<Box component="span" className="wrap">

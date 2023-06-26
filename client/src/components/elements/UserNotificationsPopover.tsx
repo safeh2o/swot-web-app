@@ -35,8 +35,8 @@ export default function UserNotificationsPopover() {
 	const open = Boolean(anchorEl);
 	const id = open ? "user-notifications" : undefined;
 
-	function toggleNotifications(bool) {
-		if (bool) {
+	function setNotifications(show: boolean) {
+		if (show) {
 			setAnchorEl(notificationsRef.current);
 			setShowNotifications(true);
 		} else {
@@ -50,8 +50,7 @@ export default function UserNotificationsPopover() {
 		<>
 			<IconButton
 				aria-describedby={id}
-				variant="contained"
-				onClick={() => toggleNotifications(true)}
+				onClick={() => setNotifications(true)}
 				ref={notificationsRef}
 			>
 				<span className="label">Notifications</span>
@@ -70,7 +69,7 @@ export default function UserNotificationsPopover() {
 				id={id}
 				open={showNotifications}
 				anchorEl={anchorEl}
-				onClose={() => toggleNotifications(false)}
+				onClose={() => setNotifications(false)}
 				anchorOrigin={{
 					vertical: "bottom",
 					horizontal: "right",

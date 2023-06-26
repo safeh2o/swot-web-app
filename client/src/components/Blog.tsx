@@ -17,12 +17,11 @@ export default function Blog() {
 	const [numPages, setNumPages] = useState(1);
 	let [searchParams, setSearchParams] = useSearchParams();
 	const currentCategory = searchParams.get("category");
-	const currentPageNumber = searchParams.get("page")
-		? parseInt(searchParams.get("page"))
-		: 1;
+	const currentPage = searchParams.get("page");
+	const currentPageNumber = currentPage ? parseInt(currentPage) : 1;
 
 	const updateSearchParams = useCallback(
-		(items) => {
+		(items: Record<string, string>) => {
 			setSearchParams(
 				{
 					...Object.fromEntries(searchParams),
@@ -34,8 +33,8 @@ export default function Blog() {
 		[searchParams, setSearchParams]
 	);
 	const setPageNumber = useCallback(
-		(pageNumber) => {
-			updateSearchParams({ page: pageNumber });
+		(pageNumber: number) => {
+			updateSearchParams({ page: pageNumber.toString() });
 		},
 		[updateSearchParams]
 	);
@@ -65,10 +64,11 @@ export default function Blog() {
 
 	useEffect(() => {
 		const currentCategoryId =
+			currentCategory &&
 			allPostCategories?.byName?.[currentCategory]?._id;
 		if (currentCategoryId) {
 			setPosts(
-				allPosts.filter((post) =>
+				allPosts.filter((post: any) =>
 					post.categories.includes(currentCategoryId)
 				)
 			);
@@ -89,7 +89,7 @@ export default function Blog() {
 		}
 	}, [posts, pageSize]);
 
-	function setCategory(categoryName) {
+	function setCategory(categoryName: string) {
 		updateSearchParams({ category: categoryName });
 	}
 
@@ -134,7 +134,6 @@ export default function Blog() {
 				<div className="section-wrap posts">
 					<div className="content">
 						<Posts
-							type={"news"}
 							posts={posts}
 							start={postRange[0]}
 							end={postRange[1]}

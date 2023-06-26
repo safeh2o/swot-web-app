@@ -52,7 +52,7 @@ main.page-tool {
 	transition: box-shadow 0s ease, background-color 0s ease;
 
 	&::before {
-		content: attr(step);
+		content: attr(title);
 
 		position: absolute;
 		top: -5px;

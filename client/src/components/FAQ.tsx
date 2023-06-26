@@ -14,12 +14,11 @@ export default function FAQ() {
 	const [FAQRange, setFAQRange] = useState([1, DEFAULT_PAGE_SIZE]);
 	const [numPages, setNumPages] = useState(1);
 	let [searchParams, setSearchParams] = useSearchParams();
-	const currentPageNumber = searchParams.get("page")
-		? parseInt(searchParams.get("page"))
-		: 1;
+	const currentPage = searchParams.get("page");
+	const currentPageNumber = currentPage ? parseInt(currentPage) : 1;
 
 	const updateSearchParams = useCallback(
-		(items) => {
+		(items: Record<string, string>) => {
 			setSearchParams(
 				{
 					...Object.fromEntries(searchParams),
@@ -32,8 +31,8 @@ export default function FAQ() {
 	);
 
 	const setPageNumber = useCallback(
-		(pageNumber) => {
-			updateSearchParams({ page: pageNumber });
+		(pageNumber: number) => {
+			updateSearchParams({ page: pageNumber.toString() });
 		},
 		[updateSearchParams]
 	);

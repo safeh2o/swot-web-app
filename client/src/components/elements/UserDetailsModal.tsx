@@ -183,7 +183,6 @@ export default function UserDetailsModal() {
 												onChange={getTextChangeHandler(
 													"password1"
 												)}
-												minLength="6"
 												autoComplete="new-password"
 												InputProps={{
 													endAdornment: (

@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { RootState } from '../store';
+import { RootState } from "../store";
 
 export const getUser = createAsyncThunk("user/getUser", async () => {
 	const res = await fetch("/api/user/me").then((res) => res.json());
@@ -8,13 +8,27 @@ export const getUser = createAsyncThunk("user/getUser", async () => {
 });
 
 type UserState = {
-	user: { fieldsites: any[]; areas: any[]; countries: any[] };
+	user: {
+		isAdmin?: boolean;
+		name?: any;
+		email?: any;
+		fieldsites: any[];
+		areas: any[];
+		countries: any[];
+	};
 	isLoggedIn: boolean;
 	status: "success" | "loading" | "failed" | null;
 };
 
 const initialState: UserState = {
-	user: { fieldsites: [], areas: [], countries: [] },
+	user: {
+		isAdmin: false,
+		fieldsites: [],
+		areas: [],
+		countries: [],
+		name: "",
+		email: "",
+	},
 	isLoggedIn: false,
 	status: null,
 };

@@ -50,7 +50,7 @@ export default function Header() {
 		});
 	};
 
-	function headerSkeleton(text) {
+	function headerSkeleton(text: string) {
 		return text !== "space" ? (
 			<Skeleton component="li" variant="rectangular" animation="wave">
 				<Typography component="span">{text}</Typography>
@@ -88,7 +88,7 @@ export default function Header() {
 			<>
 				{(userLoadingStatus === "success" && (
 					<>
-						<li className="dropdown" tabIndex="0">
+						<li className="dropdown" tabIndex={0}>
 							<span>
 								<span>About</span>
 								<i className="select">
@@ -173,7 +173,6 @@ export default function Header() {
 												className={listitem.class}
 												to={listitem.to}
 												key={listitem.label}
-												step={i + 1}
 												end
 											>
 												{listitem.label}
@@ -302,7 +301,6 @@ export default function Header() {
 
 				<Drawer
 					className="sidebar-drawer"
-					component={"div"}
 					anchor="left"
 					open={mobileNavOpen}
 					onClose={() => setMobileNavOpen(false)}

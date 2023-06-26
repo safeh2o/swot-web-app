@@ -37,10 +37,10 @@ export default function ContactPage() {
 
 	useEffect(() => {
 		const { name, email, reason, organisation } = state;
-		setDisabled(!name || !email || !reason, !organisation);
+		setDisabled(!name || !email || !reason || !organisation);
 	}, [state]);
 
-	function handleSubmit(e) {
+	function handleSubmit(e: React.SyntheticEvent) {
 		e.preventDefault();
 		dispatch(setLoading(true));
 		axios
@@ -145,14 +145,16 @@ export default function ContactPage() {
 										)}
 									>
 										{(contactReasons &&
-											contactReasons.map((reason) => (
-												<MenuItem
-													key={reason.value}
-													value={reason.value}
-												>
-													{reason.label}
-												</MenuItem>
-											))) || (
+											contactReasons.map(
+												(reason: any) => (
+													<MenuItem
+														key={reason.value}
+														value={reason.value}
+													>
+														{reason.label}
+													</MenuItem>
+												)
+											)) || (
 											<>
 												<MenuItem value={1}>
 													General

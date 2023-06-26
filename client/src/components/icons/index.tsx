@@ -76,8 +76,6 @@ export * from "./IconWrong";
 export { default as IconWrong } from "./IconWrong";
 export * from "./IconYoutube";
 export { default as IconYoutube } from "./IconYoutube";
-export * from "./NavMobile";
-export { default as NavMobile } from "./NavMobile";
 export * from "./Pdf";
 export { default as Pdf } from "./Pdf";
 export * from "./SidebarManageNav";

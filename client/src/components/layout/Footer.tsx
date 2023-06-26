@@ -109,7 +109,7 @@ export default function Footer() {
 						<a
 							className="youtube"
 							target="_blank"
-							href="https://www.youtube.com/channel/UCAoYWw3iKSpFZspbMGhMq7g/videos"
+							href="https://youtube.com/@safeh2oapp"
 							rel="noreferrer"
 						>
 							<IconYoutube />

@@ -10,8 +10,8 @@ import {
 import axios from "axios";
 import _ from "lodash";
 import { useRef, useState } from "react";
-import { Importer, ImporterField } from "react-csv-importer";
-import "react-csv-importer/dist/index.css";
+import { Importer, ImporterField } from "@safeh2o/react-csv-importer";
+import "@safeh2o/react-csv-importer/dist/index.css";
 import { useDropzone } from "react-dropzone";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -171,6 +171,7 @@ export default function UploadPage() {
 							onComplete={() => {
 								setPendingUpload(false);
 							}}
+							skipEmptyLines={true}
 						>
 							<ImporterField
 								name="ts_datetime"

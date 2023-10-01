@@ -41,7 +41,6 @@ export default function Result() {
 		lastSample: "--/--/--",
 	};
 	const [dataset, setDataset] = useState<typeof defaultDataset>();
-	const [targetImgUrl, setTargetImgUrl] = useState("");
 	const [targetFigureJson, setTargetFigureJson] = useState("");
 	const [locationData, setLocationData] = useState({
 		fieldsiteName: "",
@@ -81,7 +80,6 @@ export default function Result() {
 			.then(({ data }) => {
 				setDataset(data.dataset);
 				setLocationData(data.locationData);
-				setTargetImgUrl(data.targetImgUrl);
 				setTargetFigureJson(data.targetFigureJson);
 				const { countryName, areaName, fieldsiteName } =
 					data.locationData;

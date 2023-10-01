@@ -112,11 +112,6 @@ exports = module.exports = function (app) {
 		routes.api.user.getUserDatasets
 	);
 	app.get(
-		"/api/common/settings",
-		keystone.middleware.api,
-		routes.api.common.settings
-	);
-	app.get(
 		"/api/contactreasons",
 		keystone.middleware.api,
 		routes.api.forms.getContactReasons

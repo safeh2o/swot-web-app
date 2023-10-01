@@ -18,12 +18,6 @@
 			"options": {
 				"cwd": "${workspaceFolder}"
 			}
-		},
-		{
-			"label": "docker build nginx",
-			"type": "shell",
-			"command": "docker build . -f docker/nginx/Dockerfile.dev --build-arg AZURE_STORAGE_ACCOUNT=${AZURE_STORAGE_ACCOUNT} -t nginxa && docker run --add-host 'backend:172.17.0.1' --network='host' -p 80:80 --rm -it swotnginx",
-			"problemMatcher": []
 		}
 	]
 }

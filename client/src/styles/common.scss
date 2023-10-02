@@ -305,7 +305,7 @@ img {
 			position: relative;
 
 			&::before {
-				// content: counter(ol-counter) ".\00a0\00a0";
+				content: counter(ol-counter) ".\00a0\00a0";
 				position: absolute;
 				right: 100%;
 				width: auto;

@@ -171,8 +171,13 @@ function convertCSVStringToJSON(csvString) {
 }
 
 exports.getCsvBlobAsJson = async function (containerName, blobName) {
-	const csvContents = await getBlob(containerName, blobName);
-	const jsonContents = await convertCSVStringToJSON(csvContents);
+	let jsonContents = undefined;
+	try {
+		const csvContents = await getBlob(containerName, blobName);
+		jsonContents = await convertCSVStringToJSON(csvContents);
+	} catch (err) {
+		console.error(`cannot get blob ${blobName}`);
+	}
 
 	return jsonContents;
 };

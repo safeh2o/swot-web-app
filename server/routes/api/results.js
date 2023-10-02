@@ -204,15 +204,15 @@ exports.dataset = async function (req, res) {
 		if (!country) {
 			throw new MissingModelError("Country", null, "Area", area.id);
 		}
-		const targetImgBlobName = `${req.params.datasetId}/eo/targets.png`;
-		const targetFigureBlobName = `${req.params.datasetId}/figures/targets_fig_series1_line.csv`;
-		const targetImgUrl = await dataService.getSas(
-			process.env.AZURE_STORAGE_CONTAINER_RESULTS,
-			targetImgBlobName
-		);
+		const targetFigureBlobName = `${req.params.datasetId}/eo/targets_fig_series1_line.csv`;
 		const targetFigureJson = await dataService.getCsvBlobAsJson(
 			process.env.AZURE_STORAGE_CONTAINER_RESULTS,
 			targetFigureBlobName
+		);
+		const decayFigureBlobName = `${req.params.datasetId}/eo/decay_fig_series1_line.csv`;
+		const decayFigureJson = await dataService.getCsvBlobAsJson(
+			process.env.AZURE_STORAGE_CONTAINER_RESULTS,
+			decayFigureBlobName
 		);
 		res.json({
 			dataset,
@@ -221,8 +221,8 @@ exports.dataset = async function (req, res) {
 				areaName: area.name,
 				countryName: country.name,
 			},
-			targetImgUrl,
 			targetFigureJson,
+			decayFigureJson,
 		});
 	} catch (ex) {
 		console.error(ex);

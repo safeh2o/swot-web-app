@@ -1,25 +1,29 @@
 import {
 	CartesianGrid,
 	Line,
-	LineChart as RCLineChart,
+	LineChart,
 	ResponsiveContainer,
 	Tooltip,
 	XAxis,
 	YAxis,
 } from "recharts";
 
-export default function LineChart({ chartData }: { chartData: any }) {
-	const parsedChartData = chartData.map((pt: any) => ({
-		x: parseFloat(pt.x),
-		y: parseFloat(pt.y),
+export default function TargetsFigure({
+	chartData,
+}: {
+	chartData: Array<any>;
+}) {
+	const parsedChartData = chartData.map((pt) => ({
+		x: parseFloat(pt["Tapstand FRC"]),
+		y: parseFloat(pt["Household FRC"]),
 	}));
 
 	return (
-		<ResponsiveContainer>
-			<RCLineChart
+		<ResponsiveContainer height={300}>
+			<LineChart
 				data={parsedChartData}
 				margin={{
-					top: 5,
+					top: 20,
 					right: 20,
 					left: 0,
 					bottom: 5,
@@ -30,7 +34,7 @@ export default function LineChart({ chartData }: { chartData: any }) {
 				<YAxis dataKey="y" />
 				<Tooltip />
 				<Line type="monotone" dataKey="y" activeDot={{ r: 8 }} />
-			</RCLineChart>
+			</LineChart>
 		</ResponsiveContainer>
 	);
 }

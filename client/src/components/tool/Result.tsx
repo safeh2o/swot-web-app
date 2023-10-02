@@ -13,9 +13,10 @@ import {
 import { replaceCrumb } from "../../reducers/view";
 import { Result as css } from "../../styles/styles";
 import { ConfidenceLevelType } from "../../types";
-import { IconCheck, IconLow, IconQuestionMark } from "../icons";
 import NotFound from "../NotFound";
-import LineChart from "../LineChart";
+import TargetsFigure from "../figures/TargetsFigure";
+import { IconCheck, IconLow, IconQuestionMark } from "../icons";
+import DecayFigure from "../figures/DecayFigure";
 
 export default function Result() {
 	const locationSuffix = useLocationSuffix();
@@ -41,7 +42,12 @@ export default function Result() {
 		lastSample: "--/--/--",
 	};
 	const [dataset, setDataset] = useState<typeof defaultDataset>();
-	const [targetFigureJson, setTargetFigureJson] = useState("");
+	const [targetFigureJson, setTargetFigureJson] = useState<
+		Array<any> | undefined
+	>(undefined);
+	const [decayFigureJson, setDecayFigureJson] = useState<
+		Array<any> | undefined
+	>(undefined);
 	const [locationData, setLocationData] = useState({
 		fieldsiteName: "",
 		areaName: "",
@@ -81,6 +87,7 @@ export default function Result() {
 				setDataset(data.dataset);
 				setLocationData(data.locationData);
 				setTargetFigureJson(data.targetFigureJson);
+				setDecayFigureJson(data.decayFigureJson);
 				const { countryName, areaName, fieldsiteName } =
 					data.locationData;
 				const searchParams = new URLSearchParams();
@@ -543,14 +550,19 @@ export default function Result() {
 							</Typography>
 						</Box>
 					</Box>
-					<Box id="result-frc-target-over-time" className="app-card">
+					<Box className="app-card">
 						<Box component={"h2"}>FRC Target Over Time</Box>
 						<Divider sx={{ my: 1 }} />
-						<Box component={"figure"} height={300}>
-							{targetFigureJson && (
-								<LineChart chartData={targetFigureJson} />
-							)}
-						</Box>
+						{targetFigureJson && (
+							<TargetsFigure chartData={targetFigureJson} />
+						)}
+					</Box>
+					<Box className="app-card">
+						<Box component={"h2"}>FRC Decay Over Time</Box>
+						<Divider sx={{ my: 1 }} />
+						{decayFigureJson && (
+							<DecayFigure chartData={decayFigureJson} />
+						)}
 					</Box>
 					<Divider sx={{ ...css.hr }} />
 					<Box className="app-card">

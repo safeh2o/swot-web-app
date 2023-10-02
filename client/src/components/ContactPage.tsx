@@ -231,8 +231,8 @@ export default function ContactPage() {
 											Terms of Use
 										</Link>
 										&nbsp; and our{" "}
-										<Link to="/pages/privacy-policy">
-											Privacy Policy
+										<Link to="/pages/privacy-notice">
+											Privacy Notice
 										</Link>
 									</p>
 								</NotificationLine>

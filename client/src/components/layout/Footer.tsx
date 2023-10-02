@@ -132,19 +132,19 @@ export default function Footer() {
 					<span className="divider">|</span>
 					<NavLink to="/pages/terms-of-use">Terms of Use</NavLink>
 					<span className="divider">|</span>
-					<NavLink to="/pages/privacy-policy">Privacy Policy</NavLink>
+					<NavLink to="/pages/privacy-notice">Privacy Notice</NavLink>
 					<span className="divider">|</span>
-					<NavLink to="/pages/cookie-policy">Cookie Policy</NavLink>
+					<NavLink to="/pages/cookie-notice">Cookie Notice</NavLink>
 				</nav>
 			</footer>
-			<Box className="site-cookie-policy small" ref={cookieBannerRef}>
+			<Box className="site-cookie-notice small" ref={cookieBannerRef}>
 				<div className="wrap">
 					<p>
 						This website uses cookies.
 						<br />
 						To learn more, visit our{" "}
-						<NavLink to="/pages/cookie-policy">
-							Cookie Policy
+						<NavLink to="/pages/cookie-notice">
+							Cookie Notice
 						</NavLink>
 						.
 					</p>

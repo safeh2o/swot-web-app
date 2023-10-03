@@ -7,15 +7,17 @@ import {
 	FormControlLabel,
 	FormGroup,
 } from "@mui/material";
+import {
+	Importer,
+	ImporterField,
+	ImporterFieldProps,
+} from "@safeh2o/react-csv-importer";
+import "@safeh2o/react-csv-importer/dist/index.css";
 import axios from "axios";
 import _ from "lodash";
 import { useRef, useState } from "react";
-import { Importer, ImporterField } from "@safeh2o/react-csv-importer";
-import "@safeh2o/react-csv-importer/dist/index.css";
-import { useDropzone } from "react-dropzone";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { MEGABYTE } from "../../helpers/bitcalc";
 import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
@@ -27,24 +29,32 @@ const initialState = {
 	fieldsite: null,
 };
 
+const importColumns: ImporterFieldProps[] = [
+	{ name: "ts_datetime", label: "Tapstand Time" },
+	{ name: "ts_frc", label: "Tapstand FRC" },
+	{ name: "ts_wattemp", label: "Tapstand Water Temperature" },
+	{ name: "ts_cond", label: "Tapstand Conductivity", optional: true },
+	{ name: "hh_datetime", label: "Household Time" },
+	{ name: "hh_frc", label: "Household FRC" },
+];
+type Row = Record<string, string>;
+
+const getMissingFields = (fieldNames: string[]) => {
+	const optionalFields = importColumns
+		.filter((col) => col.optional)
+		.map((col) => col.name);
+	const missingFields = optionalFields.filter(
+		(optionalField) => !fieldNames.includes(optionalField)
+	);
+
+	return missingFields;
+};
+
 export default function UploadPage() {
 	const dispatch = useDispatch();
 	const { state, update, reset } = useForm(initialState);
-	const [uploads, setUploads] = useState({});
-	const currentFile = useRef();
-	const { acceptedFiles } = useDropzone({
-		maxFiles: 5,
-		accept: {
-			"text/csv": [".csv"],
-			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-				[".xlsx"],
-			"application/vnd.ms-excel": [".xls"],
-		},
-		multiple: true,
-		maxSize: 50 * MEGABYTE,
-		minSize: 1,
-	});
-	const fieldNames = useRef([]);
+	const [uploads, setUploads] = useState<Record<string, Row[]>>({});
+	const currentFile = useRef<string>("");
 	const uploadedFilenames = Object.keys(uploads);
 	const [pendingUpload, setPendingUpload] = useState(false);
 	const disabled =
@@ -61,12 +71,17 @@ export default function UploadPage() {
 		formData.append("fieldsite", fieldsiteId);
 		uploadedFilenames.forEach((filename) => {
 			const rows = uploads[filename];
-			let csvContent = fieldNames.current.join(",") + "\n";
+			if (!rows.length) {
+				return;
+			}
+			const fieldNames = Object.keys(rows[0]);
+			const missingFields = getMissingFields(fieldNames);
+			const allFields = [...fieldNames, ...missingFields];
+			let csvContent = allFields.join(",") + "\n";
 			for (const row of rows) {
 				csvContent +=
-					fieldNames.current
-						.map((fieldName) => row[fieldName])
-						.join(",") + "\n";
+					fieldNames.map((fieldName) => row[fieldName]).join(",") +
+					"\n";
 			}
 			const blob = new Blob([csvContent]);
 			formData.append("files[]", blob, filename);
@@ -77,10 +92,6 @@ export default function UploadPage() {
 	}
 
 	const handleFormReset = () => {
-		const removedFiles = {};
-		for (let i = 0; i < acceptedFiles.length; i++) {
-			removedFiles[i] = true;
-		}
 		setUploads({});
 		reset();
 	};
@@ -104,7 +115,7 @@ export default function UploadPage() {
 			});
 	};
 
-	const removeUpload = (filename) => {
+	const removeUpload = (filename: string) => {
 		setUploads((uploads) => _.omit(uploads, filename));
 	};
 
@@ -118,7 +129,7 @@ export default function UploadPage() {
 						</Box>
 						<Divider sx={{ my: 3, mb: 2 }} />
 						<FieldsiteDropdown
-							onChange={(value) => {
+							onChange={(value: any) => {
 								update({ fieldsite: value });
 							}}
 						/>
@@ -147,7 +158,7 @@ export default function UploadPage() {
 					</Box>
 					<Box className="app-card">
 						<Importer
-							dataHandler={async (rows) => {
+							dataHandler={async (rows: Row[]) => {
 								setUploads((uploads) => {
 									const prevRows =
 										uploads[currentFile.current] || [];
@@ -163,8 +174,7 @@ export default function UploadPage() {
 							chunkSize={100000}
 							defaultNoHeader={false}
 							restartable={true}
-							onStart={({ file, fields }) => {
-								fieldNames.current = fields;
+							onStart={({ file }) => {
 								currentFile.current = file.name;
 								setPendingUpload(true);
 							}}
@@ -173,27 +183,9 @@ export default function UploadPage() {
 							}}
 							skipEmptyLines={true}
 						>
-							<ImporterField
-								name="ts_datetime"
-								label="Tapstand Time"
-							/>
-							<ImporterField name="ts_frc" label="Tapstand FRC" />
-							<ImporterField
-								name="ts_wattemp"
-								label="Tapstand Water Temperature"
-							/>
-							<ImporterField
-								name="ts_cond"
-								label="Tapstand Conductivity"
-							/>
-							<ImporterField
-								name="hh_datetime"
-								label="Household Time"
-							/>
-							<ImporterField
-								name="hh_frc"
-								label="Household FRC"
-							/>
+							{importColumns.map((col) => (
+								<ImporterField key={col.name} {...col} />
+							))}
 						</Importer>
 
 						<Box className="UploadArea-file-list">
@@ -269,8 +261,7 @@ export default function UploadPage() {
 							tip={{
 								content: (
 									<>
-										File format should be Microsoft Excel
-										Spreadsheet (.xlsx) or Comma-Separated
+										File format should be Comma-Separated
 										Values (.csv) file
 									</>
 								),
@@ -279,9 +270,7 @@ export default function UploadPage() {
 							type="guide"
 							orientation="reverse"
 						>
-							<span>
-								Ensure that you upload a .csv or a .xlsx file
-							</span>
+							<span>Ensure that you upload a .csv file</span>
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">

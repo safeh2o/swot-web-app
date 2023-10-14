@@ -223,10 +223,15 @@ export default function Header() {
 	return (
 		<>
 			<nav role="navigation">
-				<NavLink to={"/"} className="menu-brand">
+				<a
+					href={"https://safeh2o.app"}
+					target="_blank"
+					className="menu-brand"
+					rel="noreferrer"
+				>
 					<SWOTLogo className="large" />
 					<SWOTLogoCompact className="compact" />
-				</NavLink>
+				</a>
 
 				{/* open mobile nav */}
 				<button

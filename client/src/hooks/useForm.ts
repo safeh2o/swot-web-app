@@ -4,7 +4,10 @@ import { useCallback, useReducer } from "react";
 export default function useForm<FormStateType>(initialValues: FormStateType) {
 	type FieldName = keyof FormStateType;
 	type UpdateType = Partial<FormStateType>;
-	function reducer(prevState: any, updates: any) {
+	function reducer(
+		prevState: FormStateType,
+		updates: Partial<FormStateType>
+	) {
 		return {
 			...prevState,
 			...updates,
@@ -14,7 +17,7 @@ export default function useForm<FormStateType>(initialValues: FormStateType) {
 
 	const update = useCallback(
 		(updates: UpdateType) => {
-			if (!_.isMatch(state, updates)) {
+			if (!_.isEqual(state, updates)) {
 				dispatch(updates);
 			}
 		},

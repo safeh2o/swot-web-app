@@ -11,7 +11,7 @@ export default function Home() {
 
 	return (
 		<>
-			<section id="home-profile">
+			<section className="card-grid">
 				<div className="section-wrap compact">
 					<h1 className="section-subtitle home">
 						{(isLoggedIn &&

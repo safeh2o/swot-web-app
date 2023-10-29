@@ -21,9 +21,13 @@ function PageWrapper(props: { children: ReactElement | ReactElement[] }) {
 
 	const isHome = url.pathname === "/";
 
-	const isToolPage = ["/collect", "/upload", "/analyze", "/results"].some(
-		(path) => url.pathname.includes(path)
-	);
+	const isToolPage = [
+		"/collect",
+		"/upload",
+		"/analyze",
+		"/results",
+		"/manage",
+	].some((path) => url.pathname.includes(path));
 
 	const isNotFound = url.pathname === "/not-found";
 

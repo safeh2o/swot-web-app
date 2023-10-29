@@ -148,4 +148,63 @@ exports = module.exports = function (app) {
 		keystone.middleware.api,
 		routes.api.upload.fetchStdData
 	);
+	app.get(
+		"/api/user/permissions",
+		keystone.middleware.api,
+		routes.api.user.permissions
+	);
+
+	app.post(
+		"/api/manage/fieldsite",
+		keystone.middleware.api,
+		routes.api.manage.createFieldsite
+	);
+	app.put(
+		"/api/manage/fieldsite/:fieldsiteId",
+		keystone.middleware.api,
+		middleware.requireFieldsiteAccess,
+		routes.api.manage.updateFieldsite
+	);
+	app.delete(
+		"/api/manage/fieldsite/:fieldsiteId",
+		keystone.middleware.api,
+		middleware.requireFieldsiteAccess,
+		routes.api.manage.deleteFieldsite
+	);
+
+	app.post(
+		"/api/manage/area",
+		keystone.middleware.api,
+		routes.api.manage.createArea
+	);
+	app.put(
+		"/api/manage/area/:areaId",
+		keystone.middleware.api,
+		middleware.requireAreaAccess,
+		routes.api.manage.updateArea
+	);
+	app.delete(
+		"/api/manage/area/:areaId",
+		keystone.middleware.api,
+		middleware.requireAreaAccess,
+		routes.api.manage.deleteArea
+	);
+
+	app.post(
+		"/api/manage/country",
+		keystone.middleware.api,
+		routes.api.manage.createCountry
+	);
+	app.put(
+		"/api/manage/country/:countryId",
+		keystone.middleware.api,
+		middleware.requireCountryAccess,
+		routes.api.manage.updateCountry
+	);
+	app.delete(
+		"/api/manage/country/:countryId",
+		keystone.middleware.api,
+		middleware.requireCountryAccess,
+		routes.api.manage.deleteCountry
+	);
 };

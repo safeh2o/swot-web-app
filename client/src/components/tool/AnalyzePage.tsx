@@ -2,10 +2,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
 	Box,
 	Divider,
+	Unstable_Grid2 as Grid,
 	Slider,
 	Stack,
-	TextField,
-	Unstable_Grid2 as Grid,
 } from "@mui/material";
 import {
 	Accordion,
@@ -32,7 +31,7 @@ import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
 
 type AnalyzeFormType = {
-	fieldsite: null | string;
+	fieldsite: null | any;
 	startDate: null | Date;
 	endDate: null | Date;
 	duration: number;
@@ -159,20 +158,16 @@ export default function AnalyzePage() {
 												{
 													startDate,
 												};
-											if (startDate > state.endDate) {
+											if (
+												!startDate ||
+												!state.endDate ||
+												startDate > state.endDate
+											) {
 												newDates["endDate"] = null;
 											}
 											update(newDates);
 										}}
-										renderInput={(params) => (
-											<TextField
-												{...params}
-												sx={{
-													flex: 1,
-												}}
-											/>
-										)}
-										inputFormat="dd/MM/yyyy"
+										format="dd/MM/yyyy"
 									/>
 									<Box sx={{ mx: 1 }}> to </Box>
 									<DatePicker
@@ -183,20 +178,16 @@ export default function AnalyzePage() {
 												{
 													endDate,
 												};
-											if (endDate < state.startDate) {
+											if (
+												!state.startDate ||
+												!endDate ||
+												endDate < state.startDate
+											) {
 												newDates["startDate"] = null;
 											}
 											update(newDates);
 										}}
-										renderInput={(params) => (
-											<TextField
-												{...params}
-												sx={{
-													flex: 1,
-												}}
-											/>
-										)}
-										inputFormat="dd/MM/yyyy"
+										format="dd/MM/yyyy"
 									/>
 								</Grid>
 							</LocalizationProvider>

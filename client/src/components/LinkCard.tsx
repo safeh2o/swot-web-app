@@ -1,11 +1,12 @@
 import { Link } from "@mui/material";
-import { ReactElement } from "react";
+import { ReactNode } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 interface LinkCardProps {
 	href?: string;
 	title: string;
-	children?: ReactElement | string;
+	children?: ReactNode;
+	/** cross-site reference */
 	csr?: boolean;
 	target?: string;
 }

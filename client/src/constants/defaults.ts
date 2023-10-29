@@ -1,3 +1,3 @@
-export const DEFAULT_FIELDSITE = { _id: null, name: "" };
-export const DEFAULT_AREA = { _id: null, name: "", fieldsites: [] };
-export const DEFAULT_COUNTRY = { _id: null, name: "", areas: [] };
+import { Fieldsite } from "../types";
+
+export const DEFAULT_FIELDSITE: Fieldsite = { _id: "", name: "" };

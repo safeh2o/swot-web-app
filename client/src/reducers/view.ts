@@ -50,12 +50,16 @@ export const viewSlice = createSlice({
 			if (paths?.length && paths[paths.length - 1] !== "") {
 				paths.unshift("");
 			}
+			let currentPath = "";
 			for (const path of paths) {
+				if (path) {
+					currentPath += `/${path}`;
+				}
 				if (IGNORED_PATHS.has(path)) {
 					continue;
 				}
 				const breadcrumb = PATH_MAP[path];
-				newStack.push({ title: breadcrumb || path, path });
+				newStack.push({ title: breadcrumb || path, path: currentPath });
 			}
 			state.viewStack = newStack;
 		},

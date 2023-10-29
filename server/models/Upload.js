@@ -80,7 +80,6 @@ Upload.schema.pre("save", function (next) {
 		this.rewindFieldsite();
 	}
 	if (this.isNew) {
-		// TODO get most recent upload's total rows after
 		this.wasNew = true;
 	}
 	next();

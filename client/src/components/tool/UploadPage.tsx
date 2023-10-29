@@ -23,10 +23,11 @@ import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
 import { IconRowChecked, IconRowUnchecked } from "../icons";
+import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 
 const initialState = {
 	overwrite: true,
-	fieldsite: null,
+	fieldsite: DEFAULT_FIELDSITE,
 };
 
 const importColumns: ImporterFieldProps[] = [
@@ -86,7 +87,7 @@ export default function UploadPage() {
 			const blob = new Blob([csvContent]);
 			formData.append("files[]", blob, filename);
 		});
-		formData.append("overwrite", overwrite);
+		formData.append("overwrite", overwrite.toString());
 
 		return formData;
 	}

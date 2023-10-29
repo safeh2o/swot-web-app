@@ -1,11 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { RootState } from "../store";
+import { Area, Country, Fieldsite, User } from "../types";
 
 export const getUser = createAsyncThunk("user/getUser", async () => {
 	const res = await fetch("/api/user/me").then((res) => res.json());
 	return res;
 });
+
+export const getUserPermissions = createAsyncThunk(
+	"user/getUserPermissions",
+	async () => {
+		const res = await fetch("/api/user/permissions").then((res) =>
+			res.json()
+		);
+		return res;
+	}
+);
 
 type UserState = {
 	user: {
@@ -18,6 +29,12 @@ type UserState = {
 	};
 	isLoggedIn: boolean;
 	status: "success" | "loading" | "failed" | null;
+	permissions: {
+		countries: Country[];
+		areas: Area[];
+		fieldsites: Fieldsite[];
+		users: User[];
+	};
 };
 
 const initialState: UserState = {
@@ -31,6 +48,12 @@ const initialState: UserState = {
 	},
 	isLoggedIn: false,
 	status: null,
+	permissions: {
+		countries: [],
+		areas: [],
+		fieldsites: [],
+		users: [],
+	},
 };
 
 export const userSlice = createSlice({
@@ -48,6 +71,18 @@ export const userSlice = createSlice({
 		builder.addCase(getUser.rejected, (state) => {
 			state.status = "failed";
 		});
+		builder.addCase(
+			getUserPermissions.fulfilled,
+			(state, { payload: { permissions } }) => {
+				state.permissions = permissions;
+			}
+		);
+		builder.addCase(getUserPermissions.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(getUserPermissions.rejected, (state) => {
+			state.status = "failed";
+		});
 	},
 	reducers: {},
 });
@@ -59,6 +94,7 @@ export const userSelectors = {
 	areas: (state: RootState) => state.user.user.areas,
 	countries: (state: RootState) => state.user.user.countries,
 	loadingStatus: (state: RootState) => state.user.status,
+	permissions: (state: RootState) => state.user.permissions,
 };
 
 export default userSlice.reducer;

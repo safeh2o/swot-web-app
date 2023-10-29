@@ -9,6 +9,7 @@ var Fieldsite = new keystone.List("Fieldsite", { label: "Field Site" });
 
 Fieldsite.add({
 	name: { type: Types.Text, required: true, index: true },
+	admins: { type: Types.Relationship, ref: "User", many: true },
 });
 
 /**
@@ -29,8 +30,6 @@ Fieldsite.relationship({
 	path: "uploads",
 	refPath: "fieldsite",
 });
-
-// Fieldsite.relationship({ref: "User", path: "user", refPath: "managedSites"});
 
 /**
  * Registration

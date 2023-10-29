@@ -1,7 +1,8 @@
+import { ManageAccounts } from "@mui/icons-material";
 import { Box, Drawer, IconButton, Skeleton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import useHashParams from "../../hooks/useHashParams";
 import { markAllRead, setLoading } from "../../reducers/notifications";
 import { getUser, userSelectors } from "../../reducers/user";
@@ -26,6 +27,7 @@ export default function Header() {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const user = useSelector(userSelectors.user);
 	const userLoadingStatus = useSelector(userSelectors.loadingStatus);
+	const navigate = useNavigate();
 
 	const [waitingForSignout, setWaitingForSignout] = useState(false);
 
@@ -266,6 +268,17 @@ export default function Header() {
 										</IconButton>
 									</li>
 								)}
+								<li>
+									<IconButton
+										tabIndex={-1}
+										onClick={() => navigate("/manage")}
+									>
+										<span className="label">Manage</span>
+										<i>
+											<ManageAccounts />
+										</i>
+									</IconButton>
+								</li>
 								<li className="sign-out">
 									<IconButton
 										tabIndex={-1}

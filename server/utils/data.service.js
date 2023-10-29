@@ -3,6 +3,7 @@ const keystone = require("keystone");
 const Country = keystone.list("Country");
 const Area = keystone.list("Area");
 const Fieldsite = keystone.list("Fieldsite");
+const User = keystone.list("User");
 const mongoose = require("mongoose");
 const Dataset = keystone.list("Dataset");
 const Upload = keystone.list("Upload");
@@ -180,4 +181,184 @@ exports.getCsvBlobAsJson = async function (containerName, blobName) {
 	}
 
 	return jsonContents;
+};
+
+async function getManagedCountries(userId) {
+	const countries = await Country.model.find({ admins: userId });
+	return _.mapKeys(countries, (country) => country._id) || {};
+}
+exports.getManagedCountries = getManagedCountries;
+
+async function getManagedAreas(userId) {
+	const areas = await Area.model
+		.find({ admins: userId })
+		.populate("users", ["name"])
+		.populate("fieldsites", ["name"]);
+	return _.mapKeys(areas, (area) => area._id) || {};
+}
+exports.getManagedAreas = getManagedAreas;
+
+async function getManagedFieldsites(userId) {
+	const fieldsites = await Fieldsite.model.find({ admins: userId });
+	return _.mapKeys(fieldsites, (fieldsite) => fieldsite._id) || {};
+}
+exports.getManagedFieldsites = getManagedFieldsites;
+
+exports.upsertFieldsite = async function (fieldsiteId, fieldsiteName) {
+	let fieldsite;
+	if (fieldsiteId) {
+		fieldsite = await Fieldsite.model.findOne({ _id: fieldsiteId });
+		fieldsite.name = fieldsiteName;
+	} else {
+		fieldsite = await Fieldsite.model.create({ name: fieldsiteName });
+	}
+	fieldsite.save();
+
+	return fieldsite;
+};
+exports.deleteFieldsite = async function (fieldsiteId) {
+	if (fieldsiteId) {
+		await Fieldsite.model.deleteOne({ _id: fieldsiteId });
+	}
+	return;
+};
+
+exports.upsertArea = async function (areaId, areaName, fieldsites, users) {
+	let area;
+	if (areaId) {
+		area = await Area.model.findOne({ _id: areaId });
+		area.name = areaName;
+		area.fieldsites = fieldsites;
+		area.users = users;
+	} else {
+		area = await Area.model.create({ name: areaName, fieldsites, users });
+	}
+
+	area.save();
+	return area;
+};
+exports.deleteArea = async function (areaId) {
+	if (areaId) {
+		await Area.model.deleteOne({ _id: areaId });
+	}
+	return;
+};
+
+exports.upsertCountry = async function (countryId, countryName, areas) {
+	let country;
+	if (countryId) {
+		country = await Country.model.findOne({ _id: countryId });
+		country.name = countryName;
+		country.areas = areas;
+	} else {
+		country = await Country.model.create({ name: countryName, areas });
+	}
+
+	country.save();
+	return country;
+};
+
+exports.deleteCountry = async function (countryId) {
+	if (countryId) {
+		await Country.model.deleteOne({ _id: countryId });
+	}
+	return;
+};
+
+async function getImplicitPermissions(
+	isAdmin,
+	explicitCountries,
+	explicitAreas,
+	explicitFieldsites
+) {
+	let countries = explicitCountries,
+		areas = explicitAreas,
+		fieldsites = explicitFieldsites,
+		users = [];
+	if (isAdmin) {
+		countries = await Country.model.find();
+		areas = await Area.model
+			.find()
+			.populate("users", ["name"])
+			.populate("fieldsites", ["name"]);
+		fieldsites = await Fieldsite.model.find();
+		users = await User.model.find({}, ["name"]);
+	} else {
+		const areaIds = explicitAreas.map((area) => area._id);
+		const fieldsiteIds = explicitFieldsites.map(
+			(fieldsite) => fieldsite._id
+		);
+		const userIds = [];
+
+		for (const country of countries) {
+			const countryAreas = await Area.model.find({
+				_id: { $in: country.areas },
+			});
+			for (const area of countryAreas) {
+				if (!areaIds.includes(area._id)) {
+					areaIds.push(area._id);
+					areas.push(area);
+				}
+			}
+		}
+		for (const area of areas) {
+			const areaFieldsites = await Fieldsite.model.find({
+				_id: { $in: area.fieldsites },
+			});
+			for (const fieldsite of areaFieldsites) {
+				if (!fieldsiteIds.includes(fieldsite._id)) {
+					fieldsiteIds.push(fieldsite._id);
+					fieldsites.push(fieldsite);
+				}
+			}
+			for (const user of area.users) {
+				if (!userIds.includes(user._id)) {
+					userIds.push(user._id);
+					users.push(user);
+				}
+			}
+		}
+	}
+
+	return { countries, areas, fieldsites, users };
+}
+
+async function getPermissions(user) {
+	const { id: userId, isAdmin } = user;
+	const countries = isAdmin ? {} : await getManagedCountries(userId);
+	const areas = isAdmin ? {} : await getManagedAreas(userId);
+	const fieldsites = isAdmin ? {} : await getManagedFieldsites(userId);
+
+	const permissions = await getImplicitPermissions(
+		isAdmin,
+		countries,
+		areas,
+		fieldsites
+	);
+
+	return permissions;
+}
+
+exports.getPermissions = getPermissions;
+
+exports.isUserAllowedAccessToFieldsite = async function (user, fieldsiteId) {
+	const permissions = await getPermissions(user);
+
+	return !!permissions.fieldsites.find(
+		(fieldsite) => fieldsite._id.toString() === fieldsiteId
+	);
+};
+
+exports.isUserAllowedAccessToArea = async function (user, areaId) {
+	const permissions = await getPermissions(user);
+
+	return !!permissions.areas.find((area) => area._id.toString() === areaId);
+};
+
+exports.isUserAllowedAccessToCountry = async function (user, countryId) {
+	const permissions = await getPermissions(user);
+
+	return !!permissions.countries.find(
+		(country) => country._id.toString() === countryId
+	);
 };

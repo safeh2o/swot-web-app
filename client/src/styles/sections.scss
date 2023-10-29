@@ -87,7 +87,7 @@ main {
 	}
 }
 
-#home-profile {
+.card-grid {
 	.options {
 		display: grid;
 		gap: calc(var(--line-height) * 1rem);
@@ -169,7 +169,7 @@ main {
 	}
 }
 .tool-footer,
-#home-profile .cards {
+.card-grid .cards {
 	display: grid;
 	grid-template-columns: minmax(0, 100%);
 	gap: calc(var(--line-height) * 1rem) calc(var(--line-height) * 0.75rem);

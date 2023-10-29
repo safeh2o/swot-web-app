@@ -306,3 +306,12 @@ exports.forgotPassword = async function (req, res) {
 			}
 		});
 };
+
+exports.permissions = async function (req, res) {
+	if (!req.user) {
+		return res.json({ permissions: {} });
+	}
+
+	const permissions = await dataService.getPermissions(req.user);
+	return res.json({ permissions });
+};

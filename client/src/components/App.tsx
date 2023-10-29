@@ -10,7 +10,7 @@ import { ThemeProvider } from "@mui/material/styles";
 
 import AppContext from "../contexts/AppContext";
 import { setLastSeenCommitSha, settingsSelectors } from "../reducers/settings";
-import { getUser, userSelectors } from "../reducers/user";
+import { getUser, getUserPermissions, userSelectors } from "../reducers/user";
 import { persistor } from "../store";
 import theme from "../theme";
 import Blog from "./Blog";
@@ -30,10 +30,17 @@ import ProfileLogin from "./profile/ProfileLogin";
 import ProfileResetPassword from "./profile/ProfileResetPassword";
 import AnalyzePage from "./tool/AnalyzePage";
 // Tool Imports
+import ManagePage from "./manage/ManagePage";
+import ManageAreas from "./manage/ManageAreas";
+import ManageCountries from "./manage/ManageCountries";
+import ManageFieldsites from "./manage/ManageFieldsites";
 import CollectData from "./tool/CollectData";
 import Result from "./tool/Result";
 import ResultsPage from "./tool/ResultsPage";
 import UploadPage from "./tool/UploadPage";
+import CountryForm from "./manage/CountryForm";
+import AreaForm from "./manage/AreaForm";
+import FieldsiteForm from "./manage/FieldsiteForm";
 
 export default function App() {
 	const dispatch = useDispatch();
@@ -52,6 +59,7 @@ export default function App() {
 
 	useEffect(() => {
 		dispatch(getUser());
+		dispatch(getUserPermissions());
 	}, [dispatch]);
 
 	return (
@@ -71,6 +79,30 @@ export default function App() {
 					</Route>
 					<Route path="/results" element={<PrivateRoute />}>
 						<Route path="" element={<ResultsPage />} />
+					</Route>
+					<Route path="/manage" element={<PrivateRoute />}>
+						<Route path="" element={<ManagePage />} />
+					</Route>
+					<Route path="/manage/countries" element={<PrivateRoute />}>
+						<Route path="" element={<ManageCountries />}>
+							<Route
+								path=":countryId"
+								element={<CountryForm />}
+							/>
+						</Route>
+					</Route>
+					<Route path="/manage/areas" element={<PrivateRoute />}>
+						<Route path="" element={<ManageAreas />}>
+							<Route path=":areaId" element={<AreaForm />} />
+						</Route>
+					</Route>
+					<Route path="/manage/fieldsites" element={<PrivateRoute />}>
+						<Route path="" element={<ManageFieldsites />}>
+							<Route
+								path=":fieldsiteId"
+								element={<FieldsiteForm />}
+							/>
+						</Route>
 					</Route>
 					<Route
 						path="/results/:datasetId"

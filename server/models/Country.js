@@ -11,9 +11,8 @@ var Country = new keystone.List("Country");
 Country.add({
 	name: { type: String, required: true, index: true },
 	areas: { type: Types.Relationship, ref: "Area", many: true },
+	admins: { type: Types.Relationship, ref: "User", many: true },
 });
-
-// Country.relationship({ref: "User", path: "user", refPath: "managedCountries"});
 
 Country.defaultColumns = "name";
 Country.register();

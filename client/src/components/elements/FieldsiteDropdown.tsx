@@ -1,27 +1,30 @@
 import { Box } from "@mui/material";
 import { useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
-import {
-	DEFAULT_AREA,
-	DEFAULT_COUNTRY,
-	DEFAULT_FIELDSITE,
-} from "../../constants/defaults";
 import useForm from "../../hooks/useForm";
 import useHashParams from "../../hooks/useHashParams";
 import { userSelectors } from "../../reducers/user";
+import { Area, Country, Fieldsite } from "../../types";
 import LocationDropdown from "./LocationDropdown";
 
 const initialState = {
-	country: DEFAULT_COUNTRY,
-	area: DEFAULT_AREA,
-	fieldsite: DEFAULT_FIELDSITE,
+	country: null,
+	area: null,
+	fieldsite: null,
+};
+
+type FieldsiteSelector = {
+	country: Country | null;
+	area: Area | null;
+	fieldsite: Fieldsite | null;
 };
 
 function FieldsiteDropdown(props: { onChange: any }) {
 	const countries = useSelector(userSelectors.countries);
 	const allAreas = useSelector(userSelectors.areas);
 	const allFieldsites = useSelector(userSelectors.fieldsites);
-	const { state: locations, update } = useForm(initialState);
+	const { state: locations, update } =
+		useForm<FieldsiteSelector>(initialState);
 	const [hashParams, setHashParams] = useHashParams();
 	const { onChange: onFieldsiteChange } = props;
 
@@ -37,14 +40,13 @@ function FieldsiteDropdown(props: { onChange: any }) {
 	};
 
 	const areas = useMemo(() => {
-		return allAreas.filter(
-			(area) => locations?.country?.areas?.indexOf(area._id) >= 0
+		return allAreas.filter((area) =>
+			locations?.country?.areas?.includes(area._id)
 		);
 	}, [locations.country, allAreas]);
 	const fieldsites = useMemo(() => {
-		return allFieldsites.filter(
-			(fieldsite) =>
-				locations?.area?.fieldsites?.indexOf(fieldsite?._id) >= 0
+		return allFieldsites.filter((fieldsite) =>
+			locations?.area?.fieldsites?.includes(fieldsite?._id)
 		);
 	}, [locations.area, allFieldsites]);
 
@@ -62,10 +64,10 @@ function FieldsiteDropdown(props: { onChange: any }) {
 		};
 
 		const countryName = hashParams.get("country");
-		let country: any = DEFAULT_COUNTRY,
-			area: any = DEFAULT_AREA,
-			fieldsite: any = DEFAULT_FIELDSITE;
-		if (countryName && countryName !== country.name) {
+		let country: Country | null = null,
+			area: Area | null = null,
+			fieldsite: Fieldsite | null = null;
+		if (countryName) {
 			const foundCountry = countries.find(
 				(ctr) => ctr?.name === countryName
 			);
@@ -131,8 +133,8 @@ function FieldsiteDropdown(props: { onChange: any }) {
 				onChange={(_event, value) => {
 					updateLocations({
 						country: value,
-						area: DEFAULT_AREA,
-						fieldsite: DEFAULT_FIELDSITE,
+						area: null,
+						fieldsite: null,
 					});
 				}}
 				locations={countries}
@@ -143,7 +145,7 @@ function FieldsiteDropdown(props: { onChange: any }) {
 				onChange={(_event, value) => {
 					updateLocations({
 						area: value,
-						fieldsite: DEFAULT_FIELDSITE,
+						fieldsite: null,
 					});
 				}}
 				locations={areas}

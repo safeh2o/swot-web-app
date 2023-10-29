@@ -16,8 +16,8 @@ import {
 } from "@mui/material";
 import {
 	DataGrid,
-	GridColumns,
-	GridSelectionModel,
+	GridColDef,
+	GridRowSelectionModel,
 	GridSortModel,
 } from "@mui/x-data-grid";
 
@@ -101,7 +101,7 @@ const HeaderCellWithTooltip =
 		);
 	};
 
-const columns: GridColumns = [
+const columns: GridColDef[] = [
 	{
 		field: "dateCreated",
 		headerName: "Generated",
@@ -212,7 +212,7 @@ export default function ResultsPage() {
 	]);
 
 	useEffect(() => {
-		if (fieldsite && fieldsite.name) {
+		if (fieldsite?._id) {
 			dispatch(setLoading(true));
 			axios
 				.get(`/api/user/datasets?fieldsite=${fieldsite._id}`)
@@ -227,7 +227,7 @@ export default function ResultsPage() {
 		}
 	}, [fieldsite, dispatch]);
 
-	function handleSelection(selectionModel: GridSelectionModel) {
+	function handleSelection(selectionModel: GridRowSelectionModel) {
 		setSelectedDatasets(selectionModel || []);
 	}
 
@@ -297,10 +297,10 @@ export default function ResultsPage() {
 							autoHeight
 							rows={datasets}
 							columns={columns}
-							headerHeight={45}
+							columnHeaderHeight={45}
 							rowHeight={60}
 							checkboxSelection
-							onSelectionModelChange={handleSelection}
+							onRowSelectionModelChange={handleSelection}
 							getRowId={(row) => row._id}
 							onSortModelChange={(sortModel) => {
 								setResultsSortModel(sortModel);
@@ -337,7 +337,7 @@ export default function ResultsPage() {
 									);
 								}),
 							}}
-							disableSelectionOnClick
+							disableRowSelectionOnClick
 						/>
 					</Box>
 				</div>

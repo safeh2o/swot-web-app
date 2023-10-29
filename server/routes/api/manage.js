@@ -21,7 +21,8 @@ exports.createFieldsite = async (req, res) => {
 	try {
 		const fieldsite = await dataService.upsertFieldsite(
 			null,
-			fieldsiteName
+			fieldsiteName,
+			req.user.id
 		);
 		return res.json({ fieldsite });
 	} catch (error) {
@@ -66,7 +67,8 @@ exports.createArea = async (req, res) => {
 			null,
 			areaName,
 			fieldsites,
-			users
+			users,
+			req.user.id
 		);
 		return res.json({ area });
 	} catch (error) {
@@ -108,7 +110,8 @@ exports.createCountry = async (req, res) => {
 		const country = await dataService.upsertCountry(
 			null,
 			countryName,
-			areas
+			areas,
+			req.user.id
 		);
 		return res.json({ country });
 	} catch (error) {

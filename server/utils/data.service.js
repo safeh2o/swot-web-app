@@ -204,13 +204,16 @@ async function getManagedFieldsites(userId) {
 }
 exports.getManagedFieldsites = getManagedFieldsites;
 
-exports.upsertFieldsite = async function (fieldsiteId, fieldsiteName) {
+exports.upsertFieldsite = async function (fieldsiteId, fieldsiteName, userId) {
 	let fieldsite;
 	if (fieldsiteId) {
 		fieldsite = await Fieldsite.model.findOne({ _id: fieldsiteId });
 		fieldsite.name = fieldsiteName;
 	} else {
-		fieldsite = await Fieldsite.model.create({ name: fieldsiteName });
+		fieldsite = await Fieldsite.model.create({
+			name: fieldsiteName,
+			admins: [userId],
+		});
 	}
 	fieldsite.save();
 
@@ -223,7 +226,13 @@ exports.deleteFieldsite = async function (fieldsiteId) {
 	return;
 };
 
-exports.upsertArea = async function (areaId, areaName, fieldsites, users) {
+exports.upsertArea = async function (
+	areaId,
+	areaName,
+	fieldsites,
+	users,
+	userId
+) {
 	let area;
 	if (areaId) {
 		area = await Area.model.findOne({ _id: areaId });
@@ -231,7 +240,12 @@ exports.upsertArea = async function (areaId, areaName, fieldsites, users) {
 		area.fieldsites = fieldsites;
 		area.users = users;
 	} else {
-		area = await Area.model.create({ name: areaName, fieldsites, users });
+		area = await Area.model.create({
+			name: areaName,
+			fieldsites,
+			users,
+			admins: [userId],
+		});
 	}
 
 	area.save();
@@ -244,14 +258,18 @@ exports.deleteArea = async function (areaId) {
 	return;
 };
 
-exports.upsertCountry = async function (countryId, countryName, areas) {
+exports.upsertCountry = async function (countryId, countryName, areas, userId) {
 	let country;
 	if (countryId) {
 		country = await Country.model.findOne({ _id: countryId });
 		country.name = countryName;
 		country.areas = areas;
 	} else {
-		country = await Country.model.create({ name: countryName, areas });
+		country = await Country.model.create({
+			name: countryName,
+			areas,
+			admins: [userId],
+		});
 	}
 
 	country.save();
@@ -284,43 +302,43 @@ async function getImplicitPermissions(
 		fieldsites = await Fieldsite.model.find();
 		users = await User.model.find({}, ["name"]);
 	} else {
-		const areaIds = explicitAreas.map((area) => area._id);
-		const fieldsiteIds = explicitFieldsites.map(
-			(fieldsite) => fieldsite._id
-		);
-		const userIds = [];
-
-		for (const country of countries) {
+		for (const countryId of Object.keys(countries)) {
+			const country = countries[countryId];
 			const countryAreas = await Area.model.find({
 				_id: { $in: country.areas },
 			});
 			for (const area of countryAreas) {
-				if (!areaIds.includes(area._id)) {
-					areaIds.push(area._id);
-					areas.push(area);
+				if (!areas[area._id]) {
+					areas[area._id] = area;
 				}
 			}
 		}
-		for (const area of areas) {
+		for (const areaId of Object.keys(areas)) {
+			const area = areas[areaId];
 			const areaFieldsites = await Fieldsite.model.find({
 				_id: { $in: area.fieldsites },
 			});
 			for (const fieldsite of areaFieldsites) {
-				if (!fieldsiteIds.includes(fieldsite._id)) {
-					fieldsiteIds.push(fieldsite._id);
-					fieldsites.push(fieldsite);
+				if (!fieldsites[fieldsite._id]) {
+					fieldsites[fieldsite._id] = fieldsite;
 				}
 			}
 			for (const user of area.users) {
-				if (!userIds.includes(user._id)) {
-					userIds.push(user._id);
-					users.push(user);
+				if (!users[user._id]) {
+					users[user._id] = user;
 				}
 			}
 		}
 	}
 
-	return { countries, areas, fieldsites, users };
+	const permissions = {
+		countries: Object.values(countries),
+		areas: Object.values(areas),
+		fieldsites: Object.values(fieldsites),
+		users: Object.values(users),
+	};
+
+	return permissions;
 }
 
 async function getPermissions(user) {

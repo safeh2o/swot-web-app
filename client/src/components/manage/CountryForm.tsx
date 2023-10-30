@@ -16,6 +16,7 @@ export default function CountryForm() {
 	const permissions = useSelector(userSelectors.permissions);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const isCreating = countryId === "new";
 
 	const refreshModels = () => {
 		dispatch(getUser());
@@ -46,7 +47,7 @@ export default function CountryForm() {
 			countryName,
 			areas: currentAreas.map((a: Area) => a._id),
 		};
-		if (countryId === "new") {
+		if (isCreating) {
 			const res = await axios.post("/api/manage/country", body);
 
 			const newCountryId = res.data.country._id;
@@ -109,15 +110,17 @@ export default function CountryForm() {
 						Save
 					</Button>
 				</Grid>
-				<Grid>
-					<Button
-						variant="contained"
-						onClick={handleCountryDelete}
-						color="error"
-					>
-						Delete
-					</Button>
-				</Grid>
+				{!isCreating && (
+					<Grid>
+						<Button
+							variant="contained"
+							onClick={handleCountryDelete}
+							color="error"
+						>
+							Delete
+						</Button>
+					</Grid>
+				)}
 			</Grid>
 		</Grid>
 	);

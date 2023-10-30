@@ -17,6 +17,7 @@ export default function FieldsiteForm() {
 	const fieldsite = permissions.fieldsites.find(
 		(c: Fieldsite) => c._id === fieldsiteId
 	);
+	const isCreating = fieldsiteId === "new";
 
 	const [fieldsiteName, setFieldsiteName] = useState(fieldsite?.name || "");
 
@@ -31,7 +32,7 @@ export default function FieldsiteForm() {
 		const body: Record<string, string | Array<string>> = {
 			fieldsiteName,
 		};
-		if (fieldsiteId === "new") {
+		if (isCreating) {
 			const res = await axios.post("/api/manage/fieldsite", body);
 
 			const newFieldsiteId = res.data.fieldsite._id;
@@ -77,15 +78,17 @@ export default function FieldsiteForm() {
 						Save
 					</Button>
 				</Grid>
-				<Grid>
-					<Button
-						variant="contained"
-						onClick={handleFieldsiteDelete}
-						color="error"
-					>
-						Delete
-					</Button>
-				</Grid>
+				{!isCreating && (
+					<Grid>
+						<Button
+							variant="contained"
+							onClick={handleFieldsiteDelete}
+							color="error"
+						>
+							Delete
+						</Button>
+					</Grid>
+				)}
 			</Grid>
 		</Grid>
 	);

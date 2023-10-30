@@ -19,6 +19,7 @@ export default function AreaForm() {
 	const { areaId } = useParams();
 	const permissions = useSelector(userSelectors.permissions);
 	const area = permissions.areas.find((c: Area) => c._id === areaId);
+	const isCreating = areaId === "new";
 
 	const [currentFieldsites, setCurrentFieldsites] = useState<Fieldsite[]>([]);
 	const [currentUsers, setCurrentUsers] = useState<User[]>([]);
@@ -70,7 +71,7 @@ export default function AreaForm() {
 			fieldsites: currentFieldsites.map((a: Fieldsite) => a._id),
 			users: currentUsers.map((a: User) => a._id),
 		};
-		if (areaId === "new") {
+		if (isCreating) {
 			const res = await axios.post("/api/manage/area", body);
 
 			const newAreaId = res.data.area._id;
@@ -150,15 +151,17 @@ export default function AreaForm() {
 						Save
 					</Button>
 				</Grid>
-				<Grid>
-					<Button
-						variant="contained"
-						onClick={handleAreaDelete}
-						color="error"
-					>
-						Delete
-					</Button>
-				</Grid>
+				{!isCreating && (
+					<Grid>
+						<Button
+							variant="contained"
+							onClick={handleAreaDelete}
+							color="error"
+						>
+							Delete
+						</Button>
+					</Grid>
+				)}
 			</Grid>
 		</Grid>
 	);

@@ -184,7 +184,13 @@ exports.getCsvBlobAsJson = async function (containerName, blobName) {
 };
 
 async function getManagedCountries(userId) {
-	const countries = await Country.model.find({ admins: userId });
+	const countries = await Country.model.find({ admins: userId }).populate({
+		path: "areas",
+		populate: [
+			{ path: "users", select: "name" },
+			{ path: "fieldsites", select: "name" },
+		],
+	});
 	return _.mapKeys(countries, (country) => country._id) || {};
 }
 exports.getManagedCountries = getManagedCountries;
@@ -287,12 +293,13 @@ async function getImplicitPermissions(
 	isAdmin,
 	explicitCountries,
 	explicitAreas,
-	explicitFieldsites
+	explicitFieldsites,
+	explicitUsers
 ) {
 	let countries = explicitCountries,
 		areas = explicitAreas,
 		fieldsites = explicitFieldsites,
-		users = [];
+		users = explicitUsers;
 	if (isAdmin) {
 		countries = await Country.model.find();
 		areas = await Area.model
@@ -304,9 +311,12 @@ async function getImplicitPermissions(
 	} else {
 		for (const countryId of Object.keys(countries)) {
 			const country = countries[countryId];
-			const countryAreas = await Area.model.find({
-				_id: { $in: country.areas },
-			});
+			const countryAreas = await Area.model
+				.find({
+					_id: { $in: country.areas },
+				})
+				.populate("users", ["name"])
+				.populate("fieldsites", ["name"]);
 			for (const area of countryAreas) {
 				if (!areas[area._id]) {
 					areas[area._id] = area;
@@ -346,12 +356,14 @@ async function getPermissions(user) {
 	const countries = isAdmin ? {} : await getManagedCountries(userId);
 	const areas = isAdmin ? {} : await getManagedAreas(userId);
 	const fieldsites = isAdmin ? {} : await getManagedFieldsites(userId);
+	const users = isAdmin ? {} : { [userId]: user };
 
 	const permissions = await getImplicitPermissions(
 		isAdmin,
 		countries,
 		areas,
-		fieldsites
+		fieldsites,
+		users
 	);
 
 	return permissions;

@@ -1,7 +1,7 @@
 import { BlobClient, BlobSASPermissions } from "@azure/storage-blob";
 import { parseString } from "fast-csv";
 import * as keystone from "keystone";
-import { chain, mapKeys, sortBy, uniqBy } from "lodash";
+import * as _ from "lodash";
 import { Types } from "mongoose";
 const Country = keystone.list("Country");
 const Area = keystone.list("Area");
@@ -82,8 +82,8 @@ export async function getUserFieldsites(userId) {
 		}
 	}
 
-	return uniqBy(
-		sortBy(fieldsites, (f) => f.name),
+	return _.uniqBy(
+		_.sortBy(fieldsites, (f) => f.name),
 		"_id"
 	);
 }
@@ -102,7 +102,7 @@ export async function getUserAreas(userId) {
 		return null;
 	}
 
-	return sortBy(areasHavingUser, (p) => p.name);
+	return _.sortBy(areasHavingUser, (p) => p.name);
 }
 
 /**
@@ -123,7 +123,7 @@ export async function getUserCountries(userId) {
 		)
 	).flatMap((x) => x);
 
-	const userCountries = chain(countriesHavingAreas)
+	const userCountries = _.chain(countriesHavingAreas)
 		.uniqWith((c1, c2) => c1.id === c2.id)
 		.sortBy((c) => c.name)
 		.value();
@@ -194,7 +194,7 @@ export async function getManagedCountries(userId) {
 			{ path: "fieldsites", select: "name" },
 		],
 	});
-	return mapKeys(countries, (country) => country._id) || {};
+	return _.mapKeys(countries, (country) => country._id) || {};
 }
 
 export async function getManagedAreas(userId) {
@@ -202,12 +202,12 @@ export async function getManagedAreas(userId) {
 		.find({ admins: userId })
 		.populate("users", ["name"])
 		.populate("fieldsites", ["name"]);
-	return mapKeys(areas, (area) => area._id) || {};
+	return _.mapKeys(areas, (area) => area._id) || {};
 }
 
 export async function getManagedFieldsites(userId) {
 	const fieldsites = await Fieldsite.model.find({ admins: userId });
-	return mapKeys(fieldsites, (fieldsite) => fieldsite._id) || {};
+	return _.mapKeys(fieldsites, (fieldsite) => fieldsite._id) || {};
 }
 
 export async function upsertFieldsite(fieldsiteId, fieldsiteName, userId?) {

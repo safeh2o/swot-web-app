@@ -7,7 +7,7 @@
  * you have more middleware you may want to group it as separate
  * modules in your project's /lib directory.
  */
-import * as lodash from "lodash";
+import * as _ from "lodash";
 import * as keystone from "keystone";
 import {
 	isUserAllowedAccessToFieldsite,
@@ -38,7 +38,7 @@ export function flashMessages(req, res, next) {
 		warning: req.flash("warning"),
 		error: req.flash("error"),
 	};
-	res.locals.messages = lodash.some(flashMessages, function (msgs) {
+	res.locals.messages = _.some(flashMessages, function (msgs) {
 		return msgs.length;
 	})
 		? flashMessages

@@ -1,5 +1,5 @@
 import * as keystone from "keystone";
-import * as lodash from "lodash";
+import * as _ from "lodash";
 const Enquiry = keystone.list("Enquiry");
 
 export async function contact(req, res) {
@@ -17,7 +17,7 @@ export async function contact(req, res) {
 		},
 		function (errors) {
 			if (errors) {
-				lodash.forEach(errors.detail, (err) => {
+				_.forEach(errors.detail, (err) => {
 					messages.errors.push(err.error);
 				});
 			} else {

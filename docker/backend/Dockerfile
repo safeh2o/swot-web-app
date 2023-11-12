@@ -1,6 +1,6 @@
 FROM node:20.9.0-alpine as build
 
-WORKDIR /app/server
+WORKDIR /app
 COPY ./server/package.json ./
 COPY ./server/package-lock.json ./
 RUN npm ci

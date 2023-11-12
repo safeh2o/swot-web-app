@@ -1,5 +1,5 @@
 import * as keystone from "keystone";
-import { pick } from "lodash";
+import * as _ from "lodash";
 import * as dataService from "../../utils/data.service";
 const User = keystone.list("User");
 const Dataset = keystone.list("Dataset");
@@ -230,20 +230,20 @@ export async function getCurrentUser(req, res) {
 	}
 
 	const fields = ["_id", "isAdmin", "name", "email"];
-	const user = pick(req.user, fields);
+	const user = _.pick(req.user, fields);
 
 	let fieldsites = await dataService.getUserFieldsites(user._id);
-	fieldsites = fieldsites.map((location) => pick(location, ["_id", "name"]));
+	fieldsites = fieldsites.map((location) => _.pick(location, ["_id", "name"]));
 
 	let areas = await dataService.getUserAreas(user._id);
 	areas = areas.map((location) =>
-		pick(location, ["_id", "name", "fieldsites"])
+		_.pick(location, ["_id", "name", "fieldsites"])
 	);
 
 	let countries = await dataService.getUserCountries(user._id);
 	if (countries) {
 		countries = countries.map((location) =>
-			pick(location, ["_id", "name", "areas"])
+			_.pick(location, ["_id", "name", "areas"])
 		);
 	} else {
 		countries = [];

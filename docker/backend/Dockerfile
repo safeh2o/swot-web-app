@@ -1,13 +1,12 @@
-FROM node:16.13.0-alpine
+FROM node:20.9.0-alpine as build
 
-WORKDIR /app
-
-COPY ./server/package.json /app
-COPY ./server/package-lock.json /app
-
+WORKDIR /app/server
+COPY ./server/package.json ./
+COPY ./server/package-lock.json ./
 RUN npm ci
 
-COPY ./server /app
+COPY ./server/ ./
+RUN npm run build
 
 EXPOSE 3000
 CMD ["npm", "start"]

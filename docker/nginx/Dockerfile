@@ -1,7 +1,6 @@
-
 # The first stage
 # Build React static files
-FROM node:16.13.0-alpine as build
+FROM node:20.9.0-alpine as build
 WORKDIR /app/client
 COPY ./client/package.json ./
 COPY ./client/package-lock.json ./

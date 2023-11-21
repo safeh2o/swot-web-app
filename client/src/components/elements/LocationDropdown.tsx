@@ -23,12 +23,10 @@ function LocationDropdown<T extends Location = any>({
 
 	return (
 		<Autocomplete
-			className={(value ? "chosen" : "empty-location") || "disabled"}
+			className={value ? "chosen" : "empty-location"}
 			options={locations}
 			getOptionLabel={(option) => option.name || ""}
-			renderInput={(params) => (
-				<TextField {...params} label={fieldLabel} />
-			)}
+			renderInput={(params) => <TextField {...params} label={fieldLabel} />}
 			loading={isLoading}
 			value={value}
 			onChange={onChange}

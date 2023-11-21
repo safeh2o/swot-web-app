@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { RootState } from '../store';
+import { RootState } from "../store";
+import { BlogPost, BlogPostCategory } from "../types";
 
 export const getPosts = createAsyncThunk("blog/getPosts", async () => {
 	const res = await fetch("/api/cms/posts").then((res) => res.json());
@@ -18,8 +19,11 @@ export const getPostCategories = createAsyncThunk(
 );
 
 type BlogState = {
-	posts: any[];
-	postCategories: { byName: any; byId: any };
+	posts: BlogPost[];
+	postCategories: {
+		byName: Record<string, BlogPostCategory>;
+		byId: Record<string, BlogPostCategory>;
+	};
 	isLoading: boolean;
 };
 

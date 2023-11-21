@@ -6,13 +6,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Divider, Tooltip, Typography } from "@mui/material";
 
 import useLocationSuffix from "../../hooks/useLocationSuffix";
-import {
-	notificationsSelectors,
-	setLoading,
-} from "../../reducers/notifications";
+import { notificationsSelectors, setLoading } from "../../reducers/notifications";
 import { replaceCrumb } from "../../reducers/view";
 import { Result as css } from "../../styles/styles";
-import { ConfidenceLevelType } from "../../types";
+import { ConfidenceLevelType, ChartData } from "../../types";
 import NotFound from "../NotFound";
 import TargetsFigure from "../figures/TargetsFigure";
 import { IconCheck, IconLow, IconQuestionMark } from "../icons";
@@ -42,12 +39,8 @@ export default function Result() {
 		lastSample: "--/--/--",
 	};
 	const [dataset, setDataset] = useState<typeof defaultDataset>();
-	const [targetFigureJson, setTargetFigureJson] = useState<
-		Array<any> | undefined
-	>(undefined);
-	const [decayFigureJson, setDecayFigureJson] = useState<
-		Array<any> | undefined
-	>(undefined);
+	const [targetFigureJson, setTargetFigureJson] = useState<ChartData | undefined>(undefined);
+	const [decayFigureJson, setDecayFigureJson] = useState<ChartData | undefined>(undefined);
 	const [locationData, setLocationData] = useState({
 		fieldsiteName: "",
 		areaName: "",
@@ -88,8 +81,7 @@ export default function Result() {
 				setLocationData(data.locationData);
 				setTargetFigureJson(data.targetFigureJson);
 				setDecayFigureJson(data.decayFigureJson);
-				const { countryName, areaName, fieldsiteName } =
-					data.locationData;
+				const { countryName, areaName, fieldsiteName } = data.locationData;
 				const searchParams = new URLSearchParams();
 				searchParams.append("country", countryName);
 				const countryParams = searchParams.toString();
@@ -166,8 +158,7 @@ export default function Result() {
 		return `${lo}% - ${hi}%`;
 	};
 
-	const parseDate = (date: string) =>
-		date?.slice(0, 10) || String.fromCharCode(8734);
+	const parseDate = (date: string) => date?.slice(0, 10) || String.fromCharCode(8734);
 
 	return !dataset && !isLoading ? (
 		<NotFound />
@@ -179,18 +170,12 @@ export default function Result() {
 						<Box component={"h2"}>Analysis Location</Box>
 						<Divider sx={{ my: 1 }} />
 						<Box sx={{ ...css.stat }}>
-							<Typography variant="inputValue">
-								{locationData.countryName}
-							</Typography>
-							<Typography variant="inputLabel">
-								Country
-							</Typography>
+							<Typography variant="inputValue">{locationData.countryName}</Typography>
+							<Typography variant="inputLabel">Country</Typography>
 						</Box>
 
 						<Box sx={{ ...css.stat }}>
-							<Typography variant="inputValue">
-								{locationData.areaName}
-							</Typography>
+							<Typography variant="inputValue">{locationData.areaName}</Typography>
 							<Typography variant="inputLabel">Area</Typography>
 						</Box>
 
@@ -198,9 +183,7 @@ export default function Result() {
 							<Typography variant="inputValue">
 								{locationData.fieldsiteName}
 							</Typography>
-							<Typography variant="inputLabel">
-								Fieldsite
-							</Typography>
+							<Typography variant="inputLabel">Fieldsite</Typography>
 						</Box>
 					</Box>
 					<Box id="result-analysis-requested" className="app-card">
@@ -208,13 +191,9 @@ export default function Result() {
 						<Divider sx={{ my: 1 }} />
 						<Box sx={{ ...css.stat }}>
 							<Typography variant="inputValue">
-								{parseDate(
-									(dataset || defaultDataset).dateCreated
-								)}
+								{parseDate((dataset || defaultDataset).dateCreated)}
 							</Typography>
-							<Typography variant="inputLabel">
-								Date of analysis
-							</Typography>
+							<Typography variant="inputLabel">Date of analysis</Typography>
 						</Box>
 
 						<Divider sx={{ ...css.stat.divider }} />
@@ -222,20 +201,13 @@ export default function Result() {
 						<Box sx={{ ...css.stat }}>
 							<Box sx={{ ...css.stat.range }}>
 								<Typography variant="inputValue">
-									{parseDate(
-										(dataset || defaultDataset).startDate
-									)}{" "}
+									{parseDate((dataset || defaultDataset).startDate)}{" "}
 								</Typography>
-								<Typography
-									component="span"
-									sx={{ ...css.stat.range.seperator }}
-								>
+								<Typography component="span" sx={{ ...css.stat.range.seperator }}>
 									to
 								</Typography>
 								<Typography variant="inputValue">
-									{parseDate(
-										(dataset || defaultDataset).endDate
-									)}
+									{parseDate((dataset || defaultDataset).endDate)}
 								</Typography>
 							</Box>
 							<Typography variant="inputLabel">
@@ -256,13 +228,9 @@ export default function Result() {
 
 						<Box sx={{ ...css.stat }}>
 							<Typography variant="inputValue">
-								{parseDecayScenario(
-									(dataset || defaultDataset).confidenceLevel
-								)}
+								{parseDecayScenario((dataset || defaultDataset).confidenceLevel)}
 							</Typography>
-							<Typography variant="inputLabel">
-								Decay scenario
-							</Typography>
+							<Typography variant="inputLabel">Decay scenario</Typography>
 						</Box>
 					</Box>
 					{/* <Divider sx={{ ...css.hr }} /> */}
@@ -272,20 +240,13 @@ export default function Result() {
 						<Box sx={{ ...css.stat }}>
 							<Box sx={{ ...css.stat.range }}>
 								<Typography variant="inputValue">
-									{parseDate(
-										(dataset || defaultDataset).firstSample
-									)}
+									{parseDate((dataset || defaultDataset).firstSample)}
 								</Typography>
-								<Typography
-									component="span"
-									sx={{ ...css.stat.range.seperator }}
-								>
+								<Typography component="span" sx={{ ...css.stat.range.seperator }}>
 									to
 								</Typography>
 								<Typography variant="inputValue">
-									{parseDate(
-										(dataset || defaultDataset).lastSample
-									)}
+									{parseDate((dataset || defaultDataset).lastSample)}
 								</Typography>
 							</Box>
 							<Typography variant="inputLabel">
@@ -293,17 +254,12 @@ export default function Result() {
 								<Tooltip
 									title={
 										<>
-											Date of the oldest and most recent
-											samples sent for analysis. This
-											range may be shorter than the
-											specified date range as any invalid
-											rows are removed before being sent
-											for analysis.
+											Date of the oldest and most recent samples sent for
+											analysis. This range may be shorter than the specified
+											date range as any invalid rows are removed before being
+											sent for analysis.
 											<hr />
-											<a
-												href="/contact"
-												className="btn compact"
-											>
+											<a href="/contact" className="btn compact">
 												learn more
 											</a>
 										</>
@@ -322,25 +278,17 @@ export default function Result() {
 						</Box>
 						<Box sx={{ ...css.stat }}>
 							<Typography variant="inputValue">
-								{(dataset || defaultDataset)[
-									"safe_percent"
-								]?.toFixed(0) || "?"}
-								%
+								{(dataset || defaultDataset)["safe_percent"]?.toFixed(0) || "?"}%
 							</Typography>
 							<Typography variant="inputLabel">
 								Current household water safety
 								<Tooltip
 									title={
 										<>
-											Percentage of household samples in
-											the analyzed dataset with a
-											protective free chlorine residual
-											(0.2 mg/L)
+											Percentage of household samples in the analyzed dataset
+											with a protective free chlorine residual (0.2 mg/L)
 											<hr />
-											<a
-												href="/contact"
-												className="btn compact"
-											>
+											<a href="/contact" className="btn compact">
 												learn more
 											</a>
 										</>
@@ -360,11 +308,7 @@ export default function Result() {
 						<Divider sx={{ ...css.stat.divider }} />
 						<Box
 							sx={{ ...css.stat }}
-							className={
-								(dataset || defaultDataset).nSamples < 100
-									? "low"
-									: "pass"
-							}
+							className={(dataset || defaultDataset).nSamples < 100 ? "low" : "pass"}
 						>
 							<Typography variant="inputValue">
 								{(dataset || defaultDataset).nSamples}
@@ -372,8 +316,7 @@ export default function Result() {
 								{(dataset || defaultDataset).nSamples < 100 && (
 									<IconLow className="icon-sup icon-low" />
 								)}
-								{(dataset || defaultDataset).nSamples >=
-									100 && (
+								{(dataset || defaultDataset).nSamples >= 100 && (
 									<IconCheck className="icon-sup icon-pass" />
 								)}
 							</Typography>
@@ -383,15 +326,11 @@ export default function Result() {
 								<Tooltip
 									title={
 										<>
-											Total number of valid paired samples
-											found in the date range. If this
-											number is not what you expected, you
+											Total number of valid paired samples found in the date
+											range. If this number is not what you expected, you
 											should check your dataset for errors
 											<hr />
-											<a
-												href="/contact"
-												className="btn compact"
-											>
+											<a href="/contact" className="btn compact">
 												learn more
 											</a>
 										</>
@@ -409,22 +348,16 @@ export default function Result() {
 							</Typography>
 						</Box>
 						<Box sx={{ ...css.stat }}>
-							<Typography variant="inputValue">
-								{storageTimeInHours} hrs
-							</Typography>
+							<Typography variant="inputValue">{storageTimeInHours} hrs</Typography>
 							<Typography variant="inputLabel">
 								Average storage time in dataset
 								<Tooltip
 									title={
 										<>
-											Mean elapsed time between each
-											tapstand and household sample in the
-											analyzed dataset.
+											Mean elapsed time between each tapstand and household
+											sample in the analyzed dataset.
 											<hr />
-											<a
-												href="/contact"
-												className="btn compact"
-											>
+											<a href="/contact" className="btn compact">
 												learn more
 											</a>
 										</>
@@ -446,21 +379,15 @@ export default function Result() {
 						<Box component={"h2"}>SWOT FRC Target</Box>
 						<Divider sx={{ my: 1 }} />
 						<Box sx={{ ...css.stat }}>
-							<Typography variant="inputValue">
-								{frcRecommendation}
-							</Typography>
+							<Typography variant="inputValue">{frcRecommendation}</Typography>
 							<Typography variant="inputLabel">
 								SWOT FRC Target Recommendation
 								<Tooltip
 									title={
 										<>
-											Aim for at least this FRC
-											concentration at the tapstand
+											Aim for at least this FRC concentration at the tapstand
 											<hr />
-											<a
-												href="/contact"
-												className="btn compact"
-											>
+											<a href="/contact" className="btn compact">
 												learn more
 											</a>
 										</>
@@ -486,17 +413,12 @@ export default function Result() {
 								<Tooltip
 									title={
 										<>
-											The predicted amount of time that
-											water will remain protected after
-											collection, if the FRC target
-											recommendation is achieved. For a
-											different storage time, re-run the
-											analysis.
+											The predicted amount of time that water will remain
+											protected after collection, if the FRC target
+											recommendation is achieved. For a different storage
+											time, re-run the analysis.
 											<hr />
-											<a
-												href="/contact"
-												className="btn compact"
-											>
+											<a href="/contact" className="btn compact">
 												learn more
 											</a>
 										</>
@@ -518,21 +440,15 @@ export default function Result() {
 								{getPredictedWaterSafetyRange()}
 							</Typography>
 							<Typography variant="inputLabel">
-								Predicted household water safety at this storage
-								time
+								Predicted household water safety at this storage time
 								<Tooltip
 									title={
 										<>
-											The predicted percentage of
-											households that would have a
-											protective free chlorine residual at
-											the given storage time if the FRC
-											target recommendation is achieved.
+											The predicted percentage of households that would have a
+											protective free chlorine residual at the given storage
+											time if the FRC target recommendation is achieved.
 											<hr />
-											<a
-												href="/contact"
-												className="btn compact"
-											>
+											<a href="/contact" className="btn compact">
 												learn more
 											</a>
 										</>
@@ -553,16 +469,12 @@ export default function Result() {
 					<Box className="app-card">
 						<Box component={"h2"}>FRC Target Over Time</Box>
 						<Divider sx={{ my: 1 }} />
-						{targetFigureJson && (
-							<TargetsFigure chartData={targetFigureJson} />
-						)}
+						{targetFigureJson && <TargetsFigure chartData={targetFigureJson} />}
 					</Box>
 					<Box className="app-card">
 						<Box component={"h2"}>FRC Decay Over Time</Box>
 						<Divider sx={{ my: 1 }} />
-						{decayFigureJson && (
-							<DecayFigure chartData={decayFigureJson} />
-						)}
+						{decayFigureJson && <DecayFigure chartData={decayFigureJson} />}
 					</Box>
 					<Divider sx={{ ...css.hr }} />
 					<Box className="app-card">
@@ -575,9 +487,7 @@ export default function Result() {
 							>
 								<Box component="span">Download Raw Results</Box>
 							</Button>
-							<button onClick={handleReanalysis}>
-								Reanalyze
-							</button>
+							<button onClick={handleReanalysis}>Reanalyze</button>
 						</Box>
 					</Box>
 				</div>

@@ -13,7 +13,7 @@ export default function FAQ() {
 	const [pageSize] = useState(DEFAULT_PAGE_SIZE);
 	const [FAQRange, setFAQRange] = useState([1, DEFAULT_PAGE_SIZE]);
 	const [numPages, setNumPages] = useState(1);
-	let [searchParams, setSearchParams] = useSearchParams();
+	const [searchParams, setSearchParams] = useSearchParams();
 	const currentPage = searchParams.get("page");
 	const currentPageNumber = currentPage ? parseInt(currentPage) : 1;
 

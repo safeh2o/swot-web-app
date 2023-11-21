@@ -4,10 +4,7 @@ import { useCallback, useReducer } from "react";
 export default function useForm<FormStateType>(initialValues: FormStateType) {
 	type FieldName = keyof FormStateType;
 	type UpdateType = Partial<FormStateType>;
-	function reducer(
-		prevState: FormStateType,
-		updates: Partial<FormStateType>
-	) {
+	function reducer(prevState: FormStateType, updates: Partial<FormStateType>) {
 		return {
 			...prevState,
 			...updates,
@@ -29,7 +26,7 @@ export default function useForm<FormStateType>(initialValues: FormStateType) {
 	};
 
 	function getTextChangeHandler(fieldName: FieldName) {
-		return (e: { target: { value: any } }) => {
+		return (e: { target: { value: unknown } }) => {
 			update({ [fieldName]: e.target.value } as UpdateType);
 		};
 	}

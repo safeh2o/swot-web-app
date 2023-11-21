@@ -117,9 +117,7 @@ export async function getUserCountries(userId) {
 
 	const countriesHavingAreas = (
 		await Promise.all(
-			areasHavingUser.map(
-				async (area) => await getCountriesHavingArea(area.id)
-			)
+			areasHavingUser.map(async (area) => await getCountriesHavingArea(area.id))
 		)
 	).flatMap((x) => x);
 
@@ -295,7 +293,13 @@ async function getImplicitPermissions(
 		fieldsites: MongooseItem[] = explicitFieldsites,
 		users: MongooseItem[] = explicitUsers;
 	if (isAdmin) {
-		countries = await Country.model.find();
+		countries = await Country.model.find({}).populate({
+			path: "areas",
+			populate: [
+				{ path: "users", select: "name" },
+				{ path: "fieldsites", select: "name" },
+			],
+		});
 		areas = await Area.model
 			.find()
 			.populate("users", ["name"])
@@ -352,13 +356,7 @@ export async function getPermissions(user) {
 	const fieldsites = isAdmin ? {} : await getManagedFieldsites(userId);
 	const users = isAdmin ? {} : { [userId]: user };
 
-	const permissions = await getImplicitPermissions(
-		isAdmin,
-		countries,
-		areas,
-		fieldsites,
-		users
-	);
+	const permissions = await getImplicitPermissions(isAdmin, countries, areas, fieldsites, users);
 
 	return permissions;
 }
@@ -366,9 +364,7 @@ export async function getPermissions(user) {
 export async function isUserAllowedAccessToFieldsite(user, fieldsiteId) {
 	const permissions = await getPermissions(user);
 
-	return !!permissions.fieldsites.find(
-		(fieldsite) => fieldsite._id.toString() === fieldsiteId
-	);
+	return !!permissions.fieldsites.find((fieldsite) => fieldsite._id.toString() === fieldsiteId);
 }
 
 export async function isUserAllowedAccessToArea(user, areaId) {
@@ -380,7 +376,5 @@ export async function isUserAllowedAccessToArea(user, areaId) {
 export async function isUserAllowedAccessToCountry(user, countryId) {
 	const permissions = await getPermissions(user);
 
-	return !!permissions.countries.find(
-		(country) => country._id.toString() === countryId
-	);
+	return !!permissions.countries.find((country) => country._id.toString() === countryId);
 }

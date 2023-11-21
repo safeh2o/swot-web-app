@@ -146,7 +146,10 @@ export default function ContactPage() {
 									>
 										{(contactReasons &&
 											contactReasons.map(
-												(reason: any) => (
+												(reason: {
+													value: string;
+													label: string;
+												}) => (
 													<MenuItem
 														key={reason.value}
 														value={reason.value}

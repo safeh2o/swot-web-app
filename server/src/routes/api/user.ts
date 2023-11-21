@@ -233,7 +233,9 @@ export async function getCurrentUser(req, res) {
 	const user = _.pick(req.user, fields);
 
 	let fieldsites = await dataService.getUserFieldsites(user._id);
-	fieldsites = fieldsites.map((location) => _.pick(location, ["_id", "name"]));
+	fieldsites = fieldsites.map((location) =>
+		_.pick(location, ["_id", "name"])
+	);
 
 	let areas = await dataService.getUserAreas(user._id);
 	areas = areas.map((location) =>
@@ -306,7 +308,14 @@ export async function forgotPassword(req, res) {
 
 export async function permissions(req, res) {
 	if (!req.user) {
-		return res.json({ permissions: {} });
+		return res.json({
+			permissions: {
+				areas: [],
+				countries: [],
+				fieldsites: [],
+				users: [],
+			},
+		});
 	}
 
 	const permissions = await dataService.getPermissions(req.user);

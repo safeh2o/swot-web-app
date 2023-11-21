@@ -7,12 +7,9 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
+import { ChartData } from "../../types";
 
-export default function TargetsFigure({
-	chartData,
-}: {
-	chartData: Array<any>;
-}) {
+export default function TargetsFigure({ chartData }: { chartData: ChartData }) {
 	const parsedChartData = chartData.map((pt) => ({
 		x: parseFloat(pt["Tapstand FRC"]),
 		y: parseFloat(pt["Household FRC"]),

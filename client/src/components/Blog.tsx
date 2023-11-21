@@ -15,7 +15,7 @@ export default function Blog() {
 	const [pageSize] = useState(DEFAULT_PAGE_SIZE);
 	const [postRange, setPostRange] = useState([1, DEFAULT_PAGE_SIZE]);
 	const [numPages, setNumPages] = useState(1);
-	let [searchParams, setSearchParams] = useSearchParams();
+	const [searchParams, setSearchParams] = useSearchParams();
 	const currentCategory = searchParams.get("category");
 	const currentPage = searchParams.get("page");
 	const currentPageNumber = currentPage ? parseInt(currentPage) : 1;
@@ -68,7 +68,7 @@ export default function Blog() {
 			allPostCategories?.byName?.[currentCategory]?._id;
 		if (currentCategoryId) {
 			setPosts(
-				allPosts.filter((post: any) =>
+				allPosts.filter((post) =>
 					post.categories.includes(currentCategoryId)
 				)
 			);

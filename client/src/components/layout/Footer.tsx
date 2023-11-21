@@ -27,13 +27,13 @@ export default function Footer() {
 	function acceptCookies() {
 		const d = new Date();
 		d.setTime(d.getTime() + TWO_WEEKS);
-		let expires = "expires=" + d.toUTCString();
+		const expires = "expires=" + d.toUTCString();
 		document.cookie = COOKIE_NAME + "=true;" + expires + ";path=/";
 		hideCookieBanner();
 	}
 
 	function rejectCookies() {
-		(window as any)["ga-disable-GA_MEASUREMENT_ID"] = true;
+		window[`ga-disable-${process.env.REACT_APP_GTAG}`] = true;
 		hideCookieBanner();
 	}
 

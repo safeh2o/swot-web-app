@@ -19,7 +19,7 @@ import {
 	handleServerMessages,
 	setLoading,
 } from "../../reducers/notifications";
-import { getUser } from "../../reducers/user";
+import { getUser, getUserPermissions } from "../../reducers/user";
 
 export default function ProfileLogin() {
 	const { state, getTextChangeHandler } = useForm({
@@ -41,6 +41,7 @@ export default function ProfileLogin() {
 				if (res.status === 200) {
 					navigate("/");
 					dispatch(getUser());
+					dispatch(getUserPermissions());
 				}
 				dispatch(handleServerMessages(res.data?.messages));
 			})

@@ -69,11 +69,7 @@ export default function FieldsiteDropdown(props: {
 		if (countryName) {
 			const foundCountry = countries.find((ctr) => ctr?.name === countryName);
 			if (foundCountry) {
-				country = {
-					_id: foundCountry._id,
-					name: foundCountry.name,
-					areas: foundCountry.areas,
-				};
+				country = foundCountry;
 			} else {
 				removeFromHash("country", "area", "fieldsite");
 			}
@@ -83,11 +79,7 @@ export default function FieldsiteDropdown(props: {
 		if (country && areaName) {
 			const foundArea = allAreas.find((ar) => ar?.name === areaName);
 			if (foundArea && country.areas.includes(foundArea._id)) {
-				area = {
-					_id: foundArea._id,
-					name: foundArea.name,
-					fieldsites: foundArea.fieldsites,
-				};
+				area = foundArea;
 			} else {
 				removeFromHash("area", "fieldsite");
 			}

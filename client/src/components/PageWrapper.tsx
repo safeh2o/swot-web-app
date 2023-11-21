@@ -17,7 +17,7 @@ function PageWrapper(props: { children: ReactElement | ReactElement[] }) {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
 	const isLoading = useSelector(notificationsSelectors.loading);
 
-	let url = useLocation();
+	const url = useLocation();
 
 	const isHome = url.pathname === "/";
 

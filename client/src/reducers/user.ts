@@ -1,31 +1,34 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { RootState } from "../store";
-import { Area, Country, Fieldsite, User } from "../types";
+import {
+	Area,
+	Country,
+	Fieldsite,
+	UnpopulatedArea,
+	UnpopulatedCountry,
+	UnpopulatedFieldsite,
+	User,
+} from "../types";
 
 export const getUser = createAsyncThunk("user/getUser", async () => {
 	const res = await fetch("/api/user/me").then((res) => res.json());
 	return res;
 });
 
-export const getUserPermissions = createAsyncThunk(
-	"user/getUserPermissions",
-	async () => {
-		const res = await fetch("/api/user/permissions").then((res) =>
-			res.json()
-		);
-		return res;
-	}
-);
+export const getUserPermissions = createAsyncThunk("user/getUserPermissions", async () => {
+	const res = await fetch("/api/user/permissions").then((res) => res.json());
+	return res;
+});
 
 type UserState = {
 	user: {
 		isAdmin?: boolean;
-		name?: any;
-		email?: any;
-		fieldsites: any[];
-		areas: any[];
-		countries: any[];
+		name: { first: string; last: string };
+		email?: string;
+		fieldsites: UnpopulatedFieldsite[];
+		areas: UnpopulatedArea[];
+		countries: UnpopulatedCountry[];
 	};
 	isLoggedIn: boolean;
 	status: "success" | "loading" | "failed" | null;
@@ -43,7 +46,7 @@ const initialState: UserState = {
 		fieldsites: [],
 		areas: [],
 		countries: [],
-		name: "",
+		name: { first: "", last: "" },
 		email: "",
 	},
 	isLoggedIn: false,
@@ -71,12 +74,9 @@ export const userSlice = createSlice({
 		builder.addCase(getUser.rejected, (state) => {
 			state.status = "failed";
 		});
-		builder.addCase(
-			getUserPermissions.fulfilled,
-			(state, { payload: { permissions } }) => {
-				state.permissions = permissions;
-			}
-		);
+		builder.addCase(getUserPermissions.fulfilled, (state, { payload: { permissions } }) => {
+			state.permissions = permissions;
+		});
 		builder.addCase(getUserPermissions.pending, (state) => {
 			state.status = "loading";
 		});

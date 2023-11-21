@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { RootState } from '../store';
+import { RootState } from "../store";
+import { FAQ } from "../types";
 
 export const getFAQs = createAsyncThunk("faq/getFAQs", async () => {
 	const res = await fetch("/api/cms/faqs").then((res) => res.json());
@@ -8,7 +9,7 @@ export const getFAQs = createAsyncThunk("faq/getFAQs", async () => {
 });
 
 type FAQState = {
-	FAQs: any[];
+	FAQs: FAQ[];
 	isLoading: boolean;
 };
 const initialState: FAQState = {

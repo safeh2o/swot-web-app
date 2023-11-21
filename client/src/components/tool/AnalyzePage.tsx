@@ -1,11 +1,5 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {
-	Box,
-	Divider,
-	Unstable_Grid2 as Grid,
-	Slider,
-	Stack,
-} from "@mui/material";
+import { Box, Divider, Unstable_Grid2 as Grid, Slider, Stack } from "@mui/material";
 import {
 	Accordion,
 	AccordionDetails,
@@ -26,12 +20,12 @@ import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
-import { ConfidenceLevelType } from "../../types";
+import { ConfidenceLevelType, Fieldsite } from "../../types";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
 
 type AnalyzeFormType = {
-	fieldsite: null | any;
+	fieldsite: null | Fieldsite;
 	startDate: null | Date;
 	endDate: null | Date;
 	duration: number;
@@ -56,12 +50,7 @@ export default function AnalyzePage() {
 
 	useEffect(() => {
 		const { fieldsite, startDate, endDate, duration, confidence } = state;
-		setDisabled(
-			!fieldsite?._id ||
-				(!startDate && !endDate) ||
-				!duration ||
-				!confidence
-		);
+		setDisabled(!fieldsite?._id || (!startDate && !endDate) || !duration || !confidence);
 	}, [state]);
 
 	function selectDate(delta: number) {
@@ -91,8 +80,7 @@ export default function AnalyzePage() {
 			})
 			.catch((err) => {
 				const message =
-					err?.response?.data?.error ||
-					"Error occurred while trying to analyze";
+					err?.response?.data?.error || "Error occurred while trying to analyze";
 				dispatch(addError(message));
 			})
 			.finally(() => {
@@ -111,7 +99,7 @@ export default function AnalyzePage() {
 						</Box>
 						<Divider sx={{ my: 3, mb: 2 }} />
 						<FieldsiteDropdown
-							onChange={(value: string) => {
+							onChange={(value) => {
 								update({ fieldsite: value });
 							}}
 						/>
@@ -120,13 +108,10 @@ export default function AnalyzePage() {
 								content: (
 									<>
 										<div>
-											Please contact us if the field site
-											you are working in does not appear
+											Please contact us if the field site you are working in
+											does not appear
 										</div>
-										<Link
-											to="/contact"
-											className="btn compact"
-										>
+										<Link to="/contact" className="btn compact">
 											contact form
 										</Link>
 									</>
@@ -145,19 +130,14 @@ export default function AnalyzePage() {
 
 						<Box className="tool-date-range">
 							<LocalizationProvider dateAdapter={AdapterDateFns}>
-								<Grid
-									direction="row"
-									container
-									alignItems="center"
-								>
+								<Grid direction="row" container alignItems="center">
 									<DatePicker
 										label="Start Date"
 										value={state.startDate}
 										onChange={(startDate) => {
-											const newDates: Partial<AnalyzeFormType> =
-												{
-													startDate,
-												};
+											const newDates: Partial<AnalyzeFormType> = {
+												startDate,
+											};
 											if (
 												!startDate ||
 												!state.endDate ||
@@ -174,10 +154,9 @@ export default function AnalyzePage() {
 										label="End Date"
 										value={state.endDate}
 										onChange={(endDate) => {
-											const newDates: Partial<AnalyzeFormType> =
-												{
-													endDate,
-												};
+											const newDates: Partial<AnalyzeFormType> = {
+												endDate,
+											};
 											if (
 												!state.startDate ||
 												!endDate ||
@@ -191,26 +170,14 @@ export default function AnalyzePage() {
 									/>
 								</Grid>
 							</LocalizationProvider>
-							<Stack
-								flexDirection={"row"}
-								className="date-range-buttons"
-							>
-								<button
-									className={"btn"}
-									onClick={() => selectDate(30)}
-								>
+							<Stack flexDirection={"row"} className="date-range-buttons">
+								<button className={"btn"} onClick={() => selectDate(30)}>
 									Last 30 Days
 								</button>
-								<button
-									className={"btn"}
-									onClick={() => selectDate(60)}
-								>
+								<button className={"btn"} onClick={() => selectDate(60)}>
 									Last 60 Days
 								</button>
-								<button
-									className={"btn"}
-									onClick={() => selectAllTimeDate()}
-								>
+								<button className={"btn"} onClick={() => selectAllTimeDate()}>
 									All-Time
 								</button>
 							</Stack>
@@ -219,14 +186,11 @@ export default function AnalyzePage() {
 							tip={{
 								content: (
 									<>
-										Select the start and end dates for the
-										period you would like to send for
-										analysis, or select
-										&lsquo;all-time&rsquo; to use the whole
-										dataset. Select "Last 30 days" if you
-										would like to filter datapoints 30 days
-										from today, or all-time if you would
-										like to use all datapoints for this
+										Select the start and end dates for the period you would like
+										to send for analysis, or select &lsquo;all-time&rsquo; to
+										use the whole dataset. Select &quot;Last 30 days&quot; if
+										you would like to filter datapoints 30 days from today, or
+										all-time if you would like to use all datapoints for this
 										fieldsite
 									</>
 								),
@@ -243,10 +207,7 @@ export default function AnalyzePage() {
 
 						<Divider sx={{ mb: 2, mt: 1 }} />
 
-						<Accordion
-							defaultExpanded={true}
-							className="tool-accordion"
-						>
+						<Accordion defaultExpanded={true} className="tool-accordion">
 							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 								Duration of household storage and use (in hours)
 							</AccordionSummary>
@@ -286,18 +247,13 @@ export default function AnalyzePage() {
 									tip={{
 										content: (
 											<>
-												The FRC Target Recommendation
-												will be determined based on the
-												typical amount of time people in
-												your field site are storing
-												water. Longer storage times will
-												require higher levels of FRC to
-												keep water protected.
+												The FRC Target Recommendation will be determined
+												based on the typical amount of time people in your
+												field site are storing water. Longer storage times
+												will require higher levels of FRC to keep water
+												protected.
 												<hr />
-												<a
-													href="/blog"
-													className="btn compact"
-												>
+												<a href="/blog" className="btn compact">
 													learn more
 												</a>
 											</>
@@ -307,9 +263,7 @@ export default function AnalyzePage() {
 									type="guide"
 									orientation="reverse"
 								>
-									<span>
-										How should I determine the storage time?
-									</span>
+									<span>How should I determine the storage time?</span>
 								</NotificationLine>
 							</AccordionDetails>
 						</Accordion>
@@ -340,8 +294,7 @@ export default function AnalyzePage() {
 										className="modeling-confidence-level-radio-group"
 										onChange={(_e, confidence) => {
 											update({
-												confidence:
-													confidence as ConfidenceLevelType,
+												confidence: confidence as ConfidenceLevelType,
 											});
 										}}
 									>
@@ -388,9 +341,7 @@ export default function AnalyzePage() {
 													/>
 												}
 												label={
-													<span className="label">
-														{listitem.label}
-													</span>
+													<span className="label">{listitem.label}</span>
 												}
 												disableTypography
 											/>
@@ -401,19 +352,13 @@ export default function AnalyzePage() {
 									tip={{
 										content: (
 											<>
-												The optimum decay scenario
-												presents the best estimate of
-												the decay phenomena at your
-												site. The maximum and minimum
-												give an envelope of
-												approximately a 95% confidence
-												interval around the optimum
-												decay scenario.
+												The optimum decay scenario presents the best
+												estimate of the decay phenomena at your site. The
+												maximum and minimum give an envelope of
+												approximately a 95% confidence interval around the
+												optimum decay scenario.
 												<hr />
-												<a
-													href="/blog"
-													className="btn compact"
-												>
+												<a href="/blog" className="btn compact">
 													learn more
 												</a>
 											</>
@@ -441,18 +386,13 @@ export default function AnalyzePage() {
 							>
 								Analyze
 							</Button>
-							<button
-								className="btn reset"
-								type="reset"
-								onClick={() => reset()}
-							>
+							<button className="btn reset" type="reset" onClick={() => reset()}>
 								Reset Fields
 							</button>
 							<NotificationLine type="notice">
 								<span>
-									Once you hit analyze your dataset will be
-									processed, we will send you an email once
-									your results are ready to view.
+									Once you hit analyze your dataset will be processed, we will
+									send you an email once your results are ready to view.
 								</span>
 							</NotificationLine>
 						</Box>

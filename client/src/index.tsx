@@ -4,14 +4,13 @@ import { BrowserRouter } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 
 import App from "./components/App";
-// import reportWebVitals from "./reportWebVitals";
 import ScrollToTop from "./components/ScrollToTop";
 import AppContext from "./contexts/AppContext";
 import { persistor, store } from "./store";
 
 const root = ReactDOM.createRoot(document.getElementById("app") as HTMLElement);
 
-const appContextInitialValue = (window as any).__INITIAL_STATE;
+const appContextInitialValue = window.__INITIAL_STATE;
 
 root.render(
 	<AppContext.Provider value={appContextInitialValue}>
@@ -25,8 +24,3 @@ root.render(
 		</Provider>
 	</AppContext.Provider>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();

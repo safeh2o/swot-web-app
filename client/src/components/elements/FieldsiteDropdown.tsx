@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import useForm from "../../hooks/useForm";
 import useHashParams from "../../hooks/useHashParams";
 import { userSelectors } from "../../reducers/user";
-import { Area, Country, Fieldsite } from "../../types";
+import { UnpopulatedArea, UnpopulatedCountry, UnpopulatedFieldsite } from "../../types";
 import LocationDropdown from "./LocationDropdown";
 
 const initialState = {
@@ -13,42 +13,41 @@ const initialState = {
 	fieldsite: null,
 };
 
-type FieldsiteSelector = {
-	country: Country | null;
-	area: Area | null;
-	fieldsite: Fieldsite | null;
+type Locations = {
+	country?: UnpopulatedCountry | null;
+	area?: UnpopulatedArea | null;
+	fieldsite?: UnpopulatedFieldsite | null;
 };
 
-function FieldsiteDropdown(props: { onChange: any }) {
+type FieldsiteSelector = {
+	country: UnpopulatedCountry | null;
+	area: UnpopulatedArea | null;
+	fieldsite: UnpopulatedFieldsite | null;
+};
+
+export default function FieldsiteDropdown(props: {
+	onChange: (fieldsite: UnpopulatedFieldsite | null) => void;
+}) {
 	const countries = useSelector(userSelectors.countries);
 	const allAreas = useSelector(userSelectors.areas);
 	const allFieldsites = useSelector(userSelectors.fieldsites);
-	const { state: locations, update } =
-		useForm<FieldsiteSelector>(initialState);
+	const { state: locations, update } = useForm<FieldsiteSelector>(initialState);
 	const [hashParams, setHashParams] = useHashParams();
 	const { onChange: onFieldsiteChange } = props;
 
-	const updateLocations = (
-		newLocations: Partial<{
-			country: any;
-			area: any;
-			fieldsite: any;
-		}>
-	) => {
+	const updateLocations = (newLocations: Locations) => {
 		update(newLocations);
 		updateHashStringFromLocations(newLocations);
 	};
 
 	const areas = useMemo(() => {
-		return allAreas.filter((area) =>
-			locations?.country?.areas?.includes(area._id)
-		);
-	}, [locations.country, allAreas]);
+		return allAreas.filter((area) => locations?.country?.areas?.includes(area._id));
+	}, [locations.country?.areas, allAreas]);
 	const fieldsites = useMemo(() => {
 		return allFieldsites.filter((fieldsite) =>
 			locations?.area?.fieldsites?.includes(fieldsite?._id)
 		);
-	}, [locations.area, allFieldsites]);
+	}, [locations.area?.fieldsites, allFieldsites]);
 
 	useEffect(() => {
 		onFieldsiteChange(locations.fieldsite);
@@ -64,13 +63,11 @@ function FieldsiteDropdown(props: { onChange: any }) {
 		};
 
 		const countryName = hashParams.get("country");
-		let country: Country | null = null,
-			area: Area | null = null,
-			fieldsite: Fieldsite | null = null;
+		let country: UnpopulatedCountry | null = null,
+			area: UnpopulatedArea | null = null,
+			fieldsite: UnpopulatedFieldsite | null = null;
 		if (countryName) {
-			const foundCountry = countries.find(
-				(ctr) => ctr?.name === countryName
-			);
+			const foundCountry = countries.find((ctr) => ctr?.name === countryName);
 			if (foundCountry) {
 				country = foundCountry;
 			} else {
@@ -90,13 +87,8 @@ function FieldsiteDropdown(props: { onChange: any }) {
 		update({ area });
 		const fieldsiteName = hashParams.get("fieldsite");
 		if (country && area && fieldsiteName) {
-			const foundFieldsite = allFieldsites.find(
-				(fs) => fs?.name === fieldsiteName
-			);
-			if (
-				foundFieldsite &&
-				area.fieldsites.includes(foundFieldsite?._id)
-			) {
+			const foundFieldsite = allFieldsites.find((fs) => fs?.name === fieldsiteName);
+			if (foundFieldsite && area.fieldsites.includes(foundFieldsite?._id)) {
 				fieldsite = foundFieldsite;
 			} else {
 				removeFromHash("fieldsite");
@@ -105,11 +97,7 @@ function FieldsiteDropdown(props: { onChange: any }) {
 		update({ fieldsite });
 	}, [allAreas, allFieldsites, countries, hashParams, setHashParams, update]);
 
-	const updateHashStringFromLocations = (newLocations: {
-		country?: any;
-		area?: any;
-		fieldsite?: any;
-	}) => {
+	const updateHashStringFromLocations = (newLocations: Locations) => {
 		const params = hashParams;
 		const country = newLocations.country || locations.country;
 		const area = newLocations.area || locations.area;
@@ -162,5 +150,3 @@ function FieldsiteDropdown(props: { onChange: any }) {
 		</Box>
 	);
 }
-
-export default FieldsiteDropdown;

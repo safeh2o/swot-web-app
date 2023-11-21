@@ -1,31 +1,25 @@
-import {
-	Box,
-	Button,
-	Checkbox,
-	Chip,
-	Divider,
-	FormControlLabel,
-	FormGroup,
-} from "@mui/material";
-import {
-	Importer,
-	ImporterField,
-	ImporterFieldProps,
-} from "@safeh2o/react-csv-importer";
+import { Box, Button, Checkbox, Chip, Divider, FormControlLabel, FormGroup } from "@mui/material";
+import { Importer, ImporterField, ImporterFieldProps } from "@safeh2o/react-csv-importer";
 import "@safeh2o/react-csv-importer/dist/index.css";
 import axios from "axios";
 import _ from "lodash";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import useForm from "../../hooks/useForm";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
+import { Fieldsite } from "../../types";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
 import { IconRowChecked, IconRowUnchecked } from "../icons";
-import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 
-const initialState = {
+type UploadPageForm = {
+	overwrite: boolean;
+	fieldsite: Fieldsite | null;
+};
+
+const initialState: UploadPageForm = {
 	overwrite: true,
 	fieldsite: DEFAULT_FIELDSITE,
 };
@@ -41,9 +35,7 @@ const importColumns: ImporterFieldProps[] = [
 type Row = Record<string, string>;
 
 const getMissingFields = (fieldNames: string[]) => {
-	const optionalFields = importColumns
-		.filter((col) => col.optional)
-		.map((col) => col.name);
+	const optionalFields = importColumns.filter((col) => col.optional).map((col) => col.name);
 	const missingFields = optionalFields.filter(
 		(optionalField) => !fieldNames.includes(optionalField)
 	);
@@ -58,18 +50,13 @@ export default function UploadPage() {
 	const currentFile = useRef<string>("");
 	const uploadedFilenames = Object.keys(uploads);
 	const [pendingUpload, setPendingUpload] = useState(false);
-	const disabled =
-		pendingUpload ||
-		uploadedFilenames.length === 0 ||
-		!state?.fieldsite?._id;
+	const disabled = pendingUpload || uploadedFilenames.length === 0 || !state?.fieldsite?._id;
 
 	function getFormData() {
 		const formData = new FormData();
-		const {
-			overwrite,
-			fieldsite: { _id: fieldsiteId },
-		} = state;
-		formData.append("fieldsite", fieldsiteId);
+		const { overwrite } = state;
+		const fieldsiteId = state.fieldsite?._id;
+		fieldsiteId && formData.append("fieldsite", fieldsiteId);
 		uploadedFilenames.forEach((filename) => {
 			const rows = uploads[filename];
 			if (!rows.length) {
@@ -80,9 +67,7 @@ export default function UploadPage() {
 			const allFields = [...fieldNames, ...missingFields];
 			let csvContent = allFields.join(",") + "\n";
 			for (const row of rows) {
-				csvContent +=
-					fieldNames.map((fieldName) => row[fieldName]).join(",") +
-					"\n";
+				csvContent += fieldNames.map((fieldName) => row[fieldName]).join(",") + "\n";
 			}
 			const blob = new Blob([csvContent]);
 			formData.append("files[]", blob, filename);
@@ -106,9 +91,7 @@ export default function UploadPage() {
 				dispatch(addNotice("Upload successful"));
 			})
 			.catch(() => {
-				dispatch(
-					addError("Error occurred while trying to upload files")
-				);
+				dispatch(addError("Error occurred while trying to upload files"));
 			})
 			.finally(() => {
 				dispatch(setLoading(false));
@@ -130,7 +113,7 @@ export default function UploadPage() {
 						</Box>
 						<Divider sx={{ my: 3, mb: 2 }} />
 						<FieldsiteDropdown
-							onChange={(value: any) => {
+							onChange={(value) => {
 								update({ fieldsite: value });
 							}}
 						/>
@@ -139,13 +122,10 @@ export default function UploadPage() {
 								content: (
 									<>
 										<div>
-											Please contact us if the field site
-											you are working in does not appear
+											Please contact us if the field site you are working in
+											does not appear
 										</div>
-										<Link
-											to="/contact"
-											className="btn compact"
-										>
+										<Link to="/contact" className="btn compact">
 											contact form
 										</Link>
 									</>
@@ -161,14 +141,10 @@ export default function UploadPage() {
 						<Importer
 							dataHandler={async (rows: Row[]) => {
 								setUploads((uploads) => {
-									const prevRows =
-										uploads[currentFile.current] || [];
+									const prevRows = uploads[currentFile.current] || [];
 									return {
 										...uploads,
-										[currentFile.current]: [
-											...prevRows,
-											...rows,
-										],
+										[currentFile.current]: [...prevRows, ...rows],
 									};
 								});
 							}}
@@ -226,9 +202,8 @@ export default function UploadPage() {
 								tip={{
 									content: (
 										<>
-											If checked, existing paired samples
-											will be replaced with new rows that
-											have identical tapstand datetimes
+											If checked, existing paired samples will be replaced
+											with new rows that have identical tapstand datetimes
 										</>
 									),
 									context: "icon",
@@ -246,8 +221,8 @@ export default function UploadPage() {
 							tip={{
 								content: (
 									<>
-										Required columns are ts_datetime,
-										ts_frc, hh_datetime and hh_frc
+										Required columns are ts_datetime, ts_frc, hh_datetime and
+										hh_frc
 									</>
 								),
 								context: "icon",
@@ -261,10 +236,7 @@ export default function UploadPage() {
 						<NotificationLine
 							tip={{
 								content: (
-									<>
-										File format should be Comma-Separated
-										Values (.csv) file
-									</>
+									<>File format should be Comma-Separated Values (.csv) file</>
 								),
 								context: "icon",
 							}}
@@ -297,10 +269,9 @@ export default function UploadPage() {
 							</button>
 							<NotificationLine type="notice">
 								<span>
-									Once you hit upload we will check your file
-									has all the information we need and we will
-									send you an email when your data is ready to
-									analyze.
+									Once you hit upload we will check your file has all the
+									information we need and we will send you an email when your data
+									is ready to analyze.
 								</span>
 							</NotificationLine>
 						</Box>

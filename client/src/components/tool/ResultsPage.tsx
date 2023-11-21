@@ -5,47 +5,23 @@ import { Link } from "react-router-dom";
 
 import AlarmIcon from "@mui/icons-material/Alarm";
 import PendingIcon from "@mui/icons-material/Pending";
-import {
-	Box,
-	Button,
-	Checkbox,
-	Divider,
-	IconButton,
-	Stack,
-	Tooltip,
-} from "@mui/material";
-import {
-	DataGrid,
-	GridColDef,
-	GridRowSelectionModel,
-	GridSortModel,
-} from "@mui/x-data-grid";
+import { Box, Button, Checkbox, Divider, IconButton, Stack, Tooltip } from "@mui/material";
+import { DataGrid, GridColDef, GridRowSelectionModel, GridSortModel } from "@mui/x-data-grid";
 
 import { DEFAULT_FIELDSITE } from "../../constants/defaults";
 import { addHours, formatDate } from "../../helpers/dates";
 import { addNotice, setLoading } from "../../reducers/notifications";
 import FieldsiteDropdown from "../elements/FieldsiteDropdown";
 import NotificationLine from "../elements/NotificationLine";
-import {
-	IconCheck,
-	IconRowChecked,
-	IconRowUnchecked,
-	IconWrong,
-} from "../icons";
+import { IconCheck, IconRowChecked, IconRowUnchecked, IconWrong } from "../icons";
+import { Dataset, Fieldsite } from "../../types";
 
-function renderRowStatus(dataset: any) {
+function renderRowStatus(dataset: Dataset) {
 	if (dataset?.completionStatus === "inProgress") {
-		if (
-			!dataset.lastAnalyzed ||
-			new Date(dataset.lastAnalyzed) < addHours(new Date(), -6)
-		) {
+		if (!dataset.lastAnalyzed || new Date(dataset.lastAnalyzed) < addHours(new Date(), -6)) {
 			return (
 				<Box title="Timed Out">
-					<IconButton
-						className={"BtnStatus timeout"}
-						size="small"
-						disabled
-					>
+					<IconButton className={"BtnStatus timeout"} size="small" disabled>
 						<AlarmIcon />
 					</IconButton>
 				</Box>
@@ -53,11 +29,7 @@ function renderRowStatus(dataset: any) {
 		} else {
 			return (
 				<Box title="In Progress">
-					<IconButton
-						className={"BtnStatus waiting"}
-						size="small"
-						disabled
-					>
+					<IconButton className={"BtnStatus waiting"} size="small" disabled>
 						<PendingIcon />
 					</IconButton>
 				</Box>
@@ -66,11 +38,7 @@ function renderRowStatus(dataset: any) {
 	} else if (dataset?.completionStatus === "failed") {
 		return (
 			<Box title="Failed">
-				<IconButton
-					className={"BtnStatus failed"}
-					size="small"
-					disabled
-				>
+				<IconButton className={"BtnStatus failed"} size="small" disabled>
 					<IconWrong />
 				</IconButton>
 			</Box>
@@ -91,9 +59,12 @@ function renderRowStatus(dataset: any) {
 	}
 }
 
-const HeaderCellWithTooltip =
-	(tooltipText: string) =>
-	({ colDef: { headerName } }: { colDef: { headerName?: string } }) => {
+const CreateHeaderCellWithTooltip = (tooltipText: string) =>
+	function HeaderCellWithTooltip({
+		colDef: { headerName },
+	}: {
+		colDef: { headerName?: string };
+	}) {
 		return (
 			<Tooltip title={tooltipText} placement="top" arrow>
 				<span>{headerName}</span>
@@ -110,7 +81,7 @@ const columns: GridColDef[] = [
 		align: "left",
 		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
-		renderHeader: HeaderCellWithTooltip("Date the dataset was generated"),
+		renderHeader: CreateHeaderCellWithTooltip("Date the dataset was generated"),
 	},
 	{
 		field: "userFullName",
@@ -126,9 +97,7 @@ const columns: GridColDef[] = [
 				user: { name },
 			},
 		}) => name?.first?.slice(0, 1) + ". " + name?.last,
-		renderHeader: HeaderCellWithTooltip(
-			"The name of the user who ran the analysis"
-		),
+		renderHeader: CreateHeaderCellWithTooltip("The name of the user who ran the analysis"),
 	},
 	{
 		field: "startDate",
@@ -138,9 +107,7 @@ const columns: GridColDef[] = [
 		align: "left",
 		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
-		renderHeader: HeaderCellWithTooltip(
-			"The date of the earliest sample of the dataset"
-		),
+		renderHeader: CreateHeaderCellWithTooltip("The date of the earliest sample of the dataset"),
 	},
 	{
 		field: "endDate",
@@ -150,9 +117,7 @@ const columns: GridColDef[] = [
 		align: "left",
 		headerAlign: "left",
 		valueFormatter: ({ value }) => formatDate(value),
-		renderHeader: HeaderCellWithTooltip(
-			"The date of the latest sample of the dataset"
-		),
+		renderHeader: CreateHeaderCellWithTooltip("The date of the latest sample of the dataset"),
 	},
 	{
 		field: "maxDuration",
@@ -164,7 +129,7 @@ const columns: GridColDef[] = [
 		valueGetter: (params) => {
 			return params.row.maxDuration;
 		},
-		renderHeader: HeaderCellWithTooltip(
+		renderHeader: CreateHeaderCellWithTooltip(
 			"Duration of household storage and use (in hours)"
 		),
 	},
@@ -185,9 +150,7 @@ const columns: GridColDef[] = [
 			}
 		},
 		renderCell: ({ value }) => <span title={value}>{value}</span>,
-		renderHeader: HeaderCellWithTooltip(
-			"The model used to estimate the FRC decay"
-		),
+		renderHeader: CreateHeaderCellWithTooltip("The model used to estimate the FRC decay"),
 	},
 	{
 		field: "Status",
@@ -196,16 +159,14 @@ const columns: GridColDef[] = [
 		align: "center",
 		headerAlign: "center",
 		renderCell: ({ row }) => renderRowStatus(row),
-		renderHeader: HeaderCellWithTooltip(
-			"The completion status of the analysis"
-		),
+		renderHeader: CreateHeaderCellWithTooltip("The completion status of the analysis"),
 	},
 ];
 
 export default function ResultsPage() {
-	const [fieldsite, setFieldsite] = useState(DEFAULT_FIELDSITE);
+	const [fieldsite, setFieldsite] = useState<Fieldsite | null>(DEFAULT_FIELDSITE);
 	const [datasets, setDatasets] = useState([]);
-	const [selectedDatasets, setSelectedDatasets] = useState<any[]>([]);
+	const [selectedDatasets, setSelectedDatasets] = useState<(string | number)[]>([]);
 	const dispatch = useDispatch();
 	const [resultsSortModel, setResultsSortModel] = useState<GridSortModel>([
 		{ field: "dateCreated", sort: "desc" },
@@ -255,7 +216,7 @@ export default function ResultsPage() {
 						</Box>
 						<Divider sx={{ my: 3, mb: 2 }} />
 						<FieldsiteDropdown
-							onChange={(value: any) => {
+							onChange={(value) => {
 								setFieldsite(value);
 							}}
 						/>
@@ -264,13 +225,10 @@ export default function ResultsPage() {
 								content: (
 									<>
 										<div>
-											Please contact us if the field site
-											you are working in does not appear
+											Please contact us if the field site you are working in
+											does not appear
 										</div>
-										<Link
-											to="/contact"
-											className="btn compact"
-										>
+										<Link to="/contact" className="btn compact">
 											contact form
 										</Link>
 									</>
@@ -319,14 +277,10 @@ export default function ResultsPage() {
 											minHeight: "200px",
 										}}
 									>
-										No Datasets. Please Select a Location
-										Above
+										No Datasets. Please Select a Location Above
 									</Stack>
 								),
-								BaseCheckbox: forwardRef(function BaseCheckbox(
-									props,
-									ref
-								) {
+								BaseCheckbox: forwardRef(function BaseCheckbox(props, ref) {
 									return (
 										<Checkbox
 											icon={<IconRowUnchecked />}

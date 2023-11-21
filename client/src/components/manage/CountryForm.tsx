@@ -4,11 +4,7 @@ import axios from "axios";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-	getUser,
-	getUserPermissions,
-	userSelectors,
-} from "../../reducers/user";
+import { getUser, getUserPermissions, userSelectors } from "../../reducers/user";
 import { Area, Country } from "../../types";
 
 export default function CountryForm() {
@@ -23,16 +19,14 @@ export default function CountryForm() {
 		dispatch(getUserPermissions());
 	};
 
-	const country = permissions.countries.find(
-		(c: Country) => c._id === countryId
-	);
+	const country = permissions.countries.find((c: Country) => c._id === countryId);
 
 	const [currentAreas, setCurrentAreas] = useState<Area[]>([]);
 	const [countryName, setCountryName] = useState("");
 
 	useEffect(() => {
 		const initialAreas = permissions.areas.filter((a: Area) =>
-			country?.areas.includes(a._id)
+			country?.areas.map((a) => a._id).includes(a._id)
 		);
 		setCurrentAreas(initialAreas);
 		setCountryName(country?.name || "");
@@ -89,34 +83,22 @@ export default function CountryForm() {
 					multiple
 					options={permissions.areas}
 					getOptionLabel={(option) => option.name}
-					renderInput={(params) => (
-						<TextField {...params} variant="standard" />
-					)}
+					renderInput={(params) => <TextField {...params} variant="standard" />}
 					value={currentAreas}
 					onChange={handleAreasChange}
-					isOptionEqualToValue={(option, value) =>
-						option._id === value._id
-					}
+					isOptionEqualToValue={(option, value) => option._id === value._id}
 				/>
 			</Grid>
 
 			<Grid container spacing={2}>
 				<Grid>
-					<Button
-						variant="contained"
-						onClick={handleCountrySave}
-						color="secondary"
-					>
+					<Button variant="contained" onClick={handleCountrySave} color="secondary">
 						Save
 					</Button>
 				</Grid>
 				{!isCreating && (
 					<Grid>
-						<Button
-							variant="contained"
-							onClick={handleCountryDelete}
-							color="error"
-						>
+						<Button variant="contained" onClick={handleCountryDelete} color="error">
 							Delete
 						</Button>
 					</Grid>

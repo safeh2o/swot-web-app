@@ -1,18 +1,12 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {
-	Accordion,
-	AccordionDetails,
-	AccordionSummary,
-	Box,
-	Skeleton,
-} from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Skeleton } from "@mui/material";
 import { sanitize } from "dompurify";
 import _ from "lodash";
-import { Key } from "react";
 import { useSelector } from "react-redux";
 import { blogSelectors } from "../reducers/blog";
+import { FAQ } from "../types";
 
-export default function FAQList(props: { FAQs: any }) {
+export default function FAQList(props: { FAQs: FAQ[] }) {
 	const { FAQs } = props;
 	const isLoading = useSelector(blogSelectors.isLoading);
 
@@ -38,40 +32,35 @@ export default function FAQList(props: { FAQs: any }) {
 		));
 	}
 
-	return isLoading
-		? FAQSkeleton(5)
-		: FAQs.map(
-				(
-					FAQ: {
-						title: string;
-						content: string;
-					},
-					i: Key | null | undefined
-				) => (
-					<article key={i}>
-						<Box className="post-details">
-							<Accordion className="faq-accordion">
-								<AccordionSummary
-									expandIcon={<ExpandMoreIcon />}
-								>
-									<h1 className="post-title h2">
-										{FAQ.title}
-									</h1>
-								</AccordionSummary>
-								<AccordionDetails>
-									<div className="post-text">
-										<div
-											dangerouslySetInnerHTML={{
-												__html: sanitize(FAQ.content),
-											}}
-										></div>
-									</div>
-								</AccordionDetails>
-							</Accordion>
+	return (
+		<>
+			{isLoading
+				? FAQSkeleton(5)
+				: FAQs.map((FAQ, i) => <FAQItem key={i} title={FAQ.title} content={FAQ.content} />)}
+		</>
+	);
+}
 
-							<hr />
-						</Box>
-					</article>
-				)
-		  );
+function FAQItem(props: { title: string; content: string }) {
+	return (
+		<article>
+			<Box className="post-details">
+				<Accordion className="faq-accordion">
+					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+						<h1 className="post-title h2">{props.title}</h1>
+					</AccordionSummary>
+					<AccordionDetails>
+						<div
+							className="post-text"
+							dangerouslySetInnerHTML={{
+								__html: sanitize(props.content),
+							}}
+						></div>
+					</AccordionDetails>
+				</Accordion>
+
+				<hr />
+			</Box>
+		</article>
+	);
 }

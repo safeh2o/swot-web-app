@@ -1,5 +1,5 @@
-import { createTheme } from '@mui/material/styles';
-import { TypographyStyleOptions } from '@mui/material/styles/createTypography';
+import { createTheme } from "@mui/material/styles";
+import { TypographyStyleOptions } from "@mui/material/styles/createTypography";
 
 declare module "@mui/material/styles" {
 	interface TypographyVariants {
@@ -27,7 +27,7 @@ const SliderThumbBoxShadow =
 
 const family = '"Inter", "Helvetica", "Arial", sans-serif';
 
-let theme = createTheme({
+const theme = createTheme({
 	typography: {
 		fontFamily: family,
 		fontSize: 16,

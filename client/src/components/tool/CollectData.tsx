@@ -9,9 +9,7 @@ export default function CollectData() {
 			<section>
 				<div className="section-wrap">
 					<div className="app-card">
-						<h1 className="section-subtitle">
-							Collecting Field Data
-						</h1>
+						<h1 className="section-subtitle">Collecting Field Data</h1>
 
 						<Divider sx={{ my: 1 }} />
 
@@ -19,29 +17,19 @@ export default function CollectData() {
 							<div className="tool-guides">
 								<ul className="flat">
 									<li>
-										<a
-											href={urlFieldGuide}
-											target="_blank"
-											rel="noreferrer"
-										>
+										<a href={urlFieldGuide} target="_blank" rel="noreferrer">
 											<figure className="image">
 												<img
-													src={
-														"/assets/tool/collect/thumb-protocol.png"
-													}
+													src={"/assets/tool/collect/thumb-protocol.png"}
 													alt="field protocol thumbnail"
 												/>
 											</figure>
 										</a>
 										<div className="content">
-											<h2>
-												Protocol for Field Data
-												Collection
-											</h2>
+											<h2>Protocol for Field Data Collection</h2>
 											<p>
-												Step-by-step instructions on
-												planning data collection and FRC
-												monitoring procedures.
+												Step-by-step instructions on planning data
+												collection and FRC monitoring procedures.
 											</p>
 											<a
 												href={urlFieldGuide}
@@ -70,16 +58,13 @@ export default function CollectData() {
 										<div className="content">
 											<h2>Overview Video</h2>
 											<p>
-												Introduction to the SWOT and
-												everything you need to get
-												started, including info on:
+												Introduction to the SWOT and everything you need to
+												get started, including info on:
 											</p>
 											<ol>
 												<li>
 													<a
-														href={
-															"https://youtu.be/gCLWzPoBqCk?t=165"
-														}
+														href={"https://youtu.be/gCLWzPoBqCk?t=165"}
 														target="_blank"
 														rel="noreferrer"
 														className="chapter-link"
@@ -89,9 +74,7 @@ export default function CollectData() {
 												</li>
 												<li>
 													<a
-														href={
-															"https://youtu.be/gCLWzPoBqCk?t=126"
-														}
+														href={"https://youtu.be/gCLWzPoBqCk?t=126"}
 														target="_blank"
 														rel="noreferrer"
 														className="chapter-link"
@@ -101,15 +84,12 @@ export default function CollectData() {
 												</li>
 												<li>
 													<a
-														href={
-															"https://youtu.be/gCLWzPoBqCk?t=226"
-														}
+														href={"https://youtu.be/gCLWzPoBqCk?t=226"}
 														target="_blank"
 														rel="noreferrer"
 														className="chapter-link"
 													>
-														FRC paired sampling
-														procedure
+														FRC paired sampling procedure
 													</a>
 												</li>
 											</ol>
@@ -126,33 +106,23 @@ export default function CollectData() {
 										</figure>
 										<div className="content">
 											<h2>
-												<strong>
-													Monitoring Forms
-												</strong>
+												<strong>Monitoring Forms</strong>
 											</h2>
-											<p>
-												Example forms for recording FRC
-												samples:
-											</p>
+											<p>Example forms for recording FRC samples:</p>
 											<ol>
 												<li>
 													<a
-														href={
-															"/data/forms/Pen_Paper_Forms.pdf"
-														}
+														href={"/data/forms/Pen_Paper_Forms.pdf"}
 														target="_blank"
 														rel="noreferrer"
 														className="chapter-link"
 													>
-														Pen &amp; paper forms
-														(.pdf)
+														Pen &amp; paper forms (.pdf)
 													</a>
 												</li>
 												<li>
 													<a
-														href={
-															"/data/forms/Kobo_ODK_Forms.xlsx"
-														}
+														href={"/data/forms/Kobo_ODK_Forms.xlsx"}
 														target="_blank"
 														rel="noreferrer"
 														className="chapter-link"
@@ -169,8 +139,7 @@ export default function CollectData() {
 														rel="noreferrer"
 														className="chapter-link"
 													>
-														Guidance for digital
-														data collection (.pdf)
+														Guidance for digital data collection (.pdf)
 													</a>
 												</li>
 											</ol>
@@ -188,17 +157,16 @@ export default function CollectData() {
 										<div className="content">
 											<h2>Example Datasets</h2>
 											<p>
-												Just wanting to test the tool?
-												Download these datasets from our
-												research and try to upload to
+												Just wanting to test the tool? Download these
+												datasets from our research and try to upload to
 												generate an FRC target:
 											</p>
 											<ul>
-												<li>
+												{/* <li>
 													<a href="/data/template/demo_bangladesh.xlsx">
 														Bangladesh
 													</a>
-												</li>
+												</li> */}
 												<li>
 													<a href="/data/template/demo_Tanzania.xlsx">
 														Tanzania
@@ -222,8 +190,8 @@ export default function CollectData() {
 							title="Technical Resources"
 							href="/blog?page=1&category=Support+%26+Guides"
 						>
-							In-depth information on reading your collection
-							data, as you continue to monitor your fieldsite(s)
+							In-depth information on reading your collection data, as you continue to
+							monitor your fieldsite(s)
 						</LinkCard>
 						<LinkCard title="FAQs" href="/faq">
 							Frequently asked questions

@@ -163,17 +163,17 @@ export default function CollectData() {
 											</p>
 											<ul>
 												{/* <li>
-													<a href="/data/template/demo_bangladesh.xlsx">
+													<a href="/data/template/demo_bangladesh.csv">
 														Bangladesh
 													</a>
 												</li> */}
 												<li>
-													<a href="/data/template/demo_Tanzania.xlsx">
+													<a href="/data/template/demo_Tanzania.csv">
 														Tanzania
 													</a>
 												</li>
 												<li>
-													<a href="/data/template/demo_nigeria.xlsx">
+													<a href="/data/template/demo_nigeria.csv">
 														Nigeria
 													</a>
 												</li>

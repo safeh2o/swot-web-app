@@ -1,4 +1,4 @@
-import { send, setApiKey } from "@sendgrid/mail";
+import * as mail from "@sendgrid/mail";
 import * as keystone from "keystone";
 const Types = keystone.Field.Types;
 
@@ -63,19 +63,12 @@ User.schema.post("save", function () {
 	if (!this.wasNew) return;
 
 	const Area = keystone.list("Area");
-	Area.model.updateMany(
-		{ _id: { $in: this.area } },
-		{ $push: { users: this._id } },
-		(err) => {
-			if (err) {
-				console.error(
-					`Error adding user ${this.name.full} to area during creation.`,
-					err
-				);
-				return;
-			}
+	Area.model.updateMany({ _id: { $in: this.area } }, { $push: { users: this._id } }, (err) => {
+		if (err) {
+			console.error(`Error adding user ${this.name.full} to area during creation.`, err);
+			return;
 		}
-	);
+	});
 
 	if (this.welcome) {
 		this.requestResetPassword(function () {
@@ -89,10 +82,7 @@ User.schema.methods.requestResetPassword = function (callback) {
 	if (typeof callback !== "function") {
 		callback = function (err) {
 			if (err) {
-				console.error(
-					"There was an error requesting user password reset:",
-					err
-				);
+				console.error("There was an error requesting user password reset:", err);
 			}
 		};
 	}
@@ -108,7 +98,7 @@ User.schema.methods.sendEmailToResetPassword = function () {
 	const weburl = keystone.get("locals").weburl;
 
 	const passwordResetUrl = weburl + "resetpassword/" + this.resetPasswordKey;
-	setApiKey(process.env.SENDGRID_API_KEY);
+	mail.setApiKey(process.env.SENDGRID_API_KEY);
 	const msg = {
 		to: this.email,
 		from: `SWOT Accounts <${process.env.FROM_EMAIL}>`,
@@ -118,7 +108,7 @@ User.schema.methods.sendEmailToResetPassword = function () {
 		},
 	};
 
-	send(msg)
+	mail.send(msg)
 		.then(() => {
 			console.log("Password reset email sent to user", this.email);
 		})

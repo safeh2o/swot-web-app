@@ -1,4 +1,4 @@
-import { send, setApiKey } from "@sendgrid/mail";
+import * as mail from "@sendgrid/mail";
 import * as keystone from "keystone";
 const Types = keystone.Field.Types;
 
@@ -38,21 +38,16 @@ Welcome.schema.methods.sendNotificationEmail = function (callback) {
 	if (typeof callback !== "function") {
 		callback = function (err) {
 			if (err) {
-				console.error(
-					"There was an error sending the welcome email:",
-					err
-				);
+				console.error("There was an error sending the welcome email:", err);
 			}
 		};
 	}
 
 	const confirmUrl =
-		keystone.get("locals").weburl +
-		"resetpassword/" +
-		this.user.resetPasswordKey;
+		keystone.get("locals").weburl + "resetpassword/" + this.user.resetPasswordKey;
 	const firstName = this.user.name.first;
 
-	setApiKey(process.env.SENDGRID_API_KEY);
+	mail.setApiKey(process.env.SENDGRID_API_KEY);
 	const msg = {
 		to: this.user.email,
 		from: `SWOT Accounts <${process.env.FROM_EMAIL}>`,
@@ -63,16 +58,12 @@ Welcome.schema.methods.sendNotificationEmail = function (callback) {
 		},
 	};
 
-	send(msg)
+	mail.send(msg)
 		.then(() => {
 			console.log("Welcome email sent to user", this.user.email);
 		})
 		.catch((err) => {
-			console.error(
-				"Error occurred while sending welcome to user",
-				this.user.email,
-				err
-			);
+			console.error("Error occurred while sending welcome to user", this.user.email, err);
 		});
 };
 

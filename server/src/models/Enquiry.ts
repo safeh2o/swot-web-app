@@ -1,4 +1,4 @@
-import { send, setApiKey } from "@sendgrid/mail";
+import * as mail from "@sendgrid/mail";
 import * as keystone from "keystone";
 const Types = keystone.Field.Types;
 
@@ -47,9 +47,7 @@ Enquiry.add(
 );
 
 function getUserCreationUrl() {
-	return `${keystone.get("locals").weburl}api/user/create?enquiryId=${
-		this.id
-	}`;
+	return `${keystone.get("locals").weburl}api/user/create?enquiryId=${this.id}`;
 }
 
 Enquiry.schema.pre("save", function (next) {
@@ -67,10 +65,7 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 	if (typeof callback !== "function") {
 		callback = function (err) {
 			if (err) {
-				console.error(
-					"There was an error sending the notification email:",
-					err
-				);
+				console.error("There was an error sending the notification email:", err);
 			}
 		};
 	}
@@ -80,7 +75,7 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 	const createLink = this.reason == "register" ? this.createUser : undefined;
 	const viewLink = weburl + "admin/enquiries/" + this.id;
 
-	setApiKey(process.env.SENDGRID_API_KEY);
+	mail.setApiKey(process.env.SENDGRID_API_KEY);
 	// staff email
 	const msgToStaff = {
 		to: process.env.SUPPORT_EMAIL,
@@ -98,15 +93,12 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 		},
 		replyTo: this.email,
 	};
-	send(msgToStaff)
+	mail.send(msgToStaff)
 		.then(() => {
 			console.log("Contact form forwarded to staff");
 		})
 		.catch((err) => {
-			console.error(
-				"An error occurred trying to forward contact form to staff",
-				err
-			);
+			console.error("An error occurred trying to forward contact form to staff", err);
 		});
 
 	// guest email
@@ -115,15 +107,12 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 		from: `SWOT Support <${process.env.SUPPORT_EMAIL}>`,
 		templateId: process.env.SENDGRID_GUEST_CONTACT_TEMPLATE_ID,
 	};
-	send(msgToGuest)
+	mail.send(msgToGuest)
 		.then(() => {
 			console.log("Contact form confirmation email sent to guest");
 		})
 		.catch((err) => {
-			console.error(
-				"An error occurred trying to send confirmation email to guest",
-				err
-			);
+			console.error("An error occurred trying to send confirmation email to guest", err);
 		});
 };
 

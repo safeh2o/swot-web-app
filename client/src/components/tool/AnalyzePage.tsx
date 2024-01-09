@@ -40,7 +40,7 @@ export default function AnalyzePage() {
 		fieldsite: locationState?.fieldsite || null,
 		startDate: locationState?.startDate || null,
 		endDate: locationState?.endDate || null,
-		duration: locationState?.duration || 3,
+		duration: locationState?.duration || 15,
 		confidence: locationState?.confidence || "optimumDecay",
 	};
 

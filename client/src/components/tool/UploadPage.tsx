@@ -27,7 +27,7 @@ const initialState: UploadPageForm = {
 const importColumns: ImporterFieldProps[] = [
 	{ name: "ts_datetime", label: "Tapstand Time" },
 	{ name: "ts_frc", label: "Tapstand FRC" },
-	{ name: "ts_wattemp", label: "Tapstand Water Temperature" },
+	{ name: "ts_wattemp", label: "Tapstand Water Temperature", optional: true },
 	{ name: "ts_cond", label: "Tapstand Conductivity", optional: true },
 	{ name: "hh_datetime", label: "Household Time" },
 	{ name: "hh_frc", label: "Household FRC" },

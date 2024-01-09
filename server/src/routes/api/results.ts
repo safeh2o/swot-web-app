@@ -1,5 +1,5 @@
 import { ContainerClient } from "@azure/storage-blob";
-import archiver from "archiver";
+import * as archiver from "archiver";
 import * as keystone from "keystone";
 import {
 	getAreaByFieldsite,
@@ -7,6 +7,7 @@ import {
 	getCsvBlobAsJson,
 	isUserAllowedAccessToDataset,
 } from "../../utils/data.service";
+import { Readable } from "form-data";
 const Dataset = keystone.list("Dataset");
 const Fieldsite = keystone.list("Fieldsite");
 
@@ -24,8 +25,7 @@ export async function download(req, res) {
 
 	const allowed =
 		req.user &&
-		(req.user.isAdmin ||
-			(await isUserAllowedAccessToDataset(req.user._id, datasetId)));
+		(req.user.isAdmin || (await isUserAllowedAccessToDataset(req.user._id, datasetId)));
 
 	if (!allowed) {
 		res.status(403).send("Insufficient Privilleges");
@@ -53,10 +53,7 @@ export async function download(req, res) {
 	});
 
 	res.header("Content-Type", "application/zip");
-	res.header(
-		"Content-Disposition",
-		`attachment; filename="${datasetId}.zip"`
-	);
+	res.header("Content-Disposition", `attachment; filename="${datasetId}.zip"`);
 
 	// pipe archive to response
 	archive.pipe(res);
@@ -68,21 +65,13 @@ export async function download(req, res) {
 		const blobName = blobItem.name;
 		const blobClient = containerClient.getBlobClient(blobName);
 		const blobData = await blobClient.download();
-		archive.append(blobData.readableStreamBody, {
+		archive.append(blobData.readableStreamBody as Readable, {
 			name: blobName.split("/").slice(-1)[0],
 		});
 	}
 
 	// close archive to send response
-	archive.finalize(function (err, bytes) {
-		if (err) {
-			throw err;
-		}
-
-		console.log(
-			`Prepared zip file for download in size of ${bytes} total bytes`
-		);
-	});
+	archive.finalize();
 }
 
 export async function analyzeMultiple(req, res) {
@@ -102,17 +91,11 @@ export async function analyzeMultiple(req, res) {
 	for (const dataset of datasets) {
 		allowed =
 			allowed &&
-			(req.user.isAdmin ||
-				(await isUserAllowedAccessToDataset(
-					req.user._id,
-					dataset._id
-				)));
+			(req.user.isAdmin || (await isUserAllowedAccessToDataset(req.user._id, dataset._id)));
 	}
 
 	if (!allowed) {
-		res.status(403).send(
-			"User is not allowed access to one or more of the datasets given"
-		);
+		res.status(403).send("User is not allowed access to one or more of the datasets given");
 		return;
 	}
 
@@ -137,8 +120,7 @@ export async function analyzeSingle(req, res) {
 
 	const allowed =
 		req.user &&
-		(req.user.isAdmin ||
-			(await isUserAllowedAccessToDataset(req.user._id, datasetId)));
+		(req.user.isAdmin || (await isUserAllowedAccessToDataset(req.user._id, datasetId)));
 
 	if (!allowed) {
 		res.status(403).send("Not allowed");
@@ -171,10 +153,7 @@ export async function dataset(req, res) {
 	const allowed =
 		req.user &&
 		(req.user.isAdmin ||
-			(await isUserAllowedAccessToDataset(
-				req.user._id,
-				req.params.datasetId
-			)));
+			(await isUserAllowedAccessToDataset(req.user._id, req.params.datasetId)));
 	if (!allowed) {
 		res.status(403).send("Not allowed to access dataset");
 		return;
@@ -191,12 +170,7 @@ export async function dataset(req, res) {
 		}
 		const area = await getAreaByFieldsite(fieldsite.id);
 		if (!area) {
-			throw new MissingModelError(
-				"Area",
-				null,
-				"Fieldsite",
-				fieldsite.id
-			);
+			throw new MissingModelError("Area", null, "Fieldsite", fieldsite.id);
 		}
 		const country = await getCountryByArea(area.id);
 		if (!country) {

@@ -23,6 +23,7 @@
 		"nunjucks": "^3.2.3"
 	},
 	"devDependencies": {
+		"@types/archiver": "^5.3.4",
 		"@types/express": "^4.17.3",
 		"@types/lodash": "^4.14.201",
 		"@types/mongoose": "^5.11.97",

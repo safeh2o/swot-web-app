@@ -51,6 +51,7 @@ export default function UploadPage() {
 	const uploadedFilenames = Object.keys(uploads);
 	const [pendingUpload, setPendingUpload] = useState(false);
 	const disabled = pendingUpload || uploadedFilenames.length === 0 || !state?.fieldsite?._id;
+	const [isFresh, setIsFresh] = useState(true);
 
 	function getFormData() {
 		const formData = new FormData();
@@ -80,6 +81,11 @@ export default function UploadPage() {
 	const handleFormReset = () => {
 		setUploads({});
 		reset();
+		setIsFresh(false);
+		_.defer(() => {
+			setIsFresh(true);
+		});
+		setPendingUpload(false);
 	};
 
 	const handleFormSubmit = () => {
@@ -138,32 +144,34 @@ export default function UploadPage() {
 						</NotificationLine>
 					</Box>
 					<Box className="app-card">
-						<Importer
-							dataHandler={async (rows: Row[]) => {
-								setUploads((uploads) => {
-									const prevRows = uploads[currentFile.current] || [];
-									return {
-										...uploads,
-										[currentFile.current]: [...prevRows, ...rows],
-									};
-								});
-							}}
-							chunkSize={100000}
-							defaultNoHeader={false}
-							restartable={true}
-							onStart={({ file }) => {
-								currentFile.current = file.name;
-								setPendingUpload(true);
-							}}
-							onComplete={() => {
-								setPendingUpload(false);
-							}}
-							skipEmptyLines={true}
-						>
-							{importColumns.map((col) => (
-								<ImporterField key={col.name} {...col} />
-							))}
-						</Importer>
+						{isFresh && (
+							<Importer
+								dataHandler={async (rows: Row[]) => {
+									setUploads((uploads) => {
+										const prevRows = uploads[currentFile.current] || [];
+										return {
+											...uploads,
+											[currentFile.current]: [...prevRows, ...rows],
+										};
+									});
+								}}
+								chunkSize={100000}
+								defaultNoHeader={false}
+								restartable={true}
+								onStart={({ file }) => {
+									currentFile.current = file.name;
+									setPendingUpload(true);
+								}}
+								onComplete={() => {
+									setPendingUpload(false);
+								}}
+								skipEmptyLines={true}
+							>
+								{importColumns.map((col) => (
+									<ImporterField key={col.name} {...col} />
+								))}
+							</Importer>
+						)}
 
 						<Box className="UploadArea-file-list">
 							{uploadedFilenames.map((filename, i) => (

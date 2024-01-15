@@ -1,9 +1,9 @@
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 import { QueueServiceClient } from "@azure/storage-queue";
-import archiver from "archiver";
+import * as archiver from "archiver";
 import * as keystone from "keystone";
 import { flattenDeep } from "lodash";
-import { isUserAllowedAccessToUpload } from "../../utils/data.service";
+import { isUserAllowedAccessToUpload, streamToBuffer } from "../../utils/data.service";
 const Dataset = keystone.list("Dataset");
 const Datapoint = keystone.list("Datapoint");
 const Upload = keystone.list("Upload");
@@ -71,9 +71,7 @@ export async function append(req, res) {
 	const blobServiceClient = BlobServiceClient.fromConnectionString(
 		AZURE_STORAGE_CONNECTION_STRING
 	);
-	const containerClient = blobServiceClient.getContainerClient(
-		AZURE_STORAGE_CONTAINER
-	);
+	const containerClient = blobServiceClient.getContainerClient(AZURE_STORAGE_CONTAINER);
 	containerClient.createIfNotExists();
 
 	const upload = new Upload.model({
@@ -125,8 +123,7 @@ export async function fetchRawData(req, res) {
 
 	const allowed =
 		req.user &&
-		(req.user.isAdmin ||
-			(await isUserAllowedAccessToUpload(req.user._id, uploadId)));
+		(req.user.isAdmin || (await isUserAllowedAccessToUpload(req.user._id, uploadId)));
 
 	if (!allowed) {
 		res.status(403).send("Insufficient Privilleges");
@@ -165,20 +162,23 @@ export async function fetchRawData(req, res) {
 	})) {
 		const blobName = blobItem.name;
 		const blobClient = containerClient.getBlobClient(blobName);
-		const blobData = await blobClient.download();
-		archive.append(blobData.readableStreamBody, {
+		const blobData = await blobClient
+			.download()
+			.then((data) => streamToBuffer(data.readableStreamBody));
+		archive.append(blobData, {
 			name: blobName.split("/").slice(-1)[0],
 		});
 	}
 
 	// close archive to send response
-	archive.finalize(function (err, bytes) {
-		if (err) {
-			throw err;
-		}
-
-		console.log(
-			`Prepared zip file for download in size of ${bytes} total bytes`
-		);
-	});
+	archive
+		.finalize()
+		.then((bytes) => {
+			console.log(`Prepared zip file for download in size of ${bytes} total bytes`);
+		})
+		.catch((err) => {
+			console.log(`Error finalizing archive`, err);
+			res.status(500).send("Error occurred during download operation");
+			return;
+		});
 }

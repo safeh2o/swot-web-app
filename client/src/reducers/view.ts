@@ -70,7 +70,6 @@ export const viewSelectors = {
 	viewStack: (state: RootState) => state.view.viewStack,
 };
 
-export const { inferBreadcrumbs, replaceCrumbTitle, popViewsTo, replaceCrumb } =
-	viewSlice.actions;
+export const { inferBreadcrumbs, replaceCrumbTitle, popViewsTo, replaceCrumb } = viewSlice.actions;
 
 export default viewSlice.reducer;

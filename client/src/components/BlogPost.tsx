@@ -1,13 +1,13 @@
-import DOMPurify from 'dompurify';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useParams } from 'react-router-dom';
+import DOMPurify from "dompurify";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useParams } from "react-router-dom";
 
-import { SvgIcon } from '@mui/material';
+import { SvgIcon } from "@mui/material";
 
-import { blogSelectors } from '../reducers/blog';
-import { setLoading } from '../reducers/notifications';
-import { replaceCrumbTitle } from '../reducers/view';
+import { blogSelectors } from "../reducers/blog";
+import { setLoading } from "../reducers/notifications";
+import { replaceCrumbTitle } from "../reducers/view";
 
 export default function BlogPost() {
 	const dispatch = useDispatch();
@@ -46,7 +46,7 @@ export default function BlogPost() {
 
 	useEffect(() => {
 		if (page.title) {
-			dispatch(replaceCrumbTitle({ title: page.title, path: slug }));
+			dispatch(replaceCrumbTitle({ title: page.title, path: `/blog/${slug}` }));
 		}
 	}, [page, slug, dispatch]);
 
@@ -79,38 +79,27 @@ export default function BlogPost() {
 							</h1>
 							<header className="post-meta small">
 								{page.publishedDate && (
-									<time>
-										{formatPublishTime(page.publishedDate)}
-									</time>
+									<time>{formatPublishTime(page.publishedDate)}</time>
 								)}
 								<span className="categories-post">
-									{page.categories &&
-										page.categories.length > 0 && (
-											<>
-												<span className="divider">
-													in
+									{page.categories && page.categories.length > 0 && (
+										<>
+											<span className="divider">in</span>
+											{page.categories.map((categoryId, i) => (
+												<span key={"cat-" + i}>
+													{allPostCategories?.byId?.[categoryId]?.name ||
+														""}
 												</span>
-												{page.categories.map(
-													(categoryId, i) => (
-														<span key={"cat-" + i}>
-															{allPostCategories
-																?.byId?.[
-																categoryId
-															]?.name || ""}
-														</span>
-													)
-												)}
-											</>
-										)}
+											))}
+										</>
+									)}
 								</span>
 							</header>
 							{page.publishedDate && (
 								<div className="post-text">
 									<div
 										dangerouslySetInnerHTML={{
-											__html: DOMPurify.sanitize(
-												page.content.extended
-											),
+											__html: DOMPurify.sanitize(page.content.extended),
 										}}
 									></div>
 								</div>

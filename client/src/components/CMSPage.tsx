@@ -1,12 +1,12 @@
-import DOMPurify from 'dompurify';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import DOMPurify from "dompurify";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 
-import { Box } from '@mui/material';
+import { Box } from "@mui/material";
 
-import { setLoading } from '../reducers/notifications';
-import { replaceCrumbTitle } from '../reducers/view';
+import { setLoading } from "../reducers/notifications";
+import { replaceCrumbTitle } from "../reducers/view";
 
 export default function CMSPage() {
 	const dispatch = useDispatch();
@@ -42,9 +42,9 @@ export default function CMSPage() {
 
 	useEffect(() => {
 		if (page.title) {
-			dispatch(replaceCrumbTitle({ title: page.title, path: slug }));
+			dispatch(replaceCrumbTitle({ title: page.title, path: `/pages/${slug}` }));
 		}
-	}, [page, slug, dispatch]);
+	}, [dispatch, page, slug]);
 
 	return (
 		<>
@@ -52,9 +52,7 @@ export default function CMSPage() {
 				<section>
 					<div className="section-wrap">
 						<div className="intro">
-							<h1 className="section-title">
-								{page.title || "Loading..."}
-							</h1>
+							<h1 className="section-title">{page.title || "Loading..."}</h1>
 							{page.image && page.image.secure_url && (
 								<Box component={"figure"} sx={{ mb: 2 }}>
 									<img src={page.image.secure_url} alt="" />
@@ -64,8 +62,7 @@ export default function CMSPage() {
 								className="rte"
 								dangerouslySetInnerHTML={{
 									__html: DOMPurify.sanitize(
-										page.content.extended ||
-											"Content is loading..."
+										page.content.extended || "Content is loading..."
 									),
 								}}
 							></div>

@@ -55,11 +55,7 @@ export default function Footer() {
 				<section className="rte">
 					<h3 className="title">A free and open-source tool by</h3>
 					<div className="logos">
-						<a
-							target="_blank"
-							href="http://yorku.ca/"
-							rel="noreferrer"
-						>
+						<a target="_blank" href="http://yorku.ca/" rel="noreferrer">
 							<img
 								src="/assets/organisations/YorkULogo_Full_Format.png"
 								className="wide"
@@ -68,11 +64,7 @@ export default function Footer() {
 								height="200"
 							/>
 						</a>
-						<a
-							target="_blank"
-							href="http://dighr.yorku.ca/"
-							rel="noreferrer"
-						>
+						<a target="_blank" href="http://dighr.yorku.ca/" rel="noreferrer">
 							<img
 								src="/assets/organisations/dighr_black_on_white.png"
 								alt=" logo"
@@ -125,10 +117,7 @@ export default function Footer() {
 					</div>
 				</section>
 				<nav className="nav-legal">
-					<span>
-						&copy; {new Date().getFullYear()} Safe Water
-						Optimization Tool
-					</span>
+					<span>&copy; {new Date().getFullYear()} Safe Water Optimization Tool</span>
 					<span className="divider">|</span>
 					<NavLink to="/pages/terms-of-use">Terms of Use</NavLink>
 					<span className="divider">|</span>
@@ -143,10 +132,7 @@ export default function Footer() {
 						This website uses cookies.
 						<br />
 						To learn more, visit our{" "}
-						<NavLink to="/pages/cookie-notice">
-							Cookie Notice
-						</NavLink>
-						.
+						<NavLink to="/pages/cookie-notice">Cookie Notice</NavLink>.
 					</p>
 					<span className="user-input">
 						<Button className="needed" onClick={rejectCookies}>

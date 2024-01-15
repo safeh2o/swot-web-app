@@ -4,6 +4,7 @@ import axios from "axios";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import { getUser, getUserPermissions, userSelectors } from "../../reducers/user";
 import { Area, Country } from "../../types";
 
@@ -41,24 +42,50 @@ export default function CountryForm() {
 			countryName,
 			areas: currentAreas.map((a: Area) => a._id),
 		};
+		dispatch(setLoading(true));
 		if (isCreating) {
-			const res = await axios.post("/api/manage/country", body);
-
-			const newCountryId = res.data.country._id;
+			const res = await axios
+				.post("/api/manage/country", body)
+				.then((res) => {
+					dispatch(addNotice(`Country ${countryName} created`));
+					return res;
+				})
+				.catch(() => {
+					dispatch(addError("Country creation failed"));
+					return undefined;
+				});
+			const newCountryId = res?.data.country._id;
 			if (newCountryId) {
 				navigate(`../${newCountryId}`, { replace: true });
 			}
 		} else if (countryId) {
 			body.countryId = countryId;
-			await axios.put(`/api/manage/country/${countryId}`, body);
+			await axios
+				.put(`/api/manage/country/${countryId}`, body)
+				.then(() => {
+					dispatch(addNotice(`Country ${countryName} updated`));
+				})
+				.catch(() => {
+					dispatch(addError("Country update failed"));
+				});
 		}
+		dispatch(setLoading(false));
 
 		refreshModels();
 	}
 
 	async function handleCountryDelete() {
 		if (countryId) {
-			await axios.delete(`/api/manage/country/${countryId}`);
+			dispatch(setLoading(true));
+			await axios
+				.delete(`/api/manage/country/${countryId}`)
+				.then(() => {
+					dispatch(addNotice(`Country ${countryName} deleted`));
+				})
+				.catch(() => {
+					dispatch(addError("Country deletion failed"));
+				});
+			dispatch(setLoading(false));
 			navigate(`..`, { replace: true });
 			refreshModels();
 		}

@@ -4,19 +4,14 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-	getUser,
-	getUserPermissions,
-	userSelectors,
-} from "../../reducers/user";
+import { addError, addNotice, setLoading } from "../../reducers/notifications";
+import { getUser, getUserPermissions, userSelectors } from "../../reducers/user";
 import { Fieldsite } from "../../types";
 
 export default function FieldsiteForm() {
 	const { fieldsiteId } = useParams();
 	const permissions = useSelector(userSelectors.permissions);
-	const fieldsite = permissions.fieldsites.find(
-		(c: Fieldsite) => c._id === fieldsiteId
-	);
+	const fieldsite = permissions.fieldsites.find((c: Fieldsite) => c._id === fieldsiteId);
 	const isCreating = fieldsiteId === "new";
 
 	const [fieldsiteName, setFieldsiteName] = useState(fieldsite?.name || "");
@@ -32,24 +27,51 @@ export default function FieldsiteForm() {
 		const body: Record<string, string | Array<string>> = {
 			fieldsiteName,
 		};
+		dispatch(setLoading(true));
 		if (isCreating) {
-			const res = await axios.post("/api/manage/fieldsite", body);
+			const res = await axios
+				.post("/api/manage/fieldsite", body)
+				.then((res) => {
+					dispatch(addNotice(`Fieldsite ${fieldsiteName} created`));
+					return res;
+				})
+				.catch(() => {
+					dispatch(addError("Fieldsite creation failed"));
+					return undefined;
+				});
 
-			const newFieldsiteId = res.data.fieldsite._id;
+			const newFieldsiteId = res?.data.fieldsite._id;
 			if (newFieldsiteId) {
 				navigate(`../${newFieldsiteId}`, { replace: true });
 			}
 		} else if (fieldsiteId) {
 			body.fieldsiteId = fieldsiteId;
-			await axios.put(`/api/manage/fieldsite/${fieldsiteId}`, body);
+			await axios
+				.put(`/api/manage/fieldsite/${fieldsiteId}`, body)
+				.then(() => {
+					dispatch(addNotice(`Fieldsite ${fieldsiteName} updated`));
+				})
+				.catch(() => {
+					dispatch(addError("Fieldsite update failed"));
+				});
 		}
+		dispatch(setLoading(false));
 
 		refreshModels();
 	}
 
 	async function handleFieldsiteDelete() {
 		if (fieldsiteId) {
-			await axios.delete(`/api/manage/fieldsite/${fieldsiteId}`);
+			dispatch(setLoading(true));
+			await axios
+				.delete(`/api/manage/fieldsite/${fieldsiteId}`)
+				.then(() => {
+					dispatch(addNotice(`Fieldsite ${fieldsiteName} deleted`));
+				})
+				.catch(() => {
+					dispatch(addError("Fieldsite deletion failed"));
+				});
+			dispatch(setLoading(false));
 			navigate(`..`, { replace: true });
 			refreshModels();
 		}
@@ -70,21 +92,13 @@ export default function FieldsiteForm() {
 
 			<Grid container spacing={2}>
 				<Grid>
-					<Button
-						variant="contained"
-						onClick={handleFieldsiteSave}
-						color="secondary"
-					>
+					<Button variant="contained" onClick={handleFieldsiteSave} color="secondary">
 						Save
 					</Button>
 				</Grid>
 				{!isCreating && (
 					<Grid>
-						<Button
-							variant="contained"
-							onClick={handleFieldsiteDelete}
-							color="error"
-						>
+						<Button variant="contained" onClick={handleFieldsiteDelete} color="error">
 							Delete
 						</Button>
 					</Grid>

@@ -1,13 +1,15 @@
 import { Box, Button } from "@mui/material";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { IconGithub, IconTwitter, IconYoutube } from "../icons";
+import AppContext from "../../contexts/AppContext";
 
 const COOKIE_NAME = "cookie_consent";
 const TWO_WEEKS = 14 * 24 * 60 * 60 * 1000;
 
 export default function Footer() {
 	const cookieBannerRef = useRef<HTMLElement>(null);
+	const appContext = useContext(AppContext);
 
 	useEffect(() => {
 		if (cookieBannerRef.current) {
@@ -33,7 +35,7 @@ export default function Footer() {
 	}
 
 	function rejectCookies() {
-		window[`ga-disable-${process.env.REACT_APP_GTAG}`] = true;
+		window[`ga-disable-${appContext.gtag}`] = true;
 		hideCookieBanner();
 	}
 

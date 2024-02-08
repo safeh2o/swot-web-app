@@ -6,8 +6,8 @@ COPY ./client/package.json ./
 COPY ./client/package-lock.json ./
 RUN npm ci
 COPY ./client/ ./
-ARG REACT_APP_GTAG
-ARG REACT_APP_CURRENT_COMMIT_SHA
+ARG VITE_GTAG
+ARG VITE_CURRENT_COMMIT_SHA
 RUN npm run build
 
 # The second stage

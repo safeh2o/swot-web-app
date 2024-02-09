@@ -37,11 +37,11 @@ export default function AnalyzePage() {
 	const locationState = location.state as Partial<AnalyzeFormType>;
 
 	const initialState: AnalyzeFormType = {
-		fieldsite: locationState?.fieldsite || null,
-		startDate: locationState?.startDate || null,
-		endDate: locationState?.endDate || null,
-		duration: locationState?.duration || 15,
-		confidence: locationState?.confidence || "optimumDecay",
+		fieldsite: locationState?.fieldsite ?? null,
+		startDate: locationState?.startDate ?? null,
+		endDate: locationState?.endDate ?? null,
+		duration: locationState?.duration ?? 15,
+		confidence: locationState?.confidence ?? "optimumDecay",
 	};
 
 	const dispatch = useDispatch();
@@ -78,9 +78,9 @@ export default function AnalyzePage() {
 			.then(() => {
 				dispatch(addNotice("Dataset successfully sent for analysis"));
 			})
-			.catch((err) => {
+			.catch((err: { response: { data: { error?: string } } }) => {
 				const message =
-					err?.response?.data?.error || "Error occurred while trying to analyze";
+					err?.response?.data?.error ?? "Error occurred while trying to analyze";
 				dispatch(addError(message));
 			})
 			.finally(() => {
@@ -143,7 +143,7 @@ export default function AnalyzePage() {
 												!state.endDate ||
 												startDate > state.endDate
 											) {
-												newDates["endDate"] = null;
+												newDates.endDate = null;
 											}
 											update(newDates);
 										}}
@@ -162,7 +162,7 @@ export default function AnalyzePage() {
 												!endDate ||
 												endDate < state.startDate
 											) {
-												newDates["startDate"] = null;
+												newDates.startDate = null;
 											}
 											update(newDates);
 										}}

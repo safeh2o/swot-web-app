@@ -1,31 +1,27 @@
+import { Box } from "@mui/material";
+import axios from "axios";
 import DOMPurify from "dompurify";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-
-import { Box } from "@mui/material";
-
 import { setLoading } from "../reducers/notifications";
 import { replaceCrumbTitle } from "../reducers/view";
+import { Page } from "../types";
 
 export default function CMSPage() {
 	const dispatch = useDispatch();
 	const { slug } = useParams();
-	const defaultPage: {
-		title: string;
-		content: { extended: string };
-		image?: { secure_url: "" };
-	} = {
+	const defaultPage: Page = {
 		title: "",
 		content: { extended: "" },
 	};
 	const [page, setPage] = useState(defaultPage);
 	useEffect(() => {
 		dispatch(setLoading(true));
-		fetch(`/api/cms/pages/${slug}`)
-			.then((res) => res.json())
-			.then((json) => {
-				setPage(json);
+		axios
+			.get<Page>(`/api/cms/pages/${slug}`)
+			.then(({ data }) => {
+				setPage(data);
 			})
 			.catch(() => {
 				setPage({
@@ -53,7 +49,7 @@ export default function CMSPage() {
 					<div className="section-wrap">
 						<div className="intro">
 							<h1 className="section-title">{page.title || "Loading..."}</h1>
-							{page.image && page.image.secure_url && (
+							{page.image?.secure_url && (
 								<Box component={"figure"} sx={{ mb: 2 }}>
 									<img src={page.image.secure_url} alt="" />
 								</Box>
@@ -62,7 +58,7 @@ export default function CMSPage() {
 								className="rte"
 								dangerouslySetInnerHTML={{
 									__html: DOMPurify.sanitize(
-										page.content.extended || "Content is loading..."
+										page.content?.extended || "Content is loading..."
 									),
 								}}
 							></div>

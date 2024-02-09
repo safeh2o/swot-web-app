@@ -2,22 +2,22 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { RootState } from "../store";
 import {
-	Area,
-	Country,
-	Fieldsite,
 	UnpopulatedArea,
 	UnpopulatedCountry,
 	UnpopulatedFieldsite,
 	User,
+	UserPermissions,
 } from "../types";
 
 export const getUser = createAsyncThunk("user/getUser", async () => {
-	const res = await fetch("/api/user/me").then((res) => res.json());
+	const res: Promise<{ user: User }> = await fetch("/api/user/me").then((res) => res.json());
 	return res;
 });
 
 export const getUserPermissions = createAsyncThunk("user/getUserPermissions", async () => {
-	const res = await fetch("/api/user/permissions").then((res) => res.json());
+	const res: Promise<{ permissions: UserPermissions }> = await fetch(
+		"/api/user/permissions"
+	).then((res) => res.json());
 	return res;
 });
 
@@ -32,12 +32,7 @@ type UserState = {
 	};
 	isLoggedIn: boolean;
 	status: "success" | "loading" | "failed" | null;
-	permissions: {
-		countries: Country[];
-		areas: Area[];
-		fieldsites: Fieldsite[];
-		users: User[];
-	};
+	permissions: UserPermissions;
 };
 
 const initialState: UserState = {
@@ -74,9 +69,15 @@ export const userSlice = createSlice({
 		builder.addCase(getUser.rejected, (state) => {
 			state.status = "failed";
 		});
-		builder.addCase(getUserPermissions.fulfilled, (state, { payload: { permissions } }) => {
-			state.permissions = permissions;
-		});
+		builder.addCase(
+			getUserPermissions.fulfilled,
+			(
+				state,
+				{ payload: { permissions } }: { payload: { permissions: UserPermissions } }
+			) => {
+				state.permissions = permissions;
+			}
+		);
 		builder.addCase(getUserPermissions.pending, (state) => {
 			state.status = "loading";
 		});

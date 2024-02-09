@@ -1,29 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { RootState } from "../store";
-import { BlogPost, BlogPostCategory } from "../types";
+import { BlogPost, BlogPostCategories } from "../types";
 
 export const getPosts = createAsyncThunk("blog/getPosts", async () => {
-	const res = await fetch("/api/cms/posts").then((res) => res.json());
+	const res: Promise<BlogPost[]> = await fetch("/api/cms/posts").then((res) => res.json());
 	return res;
 });
 
-export const getPostCategories = createAsyncThunk(
-	"blog/getPostCategories",
-	async () => {
-		const res = await fetch("/api/cms/post-categories").then((res) =>
-			res.json()
-		);
-		return res;
-	}
-);
+export const getPostCategories = createAsyncThunk("blog/getPostCategories", async () => {
+	const res: Promise<BlogPostCategories> = await fetch("/api/cms/post-categories").then((res) =>
+		res.json()
+	);
+	return res;
+});
 
 type BlogState = {
 	posts: BlogPost[];
-	postCategories: {
-		byName: Record<string, BlogPostCategory>;
-		byId: Record<string, BlogPostCategory>;
-	};
+	postCategories: BlogPostCategories;
 	isLoading: boolean;
 };
 
@@ -37,7 +31,7 @@ export const blogSlice = createSlice({
 	name: "blog",
 	initialState,
 	extraReducers: (builder) => {
-		builder.addCase(getPosts.fulfilled, (state, { payload }) => {
+		builder.addCase(getPosts.fulfilled, (state, { payload }: { payload: BlogPost[] }) => {
 			state.posts = payload;
 			state.isLoading = false;
 		});

@@ -15,6 +15,9 @@ module.exports = {
 	rules: {
 		"react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
 		"@typescript-eslint/consistent-type-definitions": ["error", "type"],
+		"@typescript-eslint/no-unsafe-assignment": "warn",
+		"@typescript-eslint/require-await": "warn",
+		"@typescript-eslint/no-misused-promises": "off",
 	},
 	parserOptions: {
 		project: "./tsconfig.json",
@@ -24,4 +27,5 @@ module.exports = {
 			version: "detect",
 		},
 	},
+	ignorePatterns: ["**/*.d.ts", ".eslintrc.cjs"],
 };

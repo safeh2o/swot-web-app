@@ -1,8 +1,9 @@
-import _ from 'lodash';
+import _ from "lodash";
 
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-import { RootState } from '../store';
+import { RootState } from "../store";
+import { ServerMessages } from "../types";
 
 type NotificationsState = {
 	messages: Message[];
@@ -23,11 +24,7 @@ const initialState: NotificationsState = {
 	loading: false,
 };
 
-const addMessage = (
-	state: NotificationsState,
-	type: MessageType,
-	content: string
-) => {
+const addMessage = (state: NotificationsState, type: MessageType, content: string) => {
 	const newMessage = {
 		type,
 		content,
@@ -59,7 +56,7 @@ export const notificationsSlice = createSlice({
 				addErrorToState(state, payload);
 			}
 		},
-		handleServerMessages: (state, { payload }) => {
+		handleServerMessages: (state, { payload }: { payload: ServerMessages }) => {
 			const notices = payload?.notices || [];
 			const errors = payload?.errors || [];
 			_.forEach(notices, (notice) => {
@@ -78,7 +75,7 @@ export const notificationsSlice = createSlice({
 		shiftNotification: (state) => {
 			state.messages.shift();
 		},
-		setLoading: (state, { payload }) => {
+		setLoading: (state, { payload }: { payload: boolean }) => {
 			state.loading = payload;
 		},
 	},

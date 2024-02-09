@@ -99,9 +99,9 @@ export default function FieldsiteDropdown(props: {
 
 	const updateHashStringFromLocations = (newLocations: Locations) => {
 		const params = hashParams;
-		const country = newLocations.country || locations.country;
-		const area = newLocations.area || locations.area;
-		const fieldsite = newLocations.fieldsite || locations.fieldsite;
+		const country = newLocations.country ?? locations.country;
+		const area = newLocations.area ?? locations.area;
+		const fieldsite = newLocations.fieldsite ?? locations.fieldsite;
 		if (country?.name) {
 			params.set("country", country.name);
 		}

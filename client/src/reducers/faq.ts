@@ -4,7 +4,7 @@ import { RootState } from "../store";
 import { FAQ } from "../types";
 
 export const getFAQs = createAsyncThunk("faq/getFAQs", async () => {
-	const res = await fetch("/api/cms/faqs").then((res) => res.json());
+	const res: Promise<FAQ[]> = await fetch("/api/cms/faqs").then((res) => res.json());
 	return res;
 });
 

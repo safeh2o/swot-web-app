@@ -4,6 +4,9 @@
 		".vscode{,/**}"
 	],
 	"editor.formatOnSave": true,
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"prettier.tabWidth": 4,
+	"editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+	"eslint.workingDirectories": [
+		"./client",
+		"./server"
+	],
 }

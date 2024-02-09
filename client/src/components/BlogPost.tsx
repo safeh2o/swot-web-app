@@ -8,18 +8,13 @@ import { SvgIcon } from "@mui/material";
 import { blogSelectors } from "../reducers/blog";
 import { setLoading } from "../reducers/notifications";
 import { replaceCrumbTitle } from "../reducers/view";
+import { BlogPost } from "../types";
 
 export default function BlogPost() {
 	const dispatch = useDispatch();
 	const allPostCategories = useSelector(blogSelectors.postCategories);
 	const { slug } = useParams();
-	const defaultPage: {
-		title: string;
-		content: { extended: string };
-		image?: { secure_url: string };
-		publishedDate?: string;
-		categories?: string[];
-	} = {
+	const defaultPage: BlogPost = {
 		title: "",
 		content: { extended: "" },
 	};
@@ -28,7 +23,7 @@ export default function BlogPost() {
 		dispatch(setLoading(true));
 		fetch(`/api/cms/posts/${slug}`)
 			.then((res) => res.json())
-			.then((json) => {
+			.then((json: BlogPost) => {
 				setPage(json);
 			})
 			.catch(() => {

@@ -2,14 +2,14 @@ import { Link } from "@mui/material";
 import { ReactNode } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
-interface LinkCardProps {
+type LinkCardProps = {
 	href?: string;
 	title: string;
 	children?: ReactNode;
 	/** cross-site reference */
 	csr?: boolean;
 	target?: string;
-}
+};
 
 export default function LinkCard({
 	title = "",

@@ -12,6 +12,7 @@ import PublicSnackbar from "./elements/PublicSnackbar";
 import Footer from "./layout/Footer";
 import Header from "./layout/Header";
 import NavTools from "./layout/NavTools";
+import ScrollToTop from "./ScrollToTop";
 
 function PageWrapper(props: { children: ReactElement | ReactElement[] }) {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
@@ -69,6 +70,7 @@ function PageWrapper(props: { children: ReactElement | ReactElement[] }) {
 
 	return (
 		<>
+			<ScrollToTop />
 			{/* Header */}
 			<Box component={"header"} className="site-header">
 				<Header />

@@ -40,15 +40,18 @@ export type BlogPostCategory = {
 	key: string;
 };
 export type BlogPost = {
-	_id: string;
-	slug: string;
+	_id?: string;
+	slug?: string;
 	title: string;
 	content: {
-		brief: string;
+		brief?: string;
 		extended: string;
 	};
-	publishedDate: string;
-	categories: string[];
+	publishedDate?: string;
+	categories?: string[];
+	image?: {
+		secure_url: string;
+	};
 };
 
 export type FAQ = {
@@ -56,7 +59,7 @@ export type FAQ = {
 	content: string;
 };
 
-export type ChartData = Array<Record<string, string>>;
+export type ChartData = Record<string, string>[];
 export type UnpopulatedArea = {
 	_id: string;
 	name: string;

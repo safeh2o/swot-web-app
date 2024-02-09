@@ -11,8 +11,7 @@ import LocationDropdown from "../elements/LocationDropdown";
 export default function ManageFieldsites() {
 	const permissions = useSelector(userSelectors.permissions);
 	const { fieldsiteId } = useParams();
-	const [selectedFieldsite, setSelectedFieldsite] =
-		useState<Fieldsite | null>(null);
+	const [selectedFieldsite, setSelectedFieldsite] = useState<Fieldsite | null>(null);
 	const navigate = useNavigate();
 
 	// get selected fieldsite from url
@@ -20,7 +19,7 @@ export default function ManageFieldsites() {
 		const initialSelectedFieldsite = permissions.fieldsites.find(
 			(c: Fieldsite) => c._id === fieldsiteId
 		);
-		setSelectedFieldsite(initialSelectedFieldsite || null);
+		setSelectedFieldsite(initialSelectedFieldsite ?? null);
 	}, [fieldsiteId, permissions.fieldsites]);
 
 	const handleFieldsiteChange = (fieldsite: Fieldsite | null) => {
@@ -45,9 +44,7 @@ export default function ManageFieldsites() {
 				<Grid xs={9}>
 					<LocationDropdown
 						value={selectedFieldsite}
-						onChange={(_e, fieldsite) =>
-							handleFieldsiteChange(fieldsite)
-						}
+						onChange={(_e, fieldsite) => handleFieldsiteChange(fieldsite)}
 						locations={permissions.fieldsites}
 						fieldLabel="Fieldsite"
 					/>

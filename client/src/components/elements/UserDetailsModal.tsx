@@ -17,12 +17,14 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
+import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useForm from "../../hooks/useForm";
 import { handleServerMessages } from "../../reducers/notifications";
 import { getUser, userSelectors } from "../../reducers/user";
 import { UserDetailsModal as css } from "../../styles/styles";
+import { ServerMessages } from "../../types";
 import { IconProfile } from "../icons";
 
 export default function UserDetailsModal() {
@@ -50,12 +52,8 @@ export default function UserDetailsModal() {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const handleSubmit = () => {
-		fetch("/api/user/update", {
-			method: "POST",
-			body: JSON.stringify(state),
-			headers: { "Content-Type": "application/json" },
-		})
-			.then((res) => res.json())
+		void axios
+			.post<typeof state, { messages: ServerMessages }>("/api/user/update", state)
 			.then((data) => {
 				dispatch(handleServerMessages(data.messages));
 			})
@@ -91,11 +89,7 @@ export default function UserDetailsModal() {
 					<Divider sx={{ mb: 2 }} />
 					<Grid container spacing={2}>
 						<Grid item xs={12}>
-							<Typography
-								component="h4"
-								variant="body2"
-								sx={{ fontWeight: 500 }}
-							>
+							<Typography component="h4" variant="body2" sx={{ fontWeight: 500 }}>
 								General
 							</Typography>
 						</Grid>
@@ -145,58 +139,36 @@ export default function UserDetailsModal() {
 									<ExpandMoreIcon
 										sx={{
 											transform:
-												(changingPassword &&
-													"rotate(180deg)") ||
-												"none",
+												(changingPassword && "rotate(180deg)") || "none",
 										}}
 									/>
 								}
-								onClick={() =>
-									setChangingPassword(!changingPassword)
-								}
+								onClick={() => setChangingPassword(!changingPassword)}
 							>
-								<Typography
-									component="h4"
-									variant="body2"
-									sx={{ fontWeight: 500 }}
-								>
+								<Typography component="h4" variant="body2" sx={{ fontWeight: 500 }}>
 									Change Password
 								</Typography>
 							</AccordionSummary>
 							<Collapse in={changingPassword}>
-								<Grid
-									container
-									spacing={2}
-									sx={{ pt: 1, pb: 3 }}
-								>
+								<Grid container spacing={2} sx={{ pt: 1, pb: 3 }}>
 									<Grid item xs={12}>
 										<FormControl fullWidth>
 											<TextField
 												id="password1"
 												name="password1"
-												type={
-													showPassword
-														? "text"
-														: "password"
-												}
+												type={showPassword ? "text" : "password"}
 												value={state.password1}
-												onChange={getTextChangeHandler(
-													"password1"
-												)}
+												onChange={getTextChangeHandler("password1")}
 												autoComplete="new-password"
 												InputProps={{
 													endAdornment: (
 														<InputAdornment position="end">
 															<IconButton
 																aria-label="toggle password visibility"
-																onClick={
-																	handleShowPassword
-																}
+																onClick={handleShowPassword}
 																edge="end"
 															>
-																{
-																	showPasswordIcon
-																}
+																{showPasswordIcon}
 															</IconButton>
 														</InputAdornment>
 													),
@@ -214,14 +186,8 @@ export default function UserDetailsModal() {
 												label="Confirm Password"
 												variant="outlined"
 												value={state.password2}
-												onChange={getTextChangeHandler(
-													"password2"
-												)}
-												type={
-													showPassword
-														? "text"
-														: "password"
-												}
+												onChange={getTextChangeHandler("password2")}
+												type={showPassword ? "text" : "password"}
 												size="small"
 											/>
 										</FormControl>
@@ -235,11 +201,7 @@ export default function UserDetailsModal() {
 				<Divider sx={{ mb: 1 }} />
 
 				<DialogActions sx={{ ...css.dialogueElement.submissionWrap }}>
-					<Button
-						id="btnSaveUserDetails"
-						variant="contained"
-						onClick={handleSubmit}
-					>
+					<Button id="btnSaveUserDetails" variant="contained" onClick={handleSubmit}>
 						Save
 					</Button>
 					<Button id="btnCancelUserDetails" onClick={handleClose}>

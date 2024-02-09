@@ -2,10 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { RootState } from "../store";
 import { FAQ } from "../types";
+import axios from "axios";
 
 export const getFAQs = createAsyncThunk("faq/getFAQs", async () => {
-	const res = await fetch("/api/cms/faqs").then((res) => res.json());
-	return res;
+	const { data } = await axios.get<FAQ[]>("/api/cms/faqs");
+	return data;
 });
 
 type FAQState = {

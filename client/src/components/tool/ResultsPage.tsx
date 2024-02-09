@@ -72,7 +72,7 @@ const CreateHeaderCellWithTooltip = (tooltipText: string) =>
 		);
 	};
 
-const columns: GridColDef[] = [
+const columns: GridColDef<Dataset>[] = [
 	{
 		field: "dateCreated",
 		headerName: "Generated",
@@ -80,23 +80,19 @@ const columns: GridColDef[] = [
 		flex: 10,
 		align: "left",
 		headerAlign: "left",
-		valueFormatter: ({ value }) => formatDate(value),
+		valueFormatter: ({ value }: { value: string }) => formatDate(value),
 		renderHeader: CreateHeaderCellWithTooltip("Date the dataset was generated"),
 	},
 	{
 		field: "userFullName",
 		headerName: "User",
-		description: "Number of valid samples during the dataset date range",
 		type: "string",
 		flex: 8,
-		renderCell: ({ value }) => {
-			return <span title={value}>{value}</span>;
+		renderCell: ({ row }) => {
+			const { name } = row.user;
+			const userFullName = name?.first?.slice(0, 1) + ". " + name?.last;
+			return <span title={userFullName}>{userFullName}</span>;
 		},
-		valueGetter: ({
-			row: {
-				user: { name },
-			},
-		}) => name?.first?.slice(0, 1) + ". " + name?.last,
 		renderHeader: CreateHeaderCellWithTooltip("The name of the user who ran the analysis"),
 	},
 	{
@@ -106,7 +102,7 @@ const columns: GridColDef[] = [
 		flex: 9,
 		align: "left",
 		headerAlign: "left",
-		valueFormatter: ({ value }) => formatDate(value),
+		valueFormatter: ({ value }: { value: string }) => formatDate(value),
 		renderHeader: CreateHeaderCellWithTooltip("The date of the earliest sample of the dataset"),
 	},
 	{
@@ -116,7 +112,7 @@ const columns: GridColDef[] = [
 		flex: 9,
 		align: "left",
 		headerAlign: "left",
-		valueFormatter: ({ value }) => formatDate(value),
+		valueFormatter: ({ value }: { value: string }) => formatDate(value),
 		renderHeader: CreateHeaderCellWithTooltip("The date of the latest sample of the dataset"),
 	},
 	{
@@ -139,17 +135,22 @@ const columns: GridColDef[] = [
 		flex: 11,
 		align: "left",
 		headerAlign: "left",
-		valueGetter: (params) => {
-			switch (params.row.confidenceLevel) {
+		renderCell: ({ row }) => {
+			let value = "";
+			switch (row.confidenceLevel) {
 				case "optimumDecay":
-					return "Optimum Decay";
+					value = "Optimum Decay";
+					break;
 				case "maxDecay":
-					return "Maximum Decay";
+					value = "Maximum Decay";
+					break;
 				case "minDecay":
-					return "Minimum Decay";
+					value = "Minimum Decay";
+					break;
 			}
+
+			return <span>{value}</span>;
 		},
-		renderCell: ({ value }) => <span title={value}>{value}</span>,
 		renderHeader: CreateHeaderCellWithTooltip("The model used to estimate the FRC decay"),
 	},
 	{
@@ -165,7 +166,7 @@ const columns: GridColDef[] = [
 
 export default function ResultsPage() {
 	const [fieldsite, setFieldsite] = useState<Fieldsite | null>(DEFAULT_FIELDSITE);
-	const [datasets, setDatasets] = useState([]);
+	const [datasets, setDatasets] = useState<Dataset[]>([]);
 	const [selectedDatasets, setSelectedDatasets] = useState<(string | number)[]>([]);
 	const dispatch = useDispatch();
 	const [resultsSortModel, setResultsSortModel] = useState<GridSortModel>([
@@ -176,9 +177,12 @@ export default function ResultsPage() {
 		if (fieldsite?._id) {
 			dispatch(setLoading(true));
 			axios
-				.get(`/api/user/datasets?fieldsite=${fieldsite._id}`)
+				.get<{ datasets: Dataset[] }>(`/api/user/datasets?fieldsite=${fieldsite._id}`)
 				.then((res) => {
 					setDatasets(res.data.datasets);
+				})
+				.catch(() => {
+					console.error("Error fetching datasets");
 				})
 				.finally(() => {
 					dispatch(setLoading(false));
@@ -200,6 +204,9 @@ export default function ResultsPage() {
 			})
 			.then((res) => {
 				dispatch(addNotice(res.data));
+			})
+			.catch(() => {
+				console.error("Error reanalyzing multiple datasets");
 			})
 			.finally(() => {
 				dispatch(setLoading(false));
@@ -259,7 +266,7 @@ export default function ResultsPage() {
 							rowHeight={60}
 							checkboxSelection
 							onRowSelectionModelChange={handleSelection}
-							getRowId={(row) => row._id}
+							getRowId={(row: Dataset) => row._id}
 							onSortModelChange={(sortModel) => {
 								setResultsSortModel(sortModel);
 							}}

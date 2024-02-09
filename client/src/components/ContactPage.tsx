@@ -15,9 +15,12 @@ import { Link } from "react-router-dom";
 import useForm from "../hooks/useForm";
 import { handleServerMessages, setLoading } from "../reducers/notifications";
 import NotificationLine from "./elements/NotificationLine";
+import { ServerMessages } from "../types";
+
+type ContactReason = { label: string; value: string };
 
 export default function ContactPage() {
-	const [contactReasons, setContactReasons] = useState([]);
+	const [contactReasons, setContactReasons] = useState<ContactReason[]>([]);
 	const [disabled, setDisabled] = useState(true);
 	const { state, reset, getTextChangeHandler } = useForm({
 		name: "",
@@ -30,7 +33,7 @@ export default function ContactPage() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		axios("/api/contactreasons").then(({ data }) => {
+		void axios.get<ContactReason[]>("/api/contactreasons").then(({ data }) => {
 			setContactReasons(data);
 		});
 	}, []);
@@ -43,8 +46,8 @@ export default function ContactPage() {
 	function handleSubmit(e: React.SyntheticEvent) {
 		e.preventDefault();
 		dispatch(setLoading(true));
-		axios
-			.post("/api/contact", state)
+		void axios
+			.post<typeof state, { data: { messages: ServerMessages } }>("/api/contact", state)
 			.then(({ data }) => {
 				dispatch(handleServerMessages(data.messages));
 			})
@@ -71,8 +74,7 @@ export default function ContactPage() {
 										onChange={getTextChangeHandler("name")}
 									/>
 									<FormHelperText>
-										Please add your first and last name here
-										(required)
+										Please add your first and last name here (required)
 									</FormHelperText>
 								</FormControl>
 
@@ -86,8 +88,8 @@ export default function ContactPage() {
 										onChange={getTextChangeHandler("email")}
 									/>
 									<FormHelperText>
-										Please add email to associate with your
-										account if registering (required)
+										Please add email to associate with your account if
+										registering (required)
 									</FormHelperText>
 								</FormControl>
 
@@ -98,13 +100,10 @@ export default function ContactPage() {
 										label="Organisation"
 										required
 										value={state.organisation}
-										onChange={getTextChangeHandler(
-											"organisation"
-										)}
+										onChange={getTextChangeHandler("organisation")}
 									/>
 									<FormHelperText>
-										Which organisation do you work with?
-										(required)
+										Which organisation do you work with? (required)
 									</FormHelperText>
 								</FormControl>
 							</Box>
@@ -121,8 +120,7 @@ export default function ContactPage() {
 										onChange={getTextChangeHandler("phone")}
 									/>
 									<FormHelperText>
-										Please include you country and area code
-										(Optional)
+										Please include you country and area code (Optional)
 									</FormHelperText>
 								</FormControl>
 							</Box>
@@ -140,46 +138,26 @@ export default function ContactPage() {
 										labelId="SelectReasonLabel"
 										label="Reason for contacting us today*"
 										value={state.reason}
-										onChange={getTextChangeHandler(
-											"reason"
-										)}
+										onChange={getTextChangeHandler("reason")}
 									>
-										{(contactReasons &&
-											contactReasons.map(
-												(reason: {
-													value: string;
-													label: string;
-												}) => (
-													<MenuItem
-														key={reason.value}
-														value={reason.value}
-													>
-														{reason.label}
-													</MenuItem>
-												)
-											)) || (
+										{contactReasons?.map(
+											(reason: { value: string; label: string }) => (
+												<MenuItem key={reason.value} value={reason.value}>
+													{reason.label}
+												</MenuItem>
+											)
+										) || (
 											<>
-												<MenuItem value={1}>
-													General
-												</MenuItem>
-												<MenuItem value={2}>
-													Request a demo
-												</MenuItem>
-												<MenuItem value={3}>
-													Register an Account
-												</MenuItem>
-												<MenuItem value={4}>
-													Get Support
-												</MenuItem>
-												<MenuItem value={5}>
-													Report a Problem
-												</MenuItem>
+												<MenuItem value={1}>General</MenuItem>
+												<MenuItem value={2}>Request a demo</MenuItem>
+												<MenuItem value={3}>Register an Account</MenuItem>
+												<MenuItem value={4}>Get Support</MenuItem>
+												<MenuItem value={5}>Report a Problem</MenuItem>
 											</>
 										)}
 									</Select>
 									<FormHelperText>
-										Please select reason from the dropdown
-										menu (required)
+										Please select reason from the dropdown menu (required)
 									</FormHelperText>
 								</FormControl>
 
@@ -190,9 +168,7 @@ export default function ContactPage() {
 										label="Leave us a short message (optional)"
 										rows={4}
 										value={state.message}
-										onChange={getTextChangeHandler(
-											"message"
-										)}
+										onChange={getTextChangeHandler("message")}
 									/>
 								</FormControl>
 							</Box>
@@ -230,13 +206,9 @@ export default function ContactPage() {
 								<NotificationLine type="notice">
 									<p>
 										By clicking Submit, you agree to our{" "}
-										<Link to="/pages/terms-of-use">
-											Terms of Use
-										</Link>
+										<Link to="/pages/terms-of-use">Terms of Use</Link>
 										&nbsp; and our{" "}
-										<Link to="/pages/privacy-notice">
-											Privacy Notice
-										</Link>
+										<Link to="/pages/privacy-notice">Privacy Notice</Link>
 									</p>
 								</NotificationLine>
 							</Box>

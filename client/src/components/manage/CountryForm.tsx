@@ -30,7 +30,7 @@ export default function CountryForm() {
 			country?.areas.map((a) => a._id).includes(a._id)
 		);
 		setCurrentAreas(initialAreas);
-		setCountryName(country?.name || "");
+		setCountryName(country?.name ?? "");
 	}, [country?.areas, country?.name, permissions.areas]);
 
 	function handleAreasChange(_event: SyntheticEvent, newValue: Area[]) {
@@ -38,14 +38,14 @@ export default function CountryForm() {
 	}
 
 	async function handleCountrySave() {
-		const body: Record<string, string | Array<string>> = {
+		const body: Record<string, string | string[]> = {
 			countryName,
 			areas: currentAreas.map((a: Area) => a._id),
 		};
 		dispatch(setLoading(true));
 		if (isCreating) {
 			const res = await axios
-				.post("/api/manage/country", body)
+				.post<{ country: Country }>("/api/manage/country", body)
 				.then((res) => {
 					dispatch(addNotice(`Country ${countryName} created`));
 					return res;

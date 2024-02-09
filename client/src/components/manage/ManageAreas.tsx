@@ -16,10 +16,8 @@ export default function ManageAreas() {
 
 	// get selected area from url
 	useEffect(() => {
-		const initialSelectedArea = permissions.areas.find(
-			(c: Area) => c._id === areaId
-		);
-		setSelectedArea(initialSelectedArea || null);
+		const initialSelectedArea = permissions.areas.find((c: Area) => c._id === areaId);
+		setSelectedArea(initialSelectedArea ?? null);
 	}, [areaId, permissions.areas]);
 
 	const handleAreaChange = (area: Area | null) => {

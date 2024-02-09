@@ -2,17 +2,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { RootState } from "../store";
 import { BlogPost, BlogPostCategories } from "../types";
+import axios from "axios";
 
 export const getPosts = createAsyncThunk("blog/getPosts", async () => {
-	const res: Promise<BlogPost[]> = await fetch("/api/cms/posts").then((res) => res.json());
-	return res;
+	const { data } = await axios.get<BlogPost[]>("/api/cms/posts");
+	return data;
 });
 
 export const getPostCategories = createAsyncThunk("blog/getPostCategories", async () => {
-	const res: Promise<BlogPostCategories> = await fetch("/api/cms/post-categories").then((res) =>
-		res.json()
-	);
-	return res;
+	const { data } = await axios.get<BlogPostCategories>("/api/cms/post-categories");
+	return data;
 });
 
 type BlogState = {

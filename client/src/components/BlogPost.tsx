@@ -9,6 +9,7 @@ import { blogSelectors } from "../reducers/blog";
 import { setLoading } from "../reducers/notifications";
 import { replaceCrumbTitle } from "../reducers/view";
 import { BlogPost as BlogPostType } from "../types";
+import axios from "axios";
 
 export default function BlogPost() {
 	const dispatch = useDispatch();
@@ -21,10 +22,10 @@ export default function BlogPost() {
 	const [page, setPage] = useState(defaultPage);
 	useEffect(() => {
 		dispatch(setLoading(true));
-		fetch(`/api/cms/posts/${slug}`)
-			.then((res) => res.json())
-			.then((json: BlogPostType) => {
-				setPage(json);
+		axios
+			.get<BlogPostType>(`/api/cms/posts/${slug}`)
+			.then(({ data }) => {
+				setPage(data);
 			})
 			.catch(() => {
 				setPage({

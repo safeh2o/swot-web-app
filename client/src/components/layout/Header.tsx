@@ -22,6 +22,7 @@ import {
 	SWOTLogo,
 	SWOTLogoCompact,
 } from "../icons";
+import axios from "axios";
 
 export default function Header() {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
@@ -47,7 +48,7 @@ export default function Header() {
 	const handleSignout = () => {
 		dispatch(markAllRead());
 		setWaitingForSignout(true);
-		void fetch("/api/signout").then(() => {
+		void axios.get("/api/signout").then(() => {
 			dispatch(getUser());
 		});
 	};

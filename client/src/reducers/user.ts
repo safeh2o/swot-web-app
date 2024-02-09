@@ -8,17 +8,16 @@ import {
 	User,
 	UserPermissions,
 } from "../types";
+import axios from "axios";
 
 export const getUser = createAsyncThunk("user/getUser", async () => {
-	const res: Promise<{ user: User }> = await fetch("/api/user/me").then((res) => res.json());
-	return res;
+	const { data } = await axios.get<{ user: User }>("/api/user/me");
+	return data;
 });
 
 export const getUserPermissions = createAsyncThunk("user/getUserPermissions", async () => {
-	const res: Promise<{ permissions: UserPermissions }> = await fetch(
-		"/api/user/permissions"
-	).then((res) => res.json());
-	return res;
+	const { data } = await axios.get<{ permissions: UserPermissions }>("/api/user/permissions");
+	return data;
 });
 
 type UserState = {

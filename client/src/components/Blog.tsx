@@ -54,24 +54,16 @@ export default function Blog() {
 			setPageNumber(1);
 		} else {
 			const startRange = (currentPageNumber - 1) * pageSize + 1;
-			const endRange = Math.min(
-				currentPageNumber * pageSize,
-				posts?.length || Infinity
-			);
+			const endRange = Math.min(currentPageNumber * pageSize, posts?.length || Infinity);
 			setPostRange([startRange, endRange]);
 		}
 	}, [currentPageNumber, currentCategory, posts, pageSize, setPageNumber]);
 
 	useEffect(() => {
 		const currentCategoryId =
-			currentCategory &&
-			allPostCategories?.byName?.[currentCategory]?._id;
+			currentCategory && allPostCategories?.byName?.[currentCategory]?._id;
 		if (currentCategoryId) {
-			setPosts(
-				allPosts.filter((post) =>
-					post.categories.includes(currentCategoryId)
-				)
-			);
+			setPosts(allPosts.filter((post) => post.categories?.includes(currentCategoryId)));
 		} else {
 			setPosts(allPosts);
 		}
@@ -103,29 +95,23 @@ export default function Blog() {
 					</h1>
 					<div className="posts-filters small">
 						<div className="categories-blog">
-							{Object.keys(allPostCategories?.byName || []).map(
-								(categoryName) => (
-									<span
-										key={categoryName}
-										className={
-											currentCategory === categoryName
-												? "active"
-												: ""
-										}
-										onClick={() => {
-											setCategory(categoryName);
-										}}
-									>
-										{categoryName}
-									</span>
-								)
-							)}
+							{Object.keys(allPostCategories?.byName || []).map((categoryName) => (
+								<span
+									key={categoryName}
+									className={currentCategory === categoryName ? "active" : ""}
+									onClick={() => {
+										setCategory(categoryName);
+									}}
+								>
+									{categoryName}
+								</span>
+							))}
 						</div>
 					</div>
 					<div className="posts-count small">
 						<span>
-							Showing {postRange[0]} to {postRange[1]} of{" "}
-							{posts?.length ?? "..."} posts.
+							Showing {postRange[0]} to {postRange[1]} of {posts?.length ?? "..."}{" "}
+							posts.
 						</span>
 					</div>
 				</div>
@@ -133,20 +119,12 @@ export default function Blog() {
 			<section>
 				<div className="section-wrap posts">
 					<div className="content">
-						<Posts
-							posts={posts}
-							start={postRange[0]}
-							end={postRange[1]}
-						/>
+						<Posts posts={posts} start={postRange[0]} end={postRange[1]} />
 					</div>
 					<footer className="posts-footer">
 						<div className="pages">
 							{currentPageNumber > 1 && (
-								<span
-									onClick={() =>
-										setPageNumber(currentPageNumber - 1)
-									}
-								>
+								<span onClick={() => setPageNumber(currentPageNumber - 1)}>
 									Previous
 								</span>
 							)}
@@ -154,21 +132,13 @@ export default function Blog() {
 								<span
 									onClick={() => setPageNumber(pageNumber)}
 									key={pageNumber}
-									className={
-										pageNumber === currentPageNumber
-											? "active"
-											: ""
-									}
+									className={pageNumber === currentPageNumber ? "active" : ""}
 								>
 									{pageNumber}
 								</span>
 							))}
 							{currentPageNumber < numPages && (
-								<span
-									onClick={() =>
-										setPageNumber(currentPageNumber + 1)
-									}
-								>
+								<span onClick={() => setPageNumber(currentPageNumber + 1)}>
 									Next
 								</span>
 							)}

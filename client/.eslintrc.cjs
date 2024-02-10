@@ -16,7 +16,7 @@ module.exports = {
 		"react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
 		"@typescript-eslint/consistent-type-definitions": ["error", "type"],
 		"@typescript-eslint/no-unsafe-assignment": "warn",
-		"@typescript-eslint/require-await": "warn",
+		"@typescript-eslint/require-await": "off",
 		"@typescript-eslint/no-misused-promises": "off",
 	},
 	parserOptions: {

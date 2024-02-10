@@ -65,6 +65,10 @@ export default function Header() {
 		);
 	}
 
+	function signinSkeleton() {
+		return <Skeleton variant="rectangular" animation="wave" width="100px" />;
+	}
+
 	function headerSkeletonCircle() {
 		const circle = {
 			flex: "0 1 auto",
@@ -276,18 +280,22 @@ export default function Header() {
 						) : (
 							<>
 								<li className="sign-in">
-									<NavLink
-										to="/signin"
-										tabIndex={-1}
-										className={({ isActive }) =>
-											isActive ? "active" : undefined
-										}
-									>
-										<span className="label">Sign in</span>
-										<i>
-											<IconProfile />
-										</i>
-									</NavLink>
+									{userLoadingStatus === "loading" ? (
+										signinSkeleton()
+									) : (
+										<NavLink
+											to="/signin"
+											tabIndex={-1}
+											className={({ isActive }) =>
+												isActive ? "active" : undefined
+											}
+										>
+											<span className="label">Sign in</span>
+											<i>
+												<IconProfile />
+											</i>
+										</NavLink>
+									)}
 								</li>
 							</>
 						)}

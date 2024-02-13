@@ -71,7 +71,7 @@ User.schema.post("save", function () {
 	});
 
 	if (this.welcome) {
-		this.requestResetPassword(function () {
+		this.requestResetPassword(() => {
 			const Welcome = keystone.list("Welcome");
 			Welcome.model.create({ user: this });
 		});

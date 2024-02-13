@@ -11,6 +11,7 @@ const User = new keystone.List("User");
 User.add(
 	{
 		name: { type: Types.Name, required: true, index: true },
+		createdAt: { type: Date, default: Date.now, noedit: false }, // TODO: change to noedit: true after migration
 		phone: { type: Types.Text, required: false, initial: true },
 		organisation: { type: Types.Text, required: false, initial: false },
 		email: {

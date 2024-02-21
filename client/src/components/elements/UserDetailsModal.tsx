@@ -42,9 +42,9 @@ export default function UserDetailsModal() {
 	};
 
 	const { state, reset, getTextChangeHandler } = useForm({
-		firstName: user.name.first,
-		lastName: user.name.last,
-		email: user.email,
+		firstName: user?.name.first,
+		lastName: user?.name.last,
+		email: user?.email,
 		password1: "",
 		password2: "",
 	});

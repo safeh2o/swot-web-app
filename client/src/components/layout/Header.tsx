@@ -246,7 +246,7 @@ export default function Header() {
 								<li>
 									<UserNotificationsPopover />
 								</li>
-								{user.isAdmin && (
+								{user?.isAdmin && (
 									<li>
 										<IconButton href="/admin" tabIndex={-1}>
 											<span className="label">Field Admin</span>

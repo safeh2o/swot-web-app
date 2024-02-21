@@ -7,7 +7,6 @@ import {
 	getCsvBlobAsJson,
 	isUserAllowedAccessToDataset,
 } from "../../utils/data.service";
-import { Readable } from "form-data";
 const Dataset = keystone.list("Dataset");
 const Fieldsite = keystone.list("Fieldsite");
 
@@ -65,7 +64,7 @@ export async function download(req, res) {
 		const blobName = blobItem.name;
 		const blobClient = containerClient.getBlobClient(blobName);
 		const blobData = await blobClient.download();
-		archive.append(blobData.readableStreamBody as Readable, {
+		archive.append(blobData.readableStreamBody as NodeJS.ReadStream, {
 			name: blobName.split("/").slice(-1)[0],
 		});
 	}

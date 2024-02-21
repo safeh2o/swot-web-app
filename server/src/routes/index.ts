@@ -21,6 +21,7 @@
 import * as keystone from "keystone";
 import * as middleware from "./middleware";
 import * as api from "./api";
+import { middleware as trpcMiddleware } from "./api/v2/index";
 import { Router } from "express";
 
 // Common Middleware
@@ -40,29 +41,12 @@ export default function (app: Router) {
 	app.post("/api/upload/analyze", middleware.api, api.upload.analyze);
 	app.get("/api/results/resolve", middleware.api, api.results.resolve);
 	app.get("/api/results/download", middleware.api, api.results.download);
-	app.post(
-		"/api/results/analyze-multiple",
-		middleware.api,
-		api.results.analyzeMultiple
-	);
-	app.get(
-		"/api/results/analyze-single",
-		middleware.api,
-		api.results.analyzeSingle
-	);
+	app.post("/api/results/analyze-multiple", middleware.api, api.results.analyzeMultiple);
+	app.get("/api/results/analyze-single", middleware.api, api.results.analyzeSingle);
 	app.post("/api/user/update", middleware.api, api.user.update);
 	app.get("/api/user/create", middleware.api, api.user.createFromEnquiry);
-	app.get(
-		"/api/user/fieldsites",
-		middleware.requireUser,
-		api.user.getFieldsites
-	);
-	app.get(
-		"/api/user/resetkey",
-		middleware.requireGuest,
-		api.user.validateResetKey
-	);
-	app.get("/api/user/me", middleware.api, api.user.getCurrentUser);
+	app.get("/api/user/fieldsites", middleware.requireUser, api.user.getFieldsites);
+	app.get("/api/user/resetkey", middleware.requireGuest, api.user.validateResetKey);
 	app.get("/api/user/datasets", middleware.api, api.user.getUserDatasets);
 	app.get("/api/contactreasons", middleware.api, api.forms.getContactReasons);
 	app.get("/api/cms/pages/:slug", middleware.api, api.cms.pages);
@@ -71,18 +55,9 @@ export default function (app: Router) {
 	app.get("/api/cms/post-categories", middleware.api, api.cms.postCategories);
 	app.get("/api/cms/posts/:slug", middleware.api, api.cms.post);
 	app.get("/api/datasets/:datasetId", middleware.api, api.results.dataset);
-	app.get(
-		"/api/upload/fetchrawdata",
-		middleware.api,
-		api.upload.fetchRawData
-	);
-	app.get("/api/user/permissions", middleware.api, api.user.permissions);
+	app.get("/api/upload/fetchrawdata", middleware.api, api.upload.fetchRawData);
 
-	app.post(
-		"/api/manage/fieldsite",
-		middleware.api,
-		api.manage.createFieldsite
-	);
+	app.post("/api/manage/fieldsite", middleware.api, api.manage.createFieldsite);
 	app.put(
 		"/api/manage/fieldsite/:fieldsiteId",
 		middleware.api,
@@ -123,4 +98,5 @@ export default function (app: Router) {
 		middleware.requireCountryAccess,
 		api.manage.deleteCountry
 	);
+	app.use("/api/v2", trpcMiddleware);
 }

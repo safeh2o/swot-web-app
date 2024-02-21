@@ -18,7 +18,7 @@ export default function Home() {
 				<div className="section-wrap compact">
 					<h1 className="section-subtitle home">
 						<LoadingSkeleton isLoading={isUserLoading}>
-							{(isLoggedIn && "Welcome Back, " + (user.name.first || "User")) ||
+							{(isLoggedIn && "Welcome Back, " + (user?.name.first ?? "User")) ||
 								"Welcome Visitor,"}
 						</LoadingSkeleton>
 					</h1>

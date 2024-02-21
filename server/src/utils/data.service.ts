@@ -10,9 +10,9 @@ const User = keystone.list("User");
 const Dataset = keystone.list("Dataset");
 const Upload = keystone.list("Upload");
 
-type MongooseItem = {
-	_id: string;
-} & Record<string, unknown>;
+// TODO type according to Mongoose model
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type MongooseItem = any;
 
 /**
  * Retrieves a fieldsite record by it's id
@@ -390,4 +390,27 @@ export async function streamToBuffer(readableStream: NodeJS.ReadableStream): Pro
 		});
 		readableStream.on("error", reject);
 	});
+}
+
+export async function getPopulatedUser(partialUser: {
+	_id: string;
+	name: { first: string; last: string };
+	email: string;
+	isAdmin: boolean;
+}) {
+	const userId = partialUser._id;
+	let fieldsites = await getUserFieldsites(userId);
+	fieldsites = fieldsites.map((location) => _.pick(location, ["_id", "name"]));
+
+	let areas = await getUserAreas(userId);
+	areas = areas.map((location) => _.pick(location, ["_id", "name", "fieldsites"]));
+
+	let countries = await getUserCountries(userId);
+	if (countries) {
+		countries = countries.map((location) => _.pick(location, ["_id", "name", "areas"]));
+	} else {
+		countries = [];
+	}
+
+	return { user: { ...partialUser, fieldsites, areas, countries } };
 }

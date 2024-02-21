@@ -1,22 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+import trpc from "../data/trpc";
 import { RootState } from "../store";
 import {
 	UnpopulatedArea,
 	UnpopulatedCountry,
 	UnpopulatedFieldsite,
-	User,
 	UserPermissions,
 } from "../types";
-import axios from "axios";
 
 export const getUser = createAsyncThunk("user/getUser", async () => {
-	const { data } = await axios.get<{ user: User }>("/api/user/me");
+	const data = await trpc.users.me.query();
 	return data;
 });
 
 export const getUserPermissions = createAsyncThunk("user/getUserPermissions", async () => {
-	const { data } = await axios.get<{ permissions: UserPermissions }>("/api/user/permissions");
+	const data = await trpc.users.permissions.query();
 	return data;
 });
 
@@ -28,7 +27,7 @@ type UserState = {
 		fieldsites: UnpopulatedFieldsite[];
 		areas: UnpopulatedArea[];
 		countries: UnpopulatedCountry[];
-	};
+	} | null;
 	isLoggedIn: boolean;
 	status: "success" | "loading" | "failed" | null;
 	permissions: UserPermissions;
@@ -90,9 +89,9 @@ export const userSlice = createSlice({
 export const userSelectors = {
 	isLoggedIn: (state: RootState) => state.user.isLoggedIn,
 	user: (state: RootState) => state.user.user,
-	fieldsites: (state: RootState) => state.user.user.fieldsites,
-	areas: (state: RootState) => state.user.user.areas,
-	countries: (state: RootState) => state.user.user.countries,
+	fieldsites: (state: RootState) => state.user.user?.fieldsites ?? [],
+	areas: (state: RootState) => state.user.user?.areas ?? [],
+	countries: (state: RootState) => state.user.user?.countries ?? [],
 	loadingStatus: (state: RootState) => state.user.status,
 	permissions: (state: RootState) => state.user.permissions,
 };

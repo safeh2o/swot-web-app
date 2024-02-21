@@ -1,5 +1,5 @@
 import { Button, TextField, Typography } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { Unstable_Grid2 as Grid } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

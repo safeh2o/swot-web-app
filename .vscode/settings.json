@@ -1,12 +1,9 @@
 {
-	"appService.zipIgnorePattern": [
-		"node_modules{,/**}",
-		".vscode{,/**}"
-	],
+	"appService.zipIgnorePattern": ["node_modules{,/**}", ".vscode{,/**}"],
 	"editor.formatOnSave": true,
 	"editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
-	"eslint.workingDirectories": [
-		"./client",
-		"./server"
-	],
+	"eslint.workingDirectories": ["./client", "./server"],
+	"[markdown]": {
+		"editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+	}
 }

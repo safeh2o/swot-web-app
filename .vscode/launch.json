@@ -5,11 +5,11 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"command": "npm run dev",
+			"command": "yarn dev",
 			"name": "Run server",
 			"request": "launch",
 			"type": "node-terminal",
-			"cwd": "${workspaceFolder}/server"
+			"cwd": "${workspaceFolder}"
 		},
 		{
 			"name": "Attach frontend",
@@ -22,10 +22,7 @@
 	"compounds": [
 		{
 			"name": "Run full app",
-			"configurations": [
-				"Run server",
-				"Attach frontend"
-			]
+			"configurations": ["Run server", "Attach frontend"]
 		}
 	]
 }

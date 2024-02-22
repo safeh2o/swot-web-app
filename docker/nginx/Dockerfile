@@ -1,6 +1,6 @@
 # The first stage
 # Build React static files
-FROM node:20.9.0-alpine as build
+FROM node:20.11.0-alpine as build
 
 WORKDIR /app
 COPY ./package.json ./yarn.lock ./.yarnrc.yml ./

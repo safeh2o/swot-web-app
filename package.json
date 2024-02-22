@@ -1,0 +1,15 @@
+{
+	"name": "@safeh2o/web",
+	"packageManager": "yarn@4.1.0",
+	"version": "3.0.0",
+	"workspaces": [
+		"client",
+		"server"
+	],
+	"scripts": {
+		"dev": "concurrently -k \"yarn workspace client start\" \"yarn workspace server dev\""
+	},
+	"devDependencies": {
+		"concurrently": "^8.2.2"
+	}
+}

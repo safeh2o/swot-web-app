@@ -22,4 +22,4 @@ services:
         image: swotbackend
         expose:
             - 3000
-        command: "npm start"
+        command: "yarn workspace server start"

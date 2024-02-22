@@ -1,5 +1,4 @@
 import * as keystone from "keystone";
-import * as _ from "lodash";
 import * as dataService from "../../utils/data.service";
 const User = keystone.list("User");
 const Dataset = keystone.list("Dataset");
@@ -83,22 +82,16 @@ export async function createFromEnquiry(req, res) {
 		return false;
 	}
 
-	const enquiry = await Enquiry.model
-		.findOne({ _id: req.query.enquiryId })
-		.exec();
+	const enquiry = await Enquiry.model.findOne({ _id: req.query.enquiryId }).exec();
 
 	if (!enquiry) {
 		res.status(404).send();
 		return false;
 	}
 
-	const userExists = await User.model
-		.findOne({ email: enquiry.email })
-		.exec();
+	const userExists = await User.model.findOne({ email: enquiry.email }).exec();
 	if (userExists) {
-		res.status(409).send(
-			`User already exists with the email ${enquiry.email}.`
-		);
+		res.status(409).send(`User already exists with the email ${enquiry.email}.`);
 		return;
 	}
 
@@ -134,10 +127,7 @@ export async function getFieldsitesByArea(req, res) {
 }
 
 async function isResetKeyValid(key) {
-	const user = await User.model
-		.findOne()
-		.where("resetPasswordKey", key)
-		.exec();
+	const user = await User.model.findOne().where("resetPasswordKey", key).exec();
 
 	return user !== null;
 }
@@ -201,9 +191,7 @@ export async function resetPassword(req, res, next) {
 			userFound.resetPasswordKey = "";
 			userFound.save(function (err) {
 				if (err) return handleError();
-				messages.notices.push(
-					"Your password has been reset, please sign in."
-				);
+				messages.notices.push("Your password has been reset, please sign in.");
 				terminate();
 				return;
 			});
@@ -221,37 +209,6 @@ export async function getUserDatasets(req, res) {
 		})
 		.populate({ path: "user", select: "name" });
 	res.json({ datasets });
-}
-
-export async function getCurrentUser(req, res) {
-	if (!req.user) {
-		res.json({ user: null });
-		return;
-	}
-
-	const fields = ["_id", "isAdmin", "name", "email"];
-	const user = _.pick(req.user, fields);
-
-	let fieldsites = await dataService.getUserFieldsites(user._id);
-	fieldsites = fieldsites.map((location) =>
-		_.pick(location, ["_id", "name"])
-	);
-
-	let areas = await dataService.getUserAreas(user._id);
-	areas = areas.map((location) =>
-		_.pick(location, ["_id", "name", "fieldsites"])
-	);
-
-	let countries = await dataService.getUserCountries(user._id);
-	if (countries) {
-		countries = countries.map((location) =>
-			_.pick(location, ["_id", "name", "areas"])
-		);
-	} else {
-		countries = [];
-	}
-
-	res.json({ user: { ...user, fieldsites, areas, countries } });
 }
 
 export async function forgotPassword(req, res) {
@@ -296,28 +253,9 @@ export async function forgotPassword(req, res) {
 					setSuccessMessage();
 					terminate();
 				} else {
-					console.error(
-						"Error occurred trying to reset valid user password",
-						err
-					);
+					console.error("Error occurred trying to reset valid user password", err);
 					return handleError();
 				}
 			}
 		});
-}
-
-export async function permissions(req, res) {
-	if (!req.user) {
-		return res.json({
-			permissions: {
-				areas: [],
-				countries: [],
-				fieldsites: [],
-				users: [],
-			},
-		});
-	}
-
-	const permissions = await dataService.getPermissions(req.user);
-	return res.json({ permissions });
 }

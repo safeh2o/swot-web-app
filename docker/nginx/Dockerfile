@@ -1,14 +1,20 @@
 # The first stage
 # Build React static files
-FROM node:20.9.0-alpine as build
-WORKDIR /app/client
-COPY ./client/package.json ./
-COPY ./client/package-lock.json ./
-RUN npm ci
-COPY ./client/ ./
+FROM node:20.11.0-alpine as build
+
+WORKDIR /app
+COPY ./package.json ./yarn.lock ./.yarnrc.yml ./
+COPY ./client/package.json ./client/
+COPY ./server/package.json ./server/
+RUN npm i -g corepack
+RUN corepack enable
+RUN yarn
+
+COPY ./client/ ./client
+COPY ./server/ ./server
 ARG VITE_GTAG
 ARG VITE_CURRENT_COMMIT_SHA
-RUN npm run build
+RUN yarn workspace client build
 
 # The second stage
 # Copy React static files and start nginx

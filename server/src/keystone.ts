@@ -23,12 +23,6 @@ function validateConfig() {
 
 validateConfig();
 
-mongoose.set("server", {
-	socketOptions: {
-		keepAlive: 1,
-	},
-});
-
 mongoose.connection.on("error", function (err: unknown) {
 	console.error(`Mongoose default connection has occured ${err} error`);
 	mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING);
@@ -66,12 +60,10 @@ keystone.set("locals", {
 	env: keystone.get("env"),
 	utils: keystone.utils,
 	editable: keystone.content.editable,
-	weburl: `${process.env.WEB_URL?.startsWith("http") ? "" : "https://"}${
-		process.env.WEB_URL
-	}${process.env.WEB_URL?.endsWith("/") ? "" : "/"}`,
+	weburl: `${process.env.WEB_URL?.startsWith("http") ? "" : "https://"}${process.env.WEB_URL}${
+		process.env.WEB_URL?.endsWith("/") ? "" : "/"
+	}`,
 });
-
-keystone.set("mongoose", mongoose);
 
 // Load your project's Routes
 import routes from "./routes";

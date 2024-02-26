@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { BlogPost, BlogPostCategories } from "../types";
 import axios from "axios";
+import trpc from "../data/trpc";
 
 export const getPosts = createAsyncThunk("blog/getPosts", async () => {
 	const { data } = await axios.get<BlogPost[]>("/api/cms/posts");
@@ -10,7 +11,7 @@ export const getPosts = createAsyncThunk("blog/getPosts", async () => {
 });
 
 export const getPostCategories = createAsyncThunk("blog/getPostCategories", async () => {
-	const { data } = await axios.get<BlogPostCategories>("/api/cms/post-categories");
+	const data = await trpc.cms.postCategories.query();
 	return data;
 });
 

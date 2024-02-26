@@ -1,4 +1,5 @@
 import * as keystone from "keystone";
+import { ModelService } from "./ModelService";
 
 /**
  * PostCategory Model
@@ -20,3 +21,11 @@ PostCategory.relationship({
 });
 
 PostCategory.register();
+
+export type PostCategoryType = {
+	name: string;
+	_id: string;
+	key: string;
+};
+
+export const PostCategoryService = new ModelService<PostCategoryType>(PostCategory);

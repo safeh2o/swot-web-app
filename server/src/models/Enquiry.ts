@@ -119,3 +119,18 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 Enquiry.defaultSort = "-createdAt";
 Enquiry.defaultColumns = "name, email, reason, createdAt";
 Enquiry.register();
+
+export type EnquiryType = {
+	name: {
+		first: string;
+		last: string;
+	};
+	email: string;
+	phone?: string;
+	reason: "register" | "message" | "question" | "other";
+	message?: string;
+	organisation: string;
+	createdAt: string;
+	createUser?: string;
+	_id: string;
+};

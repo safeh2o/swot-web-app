@@ -20,20 +20,11 @@ Upload.add(
 			default: Date.now,
 			noedit: true,
 		},
-		// nDuplicates: {type: Types.Number, index: false, noedit: true, default: 0, label: 'Number of duplicate datapoints skipped'},
-		// nBefore: {type: Types.Number, index: false, noedit: true, default: 0, label: 'Number of fieldsite datapoints before'},
 		user: {
 			type: Types.Relationship,
 			ref: "User",
 			index: true,
 			noedit: true,
-		},
-		content: {
-			type: Types.Html,
-			initial: false,
-			required: false,
-			height: 400,
-			wysiwyg: true,
 		},
 		fieldsite: {
 			type: Types.Relationship,
@@ -103,9 +94,7 @@ Upload.schema.pre("remove", function (next) {
 	next();
 });
 function getRawDataUrl() {
-	return `${keystone.get("locals").weburl}api/upload/fetchrawdata?uploadId=${
-		this.id
-	}`;
+	return `${keystone.get("locals").weburl}api/upload/fetchrawdata?uploadId=${this.id}`;
 }
 
 /**
@@ -122,3 +111,16 @@ Upload.relationship({
  */
 Upload.defaultColumns = "name, dateUploaded";
 Upload.register();
+
+export type UploadType = {
+	dateUploaded: string;
+	user: string;
+	fieldsite: string;
+	status: "new" | "processing" | "error" | "ready";
+	overwriting: boolean;
+	containerName: string;
+	rawDataUrl: string;
+	rewind: boolean;
+	name: string;
+	_id: string;
+};

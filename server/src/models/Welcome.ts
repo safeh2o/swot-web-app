@@ -70,3 +70,9 @@ Welcome.schema.methods.sendNotificationEmail = function (callback) {
 Welcome.defaultSort = "-createdAt";
 Welcome.defaultColumns = "user, createdAt";
 Welcome.register();
+
+export type WelcomeType = {
+	user: string;
+	createdAt: string;
+	_id: string;
+};

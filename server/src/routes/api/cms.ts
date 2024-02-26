@@ -1,7 +1,6 @@
 import * as keystone from "keystone";
 const Page = keystone.list("Page");
 const Post = keystone.list("Post");
-const PostCategory = keystone.list("PostCategory");
 const FAQ = keystone.list("FAQ");
 
 export async function pages(req, res) {
@@ -10,9 +9,7 @@ export async function pages(req, res) {
 		return;
 	}
 
-	const page = await Page.model
-		.findOne({ slug: req.params.slug, state: "published" })
-		.exec();
+	const page = await Page.model.findOne({ slug: req.params.slug, state: "published" }).exec();
 	if (page) {
 		res.json(page);
 		return;
@@ -29,9 +26,7 @@ export async function post(req, res) {
 		return;
 	}
 
-	const post = await Post.model
-		.findOne({ slug: req.params.slug, state: "published" })
-		.exec();
+	const post = await Post.model.findOne({ slug: req.params.slug, state: "published" }).exec();
 	if (post) {
 		res.json(post);
 		return;
@@ -40,18 +35,6 @@ export async function post(req, res) {
 	res.status(404).send("No post found with the given slug");
 
 	// Page.model.findOne({})
-}
-
-export async function postCategories(req, res) {
-	let categories = await PostCategory.model.find();
-	categories = categories.map((category) => category.toJSON());
-	const byName = {};
-	const byId = {};
-	categories.forEach((category) => {
-		byName[category.name] = category;
-		byId[category._id] = category;
-	});
-	return res.json({ byName, byId });
 }
 
 export async function posts(req, res) {

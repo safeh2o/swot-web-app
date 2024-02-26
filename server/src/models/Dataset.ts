@@ -126,9 +126,7 @@ Dataset.add(
 );
 
 function getResultsUrl() {
-	return `${keystone.get("locals").weburl}api/results/download?datasetId=${
-		this.id
-	}`;
+	return `${keystone.get("locals").weburl}api/results/download?datasetId=${this.id}`;
 }
 
 Dataset.schema.pre("save", function (next) {
@@ -140,8 +138,7 @@ Dataset.schema.pre("save", function (next) {
 });
 
 Dataset.schema.methods.runAnalysis = async function () {
-	const { AZURE_STORAGE_CONNECTION_STRING, AZURE_STORAGE_QUEUE_ANALYZE } =
-		process.env;
+	const { AZURE_STORAGE_CONNECTION_STRING, AZURE_STORAGE_QUEUE_ANALYZE } = process.env;
 
 	const queueClient = QueueServiceClient.fromConnectionString(
 		AZURE_STORAGE_CONNECTION_STRING
@@ -166,6 +163,24 @@ Dataset.schema.methods.runAnalysis = async function () {
 /**
  * Registration
  */
-Dataset.defaultColumns = "name, description, dateOfReading, fieldsite, user";
+Dataset.defaultColumns = "name, description, dateCreated, fieldsite, user";
 
 Dataset.register();
+
+export type DatasetType = {
+	dateCreated: string;
+	startDate: string;
+	endDate: string;
+	fieldsite: string;
+	user: string;
+	maxDuration: 3 | 6 | 9 | 12 | 15 | 18 | 21 | 24;
+	confidenceLevel: "minDecay" | "optimumDecay" | "maxDecay";
+	archived: boolean;
+	lastAnalyzed: string;
+	completionStatus: "complete" | "inProgress" | "failed";
+	eo_message: string;
+	ann_message: string;
+	redo: boolean;
+	resultsUrl: string;
+	_id: string;
+};

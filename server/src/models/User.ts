@@ -131,7 +131,8 @@ User.relationship({ ref: "Post", path: "posts", refPath: "author" });
 /**
  * Registration
  */
-User.defaultColumns = "name, email, isAdmin";
+User.defaultSort = "-createdAt";
+User.defaultColumns = "name, email, isAdmin, createdAt";
 User.register();
 
 export type UserType = {

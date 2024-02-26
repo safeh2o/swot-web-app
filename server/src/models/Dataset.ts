@@ -163,7 +163,8 @@ Dataset.schema.methods.runAnalysis = async function () {
 /**
  * Registration
  */
-Dataset.defaultColumns = "name, description, dateCreated, fieldsite, user";
+Dataset.defaultSort = "-dateCreated";
+Dataset.defaultColumns = "dateCreated, fieldsite, user";
 
 Dataset.register();
 

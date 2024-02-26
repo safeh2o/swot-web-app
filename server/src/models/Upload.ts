@@ -109,7 +109,8 @@ Upload.relationship({
 /**
  * Registration
  */
-Upload.defaultColumns = "name, dateUploaded";
+Upload.defaultSort = "-dateUploaded";
+Upload.defaultColumns = "dateUploaded";
 Upload.register();
 
 export type UploadType = {

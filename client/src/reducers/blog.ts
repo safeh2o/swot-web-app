@@ -10,9 +10,10 @@ export const getPosts = createAsyncThunk("blog/getPosts", async () => {
 	return data;
 });
 
-export const getPostCategories = createAsyncThunk("blog/getPostCategories", async () => {
-	return trpc.cms.postCategories.query();
-});
+export const getPostCategories = createAsyncThunk(
+	"blog/getPostCategories",
+	trpc.cms.postCategories.query
+);
 
 type BlogState = {
 	posts: BlogPost[];

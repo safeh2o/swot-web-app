@@ -16,3 +16,10 @@ Country.add({
 
 Country.defaultColumns = "name";
 Country.register();
+
+export type CountryType = {
+	name: string;
+	areas: string[];
+	admins: string[];
+	_id: string;
+};

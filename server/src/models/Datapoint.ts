@@ -80,3 +80,15 @@ Datapoint.add({
  */
 Datapoint.defaultColumns = Object.keys(Datapoint.fields);
 Datapoint.register();
+
+export type DatapointType = {
+	tsDate?: string;
+	hhDate?: string;
+	tsFrc?: number;
+	hhFrc?: number;
+	tsCond?: number;
+	tsTemp?: number;
+	upload: string;
+	fieldsite: string;
+	_id: string;
+};

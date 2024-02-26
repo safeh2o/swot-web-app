@@ -29,3 +29,10 @@ FAQ.add({
 
 FAQ.defaultColumns = "title, state";
 FAQ.register();
+
+export type FAQType = {
+	title: string;
+	content: string;
+	state: "draft" | "published" | "archived";
+	_id: string;
+};

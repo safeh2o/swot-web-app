@@ -3,16 +3,17 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { BlogPost, BlogPostCategories } from "../types";
 import axios from "axios";
+import trpc from "../data/trpc";
 
 export const getPosts = createAsyncThunk("blog/getPosts", async () => {
 	const { data } = await axios.get<BlogPost[]>("/api/cms/posts");
 	return data;
 });
 
-export const getPostCategories = createAsyncThunk("blog/getPostCategories", async () => {
-	const { data } = await axios.get<BlogPostCategories>("/api/cms/post-categories");
-	return data;
-});
+export const getPostCategories = createAsyncThunk(
+	"blog/getPostCategories",
+	trpc.cms.postCategories.query
+);
 
 type BlogState = {
 	posts: BlogPost[];

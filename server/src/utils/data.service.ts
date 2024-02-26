@@ -3,6 +3,7 @@ import { parseString } from "fast-csv";
 import * as keystone from "keystone";
 import * as _ from "lodash";
 import { Types } from "mongoose";
+import { PostCategoryService, PostCategoryType } from "../models/PostCategory";
 const Country = keystone.list("Country");
 const Area = keystone.list("Area");
 const Fieldsite = keystone.list("Fieldsite");
@@ -413,4 +414,15 @@ export async function getPopulatedUser(partialUser: {
 	}
 
 	return { user: { ...partialUser, fieldsites, areas, countries } };
+}
+
+export async function getPostCategories() {
+	const categories = await PostCategoryService.find({});
+	const byName: Record<string, PostCategoryType> = {};
+	const byId: Record<string, PostCategoryType> = {};
+	categories.forEach((category) => {
+		byName[category.name] = category;
+		byId[category._id] = category;
+	});
+	return { byName, byId };
 }

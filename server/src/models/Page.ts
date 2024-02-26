@@ -27,3 +27,12 @@ Page.add({
 
 Page.defaultColumns = "title, state|20%";
 Page.register();
+
+export type PageType = {
+	title: string;
+	state: "draft" | "published" | "archived";
+	image?: { secure_url?: string };
+	content: { extended: string };
+	slug: string;
+	_id: string;
+};

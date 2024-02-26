@@ -39,3 +39,15 @@ Post.schema.virtual("content.full").get(function () {
 
 Post.defaultColumns = "title, state|20%, author|20%, publishedDate|20%";
 Post.register();
+
+export type PostType = {
+	title: string;
+	state: "draft" | "published" | "archived";
+	author: string;
+	publishedDate: string;
+	image?: { secure_url?: string };
+	content: { brief: string; extended: string };
+	categories: string[];
+	slug: string;
+	_id: string;
+};

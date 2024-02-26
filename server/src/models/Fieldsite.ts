@@ -36,3 +36,9 @@ Fieldsite.relationship({
  */
 Fieldsite.defaultColumns = "name";
 Fieldsite.register();
+
+export type FieldsiteType = {
+	name: string;
+	admins: string[];
+	_id: string;
+};

@@ -19,3 +19,11 @@ Area.relationship({ ref: "Country", path: "country", refPath: "areas" });
 
 Area.defaultColumns = "name";
 Area.register();
+
+export type AreaType = {
+	name: string;
+	users: string[];
+	fieldsites: string[];
+	admins: string[];
+	_id: string;
+};

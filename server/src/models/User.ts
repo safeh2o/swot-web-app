@@ -11,7 +11,7 @@ const User = new keystone.List("User");
 User.add(
 	{
 		name: { type: Types.Name, required: true, index: true },
-		createdAt: { type: Date, default: Date.now, noedit: false }, // TODO: change to noedit: true after migration
+		createdAt: { type: Date, default: Date.now, noedit: false },
 		phone: { type: Types.Text, required: false, initial: true },
 		organisation: { type: Types.Text, required: false, initial: false },
 		email: {
@@ -131,5 +131,20 @@ User.relationship({ ref: "Post", path: "posts", refPath: "author" });
 /**
  * Registration
  */
-User.defaultColumns = "name, email, isAdmin";
+User.defaultSort = "-createdAt";
+User.defaultColumns = "name, email, isAdmin, createdAt";
 User.register();
+
+export type UserType = {
+	name: { first: string; last: string };
+	createdAt: string;
+	phone: string;
+	organisation: string;
+	email: string;
+	password: string;
+	welcome: boolean;
+	area: string[];
+	resetPasswordKey: string;
+	isAdmin: boolean;
+	_id: string;
+};

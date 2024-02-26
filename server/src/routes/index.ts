@@ -52,7 +52,6 @@ export default function (app: Router) {
 	app.get("/api/cms/pages/:slug", middleware.api, api.cms.pages);
 	app.get("/api/cms/posts", middleware.api, api.cms.posts);
 	app.get("/api/cms/faqs", middleware.api, api.cms.faqs);
-	app.get("/api/cms/post-categories", middleware.api, api.cms.postCategories);
 	app.get("/api/cms/posts/:slug", middleware.api, api.cms.post);
 	app.get("/api/datasets/:datasetId", middleware.api, api.results.dataset);
 	app.get("/api/upload/fetchrawdata", middleware.api, api.upload.fetchRawData);

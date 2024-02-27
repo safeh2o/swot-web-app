@@ -1,5 +1,5 @@
 import { Autocomplete, Button, TextField, Typography } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { Unstable_Grid2 as Grid } from "@mui/material";
 import axios from "axios";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,8 +30,8 @@ export default function AreaForm() {
 	};
 
 	useEffect(() => {
-		const fieldsiteIds = area?.fieldsites.map((fieldsite) => fieldsite._id) || [];
-		const userIds = area?.users.map((user) => user._id) || [];
+		const fieldsiteIds = area?.fieldsites.map((fieldsite) => fieldsite._id) ?? [];
+		const userIds = area?.users.map((user) => user._id) ?? [];
 
 		const initialFieldsites = permissions.fieldsites.filter((a: Fieldsite) =>
 			fieldsiteIds.includes(a._id)
@@ -39,7 +39,7 @@ export default function AreaForm() {
 		const initialUsers = permissions.users.filter((a: User) => userIds.includes(a._id));
 		setCurrentFieldsites(initialFieldsites);
 		setCurrentUsers(initialUsers);
-		setAreaName(area?.name || "");
+		setAreaName(area?.name ?? "");
 	}, [area?.fieldsites, area?.name, area?.users, permissions.fieldsites, permissions.users]);
 
 	function handleFieldsitesChange(_event: SyntheticEvent, newValue: Fieldsite[]) {
@@ -51,7 +51,7 @@ export default function AreaForm() {
 	}
 
 	async function handleAreaSave() {
-		const body: Record<string, string | Array<string>> = {
+		const body: Record<string, string | string[]> = {
 			areaName,
 			fieldsites: currentFieldsites.map((a: Fieldsite) => a._id),
 			users: currentUsers.map((a: User) => a._id),
@@ -59,7 +59,7 @@ export default function AreaForm() {
 		dispatch(setLoading(true));
 		if (isCreating) {
 			const res = await axios
-				.post("/api/manage/area", body)
+				.post<{ area: Area }>("/api/manage/area", body)
 				.then((res) => {
 					dispatch(addNotice(`Area ${areaName} created`));
 					return res;

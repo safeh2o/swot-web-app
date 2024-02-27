@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-import { RootState } from '../store';
+import { RootState } from "../store";
 
 const initialState = { lastSeenCommitSha: "" };
 
@@ -8,7 +8,7 @@ export const settingsSlice = createSlice({
 	name: "settings",
 	initialState,
 	reducers: {
-		setLastSeenCommitSha: (state, { payload }) => {
+		setLastSeenCommitSha: (state, { payload }: { payload: string }) => {
 			state.lastSeenCommitSha = payload;
 		},
 		clearSettings: () => initialState,

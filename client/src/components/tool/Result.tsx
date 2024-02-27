@@ -9,7 +9,7 @@ import useLocationSuffix from "../../hooks/useLocationSuffix";
 import { notificationsSelectors, setLoading } from "../../reducers/notifications";
 import { replaceCrumb } from "../../reducers/view";
 import { Result as css } from "../../styles/styles";
-import { ConfidenceLevelType, ChartData } from "../../types";
+import { ConfidenceLevelType, ChartData, Dataset } from "../../types";
 import NotFound from "../NotFound";
 import TargetsFigure from "../figures/TargetsFigure";
 import { IconCheck, IconLow, IconQuestionMark } from "../icons";
@@ -38,7 +38,7 @@ export default function Result() {
 		firstSample: "--/--/--",
 		lastSample: "--/--/--",
 	};
-	const [dataset, setDataset] = useState<typeof defaultDataset>();
+	const [dataset, setDataset] = useState<Dataset>();
 	const [targetFigureJson, setTargetFigureJson] = useState<ChartData | undefined>(undefined);
 	const [decayFigureJson, setDecayFigureJson] = useState<ChartData | undefined>(undefined);
 	const [locationData, setLocationData] = useState({
@@ -75,7 +75,12 @@ export default function Result() {
 	useEffect(() => {
 		dispatch(setLoading(true));
 		axios
-			.get(`/api/datasets/${datasetId}`)
+			.get<{
+				dataset: Dataset;
+				locationData: { fieldsiteName: string; areaName: string; countryName: string };
+				targetFigureJson: ChartData;
+				decayFigureJson: ChartData;
+			}>(`/api/datasets/${datasetId}`)
 			.then(({ data }) => {
 				setDataset(data.dataset);
 				setLocationData(data.locationData);
@@ -137,7 +142,7 @@ export default function Result() {
 		return `${hours}:${minutes}`;
 	};
 
-	const recoValue = (dataset || defaultDataset).eo?.reco ?? 0;
+	const recoValue = (dataset ?? defaultDataset).eo?.reco ?? 0;
 	const reco = recoValue.toFixed(1);
 
 	const recoInRange = recoValue >= 0.2 && recoValue <= 2;
@@ -145,10 +150,10 @@ export default function Result() {
 	const frcRecommendation = recoInRange ? `${reco} mg/l` : "Out of range";
 
 	const storageTimeInHours = formattedHoursFromSeconds(
-		(dataset || defaultDataset).ann?.["average_time"]
+		(dataset ?? defaultDataset).ann.average_time
 	);
 
-	const safetyRange = (dataset || defaultDataset)["safety_range"];
+	const safetyRange = (dataset ?? defaultDataset).safety_range;
 	const getPredictedWaterSafetyRange = () => {
 		if (!safetyRange || !recoInRange) {
 			return "N/A";
@@ -158,7 +163,7 @@ export default function Result() {
 		return `${lo}% - ${hi}%`;
 	};
 
-	const parseDate = (date: string) => date?.slice(0, 10) || String.fromCharCode(8734);
+	const parseDate = (date?: string) => date?.slice(0, 10) ?? String.fromCharCode(8734);
 
 	return !dataset && !isLoading ? (
 		<NotFound />
@@ -191,7 +196,7 @@ export default function Result() {
 						<Divider sx={{ my: 1 }} />
 						<Box sx={{ ...css.stat }}>
 							<Typography variant="inputValue">
-								{parseDate((dataset || defaultDataset).dateCreated)}
+								{parseDate((dataset ?? defaultDataset).dateCreated)}
 							</Typography>
 							<Typography variant="inputLabel">Date of analysis</Typography>
 						</Box>
@@ -201,13 +206,13 @@ export default function Result() {
 						<Box sx={{ ...css.stat }}>
 							<Box sx={{ ...css.stat.range }}>
 								<Typography variant="inputValue">
-									{parseDate((dataset || defaultDataset).startDate)}{" "}
+									{parseDate((dataset ?? defaultDataset).startDate)}{" "}
 								</Typography>
 								<Typography component="span" sx={{ ...css.stat.range.seperator }}>
 									to
 								</Typography>
 								<Typography variant="inputValue">
-									{parseDate((dataset || defaultDataset).endDate)}
+									{parseDate((dataset ?? defaultDataset).endDate)}
 								</Typography>
 							</Box>
 							<Typography variant="inputLabel">
@@ -219,7 +224,7 @@ export default function Result() {
 
 						<Box sx={{ ...css.stat }}>
 							<Typography variant="inputValue">
-								{(dataset || defaultDataset).maxDuration} hrs
+								{(dataset ?? defaultDataset).maxDuration} hrs
 							</Typography>
 							<Typography variant="inputLabel">
 								Length of storage time to analyse for
@@ -228,7 +233,7 @@ export default function Result() {
 
 						<Box sx={{ ...css.stat }}>
 							<Typography variant="inputValue">
-								{parseDecayScenario((dataset || defaultDataset).confidenceLevel)}
+								{parseDecayScenario((dataset ?? defaultDataset).confidenceLevel)}
 							</Typography>
 							<Typography variant="inputLabel">Decay scenario</Typography>
 						</Box>
@@ -240,13 +245,13 @@ export default function Result() {
 						<Box sx={{ ...css.stat }}>
 							<Box sx={{ ...css.stat.range }}>
 								<Typography variant="inputValue">
-									{parseDate((dataset || defaultDataset).firstSample)}
+									{parseDate((dataset ?? defaultDataset).firstSample)}
 								</Typography>
 								<Typography component="span" sx={{ ...css.stat.range.seperator }}>
 									to
 								</Typography>
 								<Typography variant="inputValue">
-									{parseDate((dataset || defaultDataset).lastSample)}
+									{parseDate((dataset ?? defaultDataset).lastSample)}
 								</Typography>
 							</Box>
 							<Typography variant="inputLabel">
@@ -278,7 +283,7 @@ export default function Result() {
 						</Box>
 						<Box sx={{ ...css.stat }}>
 							<Typography variant="inputValue">
-								{(dataset || defaultDataset)["safe_percent"]?.toFixed(0) || "?"}%
+								{(dataset ?? defaultDataset).safe_percent?.toFixed(0) || "?"}%
 							</Typography>
 							<Typography variant="inputLabel">
 								Current household water safety
@@ -308,15 +313,15 @@ export default function Result() {
 						<Divider sx={{ ...css.stat.divider }} />
 						<Box
 							sx={{ ...css.stat }}
-							className={(dataset || defaultDataset).nSamples < 100 ? "low" : "pass"}
+							className={(dataset ?? defaultDataset).nSamples < 100 ? "low" : "pass"}
 						>
 							<Typography variant="inputValue">
-								{(dataset || defaultDataset).nSamples}
+								{(dataset ?? defaultDataset).nSamples}
 								{/* check sample range */}
-								{(dataset || defaultDataset).nSamples < 100 && (
+								{(dataset ?? defaultDataset).nSamples < 100 && (
 									<IconLow className="icon-sup icon-low" />
 								)}
-								{(dataset || defaultDataset).nSamples >= 100 && (
+								{(dataset ?? defaultDataset).nSamples >= 100 && (
 									<IconCheck className="icon-sup icon-pass" />
 								)}
 							</Typography>
@@ -406,7 +411,7 @@ export default function Result() {
 						</Box>
 						<Box sx={{ ...css.stat }}>
 							<Typography variant="inputValue">
-								{(dataset || defaultDataset).maxDuration} hrs
+								{(dataset ?? defaultDataset).maxDuration} hrs
 							</Typography>
 							<Typography variant="inputLabel">
 								Duration of protection

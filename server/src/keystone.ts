@@ -4,24 +4,14 @@ import * as mongoose from "mongoose";
 
 function checkConfigKey(configKeyName: string, configKeyValue?: string) {
 	if (!configKeyValue) {
-		console.log(
-			`ERROR: Missing configuration ${configKeyName} in .env file, exiting`
-		);
+		console.log(`ERROR: Missing configuration ${configKeyName} in .env file, exiting`);
 		process.exit(1);
 	}
 }
 
 function validateConfig() {
-	checkConfigKey("MAILGUN_API_KEY", process.env.MAILGUN_API_KEY);
-	checkConfigKey("MAILGUN_DOMAIN", process.env.MAILGUN_DOMAIN);
-	checkConfigKey(
-		"MONGO_DB_CONNECTION_STRING",
-		process.env.MONGO_DB_CONNECTION_STRING
-	);
-	checkConfigKey(
-		"AZURE_STORAGE_CONTAINER_STD",
-		process.env.AZURE_STORAGE_CONTAINER_STD
-	);
+	checkConfigKey("MONGO_DB_CONNECTION_STRING", process.env.MONGO_DB_CONNECTION_STRING);
+	checkConfigKey("AZURE_STORAGE_CONTAINER_STD", process.env.AZURE_STORAGE_CONTAINER_STD);
 	checkConfigKey("WEB_URL", process.env.WEB_URL);
 	checkConfigKey("FROM_EMAIL", process.env.FROM_EMAIL);
 	checkConfigKey("SUPPORT_EMAIL", process.env.SUPPORT_EMAIL);
@@ -49,9 +39,7 @@ keystone.init({
 	brand: "swot-web",
 
 	"signin logo": "./assets/swot_logo1.png",
-	mongo:
-		process.env.MONGO_DB_CONNECTION_STRING ||
-		"mongodb://localhost/my-project",
+	mongo: process.env.MONGO_DB_CONNECTION_STRING || "mongodb://localhost/my-project",
 
 	"auto update": false,
 	session: true,

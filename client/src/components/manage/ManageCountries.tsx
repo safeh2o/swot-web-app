@@ -1,6 +1,6 @@
 import { AddCircle } from "@mui/icons-material";
 import { Box, Button } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { Unstable_Grid2 as Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
@@ -11,9 +11,7 @@ import LocationDropdown from "../elements/LocationDropdown";
 export default function ManageCountries() {
 	const permissions = useSelector(userSelectors.permissions);
 	const { countryId } = useParams();
-	const [selectedCountry, setSelectedCountry] = useState<Country | null>(
-		null
-	);
+	const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
 	const navigate = useNavigate();
 
 	// get selected country from url
@@ -21,7 +19,7 @@ export default function ManageCountries() {
 		const initialSelectedCountry = permissions.countries.find(
 			(c: Country) => c._id === countryId
 		);
-		setSelectedCountry(initialSelectedCountry || null);
+		setSelectedCountry(initialSelectedCountry ?? null);
 	}, [countryId, permissions.countries]);
 
 	const handleCountryChange = (country: Country | null) => {

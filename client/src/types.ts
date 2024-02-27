@@ -23,32 +23,69 @@ export type User = {
 	name: { first: string; last: string };
 	email: string;
 	isAdmin: boolean;
-	areas: Area[];
-	fieldsites: Fieldsite[];
-	countries: Country[];
+	areas: UnpopulatedArea[];
+	fieldsites: UnpopulatedFieldsite[];
+	countries: UnpopulatedCountry[];
 };
 
 export type Dataset = {
 	_id: string;
 	name: string;
 	completionStatus: string;
-	lastAnalyzed?: string;
+	lastAnalyzed: string;
+	confidenceLevel: ConfidenceLevelType;
+	dateCreated: string;
+	user: {
+		_id: string;
+		name: { first: string; last: string };
+	};
+	maxDuration: number;
+	startDate: string;
+	endDate: string;
+	eo: {
+		reco: number;
+	};
+	ann: {
+		average_time: number;
+	};
+	safety_range: [number, number];
+	firstSample: string;
+	lastSample: string;
+	nSamples: number;
+	safe_percent: number;
 };
 export type BlogPostCategory = {
 	_id: string;
 	name: string;
 	key: string;
 };
+export type BlogPostCategories = {
+	byName: Record<string, BlogPostCategory>;
+	byId: Record<string, BlogPostCategory>;
+};
 export type BlogPost = {
-	_id: string;
-	slug: string;
+	_id?: string;
+	slug?: string;
 	title: string;
 	content: {
-		brief: string;
+		brief?: string;
 		extended: string;
 	};
-	publishedDate: string;
-	categories: string[];
+	publishedDate?: string;
+	categories?: string[];
+	image?: {
+		secure_url: string;
+	};
+};
+export type Page = {
+	title: string;
+	content: {
+		brief?: string;
+		extended: string;
+	};
+	image?: {
+		secure_url: string;
+	};
 };
 
 export type FAQ = {
@@ -56,7 +93,7 @@ export type FAQ = {
 	content: string;
 };
 
-export type ChartData = Array<Record<string, string>>;
+export type ChartData = Record<string, string>[];
 export type UnpopulatedArea = {
 	_id: string;
 	name: string;
@@ -71,3 +108,12 @@ export type UnpopulatedFieldsite = {
 	_id: string;
 	name: string;
 };
+
+export type UserPermissions = {
+	countries: Country[];
+	areas: Area[];
+	fieldsites: Fieldsite[];
+	users: User[];
+};
+
+export type ServerMessages = { notices: string[]; errors: string[] };

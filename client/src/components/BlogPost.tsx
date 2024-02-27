@@ -8,28 +8,24 @@ import { SvgIcon } from "@mui/material";
 import { blogSelectors } from "../reducers/blog";
 import { setLoading } from "../reducers/notifications";
 import { replaceCrumbTitle } from "../reducers/view";
+import { BlogPost as BlogPostType } from "../types";
+import axios from "axios";
 
 export default function BlogPost() {
 	const dispatch = useDispatch();
 	const allPostCategories = useSelector(blogSelectors.postCategories);
 	const { slug } = useParams();
-	const defaultPage: {
-		title: string;
-		content: { extended: string };
-		image?: { secure_url: string };
-		publishedDate?: string;
-		categories?: string[];
-	} = {
+	const defaultPage: BlogPostType = {
 		title: "",
 		content: { extended: "" },
 	};
 	const [page, setPage] = useState(defaultPage);
 	useEffect(() => {
 		dispatch(setLoading(true));
-		fetch(`/api/cms/posts/${slug}`)
-			.then((res) => res.json())
-			.then((json) => {
-				setPage(json);
+		axios
+			.get<BlogPostType>(`/api/cms/posts/${slug}`)
+			.then(({ data }) => {
+				setPage(data);
 			})
 			.catch(() => {
 				setPage({

@@ -1,5 +1,5 @@
 import { Button, TextField, Typography } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { Unstable_Grid2 as Grid } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,7 @@ export default function FieldsiteForm() {
 	const fieldsite = permissions.fieldsites.find((c: Fieldsite) => c._id === fieldsiteId);
 	const isCreating = fieldsiteId === "new";
 
-	const [fieldsiteName, setFieldsiteName] = useState(fieldsite?.name || "");
+	const [fieldsiteName, setFieldsiteName] = useState(fieldsite?.name ?? "");
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -24,13 +24,13 @@ export default function FieldsiteForm() {
 	};
 
 	async function handleFieldsiteSave() {
-		const body: Record<string, string | Array<string>> = {
+		const body: Record<string, string | string[]> = {
 			fieldsiteName,
 		};
 		dispatch(setLoading(true));
 		if (isCreating) {
 			const res = await axios
-				.post("/api/manage/fieldsite", body)
+				.post<{ fieldsite: Fieldsite }>("/api/manage/fieldsite", body)
 				.then((res) => {
 					dispatch(addNotice(`Fieldsite ${fieldsiteName} created`));
 					return res;

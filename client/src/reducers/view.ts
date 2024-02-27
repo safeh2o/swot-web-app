@@ -22,23 +22,20 @@ export const viewSlice = createSlice({
 	name: "view",
 	initialState,
 	reducers: {
-		replaceCrumbTitle: (state, { payload: { path, title } }) => {
+		replaceCrumbTitle: (state, { payload: { path, title } }: { payload: Crumb }) => {
 			for (let i = state.viewStack.length - 1; i >= 0; i--) {
 				const crumb = state.viewStack[i];
-				if (crumb?.path === path) {
+				if (crumb.path === path) {
 					crumb.title = title;
 					break;
 				}
 			}
 		},
-		popViewsTo: (state, { payload: level }) => {
+		popViewsTo: (state, { payload: level }: { payload: number }) => {
 			state.viewStack = state.viewStack.slice(0, level);
 		},
-		replaceCrumb: (state, { payload }) => {
-			let crumbs = payload;
-			if (!Array.isArray(payload)) {
-				crumbs = [payload];
-			}
+		replaceCrumb: (state, { payload }: { payload: Crumb[] | Crumb }) => {
+			const crumbs = Array.isArray(payload) ? payload : [payload];
 
 			state.viewStack.pop();
 			for (const crumb of crumbs) {

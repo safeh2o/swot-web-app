@@ -1,24 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+import trpc from "../data/trpc";
 import { RootState } from "../store";
 import {
-	Area,
-	Country,
-	Fieldsite,
 	UnpopulatedArea,
 	UnpopulatedCountry,
 	UnpopulatedFieldsite,
-	User,
+	UserPermissions,
 } from "../types";
 
 export const getUser = createAsyncThunk("user/getUser", async () => {
-	const res = await fetch("/api/user/me").then((res) => res.json());
-	return res;
+	const data = await trpc.users.me.query();
+	return data;
 });
 
 export const getUserPermissions = createAsyncThunk("user/getUserPermissions", async () => {
-	const res = await fetch("/api/user/permissions").then((res) => res.json());
-	return res;
+	const data = await trpc.users.permissions.query();
+	return data;
 });
 
 type UserState = {
@@ -29,15 +27,10 @@ type UserState = {
 		fieldsites: UnpopulatedFieldsite[];
 		areas: UnpopulatedArea[];
 		countries: UnpopulatedCountry[];
-	};
+	} | null;
 	isLoggedIn: boolean;
 	status: "success" | "loading" | "failed" | null;
-	permissions: {
-		countries: Country[];
-		areas: Area[];
-		fieldsites: Fieldsite[];
-		users: User[];
-	};
+	permissions: UserPermissions;
 };
 
 const initialState: UserState = {
@@ -74,9 +67,15 @@ export const userSlice = createSlice({
 		builder.addCase(getUser.rejected, (state) => {
 			state.status = "failed";
 		});
-		builder.addCase(getUserPermissions.fulfilled, (state, { payload: { permissions } }) => {
-			state.permissions = permissions;
-		});
+		builder.addCase(
+			getUserPermissions.fulfilled,
+			(
+				state,
+				{ payload: { permissions } }: { payload: { permissions: UserPermissions } }
+			) => {
+				state.permissions = permissions;
+			}
+		);
 		builder.addCase(getUserPermissions.pending, (state) => {
 			state.status = "loading";
 		});
@@ -90,9 +89,9 @@ export const userSlice = createSlice({
 export const userSelectors = {
 	isLoggedIn: (state: RootState) => state.user.isLoggedIn,
 	user: (state: RootState) => state.user.user,
-	fieldsites: (state: RootState) => state.user.user.fieldsites,
-	areas: (state: RootState) => state.user.user.areas,
-	countries: (state: RootState) => state.user.user.countries,
+	fieldsites: (state: RootState) => state.user.user?.fieldsites ?? [],
+	areas: (state: RootState) => state.user.user?.areas ?? [],
+	countries: (state: RootState) => state.user.user?.countries ?? [],
 	loadingStatus: (state: RootState) => state.user.status,
 	permissions: (state: RootState) => state.user.permissions,
 };

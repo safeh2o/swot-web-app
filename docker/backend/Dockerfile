@@ -1,12 +1,14 @@
-FROM node:20.9.0-alpine as build
+FROM node:20.11.0-alpine as build
 
 WORKDIR /app
-COPY ./server/package.json ./
-COPY ./server/package-lock.json ./
-RUN npm ci
+COPY ./package.json ./yarn.lock ./.yarnrc.yml ./
+COPY ./server/package.json ./server/
+RUN npm i -g corepack
+RUN corepack enable
+RUN yarn
 
-COPY ./server/ ./
-RUN npm run build
+COPY ./server/ ./server
+RUN yarn workspace server build
 
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["yarn", "workspace", "server", "start"]

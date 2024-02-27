@@ -1,6 +1,6 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Accordion, AccordionDetails, AccordionSummary, Box, Skeleton } from "@mui/material";
-import { sanitize } from "dompurify";
+import dompurify from "dompurify";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 import { blogSelectors } from "../reducers/blog";
@@ -53,7 +53,7 @@ function FAQItem(props: { title: string; content: string }) {
 						<div
 							className="post-text"
 							dangerouslySetInnerHTML={{
-								__html: sanitize(props.content),
+								__html: dompurify.sanitize(props.content),
 							}}
 						></div>
 					</AccordionDetails>

@@ -22,6 +22,7 @@ import {
 	SWOTLogo,
 	SWOTLogoCompact,
 } from "../icons";
+import axios from "axios";
 
 export default function Header() {
 	const isLoggedIn = useSelector(userSelectors.isLoggedIn);
@@ -47,7 +48,7 @@ export default function Header() {
 	const handleSignout = () => {
 		dispatch(markAllRead());
 		setWaitingForSignout(true);
-		fetch("/api/signout").then(() => {
+		void axios.get("/api/signout").then(() => {
 			dispatch(getUser());
 		});
 	};
@@ -64,26 +65,21 @@ export default function Header() {
 		);
 	}
 
+	function signinSkeleton() {
+		return <Skeleton variant="rectangular" animation="wave" width="100px" />;
+	}
+
 	function headerSkeletonCircle() {
 		const circle = {
 			flex: "0 1 auto",
 			width: "1.3em",
 			height: "1.3em",
 		};
-		return (
-			<Skeleton
-				component="li"
-				variant="circular"
-				animation="wave"
-				sx={{ ...circle }}
-			/>
-		);
+		return <Skeleton component="li" variant="circular" animation="wave" sx={{ ...circle }} />;
 	}
 
 	const [hashParams] = useHashParams();
-	const locationSuffix = hashParams.get("country")
-		? "#" + hashParams.toString()
-		: "";
+	const locationSuffix = hashParams.get("country") ? "#" + hashParams.toString() : "";
 
 	function headerMenuItems() {
 		return (
@@ -178,9 +174,7 @@ export default function Header() {
 												end
 											>
 												{listitem.label}
-												{listitem.icon && (
-													<i>{listitem.icon}</i>
-												)}
+												{listitem.icon && <i>{listitem.icon}</i>}
 											</NavLink>
 										</li>
 									))}
@@ -189,9 +183,7 @@ export default function Header() {
 						</li>
 						<li>
 							<NavLink
-								className={({ isActive }) =>
-									isActive ? "active" : undefined
-								}
+								className={({ isActive }) => (isActive ? "active" : undefined)}
 								to={"/contact"}
 							>
 								Contact
@@ -199,9 +191,7 @@ export default function Header() {
 						</li>
 						<li>
 							<NavLink
-								className={({ isActive }) =>
-									isActive ? "active" : undefined
-								}
+								className={({ isActive }) => (isActive ? "active" : undefined)}
 								to={"/blog?category=Announcements"}
 							>
 								News
@@ -256,12 +246,10 @@ export default function Header() {
 								<li>
 									<UserNotificationsPopover />
 								</li>
-								{user.isAdmin && (
+								{user?.isAdmin && (
 									<li>
 										<IconButton href="/admin" tabIndex={-1}>
-											<span className="label">
-												Field Admin
-											</span>
+											<span className="label">Field Admin</span>
 											<i>
 												<IconAdmin />
 											</i>
@@ -269,10 +257,7 @@ export default function Header() {
 									</li>
 								)}
 								<li>
-									<IconButton
-										tabIndex={-1}
-										onClick={() => navigate("/manage")}
-									>
+									<IconButton tabIndex={-1} onClick={() => navigate("/manage")}>
 										<span className="label">Manage</span>
 										<i>
 											<ManageAccounts />
@@ -295,18 +280,22 @@ export default function Header() {
 						) : (
 							<>
 								<li className="sign-in">
-									<NavLink
-										to="/signin"
-										tabIndex={-1}
-										className={({ isActive }) =>
-											isActive ? "active" : undefined
-										}
-									>
-										<span className="label">Sign in</span>
-										<i>
-											<IconProfile />
-										</i>
-									</NavLink>
+									{userLoadingStatus === "loading" ? (
+										signinSkeleton()
+									) : (
+										<NavLink
+											to="/signin"
+											tabIndex={-1}
+											className={({ isActive }) =>
+												isActive ? "active" : undefined
+											}
+										>
+											<span className="label">Sign in</span>
+											<i>
+												<IconProfile />
+											</i>
+										</NavLink>
+									)}
 								</li>
 							</>
 						)}

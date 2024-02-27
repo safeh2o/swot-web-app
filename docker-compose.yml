@@ -7,8 +7,8 @@ services:
             context: .
             dockerfile: ./docker/nginx/Dockerfile
             args:
-                - REACT_APP_GTAG=$GOOGLE_ANALYTICS_GTAG
-                - REACT_APP_CURRENT_COMMIT_SHA=$CURRENT_COMMIT_SHA
+                - VITE_GTAG=$GOOGLE_ANALYTICS_GTAG
+                - VITE_CURRENT_COMMIT_SHA=$CURRENT_COMMIT_SHA
         image: swotnginx
         ports:
             - 80:80
@@ -22,4 +22,4 @@ services:
         image: swotbackend
         expose:
             - 3000
-        command: "npm start"
+        command: "yarn workspace server start"

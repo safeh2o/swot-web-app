@@ -1,6 +1,6 @@
 import { AddCircle } from "@mui/icons-material";
 import { Box, Button } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { Unstable_Grid2 as Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
@@ -16,10 +16,8 @@ export default function ManageAreas() {
 
 	// get selected area from url
 	useEffect(() => {
-		const initialSelectedArea = permissions.areas.find(
-			(c: Area) => c._id === areaId
-		);
-		setSelectedArea(initialSelectedArea || null);
+		const initialSelectedArea = permissions.areas.find((c: Area) => c._id === areaId);
+		setSelectedArea(initialSelectedArea ?? null);
 	}, [areaId, permissions.areas]);
 
 	const handleAreaChange = (area: Area | null) => {

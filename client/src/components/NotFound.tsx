@@ -1,5 +1,5 @@
-import { Link as MUILink, SvgIcon } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link as MUILink } from "@mui/material";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function NotFound() {
 	const navigate = useNavigate();
@@ -26,24 +26,48 @@ export default function NotFound() {
 								<h3>Tool</h3>
 								<ul className="notfound-links flat">
 									<li>
-										<MUILink href="#" className="notfound-link">
+										<NavLink
+											className={"notfound-link"}
+											to={"/"}
+											key={"home"}
+											title={"home"}
+											end
+										>
 											Dashboard
-										</MUILink>
+										</NavLink>
 									</li>
 									<li>
-										<MUILink href="#" className="notfound-link">
+										<NavLink
+											className={"notfound-link"}
+											to={"/upload"}
+											key={"upload"}
+											title={"upload"}
+											end
+										>
 											Upload Data
-										</MUILink>
+										</NavLink>
 									</li>
 									<li>
-										<MUILink href="#" className="notfound-link">
+										<NavLink
+											className={"notfound-link"}
+											to={"/analyze"}
+											key={"analyze"}
+											title={"analyze"}
+											end
+										>
 											New Analysis
-										</MUILink>
+										</NavLink>
 									</li>
 									<li>
-										<MUILink href="#" className="notfound-link contact">
+										<NavLink
+											className={"notfound-link"}
+											to={"/contact"}
+											key={"contact"}
+											title={"contact"}
+											end
+										>
 											Contact Us
-										</MUILink>
+										</NavLink>
 									</li>
 								</ul>
 							</li>
@@ -51,19 +75,31 @@ export default function NotFound() {
 								<h3>About</h3>
 								<ul className="notfound-links flat">
 									<li>
-										<MUILink href="#" className="notfound-link">
+										<MUILink
+											href="https://safeh2o.app/how-it-works.html"
+											className="notfound-link"
+										>
 											How it works
 										</MUILink>
 									</li>
 									<li>
-										<MUILink href="#" className="notfound-link">
+										<MUILink
+											href="https://safeh2o.app/research.html"
+											className="notfound-link"
+										>
 											Research
 										</MUILink>
 									</li>
 									<li>
-										<MUILink href="#" className="notfound-link">
+										<NavLink
+											className={"notfound-link"}
+											to={"/faq"}
+											key={"faq"}
+											title={"faq"}
+											end
+										>
 											Frequently Asked Questions
-										</MUILink>
+										</NavLink>
 									</li>
 								</ul>
 							</li>

@@ -12959,6 +12959,7 @@ __metadata:
     prettier: "npm:^2"
     prettier-eslint: "npm:^16.3.0"
     typescript: "npm:^5.2.2"
+    zod: "npm:^3.22.4"
   peerDependencies:
     express-session: "*"
   languageName: unknown
@@ -15057,5 +15058,12 @@ __metadata:
     compress-commons: "npm:^4.1.2"
     readable-stream: "npm:^3.6.0"
   checksum: 10c0/38f91ca116a38561cf184c29e035e9453b12c30eaf574e0993107a4a5331882b58c9a7f7b97f63910664028089fbde3296d0b3682d1ccb2ad96929e68f1b2b89
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.22.4":
+  version: 3.22.4
+  resolution: "zod@npm:3.22.4"
+  checksum: 10c0/7578ab283dac0eee66a0ad0fc4a7f28c43e6745aadb3a529f59a4b851aa10872b3890398b3160f257f4b6817b4ce643debdda4fb21a2c040adda7862cab0a587
   languageName: node
   linkType: hard

@@ -1,9 +1,8 @@
-import { Autocomplete, Button, TextField, Typography } from "@mui/material";
-import { Unstable_Grid2 as Grid } from "@mui/material";
-import axios from "axios";
+import { Autocomplete, Button, Unstable_Grid2 as Grid, TextField, Typography } from "@mui/material";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import trpc from "../../data/trpc";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import { getUser, getUserPermissions, userSelectors } from "../../reducers/user";
 import { Area, Country } from "../../types";
@@ -44,8 +43,11 @@ export default function CountryForm() {
 		};
 		dispatch(setLoading(true));
 		if (isCreating) {
-			const res = await axios
-				.post<{ country: Country }>("/api/manage/country", body)
+			const res = await trpc.manage.createCountry
+				.mutate({
+					countryName,
+					areas: currentAreas.map((a: Area) => a._id),
+				})
 				.then((res) => {
 					dispatch(addNotice(`Country ${countryName} created`));
 					return res;
@@ -54,14 +56,20 @@ export default function CountryForm() {
 					dispatch(addError("Country creation failed"));
 					return undefined;
 				});
-			const newCountryId = res?.data.country._id;
+
+			const newCountryId = res?.country._id;
 			if (newCountryId) {
 				navigate(`../${newCountryId}`, { replace: true });
 			}
 		} else if (countryId) {
 			body.countryId = countryId;
-			await axios
-				.put(`/api/manage/country/${countryId}`, body)
+
+			await trpc.manage.updateCountry
+				.mutate({
+					countryId,
+					countryName,
+					areas: currentAreas.map((a: Area) => a._id),
+				})
 				.then(() => {
 					dispatch(addNotice(`Country ${countryName} updated`));
 				})
@@ -77,8 +85,8 @@ export default function CountryForm() {
 	async function handleCountryDelete() {
 		if (countryId) {
 			dispatch(setLoading(true));
-			await axios
-				.delete(`/api/manage/country/${countryId}`)
+			await trpc.manage.deleteCountry
+				.mutate({ countryId })
 				.then(() => {
 					dispatch(addNotice(`Country ${countryName} deleted`));
 				})

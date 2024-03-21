@@ -1,9 +1,8 @@
-import { Button, TextField, Typography } from "@mui/material";
-import { Unstable_Grid2 as Grid } from "@mui/material";
-import axios from "axios";
+import { Button, Unstable_Grid2 as Grid, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import trpc from "../../data/trpc";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import { getUser, getUserPermissions, userSelectors } from "../../reducers/user";
 import { Fieldsite } from "../../types";
@@ -29,8 +28,8 @@ export default function FieldsiteForm() {
 		};
 		dispatch(setLoading(true));
 		if (isCreating) {
-			const res = await axios
-				.post<{ fieldsite: Fieldsite }>("/api/manage/fieldsite", body)
+			const res = await trpc.manage.createFieldsite
+				.mutate({ fieldsiteName })
 				.then((res) => {
 					dispatch(addNotice(`Fieldsite ${fieldsiteName} created`));
 					return res;
@@ -40,14 +39,14 @@ export default function FieldsiteForm() {
 					return undefined;
 				});
 
-			const newFieldsiteId = res?.data.fieldsite._id;
+			const newFieldsiteId = res?.fieldsite._id;
 			if (newFieldsiteId) {
 				navigate(`../${newFieldsiteId}`, { replace: true });
 			}
 		} else if (fieldsiteId) {
 			body.fieldsiteId = fieldsiteId;
-			await axios
-				.put(`/api/manage/fieldsite/${fieldsiteId}`, body)
+			await trpc.manage.updateFieldsite
+				.mutate({ fieldsiteId, fieldsiteName })
 				.then(() => {
 					dispatch(addNotice(`Fieldsite ${fieldsiteName} updated`));
 				})
@@ -63,8 +62,8 @@ export default function FieldsiteForm() {
 	async function handleFieldsiteDelete() {
 		if (fieldsiteId) {
 			dispatch(setLoading(true));
-			await axios
-				.delete(`/api/manage/fieldsite/${fieldsiteId}`)
+			await trpc.manage.deleteFieldsite
+				.mutate({ fieldsiteId })
 				.then(() => {
 					dispatch(addNotice(`Fieldsite ${fieldsiteName} deleted`));
 				})

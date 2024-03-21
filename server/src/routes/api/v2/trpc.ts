@@ -1,14 +1,16 @@
 import { initTRPC } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
 
+export type ReqUser = {
+	_id: string;
+	name: { first: string; last: string };
+	email: string;
+	isAdmin: boolean;
+};
+
 type KeystoneContext = {
 	req: trpcExpress.CreateExpressContextOptions["req"] & {
-		user?: {
-			_id: string;
-			name: { first: string; last: string };
-			email: string;
-			isAdmin: boolean;
-		};
+		user?: ReqUser;
 	};
 	res: trpcExpress.CreateExpressContextOptions["res"];
 };
@@ -28,5 +30,5 @@ export const createContext = (opts: KeystoneContext) => {
 	return { user };
 };
 
-type Context = Awaited<ReturnType<typeof createContext>>;
-export const t = initTRPC.context<Context>().create();
+export type ApiContext = Awaited<ReturnType<typeof createContext>>;
+export const t = initTRPC.context<ApiContext>().create();

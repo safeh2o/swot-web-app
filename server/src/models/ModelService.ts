@@ -53,7 +53,6 @@ export class ModelService<T> implements Model<T> {
 	async deleteMany(filter: FilterQuery<T>): Promise<{ n?: number }> {
 		return this.model.deleteMany(filter);
 	}
-
 	async deleteOne(filter: FilterQuery<T>): Promise<{ n?: number }> {
 		return this.model.deleteOne(filter);
 	}
@@ -119,5 +118,8 @@ export class ModelService<T> implements Model<T> {
 		options?: QueryOptions
 	): Promise<{ n?: number }> {
 		return this.model.updateOne(filter, update, options);
+	}
+	async create(data: Partial<Omit<T, "_id">>): Promise<T> {
+		return this.model.create(data);
 	}
 }

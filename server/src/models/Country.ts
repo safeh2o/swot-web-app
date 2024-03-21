@@ -1,4 +1,5 @@
 import * as keystone from "keystone";
+import { ModelService } from "./ModelService";
 const Types = keystone.Field.Types;
 
 /**
@@ -23,3 +24,5 @@ export type CountryType = {
 	admins: string[];
 	_id: string;
 };
+
+export const CountryService = new ModelService<CountryType>(Country);

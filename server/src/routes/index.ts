@@ -55,47 +55,5 @@ export default function (app: Router) {
 	app.get("/api/cms/posts/:slug", middleware.api, api.cms.post);
 	app.get("/api/datasets/:datasetId", middleware.api, api.results.dataset);
 	app.get("/api/upload/fetchrawdata", middleware.api, api.upload.fetchRawData);
-
-	app.post("/api/manage/fieldsite", middleware.api, api.manage.createFieldsite);
-	app.put(
-		"/api/manage/fieldsite/:fieldsiteId",
-		middleware.api,
-		middleware.requireFieldsiteAccess,
-		api.manage.updateFieldsite
-	);
-	app.delete(
-		"/api/manage/fieldsite/:fieldsiteId",
-		middleware.api,
-		middleware.requireFieldsiteAccess,
-		api.manage.deleteFieldsite
-	);
-
-	app.post("/api/manage/area", middleware.api, api.manage.createArea);
-	app.put(
-		"/api/manage/area/:areaId",
-		middleware.api,
-		middleware.requireAreaAccess,
-		api.manage.updateArea
-	);
-	app.delete(
-		"/api/manage/area/:areaId",
-		middleware.api,
-		middleware.requireAreaAccess,
-		api.manage.deleteArea
-	);
-
-	app.post("/api/manage/country", middleware.api, api.manage.createCountry);
-	app.put(
-		"/api/manage/country/:countryId",
-		middleware.api,
-		middleware.requireCountryAccess,
-		api.manage.updateCountry
-	);
-	app.delete(
-		"/api/manage/country/:countryId",
-		middleware.api,
-		middleware.requireCountryAccess,
-		api.manage.deleteCountry
-	);
 	app.use("/api/v2", trpcMiddleware);
 }

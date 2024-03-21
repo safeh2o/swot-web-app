@@ -9,7 +9,6 @@
  */
 import * as keystone from "keystone";
 import * as _ from "lodash";
-import * as dataService from "../utils/data.service";
 
 /**
 	Initialises the standard view locals
@@ -62,47 +61,6 @@ export function requireGuest(req, res, next) {
 		keystone.session.signout(req, res, () => {
 			res.redirect("/");
 		});
-	} else {
-		next();
-	}
-}
-
-export async function requireFieldsiteAccess(req, res, next) {
-	const fieldsiteId = req.body.fieldsiteId || req.params.fieldsiteId;
-	const hasAccess = await dataService.isUserAllowedAccessToFieldsite(req.user, fieldsiteId);
-
-	if (!hasAccess) {
-		res.sendStatus(403);
-	} else {
-		next();
-	}
-}
-export async function requireAreaAccess(req, res, next) {
-	const areaId = req.body.areaId || req.params.areaId;
-	const hasAccess = await dataService.isUserAllowedAccessToArea(req.user, areaId);
-
-	if (!hasAccess) {
-		res.sendStatus(403);
-	} else {
-		next();
-	}
-}
-export async function requireCountryAccess(req, res, next) {
-	const countryId = req.body.countryId || req.params.countryId;
-	const hasAccess = await dataService.isUserAllowedAccessToCountry(req.user, countryId);
-
-	if (!hasAccess) {
-		res.sendStatus(403);
-	} else {
-		next();
-	}
-}
-
-export async function requireOrgAccess(req, res, next) {
-	const hasAccess = req.user.isAdmin;
-
-	if (!hasAccess) {
-		res.sendStatus(403);
 	} else {
 		next();
 	}

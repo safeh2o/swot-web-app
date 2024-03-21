@@ -7,13 +7,9 @@
  * you have more middleware you may want to group it as separate
  * modules in your project's /lib directory.
  */
-import * as _ from "lodash";
 import * as keystone from "keystone";
-import {
-	isUserAllowedAccessToFieldsite,
-	isUserAllowedAccessToArea,
-	isUserAllowedAccessToCountry,
-} from "../utils/data.service";
+import * as _ from "lodash";
+import * as dataService from "../utils/data.service";
 
 /**
 	Initialises the standard view locals
@@ -73,10 +69,7 @@ export function requireGuest(req, res, next) {
 
 export async function requireFieldsiteAccess(req, res, next) {
 	const fieldsiteId = req.body.fieldsiteId || req.params.fieldsiteId;
-	const hasAccess = await isUserAllowedAccessToFieldsite(
-		req.user,
-		fieldsiteId
-	);
+	const hasAccess = await dataService.isUserAllowedAccessToFieldsite(req.user, fieldsiteId);
 
 	if (!hasAccess) {
 		res.sendStatus(403);
@@ -86,7 +79,7 @@ export async function requireFieldsiteAccess(req, res, next) {
 }
 export async function requireAreaAccess(req, res, next) {
 	const areaId = req.body.areaId || req.params.areaId;
-	const hasAccess = await isUserAllowedAccessToArea(req.user, areaId);
+	const hasAccess = await dataService.isUserAllowedAccessToArea(req.user, areaId);
 
 	if (!hasAccess) {
 		res.sendStatus(403);
@@ -96,7 +89,7 @@ export async function requireAreaAccess(req, res, next) {
 }
 export async function requireCountryAccess(req, res, next) {
 	const countryId = req.body.countryId || req.params.countryId;
-	const hasAccess = await isUserAllowedAccessToCountry(req.user, countryId);
+	const hasAccess = await dataService.isUserAllowedAccessToCountry(req.user, countryId);
 
 	if (!hasAccess) {
 		res.sendStatus(403);

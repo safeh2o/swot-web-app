@@ -1,9 +1,8 @@
-import { Autocomplete, Button, TextField, Typography } from "@mui/material";
-import { Unstable_Grid2 as Grid } from "@mui/material";
-import axios from "axios";
+import { Autocomplete, Button, Unstable_Grid2 as Grid, TextField, Typography } from "@mui/material";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import trpc from "../../data/trpc";
 import { addError, addNotice, setLoading } from "../../reducers/notifications";
 import { getUser, getUserPermissions, userSelectors } from "../../reducers/user";
 import { Area, Fieldsite, User } from "../../types";
@@ -51,15 +50,14 @@ export default function AreaForm() {
 	}
 
 	async function handleAreaSave() {
-		const body: Record<string, string | string[]> = {
-			areaName,
-			fieldsites: currentFieldsites.map((a: Fieldsite) => a._id),
-			users: currentUsers.map((a: User) => a._id),
-		};
 		dispatch(setLoading(true));
 		if (isCreating) {
-			const res = await axios
-				.post<{ area: Area }>("/api/manage/area", body)
+			const res = await trpc.manage.createArea
+				.mutate({
+					areaName,
+					fieldsites: currentFieldsites.map((a: Fieldsite) => a._id),
+					users: currentUsers.map((a: User) => a._id),
+				})
 				.then((res) => {
 					dispatch(addNotice(`Area ${areaName} created`));
 					return res;
@@ -69,14 +67,18 @@ export default function AreaForm() {
 					return undefined;
 				});
 
-			const newAreaId = res?.data.area._id;
+			const newAreaId = res?.area._id;
 			if (newAreaId) {
 				navigate(`../${newAreaId}`, { replace: true });
 			}
 		} else if (areaId) {
-			body.areaId = areaId;
-			await axios
-				.put(`/api/manage/area/${areaId}`, body)
+			await trpc.manage.updateArea
+				.mutate({
+					areaId,
+					areaName,
+					fieldsites: currentFieldsites.map((a: Fieldsite) => a._id),
+					users: currentUsers.map((a: User) => a._id),
+				})
 				.then(() => {
 					dispatch(addNotice(`Area ${areaName} updated`));
 				})
@@ -92,8 +94,8 @@ export default function AreaForm() {
 	async function handleAreaDelete() {
 		if (areaId) {
 			dispatch(setLoading(true));
-			await axios
-				.delete(`/api/manage/area/${areaId}`)
+			await trpc.manage.deleteArea
+				.mutate({ areaId })
 				.then(() => {
 					dispatch(addNotice(`Area ${areaName} deleted`));
 				})

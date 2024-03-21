@@ -3,7 +3,11 @@ import { parseString } from "fast-csv";
 import * as keystone from "keystone";
 import * as _ from "lodash";
 import { Types } from "mongoose";
+import { AreaService, AreaType } from "../models/Area";
+import { CountryService, CountryType } from "../models/Country";
+import { FieldsiteService, FieldsiteType } from "../models/Fieldsite";
 import { PostCategoryService, PostCategoryType } from "../models/PostCategory";
+import type { ReqUser } from "../routes/api/v2/trpc";
 const Country = keystone.list("Country");
 const Area = keystone.list("Area");
 const Fieldsite = keystone.list("Fieldsite");
@@ -18,11 +22,11 @@ type MongooseItem = any;
 /**
  * Retrieves a fieldsite record by it's id
  */
-export async function getFieldsiteById(fieldsiteId) {
+export async function getFieldsiteById(fieldsiteId: string) {
 	return Fieldsite.model.findById(fieldsiteId).exec();
 }
 
-export async function getFieldsitesByArea(areaId) {
+export async function getFieldsitesByArea(areaId: string) {
 	const area = Area.model.findById(areaId).exec();
 	return area.fieldsites;
 }
@@ -30,11 +34,11 @@ export async function getFieldsitesByArea(areaId) {
 /**
  * Retrieves a country record where area is associated
  */
-export async function getCountryByArea(areaId) {
+export async function getCountryByArea(areaId: string) {
 	return Country.model.findOne({ areas: Types.ObjectId(areaId) }).exec();
 }
 
-export async function isUserAllowedAccessToDataset(userId, datasetId) {
+export async function isUserAllowedAccessToDataset(userId: string, datasetId: string) {
 	const dataset = await Dataset.model.findOne({ _id: datasetId });
 	const fieldsiteId = dataset.fieldsite;
 	const area = await Area.model.findOne({
@@ -45,7 +49,7 @@ export async function isUserAllowedAccessToDataset(userId, datasetId) {
 	return area !== null;
 }
 
-export async function isUserAllowedAccessToUpload(userId, uploadId) {
+export async function isUserAllowedAccessToUpload(userId: string, uploadId: string) {
 	const upload = await Upload.model.findOne({ _id: uploadId, user: userId });
 
 	return upload !== null;
@@ -54,14 +58,14 @@ export async function isUserAllowedAccessToUpload(userId, uploadId) {
 /**
  * Retrieves a area record where field is associated
  */
-export async function getAreaByFieldsite(fieldSiteId) {
+export async function getAreaByFieldsite(fieldSiteId: string) {
 	return Area.model.findOne({ fieldsites: fieldSiteId }).exec();
 }
 
 /**
  * Return user's associated fieldsites from area relationship
  */
-export async function getUserFieldsites(userId) {
+export async function getUserFieldsites(userId: string) {
 	const areasHavingUser = await Area.model
 		.find({ users: userId })
 		.populate("users")
@@ -89,14 +93,14 @@ export async function getUserFieldsites(userId) {
 	);
 }
 
-function getCountriesHavingArea(areaId) {
+function getCountriesHavingArea(areaId: string) {
 	return Country.model.find({ areas: areaId }).exec();
 }
 
 /**
  * Return user's associated areas
  */
-export async function getUserAreas(userId) {
+export async function getUserAreas(userId: string) {
 	const areasHavingUser = await Area.model.find({ users: userId }).exec();
 
 	if (!areasHavingUser) {
@@ -109,7 +113,7 @@ export async function getUserAreas(userId) {
 /**
  * Return user's associated areas
  */
-export async function getUserCountries(userId) {
+export async function getUserCountries(userId: string) {
 	const areasHavingUser = await Area.model.find({ users: userId }).exec();
 
 	if (!areasHavingUser?.length) {
@@ -130,7 +134,7 @@ export async function getUserCountries(userId) {
 	return userCountries;
 }
 
-export async function getSas(containerName, blobName) {
+export async function getSas(containerName: string, blobName: string) {
 	const blobClient = new BlobClient(
 		process.env.AZURE_STORAGE_CONNECTION_STRING,
 		containerName,
@@ -144,7 +148,7 @@ export async function getSas(containerName, blobName) {
 	return blobSAS;
 }
 
-const getBlob = async function (containerName, blobName) {
+const getBlob = async function (containerName: string, blobName: string) {
 	const blobClient = new BlobClient(
 		process.env.AZURE_STORAGE_CONNECTION_STRING,
 		containerName,
@@ -156,7 +160,7 @@ const getBlob = async function (containerName, blobName) {
 	return buffer.toString();
 };
 
-function convertCSVStringToJSON(csvString) {
+function convertCSVStringToJSON(csvString: string) {
 	const jsonObjects = [];
 
 	return new Promise((resolve, reject) => {
@@ -173,7 +177,7 @@ function convertCSVStringToJSON(csvString) {
 	});
 }
 
-export async function getCsvBlobAsJson(containerName, blobName) {
+export async function getCsvBlobAsJson(containerName: string, blobName: string) {
 	let jsonContents = undefined;
 	try {
 		const csvContents = await getBlob(containerName, blobName);
@@ -185,7 +189,7 @@ export async function getCsvBlobAsJson(containerName, blobName) {
 	return jsonContents;
 }
 
-export async function getManagedCountries(userId) {
+export async function getManagedCountries(userId: string) {
 	const countries = await Country.model.find({ admins: userId }).populate({
 		path: "areas",
 		populate: [
@@ -196,7 +200,7 @@ export async function getManagedCountries(userId) {
 	return _.mapKeys(countries, (country) => country._id) || {};
 }
 
-export async function getManagedAreas(userId) {
+export async function getManagedAreas(userId: string) {
 	const areas = await Area.model
 		.find({ admins: userId })
 		.populate("users", ["name"])
@@ -204,42 +208,53 @@ export async function getManagedAreas(userId) {
 	return _.mapKeys(areas, (area) => area._id) || {};
 }
 
-export async function getManagedFieldsites(userId) {
+export async function getManagedFieldsites(userId: string) {
 	const fieldsites = await Fieldsite.model.find({ admins: userId });
 	return _.mapKeys(fieldsites, (fieldsite) => fieldsite._id) || {};
 }
 
-export async function upsertFieldsite(fieldsiteId, fieldsiteName, userId?) {
-	let fieldsite;
+export async function upsertFieldsite(fieldsiteId: string, fieldsiteName: string, userId?: string) {
+	let fieldsite: FieldsiteType;
 	if (fieldsiteId) {
-		fieldsite = await Fieldsite.model.findOne({ _id: fieldsiteId });
-		fieldsite.name = fieldsiteName;
+		fieldsite = await FieldsiteService.findOneAndUpdate(
+			{ _id: fieldsiteId },
+			{ name: fieldsiteName }
+		);
 	} else {
-		fieldsite = await Fieldsite.model.create({
+		fieldsite = await FieldsiteService.create({
 			name: fieldsiteName,
 			admins: [userId],
 		});
 	}
-	fieldsite.save();
 
 	return fieldsite;
 }
-export async function deleteFieldsite(fieldsiteId) {
+export async function deleteFieldsite(fieldsiteId: string) {
 	if (fieldsiteId) {
-		await Fieldsite.model.deleteOne({ _id: fieldsiteId });
+		await FieldsiteService.deleteOne({ _id: fieldsiteId });
 	}
 	return;
 }
 
-export async function upsertArea(areaId, areaName, fieldsites, users, userId?) {
-	let area;
+export async function upsertArea(
+	areaId: string,
+	areaName: string,
+	fieldsites: string[],
+	users: string[],
+	userId?: string
+) {
+	let area: AreaType;
 	if (areaId) {
-		area = await Area.model.findOne({ _id: areaId });
-		area.name = areaName;
-		area.fieldsites = fieldsites;
-		area.users = users;
+		area = await AreaService.findOneAndUpdate(
+			{ _id: areaId },
+			{
+				name: areaName,
+				fieldsites,
+				users,
+			}
+		);
 	} else {
-		area = await Area.model.create({
+		area = await AreaService.create({
 			name: areaName,
 			fieldsites,
 			users,
@@ -247,37 +262,44 @@ export async function upsertArea(areaId, areaName, fieldsites, users, userId?) {
 		});
 	}
 
-	area.save();
 	return area;
 }
-export async function deleteArea(areaId) {
+export async function deleteArea(areaId: string) {
 	if (areaId) {
 		await Area.model.deleteOne({ _id: areaId });
 	}
 	return;
 }
 
-export async function upsertCountry(countryId, countryName, areas, userId?) {
-	let country;
+export async function upsertCountry(
+	countryId: string,
+	countryName: string,
+	areas: string[],
+	userId?: string
+) {
+	let country: CountryType;
 	if (countryId) {
-		country = await Country.model.findOne({ _id: countryId });
-		country.name = countryName;
-		country.areas = areas;
+		country = await CountryService.findOneAndUpdate(
+			{ _id: countryId },
+			{
+				name: countryName,
+				areas,
+			}
+		);
 	} else {
-		country = await Country.model.create({
+		country = await CountryService.create({
 			name: countryName,
 			areas,
 			admins: [userId],
 		});
 	}
 
-	country.save();
 	return country;
 }
 
-export async function deleteCountry(countryId) {
+export async function deleteCountry(countryId: string) {
 	if (countryId) {
-		await Country.model.deleteOne({ _id: countryId });
+		await CountryService.deleteOne({ _id: countryId });
 	}
 	return;
 }
@@ -350,8 +372,8 @@ async function getImplicitPermissions(
 	return permissions;
 }
 
-export async function getPermissions(user) {
-	const { id: userId, isAdmin } = user;
+export async function getPermissions(user: ReqUser) {
+	const { _id: userId, isAdmin } = user;
 	const countries = isAdmin ? {} : await getManagedCountries(userId);
 	const areas = isAdmin ? {} : await getManagedAreas(userId);
 	const fieldsites = isAdmin ? {} : await getManagedFieldsites(userId);
@@ -362,23 +384,24 @@ export async function getPermissions(user) {
 	return permissions;
 }
 
-export async function isUserAllowedAccessToFieldsite(user, fieldsiteId) {
+export async function isUserAllowedAccessToFieldsite(user: ReqUser, fieldsiteId: string) {
 	const permissions = await getPermissions(user);
 
 	return !!permissions.fieldsites.find((fieldsite) => fieldsite._id.toString() === fieldsiteId);
 }
 
-export async function isUserAllowedAccessToArea(user, areaId) {
+export async function isUserAllowedAccessToArea(user: ReqUser, areaId: string) {
 	const permissions = await getPermissions(user);
 
 	return !!permissions.areas.find((area) => area._id.toString() === areaId);
 }
 
-export async function isUserAllowedAccessToCountry(user, countryId) {
+export async function isUserAllowedAccessToCountry(user: ReqUser, countryId) {
 	const permissions = await getPermissions(user);
 
 	return !!permissions.countries.find((country) => country._id.toString() === countryId);
 }
+
 // [Node.js only] A helper method used to read a Node.js readable stream into a Buffer
 export async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
 	return new Promise((resolve, reject) => {

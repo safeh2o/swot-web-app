@@ -13,7 +13,7 @@ User.add(
 		name: { type: Types.Name, required: true, index: true },
 		createdAt: { type: Date, default: Date.now, noedit: false },
 		phone: { type: Types.Text, required: false, initial: true },
-		organisation: { type: Types.Text, required: false, initial: false },
+		organisation: { type: Types.Text, required: false, initial: true },
 		email: {
 			type: Types.Email,
 			initial: true,

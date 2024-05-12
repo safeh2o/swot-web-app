@@ -7,29 +7,30 @@ import {
 	InputAdornment,
 	InputLabel,
 	OutlinedInput,
+	Skeleton,
 	TextField,
 } from "@mui/material";
-import axios from "axios";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { FormEvent, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useSearchParams } from "react-router-dom";
 import useForm from "../../hooks/useForm";
-import {
-	addError,
-	handleServerMessages,
-	setLoading,
-} from "../../reducers/notifications";
-import { getUser, getUserPermissions } from "../../reducers/user";
+import { addError, handleServerMessages, setLoading } from "../../reducers/notifications";
+import { userSelectors } from "../../reducers/user";
+import { ServerMessages } from "../../types";
 
 export default function ProfileLogin() {
 	const { state, getTextChangeHandler } = useForm({
 		email: "",
 		password: "",
 	});
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const [searchParams] = useSearchParams();
+	const from = searchParams.get("from") ?? "/";
+	const userLoadingStatus = useSelector(userSelectors.loadingStatus);
+	const userLoading = userLoadingStatus === "loading";
 
-	const handleSubmit = (e) => {
+	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		dispatch(setLoading(true));
 		axios
@@ -37,20 +38,16 @@ export default function ProfileLogin() {
 				email: state.email,
 				password: state.password,
 			})
-			.then((res) => {
+			.then((res: AxiosResponse<{ messages: ServerMessages }>) => {
 				if (res.status === 200) {
-					navigate("/");
-					dispatch(getUser());
-					dispatch(getUserPermissions());
+					window.location.href = from;
 				}
 				dispatch(handleServerMessages(res.data?.messages));
 			})
-			.catch((err) => {
-				let message =
-					"An unknown error occurred, please try again or contact support";
+			.catch((err: AxiosError) => {
+				let message = "An unknown error occurred, please try again or contact support";
 				if (err?.response?.status === 401) {
-					message =
-						"Invalid credentials, please try again or reset your password";
+					message = "Invalid credentials, please try again or reset your password";
 				} else {
 					console.error(err);
 				}
@@ -68,7 +65,7 @@ export default function ProfileLogin() {
 		setShowPassword((showPassword) => !showPassword);
 	};
 
-	const handleMouseDownPassword = (event) => {
+	const handleMouseDownPassword = (event: FormEvent) => {
 		event.preventDefault();
 	};
 
@@ -76,12 +73,10 @@ export default function ProfileLogin() {
 		<>
 			<section>
 				<div className="section-wrap compact">
-					<h1 className="section-subtitle user">Sign in</h1>
-					<Box
-						component="form"
-						className="app-card"
-						onSubmit={handleSubmit}
-					>
+					<h1 className="section-subtitle user">
+						{userLoading ? <Skeleton width="30%" /> : "Sign in"}
+					</h1>
+					<Box component="form" className="app-card" onSubmit={handleSubmit}>
 						<Box className="form-content">
 							<FormControl fullWidth>
 								<TextField
@@ -95,31 +90,20 @@ export default function ProfileLogin() {
 								/>
 							</FormControl>
 							<FormControl fullWidth>
-								<InputLabel htmlFor="password">
-									Password
-								</InputLabel>
+								<InputLabel htmlFor="password">Password</InputLabel>
 								<OutlinedInput
 									id="password"
 									name="password"
 									type={showPassword ? "text" : "password"}
-									minLength="6"
 									endAdornment={
 										<InputAdornment position="end">
 											<IconButton
 												aria-label="toggle password visibility"
-												onClick={
-													handleClickShowPassword
-												}
-												onMouseDown={
-													handleMouseDownPassword
-												}
+												onClick={handleClickShowPassword}
+												onMouseDown={handleMouseDownPassword}
 												edge="end"
 											>
-												{showPassword ? (
-													<VisibilityOff />
-												) : (
-													<Visibility />
-												)}
+												{showPassword ? <VisibilityOff /> : <Visibility />}
 											</IconButton>
 										</InputAdornment>
 									}

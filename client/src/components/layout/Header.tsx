@@ -51,6 +51,7 @@ export default function Header() {
 		void axios.get("/api/signout").then(() => {
 			dispatch(getUser());
 		});
+		navigate("/");
 	};
 
 	function headerSkeleton(text: string) {

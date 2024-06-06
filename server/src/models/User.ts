@@ -1,4 +1,5 @@
 import * as mail from "@sendgrid/mail";
+import * as airtable from "airtable";
 import * as keystone from "keystone";
 const Types = keystone.Field.Types;
 
@@ -62,6 +63,7 @@ User.schema.pre("save", function (next) {
 
 User.schema.post("save", function () {
 	if (!this.wasNew) return;
+	let welcomeId;
 
 	const Area = keystone.list("Area");
 	Area.model.updateMany({ _id: { $in: this.area } }, { $push: { users: this._id } }, (err) => {
@@ -74,9 +76,33 @@ User.schema.post("save", function () {
 	if (this.welcome) {
 		this.requestResetPassword(() => {
 			const Welcome = keystone.list("Welcome");
-			Welcome.model.create({ user: this });
+			welcomeId = Welcome.model.create({ user: this });
 		});
 	}
+
+	// Add Airtable record
+	const base = new airtable({ apiKey: process.env.AIRTABLE_PAT }).base(process.env.AIRTABLE_BASE);
+	base("Users").create(
+		{
+			id: this._id,
+			name: this.name.full,
+			email: this.email,
+			phone: this.phone,
+			organisation: this.organisation,
+			isAdmin: this.isAdmin,
+			welcome: this.welcome,
+			createdAt: this.createdAt,
+			"Auto Welcome": [welcomeId],
+		},
+		{ typecast: true },
+		function (err, record) {
+			if (err) {
+				console.error(err);
+				return;
+			}
+			console.log("User record created in Airtable:", record.getId());
+		}
+	);
 });
 
 User.schema.methods.requestResetPassword = function (callback) {

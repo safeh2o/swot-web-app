@@ -21,6 +21,7 @@
 		"@types/lodash": "^4.14.201",
 		"@typescript-eslint/eslint-plugin": "^6.10.0",
 		"@typescript-eslint/parser": "^6.10.0",
+		"airtable": "^0.12.2",
 		"concurrently": "^7.0.0",
 		"eslint": "^8.56.0",
 		"mongoose": "^5",

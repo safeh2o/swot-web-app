@@ -1,4 +1,5 @@
 import * as mail from "@sendgrid/mail";
+import * as airtable from "airtable";
 import * as keystone from "keystone";
 const Types = keystone.Field.Types;
 
@@ -20,15 +21,35 @@ Welcome.add({
 	createdAt: { type: Date, default: Date.now, noedit: true },
 });
 
-Welcome.schema.pre("save", function (next) {
+Welcome.schema.pre("save", async function (next) {
 	if (this.isNew) {
-		this.populate("user")
-			.execPopulate()
-			.then((welcome) => {
-				welcome.sendNotificationEmail();
-				welcome.user.welcome = true;
-				welcome.user.save();
-			});
+		const welcome = await this.populate("user").execPopulate();
+
+		welcome.sendNotificationEmail();
+		welcome.user.welcome = true;
+		welcome.user.save();
+
+		// Add Airtable record
+		const base = new airtable({ apiKey: process.env.AIRTABLE_PAT }).base(
+			process.env.AIRTABLE_BASE
+		);
+		base("Welcomes").create(
+			{
+				id: welcome._id,
+				user: welcome.user.name.full,
+				userId: welcome.user._id,
+				createdAt: welcome.createdAt,
+				Users: [welcome.user._id],
+			},
+			{ typecast: true },
+			function (err, record) {
+				if (err) {
+					console.error(err);
+					return;
+				}
+				console.log("Welcome record created in Airtable:", record.getId());
+			}
+		);
 	}
 
 	next();

@@ -90,6 +90,7 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 			createLink,
 			viewLink,
 			inquiryTimestamp: this._.createdAt.format(),
+			weburl,
 		},
 		replyTo: this.email,
 	};

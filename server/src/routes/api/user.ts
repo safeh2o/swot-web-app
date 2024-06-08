@@ -1,4 +1,7 @@
 import * as keystone from "keystone";
+import { AreaService } from "../../models/Area";
+import { CountryService } from "../../models/Country";
+import { FieldsiteService } from "../../models/Fieldsite";
 import * as dataService from "../../utils/data.service";
 const User = keystone.list("User");
 const Dataset = keystone.list("Dataset");
@@ -95,6 +98,23 @@ export async function createFromEnquiry(req, res) {
 		return;
 	}
 
+	// create fieldsite for user on demo area
+	const fieldsite = await FieldsiteService.create({
+		name: `${enquiry.organisation} - ${enquiry.name.full} - Fieldsite`,
+	});
+
+	// create demo area
+	const demoArea = await AreaService.create({
+		name: `${enquiry.organisation} - ${enquiry.name.full} - Area`,
+		fieldsites: [fieldsite._id],
+	});
+
+	// find demo country
+	const demoCountry = await CountryService.findOne({ name: "Demo Country" });
+	demoCountry.areas.push(demoArea._id);
+
+	await CountryService.findOneAndUpdate({ name: "Demo Country" }, demoCountry);
+
 	// create user from enquiry with first name, last name and email
 	const user = await User.model.create({
 		name: enquiry.name,
@@ -104,6 +124,7 @@ export async function createFromEnquiry(req, res) {
 		organisation: enquiry.organisation,
 		isAdmin: false,
 		welcome: true,
+		area: [demoArea._id],
 	});
 
 	res.send(`Created new user with email ${user.email}`);

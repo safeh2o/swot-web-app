@@ -1,5 +1,5 @@
 version: "3"
-
+name: swotweb
 services:
     nginx:
         restart: unless-stopped

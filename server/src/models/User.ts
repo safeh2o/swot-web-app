@@ -63,7 +63,6 @@ User.schema.pre("save", function (next) {
 
 User.schema.post("save", function () {
 	if (!this.wasNew) return;
-	let welcomeId;
 
 	const Area = keystone.list("Area");
 	Area.model.updateMany({ _id: { $in: this.area } }, { $push: { users: this._id } }, (err) => {
@@ -76,7 +75,7 @@ User.schema.post("save", function () {
 	if (this.welcome) {
 		this.requestResetPassword(() => {
 			const Welcome = keystone.list("Welcome");
-			welcomeId = Welcome.model.create({ user: this });
+			Welcome.model.create({ user: this });
 		});
 	}
 
@@ -92,7 +91,6 @@ User.schema.post("save", function () {
 			isAdmin: this.isAdmin,
 			welcome: this.welcome,
 			createdAt: this.createdAt,
-			"Auto Welcome": [welcomeId],
 		},
 		{ typecast: true },
 		function (err, record) {

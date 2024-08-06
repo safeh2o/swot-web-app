@@ -39,7 +39,6 @@ Welcome.schema.pre("save", async function (next) {
 				user: welcome.user.name.full,
 				userId: welcome.user._id,
 				createdAt: welcome.createdAt,
-				Users: [welcome.user._id],
 			},
 			{ typecast: true },
 			function (err, record) {
